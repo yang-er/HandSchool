@@ -88,6 +88,12 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>HandSchool.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -101,7 +107,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="HandSchool.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -150,7 +155,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1"/>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HandSchool.snk" />
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
