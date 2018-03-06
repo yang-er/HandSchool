@@ -15,14 +15,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ICurriculumSchedule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Drcom\Certification.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Drcom\DrcomSocket.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Drcom\Protocol.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Drcom\Alive.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ICurriculumSchedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomSocket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomProtocol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\INetSocket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\INetSocket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ISchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
@@ -62,6 +62,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Internal\" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

@@ -1,26 +1,50 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading;
 
-namespace HandSchool.Services.Drcom
+namespace HandSchool.Internal
 {
-    public class DrAlive
+    public class DrcomSocket : INetSocket<DrcomProtocol>
     {
+        public DrcomProtocol Protocol { get; set; }
+        public Thread Thread;
 
-        DrProtocol proc = new DrProtocol();
+        public void LoginAndKeepAlive()
+        {
+            Thread = new Thread(ThreadProcess);
+            Thread.Start(Protocol);
+        }
 
-        public event DrDelegate OnLog;
-        public event DrDelegate OnIpUpdated;
-        public event DrStateDelegate OnStateChanged;
+        public void Logout()
+        {
+            Thread.Abort("logout");
+        }
+
+        public virtual void SaveCredential(Dictionary<string, string> infomation)
+        {
+            Protocol = new DrcomProtocol
+            {
+                Username = infomation["username"],
+                Password = infomation["password"],
+                MAC = PhysicalAddress.Parse(infomation["mac"])
+            };
+            Protocol.OnLog += Log;
+        }
         
+        public event NetSocketLogDelegate OnLog;
+        public event NetSocketLogDelegate OnIpUpdated;
+        public event NetSocketStateDelegate OnStateChanged;
+
         int trytimes = 0;
-        
-        public void ThreadProcess(object args)
+
+        private void ThreadProcess(object args)
         {
             OnStateChanged.Invoke(true, "");
             try
             {
-                proc = (DrProtocol)args;
-                proc.Initialize();
+                Protocol = (DrcomProtocol)args;
+                Protocol.Initialize();
                 int ret = 0;
                 trytimes = 5;
                 while (true)
@@ -28,31 +52,31 @@ namespace HandSchool.Services.Drcom
                     if (trytimes >= 0 && ret++ > trytimes)
                     {
                         Log("login", "! try over times, login fail!", false);
-                        throw new DrException() { Source = "登录失败次数过多。" };
+                        throw new NetSocketException() { Source = "登录失败次数过多。" };
                     }
 
-                    int p = proc.Challenge(ret);
-                    if (p == -5) throw new DrException() { Source = proc.InnerSource };
+                    int p = Protocol.Challenge(ret);
+                    if (p == -5) throw new NetSocketException() { Source = Protocol.InnerSource };
                     if (p < 0) continue;
 
-                    p = proc.Login();
-                    if (p == -5) throw new DrException() { Source = proc.InnerSource };
+                    p = Protocol.Login();
+                    if (p == -5) throw new NetSocketException() { Source = Protocol.InnerSource };
                     if (p < 0) continue;
 
-                    OnIpUpdated.Invoke(proc.Cert.ClientIP);
+                    OnIpUpdated.Invoke(Protocol.ClientIP.ToString());
                     break;
                 }
                 while (true)
                 {
                     ret = 0;
                     int p;
-                    while ((p = proc.Alive()) != 0)
+                    while ((p = Protocol.Alive()) != 0)
                     {
-                        if (p == -5) throw new DrException() { Source = proc.InnerSource };
+                        if (p == -5) throw new NetSocketException() { Source = Protocol.InnerSource };
                         if (trytimes >= 0 && ret++ > trytimes)
                         {
                             Log("alive", "alive(): fail;", false);
-                            throw new DrException() { Source = "Keep-alive包发送超时多次。" };
+                            throw new NetSocketException() { Source = "Keep-alive包发送超时多次。" };
                         }
                         Thread.Sleep(1000);
                     }
@@ -64,14 +88,14 @@ namespace HandSchool.Services.Drcom
                 Log("logout", "logging out...", false);
                 OnStateChanged.Invoke(false, "");
             }
-            catch (DrException e)
+            catch (NetSocketException e)
             {
                 Log("drcom", "Socket closed. Please redail. ", false);
                 OnStateChanged.Invoke(false, e.Source);
             }
         }
 
-        public void Log(string app, object args, bool toHex)
+        private void Log(string app, object args, bool toHex)
         {
             if (OnLog.GetInvocationList().Length == 0)
                 return;
@@ -98,10 +122,5 @@ namespace HandSchool.Services.Drcom
             }
             OnLog.Invoke(string.Format("[{0}] {1}", app, ept));
         }
-        
-        public delegate void DrDelegate(string str);
-        public delegate void DrStateDelegate(bool isLogin, string tip = "");
-        // notifyIcon1.ShowBalloonTip(10000, "校园网", "已登出。" + toolTip, toolTip.Length == 0 ? ToolTipIcon.Info : ToolTipIcon.Error);
-
     }
 }

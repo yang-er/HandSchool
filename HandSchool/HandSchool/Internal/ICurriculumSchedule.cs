@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace HandSchool.Models
+namespace HandSchool.Internal
 {
 
     internal interface ICurriculumParser<T>
