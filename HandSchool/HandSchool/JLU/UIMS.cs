@@ -2,30 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
+using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
     class UIMS : ISchoolSystem
     {
-        public Dictionary<string, string> HeaderAttach { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public Uri ServerUri => new Uri("http://uims.jlu.edu.cn/ntms/");
-
-        public Uri LoginPageUri => new Uri("j_spring_security_check");
-
-        public Dictionary<string, string> AvaliableOperations => throw new NotImplementedException();
-        
         public CookieAwareWebClient WebClient { get; set; }
+        private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
+        public List<ISystemEntrance> Methods => methodList;
+        public NameValueCollection AttachInfomation { get; set; }
+        public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
+
+        public Dictionary<string, string> HeaderAttach { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        
+        public UIMS()
+        {
+
+        }
 
         public bool Login(string username, string password)
         {
             WebClient = new CookieAwareWebClient
             {
-                BaseAddress = ServerUri.OriginalString,
+                BaseAddress = ServerUri,
                 Encoding = Encoding.UTF8
             };
 
@@ -43,7 +45,7 @@ namespace HandSchool.JLU
             var loginData = new NameValueCollection
             {
                 { "j_username", username },
-                { "j_password", Helper.MD5("UIMS" + username + password, Encoding.UTF8) },
+                { "j_password", MD5("UIMS" + username + password, Encoding.UTF8) },
                 { "mousepath", "" }
             };
 

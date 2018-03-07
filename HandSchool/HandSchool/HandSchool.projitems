@@ -17,7 +17,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CookieAwareWebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ISystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ICurriculumSchedule.cs" />
