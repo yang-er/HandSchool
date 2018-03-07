@@ -15,7 +15,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\CookieAwareWebClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ICurriculumSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomSocket.cs" />
@@ -62,9 +65,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Internal\" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

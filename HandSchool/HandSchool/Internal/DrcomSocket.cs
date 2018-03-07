@@ -102,19 +102,7 @@ namespace HandSchool.Internal
             string ept;
             if (toHex)
             {
-                char[] chars = "0123456789ABCDEF".ToCharArray();
-                byte[] bs = (byte[])args;
-                StringBuilder sb = new StringBuilder("");
-                int bit;
-                for (int i = 0; i < bs.Length; i++)
-                {
-                    bit = (bs[i] & 0x0f0) >> 4;
-                    sb.Append(chars[bit]);
-                    bit = bs[i] & 0x0f;
-                    sb.Append(chars[bit]);
-                }
-                ept = sb.ToString();
-                sb.Clear();
+                ept = Helper.HexDigest((byte[])args);
             }
             else
             {

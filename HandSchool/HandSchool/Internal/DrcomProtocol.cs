@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace HandSchool.Internal
@@ -29,7 +28,6 @@ namespace HandSchool.Internal
         public IPAddress ServerIP { get; set; }
         
         // Client
-        MD5 md5 = new MD5CryptoServiceProvider();
         byte[] md5a;
         byte[] salt = new byte[4];
         byte[] tail = new byte[16];
@@ -106,7 +104,7 @@ namespace HandSchool.Internal
             md5_src[1] = 1;
             Buffer.BlockCopy(salt, 0, md5_src, 2, 4);
             Buffer.BlockCopy(Encoding.Default.GetBytes(Password), 0, md5_src, 6, pwlen);
-            md5a = md5.ComputeHash(md5_src);
+            md5a = Helper.MD5(md5_src);
             Buffer.BlockCopy(md5a, 0, data, 4, 16);
             i += 16;
 
@@ -129,7 +127,7 @@ namespace HandSchool.Internal
             md5_src[0] = 1;
             Buffer.BlockCopy(Encoding.Default.GetBytes(Password), 0, md5_src, 1, pwlen);
             Buffer.BlockCopy(salt, 0, md5_src, 1 + pwlen, 4);
-            Buffer.BlockCopy(md5.ComputeHash(md5_src), 0, data, i, 16);
+            Buffer.BlockCopy(Helper.MD5(md5_src), 0, data, i, 16);
             i += 16;
 
             // Ip number, 1, 2, 3, 4
@@ -144,7 +142,7 @@ namespace HandSchool.Internal
             md5_src[i + 1] = 0x00;
             md5_src[i + 2] = 0x07;
             md5_src[i + 3] = 0x0b;
-            Buffer.BlockCopy(md5.ComputeHash(md5_src), 0, data, i, 8);
+            Buffer.BlockCopy(Helper.MD5(md5_src), 0, data, i, 8);
             i += 8;
 
             // IPDOG(0x01) 0x00*4
