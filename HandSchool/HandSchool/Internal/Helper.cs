@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 
 namespace HandSchool.Internal
 {
@@ -10,6 +10,7 @@ namespace HandSchool.Internal
     {
         private static MD5 MD5p = new MD5CryptoServiceProvider();
         private static StringBuilder sb = new StringBuilder();
+        private static JsonSerializer json = JsonSerializer.Create();
 
         public static byte[] MD5(byte[] source)
         {
@@ -23,6 +24,11 @@ namespace HandSchool.Internal
             if (encoding == null)
                 encoding = Encoding.UTF8;
             return HexDigest(MD5(encoding.GetBytes(source)), true);
+        }
+
+        public static T JSON<T>(string jsonString)
+        {
+            return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
         }
 
         public static string HexDigest(byte[] source, bool lower = false)

@@ -5,7 +5,7 @@ namespace HandSchool.Internal
 
     internal interface ICurriculumParser<T>
     {
-        void ParseTable(string inputData, List<T> list, bool append = false);
+        void ParseTable(List<T> list, string inputData, bool append = false);
         CurriculumSmall SmallInfo(T curriculum);
         CurriculumDetail DetailInfo(T curriculum);
         bool IfShow(int week, T curriculum);

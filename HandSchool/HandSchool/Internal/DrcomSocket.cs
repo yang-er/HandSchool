@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading;
+using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Internal
 {
@@ -102,7 +102,7 @@ namespace HandSchool.Internal
             string ept;
             if (toHex)
             {
-                ept = Helper.HexDigest((byte[])args);
+                ept = HexDigest((byte[])args);
             }
             else
             {
