@@ -6,7 +6,7 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
-    class Schedule : ISystemEntrance, ICurriculumParser<TeachClassDetail>
+    class Schedule : ISystemEntrance
     {
         private UIMS uims;
         public ISchoolSystem Parent => uims;
@@ -20,80 +20,16 @@ namespace HandSchool.JLU
         public void Execute()
         {
             lastReport = Parent.Post(ScriptFileUri, PostValue);
-        }
-
-        public void ParseTable(List<TeachClassDetail> list, string inputData = "", bool append = false)
-        {
-            if (inputData == "")
-            {
-                Execute();
-                inputData = lastReport;
-            }
-
-            var table = JSON<RootObject>(inputData);
+            var table = JSON<RootObject>(lastReport);
             foreach (var obj in table.value)
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
                 {
-                    var p = new TeachClassDetail()
-                    {
-                        WeekBegin = int.Parse(time.timeBlock.beginWeek),
-                        WeekEnd = int.Parse(time.timeBlock.endWeek),
-                        WeekOen = (TeachClassDetail.WeekOddEvenNone)(time.timeBlock.weekOddEven == "" ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
-                        WeekDay = int.Parse(time.timeBlock.dayOfWeek),
-                        Classroom = time.classroom.fullName,
-                        CourseID = obj.teachClassMaster.name,
-                        SelectDate = obj.dateAccept,
-                        TCMID = int.Parse(obj.teachClassMaster.tcmId),
-                        TCSID = int.Parse(obj.tcsId),
-                        Name = obj.teachClassMaster.lessonSegment.fullName
-                    };
-                    int tmp = int.Parse(time.timeBlock.classSet);
-                    int tmp2 = tmp & (-tmp);
-                    while (tmp != 0)
-                    {
-                        tmp >>= 1;
-                        tmp2 >>= 1;
-                        if (tmp2 > 1)
-                            p.DayBegin++;
-                        else if (tmp2 == 1)
-                            p.DayEnd = ++p.DayBegin;
-                        else if (tmp >= 1)
-                            p.DayEnd++;
-                    }
-                    foreach (var t in obj.teachClassMaster.lessonTeachers)
-                        p.Teacher += t.teacher.name + " ";
-                    p.Teacher = p.Teacher.Trim();
-                    list.Add(p);
+                    CurriculumSchedule.Table.Add(new TeachClassDetail(time, obj));
                 }
             }
-            throw new NotImplementedException();
         }
-
-        public CurriculumSmall SmallInfo(TeachClassDetail tcd)
-        {
-            return new CurriculumSmall
-            {
-                Name = tcd.Name,
-                Position = tcd.Classroom,
-                Weekday = tcd.WeekDay,
-                From = tcd.DayBegin,
-                To = tcd.DayEnd
-            };
-        }
-
-        public CurriculumDetail DetailInfo(TeachClassDetail curriculum)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IfShow(int week, TeachClassDetail tcd)
-        {
-            bool show = ((int)tcd.WeekOen == 2) || ((int)tcd.WeekOen == week % 2);
-            show &= (week >= tcd.WeekBegin) && (week <= tcd.WeekEnd);
-            return show;
-        }
-
+        
         public class RootObject
         {
             public string id { get; set; }
@@ -102,28 +38,68 @@ namespace HandSchool.JLU
             public string resName { get; set; }
             public string msg { get; set; }
         }
-
     }
-
-    public class TeachClassDetail
+    
+    public class TeachClassDetail : ICurriculumItem
     {
-        public string Name = "";
-        public string Teacher = "";
-        public string CourseID = "";
-        public string Classroom = "";
-        public int TCMID = 0;
-        public int TCSID = 0;
-        public int WeekBegin = 0;
-        public int WeekEnd = 0;
-        public WeekOddEvenNone WeekOen = WeekOddEvenNone.None;
-        public int WeekDay = 0;
-        public int DayBegin = 0;
-        public int DayEnd = 0;
-        public DateTime SelectDate = DateTime.Today;
-
-        public enum WeekOddEvenNone
+        public TeachClassDetail(LessonSchedule time, ScheduleValue obj)
         {
-            Odd, Even, None
+            WeekBegin = int.Parse(time.timeBlock.beginWeek);
+            WeekEnd = int.Parse(time.timeBlock.endWeek);
+            WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == "" ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0));
+            WeekDay = int.Parse(time.timeBlock.dayOfWeek);
+            Classroom = time.classroom.fullName;
+            CourseID = obj.teachClassMaster.name;
+            SelectDate = obj.dateAccept;
+            Name = obj.teachClassMaster.lessonSegment.fullName;
+            DayEnd = 0;
+            DayBegin = 0;
+            int tmp = int.Parse(time.timeBlock.classSet);
+            int tmp2 = tmp & (-tmp);
+            while (tmp != 0)
+            {
+                tmp >>= 1;
+                tmp2 >>= 1;
+                if (tmp2 > 1)
+                    DayBegin++;
+                else if (tmp2 == 1)
+                    DayEnd = ++DayBegin;
+                else if (tmp >= 1)
+                    DayEnd++;
+            }
+            foreach (var t in obj.teachClassMaster.lessonTeachers)
+                p.Teacher += t.teacher.name + " ";
+            p.Teacher = p.Teacher.Trim();
+        }
+        
+        public string Name { get; set; }
+        public string Teacher { get; set; }
+        public string CourseID { get; set; }
+        public string Classroom { get; set; }
+        public int WeekBegin { get; set; }
+        public int WeekEnd { get; set; }
+        public WeekOddEvenNone WeekOen { get; set; }
+        public int WeekDay { get; set; }
+        public int DayBegin { get; private set; }
+        public int DayEnd { get; private set; }
+        public DateTime SelectDate { get; }
+
+        public bool IfShow(int week)
+        {
+            bool show = ((int)WeekOen == 2) || ((int)WeekOen == week % 2);
+            show &= (week >= WeekBegin) && (week <= WeekEnd);
+            return show;
+        }
+
+        public bool SetTime(int begin, int end)
+        {
+            if (begin > end)
+                return false;
+            if (begin <= 0 || end >= 12)
+                return false;
+            DayBegin = begin;
+            DayEnd = end;
+            return true;
         }
     }
 }

@@ -1,70 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HandSchool.Internal
 {
+    public enum WeekOddEvenNone { Odd, Even, None }
 
-    public interface ICurriculumParser<T>
+    public interface ICurriculumItem
     {
-        void ParseTable(List<T> list, string inputData = "", bool append = false);
-        CurriculumSmall SmallInfo(T curriculum);
-        CurriculumDetail DetailInfo(T curriculum);
-        bool IfShow(int week, T curriculum);
+        string Name { get; set; }
+        string Teacher { get; set; }
+        string CourseID { get; set; }
+        string Classroom { get; set; }
+        int WeekBegin { get; set; }
+        int WeekEnd { get; set; }
+        WeekOddEvenNone WeekOen { get; set; }
+        int WeekDay { get; set; }
+        int DayBegin { get; }
+        int DayEnd { get; }
+        DateTime SelectDate { get; }
+        bool IfShow(int week);
+        bool SetTime(int begin, int end);
     }
-
-    public class CurriculumSchedule<T>
+    
+    public class CurriculumSchedule
     {
+        public static List<ICurriculumItem> Table = new List<ICurriculumItem>();
 
-        private ICurriculumParser<T> Parser;
-        public List<T> Table;
+        public static event EventHandler OnTableRefresh;
 
-        public CurriculumDetail Detail(T item)
+        public static List<ICurriculumItem> RenderWeek(int week, bool showAll = false)
         {
-            return Parser.DetailInfo(item);
-        }
+            if (showAll)
+                throw new NotImplementedException();
 
-        public List<CurriculumSmall> RenderWeek(int week, bool showAll)
-        {
-            List<CurriculumSmall> ret = new List<CurriculumSmall>();
-            foreach (T item in Table)
+            List<ICurriculumItem> ret = new List<ICurriculumItem>();
+            foreach (ICurriculumItem item in Table)
             {
-                if (showAll || Parser.IfShow(week, item))
-                    ret.Add(Parser.SmallInfo(item));
+                if (showAll || item.IfShow(week))
+                    ret.Add(item);
             }
             return ret;
         }
-
     }
-
-    /// <summary>
-    /// 是否显示此课程。
-    /// </summary>
-    /// <param name="week">当前周</param>
-    /// <param name="curriculum">课程</param>
-    public delegate bool IfShow<T>(int week, T curriculum);
-
-    /// <summary>
-    /// 课程简略信息，显示在周课程表上。
-    /// </summary>
-    public struct CurriculumSmall
-    {
-        public string Name { get; set; }
-        public string Position { get; set; }
-        public int Weekday;
-        public int From;
-        public int To;
-    }
-
-    /// <summary>
-    /// 课程详细信息，显示在课程详情处。
-    /// </summary>
-    public struct CurriculumDetail
-    {
-        public string Name;
-        public string Position;
-        public string Teacher;
-        public int Weekday;
-        public int From;
-        public int To;
-    }
-
 }
