@@ -1,6 +1,6 @@
 ﻿namespace HandSchool.Internal
 {
-    interface ISystemEntrance
+    public interface ISystemEntrance
     {
         ISchoolSystem Parent { get; }
         string Name { get; }

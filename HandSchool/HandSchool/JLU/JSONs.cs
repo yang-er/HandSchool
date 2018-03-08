@@ -1,4 +1,6 @@
-﻿namespace HandSchool.JLU
+﻿using System;
+
+namespace HandSchool.JLU.JsonObject
 {
     public class TeachClassMaster
     {
@@ -9,6 +11,35 @@
         public string name { get; set; }
         public string tcmId { get; set; }
         public LessonSegment lessonSegment { get; set; }
+    }
+
+    public class ScheduleValue
+    {
+        public TeachClassMaster teachClassMaster { get; set; }
+        public string tcsId { get; set; }
+        public object student { get; set; }
+        public DateTime dateAccept { get; set; }
+    }
+
+    public class ArchiveScoreValue
+    {
+        public string xkkh { get; set; }
+        public TeachingTerm teachingTerm { get; set; }
+        public string score { get; set; }
+        public DateTime dateScore { get; set; }
+        public object planDetail { get; set; }
+        public string isPass { get; set; }
+        public string classHour { get; set; }
+        public Course course { get; set; }
+        public string isReselect { get; set; }
+        public string scoreNum { get; set; }
+        public Student student { get; set; }
+        public string asId { get; set; }
+        public string type5 { get; set; }
+        public string gpoint { get; set; }
+        public string credit { get; set; }
+        public object notes { get; set; }
+        public string selectType { get; set; }
     }
 
     public class LessonSegment
@@ -26,6 +57,24 @@
     public class CourseInfo
     {
         public string courName { get; set; }
+    }
+
+    public class Course
+    {
+        public string englishName { get; set; }
+        public string courType3 { get; set; }
+        public string adviceHour { get; set; }
+        public string batch { get; set; }
+        public string activeStatus { get; set; }
+        public string type5 { get; set; }
+        public string extCourseNo { get; set; }
+        public string courName { get; set; }
+        public string courseId { get; set; }
+        public string courType1 { get; set; }
+        public string adviceCredit { get; set; }
+        public string courType2 { get; set; }
+        public string isPe { get; set; }
+        public string isCore { get; set; }
     }
 
     public class LessonSchedule
@@ -62,4 +111,43 @@
         public string name { get; set; }
         public string teacherId { get; set; }
     }
+
+
+    public class TeachingTerm
+    {
+        public string termName { get; set; }
+        public DateTime startDate { get; set; }
+        public string termSeq { get; set; }
+        public DateTime examDate { get; set; }
+        public string activeStage { get; set; }
+        public string year { get; set; }
+        public DateTime vacationDate { get; set; }
+        public string weeks { get; set; }
+        public string termId { get; set; }
+        public string egrade { get; set; }
+    }
+
+    public class Student
+    {
+        public string studId { get; set; }
+        public string name { get; set; }
+        public AdminClass adminClass { get; set; }
+        public string admissionYear { get; set; }
+        public string studStatus { get; set; }
+        public string studNo { get; set; }
+        public string egrade { get; set; }
+    }
+
+    public class AdminClass
+    {
+        public string adcId { get; set; }
+        public string formalStudCnt { get; set; }
+        public string graduateYear { get; set; }
+        public string classNo { get; set; }
+        public string studCnt { get; set; }
+        public string className { get; set; }
+        public string admissionYear { get; set; }
+        public string campus { get; set; }
+    }
+
 }

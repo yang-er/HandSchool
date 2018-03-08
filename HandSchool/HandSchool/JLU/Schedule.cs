@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.JLU.JsonObject;
 using System;
 using System.Collections.Generic;
 using static HandSchool.Internal.Helper;
@@ -14,7 +15,7 @@ namespace HandSchool.JLU
         public string Name => "课程表";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
-        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + uims.AttachInfomation["termId"] + ",\"studId\":" + uims.AttachInfomation["stuId"] + "}}";
+        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + uims.LoginInfo.defRes.term_l + ",\"studId\":" + uims.LoginInfo.userId + "}}";
         
         public void Execute()
         {
@@ -24,7 +25,11 @@ namespace HandSchool.JLU
         public void ParseTable(List<TeachClassDetail> list, string inputData = "", bool append = false)
         {
             if (inputData == "")
+            {
+                Execute();
                 inputData = lastReport;
+            }
+
             var table = JSON<RootObject>(inputData);
             foreach (var obj in table.value)
             {
@@ -89,19 +94,11 @@ namespace HandSchool.JLU
             return show;
         }
 
-        public class RootValue
-        {
-            public TeachClassMaster teachClassMaster { get; set; }
-            public string tcsId { get; set; }
-            public object student { get; set; }
-            public DateTime dateAccept { get; set; }
-        }
-
         public class RootObject
         {
             public string id { get; set; }
             public int status { get; set; }
-            public RootValue[] value { get; set; }
+            public ScheduleValue[] value { get; set; }
             public string resName { get; set; }
             public string msg { get; set; }
         }

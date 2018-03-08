@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HandSchool.Internal
 {
-    interface INetSocket<T>
+    public interface INetSocket<T>
     {
         T Protocol { get; set; }
         void SaveCredential(Dictionary<string, string> infomation);

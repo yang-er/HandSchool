@@ -3,10 +3,9 @@ using System.Collections.Specialized;
 
 namespace HandSchool.Internal
 {
-    interface ISchoolSystem
+    public interface ISchoolSystem
     {
         string ServerUri { get; }
-        Dictionary<string, string> HeaderAttach { get; set; }
         CookieAwareWebClient WebClient { get; set; }
         NameValueCollection AttachInfomation { get; set; }
         List<ISystemEntrance> Methods { get; }
