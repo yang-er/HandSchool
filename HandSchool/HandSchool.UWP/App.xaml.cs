@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +29,7 @@ namespace HandSchool.UWP
         /// </summary>
         public App()
         {
+            HandSchool.App.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

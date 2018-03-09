@@ -6,6 +6,9 @@
         string ScriptFileUri { get; }
         bool IsPost { get; }
         string PostValue { get; }
+        string StorageFile { get; }
+        string LastReport { get; }
         void Execute();
+        void Parse();
     }
 }

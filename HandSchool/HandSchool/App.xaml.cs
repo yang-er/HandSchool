@@ -13,6 +13,7 @@ namespace HandSchool
         public static ISystemEntrance Schedule;
         public static ISystemEntrance GPA;
         public static ISystemEntrance SelectCourse;
+        public static string DataBaseDir;
         
 		public App ()
 		{

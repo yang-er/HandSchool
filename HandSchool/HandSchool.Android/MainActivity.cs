@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace HandSchool.Droid
 {
-    [Activity(Label = "HandSchool", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "掌上校园", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -20,7 +20,8 @@ namespace HandSchool.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+            App.DataBaseDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            LoadApplication(new App() {});
         }
     }
 }

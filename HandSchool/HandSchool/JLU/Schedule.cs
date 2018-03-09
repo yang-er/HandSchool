@@ -1,26 +1,30 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
     class Schedule : ISystemEntrance
     {
-        private UIMS uims;
-        public ISchoolSystem Parent => uims;
-        private string lastReport;
-
         public string Name => "课程表";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
-        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + uims.LoginInfo.defRes.term_l + ",\"studId\":" + uims.LoginInfo.userId + "}}";
+        public string LastReport { get; private set; }
+        public string StorageFile => Path.Combine(App.DataBaseDir, "jlu.kcb.json");
+        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + (App.Service as UIMS).LoginInfo.defRes.term_l + ",\"studId\":" + (App.Service as UIMS).LoginInfo.userId + "}}";
         
         public void Execute()
         {
-            lastReport = Parent.Post(ScriptFileUri, PostValue);
-            var table = JSON<RootObject>(lastReport);
+            LastReport = App.Service.Post(ScriptFileUri, PostValue);
+            File.WriteAllText(StorageFile, LastReport);
+            Parse();
+        }
+        
+        public void Parse()
+        {
+            var table = JSON<RootObject>(LastReport);
             foreach (var obj in table.value)
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
@@ -29,7 +33,16 @@ namespace HandSchool.JLU
                 }
             }
         }
-        
+
+        public Schedule()
+        {
+            if (File.Exists(StorageFile))
+            {
+                LastReport = File.ReadAllText(StorageFile);
+                Parse();
+            }
+        }
+
         public class RootObject
         {
             public string id { get; set; }

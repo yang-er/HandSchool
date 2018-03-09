@@ -16,14 +16,27 @@ namespace HandSchool.JLU
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
         public RootObject LoginInfo { get; set; }
+        public bool IsLogin { get; private set; }
+        private string j_username;
+        private string j_password;
         
         public UIMS()
         {
-
+            IsLogin = false;
         }
 
-        public bool Login(string username, string password)
+        public bool Login(string username = "", string password = "")
         {
+            if (username != "")
+            {
+                j_username = username;
+                j_password = MD5("UIMS" + username + password, Encoding.UTF8);
+            }
+            else if (j_username == "")
+            {
+                throw new NotImplementedException();
+            }
+
             WebClient = new CookieAwareWebClient
             {
                 BaseAddress = ServerUri,
@@ -31,7 +44,7 @@ namespace HandSchool.JLU
             };
 
             WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "uims.jlu.edu.cn"));
-            WebClient.Cookie.Add(new Cookie("alu", username, "/ntms/", "uims.jlu.edu.cn"));
+            WebClient.Cookie.Add(new Cookie("alu", j_username, "/ntms/", "uims.jlu.edu.cn"));
             WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", "uims.jlu.edu.cn"));
 
             // Access Main Page To Create a JSESSIONID
@@ -43,8 +56,8 @@ namespace HandSchool.JLU
 
             var loginData = new NameValueCollection
             {
-                { "j_username", username },
-                { "j_password", MD5("UIMS" + username + password, Encoding.UTF8) },
+                { "j_username", j_username },
+                { "j_password", j_password },
                 { "mousepath", "" }
             };
 
@@ -52,13 +65,15 @@ namespace HandSchool.JLU
 
             string resp = WebClient.UploadString("action/getCurrentUserInfo.do", "POST", "");
             var wtf = WebClient.ResponseHeaders["Content-Type"];
-            if (WebClient.ResponseHeaders["Content-Type"] == "application/json; charset=UTF-8")
+            if (WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
                 LoginInfo = JSON<RootObject>(resp);
+                IsLogin = true;
                 return true;
             }
             else
             {
+                IsLogin = false;
                 return false;
             }
         }
@@ -66,12 +81,47 @@ namespace HandSchool.JLU
         public string Post(string url, string send)
         {
             WebClient.Headers.Set("Content-Type", "application/json");
-            return WebClient.UploadString(url, "POST", send);
+            var ret = WebClient.UploadString(url, "POST", send);
+
+            // retry once
+            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
+            {
+                Login();
+                WebClient.Headers.Set("Content-Type", "application/json");
+                ret = WebClient.UploadString(url, "POST", send);
+            }
+
+            // finalizing
+            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                return ret;
+            }
         }
 
         public string Get(string url)
         {
-            return WebClient.DownloadString(url);
+            var ret = WebClient.DownloadString(url);
+
+            // retry once
+            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
+            {
+                Login();
+                ret = WebClient.DownloadString(url);
+            }
+
+            // finalizing
+            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                return ret;
+            }
         }
         
         public class RootObject

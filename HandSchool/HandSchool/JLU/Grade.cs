@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
 using System;
+using System.IO;
 using System.Collections.Specialized;
 using static HandSchool.Internal.Helper;
 
@@ -42,25 +43,41 @@ namespace HandSchool.JLU
 
     class GradeEntrance : ISystemEntrance
     {
-        private string lastReport;
         public int RowLimit = 15;
 
         public string Name => "成绩查询";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
+        public string StorageFile => Path.Combine(App.DataBaseDir, "jlu.grade.json");
+        public string LastReport { get; private set; }
         
         public void Execute()
         {
-            lastReport = App.Service.Post(ScriptFileUri, PostValue);
-            var ro = JSON<RootObject>(lastReport);
+            LastReport = App.Service.Post(ScriptFileUri, PostValue);
+            File.WriteAllText(StorageFile, LastReport);
+            Parse();
+        }
+        
+        public GradeEntrance()
+        {
+            if (File.Exists(StorageFile))
+            {
+                LastReport = File.ReadAllText(StorageFile);
+                Parse();
+            }
+        }
+
+        public void Parse()
+        {
+            var ro = JSON<RootObject>(LastReport);
             Grade.Value.Clear();
             foreach (var asv in ro.value)
             {
                 Grade.Add(new GradeItem(asv));
             }
         }
-        
+
         public class RootObject
         {
             public string id { get; set; }
