@@ -51,7 +51,8 @@ namespace HandSchool.JLU
             WebClient.UploadValues("j_spring_security_check", "POST", loginData);
 
             string resp = WebClient.UploadString("action/getCurrentUserInfo.do", "POST", "");
-            if (WebClient.ResponseHeaders["Content-Type"] == "application/json;charset=UTF-8")
+            var wtf = WebClient.ResponseHeaders["Content-Type"];
+            if (WebClient.ResponseHeaders["Content-Type"] == "application/json; charset=UTF-8")
             {
                 LoginInfo = JSON<RootObject>(resp);
                 return true;

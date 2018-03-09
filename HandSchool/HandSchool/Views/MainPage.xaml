@@ -25,5 +25,16 @@
                 <views:AboutPage />
             </x:Arguments>
         </NavigationPage>
+        
+        <NavigationPage Title="绩点">
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+            <x:Arguments>
+                <views:GradePointPage />
+            </x:Arguments>
+        </NavigationPage>
     </TabbedPage.Children>
 </TabbedPage>

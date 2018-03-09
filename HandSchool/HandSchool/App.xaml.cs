@@ -9,17 +9,25 @@ namespace HandSchool
 	{
 
         public static ISchoolSystem Service;
+        public static ISystemEntrance GradePoint;
+        public static ISystemEntrance Schedule;
+        public static ISystemEntrance GPA;
+        public static ISystemEntrance SelectCourse;
         
-
-
 		public App ()
 		{
 			InitializeComponent();
+            LoadJLU();
+
+            MainPage = new MainPage();
+        }
+
+        private void LoadJLU()
+        {
             Service = new JLU.UIMS();
             Service.Login("55170922", "252015");
-            
-
-            MainPage = new GradePointPage();
+            GradePoint = new JLU.GradeEntrance();
+            GPA = new JLU.GPA();
         }
 
 		protected override void OnStart ()

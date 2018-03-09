@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IGradeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ISystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\GPA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />

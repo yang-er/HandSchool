@@ -54,6 +54,7 @@ namespace HandSchool.JLU
         {
             lastReport = App.Service.Post(ScriptFileUri, PostValue);
             var ro = JSON<RootObject>(lastReport);
+            Grade.Value.Clear();
             foreach (var asv in ro.value)
             {
                 Grade.Add(new GradeItem(asv));

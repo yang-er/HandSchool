@@ -1,10 +1,6 @@
 ﻿using HandSchool.Internal;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,13 +10,10 @@ namespace HandSchool.Views
     public partial class GradePointPage : ContentPage
     {
         public ObservableCollection<IGradeItem> Items => Grade.Value;
-        public ISystemEntrance Entrance;
 
         public GradePointPage()
         {
             InitializeComponent();
-            Entrance = new JLU.GradeEntrance() { RowLimit = 15 };
-            Entrance.Execute();
 			MyListView.ItemsSource = Items;
         }
 
@@ -38,10 +31,22 @@ namespace HandSchool.Views
             {
                 info += "\n" + key + "：" + iGi.Attach.Get((string)key);
             }
-            await DisplayAlert("成绩详情", info, "确定");
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+
+            await DisplayAlert("成绩详情", info, "确定");
+        }
+
+        async void ShowGPA_Clicked(object sender, EventArgs e)
+        {
+            App.GPA.Execute();
+            await DisplayAlert("学分绩点统计", App.GPA.ToString(), "确定");
+        }
+
+        private void Refresh_Clicked(object sender, EventArgs e)
+        {
+            App.GradePoint.Execute();
         }
     }
 }
