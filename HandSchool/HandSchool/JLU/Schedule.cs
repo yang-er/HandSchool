@@ -68,8 +68,8 @@ namespace HandSchool.JLU
                     DayEnd++;
             }
             foreach (var t in obj.teachClassMaster.lessonTeachers)
-                p.Teacher += t.teacher.name + " ";
-            p.Teacher = p.Teacher.Trim();
+                Teacher += t.teacher.name + " ";
+            Teacher = Teacher.Trim();
         }
         
         public string Name { get; set; }

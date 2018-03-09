@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
 using System;
+using System.Collections.Specialized;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -12,6 +13,10 @@ namespace HandSchool.JLU
         public GradeItem(ArchiveScoreValue value)
         {
             asv = value;
+            Attach = new NameValueCollection
+            {
+                { "选课课号", asv.xkkh }
+            };
         }
 
         public string Name => asv.course.courName;
@@ -22,6 +27,7 @@ namespace HandSchool.JLU
         public bool Pass => asv.isPass == "Y";
         public string Term => asv.teachingTerm.termName;
         public DateTime Date => asv.dateScore;
+        public NameValueCollection Attach { get; private set; }
 
         public string Type
         {
@@ -30,24 +36,23 @@ namespace HandSchool.JLU
                 return "";
             }
         }
-        
+
+        public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
     }
 
     class GradeEntrance : ISystemEntrance
     {
-        private UIMS uims;
-        public ISchoolSystem Parent => uims;
         private string lastReport;
         public int RowLimit = 15;
 
         public string Name => "成绩查询";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
-        public string PostValue => "{\"tag\":\"archiveScore @queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
+        public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
         
         public void Execute()
         {
-            lastReport = Parent.Post(ScriptFileUri, PostValue);
+            lastReport = App.Service.Post(ScriptFileUri, PostValue);
             var ro = JSON<RootObject>(lastReport);
             foreach (var asv in ro.value)
             {
