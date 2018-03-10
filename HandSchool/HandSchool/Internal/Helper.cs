@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
@@ -14,7 +15,16 @@ namespace HandSchool.Internal
 
         public static byte[] MD5(byte[] source)
         {
-            byte[] bytHash = MD5p.ComputeHash(source);
+            byte[] bytHash;
+            try
+            {
+                bytHash = MD5p.ComputeHash(source);
+            }
+            catch (ObjectDisposedException e)
+            {
+                MD5p = new MD5CryptoServiceProvider();
+                bytHash = MD5p.ComputeHash(source);
+            }
             MD5p.Clear();
             return bytHash;
         }
