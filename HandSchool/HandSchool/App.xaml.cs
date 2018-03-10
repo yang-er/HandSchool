@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.IO;
 using HandSchool.Internal;
 using HandSchool.Views;
 using Xamarin.Forms;
@@ -14,22 +15,43 @@ namespace HandSchool
         public static ISystemEntrance GPA;
         public static ISystemEntrance SelectCourse;
         public static string DataBaseDir;
-        
-		public App ()
+
+        public static string ReadFile(string name)
+        {
+            string fn = Path.Combine(DataBaseDir, name);
+            if (File.Exists(fn))
+                return File.ReadAllText(Path.Combine(DataBaseDir, name));
+            else
+                return "";
+        }
+
+        public static void WriteFile(string name, string value)
+        {
+            File.WriteAllText(Path.Combine(DataBaseDir, name), value);
+        }
+
+        public Dictionary<string, LoadSchool> Support = new Dictionary<string, LoadSchool>();
+
+        public App ()
 		{
 			InitializeComponent();
+            Support.Add("吉林大学", LoadJLU);
             LoadJLU();
-
             MainPage = new MainPage();
         }
 
         private void LoadJLU()
         {
-            Service = new JLU.UIMS();
-            Service.Login("55170922", "252015");
+            Service = new JLU.UIMS
+            {
+                Username = "55170922",
+                Password = "252015"
+            };
             GradePoint = new JLU.GradeEntrance();
             GPA = new JLU.GPA();
         }
+
+        public delegate void LoadSchool();
 
 		protected override void OnStart ()
 		{
