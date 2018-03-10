@@ -2,6 +2,12 @@
 
 namespace HandSchool.JLU.JsonObject
 {
+    public class ErrorMsg
+    {
+        public int status { get; set; }
+        public string msg { get; set; }
+    }
+
     public class TeachClassMaster
     {
         public string maxStudCnt { get; set; }

@@ -1,6 +1,4 @@
 ﻿using HandSchool.Internal;
-using System;
-using System.IO;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -10,14 +8,14 @@ namespace HandSchool.JLU
         public string Name => "学分绩点统计";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
-        public string StorageFile => Path.Combine(App.DataBaseDir, "jlu.gpa.json");
+        public string StorageFile => "jlu.gpa.json";
         public string PostValue => "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":" + (App.Service as UIMS).LoginInfo.userId + "}}";
         public string ResultShown { get; private set; }
         public string LastReport { get; private set; }
 
         public void Execute()
         {
-            LastReport = App.Service.Post(ScriptFileUri, PostValue);
+            LastReport = App.Service.PostJson(ScriptFileUri, PostValue);
             var ro = JSON<RootObject>(LastReport);
             ResultShown = string.Format("按首次成绩，\n学分平均绩点 {0:N6}\n学分平均绩点 {1:N6}\n\n按最好成绩，\n学分平均绩点 {2:N6}\n学分平均绩点 {3:N6}",
                 ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
