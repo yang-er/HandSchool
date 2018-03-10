@@ -32,10 +32,10 @@ namespace HandSchool.Views
                 info += "\n" + key + "：" + iGi.Attach.Get((string)key);
             }
 
+            await DisplayAlert("成绩详情", info, "确定");
+
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
-
-            await DisplayAlert("成绩详情", info, "确定");
         }
 
         async void ShowGPA_Clicked(object sender, EventArgs e)
