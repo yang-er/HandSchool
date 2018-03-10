@@ -2,11 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HandSchool.Views.AboutPage"
-             xmlns:vm="using:HandSchool.ViewModels"
              Title="关于">
-    <ContentPage.BindingContext>
-        <vm:AboutViewModel />
-    </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -45,8 +41,8 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Button Margin="0,10,0,0" Text="查看源码" Command="{Binding OpenWebCommand}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-                <Button Margin="0,10,0,0" Text="查看作者" Command="{Binding OpenWebCommand2}" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+                <Button Margin="0,10,0,0" Text="查看源码" Clicked="Web1_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+                <Button Margin="0,10,0,0" Text="查看作者" Clicked="Web2_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
             </StackLayout>
         </ScrollView>
     </Grid>
