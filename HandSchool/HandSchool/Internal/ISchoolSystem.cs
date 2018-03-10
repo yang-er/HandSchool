@@ -9,9 +9,12 @@ namespace HandSchool.Internal
         CookieAwareWebClient WebClient { get; set; }
         NameValueCollection AttachInfomation { get; set; }
         List<ISystemEntrance> Methods { get; }
+        string Tips { get; }
+        string Username { get; set; }
+        string Password { get; set; }
         bool IsLogin { get; }
-        bool Login(string username, string password);
-        string Post(string url, string send);
+        bool Login();
+        string PostJson(string url, string send);
         string Get(string url);
     }
 }

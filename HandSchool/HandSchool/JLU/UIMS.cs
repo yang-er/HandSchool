@@ -17,34 +17,40 @@ namespace HandSchool.JLU
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
         public RootObject LoginInfo { get; set; }
         public bool IsLogin { get; private set; }
-        private string j_username;
-        private string j_password;
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
+        public string StorageFile => "jlu.user.json";
         
         public UIMS()
         {
             IsLogin = false;
+            Username = App.ReadFile("jlu.uims.username.txt");
+            if (Username != "") Password = App.ReadFile("jlu.uims.password.txt");
+            string resp = App.ReadFile(StorageFile);
+            if (resp == "") throw new NotImplementedException();
+            LoginInfo = JSON<RootObject>(resp);
         }
 
-        public bool Login(string username = "", string password = "")
+        public bool Login()
         {
-            if (username != "")
+            if (Username == "" || Password == "")
             {
-                j_username = username;
-                j_password = MD5("UIMS" + username + password, Encoding.UTF8);
+                throw new NotImplementedException("Show Login Panel Not Finished");
             }
-            else if (j_username == "")
+            else
             {
-                throw new NotImplementedException();
+                App.WriteFile("jlu.uims.username.txt", Username);
+                App.WriteFile("jlu.uims.password.txt", Password);
             }
-
+            
             WebClient = new CookieAwareWebClient
             {
                 BaseAddress = ServerUri,
                 Encoding = Encoding.UTF8
             };
-
             WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "uims.jlu.edu.cn"));
-            WebClient.Cookie.Add(new Cookie("alu", j_username, "/ntms/", "uims.jlu.edu.cn"));
+            WebClient.Cookie.Add(new Cookie("alu", Username, "/ntms/", "uims.jlu.edu.cn"));
             WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", "uims.jlu.edu.cn"));
 
             // Access Main Page To Create a JSESSIONID
@@ -56,17 +62,18 @@ namespace HandSchool.JLU
 
             var loginData = new NameValueCollection
             {
-                { "j_username", j_username },
-                { "j_password", j_password },
+                { "j_username", Username },
+                { "j_password", MD5("UIMS" + Username + Password, Encoding.UTF8) },
                 { "mousepath", "" }
             };
 
             WebClient.UploadValues("j_spring_security_check", "POST", loginData);
 
+            // Get User Info
             string resp = WebClient.UploadString("action/getCurrentUserInfo.do", "POST", "");
-            var wtf = WebClient.ResponseHeaders["Content-Type"];
             if (WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
+                App.WriteFile(StorageFile, resp);
                 LoginInfo = JSON<RootObject>(resp);
                 IsLogin = true;
                 return true;
@@ -77,51 +84,40 @@ namespace HandSchool.JLU
                 return false;
             }
         }
-
-        public string Post(string url, string send)
+        
+        public string PostJson(string url, string send)
         {
+            if (!IsLogin) Login();
+            if (!IsLogin) throw new NotImplementedException("登录失败");
+
             WebClient.Headers.Set("Content-Type", "application/json");
             var ret = WebClient.UploadString(url, "POST", send);
 
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
-                Login();
-                WebClient.Headers.Set("Content-Type", "application/json");
-                ret = WebClient.UploadString(url, "POST", send);
+                IsLogin = false;
+                return PostJson(url, send);
             }
-
-            // finalizing
-            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                return ret;
-            }
+            
+            return ret;
         }
 
         public string Get(string url)
         {
+            if (!IsLogin) Login();
+            if (!IsLogin) throw new NotImplementedException("登录失败");
+
             var ret = WebClient.DownloadString(url);
 
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
-                Login();
-                ret = WebClient.DownloadString(url);
+                IsLogin = false;
+                return Get(url);
             }
 
-            // finalizing
-            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                return ret;
-            }
+            return ret;
         }
         
         public class RootObject
