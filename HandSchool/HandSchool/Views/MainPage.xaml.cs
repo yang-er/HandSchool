@@ -10,7 +10,17 @@ namespace HandSchool.Views
 	{
 		public MainPage ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if(App.Service.NeedLogin && !App.Service.IsLogin)
+            {
+                Navigation.PushModalAsync(new LoginPage());
+            }
+        }
+    }
 }

@@ -9,6 +9,8 @@ namespace HandSchool
 	public partial class App : Application
 	{
 
+        #region School Components
+
         public static ISchoolSystem Service;
         public static ISystemEntrance GradePoint;
         public static ISystemEntrance Schedule;
@@ -30,8 +32,8 @@ namespace HandSchool
             File.WriteAllText(Path.Combine(DataBaseDir, name), value);
         }
 
-        public Dictionary<string, LoadSchool> Support = new Dictionary<string, LoadSchool>();
-
+        #endregion
+        
         public App ()
 		{
 			InitializeComponent();
@@ -39,6 +41,11 @@ namespace HandSchool
             LoadJLU();
             MainPage = new MainPage();
         }
+
+        #region Load School
+
+        public delegate void LoadSchool();
+        public Dictionary<string, LoadSchool> Support = new Dictionary<string, LoadSchool>();
 
         private void LoadJLU()
         {
@@ -50,10 +57,12 @@ namespace HandSchool
             GradePoint = new JLU.GradeEntrance();
             GPA = new JLU.GPA();
         }
+        
+        #endregion
 
-        public delegate void LoadSchool();
+        #region State Change
 
-		protected override void OnStart ()
+        protected override void OnStart ()
 		{
 			// Handle when your app starts
 		}
@@ -67,5 +76,8 @@ namespace HandSchool
 		{
 			// Handle when your app resumes
 		}
-	}
+
+        #endregion
+
+    }
 }

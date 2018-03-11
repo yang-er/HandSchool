@@ -10,11 +10,18 @@ namespace HandSchool.Views
     public partial class GradePointPage : ContentPage
     {
         public ObservableCollection<IGradeItem> Items => Grade.Value;
+        public bool IsRefreshing { get; private set; }
 
         public GradePointPage()
         {
             InitializeComponent();
-			MyListView.ItemsSource = Items;
+            MyListView.ItemsSource = Items;
+            MyListView.RefreshCommand = RefreshButton.Command = 
+                new Command(() => {
+                    MyListView.IsRefreshing = true;
+                    App.GradePoint.Execute();
+                    MyListView.IsRefreshing = false;
+                });
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -42,11 +49,6 @@ namespace HandSchool.Views
         {
             App.GPA.Execute();
             await DisplayAlert("学分绩点统计", App.GPA.ToString(), "确定");
-        }
-
-        private void Refresh_Clicked(object sender, EventArgs e)
-        {
-            App.GradePoint.Execute();
         }
     }
 }

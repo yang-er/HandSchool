@@ -10,6 +10,9 @@ namespace HandSchool.JLU
 {
     class UIMS : ISchoolSystem
     {
+        private bool auto_login = true;
+        private bool save_password = true;
+
         public CookieAwareWebClient WebClient { get; set; }
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
         public List<ISystemEntrance> Methods => methodList;
@@ -21,14 +24,49 @@ namespace HandSchool.JLU
         public string Password { get; set; }
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public string StorageFile => "jlu.user.json";
-        
+        public bool NeedLogin { get; private set; }
+
+        public bool AutoLogin
+        {
+            get
+            {
+                return auto_login;
+            }
+            set
+            {
+                auto_login = value;
+                if (value) save_password = true;
+            }
+        }
+
+        public bool SavePassword
+        {
+            get
+            {
+                return save_password;
+            }
+            set
+            {
+                save_password = value;
+                if (!save_password) auto_login = false;
+            }
+        }
+
         public UIMS()
         {
             IsLogin = false;
+            NeedLogin = false;
             Username = App.ReadFile("jlu.uims.username.txt");
             if (Username != "") Password = App.ReadFile("jlu.uims.password.txt");
+            if (Password == "") SavePassword = false;
+            //App.WriteFile(StorageFile, "");
             string resp = App.ReadFile(StorageFile);
-            if (resp == "") throw new NotImplementedException();
+            if (resp == "")
+            {
+                AutoLogin = false;
+                NeedLogin = true;
+                return;
+            }
             LoginInfo = JSON<RootObject>(resp);
         }
 
@@ -41,7 +79,7 @@ namespace HandSchool.JLU
             else
             {
                 App.WriteFile("jlu.uims.username.txt", Username);
-                App.WriteFile("jlu.uims.password.txt", Password);
+                App.WriteFile("jlu.uims.password.txt", save_password ? Password : "");
             }
             
             WebClient = new CookieAwareWebClient
@@ -73,7 +111,7 @@ namespace HandSchool.JLU
             string resp = WebClient.UploadString("action/getCurrentUserInfo.do", "POST", "");
             if (WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
-                App.WriteFile(StorageFile, resp);
+                App.WriteFile(StorageFile, auto_login ? resp : "");
                 LoginInfo = JSON<RootObject>(resp);
                 IsLogin = true;
                 return true;

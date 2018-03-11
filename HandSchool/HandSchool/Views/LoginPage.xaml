@@ -13,6 +13,16 @@
             <Label Text="密码" FontSize="Medium" />
             <Entry Text="{Binding Service.Password}" IsPassword="True"  FontSize="Medium" />
             <Label Text="{Binding Service.Tips}" FontSize="Medium" />
+            <TableView Intent="Form">
+                <TableSection>
+                    <SwitchCell Text="保存密码" x:Name="SavePassword" />
+                    <SwitchCell Text="自动登录" x:Name="AutoLogin" />
+                </TableSection>
+            </TableView>
+            <!--
+            
+            {Binding Service.AutoLogin}{Binding Service.SavePassword}-->
+            <Button Margin="0,10,0,0" Text="登录" Clicked="Login_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

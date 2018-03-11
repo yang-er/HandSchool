@@ -4,21 +4,26 @@
              x:Class="HandSchool.Views.GradePointPage"
              Title="查看学分成绩">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="刷新" Clicked="Refresh_Clicked" />
+        <ToolbarItem Name="刷新" x:Name="RefreshButton" />
         <ToolbarItem Name="统计" Clicked="ShowGPA_Clicked" />
     </ContentPage.ToolbarItems>
     <ListView x:Name="MyListView"
-            ItemsSource="{Binding Items}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
+              ItemsSource="{Binding Items}"
+              ItemTapped="Handle_ItemTapped"
+              IsPullToRefreshEnabled="true"
+              VerticalOptions="FillAndExpand"
+              HasUnevenRows="true"
+              CachingStrategy="RecycleElement">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <StackLayout Padding="12">
+                    <StackLayout Padding="10">
                         <Label Text="{Binding Name}" 
-                   Style="{DynamicResource ListItemTextStyle}" />
+                               Style="{DynamicResource ListItemTextStyle}"
+                               FontSize="16" />
                         <Label Text="{Binding Show}" 
-                   Style="{DynamicResource ListItemDetailTextStyle}"/>
+                               Style="{DynamicResource ListItemDetailTextStyle}"
+                               FontSize="13" />
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>

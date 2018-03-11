@@ -13,13 +13,37 @@ namespace HandSchool.Views
         public LoginPage()
         {
             InitializeComponent();
+            AutoLogin.On = App.Service.AutoLogin;
+            AutoLogin.OnChanged += AutoLoginChanged;
+            SavePassword.On = App.Service.SavePassword;
+            SavePassword.OnChanged += SavePassChanged;
             BindingContext = this;
         }
         
-        async void Login_Clicked(object sender, EventArgs e)
+        public void Login_Clicked(object sender, EventArgs e)
         {
             Service.Login();
-            await Navigation.PopModalAsync();
+
+            if (Service.IsLogin)
+            {
+                (Application.Current as App).MainPage.Navigation.PopModalAsync();
+            }
+            else
+            {
+                DisplayAlert("登录失败", "登录失败，请检查您的用户名和密码或网络状态。", "知道了");
+            }
+        }
+
+        private void SavePassChanged(object sender, ToggledEventArgs e)
+        {
+            App.Service.SavePassword = e.Value;
+            AutoLogin.On = App.Service.AutoLogin;
+        }
+
+        private void AutoLoginChanged(object sender, ToggledEventArgs e)
+        {
+            App.Service.AutoLogin = e.Value;
+            SavePassword.On = App.Service.SavePassword;
         }
     }
 }
