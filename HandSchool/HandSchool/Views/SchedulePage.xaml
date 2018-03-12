@@ -1,12 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HandSchool.Views.SchedulePage">
+             x:Class="HandSchool.Views.SchedulePage"
+             Title="课程表">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="刷新" x:Name="RefreshButton" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid x:Name="grid"
+              VerticalOptions="FillAndExpand"
+              RowSpacing="3"
+              ColumnSpacing="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="周一" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
+            <Label Text="周二" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="2" Grid.Row="0" />
+            <Label Text="周三" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="3" Grid.Row="0" />
+            <Label Text="周四" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="4" Grid.Row="0" />
+            <Label Text="周五" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="5" Grid.Row="0" />
+            <Label Text="周六" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="6" Grid.Row="0" />
+            <Label Text="周日" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="7" Grid.Row="0" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

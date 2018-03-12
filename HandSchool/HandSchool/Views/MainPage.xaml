@@ -15,6 +15,16 @@
             </x:Arguments>
         </NavigationPage>
 
+        <NavigationPage Title="课程表">
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_about.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+            <x:Arguments>
+                <views:SchedulePage />
+            </x:Arguments>
+        </NavigationPage>
         <NavigationPage Title="绩点">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">

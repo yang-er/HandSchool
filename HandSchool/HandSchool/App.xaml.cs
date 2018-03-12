@@ -17,6 +17,7 @@ namespace HandSchool
         public static ISystemEntrance GPA;
         public static ISystemEntrance SelectCourse;
         public static string DataBaseDir;
+        public static int DailyClassCount;
 
         public static string ReadFile(string name)
         {
@@ -49,12 +50,10 @@ namespace HandSchool
 
         private void LoadJLU()
         {
-            Service = new JLU.UIMS
-            {
-                Username = "55170922",
-                Password = "252015"
-            };
+            Service = new JLU.UIMS();
+            DailyClassCount = 11;
             GradePoint = new JLU.GradeEntrance();
+            Schedule = new JLU.Schedule();
             GPA = new JLU.GPA();
         }
         

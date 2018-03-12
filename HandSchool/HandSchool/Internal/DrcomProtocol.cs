@@ -80,7 +80,7 @@ namespace HandSchool.Internal
 #if DEBUG
             OnLog.Invoke("challenge", data, true);
 #else
-            OnMakeLog.Invoke("challenge", "Making challenge packet...", false);
+            OnLog.Invoke("challenge", "Making challenge packet...", false);
 #endif
         }
         
@@ -297,7 +297,7 @@ namespace HandSchool.Internal
 #if DEBUG
             OnLog.Invoke("mkpkt", data, true);
 #else
-            OnMakeLog.Invoke("login", "Making login packet...", false);
+            OnLog.Invoke("login", "Making login packet...", false);
 #endif
             return data;
         }
@@ -333,7 +333,7 @@ namespace HandSchool.Internal
 #if DEBUG
             OnLog.Invoke("alive", data, true);
 #else
-            OnMakeLog.Invoke("alive", "Sending keep-alive-" + type.ToString() + " packet...", false);
+            OnLog.Invoke("alive", "Sending keep-alive-" + type.ToString() + " packet...", false);
 #endif
         }
 
@@ -487,7 +487,7 @@ namespace HandSchool.Internal
 #if DEBUG
             OnLog.Invoke("challenge", buffer, true);
 #else
-            OnMakeLog.Invoke("challenge", "Sending challenge packet...", false);
+            OnLog.Invoke("challenge", "Sending challenge packet...", false);
 #endif
             SendPacket(buffer, 20);
             int recv_len = ReceivePacket();
