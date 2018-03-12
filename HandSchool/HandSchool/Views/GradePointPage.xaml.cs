@@ -16,7 +16,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             MyListView.ItemsSource = Items;
-            MyListView.RefreshCommand = RefreshButton.Command = 
+            MyListView.RefreshCommand =
                 new Command(() => {
                     MyListView.IsRefreshing = true;
                     App.GradePoint.Execute();

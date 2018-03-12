@@ -17,7 +17,7 @@ namespace HandSchool.JLU
         {
             LastReport = App.Service.PostJson(ScriptFileUri, PostValue);
             var ro = JSON<RootObject>(LastReport);
-            ResultShown = string.Format("按首次成绩，\n学分平均绩点 {0:N6}\n学分平均绩点 {1:N6}\n\n按最好成绩，\n学分平均绩点 {2:N6}\n学分平均绩点 {3:N6}",
+            ResultShown = string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
                 ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
         }
 
