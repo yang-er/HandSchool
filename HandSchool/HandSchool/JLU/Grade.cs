@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
+using HandSchool.ViewModels;
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -61,6 +62,7 @@ namespace HandSchool.JLU
         
         public GradeEntrance()
         {
+            new GradePointViewModel();
             LastReport = ReadConfFile(StorageFile);
             if (LastReport != "") Parse();
         }
@@ -68,10 +70,9 @@ namespace HandSchool.JLU
         public void Parse()
         {
             var ro = JSON<RootObject>(LastReport);
-            Grade.Value.Clear();
             foreach (var asv in ro.value)
             {
-                Grade.Add(new GradeItem(asv));
+                GradePointViewModel.Instance.Items.Add(new GradeItem(asv));
             }
         }
 

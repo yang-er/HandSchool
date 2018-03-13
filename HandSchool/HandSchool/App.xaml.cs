@@ -13,7 +13,7 @@ namespace HandSchool
 
         public ISchoolSystem Service;
         public ISystemEntrance GradePoint;
-        public ISystemEntrance Schedule;
+        public IScheduleEntrance Schedule;
         public ISystemEntrance GPA;
         public ISystemEntrance SelectCourse;
         public int DailyClassCount;

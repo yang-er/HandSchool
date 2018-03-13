@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
@@ -9,19 +10,10 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GradePointPage : ContentPage
     {
-        public ObservableCollection<IGradeItem> Items => Grade.Value;
-        public bool IsRefreshing { get; private set; }
-
         public GradePointPage()
         {
             InitializeComponent();
-            MyListView.ItemsSource = Items;
-            MyListView.RefreshCommand =
-                new Command(() => {
-                    MyListView.IsRefreshing = true;
-                    (Application.Current as App).GradePoint.Execute();
-                    MyListView.IsRefreshing = false;
-                });
+            BindingContext = GradePointViewModel.Instance;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -47,8 +39,8 @@ namespace HandSchool.Views
 
         async void ShowGPA_Clicked(object sender, EventArgs e)
         {
-            (Application.Current as App).GPA.Execute();
-            await DisplayAlert("学分绩点统计", (Application.Current as App).GPA.ToString(), "确定");
+            await App.Current.GPA.Execute();
+            await DisplayAlert("学分绩点统计", App.Current.GPA.ToString(), "确定");
         }
     }
 }

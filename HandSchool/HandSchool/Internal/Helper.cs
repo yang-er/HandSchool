@@ -16,6 +16,11 @@ namespace HandSchool.Internal
         private static bool save_password = true;
         public static string DataBaseDir;
 
+        public static int GetDeviceSpecified(string name)
+        {
+            return 0;
+        }
+
         public static bool AutoLogin
         {
             get

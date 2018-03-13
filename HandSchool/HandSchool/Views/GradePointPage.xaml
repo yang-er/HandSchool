@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HandSchool.Views.GradePointPage"
-             Title="学分成绩">
+             Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="统计" Clicked="ShowGPA_Clicked" />
     </ContentPage.ToolbarItems>
@@ -10,6 +10,8 @@
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               IsPullToRefreshEnabled="true"
+              RefreshCommand="{Binding LoadItemsCommand}"
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               VerticalOptions="FillAndExpand"
               HasUnevenRows="true"
               CachingStrategy="RecycleElement">

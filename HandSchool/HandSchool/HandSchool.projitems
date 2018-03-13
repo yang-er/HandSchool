@@ -30,13 +30,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\ICurriculumSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomProtocol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\INetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ISchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemDetailViewModel.cs" />

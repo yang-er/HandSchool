@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -6,25 +7,25 @@ using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
-    public class GradePointViewModel : BaseViewModel
+    public class ScheduleViewModel : BaseViewModel
     {
-        public ObservableCollection<IGradeItem> Items { get; set; }
+        public List<CurriculumItem> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
-        static GradePointViewModel instance = null;
+        static ScheduleViewModel instance = null;
 
-        public static GradePointViewModel Instance
+        public static ScheduleViewModel Instance
         {
             get
             {
-                if (instance is null) instance = new GradePointViewModel();
+                if (instance is null) instance = new ScheduleViewModel();
                 return instance;
             }
         }
 
-        public GradePointViewModel()
+        public ScheduleViewModel()
         {
-            Title = "学分成绩";
-            Items = new ObservableCollection<IGradeItem>();
+            Title = "课程表";
+            Items = new List<CurriculumItem>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 

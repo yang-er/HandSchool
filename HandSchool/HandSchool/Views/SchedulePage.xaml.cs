@@ -12,7 +12,7 @@ namespace HandSchool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SchedulePage : ContentPage
 	{
-        public double FontSize => Device.GetNamedSize(NamedSize.Micro, typeof(Label));
+        public double FontSize => 14;
 
         public SchedulePage()
 		{
@@ -21,7 +21,7 @@ namespace HandSchool.Views
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
             
-            var everyClass = new RowDefinition { Height = new GridLength(1.0 / App.Current.DailyClassCount, GridUnitType.Star) };
+            var everyClass = new RowDefinition { Height = 65 };
             for (int ij = 1; ij <= App.Current.DailyClassCount; ij++)
             {
                 grid.RowDefinitions.Add(everyClass);
@@ -47,10 +47,10 @@ namespace HandSchool.Views
             {
                 grid.Children.RemoveAt(i);
             }
-            
+
             // Render classes
-            Internal.CurriculumSchedule.RenderWeek(2);
-            foreach (var tc in Internal.CurriculumSchedule.List)
+            App.Current.Schedule.RenderWeek(2, null);
+            foreach (var tc in null)
             {
                 var item = new Label()
                 {
