@@ -4,6 +4,7 @@ using HandSchool.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -18,7 +19,7 @@ namespace HandSchool.JLU
         public string StorageFile => "jlu.kcb.json";
         public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
 
-        public void RenderWeek(int week, List<CurriculumLabel> list, bool showAll = false)
+        public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
         {
             if (showAll)
                 throw new NotImplementedException();
@@ -78,6 +79,7 @@ namespace HandSchool.JLU
 
         public Schedule()
         {
+            Items = new List<CurriculumItem>();
             LastReport = ReadConfFile(StorageFile);
             if (LastReport != "") Parse();
         }

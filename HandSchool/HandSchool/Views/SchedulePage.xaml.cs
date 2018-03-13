@@ -49,20 +49,8 @@ namespace HandSchool.Views
             }
 
             // Render classes
-            App.Current.Schedule.RenderWeek(2, null);
-            foreach (var tc in null)
-            {
-                var item = new Label()
-                {
-                    Text = tc.Source.Name + " @ " + tc.Source.Classroom,
-                    FontSize = FontSize,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    VerticalTextAlignment = TextAlignment.Center,
-                    BackgroundColor = Color.LimeGreen
-                };
-                grid.Children.Add(item, tc.Source.WeekDay, tc.Source.DayBegin);
-                Grid.SetRowSpan(item, tc.Source.DayEnd - tc.Source.DayBegin + 1);
-            }
+            var p = grid.Children as IList<View>;
+            App.Current.Schedule.RenderWeek(2, grid.Children);
         }
     }
 }

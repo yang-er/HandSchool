@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,20 +18,21 @@ namespace HandSchool.Views
             AutoLogin.OnChanged += AutoLoginChanged;
             SavePassword.On = Helper.SavePassword;
             SavePassword.OnChanged += SavePassChanged;
+            LoginButton.Command = new Command(async () => await Login_Clicked());
             BindingContext = this;
         }
         
-        public void Login_Clicked(object sender, EventArgs e)
+        async Task Login_Clicked()
         {
-            App.Current.Service.Login();
+            await App.Current.Service.Login();
 
             if (App.Current.Service.IsLogin)
             {
-                App.Current.MainPage.Navigation.PopModalAsync();
+                await App.Current.MainPage.Navigation.PopModalAsync();
             }
             else
             {
-                DisplayAlert("登录失败", "登录失败，请检查您的用户名和密码或网络状态。", "知道了");
+                await DisplayAlert("登录失败", "登录失败，请检查您的用户名和密码或网络状态。", "知道了");
             }
         }
 

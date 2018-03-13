@@ -8,9 +8,9 @@ namespace HandSchool.Models
     public class CurriculumLabel : Label
     {
         public CurriculumItem Context { get; }
-        public Span Title = new Span { FontAttributes = FontAttributes.Bold };
-        public Span At = new Span { Text = " @ " };
-        public Span Where = new Span { };
+        public Span Title = new Span { FontAttributes = FontAttributes.Bold, ForegroundColor = Color.White };
+        public Span At = new Span { Text = " @ ", ForegroundColor = Color.FromRgba(255, 255, 255, 160) };
+        public Span Where = new Span { ForegroundColor = Color.FromRgba(255, 255, 255, 220) };
         
         public CurriculumLabel(CurriculumItem value)
         {

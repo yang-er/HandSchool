@@ -1,17 +1,18 @@
 ﻿using HandSchool.Internal;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
     class UIMS : ISchoolSystem
     {
-
         public CookieAwareWebClient WebClient { get; set; }
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
         public List<ISystemEntrance> Methods => methodList;
@@ -122,7 +123,11 @@ namespace HandSchool.JLU
         public async Task<string> PostJson(string url, string send)
         {
             if (!IsLogin) await Login();
-            if (!IsLogin) throw new NotImplementedException("登录失败");
+            if (!IsLogin)
+            {
+                await App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
+                await Task.Run(() => { while (!IsLogin) ; });
+            }
 
             WebClient.Headers.Set("Content-Type", "application/json");
             var ret = await WebClient.UploadStringTaskAsync(url, "POST", send);
@@ -130,11 +135,7 @@ namespace HandSchool.JLU
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
-                IsLogin = false;
-                if (!RebuildRequest)
-                    return await PostJson(url, send);
-                else
-                    throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             
             return ret;
@@ -205,5 +206,7 @@ namespace HandSchool.JLU
                 public string menuFile { get; set; }
             }
         }
+
+        public class NotLoginException : Exception {}
     }
 }

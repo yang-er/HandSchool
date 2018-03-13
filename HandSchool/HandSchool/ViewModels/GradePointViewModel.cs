@@ -38,7 +38,7 @@ namespace HandSchool.ViewModels
             try
             {
                 Items.Clear();
-                await DataStore.GetItemsAsync(true);
+                await App.Current.GradePoint.Execute();
             }
             catch (Exception ex)
             {
