@@ -1,6 +1,4 @@
-﻿using System;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
@@ -17,7 +15,7 @@ namespace HandSchool.Views
         {
             base.OnAppearing();
 
-            if(App.Service.NeedLogin && !App.Service.IsLogin)
+            if(App.Current.Service.NeedLogin && !App.Current.Service.IsLogin)
             {
                 Navigation.PushModalAsync(new LoginPage());
             }

@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
     class UIMS : ISchoolSystem
     {
-        private bool auto_login = true;
-        private bool save_password = true;
 
         public CookieAwareWebClient WebClient { get; set; }
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
@@ -20,47 +19,23 @@ namespace HandSchool.JLU
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
         public RootObject LoginInfo { get; set; }
         public bool IsLogin { get; private set; }
+        public bool RebuildRequest { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public string StorageFile => "jlu.user.json";
         public bool NeedLogin { get; private set; }
-
-        public bool AutoLogin
-        {
-            get
-            {
-                return auto_login;
-            }
-            set
-            {
-                auto_login = value;
-                if (value) save_password = true;
-            }
-        }
-
-        public bool SavePassword
-        {
-            get
-            {
-                return save_password;
-            }
-            set
-            {
-                save_password = value;
-                if (!save_password) auto_login = false;
-            }
-        }
-
+        public string InnerError { get; private set; }
+        
         public UIMS()
         {
             IsLogin = false;
             NeedLogin = false;
-            Username = App.ReadFile("jlu.uims.username.txt");
-            if (Username != "") Password = App.ReadFile("jlu.uims.password.txt");
+            Username = ReadConfFile("jlu.uims.username.txt");
+            if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
             if (Password == "") SavePassword = false;
             //App.WriteFile(StorageFile, "");
-            string resp = App.ReadFile(StorageFile);
+            string resp = ReadConfFile(StorageFile);
             if (resp == "")
             {
                 AutoLogin = false;
@@ -70,16 +45,19 @@ namespace HandSchool.JLU
             LoginInfo = JSON<RootObject>(resp);
         }
 
-        public bool Login()
+        public async Task<bool> Login()
         {
+            RebuildRequest = false;
+
             if (Username == "" || Password == "")
             {
+                NeedLogin = true;
                 throw new NotImplementedException("Show Login Panel Not Finished");
             }
             else
             {
-                App.WriteFile("jlu.uims.username.txt", Username);
-                App.WriteFile("jlu.uims.password.txt", save_password ? Password : "");
+                WriteConfFile("jlu.uims.username.txt", Username);
+                WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
             }
             
             WebClient = new CookieAwareWebClient
@@ -92,9 +70,17 @@ namespace HandSchool.JLU
             WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", "uims.jlu.edu.cn"));
 
             // Access Main Page To Create a JSESSIONID
-            WebClient.DownloadString("");
+            try
+            {
+                await WebClient.DownloadStringTaskAsync("");
+            }
+            catch(WebException e)
+            {
+                InnerError = e.Message;
+                return false;
+            }
 
-            // Login
+            // Set Login Session
             WebClient.Headers.Set("Referer", "http://uims.jlu.edu.cn/ntms/userLogin.jsp?reason=nologin");
             WebClient.Headers.Set("Content-Type", "application/x-www-form-urlencoded");
 
@@ -105,13 +91,13 @@ namespace HandSchool.JLU
                 { "mousepath", "" }
             };
 
-            WebClient.UploadValues("j_spring_security_check", "POST", loginData);
+            await WebClient.UploadValuesTaskAsync("j_spring_security_check", "POST", loginData);
 
             // Get User Info
-            string resp = WebClient.UploadString("action/getCurrentUserInfo.do", "POST", "");
+            string resp = await WebClient.UploadStringTaskAsync("action/getCurrentUserInfo.do", "POST", "");
             if (WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
-                App.WriteFile(StorageFile, auto_login ? resp : "");
+                WriteConfFile(StorageFile, AutoLogin ? resp : "");
                 LoginInfo = JSON<RootObject>(resp);
                 IsLogin = true;
                 return true;
@@ -123,36 +109,42 @@ namespace HandSchool.JLU
             }
         }
         
-        public string PostJson(string url, string send)
+        public async Task<string> PostJson(string url, string send)
         {
-            if (!IsLogin) Login();
+            if (!IsLogin) await Login();
             if (!IsLogin) throw new NotImplementedException("登录失败");
 
             WebClient.Headers.Set("Content-Type", "application/json");
-            var ret = WebClient.UploadString(url, "POST", send);
+            var ret = await WebClient.UploadStringTaskAsync(url, "POST", send);
 
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
                 IsLogin = false;
-                return PostJson(url, send);
+                if (!RebuildRequest)
+                    return await PostJson(url, send);
+                else
+                    throw new NotImplementedException();
             }
             
             return ret;
         }
 
-        public string Get(string url)
+        public async Task<string> Get(string url)
         {
-            if (!IsLogin) Login();
+            if (!IsLogin) await Login();
             if (!IsLogin) throw new NotImplementedException("登录失败");
 
-            var ret = WebClient.DownloadString(url);
+            var ret = await WebClient.DownloadStringTaskAsync(url);
 
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
             {
                 IsLogin = false;
-                return Get(url);
+                if (!RebuildRequest)
+                    return await Get(url);
+                else
+                    throw new NotImplementedException();
             }
 
             return ret;

@@ -11,30 +11,16 @@ namespace HandSchool
 
         #region School Components
 
-        public static ISchoolSystem Service;
-        public static ISystemEntrance GradePoint;
-        public static ISystemEntrance Schedule;
-        public static ISystemEntrance GPA;
-        public static ISystemEntrance SelectCourse;
-        public static string DataBaseDir;
-        public static int DailyClassCount;
-
-        public static string ReadFile(string name)
-        {
-            string fn = Path.Combine(DataBaseDir, name);
-            if (File.Exists(fn))
-                return File.ReadAllText(Path.Combine(DataBaseDir, name));
-            else
-                return "";
-        }
-
-        public static void WriteFile(string name, string value)
-        {
-            File.WriteAllText(Path.Combine(DataBaseDir, name), value);
-        }
+        public ISchoolSystem Service;
+        public ISystemEntrance GradePoint;
+        public ISystemEntrance Schedule;
+        public ISystemEntrance GPA;
+        public ISystemEntrance SelectCourse;
+        public int DailyClassCount;
+        public static new App Current => Application.Current as App;
 
         #endregion
-        
+
         public App ()
 		{
 			InitializeComponent();

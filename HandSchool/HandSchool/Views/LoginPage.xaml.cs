@@ -8,25 +8,25 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        public ISchoolSystem Service => App.Service;
+        public ISchoolSystem Service => App.Current.Service;
 
         public LoginPage()
         {
             InitializeComponent();
-            AutoLogin.On = App.Service.AutoLogin;
+            AutoLogin.On = Helper.AutoLogin;
             AutoLogin.OnChanged += AutoLoginChanged;
-            SavePassword.On = App.Service.SavePassword;
+            SavePassword.On = Helper.SavePassword;
             SavePassword.OnChanged += SavePassChanged;
             BindingContext = this;
         }
         
         public void Login_Clicked(object sender, EventArgs e)
         {
-            Service.Login();
+            App.Current.Service.Login();
 
-            if (Service.IsLogin)
+            if (App.Current.Service.IsLogin)
             {
-                (Application.Current as App).MainPage.Navigation.PopModalAsync();
+                App.Current.MainPage.Navigation.PopModalAsync();
             }
             else
             {
@@ -36,14 +36,14 @@ namespace HandSchool.Views
 
         private void SavePassChanged(object sender, ToggledEventArgs e)
         {
-            App.Service.SavePassword = e.Value;
-            AutoLogin.On = App.Service.AutoLogin;
+            Helper.SavePassword = e.Value;
+            AutoLogin.On = Helper.AutoLogin;
         }
 
         private void AutoLoginChanged(object sender, ToggledEventArgs e)
         {
-            App.Service.AutoLogin = e.Value;
-            SavePassword.On = App.Service.SavePassword;
+            Helper.AutoLogin = e.Value;
+            SavePassword.On = Helper.SavePassword;
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using HandSchool.Internal;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 
-namespace HandSchool.Internal
+namespace HandSchool
 {
     public interface ISchoolSystem
     {
@@ -14,10 +16,10 @@ namespace HandSchool.Internal
         string Password { get; set; }
         bool IsLogin { get; }
         bool NeedLogin { get; }
-        bool AutoLogin { get; set; }
-        bool SavePassword { get; set; }
-        bool Login();
-        string PostJson(string url, string send);
-        string Get(string url);
+        bool RebuildRequest { get; set; }
+        string InnerError { get; }
+        Task<bool> Login();
+        Task<string> PostJson(string url, string send);
+        Task<string> Get(string url);
     }
 }

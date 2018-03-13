@@ -19,7 +19,7 @@ namespace HandSchool.Views
             MyListView.RefreshCommand =
                 new Command(() => {
                     MyListView.IsRefreshing = true;
-                    App.GradePoint.Execute();
+                    (Application.Current as App).GradePoint.Execute();
                     MyListView.IsRefreshing = false;
                 });
         }
@@ -47,8 +47,8 @@ namespace HandSchool.Views
 
         async void ShowGPA_Clicked(object sender, EventArgs e)
         {
-            App.GPA.Execute();
-            await DisplayAlert("学分绩点统计", App.GPA.ToString(), "确定");
+            (Application.Current as App).GPA.Execute();
+            await DisplayAlert("学分绩点统计", (Application.Current as App).GPA.ToString(), "确定");
         }
     }
 }

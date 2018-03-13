@@ -1,4 +1,6 @@
-﻿namespace HandSchool.Internal
+﻿using System.Threading.Tasks;
+
+namespace HandSchool
 {
     public interface ISystemEntrance
     {
@@ -8,7 +10,7 @@
         string PostValue { get; }
         string StorageFile { get; }
         string LastReport { get; }
-        void Execute();
+        Task Execute();
         void Parse();
     }
 }

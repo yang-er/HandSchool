@@ -21,8 +21,8 @@ namespace HandSchool.Views
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
             
-            var everyClass = new RowDefinition { Height = new GridLength(1.0 / App.DailyClassCount, GridUnitType.Star) };
-            for (int ij = 1; ij <= App.DailyClassCount; ij++)
+            var everyClass = new RowDefinition { Height = new GridLength(1.0 / App.Current.DailyClassCount, GridUnitType.Star) };
+            for (int ij = 1; ij <= App.Current.DailyClassCount; ij++)
             {
                 grid.RowDefinitions.Add(everyClass);
                 grid.Children.Add(new Label()
@@ -35,14 +35,14 @@ namespace HandSchool.Views
                 }, 0, ij);
             }
 
-            RefreshButton.Command = new Command(() => { App.Schedule.Execute(); LoadList(); });
+            RefreshButton.Command = new Command(() => { App.Current.Schedule.Execute(); LoadList(); });
 
             LoadList();
         }
 
         void LoadList()
         {
-            int i = 7 + App.DailyClassCount;
+            int i = 7 + App.Current.DailyClassCount;
             while (grid.Children.Count > i)
             {
                 grid.Children.RemoveAt(i);

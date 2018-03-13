@@ -29,7 +29,7 @@ namespace HandSchool.UWP
         /// </summary>
         public App()
         {
-            HandSchool.App.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
+            HandSchool.Internal.Helper.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

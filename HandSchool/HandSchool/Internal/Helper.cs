@@ -12,6 +12,49 @@ namespace HandSchool.Internal
         private static MD5 MD5p = new MD5CryptoServiceProvider();
         private static StringBuilder sb = new StringBuilder();
         private static JsonSerializer json = JsonSerializer.Create();
+        private static bool auto_login = true;
+        private static bool save_password = true;
+        public static string DataBaseDir;
+
+        public static bool AutoLogin
+        {
+            get
+            {
+                return auto_login;
+            }
+            set
+            {
+                auto_login = value;
+                if (value) save_password = true;
+            }
+        }
+
+        public static bool SavePassword
+        {
+            get
+            {
+                return save_password;
+            }
+            set
+            {
+                save_password = value;
+                if (!save_password) auto_login = false;
+            }
+        }
+
+        public static string ReadConfFile(string name)
+        {
+            string fn = Path.Combine(DataBaseDir, name);
+            if (File.Exists(fn))
+                return File.ReadAllText(Path.Combine(DataBaseDir, name));
+            else
+                return "";
+        }
+
+        public static void WriteConfFile(string name, string value)
+        {
+            File.WriteAllText(Path.Combine(DataBaseDir, name), value);
+        }
 
         public static byte[] MD5(byte[] source)
         {
@@ -20,7 +63,7 @@ namespace HandSchool.Internal
             {
                 bytHash = MD5p.ComputeHash(source);
             }
-            catch (ObjectDisposedException e)
+            catch (ObjectDisposedException)
             {
                 MD5p = new MD5CryptoServiceProvider();
                 bytHash = MD5p.ComputeHash(source);
