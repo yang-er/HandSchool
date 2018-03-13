@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace HandSchool.Internal
+namespace HandSchool
 {
     public interface IGradeItem
     {
@@ -17,17 +16,5 @@ namespace HandSchool.Internal
         DateTime Date { get; }
         NameValueCollection Attach { get; }
         string Show { get; }
-    }
-
-    public class Grade
-    {
-        public static ObservableCollection<IGradeItem> Value = new ObservableCollection<IGradeItem>();
-        public static event OnAddGrade OnAddGrade;
-
-        public static void Add(IGradeItem iGi)
-        {
-            Value.Add(iGi);
-            // OnAddGrade.Invoke(iGi);
-        }
     }
 }

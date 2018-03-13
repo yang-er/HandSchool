@@ -21,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CookieAwareWebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\IDelegate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\IGradeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IGradeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\GPA.cs" />
