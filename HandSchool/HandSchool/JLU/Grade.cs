@@ -2,6 +2,7 @@
 using HandSchool.JLU.JsonObject;
 using System;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -51,16 +52,16 @@ namespace HandSchool.JLU
         public string StorageFile => "jlu.grade.json";
         public string LastReport { get; private set; }
         
-        public void Execute()
+        public async Task Execute()
         {
-            LastReport = App.Service.PostJson(ScriptFileUri, PostValue);
-            App.WriteFile(StorageFile, LastReport);
+            LastReport = await App.Current.Service.PostJson(ScriptFileUri, PostValue);
+            WriteConfFile(StorageFile, LastReport);
             Parse();
         }
         
         public GradeEntrance()
         {
-            LastReport = App.ReadFile(StorageFile);
+            LastReport = ReadConfFile(StorageFile);
             if (LastReport != "") Parse();
         }
 

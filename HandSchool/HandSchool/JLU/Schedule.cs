@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
 using System;
+using System.Threading.Tasks;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -12,12 +13,12 @@ namespace HandSchool.JLU
         public bool IsPost => true;
         public string LastReport { get; private set; }
         public string StorageFile => "jlu.kcb.json";
-        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + (App.Service as UIMS).LoginInfo.defRes.term_l + ",\"studId\":" + (App.Service as UIMS).LoginInfo.userId + "}}";
+        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
         
-        public void Execute()
+        public async Task Execute()
         {
-            LastReport = App.Service.PostJson(ScriptFileUri, PostValue);
-            App.WriteFile(StorageFile, LastReport);
+            LastReport = await App.Current.Service.PostJson(ScriptFileUri, PostValue);
+            WriteConfFile(StorageFile, LastReport);
             Parse();
         }
         
@@ -35,7 +36,7 @@ namespace HandSchool.JLU
 
         public Schedule()
         {
-            LastReport = App.ReadFile(StorageFile);
+            LastReport = ReadConfFile(StorageFile);
             if (LastReport != "") Parse();
         }
 

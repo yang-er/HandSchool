@@ -8,6 +8,14 @@ namespace HandSchool.JLU.JsonObject
         public string msg { get; set; }
     }
 
+    public class GPAValue
+    {
+        public float avgScoreBest { get; set; }
+        public float avgScoreFirst { get; set; }
+        public float gpaFirst { get; set; }
+        public float gpaBest { get; set; }
+    }
+
     public class TeachClassMaster
     {
         public string maxStudCnt { get; set; }

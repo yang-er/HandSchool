@@ -32,6 +32,7 @@ namespace HandSchool.JLU
             IsLogin = false;
             NeedLogin = false;
             Username = ReadConfFile("jlu.uims.username.txt");
+            AttachInfomation = new NameValueCollection();
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
             if (Password == "") SavePassword = false;
             //App.WriteFile(StorageFile, "");
@@ -43,6 +44,14 @@ namespace HandSchool.JLU
                 return;
             }
             LoginInfo = JSON<RootObject>(resp);
+            ParseLoginInfo();
+        }
+
+        private void ParseLoginInfo()
+        {
+            AttachInfomation.Clear();
+            AttachInfomation.Add("studId", LoginInfo.userId.ToString());
+            AttachInfomation.Add("term", LoginInfo.defRes.term_l.ToString());
         }
 
         public async Task<bool> Login()
@@ -99,6 +108,7 @@ namespace HandSchool.JLU
             {
                 WriteConfFile(StorageFile, AutoLogin ? resp : "");
                 LoginInfo = JSON<RootObject>(resp);
+                ParseLoginInfo();
                 IsLogin = true;
                 return true;
             }
