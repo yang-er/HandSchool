@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="HandSchool.Views.LoginPage"
-		     Title="登录教务系统">
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  x:Class="HandSchool.Views.LoginPage"
+                  xmlns:w="clr-namespace:HandSchool.Views"
+		          Title="登录教务系统">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="登录" Clicked="Login_Clicked" />
     </ContentPage.ToolbarItems>
@@ -19,10 +20,7 @@
                     <SwitchCell Text="自动登录" x:Name="AutoLogin" />
                 </TableSection>
             </TableView>
-            <!--
-            
-            {Binding Service.AutoLogin}{Binding Service.SavePassword}-->
             <Button Margin="0,10,0,0" Text="登录" x:Name="LoginButton" BackgroundColor="{StaticResource Primary}" TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</w:PopContentPage>

@@ -7,7 +7,7 @@
         <ToolbarItem Name="刷新" x:Name="RefreshButton" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView Orientation="Both">
+        <ScrollView x:Name="scroller">
             <Grid x:Name="grid"
                   VerticalOptions="FillAndExpand"
                   RowSpacing="1"
@@ -17,13 +17,6 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="25" />
-                    <ColumnDefinition Width="65" />
-                    <ColumnDefinition Width="65" />
-                    <ColumnDefinition Width="65" />
-                    <ColumnDefinition Width="65" />
-                    <ColumnDefinition Width="65" />
-                    <ColumnDefinition Width="65" />
-                    <ColumnDefinition Width="65" />
                 </Grid.ColumnDefinitions>
                 <Label Text="周一" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
                 <Label Text="周二" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="2" Grid.Row="0" />

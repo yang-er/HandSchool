@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage : PopContentPage
     {
         public ISchoolSystem Service => App.Current.Service;
 
@@ -28,7 +28,7 @@ namespace HandSchool.Views
 
             if (App.Current.Service.IsLogin)
             {
-                await App.Current.MainPage.Navigation.PopModalAsync();
+                Close();
             }
             else
             {

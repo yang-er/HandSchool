@@ -3,6 +3,7 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
@@ -77,8 +78,56 @@ namespace HandSchool.JLU
             }
         }
 
+        /*
+         * Experimental
+        private string ConvertClassroom(string fullName)
+        {
+            string[] by = fullName.Split('-', 2)[1].Split('#');
+            var buildingName = building[by[0]];
+            var roomName = by[1];
+            foreach (var keys in theater.AllKeys)
+            {
+                roomName = roomName.Replace(keys, theater[keys]);
+            }
+            return buildingName + " " + roomName;
+        }
+
+        private NameValueCollection building = new NameValueCollection();
+        private NameValueCollection theater = new NameValueCollection();
+        */
+
         public Schedule()
         {
+            /*
+             * Experimental
+            building.Add("经信教学楼", "经信");
+            building.Add("逸夫楼", "逸夫");
+            building.Add("第三教学楼", "三教");
+            building.Add("计算机新楼", "计算机楼");
+            building.Add("体育场", "体育场");
+            theater.Add("第一阶梯", "1阶");
+            theater.Add("第二阶梯", "2阶");
+            theater.Add("第三阶梯", "3阶");
+            theater.Add("第四阶梯", "4阶");
+            theater.Add("第五阶梯", "5阶");
+            theater.Add("第六阶梯", "6阶");
+            theater.Add("第七阶梯", "7阶");
+            theater.Add("第八阶梯", "8阶");
+            theater.Add("第九阶梯", "9阶");
+            theater.Add("第十阶梯", "10阶");
+            theater.Add("第十一阶梯", "11阶");
+            theater.Add("第十二阶梯", "12阶");
+            theater.Add("第十三阶梯", "13阶");
+            theater.Add("第十四阶梯", "14阶");
+            theater.Add("第十五阶梯", "15阶");
+            theater.Add("A区", "A");
+            theater.Add("B区", "B");
+            theater.Add("C区", "C");
+            theater.Add("D区", "D");
+            theater.Add("E区", "E");
+            theater.Add("F区", "F");
+            theater.Add("课堂", "");
+            */
             Items = new List<CurriculumItem>();
             LastReport = ReadConfFile(StorageFile);
             if (LastReport != "") Parse();

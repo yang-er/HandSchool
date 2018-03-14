@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:w="clr-namespace:HandSchool.Views"
+                x:Class="HandSchool.Views.CurriculumPage"
+                Title="编辑课程">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="保存" />
+        <ToolbarItem Name="删除" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <TableView Intent="Form">
+            <TableSection Title="总览">
+                <EntryCell Label="名称" Text="{Binding Name}" />
+                <EntryCell Label="老师" Text="{Binding Teacher}" />
+                <EntryCell Label="教室" Text="{Binding Classroom}" />
+            </TableSection>
+            <TableSection Title="时间">
+
+            </TableSection>
+        </TableView>
+    </ContentPage.Content>
+</w:PopContentPage>

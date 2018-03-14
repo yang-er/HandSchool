@@ -125,8 +125,7 @@ namespace HandSchool.JLU
             if (!IsLogin) await Login();
             if (!IsLogin)
             {
-                await App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
-                await Task.Run(() => { while (!IsLogin) ; });
+                await (new LoginPage()).ShowAsync();
             }
 
             WebClient.Headers.Set("Content-Type", "application/json");

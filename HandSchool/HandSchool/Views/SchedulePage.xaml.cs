@@ -13,18 +13,33 @@ namespace HandSchool.Views
 	public partial class SchedulePage : ContentPage
 	{
         public double FontSize => 14;
+        private RowDefinition DefRow;
+        private ColumnDefinition DefCol;
+        private GridLength RowHeight, ColWidth;
+
+        private bool IsWider = false, firstTime = true;
 
         public SchedulePage()
 		{
 			InitializeComponent();
+
+            RowHeight = new GridLength(60, GridUnitType.Absolute);
+            ColWidth = new GridLength(100, GridUnitType.Absolute);
+            DefCol = new ColumnDefinition { Width = ColWidth };
+            DefRow = new RowDefinition { Height = RowHeight };
+
             BindingContext = this;
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
             
-            var everyClass = new RowDefinition { Height = 65 };
+            for (int ij = 1; ij <= 7; ij++)
+            {
+                grid.ColumnDefinitions.Add(DefCol);
+            }
+
             for (int ij = 1; ij <= App.Current.DailyClassCount; ij++)
             {
-                grid.RowDefinitions.Add(everyClass);
+                grid.RowDefinitions.Add(DefRow);
                 grid.Children.Add(new Label()
                 {
                     Text = ij.ToString(),
@@ -36,6 +51,7 @@ namespace HandSchool.Views
             }
 
             RefreshButton.Command = new Command(() => { App.Current.Schedule.Execute(); LoadList(); });
+            SizeChanged += SetTileSize;
 
             LoadList();
         }
@@ -51,6 +67,25 @@ namespace HandSchool.Views
             // Render classes
             var p = grid.Children as IList<View>;
             App.Current.Schedule.RenderWeek(2, grid.Children);
+        }
+
+        void SetTileSize(object sender, EventArgs e)
+        {
+            if (Width > Height && (!IsWider || firstTime)) 
+            {
+                IsWider = true;
+                DefCol.Width = GridLength.Star;
+                DefRow.Height = RowHeight;
+                scroller.Orientation = ScrollOrientation.Vertical;
+            }
+            else if(Width < Height && (IsWider || firstTime))
+            {
+                IsWider = false;
+                DefRow.Height = GridLength.Star;
+                DefCol.Width = ColWidth;
+                scroller.Orientation = ScrollOrientation.Horizontal;
+            }
+            firstTime = false;
         }
     }
 }

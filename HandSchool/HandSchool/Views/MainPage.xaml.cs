@@ -17,7 +17,7 @@ namespace HandSchool.Views
 
             if(App.Current.Service.NeedLogin && !App.Current.Service.IsLogin)
             {
-                Navigation.PushModalAsync(new LoginPage());
+                (new LoginPage()).ShowAsync();
             }
         }
     }
