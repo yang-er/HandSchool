@@ -16,7 +16,8 @@ namespace HandSchool.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            HandSchool.Internal.Helper.DataBaseDir = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
+            Internal.Helper.DataBaseDir = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
+            Internal.Helper.SegoeMDL2 = "Segoe MDL2 Assets";
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

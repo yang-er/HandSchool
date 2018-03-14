@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
@@ -15,12 +16,13 @@ namespace HandSchool.Internal
         private static bool auto_login = true;
         private static bool save_password = true;
         public static string DataBaseDir;
+        public static string SegoeMDL2;
 
         public static int GetDeviceSpecified(string name)
         {
             return 0;
         }
-
+        
         public static bool AutoLogin
         {
             get

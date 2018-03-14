@@ -29,7 +29,8 @@ namespace HandSchool.UWP
         /// </summary>
         public App()
         {
-            HandSchool.Internal.Helper.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
+            Internal.Helper.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
+            Internal.Helper.SegoeMDL2 = "/Assets/segmdl2.ttf#Segoe MDL2 Assets";
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

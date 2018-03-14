@@ -16,6 +16,7 @@ namespace HandSchool.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Internal.Helper.DataBaseDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            Internal.Helper.SegoeMDL2 = "segmdl2.ttf#Segoe MDL2 Assets";
             LoadApplication(new App() {});
         }
     }
