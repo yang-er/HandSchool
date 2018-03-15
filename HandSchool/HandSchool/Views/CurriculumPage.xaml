@@ -5,8 +5,8 @@
                 x:Class="HandSchool.Views.CurriculumPage"
                 Title="编辑课程">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="保存" />
-        <ToolbarItem Name="删除" />
+        <ToolbarItem Name="保存" x:Name="saveButton" />
+        <ToolbarItem Name="删除" x:Name="removeButton" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <TableView Intent="Form">

@@ -37,7 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\INetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ISchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />

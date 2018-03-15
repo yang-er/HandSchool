@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,15 @@ namespace HandSchool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CurriculumPage : PopContentPage
 	{
-		public CurriculumPage(CurriculumItem item)
+		public CurriculumPage(CurriculumLabel item)
 		{
 			InitializeComponent();
-            BindingContext = item;
+            BindingContext = item.Context;
+            saveButton.Command = new Command(async () =>
+            {
+                item.Update();
+                await Close();
+            });
 		}
 	}
 }

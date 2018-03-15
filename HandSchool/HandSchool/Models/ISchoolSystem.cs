@@ -18,6 +18,7 @@ namespace HandSchool
         bool NeedLogin { get; }
         bool RebuildRequest { get; set; }
         string InnerError { get; }
+        int CurrentWeek { get; }
         Task<bool> Login();
         Task<string> PostJson(string url, string send);
         Task<string> Get(string url);

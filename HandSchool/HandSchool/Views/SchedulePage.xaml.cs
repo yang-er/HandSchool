@@ -16,6 +16,7 @@ namespace HandSchool.Views
         private RowDefinition DefRow;
         private ColumnDefinition DefCol;
         private GridLength RowHeight, ColWidth;
+        public int Week = -1;
 
         private bool IsWider = false, firstTime = true;
 
@@ -52,8 +53,15 @@ namespace HandSchool.Views
 
             RefreshButton.Command = new Command(() => { App.Current.Schedule.Execute(); LoadList(); });
             SizeChanged += SetTileSize;
+        }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (Week == -1) Week = App.Current.Service.CurrentWeek;
+            CurrentWeekShow.Text = $"第{Week}周";
             LoadList();
+            System.Diagnostics.Debug.WriteLine("SchedulePage.OnAppearing. Is this too often?");
         }
 
         void LoadList()
@@ -66,7 +74,7 @@ namespace HandSchool.Views
 
             // Render classes
             var p = grid.Children as IList<View>;
-            App.Current.Schedule.RenderWeek(2, grid.Children);
+            App.Current.Schedule.RenderWeek(Week, grid.Children);
         }
 
         void SetTileSize(object sender, EventArgs e)

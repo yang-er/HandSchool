@@ -69,20 +69,11 @@ namespace HandSchool.JLU
 
         public void Parse()
         {
-            var ro = JSON<RootObject>(LastReport);
+            var ro = JSON<RootObject<ArchiveScoreValue>>(LastReport);
             foreach (var asv in ro.value)
             {
                 GradePointViewModel.Instance.Items.Add(new GradeItem(asv));
             }
-        }
-
-        public class RootObject
-        {
-            public string id { get; set; }
-            public int status { get; set; }
-            public ArchiveScoreValue[] value { get; set; }
-            public string resName { get; set; }
-            public string msg { get; set; }
         }
     }
 }

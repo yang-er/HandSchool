@@ -126,7 +126,6 @@ namespace HandSchool.JLU.JsonObject
         public string teacherId { get; set; }
     }
 
-
     public class TeachingTerm
     {
         public string termName { get; set; }
@@ -163,5 +162,13 @@ namespace HandSchool.JLU.JsonObject
         public string admissionYear { get; set; }
         public string campus { get; set; }
     }
-
+    
+    public class RootObject<T>
+    {
+        public string id { get; set; }
+        public int status { get; set; }
+        public T[] value { get; set; }
+        public string resName { get; set; }
+        public string msg { get; set; }
+    }
 }

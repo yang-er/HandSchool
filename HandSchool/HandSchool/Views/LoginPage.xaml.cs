@@ -28,11 +28,11 @@ namespace HandSchool.Views
 
             if (App.Current.Service.IsLogin)
             {
-                Close();
+                await Close();
             }
             else
             {
-                await DisplayAlert("登录失败", "登录失败，请检查您的用户名和密码或网络状态。", "知道了");
+                await DisplayAlert("登录失败", $"登录失败，{App.Current.Service.InnerError}。", "知道了");
             }
         }
 

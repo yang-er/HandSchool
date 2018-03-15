@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,11 +9,16 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class OutlinePage : ContentPage
 	{
-		public OutlinePage ()
+        public List<MasterPageItem> PrimaryItems;
+        public List<MasterPageItem> SecondaryItems;
+
+        public event EventHandler LoadingExtraItem;
+
+        public OutlinePage()
 		{
-			InitializeComponent ();
-            
-            var primaryItems = new List<MasterPageItem>() {
+			InitializeComponent();
+
+            PrimaryItems = new List<MasterPageItem>() {
                 new MasterPageItem
                 {
                     Title = "BROWSE",
@@ -20,7 +26,7 @@ namespace HandSchool.Views
                     Icon = "\xE10F",
                     Color = Color.DeepSkyBlue,
                     Selected = true,
-                    DestPage = typeof(ItemsPage)
+                    DestPage = new ItemsPage()
                 },
                 new MasterPageItem
                 {
@@ -29,7 +35,7 @@ namespace HandSchool.Views
                     Icon = "\xE11F",
                     Color = Color.Black,
                     Selected = false,
-                    DestPage = typeof(SchedulePage)
+                    DestPage = new SchedulePage()
                 },
                 new MasterPageItem
                 {
@@ -38,11 +44,11 @@ namespace HandSchool.Views
                     Icon = "\xE12F",
                     Color = Color.Black,
                     Selected = false,
-                    DestPage = typeof(GradePointPage)
+                    DestPage = new GradePointPage()
                 }
             };
 
-            var secondaryItems = new List<MasterPageItem>() {
+            SecondaryItems = new List<MasterPageItem>() {
                 new MasterPageItem
                 {
                     Title = "关于",
@@ -50,14 +56,16 @@ namespace HandSchool.Views
                     Icon = "\xE783",
                     Color = Color.Black,
                     Selected = false,
-                    DestPage = typeof(AboutPage)
+                    DestPage = new AboutPage()
                 }
             };
             
-            PrimaryListView.ItemsSource = primaryItems;
-            SecondaryListView.ItemsSource = secondaryItems;
-            
-            SecondaryListView.HeightRequest = 48 * secondaryItems.Count;
+            PrimaryListView.ItemsSource = PrimaryItems;
+            SecondaryListView.ItemsSource = SecondaryItems;
+
+            LoadingExtraItem?.Invoke(this, new EventArgs());
+
+            SecondaryListView.HeightRequest = 48 * SecondaryItems.Count;
         }
 	}
 }

@@ -41,7 +41,7 @@ namespace HandSchool.JLU
         
         public void Parse()
         {
-            var table = JSON<RootObject>(LastReport);
+            var table = JSON<RootObject<ScheduleValue>>(LastReport);
             foreach (var obj in table.value)
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
@@ -131,15 +131,6 @@ namespace HandSchool.JLU
             Items = new List<CurriculumItem>();
             LastReport = ReadConfFile(StorageFile);
             if (LastReport != "") Parse();
-        }
-
-        public class RootObject
-        {
-            public string id { get; set; }
-            public int status { get; set; }
-            public ScheduleValue[] value { get; set; }
-            public string resName { get; set; }
-            public string msg { get; set; }
         }
     }
 }

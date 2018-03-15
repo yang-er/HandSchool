@@ -10,7 +10,7 @@ namespace HandSchool.Views
         public string FontFamily { get; set; }
         public string Icon { get; set; }
         public string Title { get; set; }
-        public Type DestPage { get; set; }
+        public Page DestPage { get; set; }
         private bool selected = false;
 
         public bool Selected

@@ -11,13 +11,13 @@ namespace HandSchool.Models
     {
         public CurriculumItem Context { get; }
         public Span Title = new Span { FontAttributes = FontAttributes.Bold, ForegroundColor = Color.White };
-        public Span At = new Span { Text = " @ ", ForegroundColor = Color.FromRgba(255, 255, 255, 160) };
+        public Span At = new Span { Text = "\n" };
         public Span Where = new Span { ForegroundColor = Color.FromRgba(255, 255, 255, 220) };
 
         public CurriculumLabel(CurriculumItem value)
         {
             Context = value;
-            Padding = new Thickness(3);
+            Padding = new Thickness(5);
             Children.Add(new Label {
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
@@ -42,10 +42,15 @@ namespace HandSchool.Models
             BackgroundColor = GetColor();
         }
 
+        public void Unregister()
+        {
+
+        }
+
         private async Task ItemTapped()
         {
-            var p = new CurriculumPage(Context);
-            await p.ShowAsync(Navigation);
+            var page = new CurriculumPage(this);
+            await page.ShowAsync(Navigation);
         }
 
         public Color GetColor()

@@ -4,13 +4,6 @@
             xmlns:w="clr-namespace:HandSchool.Views"
             x:Class="HandSchool.Views.MainPage">
     <MasterDetailPage.Master>
-        <w:OutlinePage x:Name="Outline" />
+        <w:OutlinePage x:FieldModifier="public" x:Name="Outline" />
     </MasterDetailPage.Master>
-    <MasterDetailPage.Detail>
-        <NavigationPage>
-            <x:Arguments>
-                <w:SchedulePage />
-            </x:Arguments>
-        </NavigationPage>
-    </MasterDetailPage.Detail>
 </MasterDetailPage>

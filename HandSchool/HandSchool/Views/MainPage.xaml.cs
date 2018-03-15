@@ -18,6 +18,8 @@ namespace HandSchool.Views
             {
                 MasterBehavior = MasterBehavior.Popover;
             }
+
+            Detail = new NavigationPage(Outline.PrimaryItems[0].DestPage);
         }
 
         protected override void OnAppearing()
@@ -48,8 +50,8 @@ namespace HandSchool.Views
 
                 item.Selected = true;
                 item.Color = Color.DeepSkyBlue;
-
-                Detail = new NavigationPage((Page)Activator.CreateInstance(item.DestPage));
+                
+                Detail = new NavigationPage(item.DestPage);
 
                 Outline.PrimaryListView.SelectedItem = null;
                 Outline.SecondaryListView.SelectedItem = null;

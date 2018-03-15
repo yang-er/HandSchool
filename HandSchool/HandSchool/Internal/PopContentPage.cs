@@ -11,6 +11,8 @@ namespace HandSchool.Views
         {
             Disappearing += Page_Disappearing;
         }
+
+        private bool IsModal = false;
         
         private Task ContinueTask { get; } = new Task(() => { });
 
@@ -19,6 +21,7 @@ namespace HandSchool.Views
             if(navigation is null)
             {
                 App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
+                IsModal = true;
             }
             else
             {
@@ -27,9 +30,12 @@ namespace HandSchool.Views
             return ContinueTask;
         }
 
-        public void Close()
+        public async Task Close()
         {
-            Navigation.PopAsync();
+            if (IsModal)
+                await Navigation.PopModalAsync();
+            else
+                await Navigation.PopAsync();
         }
 
         private bool _destoried;
