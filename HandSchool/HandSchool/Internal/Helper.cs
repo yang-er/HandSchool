@@ -120,6 +120,14 @@ namespace HandSchool.Internal
             return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
         }
 
+        public static string Serialize(object value)
+        {
+            json.Serialize(new JsonTextWriter(new StringWriter(sb)), value);
+            var ret = sb.ToString();
+            sb.Clear();
+            return ret;
+        }
+
         public static string HexDigest(byte[] source, bool lower = false)
         {
             char[] chars = (lower ? "0123456789abcdef" : "0123456789ABCDEF").ToCharArray();

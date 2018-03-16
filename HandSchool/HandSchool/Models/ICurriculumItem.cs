@@ -1,5 +1,4 @@
-﻿using HandSchool.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -43,5 +42,6 @@ namespace HandSchool
     {
         List<CurriculumItem> Items { get; }
         void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false);
+        void Save();
     }
 }

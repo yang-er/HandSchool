@@ -13,20 +13,21 @@ namespace HandSchool.Views
         public List<MasterPageItem> SecondaryItems;
 
         public event EventHandler LoadingExtraItem;
+        public Color ActiveColor => Color.FromRgb(0, 120, 215);
 
         public OutlinePage()
 		{
 			InitializeComponent();
-
+            
             PrimaryItems = new List<MasterPageItem>() {
                 new MasterPageItem
                 {
                     Title = "BROWSE",
                     FontFamily = Helper.SegoeMDL2,
                     Icon = "\xE10F",
-                    Color = Color.DeepSkyBlue,
+                    Color = ActiveColor,
                     Selected = true,
-                    DestPage = new ItemsPage()
+                    DestPage = new NavigationPage(new ItemsPage())
                 },
                 new MasterPageItem
                 {
@@ -35,7 +36,7 @@ namespace HandSchool.Views
                     Icon = "\xE11F",
                     Color = Color.Black,
                     Selected = false,
-                    DestPage = new SchedulePage()
+                    DestPage = new NavigationPage(new SchedulePage())
                 },
                 new MasterPageItem
                 {
@@ -44,7 +45,7 @@ namespace HandSchool.Views
                     Icon = "\xE12F",
                     Color = Color.Black,
                     Selected = false,
-                    DestPage = new GradePointPage()
+                    DestPage = new NavigationPage(new GradePointPage())
                 }
             };
 
@@ -56,16 +57,15 @@ namespace HandSchool.Views
                     Icon = "\xE783",
                     Color = Color.Black,
                     Selected = false,
-                    DestPage = new AboutPage()
+                    DestPage = new NavigationPage(new AboutPage())
                 }
             };
             
             PrimaryListView.ItemsSource = PrimaryItems;
             SecondaryListView.ItemsSource = SecondaryItems;
-
             LoadingExtraItem?.Invoke(this, new EventArgs());
 
-            SecondaryListView.HeightRequest = 48 * SecondaryItems.Count;
+            SecondaryListView.HeightRequest = 12 + SecondaryListView.RowHeight * SecondaryItems.Count;
         }
 	}
 }

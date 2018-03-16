@@ -7,7 +7,7 @@ namespace HandSchool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MainPage : MasterDetailPage
     {
-		public MainPage ()
+		public MainPage()
 		{
 			InitializeComponent();
 
@@ -18,8 +18,8 @@ namespace HandSchool.Views
             {
                 MasterBehavior = MasterBehavior.Popover;
             }
-
-            Detail = new NavigationPage(Outline.PrimaryItems[0].DestPage);
+            
+            Detail = Outline.PrimaryItems[0].DestPage;
         }
 
         protected override void OnAppearing()
@@ -36,22 +36,22 @@ namespace HandSchool.Views
         {
             if (e.SelectedItem is MasterPageItem item)
             {
-                foreach (MasterPageItem mpi in Outline.PrimaryListView.ItemsSource)
+                foreach (var mpi in Outline.PrimaryItems)
                 {
                     mpi.Selected = false;
                     mpi.Color = Color.Black;
                 }
 
-                foreach (MasterPageItem mpi in Outline.SecondaryListView.ItemsSource)
+                foreach (var mpi in Outline.SecondaryItems)
                 {
                     mpi.Selected = false;
                     mpi.Color = Color.Black;
                 }
 
                 item.Selected = true;
-                item.Color = Color.DeepSkyBlue;
+                item.Color = Outline.ActiveColor;
                 
-                Detail = new NavigationPage(item.DestPage);
+                Detail = item.DestPage;
 
                 Outline.PrimaryListView.SelectedItem = null;
                 Outline.SecondaryListView.SelectedItem = null;
