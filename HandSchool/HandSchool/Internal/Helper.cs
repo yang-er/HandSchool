@@ -116,14 +116,8 @@ namespace HandSchool.Internal
 
         public static T JSON<T>(string jsonString)
         {
-            try
-            {
-                return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
-            }
-            catch (JsonReaderException)
-            {
-                return default(T);
-            }
+            if (jsonString == "") throw new JsonReaderException();
+            return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
         }
 
         public static string HexDigest(byte[] source, bool lower = false)
