@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Xamarin.Forms;
@@ -17,6 +18,33 @@ namespace HandSchool.Internal
         private static bool save_password = true;
         public static string DataBaseDir;
         public static string SegoeMDL2;
+
+        public static string GetWebExceptionMessage(WebException e)
+        {
+            switch (e.Status)
+            {
+                case WebExceptionStatus.NameResolutionFailure:
+                    return "域名解析失败，未连接到互联网";
+                case WebExceptionStatus.ConnectFailure:
+                    return "连接服务器失败，未连接到校内网络";
+                case WebExceptionStatus.ReceiveFailure:
+                case WebExceptionStatus.SendFailure:
+                case WebExceptionStatus.PipelineFailure:
+                case WebExceptionStatus.RequestCanceled:
+                case WebExceptionStatus.ConnectionClosed:
+                    return "数据包传输出现错误";
+                case WebExceptionStatus.TrustFailure:
+                case WebExceptionStatus.SecureChannelFailure:
+                case WebExceptionStatus.ServerProtocolViolation:
+                case WebExceptionStatus.KeepAliveFailure:
+                    return "网络沟通出现错误";
+                case WebExceptionStatus.Pending:
+                case WebExceptionStatus.Timeout:
+                    return "连接超时，可能是您的网络不太好";
+                default:
+                    return e.Status.ToString() + "\n" + e.StackTrace;
+            }
+        }
 
         public static int GetDeviceSpecified(string name)
         {
@@ -88,7 +116,14 @@ namespace HandSchool.Internal
 
         public static T JSON<T>(string jsonString)
         {
-            return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
+            try
+            {
+                return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
+            }
+            catch (JsonReaderException)
+            {
+                return default(T);
+            }
         }
 
         public static string HexDigest(byte[] source, bool lower = false)

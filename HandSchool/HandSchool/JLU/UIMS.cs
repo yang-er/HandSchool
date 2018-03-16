@@ -14,7 +14,7 @@ namespace HandSchool.JLU
 {
     class UIMS : ISchoolSystem
     {
-        public CookieAwareWebClient WebClient { get; set; }
+        public AwaredWebClient WebClient { get; set; }
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
         public List<ISystemEntrance> Methods => methodList;
         public NameValueCollection AttachInfomation { get; set; }
@@ -38,8 +38,9 @@ namespace HandSchool.JLU
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
             if (Password == "") SavePassword = false;
+
             string resp = ReadConfFile(StorageFile);
-            if (resp == "")
+            if (resp == "" || resp.StartsWith("<!"))
             {
                 AutoLogin = false;
                 NeedLogin = true;
@@ -48,8 +49,9 @@ namespace HandSchool.JLU
             {
                 ParseLoginInfo(resp);
             }
+
             resp = ReadConfFile("jlu.teachingterm.json");
-            if (resp == "")
+            if (resp == "" || resp.StartsWith("<!"))
             {
                 AutoLogin = false;
                 NeedLogin = true;
@@ -63,7 +65,6 @@ namespace HandSchool.JLU
         private void ParseLoginInfo(string resp)
         {
             LoginInfo = JSON<LoginValue>(resp);
-            AttachInfomation.Clear();
             AttachInfomation.Add("studId", LoginInfo.userId.ToString());
             AttachInfomation.Add("studName", LoginInfo.nickName);
             AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
@@ -99,7 +100,7 @@ namespace HandSchool.JLU
                 WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
             }
             
-            WebClient = new CookieAwareWebClient
+            WebClient = new AwaredWebClient
             {
                 BaseAddress = ServerUri,
                 Encoding = Encoding.UTF8
@@ -109,52 +110,14 @@ namespace HandSchool.JLU
             WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", "uims.jlu.edu.cn"));
 
             // Access Main Page To Create a JSESSIONID
-            bool connected = false;
             try
             {
-                await WebClient.DownloadStringTaskAsync("index.do");
+                await WebClient.GetAsync("index.do");
             }
             catch(WebException e)
             {
-                switch (e.Status)
-                {
-                    case WebExceptionStatus.Success:
-                        InnerError = "似乎一切正常。\n" + e.StackTrace;
-                        break;
-                    case WebExceptionStatus.NameResolutionFailure:
-                        InnerError = "域名解析失败，未连接到互联网";
-                        break;
-                    case WebExceptionStatus.ConnectFailure:
-                        InnerError = "连接服务器失败，未连接到校内网络";
-                        break;
-                    case WebExceptionStatus.ReceiveFailure:
-                    case WebExceptionStatus.SendFailure:
-                    case WebExceptionStatus.PipelineFailure:
-                    case WebExceptionStatus.RequestCanceled:
-                    case WebExceptionStatus.ConnectionClosed:
-                        InnerError = "数据包传输出现错误";
-                        break;
-                    case WebExceptionStatus.TrustFailure:
-                    case WebExceptionStatus.SecureChannelFailure:
-                    case WebExceptionStatus.ServerProtocolViolation:
-                    case WebExceptionStatus.KeepAliveFailure:
-                        InnerError = "网络沟通出现错误";
-                        break;
-                    case WebExceptionStatus.Pending:
-                    case WebExceptionStatus.Timeout:
-                        InnerError = "连接超时，可能是您的网络不太好";
-                        break;
-                    case WebExceptionStatus.ProxyNameResolutionFailure:
-                    case WebExceptionStatus.UnknownError:
-                    case WebExceptionStatus.MessageLengthLimitExceeded:
-                    case WebExceptionStatus.CacheEntryNotFound:
-                    case WebExceptionStatus.RequestProhibitedByCachePolicy:
-                    case WebExceptionStatus.RequestProhibitedByProxy:
-                    default:
-                        InnerError = e.Status.ToString();
-                        break;
-                }
-                if (!connected) return false;
+                InnerError = GetWebExceptionMessage(e);
+                return false;
             }
 
             // Set Login Session
@@ -168,17 +131,19 @@ namespace HandSchool.JLU
             WebClient.Headers.Set("Referer", "http://uims.jlu.edu.cn/ntms/userLogin.jsp?reason=nologin");
             await WebClient.UploadValuesTaskAsync("j_spring_security_check", "POST", loginData);
 
-            if (WebClient.ResponseHeaders["Location"] == "http://uims.jlu.edu.cn/ntms/error/dispatch.jsp?reason=loginError")
+            if (WebClient.LastUri == "http://uims.jlu.edu.cn/ntms/userLogin.jsp?reason=loginError" || WebClient.ResponseHeaders["Location"] == "http://uims.jlu.edu.cn/ntms/error/dispatch.jsp?reason=loginError")
             {
-                string result = await WebClient.DownloadStringTaskAsync("http://uims.jlu.edu.cn/ntms/userLogin.jsp?reason=loginError");
+                string result = await WebClient.DownloadStringTaskAsync("userLogin.jsp?reason=loginError");
                 InnerError = System.Text.RegularExpressions.Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value;
                 IsLogin = false;
                 return false;
             }
 
             // Get User Info
+            AttachInfomation.Clear();
             WebClient.Headers.Set("Accept", "application/json");
             string resp = await WebClient.UploadStringTaskAsync("action/getCurrentUserInfo.do", "POST", "");
+            if (resp.StartsWith("<!")) return false;
             WriteConfFile(StorageFile, AutoLogin ? resp : "");
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
@@ -190,6 +155,7 @@ namespace HandSchool.JLU
             WebClient.Headers.Set("Accept", "application/json");
             WebClient.Headers.Set("Content-Type", "application/json");
             resp = await WebClient.UploadStringTaskAsync("service/res.do", "POST", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
+            if (resp.StartsWith("<!")) return false;
             WriteConfFile("jlu.teachingterm.json", AutoLogin ? resp : "");
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
@@ -209,9 +175,8 @@ namespace HandSchool.JLU
             {
                 await (new LoginPage()).ShowAsync();
             }
-
-            WebClient.Headers.Set("Content-Type", "application/json");
-            var ret = await WebClient.UploadStringTaskAsync(url, "POST", send);
+            
+            var ret = await WebClient.PostAsync(url, send);
 
             // retry once
             if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))

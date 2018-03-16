@@ -8,7 +8,7 @@ namespace HandSchool
     public interface ISchoolSystem
     {
         string ServerUri { get; }
-        CookieAwareWebClient WebClient { get; set; }
+        AwaredWebClient WebClient { get; set; }
         NameValueCollection AttachInfomation { get; set; }
         List<ISystemEntrance> Methods { get; }
         string Tips { get; }
