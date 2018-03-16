@@ -20,7 +20,7 @@ namespace HandSchool
         string InnerError { get; }
         int CurrentWeek { get; }
         Task<bool> Login();
-        Task<string> PostJson(string url, string send);
+        Task<string> Post(string url, string send);
         Task<string> Get(string url);
     }
 }

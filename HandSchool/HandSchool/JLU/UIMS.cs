@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -25,7 +25,6 @@ namespace HandSchool.JLU
         public string Username { get; set; }
         public string Password { get; set; }
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
-        public string StorageFile => "jlu.user.json";
         public bool NeedLogin { get; private set; }
         public string InnerError { get; private set; }
         public int CurrentWeek { get; private set; }
@@ -39,26 +38,15 @@ namespace HandSchool.JLU
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
             if (Password == "") SavePassword = false;
 
-            string resp = ReadConfFile(StorageFile);
-            if (resp == "" || resp.StartsWith("<!"))
+            try
+            {
+                ParseLoginInfo(ReadConfFile("jlu.user.json"));
+                ParseTermInfo(ReadConfFile("jlu.teachingterm.json"));
+            }
+            catch (Newtonsoft.Json.JsonReaderException)
             {
                 AutoLogin = false;
                 NeedLogin = true;
-            }
-            else
-            {
-                ParseLoginInfo(resp);
-            }
-
-            resp = ReadConfFile("jlu.teachingterm.json");
-            if (resp == "" || resp.StartsWith("<!"))
-            {
-                AutoLogin = false;
-                NeedLogin = true;
-            }
-            else
-            {
-                ParseTermInfo(resp);
             }
         }
 
@@ -99,12 +87,8 @@ namespace HandSchool.JLU
                 WriteConfFile("jlu.uims.username.txt", Username);
                 WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
             }
-            
-            WebClient = new AwaredWebClient
-            {
-                BaseAddress = ServerUri,
-                Encoding = Encoding.UTF8
-            };
+
+            WebClient = new AwaredWebClient(ServerUri, Encoding.UTF8);
             WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "uims.jlu.edu.cn"));
             WebClient.Cookie.Add(new Cookie("alu", Username, "/ntms/", "uims.jlu.edu.cn"));
             WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", "uims.jlu.edu.cn"));
@@ -114,9 +98,9 @@ namespace HandSchool.JLU
             {
                 await WebClient.GetAsync("index.do");
             }
-            catch(WebException e)
+            catch(WebException ex)
             {
-                InnerError = GetWebExceptionMessage(e);
+                InnerError = GetWebExceptionMessage(ex);
                 return false;
             }
 
@@ -128,83 +112,53 @@ namespace HandSchool.JLU
                 { "mousepath", "" }
             };
 
-            WebClient.Headers.Set("Referer", "http://uims.jlu.edu.cn/ntms/userLogin.jsp?reason=nologin");
-            await WebClient.UploadValuesTaskAsync("j_spring_security_check", "POST", loginData);
+            WebClient.Headers.Set("Referer", ServerUri + "userLogin.jsp?reason=nologin");
+            await WebClient.PostAsync("j_spring_security_check", loginData);
 
-            if (WebClient.LastUri == "http://uims.jlu.edu.cn/ntms/userLogin.jsp?reason=loginError" || WebClient.ResponseHeaders["Location"] == "http://uims.jlu.edu.cn/ntms/error/dispatch.jsp?reason=loginError")
+            if (WebClient.Location == "error/dispatch.jsp?reason=loginError")
             {
-                string result = await WebClient.DownloadStringTaskAsync("userLogin.jsp?reason=loginError");
-                InnerError = System.Text.RegularExpressions.Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value;
+                string result = await WebClient.GetAsync("userLogin.jsp?reason=loginError", "text/html");
+                InnerError = Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value;
                 IsLogin = false;
                 return false;
             }
-
-            // Get User Info
-            AttachInfomation.Clear();
-            WebClient.Headers.Set("Accept", "application/json");
-            string resp = await WebClient.UploadStringTaskAsync("action/getCurrentUserInfo.do", "POST", "");
-            if (resp.StartsWith("<!")) return false;
-            WriteConfFile(StorageFile, AutoLogin ? resp : "");
-            // retry once
-            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
+            else if (WebClient.Location == "index.do")
             {
-                throw new NotImplementedException("LOGIN JSON 1");
-            }
-            ParseLoginInfo(resp);
+                AttachInfomation.Clear();
 
-            WebClient.Headers.Set("Accept", "application/json");
-            WebClient.Headers.Set("Content-Type", "application/json");
-            resp = await WebClient.UploadStringTaskAsync("service/res.do", "POST", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
-            if (resp.StartsWith("<!")) return false;
-            WriteConfFile("jlu.teachingterm.json", AutoLogin ? resp : "");
-            // retry once
-            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
-            {
-                throw new NotImplementedException("LOGIN JSON 2");
+                // Get User Info
+                string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
+                if (resp.StartsWith("<!")) return false;
+                WriteConfFile("jlu.user.json", AutoLogin ? resp : "");
+                ParseLoginInfo(resp);
+
+                // Get term info
+                resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
+                if (resp.StartsWith("<!")) return false;
+                WriteConfFile("jlu.teachingterm.json", AutoLogin ? resp : "");
+                ParseTermInfo(resp);
             }
-            ParseTermInfo(resp);
+            else
+            {
+                throw new NotImplementedException("Not implemented response");
+            }
 
             IsLogin = true;
             return true;
         }
         
-        public async Task<string> PostJson(string url, string send)
+        public async Task<string> Post(string url, string send)
         {
             if (!IsLogin) await Login();
-            if (!IsLogin)
-            {
-                await (new LoginPage()).ShowAsync();
-            }
-            
-            var ret = await WebClient.PostAsync(url, send);
-
-            // retry once
-            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
-            {
-                throw new NotImplementedException("POST JSON 1");
-            }
-            
-            return ret;
+            if (!IsLogin) await (new LoginPage()).ShowAsync();
+            return await WebClient.PostAsync(url, send);
         }
 
         public async Task<string> Get(string url)
         {
             if (!IsLogin) await Login();
-            if (!IsLogin) throw new NotImplementedException("登录失败");
-
-            var ret = await WebClient.DownloadStringTaskAsync(url);
-
-            // retry once
-            if (!WebClient.ResponseHeaders["Content-Type"].StartsWith("application/json"))
-            {
-                IsLogin = false;
-                if (!RebuildRequest)
-                    return await Get(url);
-                else
-                    throw new NotImplementedException();
-            }
-
-            return ret;
+            if (!IsLogin) await (new LoginPage()).ShowAsync();
+            return await WebClient.GetAsync(url);
         }
         
         public class LoginValue

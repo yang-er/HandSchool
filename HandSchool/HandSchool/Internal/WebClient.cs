@@ -1,18 +1,37 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
     // thanks to zhleiyang for CookieAware
-    public class AwaredWebClient : System.Net.WebClient
+    public class AwaredWebClient : WebClient
     {
         public CookieContainer Cookie { get; } = new CookieContainer();
         WebHeaderCollection protocolErrorResponses;
         public new WebHeaderCollection ResponseHeaders => base.ResponseHeaders is null ? protocolErrorResponses : base.ResponseHeaders;
-        public string LastUri { get; private set; } = string.Empty;
+        public bool AllowAutoRedirect { get; set; }
+
+        public string Location
+        {
+            get
+            {
+                var ret = ResponseHeaders["Location"];
+                if (ret.StartsWith(BaseAddress))
+                    return ret.Replace(BaseAddress, string.Empty);
+                else
+                    return ret;
+            }
+        }
+
+        public AwaredWebClient(string baseUrl, Encoding encoding)
+        {
+            BaseAddress = baseUrl;
+            Encoding = encoding;
+            AllowAutoRedirect = false;
+        }
 
         protected override WebRequest GetWebRequest(Uri address)
         {
@@ -21,17 +40,22 @@ namespace HandSchool.Internal
             if (request is HttpWebRequest req)
             {
                 req.CookieContainer = Cookie;
-                req.AllowAutoRedirect = false;
+                req.AllowAutoRedirect = AllowAutoRedirect;
                 req.Timeout = 15000;
             }
             return request;
         }
 
-        public async Task<string> GetAsync(string address)
+        public async Task<string> GetAsync(string address, string accept = "application/json")
         {
             try
             {
-                return await DownloadStringTaskAsync(address);
+                var ret = await DownloadStringTaskAsync(address);
+                if (!ResponseHeaders["Content-Type"].StartsWith(accept))
+                {
+                    throw new ContentAcceptException(ret, ResponseHeaders["Content-Type"], accept);
+                }
+                return ret;
             }
             catch (WebException ex)
             {
@@ -48,6 +72,7 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>发送application/x-www-form-urlencoded数据</summary>
         public async Task<string> PostAsync(string script, NameValueCollection value)
         {
             try
@@ -69,15 +94,16 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>发送application/json数据</summary>
         public async Task<string> PostAsync(string script, string value, string type = "application/json", string accept = "application/json")
         {
             try
             {
                 Headers.Set("Content-Type", type);
                 var ret = await UploadStringTaskAsync(script, "POST", value);
-                if (!ResponseHeaders["Content-Type"].StartsWith("application/json"))
+                if (!ResponseHeaders["Content-Type"].StartsWith(accept))
                 {
-                    throw new NotImplementedException("Content unaccepted");
+                    throw new ContentAcceptException(ret, ResponseHeaders["Content-Type"], accept);
                 }
                 return ret;
             }
@@ -94,6 +120,19 @@ namespace HandSchool.Internal
                     throw ex;
                 }
             }
+        }
+    }
+
+    public class ContentAcceptException : Exception
+    {
+        public string Result { get; }
+        public string Current { get; }
+        public string Accept { get; }
+        public ContentAcceptException(string ret, string cur, string acc)
+        {
+            Result = ret;
+            Current = cur;
+            Accept = acc;
         }
     }
 }
