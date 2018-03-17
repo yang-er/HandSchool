@@ -65,7 +65,7 @@ namespace HandSchool.Views
             SecondaryListView.ItemsSource = SecondaryItems;
             LoadingExtraItem?.Invoke(this, new EventArgs());
 
-            SecondaryListView.HeightRequest = 12 + SecondaryListView.RowHeight * SecondaryItems.Count;
+            SecondaryListView.HeightRequest = 12 + 48 * SecondaryItems.Count;
         }
 	}
 }

@@ -10,7 +10,11 @@
             <OnPlatform x:Key="itemTemplate" x:TypeArguments="DataTemplate">
                 <OnPlatform.Android>
                     <DataTemplate>
-                        <TextCell Text="{Binding Title}" TextColor="{Binding Color}" />
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding Title}" TextColor="{Binding Color}" FontSize="16" Margin="24,16" />
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </OnPlatform.Android>
                 <OnPlatform.WinPhone>
@@ -44,6 +48,7 @@
                   x:FieldModifier="Public"
                   VerticalOptions="StartAndExpand"
                   SeparatorVisibility="None"
+                  HasUnevenRows="True"
                   ItemTemplate="{StaticResource itemTemplate}" />
         <BoxView BackgroundColor="{StaticResource sepratorColor}"
                  Grid.Row="1"
@@ -52,6 +57,7 @@
                   x:FieldModifier="Public"
                   Grid.Row="2"
                   VerticalOptions="End"
+                  HasUnevenRows="True"
                   SeparatorVisibility="None"
                   ItemTemplate="{StaticResource itemTemplate}" />
     </Grid>
