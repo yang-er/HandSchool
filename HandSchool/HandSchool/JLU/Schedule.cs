@@ -22,11 +22,12 @@ namespace HandSchool.JLU
         {
             if (showAll)
                 throw new NotImplementedException();
-            
+
+            int index = 0;
             foreach (var item in Items)
             {
                 if (showAll || item.IfShow(week))
-                    list.Add(new CurriculumLabel(item));
+                    list.Add(new CurriculumLabel(item, index++));
             }
         }
 

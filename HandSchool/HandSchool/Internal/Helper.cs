@@ -16,6 +16,7 @@ namespace HandSchool.Internal
         private static JsonSerializer json = JsonSerializer.Create();
         private static bool auto_login = true;
         private static bool save_password = true;
+        public static string[] ScheduleColors = { "#69f0ae", "#f48fb1", "#ce93d8", "#ff8a65", "#9fa8da", "#42a5f5", "#80deea", "#e6ee9c" };
         public static string DataBaseDir;
         public static string SegoeMDL2;
 

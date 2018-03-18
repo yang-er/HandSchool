@@ -10,13 +10,15 @@ namespace HandSchool.Models
     public class CurriculumLabel : StackLayout
     {
         public CurriculumItem Context { get; }
+        public int ColorId { get; private set; }
         public Span Title = new Span { FontAttributes = FontAttributes.Bold, ForegroundColor = Color.White };
         public Span At = new Span { Text = "\n" };
         public Span Where = new Span { ForegroundColor = Color.FromRgba(255, 255, 255, 220) };
 
-        public CurriculumLabel(CurriculumItem value)
+        public CurriculumLabel(CurriculumItem value, int id)
         {
             Context = value;
+            ColorId = id;
             Padding = new Thickness(5);
             Children.Add(new Label {
                 HorizontalTextAlignment = TextAlignment.Center,
@@ -55,7 +57,8 @@ namespace HandSchool.Models
 
         public Color GetColor()
         {
-            return Color.LimeGreen;
+            // thanks to brady
+            return Color.FromHex(Internal.Helper.ScheduleColors[ColorId % 8]);
         }
     }
 }
