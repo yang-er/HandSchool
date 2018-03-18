@@ -1,9 +1,7 @@
-﻿using HandSchool.Internal;
-using HandSchool.JLU.JsonObject;
+﻿using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
@@ -25,7 +23,7 @@ namespace HandSchool.JLU
             if (showAll)
                 throw new NotImplementedException();
             
-            foreach (CurriculumItem item in Items)
+            foreach (var item in Items)
             {
                 if (showAll || item.IfShow(week))
                     list.Add(new CurriculumLabel(item));
@@ -35,13 +33,16 @@ namespace HandSchool.JLU
         public async Task Execute()
         {
             LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            // LastReport = ReadConfFile(StorageFile);
             WriteConfFile(StorageFile, LastReport);
             Parse();
+            Save();
         }
         
         public void Parse()
         {
             var table = JSON<RootObject<ScheduleValue>>(LastReport);
+            Items.RemoveAll(obj => !obj.IsCustom);
             foreach (var obj in table.value)
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
@@ -50,7 +51,7 @@ namespace HandSchool.JLU
                     {
                         WeekBegin = int.Parse(time.timeBlock.beginWeek),
                         WeekEnd = int.Parse(time.timeBlock.endWeek),
-                        WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == "" ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
+                        WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
                         WeekDay = int.Parse(time.timeBlock.dayOfWeek),
                         Classroom = time.classroom.fullName,
                         CourseID = obj.teachClassMaster.name,
@@ -90,15 +91,6 @@ namespace HandSchool.JLU
                 roomName = roomName.Replace(keys, theater[keys]);
             }
             return buildingName + " " + roomName;
-        }
-
-        private NameValueCollection building = new NameValueCollection();
-        private NameValueCollection theater = new NameValueCollection();
-        */
-
-        public Schedule()
-        {
-            /*
              * Experimental
             building.Add("经信教学楼", "经信");
             building.Add("逸夫楼", "逸夫");
@@ -127,10 +119,24 @@ namespace HandSchool.JLU
             theater.Add("E区", "E");
             theater.Add("F区", "F");
             theater.Add("课堂", "");
-            */
-            Items = new List<CurriculumItem>();
-            LastReport = ReadConfFile(StorageFile);
-            if (LastReport != "") Parse();
+        }
+
+        private NameValueCollection building = new NameValueCollection();
+        private NameValueCollection theater = new NameValueCollection();
+        */
+        
+        public void Save()
+        {
+            WriteConfFile("jlu.kcb2.json", Serialize(Items));
+        }
+
+        public Schedule()
+        {
+            LastReport = ReadConfFile("jlu.kcb2.json");
+            if (LastReport != "")
+                Items = JSON<List<CurriculumItem>>(LastReport);
+            else
+                Items = new List<CurriculumItem>();
         }
     }
 }
