@@ -28,7 +28,9 @@ namespace HandSchool.JLU
         public bool NeedLogin { get; private set; }
         public string InnerError { get; private set; }
         public int CurrentWeek { get; private set; }
-
+        public string WelcomeMessage => IsLogin ? $"欢迎，{AttachInfomation["studName"]}。" : "请登录。";
+        public string CurrentMessage => IsLogin ? $"吉林大学{AttachInfomation["Nick"]}第{CurrentWeek}周" : DateTime.Now.ToShortDateString();
+        
         public UIMS()
         {
             IsLogin = false;
@@ -68,7 +70,7 @@ namespace HandSchool.JLU
             }
             else
             {
-                AttachInfomation.Add("Nick", ro.year + "年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
+                AttachInfomation.Add("Nick", ro.year + "-" + (int.Parse(ro.year) + 1).ToString() + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
                 CurrentWeek = (int)Math.Ceiling((decimal)(DateTime.Now - ro.startDate).Days / 7);
             }
         }

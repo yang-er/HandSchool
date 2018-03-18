@@ -19,6 +19,8 @@ namespace HandSchool
         bool RebuildRequest { get; set; }
         string InnerError { get; }
         int CurrentWeek { get; }
+        string WelcomeMessage { get; }
+        string CurrentMessage { get; }
         Task<bool> Login();
         Task<string> Post(string url, string send);
         Task<string> Get(string url);
