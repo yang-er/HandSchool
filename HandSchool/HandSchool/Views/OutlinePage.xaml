@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HandSchool.Views.OutlinePage"
+             
              Title="掌上校园">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -25,7 +26,6 @@
                                     <ColumnDefinition Width="48"/>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-
                                 <BoxView BackgroundColor="{Binding Color}" WidthRequest="5" HeightRequest="26" HorizontalOptions="Start" VerticalOptions="Center" IsVisible="{Binding Selected}" />
                                 <Label x:Name="IconLabel" Text="{Binding Icon}" FontFamily="{Binding FontFamily}" TextColor="{Binding Color}" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
                                 <Label Grid.Column="1" Text="{Binding Title}" TextColor="{Binding Color}" FontSize="14" VerticalOptions="Center" />
@@ -39,23 +39,31 @@
 
     <Grid Padding="0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="1" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <AbsoluteLayout HeightRequest="185">
+            <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" />
+            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="20,115,0,0">
+                <Label Text="欢迎，杨良正。" TextColor="White" FontSize="Large" />
+                <Label Text="吉林大学2017级别春节学期第2周" TextColor="White" />
+            </StackLayout>
+        </AbsoluteLayout>
         <ListView x:Name="PrimaryListView"
                   x:FieldModifier="Public"
                   VerticalOptions="StartAndExpand"
                   SeparatorVisibility="None"
                   HasUnevenRows="True"
+                  Grid.Row="1"
                   ItemTemplate="{StaticResource itemTemplate}" />
         <BoxView BackgroundColor="{StaticResource sepratorColor}"
-                 Grid.Row="1"
+                 Grid.Row="2"
                  HorizontalOptions="FillAndExpand" />
         <ListView x:Name="SecondaryListView"
                   x:FieldModifier="Public"
-                  Grid.Row="2"
+                  Grid.Row="3"
                   VerticalOptions="End"
                   HasUnevenRows="True"
                   SeparatorVisibility="None"

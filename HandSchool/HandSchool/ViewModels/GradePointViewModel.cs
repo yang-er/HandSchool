@@ -37,7 +37,6 @@ namespace HandSchool.ViewModels
 
             try
             {
-                Items.Clear();
                 await App.Current.GradePoint.Execute();
             }
             catch (Exception ex)

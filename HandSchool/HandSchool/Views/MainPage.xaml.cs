@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -51,11 +52,11 @@ namespace HandSchool.Views
                 item.Selected = true;
                 item.Color = Outline.ActiveColor;
                 
-                Detail = item.DestPage;
-
                 Outline.PrimaryListView.SelectedItem = null;
                 Outline.SecondaryListView.SelectedItem = null;
-                IsPresented = false;
+                // IsPresented = false;
+
+                Detail = item.DestPage;
             }
         }
     }
