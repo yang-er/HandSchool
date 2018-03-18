@@ -28,7 +28,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <Label Text="版权所有 © 小羊 2018。" />
+                <Label Text="开放源代码，部分摘自网上已有代码，感谢。" />
                 <Label Text="利用 C# 和 Xamarin.Forms 开发，协议采用 GPLv2。" />
                 <Label>
                     <Label.FormattedText>
@@ -42,7 +42,6 @@
                     </Label.FormattedText>
                 </Label>
                 <Button Margin="0,5,0,0" Text="查看源码" Clicked="Web1_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-                <Button Margin="0,5,0,0" Text="查看作者" Clicked="Web2_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
             </StackLayout>
         </ScrollView>
     </Grid>

@@ -24,10 +24,5 @@ namespace HandSchool.Views
         {
             Device.OpenUri(new Uri("https://github.com/yang-er"));
         }
-        
-        private void Web2_Clicked(object sender, EventArgs e)
-        {
-            Device.OpenUri(new Uri("http://www.90yang.com"));
-        }
     }
 }
