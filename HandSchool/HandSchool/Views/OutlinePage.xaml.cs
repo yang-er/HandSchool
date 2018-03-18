@@ -66,6 +66,8 @@ namespace HandSchool.Views
             LoadingExtraItem?.Invoke(this, new EventArgs());
 
             SecondaryListView.HeightRequest = 12 + 48 * SecondaryItems.Count;
+
+            stackOfInfo.BindingContext = App.Current.Service;
         }
 	}
 }

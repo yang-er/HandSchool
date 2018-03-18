@@ -71,7 +71,7 @@ namespace HandSchool.Views
             {
                 grid.Children.RemoveAt(i);
             }
-
+            
             // Render classes
             var p = grid.Children as IList<View>;
             App.Current.Schedule.RenderWeek(Week, grid.Children);

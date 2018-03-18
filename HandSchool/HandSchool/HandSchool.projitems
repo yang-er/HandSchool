@@ -19,6 +19,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\MasterPageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ICurriculumItem.cs" />

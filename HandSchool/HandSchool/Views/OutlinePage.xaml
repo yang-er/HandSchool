@@ -2,10 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HandSchool.Views.OutlinePage"
-             
-             Title="掌上校园">
+             Title=" ">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <OnPlatform x:Key="absHeight" x:TypeArguments="x:Double" iOS="185" Android="185" WinPhone="100" />
+            <OnPlatform x:Key="absColor" x:TypeArguments="Color" Android="White" WinPhone="Black" />
+            <OnPlatform x:Key="absMargin" x:TypeArguments="Thickness" iOS="20,115,0,0" Android="20,115,0,0" WinPhone="20,20,0,0" />
             <OnPlatform x:Key="padding" x:TypeArguments="Thickness" iOS="0,20,0,0" Android="0,0,0,0" WinPhone="0" />
             <OnPlatform x:Key="sepratorColor" x:TypeArguments="Color" Android="#e3e3e3" WinPhone="Gray" />
             <OnPlatform x:Key="itemTemplate" x:TypeArguments="DataTemplate">
@@ -44,11 +46,11 @@
             <RowDefinition Height="1" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <AbsoluteLayout HeightRequest="185">
+        <AbsoluteLayout HeightRequest="{StaticResource absHeight}">
             <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" />
-            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="20,115,0,0">
-                <Label Text="欢迎，杨良正。" TextColor="White" FontSize="Large" />
-                <Label Text="吉林大学2017级别春节学期第2周" TextColor="White" />
+            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="{StaticResource absMargin}" x:Name="stackOfInfo">
+                <Label Text="{Binding WelcomeMessage}" TextColor="{StaticResource absColor}" FontSize="Large" />
+                <Label Text="{Binding CurrentMessage}" TextColor="{StaticResource absColor}" />
             </StackLayout>
         </AbsoluteLayout>
         <ListView x:Name="PrimaryListView"

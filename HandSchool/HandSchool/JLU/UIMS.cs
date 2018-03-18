@@ -4,6 +4,7 @@ using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,6 +17,7 @@ namespace HandSchool.JLU
     {
         public AwaredWebClient WebClient { get; set; }
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
+        public event PropertyChangedEventHandler PropertyChanged;
         public List<ISystemEntrance> Methods => methodList;
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
@@ -27,10 +29,9 @@ namespace HandSchool.JLU
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public bool NeedLogin { get; private set; }
         public string InnerError { get; private set; }
-        public int CurrentWeek { get; private set; }
-        public string WelcomeMessage => IsLogin ? $"欢迎，{AttachInfomation["studName"]}。" : "请登录。";
-        public string CurrentMessage => IsLogin ? $"吉林大学{AttachInfomation["Nick"]}第{CurrentWeek}周" : DateTime.Now.ToShortDateString();
-        
+        public int CurrentWeek { get; set; }
+        public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
+        public string CurrentMessage => NeedLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
         public UIMS()
         {
             IsLogin = false;
@@ -58,6 +59,7 @@ namespace HandSchool.JLU
             AttachInfomation.Add("studId", LoginInfo.userId.ToString());
             AttachInfomation.Add("studName", LoginInfo.nickName);
             AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WelcomeMessage"));
         }
 
         private void ParseTermInfo(string resp)
@@ -65,14 +67,16 @@ namespace HandSchool.JLU
             var ro = JSON<RootObject<TeachingTerm>>(resp).value[0];
             if (ro.vacationDate < DateTime.Now)
             {
-                AttachInfomation.Add("Nick", (int.Parse(ro.year) + 1) + "年" + (ro.termSeq == "1" ? "寒假" : "暑假"));
+                AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假"));
                 CurrentWeek = (int) Math.Ceiling((decimal) (DateTime.Now - ro.vacationDate).Days / 7);
             }
             else
             {
-                AttachInfomation.Add("Nick", ro.year + "-" + (int.Parse(ro.year) + 1).ToString() + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
+                AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
                 CurrentWeek = (int)Math.Ceiling((decimal)(DateTime.Now - ro.startDate).Days / 7);
             }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWeek"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentMessage"));
         }
 
         public async Task<bool> Login()
@@ -98,7 +102,7 @@ namespace HandSchool.JLU
             // Access Main Page To Create a JSESSIONID
             try
             {
-                await WebClient.GetAsync("index.do");
+                await WebClient.GetAsync("", "*/*");
             }
             catch(WebException ex)
             {
