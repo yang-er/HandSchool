@@ -68,12 +68,12 @@ namespace HandSchool.JLU
             if (ro.vacationDate < DateTime.Now)
             {
                 AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假"));
-                CurrentWeek = (int) Math.Ceiling((decimal) (DateTime.Now - ro.vacationDate).Days / 7);
+                CurrentWeek = (int) Math.Ceiling((decimal) ((DateTime.Now - ro.vacationDate).Days + 1) / 7);
             }
             else
             {
                 AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
-                CurrentWeek = (int)Math.Ceiling((decimal)(DateTime.Now - ro.startDate).Days / 7);
+                CurrentWeek = (int)Math.Ceiling((decimal) ((DateTime.Now - ro.startDate).Days + 1) / 7);
             }
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWeek"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentMessage"));
