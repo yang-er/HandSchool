@@ -27,4 +27,16 @@
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">#1756E1</item>
   </style>
+
+  <style name="Theme.Splash" parent="Theme.AppCompat.Light">
+    <item name="android:windowBackground">@drawable/splash</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="colorPrimary">#2196F3</item>
+    <item name="colorPrimaryDark">#2196F3</item>
+    <item name="android:windowIsTranslucent">false</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:backgroundDimEnabled">true</item>
+  </style>
+
 </resources>
