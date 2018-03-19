@@ -4,9 +4,6 @@
                   x:Class="HandSchool.Views.LoginPage"
                   xmlns:w="clr-namespace:HandSchool.Views"
 		          Title="登录教务系统">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="登录" Clicked="Login_Clicked" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="用户名" FontSize="Medium" />
