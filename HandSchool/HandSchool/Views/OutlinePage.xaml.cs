@@ -40,6 +40,15 @@ namespace HandSchool.Views
                 },
                 new MasterPageItem
                 {
+                    Title = "站内消息",
+                    FontFamily = Helper.SegoeMDL2,
+                    Icon = "\xE12F",
+                    Color = Color.Black,
+                    Selected = false,
+                    DestPage = new NavigationPage(new MessageBoxPage())
+                },
+                new MasterPageItem
+                {
                     Title = "学分成绩",
                     FontFamily = Helper.SegoeMDL2,
                     Icon = "\xE12F",

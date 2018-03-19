@@ -13,8 +13,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="保存" x:Name="saveButton" />
-        <ToolbarItem Name="删除" x:Name="removeButton" />
+        <ToolbarItem Name="保存" x:Name="saveButton" Order="Secondary" />
+        <ToolbarItem Name="删除" x:Name="removeButton" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView Orientation="Vertical" HorizontalOptions="FillAndExpand" Padding="16">
