@@ -16,6 +16,7 @@ namespace HandSchool
         public IScheduleEntrance Schedule;
         public ISystemEntrance GPA;
         public ISystemEntrance SelectCourse;
+        public ISystemEntrance Message;
         public int DailyClassCount;
         public static new App Current => Application.Current as App;
 
@@ -41,6 +42,7 @@ namespace HandSchool
             GradePoint = new JLU.GradeEntrance();
             Schedule = new JLU.Schedule();
             GPA = new JLU.GPA();
+            Message = new JLU.MessageEntrance();
         }
         
         #endregion

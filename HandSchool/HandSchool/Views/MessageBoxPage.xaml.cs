@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.ViewModels;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -17,17 +18,7 @@ namespace HandSchool.Views
         public MessageBoxPage()
         {
             InitializeComponent();
-
-            Items = new ObservableCollection<string>
-            {
-                "Item 1",
-                "Item 2",
-                "Item 3",
-                "Item 4",
-                "Item 5"
-            };
-			
-			MyListView.ItemsSource = Items;
+            BindingContext = MessageViewModel.Instance;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -35,7 +26,7 @@ namespace HandSchool.Views
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await DisplayAlert("成绩详情", "666", "确定");
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

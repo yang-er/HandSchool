@@ -162,7 +162,7 @@ namespace HandSchool.JLU.JsonObject
         public string admissionYear { get; set; }
         public string campus { get; set; }
     }
-    
+
     public class RootObject<T>
     {
         public string id { get; set; }
@@ -171,4 +171,47 @@ namespace HandSchool.JLU.JsonObject
         public string resName { get; set; }
         public string msg { get; set; }
     }
+
+    public class MessageBox
+    {
+        public int count { get; set; }
+        public int errno { get; set; }
+        public string identifier { get; set; }
+        public MessagePiece[] items { get; set; }
+        public string label { get; set; }
+        public string msg { get; set; }
+        public int status { get; set; }
+    }
+
+    public class MessagePiece
+    {
+        public MessageMain message { get; set; }
+        public string msgInboxId { get; set; }
+        public MessageReceiver receiver { get; set; }
+        public object dateRead { get; set; }
+        public string activeStatus { get; set; }
+        public string hasReaded { get; set; }
+        public object dateReceive { get; set; }
+    }
+
+    public class MessageMain
+    {
+        public string body { get; set; }
+        public string title { get; set; }
+        public DateTime dateExpire { get; set; }
+        public string messageId { get; set; }
+        public DateTime dateCreate { get; set; }
+    }
+
+    public class MessageReceiver
+    {
+        public MessageSchool school { get; set; }
+        public string name { get; set; }
+    }
+
+    public class MessageSchool
+    {
+        public string schoolName { get; set; }
+    }
+
 }
