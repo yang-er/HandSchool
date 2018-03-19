@@ -70,6 +70,11 @@ namespace HandSchool.Internal
                     throw ex;
                 }
             }
+            catch (NotSupportedException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return "";
+            }
         }
 
         /// <summary>发送application/x-www-form-urlencoded数据</summary>
@@ -91,6 +96,11 @@ namespace HandSchool.Internal
                 {
                     throw ex;
                 }
+            }
+            catch (NotSupportedException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return "";
             }
         }
 
@@ -119,6 +129,11 @@ namespace HandSchool.Internal
                 {
                     throw ex;
                 }
+            }
+            catch (NotSupportedException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return "";
             }
         }
     }
