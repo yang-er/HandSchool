@@ -22,9 +22,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ICurriculumItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\IGradeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ISystemEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\GPA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
@@ -35,8 +35,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomProtocol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\INetSocket.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ISchoolSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
