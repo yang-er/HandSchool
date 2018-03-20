@@ -37,26 +37,15 @@ namespace HandSchool.Views
         {
             if (e.SelectedItem is MasterPageItem item)
             {
-                foreach (var mpi in Outline.PrimaryItems)
-                {
-                    mpi.Selected = false;
-                    mpi.Color = Color.Black;
-                }
+                Detail = item.DestPage;
+                
+                (sender as ListView).SelectedItem = null;
 
-                foreach (var mpi in Outline.SecondaryItems)
-                {
-                    mpi.Selected = false;
-                    mpi.Color = Color.Black;
-                }
-
+                Outline.PrimaryItems.ForEach((one) => { one.Selected = false; one.Color = Color.Black; });
+                Outline.SecondaryItems.ForEach((one) => { one.Selected = false; one.Color = Color.Black; });
+                
                 item.Selected = true;
                 item.Color = Outline.ActiveColor;
-                
-                Outline.PrimaryListView.SelectedItem = null;
-                Outline.SecondaryListView.SelectedItem = null;
-                // IsPresented = false;
-
-                Detail = item.DestPage;
             }
         }
     }

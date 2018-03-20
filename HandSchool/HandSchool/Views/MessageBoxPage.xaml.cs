@@ -26,7 +26,7 @@ namespace HandSchool.Views
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("成绩详情", "666", "确定");
+            await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

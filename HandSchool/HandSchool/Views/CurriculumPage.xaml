@@ -3,6 +3,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:w="clr-namespace:HandSchool.Views"
                 x:Class="HandSchool.Views.CurriculumPage"
+                Padding="16"
                 Title="编辑课程">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -17,7 +18,7 @@
         <ToolbarItem Name="删除" x:Name="removeButton" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView Orientation="Vertical" HorizontalOptions="FillAndExpand" Padding="16">
+        <ScrollView Orientation="Vertical" HorizontalOptions="FillAndExpand">
             <Grid VerticalOptions="FillAndExpand" x:Name="grid" HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />
