@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.V7.Widget;
 
 namespace HandSchool.Droid
 {
@@ -18,11 +19,6 @@ namespace HandSchool.Droid
             Internal.Helper.DataBaseDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             Internal.Helper.SegoeMDL2 = "segmdl2.ttf#Segoe MDL2 Assets";
             LoadApplication(new App() {});
-        }
-
-        protected override void OnPostCreate(Bundle bundle)
-        {
-            base.OnPostCreate(bundle);
         }
     }
 }
