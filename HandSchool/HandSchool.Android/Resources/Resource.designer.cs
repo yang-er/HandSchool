@@ -1705,6 +1705,9 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f070010
 			public const int abc_text_size_title_material_toolbar = 2131165200;
 			
+			// aapt resource value: 0x7f070094
+			public const int action_bar_default_height_material_overlay = 2131165332;
+			
 			// aapt resource value: 0x7f070009
 			public const int cardview_compat_inset_shadow = 2131165193;
 			

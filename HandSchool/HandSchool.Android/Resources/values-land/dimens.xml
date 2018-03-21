@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <dimen name="action_bar_default_height_material_overlay">68.0dip</dimen>
+</resources>
