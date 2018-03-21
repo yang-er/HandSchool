@@ -19,5 +19,10 @@ namespace HandSchool.Droid
             Internal.Helper.SegoeMDL2 = "segmdl2.ttf#Segoe MDL2 Assets";
             LoadApplication(new App() {});
         }
+
+        protected override void OnPostCreate(Bundle bundle)
+        {
+            base.OnPostCreate(bundle);
+        }
     }
 }
