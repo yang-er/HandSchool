@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using Xamarin.Forms;
 namespace HandSchool
 {
     public interface IMessageItem
@@ -10,5 +11,7 @@ namespace HandSchool
         DateTime Time { get; }
         bool Readed { get; }
         string Show { get; }
+        void Onreaded();
+        
     }
 }

@@ -2,6 +2,7 @@
 using HandSchool.ViewModels;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -10,13 +11,25 @@ namespace HandSchool.JLU
     {
         private MessagePiece piece;
 
-        public int Id => int.Parse(piece.message.messageId);
+        public int Id => int.Parse(piece.msgInboxId);
         public string Title => piece.message.title;
         public string Body => piece.message.body;
         public DateTime Time => piece.message.dateCreate;
         public bool Readed => (piece.hasReaded != "N");
         public string Show => $"{Time.ToString()} {Body}";
-
+        public string MsgReadPageUri = "http://uims.jlu.edu.cn/ntms/siteMessages/read-message.do";
+        public string PostValue = "{\"read\":\"Y\",\"idList\":[\"";     //+Idstring+"\"]}";
+        public Command testcommand { get; set; }
+        public async void Onreaded()
+        {
+            string a=await Execute();
+        }
+        public async Task<string>Execute()
+        {
+                PostValue += Id.ToString() + "\"]}";
+                await App.Current.Service.Post(MsgReadPageUri, PostValue);                     //异步执行一些任务
+                return "Hello World";                               //异步执行完成标记
+        }
         public MessageItem(MessagePiece p)
         {
             piece = p;
