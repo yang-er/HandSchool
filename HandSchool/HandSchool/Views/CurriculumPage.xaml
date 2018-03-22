@@ -3,19 +3,17 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:w="clr-namespace:HandSchool.Views"
                 x:Class="HandSchool.Views.CurriculumPage"
-                Padding="16"
-                Title="编辑课程">
+                Padding="16">
     <ContentPage.Resources>
         <ResourceDictionary>
             <OnPlatform x:Key="marginDown" x:TypeArguments="Thickness" iOS="0,0,0,0" Android="0,0,0,0" WinPhone="0,0,0,10" />
             <OnPlatform x:Key="marginUp" x:TypeArguments="Thickness" iOS="0,0,0,0" Android="0,15,0,0" WinPhone="0,0,0,10" />
             <OnPlatform x:Key="marginCID" x:TypeArguments="Thickness" iOS="0,0,0,0" Android="0,10,0,10" WinPhone="0,10,0,10" />
-
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="保存" x:Name="saveButton" Order="Secondary" />
-        <ToolbarItem Name="删除" x:Name="removeButton" Order="Secondary" />
+        <ToolbarItem x:Name="saveButton" />
+        <ToolbarItem x:Name="removeButton" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView Orientation="Vertical" HorizontalOptions="FillAndExpand">
@@ -116,13 +114,14 @@
                 <Label Text="的" Grid.Column="2" Grid.Row="7" HorizontalOptions="Center" />
                 <Picker Grid.Column="3" Grid.Row="7" SelectedIndex="{Binding WeekDay}">
                     <Picker.Items>
-                        <x:String>星期日</x:String>
+                        <x:String>请选择</x:String>
                         <x:String>星期一</x:String>
                         <x:String>星期二</x:String>
                         <x:String>星期三</x:String>
                         <x:String>星期四</x:String>
                         <x:String>星期五</x:String>
                         <x:String>星期六</x:String>
+                        <x:String>星期日</x:String>
                     </Picker.Items>
                 </Picker>
                 <Label Text="这天从" Grid.Column="0" Grid.Row="8" />

@@ -51,17 +51,18 @@ namespace HandSchool.Views
                 }, 0, ij);
             }
 
-            RefreshButton.Command = new Command(() => { App.Current.Schedule.Execute(); LoadList(); });
+            RefreshButton.Command = new Command(async () => { await App.Current.Schedule.Execute(); LoadList(); });
+            AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true }, true)).ShowAsync());
             SizeChanged += SetTileSize;
         }
-
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();
             if (Week == -1) Week = App.Current.Service.CurrentWeek;
             CurrentWeekShow.Text = $"第{Week}周";
             LoadList();
-            System.Diagnostics.Debug.WriteLine("SchedulePage.OnAppearing. Is this too often?");
+            System.Diagnostics.Debug.WriteLine("SchedulePage.OnAppearing. Redrawing.");
         }
 
         void LoadList()
