@@ -5,11 +5,9 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
 		          Title="登录教务系统">
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="用户名" FontSize="Medium" />
-            <Entry Text="{Binding Service.Username}" FontSize="Medium" />
-            <Label Text="密码" FontSize="Medium" />
-            <Entry Text="{Binding Service.Password}" IsPassword="True"  FontSize="Medium" />
+        <StackLayout Padding="15">
+            <Entry Text="{Binding Service.Username}" Placeholder="用户名" FontSize="Medium" />
+            <Entry Text="{Binding Service.Password}" Placeholder="密码" IsPassword="True"  FontSize="Medium" />
             <Label Text="{Binding Service.Tips}" FontSize="Medium" />
             <TableView Intent="Form">
                 <TableSection>

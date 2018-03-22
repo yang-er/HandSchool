@@ -49,4 +49,10 @@
     <key>UILaunchStoryboardName</key>
     <string>LaunchScreen</string>
   </dict>
+  <dict>
+    <key>UIAppFonts</key>
+    <array>
+      <string>segmdl2.ttf</string>
+    </array>
+  </dict>
 </plist>

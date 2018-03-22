@@ -39,7 +39,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Padding="0">
+    <Grid Padding="{StaticResource padding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

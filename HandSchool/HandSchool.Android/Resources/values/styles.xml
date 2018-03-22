@@ -2,6 +2,7 @@
 <resources>
 
   <style name="MainTheme" parent="MainTheme.Base">
+    <item name="actionBarSize">@dimen/action_bar_default_height_material_overlay</item>
   </style>
   <!-- Base theme applied no matter what API -->
   <style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -21,14 +22,16 @@
          colorControlHighlight and colorSwitchThumbNormal. -->
     <item name="windowActionModeOverlay">true</item>
     <item name="android:windowTranslucentStatus">true</item>
-
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">#1756E1</item>
   </style>
-
+<!--
+  <style name="MainTheme.Toolbar" parent="">
+    <item name="android:minHeight">@dimen/action_bar_default_height_material_overlay</item>
+  </style>-->
   <style name="Theme.Splash" parent="android:style/Theme.Material.Light.NoActionBar">
     <item name="android:windowBackground">@drawable/splash</item>
     <item name="windowNoTitle">true</item>
