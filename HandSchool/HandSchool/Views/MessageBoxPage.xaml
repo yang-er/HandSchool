@@ -21,6 +21,7 @@
                     <StackLayout Padding="15">
                         <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                         <Label Text="{Binding Show}" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                        <Label Text="{Binding ReadstateText}" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13"/>
                     </StackLayout>
                     <ViewCell.ContextActions>
                         <MenuItem Text="已读" CommandParameter="{Binding .}"  />

@@ -10,8 +10,9 @@ namespace HandSchool
         string Body { get; }
         DateTime Time { get; }
         bool Readed { get; }
+        string ReadstateText { get; set; }
         string Show { get; }
-        void Onreaded();
+        void OnReaded();
         
     }
 }
