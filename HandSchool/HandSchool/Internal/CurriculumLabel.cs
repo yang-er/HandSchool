@@ -1,7 +1,4 @@
 ﻿using HandSchool.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -43,15 +40,10 @@ namespace HandSchool.Models
             Where.Text = Context.Classroom;
             BackgroundColor = GetColor();
         }
-
-        public void Unregister()
-        {
-
-        }
-
+        
         private async Task ItemTapped()
         {
-            var page = new CurriculumPage(this);
+            var page = new CurriculumPage(this.Context);
             await page.ShowAsync(Navigation);
         }
 
