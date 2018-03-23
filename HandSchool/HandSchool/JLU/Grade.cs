@@ -42,14 +42,15 @@ namespace HandSchool.JLU
         public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
     }
 
-    class GradeEntrance : ISystemEntrance
+    class GradeEntrance : IGradeEntrance
     {
-        public int RowLimit = 15;
+        public int RowLimit { get; set; } = 15;
 
         public string Name => "成绩查询";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
+        public string GPAPostValue => "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
         public string StorageFile => "jlu.grade.json";
         public string LastReport { get; private set; }
         
@@ -75,6 +76,14 @@ namespace HandSchool.JLU
             {
                 GradePointViewModel.Instance.Items.Add(new GradeItem(asv));
             }
+        }
+
+        public async Task<string> GatherGPA()
+        {
+            LastReport = await App.Current.Service.Post(ScriptFileUri, GPAPostValue);
+            var ro = JSON<RootObject<GPAValue>>(LastReport);
+            return string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
+                ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
         }
     }
 }

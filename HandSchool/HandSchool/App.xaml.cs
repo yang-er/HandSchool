@@ -12,9 +12,8 @@ namespace HandSchool
         #region School Components
 
         public ISchoolSystem Service;
-        public ISystemEntrance GradePoint;
+        public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
-        public ISystemEntrance GPA;
         public ISystemEntrance SelectCourse;
         public ISystemEntrance Message;
         public int DailyClassCount;
@@ -41,7 +40,6 @@ namespace HandSchool
             DailyClassCount = 11;
             GradePoint = new JLU.GradeEntrance();
             Schedule = new JLU.Schedule();
-            GPA = new JLU.GPA();
             Message = new JLU.MessageEntrance();
         }
         

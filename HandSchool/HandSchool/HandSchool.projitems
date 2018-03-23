@@ -28,7 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\GPA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
