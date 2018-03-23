@@ -6,6 +6,7 @@
 		          Title="登录教务系统">
     <ContentPage.Content>
         <StackLayout Padding="15">
+            <ActivityIndicator HorizontalOptions="Center" x:Name="loadingBar" Color="Blue" />
             <Entry Text="{Binding Service.Username}" Placeholder="用户名" FontSize="Medium" />
             <Entry Text="{Binding Service.Password}" Placeholder="密码" IsPassword="True"  FontSize="Medium" />
             <Label Text="{Binding Service.Tips}" FontSize="Medium" />

@@ -18,11 +18,18 @@ namespace HandSchool.Internal
         {
             get
             {
-                var ret = ResponseHeaders["Location"];
-                if (ret.StartsWith(BaseAddress))
-                    return ret.Replace(BaseAddress, string.Empty);
-                else
-                    return ret;
+                try
+                {
+                    var ret = ResponseHeaders["Location"];
+                    if (ret.StartsWith(BaseAddress))
+                        return ret.Replace(BaseAddress, string.Empty);
+                    else
+                        return ret;
+                }
+                catch (NullReferenceException)
+                {
+                    return "";
+                }
             }
         }
 
@@ -51,7 +58,7 @@ namespace HandSchool.Internal
             try
             {
                 var ret = await DownloadStringTaskAsync(address);
-                if (!ResponseHeaders["Content-Type"].StartsWith(accept) && accept != "*/*")
+                if (accept != "*/*" && !ResponseHeaders["Content-Type"].StartsWith(accept))
                 {
                     throw new ContentAcceptException(ret, ResponseHeaders["Content-Type"], accept);
                 }
