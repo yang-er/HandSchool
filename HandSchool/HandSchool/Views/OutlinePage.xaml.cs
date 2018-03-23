@@ -75,9 +75,9 @@ namespace HandSchool.Views
             LoadingExtraItem?.Invoke(this, new EventArgs());
 
             SecondaryListView.HeightRequest = 12 + 48 * SecondaryItems.Count;
-
-            stackOfInfo.BindingContext = App.Current.Service;
-            this.LayoutChanged += WSizeChanged;
+            App.Current.Service.LoggedIn += UpdateSideBar;
+            UpdateSideBar();
+            LayoutChanged += WSizeChanged;
         }
 
         private void WSizeChanged(object sender, EventArgs e)
@@ -87,6 +87,12 @@ namespace HandSchool.Views
                 infoBar.HeightRequest = Width * 0.625;
                 stackOfInfo.Margin = new Thickness(20, Width * 0.625 - 70, 0, 0);
             }
+        }
+
+        public void UpdateSideBar()
+        {
+            currentMsg.Text = App.Current.Service.CurrentMessage;
+            welcomeMsg.Text = App.Current.Service.WelcomeMessage;
         }
     }
 }

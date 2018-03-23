@@ -5,7 +5,7 @@
              Title="课程表">
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="第n周" x:Name="CurrentWeekShow" />
-        <ToolbarItem Name="刷新" x:Name="RefreshButton" Order="Secondary" />
+        <ToolbarItem Name="刷新课表" x:Name="RefreshButton" Order="Secondary" />
         <ToolbarItem Name="添加课程" x:Name="AddButton" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

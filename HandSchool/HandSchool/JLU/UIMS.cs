@@ -16,6 +16,7 @@ namespace HandSchool.JLU
     class UIMS : ISchoolSystem
     {
         public AwaredWebClient WebClient { get; set; }
+        public event Action LoggedIn;
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
         public List<ISystemEntrance> Methods => methodList;
         public NameValueCollection AttachInfomation { get; set; }
@@ -147,6 +148,7 @@ namespace HandSchool.JLU
             }
 
             IsLogin = true;
+            LoggedIn?.Invoke();
             return true;
         }
         

@@ -28,7 +28,7 @@ namespace HandSchool.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
-        async Task ExecuteLoadItemsCommand()
+        public async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy)
                 return;
@@ -42,6 +42,27 @@ namespace HandSchool.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task<string> ExcuteLoadGPACommand()
+        {
+            if (IsBusy)
+                return "正在加载中，请稍后。";
+
+            IsBusy = true;
+
+            try
+            {
+                return await App.Current.GradePoint.GatherGPA();
+            }
+            catch (Exception ex)
+            {
+                return "发生异常。" + ex.ToString();
             }
             finally
             {

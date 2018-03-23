@@ -1,7 +1,7 @@
 ﻿using HandSchool.Internal;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace HandSchool
@@ -25,5 +25,6 @@ namespace HandSchool
         Task<bool> Login();
         Task<string> Post(string url, string send);
         Task<string> Get(string url);
+        event Action LoggedIn;
     }
 }

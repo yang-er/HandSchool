@@ -39,7 +39,9 @@ namespace HandSchool.Views
 
         async void ShowGPA_Clicked(object sender, EventArgs e)
         {
-            var gpa = await App.Current.GradePoint.GatherGPA();
+            var alert = Helper.ShowLoadingAlert("正在加载GPA信息……");
+            var gpa = await GradePointViewModel.Instance.ExcuteLoadGPACommand();
+            alert.Invoke();
             await DisplayAlert("学分绩点统计", gpa, "确定");
         }
     }

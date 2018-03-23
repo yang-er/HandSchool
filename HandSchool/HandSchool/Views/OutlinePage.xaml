@@ -49,8 +49,8 @@
         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="{StaticResource absHeight}" x:Name="infoBar">
             <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
             <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="{StaticResource absMargin}" x:Name="stackOfInfo">
-                <Label Text="{Binding WelcomeMessage}" TextColor="{StaticResource absColor}" FontSize="Large" />
-                <Label Text="{Binding CurrentMessage}" TextColor="{StaticResource absColor}" />
+                <Label Text="请登录" x:Name="welcomeMsg" TextColor="{StaticResource absColor}" FontSize="Large" />
+                <Label Text="登录后可以查看更多内容。" x:Name="currentMsg" TextColor="{StaticResource absColor}" />
             </StackLayout>
         </AbsoluteLayout>
         <ListView x:Name="PrimaryListView"

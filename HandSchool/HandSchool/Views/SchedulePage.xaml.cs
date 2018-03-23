@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SchedulePage : ContentPage
 	{
         public double FontSize => 14;
@@ -18,7 +13,7 @@ namespace HandSchool.Views
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
 
-        private bool IsWider = false, firstTime = true;
+        private bool IsWider = false, firstTime = true, IsBusyLoading = false;
 
         public SchedulePage()
 		{
@@ -51,8 +46,17 @@ namespace HandSchool.Views
                 }, 0, ij);
             }
 
-            RefreshButton.Command = new Command(async () => { await App.Current.Schedule.Execute(); LoadList(); });
-            AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true }, true)).ShowAsync(Navigation));
+            RefreshButton.Command = new Command(async () => {
+                if (IsBusyLoading) return;
+                IsBusyLoading = true;
+                var alert = Internal.Helper.ShowLoadingAlert("正在加载课程表……");
+                await App.Current.Schedule.Execute();
+                LoadList();
+                alert.Invoke();
+                IsBusyLoading = false;
+            });
+
+            AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString() }, true)).ShowAsync(Navigation));
             SizeChanged += SetTileSize;
         }
         
@@ -74,7 +78,6 @@ namespace HandSchool.Views
             }
             
             // Render classes
-            var p = grid.Children as IList<View>;
             App.Current.Schedule.RenderWeek(Week, grid.Children);
         }
 
@@ -87,7 +90,7 @@ namespace HandSchool.Views
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
             }
-            else if(Width < Height && (IsWider || firstTime))
+            else if (Width < Height && (IsWider || firstTime))
             {
                 IsWider = false;
                 DefRow.Height = GridLength.Star;
