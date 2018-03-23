@@ -25,13 +25,13 @@ namespace HandSchool.JLU
         {
             piece = p;
             Readed = piece.hasReaded != "N" ? true : false;
-            ReadstateText = Readed ? "已读" : "未读";
+            ReadstateText = Readed ? "" : "●";
             ReadStateChanged?.Invoke(this, new PropertyChangedEventArgs("ReadstateText"));
         }
         public async void OnReaded()
         {
             Readed = true;
-            ReadstateText = Readed ? "已读" : "未读";
+            ReadstateText = Readed ? "" : "●";
             ReadStateChanged?.Invoke(this,new PropertyChangedEventArgs("ReadstateText"));
             string a=await Execute();
             
