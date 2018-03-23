@@ -52,7 +52,7 @@ namespace HandSchool.Views
             }
 
             RefreshButton.Command = new Command(async () => { await App.Current.Schedule.Execute(); LoadList(); });
-            AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true }, true)).ShowAsync());
+            AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true }, true)).ShowAsync(Navigation));
             SizeChanged += SetTileSize;
         }
         

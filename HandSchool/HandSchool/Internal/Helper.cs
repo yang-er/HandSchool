@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
-    class Helper
+    partial class Helper
     {
         private static MD5 MD5p = new MD5CryptoServiceProvider();
         private static StringBuilder sb = new StringBuilder();
@@ -47,15 +47,7 @@ namespace HandSchool.Internal
                     return e.Status.ToString() + "\n" + e.StackTrace;
             }
         }
-
-        public static Task ShowLoadingAlert(string tips, string title = "提示")
-        {
-            var dismissCallback = new Task(() => {
-                // xxxx.Close()?
-            });
-            return dismissCallback;
-        }
-
+        
         public static int GetDeviceSpecified(string name)
         {
             return 0;

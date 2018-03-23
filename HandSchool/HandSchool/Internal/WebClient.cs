@@ -118,7 +118,7 @@ namespace HandSchool.Internal
             {
                 Headers.Set("Content-Type", type);
                 var ret = await UploadStringTaskAsync(script, "POST", value);
-                if (!ResponseHeaders["Content-Type"].StartsWith(accept) && accept != "*/*")
+                if (accept != "*/*" && !ResponseHeaders["Content-Type"].StartsWith(accept))
                 {
                     throw new ContentAcceptException(ret, ResponseHeaders["Content-Type"], accept);
                 }

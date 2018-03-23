@@ -36,7 +36,7 @@ namespace HandSchool.Views
             var loadingAlert = Helper.ShowLoadingAlert("正在登录……");
             await App.Current.Service.Login();
             IsBusyLogin = false;
-            await loadingAlert;
+            loadingAlert.Invoke();
 
             if (App.Current.Service.IsLogin)
             {
