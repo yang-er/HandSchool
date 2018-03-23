@@ -22,9 +22,6 @@ namespace HandSchool.Views
             SavePassword.OnChanged += SavePassChanged;
             LoginButton.Command = new Command(async () => await Login_Clicked());
             BindingContext = this;
-#if __ANDROID__
-            loadingBar.HeightRequest = 16;
-#endif
         }
         
         async Task Login_Clicked()
@@ -36,10 +33,10 @@ namespace HandSchool.Views
             }
 
             IsBusyLogin = true;
-            loadingBar.IsRunning = true;
+            var loadingAlert = Helper.ShowLoadingAlert("正在登录……");
             await App.Current.Service.Login();
             IsBusyLogin = false;
-            loadingBar.IsRunning = false;
+            await loadingAlert;
 
             if (App.Current.Service.IsLogin)
             {

@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.Internal
@@ -45,6 +46,14 @@ namespace HandSchool.Internal
                 default:
                     return e.Status.ToString() + "\n" + e.StackTrace;
             }
+        }
+
+        public static Task ShowLoadingAlert(string tips, string title = "提示")
+        {
+            var dismissCallback = new Task(() => {
+                // xxxx.Close()?
+            });
+            return dismissCallback;
         }
 
         public static int GetDeviceSpecified(string name)
