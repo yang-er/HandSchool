@@ -12,9 +12,6 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MessageBoxPage : ContentPage
     {
-        //public event PropertyChangedEventHandler ReadStateChanged;
-        public ObservableCollection<string> Items { get; set; }
-
         public MessageBoxPage()
         {
             InitializeComponent();
@@ -25,8 +22,8 @@ namespace HandSchool.Views
         {
             if (e.Item == null)
                 return;
-            var a=e.Item as IMessageItem;
-            //a.OnReaded();
+            var a = e.Item as IMessageItem;
+            Task.Run(async () => { await App.Current.Message.SetReadState(a.Id, true); a.Unread = false; });
             await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 
             //Deselect Item

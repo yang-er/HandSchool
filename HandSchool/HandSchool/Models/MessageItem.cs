@@ -12,7 +12,7 @@ namespace HandSchool
         string Body { get; }
         DateTime Time { get; }
         string Date { get; }
-        bool Readed { get; }
+        bool Unread { get; set; }
     }
 
     public interface IMessageEntrance : ISystemEntrance

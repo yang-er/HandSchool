@@ -12,19 +12,19 @@ namespace HandSchool.JLU
     public class MessageItem : IMessageItem
     {
         private MessagePiece piece;
-        private bool _readed;
+        private bool _unread;
 
         public int Id => int.Parse(piece.msgInboxId);
         public string Title => piece.message.title;
         public string Body => piece.message.body;
         public DateTime Time => piece.message.dateCreate;
         public string Date => piece.message.dateCreate.ToShortDateString();
-        public bool Readed { get => _readed; set => SetProperty(ref _readed, value); }
+        public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
 
         public MessageItem(MessagePiece p)
         {
             piece = p;
-            _readed = piece.hasReaded != "N";
+            _unread = piece.hasReaded == "N";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
