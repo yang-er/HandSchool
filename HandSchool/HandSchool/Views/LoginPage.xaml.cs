@@ -11,6 +11,8 @@ namespace HandSchool.Views
     {
         public ISchoolSystem Service => App.Current.Service;
 
+        bool IsBusyLogin = false;
+
         public LoginPage()
         {
             InitializeComponent();
@@ -24,7 +26,15 @@ namespace HandSchool.Views
         
         async Task Login_Clicked()
         {
+            if (IsBusyLogin)
+            {
+                await DisplayAlert("正在登录", "正在登录中，请稍后……", "知道了");
+                return;
+            }
+
+            IsBusyLogin = true;
             await App.Current.Service.Login();
+            IsBusyLogin = false;
 
             if (App.Current.Service.IsLogin)
             {

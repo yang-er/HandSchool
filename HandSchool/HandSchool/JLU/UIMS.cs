@@ -17,7 +17,6 @@ namespace HandSchool.JLU
     {
         public AwaredWebClient WebClient { get; set; }
         private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
-        public event PropertyChangedEventHandler PropertyChanged;
         public List<ISystemEntrance> Methods => methodList;
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
@@ -32,10 +31,11 @@ namespace HandSchool.JLU
         public int CurrentWeek { get; set; }
         public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
         public string CurrentMessage => NeedLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
+
         public UIMS()
         {
             IsLogin = false;
-            NeedLogin = false;
+            NeedLogin = !false;
             Username = ReadConfFile("jlu.uims.username.txt");
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
@@ -59,7 +59,6 @@ namespace HandSchool.JLU
             AttachInfomation.Add("studId", LoginInfo.userId.ToString());
             AttachInfomation.Add("studName", LoginInfo.nickName);
             AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WelcomeMessage"));
         }
 
         private void ParseTermInfo(string resp)
@@ -75,8 +74,6 @@ namespace HandSchool.JLU
                 AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
                 CurrentWeek = (int)Math.Ceiling((decimal) ((DateTime.Now - ro.startDate).Days + 1) / 7);
             }
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWeek"));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentMessage"));
         }
 
         public async Task<bool> Login()

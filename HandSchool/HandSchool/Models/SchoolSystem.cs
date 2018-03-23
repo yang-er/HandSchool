@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HandSchool
 {
-    public interface ISchoolSystem : INotifyPropertyChanged
+    public interface ISchoolSystem
     {
         string ServerUri { get; }
         AwaredWebClient WebClient { get; set; }
