@@ -13,15 +13,18 @@
               RefreshCommand="{Binding LoadItemsCommand}"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand"
               HasUnevenRows="true"
               CachingStrategy="RecycleElement">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
                     <StackLayout Padding="15">
-                        <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                        <AbsoluteLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                            <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                            <Label Text="{Binding ReadstateText}"  TextColor="Red" HorizontalOptions="End" Style="{DynamicResource ListItemTextStyle}" AbsoluteLayout.LayoutBounds=".8,.0,.9,.9" AbsoluteLayout.LayoutFlags="All"   FontSize="16"/>
+                        </AbsoluteLayout>
                         <Label Text="{Binding Show}" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
-                        <Label Text="{Binding ReadstateText}" TextColor="Red" Style="{DynamicResource ListItemTextStyle}" HorizontalOptions="End" FontSize="13"/>
                     </StackLayout>
                     <ViewCell.ContextActions>
                         <MenuItem Text="已读" CommandParameter="{Binding .}"  />
