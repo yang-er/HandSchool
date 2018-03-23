@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,6 +12,7 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MessageBoxPage : ContentPage
     {
+        //public event PropertyChangedEventHandler ReadStateChanged;
         public ObservableCollection<string> Items { get; set; }
 
         public MessageBoxPage()
@@ -26,7 +26,7 @@ namespace HandSchool.Views
             if (e.Item == null)
                 return;
             var a=e.Item as IMessageItem;
-            a.Onreaded();
+            a.OnReaded();
             await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 
             //Deselect Item
