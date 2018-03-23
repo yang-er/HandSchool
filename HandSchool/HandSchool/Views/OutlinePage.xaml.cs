@@ -77,6 +77,16 @@ namespace HandSchool.Views
             SecondaryListView.HeightRequest = 12 + 48 * SecondaryItems.Count;
 
             stackOfInfo.BindingContext = App.Current.Service;
+            this.LayoutChanged += WSizeChanged;
         }
-	}
+
+        private void WSizeChanged(object sender, EventArgs e)
+        {
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                infoBar.HeightRequest = Width * 0.625;
+                stackOfInfo.Margin = new Thickness(20, Width * 0.625 - 70, 0, 0);
+            }
+        }
+    }
 }

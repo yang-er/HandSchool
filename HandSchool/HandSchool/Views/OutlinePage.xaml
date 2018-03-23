@@ -46,8 +46,8 @@
             <RowDefinition Height="1" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <AbsoluteLayout HeightRequest="{StaticResource absHeight}">
-            <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" />
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="{StaticResource absHeight}" x:Name="infoBar">
+            <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
             <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="{StaticResource absMargin}" x:Name="stackOfInfo">
                 <Label Text="{Binding WelcomeMessage}" TextColor="{StaticResource absColor}" FontSize="Large" />
                 <Label Text="{Binding CurrentMessage}" TextColor="{StaticResource absColor}" />

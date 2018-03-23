@@ -35,7 +35,7 @@ namespace HandSchool.JLU
         public UIMS()
         {
             IsLogin = false;
-            NeedLogin = !false;
+            NeedLogin = false;
             Username = ReadConfFile("jlu.uims.username.txt");
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
