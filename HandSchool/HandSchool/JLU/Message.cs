@@ -2,6 +2,7 @@
 using HandSchool.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
@@ -11,45 +12,37 @@ namespace HandSchool.JLU
     public class MessageItem : IMessageItem
     {
         private MessagePiece piece;
+        private bool _readed;
+
         public int Id => int.Parse(piece.msgInboxId);
         public string Title => piece.message.title;
         public string Body => piece.message.body;
         public DateTime Time => piece.message.dateCreate;
-        public bool Readed { get; set; }
-        public string Show => $"{Time.ToString()} {Body}";
-        public string ReadstateText { get; set; }
-        public string MsgReadPageUri = "http://uims.jlu.edu.cn/ntms/siteMessages/read-message.do";
-        public event PropertyChangedEventHandler ReadStateChanged;
-        public string PostValue = "{\"read\":\"Y\",\"idList\":[\"";     //+Idstring+"\"]}";
+        public string Date => piece.message.dateCreate.ToShortDateString();
+        public bool Readed { get => _readed; set => SetProperty(ref _readed, value); }
+
         public MessageItem(MessagePiece p)
         {
             piece = p;
-            Readed = piece.hasReaded != "N" ? true : false;
-            ReadstateText = Readed ? "" : "●";
-            ReadStateChanged?.Invoke(this, new PropertyChangedEventArgs("ReadstateText"));
+            _readed = piece.hasReaded != "N";
         }
-        public async void OnReaded()
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
         {
-            Readed = true;
-            ReadstateText = Readed ? "" : "●";
-            ReadStateChanged?.Invoke(this,new PropertyChangedEventArgs("ReadstateText"));
-            string a=await Execute();
-            
-        }
-        public async Task<string>Execute()
-        {
-               
-                PostValue += Id.ToString() + "\"]}";
-                await App.Current.Service.Post(MsgReadPageUri, PostValue);                     //异步执行一些任务
-                return "Hello World";                               //异步执行完成标记
+            if (Equals(storage, value)) return;
+            storage = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
-    public class MessageEntrance : ISystemEntrance
+    public class MessageEntrance : IMessageEntrance
     {
         public string Name => "系统收件箱";
 
         public string ScriptFileUri => "siteMessages/get-message-in-box.do";
+        public string MsgReadPageUri => "siteMessages/read-message.do";
         public string PostValue => "{}";
         public bool IsPost => true;
         public string StorageFile => "jlu.msgbox.json";
@@ -70,6 +63,13 @@ namespace HandSchool.JLU
             {
                 MessageViewModel.Instance.Items.Add(new MessageItem(asv));
             }
+        }
+
+        public async Task SetReadState(int id, bool read)
+        {
+            var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
+            await App.Current.Service.Post(MsgReadPageUri, PostArgs);
+            // throw new NotImplementedException();
         }
     }
 }

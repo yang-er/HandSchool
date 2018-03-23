@@ -14,8 +14,8 @@ namespace HandSchool
         public ISchoolSystem Service;
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
+        public IMessageEntrance Message;
         public ISystemEntrance SelectCourse;
-        public ISystemEntrance Message;
         public int DailyClassCount;
         public static new App Current => Application.Current as App;
 

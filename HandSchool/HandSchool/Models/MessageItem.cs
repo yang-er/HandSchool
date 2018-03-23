@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 namespace HandSchool
 {
-    public interface IMessageItem
+    public interface IMessageItem : INotifyPropertyChanged
     {
         int Id { get; }
         string Title { get; }
         string Body { get; }
         DateTime Time { get; }
+        string Date { get; }
         bool Readed { get; }
-        string ReadstateText { get; set; }
-        string Show { get; }
-        void OnReaded();
-        
+    }
+
+    public interface IMessageEntrance : ISystemEntrance
+    {
+        Task SetReadState(int id, bool read);
     }
 }

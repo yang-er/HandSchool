@@ -26,7 +26,7 @@ namespace HandSchool.Views
             if (e.Item == null)
                 return;
             var a=e.Item as IMessageItem;
-            a.OnReaded();
+            //a.OnReaded();
             await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 
             //Deselect Item
