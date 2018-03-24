@@ -22,7 +22,7 @@ namespace HandSchool.Views
             PrimaryItems = new List<MasterPageItem>() {
                 new MasterPageItem
                 {
-                    Title = "BROWSE",
+                    Title = "首页",
                     FontFamily = Helper.SegoeMDL2,
                     Icon = "\xE10F",
                     Color = ActiveColor,
@@ -55,6 +55,15 @@ namespace HandSchool.Views
                     Color = Color.Black,
                     Selected = false,
                     DestPage = new NavigationPage(new GradePointPage())
+                },
+                new MasterPageItem
+                {
+                    Title = "信息查询",
+                    FontFamily = Helper.SegoeMDL2,
+                    Icon = "\xE12F",
+                    Color = Color.Black,
+                    Selected = false,
+                    DestPage = new NavigationPage(new InfoQueryPage())
                 }
             };
 

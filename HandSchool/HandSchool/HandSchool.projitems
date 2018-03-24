@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InfoQueryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
@@ -51,6 +52,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\GradePointPage.xaml.cs">
       <DependentUpon>GradePointPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\InfoQueryPage.xaml.cs">
+      <DependentUpon>InfoQueryPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml.cs">
@@ -133,6 +138,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\OutlinePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\InfoQueryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <!--#if (CreateBackendProject)
