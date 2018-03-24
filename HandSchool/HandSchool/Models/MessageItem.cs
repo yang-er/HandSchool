@@ -12,6 +12,7 @@ namespace HandSchool
         string Body { get; }
         DateTime Time { get; }
         string Date { get; }
+        string Sender { get; }
         bool Unread { get; set; }
     }
 

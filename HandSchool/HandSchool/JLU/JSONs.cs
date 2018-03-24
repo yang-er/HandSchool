@@ -2,6 +2,15 @@
 
 namespace HandSchool.JLU.JsonObject
 {
+    public class RootObject<T>
+    {
+        public string id { get; set; }
+        public int status { get; set; }
+        public T[] value { get; set; }
+        public string resName { get; set; }
+        public string msg { get; set; }
+    }
+
     public class ErrorMsg
     {
         public int status { get; set; }
@@ -163,15 +172,6 @@ namespace HandSchool.JLU.JsonObject
         public string campus { get; set; }
     }
 
-    public class RootObject<T>
-    {
-        public string id { get; set; }
-        public int status { get; set; }
-        public T[] value { get; set; }
-        public string resName { get; set; }
-        public string msg { get; set; }
-    }
-
     public class MessageBox
     {
         public int count { get; set; }
@@ -196,6 +196,7 @@ namespace HandSchool.JLU.JsonObject
 
     public class MessageMain
     {
+        public MessageSender sender { get; set; }
         public string body { get; set; }
         public string title { get; set; }
         public DateTime dateExpire { get; set; }
@@ -214,4 +215,8 @@ namespace HandSchool.JLU.JsonObject
         public string schoolName { get; set; }
     }
 
+    public class MessageSender
+    {
+        public string name { get; set; }
+    }
 }

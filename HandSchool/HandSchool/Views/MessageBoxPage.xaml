@@ -4,7 +4,9 @@
              x:Class="HandSchool.Views.MessageBoxPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="刷新" Command="{Binding LoadItemsCommand}" />
+        <ToolbarItem Text="刷新列表" Command="{Binding LoadItemsCommand}" Order="Secondary" />
+        <ToolbarItem Text="全部已读" Order="Secondary" />
+        <ToolbarItem Text="全部删除" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"

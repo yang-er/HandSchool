@@ -18,6 +18,7 @@ namespace HandSchool.JLU
         public string Title => piece.message.title;
         public string Body => piece.message.body;
         public DateTime Time => piece.message.dateCreate;
+        public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
         public string Date => piece.message.dateCreate.ToShortDateString();
         public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
 
