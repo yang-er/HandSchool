@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -24,10 +25,12 @@ namespace HandSchool.Views
                 return;
             var a = e.Item as IMessageItem;
             Task.Run(async () => { await App.Current.Message.SetReadState(a.Id, true); a.Unread = false; });
+            
             await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
         }
+
     }
 }

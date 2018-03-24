@@ -13,7 +13,7 @@ namespace HandSchool.ViewModels
         public ObservableCollection<IMessageItem> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
         static MessageViewModel instance = null;
-
+        
         public static MessageViewModel Instance
         {
             get
@@ -29,7 +29,7 @@ namespace HandSchool.ViewModels
             Items = new ObservableCollection<IMessageItem>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
-
+        
         async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy)

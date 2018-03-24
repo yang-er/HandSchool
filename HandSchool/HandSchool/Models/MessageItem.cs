@@ -19,5 +19,6 @@ namespace HandSchool
     public interface IMessageEntrance : ISystemEntrance
     {
         Task SetReadState(int id, bool read);
+        Task DelMessage(int id,IMessageItem Message);
     }
 }
