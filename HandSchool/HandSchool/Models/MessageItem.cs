@@ -14,11 +14,13 @@ namespace HandSchool
         string Date { get; }
         string Sender { get; }
         bool Unread { get; set; }
+        Command SetRead { get; }
+        Command Delete { get; }
     }
 
     public interface IMessageEntrance : ISystemEntrance
     {
         Task SetReadState(int id, bool read);
-        Task DelMessage(int id,IMessageItem Message);
+        Task Delete(int id);
     }
 }

@@ -32,8 +32,8 @@
                         </AbsoluteLayout>
                     </StackLayout>
                     <ViewCell.ContextActions>
-                        <MenuItem Command="{Binding OnReadedCommand}" Text="已读" />
-                        <MenuItem Command="{Binding OnDel}" Text="删除" IsDestructive="True" />
+                        <MenuItem Command="{Binding SetRead}" Text="已读" />
+                        <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />
                     </ViewCell.ContextActions>
                 </ViewCell>
             </DataTemplate>
