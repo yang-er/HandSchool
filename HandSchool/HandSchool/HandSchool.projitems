@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient.cs" />
