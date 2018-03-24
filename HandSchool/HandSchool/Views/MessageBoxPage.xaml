@@ -20,7 +20,7 @@
               CachingStrategy="RecycleElement">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <ViewCell>
+                <ViewCell x:Name="Mycell" >
                     <StackLayout Padding="15">
                         <AbsoluteLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
                             <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
@@ -32,8 +32,8 @@
                         </AbsoluteLayout>
                     </StackLayout>
                     <ViewCell.ContextActions>
-                        <MenuItem Text="已读" CommandParameter="{Binding .}"  />
-                        <MenuItem Text="删除" IsDestructive="True" CommandParameter="{Binding .}" />
+                        <MenuItem Command="{Binding SetRead}" Text="已读" />
+                        <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />
                     </ViewCell.ContextActions>
                 </ViewCell>
             </DataTemplate>

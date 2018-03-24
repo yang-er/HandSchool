@@ -2,6 +2,7 @@
 using HandSchool.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -21,15 +22,27 @@ namespace HandSchool.JLU
         public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
         public string Date => piece.message.dateCreate.ToShortDateString();
         public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
+        public Command SetRead { get; }
+        public Command Delete { get; }
+        public bool IsShowed = true;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MessageItem(MessagePiece p)
         {
             piece = p;
             _unread = piece.hasReaded == "N";
+
+            SetRead = new Command(async () => {
+                await App.Current.Message.SetReadState(Id, true);
+                Unread = false;
+            });
+
+            Delete = new Command(async () => {
+                await App.Current.Message.Delete(Id);
+                MessageViewModel.Instance.Items.Remove(this);
+            });
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
         {
             if (Equals(storage, value)) return;
@@ -44,6 +57,7 @@ namespace HandSchool.JLU
 
         public string ScriptFileUri => "siteMessages/get-message-in-box.do";
         public string MsgReadPageUri => "siteMessages/read-message.do";
+        public string DelPageUri => "siteMessages/delete-recv-message.do";
         public string PostValue => "{}";
         public bool IsPost => true;
         public string StorageFile => "jlu.msgbox.json";
@@ -70,7 +84,12 @@ namespace HandSchool.JLU
         {
             var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
             await App.Current.Service.Post(MsgReadPageUri, PostArgs);
-            // throw new NotImplementedException();
+        }
+
+        public async Task Delete(int id)
+        {
+            var PostArgs = "{\"idList\":[\""+id.ToString()+"\"]}";
+            await App.Current.Service.Post(DelPageUri, PostArgs);
         }
     }
 }
