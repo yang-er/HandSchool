@@ -111,7 +111,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bootstrap.bundle.js" />
     <Content Include="bootstrap.css" />
+    <Content Include="jquery.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

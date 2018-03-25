@@ -159,6 +159,12 @@
   <ItemGroup>
     <BundleResource Include="Resources\bootstrap.css" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bootstrap.bundle.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\jquery.js" />
+  </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

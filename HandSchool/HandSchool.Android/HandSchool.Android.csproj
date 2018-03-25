@@ -117,6 +117,12 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\bootstrap.css" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\bootstrap.bundle.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\jquery.js" />
+  </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
