@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 /**
- Thanks to https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/custom-renderer/hybridwebview
+    Thanks to https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/custom-renderer/hybridwebview
+    https://github.com/xamarin/xamarin-forms-samples/tree/master/CustomRenderers/HybridWebView
+    <w:HybridWebView x:Name="hybridWebView" Uri="index.html" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+    hybridWebView.RegisterAction(data => DisplayAlert ("Alert", "Hello " + data, "OK"));
  */
 
 namespace HandSchool.Views
 {
-    class HybridWebView : View
+    public class HybridWebView : View
     {
         Action<string> action;
         public static readonly BindableProperty UriProperty = BindableProperty.Create(
