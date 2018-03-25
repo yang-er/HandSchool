@@ -5,10 +5,10 @@
              Title="{Binding Title}">
     <ContentPage.Content>
         <ListView x:Name="MyListView"
-              ItemsSource="{Binding Items}"
-              VerticalOptions="FillAndExpand"
-              HasUnevenRows="true"
-              CachingStrategy="RecycleElement">
+                  ItemsSource="{Binding Items}"
+                  VerticalOptions="FillAndExpand"
+                  HasUnevenRows="true"
+                  CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
