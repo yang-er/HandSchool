@@ -12,7 +12,7 @@ namespace HandSchool.ViewModels
 {
     public class InfoQueryViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<IInfoEntrance> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
         static InfoQueryViewModel instance = null;
 
@@ -28,15 +28,8 @@ namespace HandSchool.ViewModels
         public InfoQueryViewModel()
         {
             Title = "信息查询";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<IInfoEntrance>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-            {
-                var _item = item as Item;
-                Items.Add(_item);
-                await DataStore.AddItemAsync(_item);
-            });
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -48,12 +41,7 @@ namespace HandSchool.ViewModels
 
             try
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

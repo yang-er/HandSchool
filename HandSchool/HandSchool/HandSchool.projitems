@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Message.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\InfoEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />

@@ -7,7 +7,7 @@ using Xamarin.Forms.Platform.UWP;
 [assembly: ExportRenderer(typeof(HybridWebView), typeof(HybridWebViewRenderer))]
 namespace HandSchool.UWP
 {
-    public class HybridWebViewRenderer : ViewRenderer<HybridWebView, Windows.UI.Xaml.Controls.WebView>
+    public class HybridWebViewRenderer : ViewRenderer<HybridWebView, WebView>
     {
         const string JavaScriptFunction = "function invokeCSharpAction(data){window.external.notify(data);}";
 
@@ -18,6 +18,7 @@ namespace HandSchool.UWP
             if (Control == null)
             {
                 SetNativeControl(new WebView());
+                Element.ExcuteJavaScript += async (eval) => await Control.InvokeScriptAsync("eval", new[] { eval });
             }
             if (e.OldElement != null)
             {

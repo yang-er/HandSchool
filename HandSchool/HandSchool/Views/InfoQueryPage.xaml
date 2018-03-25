@@ -16,7 +16,7 @@
                             <Label Text="{Binding Name}" 
                                Style="{DynamicResource ListItemTextStyle}"
                                FontSize="16" />
-                            <Label Text="{Binding Show}" 
+                            <Label Text="{Binding Description}" 
                                Style="{DynamicResource ListItemDetailTextStyle}"
                                FontSize="13" />
                         </StackLayout>

@@ -42,6 +42,7 @@ namespace HandSchool.Droid
                 Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
                 Control.LoadUrl(string.Format("file:///android_asset/Content/{0}", Element.Uri));
                 InjectJS(JavaScriptFunction);
+                Element.ExcuteJavaScript += InjectJS;
             }
         }
 
