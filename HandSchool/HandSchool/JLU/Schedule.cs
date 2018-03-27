@@ -121,7 +121,7 @@ namespace HandSchool.JLU
             theater.Add("F区", "F");
             theater.Add("课堂", "");
         }
-
+        
         private NameValueCollection building = new NameValueCollection();
         private NameValueCollection theater = new NameValueCollection();
         */
