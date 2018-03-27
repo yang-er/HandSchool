@@ -32,5 +32,10 @@ namespace HandSchool.Views
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

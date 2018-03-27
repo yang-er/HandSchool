@@ -19,7 +19,7 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <StackLayout Padding="10">
+                    <StackLayout Padding="15">
                         <Label Text="{Binding Name}" 
                                Style="{DynamicResource ListItemTextStyle}"
                                FontSize="16" />

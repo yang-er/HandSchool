@@ -4,6 +4,9 @@
                   x:Class="HandSchool.Views.LoginPage"
                   xmlns:w="clr-namespace:HandSchool.Views"
 		          Title="登录教务系统">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="登录" x:Name="LoginButton" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="15">
             <Entry Text="{Binding Service.Username}" Placeholder="用户名" FontSize="Medium" />
@@ -15,7 +18,6 @@
                     <SwitchCell Text="自动登录" x:Name="AutoLogin" />
                 </TableSection>
             </TableView>
-            <Button Margin="0,10,0,0" Text="登录" x:Name="LoginButton" BackgroundColor="{StaticResource Primary}" TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </w:PopContentPage>
