@@ -18,7 +18,8 @@ namespace HandSchool.UWP
             if (Control == null)
             {
                 SetNativeControl(new WebView());
-                Element.ExcuteJavaScript += async (eval) => await Control.InvokeScriptAsync("eval", new[] { eval });
+                Element.OnExcuteJavaScript += async (eval) => 
+                await Control.InvokeScriptAsync("eval", new[] { eval });
             }
             if (e.OldElement != null)
             {
@@ -29,7 +30,7 @@ namespace HandSchool.UWP
             {
                 Control.NavigationCompleted += OnWebViewNavigationCompleted;
                 Control.ScriptNotify += OnWebViewScriptNotify;
-                Control.Source = new Uri(string.Format("ms-appx-web:///Content//{0}", Element.Uri));
+                Control.Source = new Uri(string.Format("ms-appx-web:///WebWrapper//{0}", Element.Uri));
             }
         }
 

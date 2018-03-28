@@ -24,5 +24,13 @@ namespace HandSchool.Views
         {
             Device.OpenUri(new Uri("https://github.com/yang-er"));
         }
+
+        private async void Test_Clicked(object sender, EventArgs e)
+        {
+            var webpg = new WebViewPage(null);
+            webpg.WebView.Uri = "bootstrap.html";
+            webpg.ToolbarItems.Add(new ToolbarItem { Text = "Test", Command = new Command(() => webpg.WebView.JavaScript("$('.table tbody').append('<tr><th scope=\"row\">4</th><td>What</td><td>the</td><td>@fuck</td></tr>')")) });
+            await webpg.ShowAsync(Navigation);
+        }
     }
 }

@@ -38,9 +38,9 @@ namespace HandSchool.iOS
             }
             if (e.NewElement != null)
             {
-                string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, string.Format("Content/{0}", Element.Uri));
+                string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, string.Format("WebWrapper/{0}", Element.Uri));
                 Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName, false)));
-                Element.ExcuteJavaScript += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
+                Element.OnExcuteJavaScript += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
             }
         }
 

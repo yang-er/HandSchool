@@ -6,6 +6,9 @@ using Xamarin.Forms;
     https://github.com/xamarin/xamarin-forms-samples/tree/master/CustomRenderers/HybridWebView
     <w:HybridWebView x:Name="hybridWebView" Uri="index.html" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
     hybridWebView.RegisterAction(data => DisplayAlert ("Alert", "Hello " + data, "OK"));
+
+    Author by tlylz99:
+    webpg.WebView.JavaScript("$('.table tbody').append('<tr><th scope=\"row\">4</th><td>What</td><td>the</td><td>@fuck</td></tr>')")
  */
 
 namespace HandSchool.Views
@@ -22,7 +25,12 @@ namespace HandSchool.Views
             set { SetValue(UriProperty, value); }
         }
 
-        public event Action<string> ExcuteJavaScript;
+        public event Action<string> OnExcuteJavaScript;
+
+        public void JavaScript(string str)
+        {
+            OnExcuteJavaScript?.Invoke(str);
+        }
 
         public void RegisterAction(Action<string> callback)
         {

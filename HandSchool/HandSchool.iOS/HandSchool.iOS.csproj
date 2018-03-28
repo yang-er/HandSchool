@@ -160,16 +160,19 @@
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\bootstrap.css" />
+    <BundleResource Include="Resources\WebWrapper\bootstrap.css" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\bootstrap.bundle.js" />
+    <BundleResource Include="Resources\WebWrapper\bootstrap.bundle.js" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\jquery.js" />
+    <BundleResource Include="Resources\WebWrapper\jquery.js" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\popper.js" />
+    <BundleResource Include="Resources\WebWrapper\popper.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\WebWrapper\bootstrap.html" />
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

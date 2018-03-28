@@ -42,6 +42,7 @@
                     </Label.FormattedText>
                 </Label>
                 <Button Margin="0,5,0,0" Text="查看源码" Clicked="Web1_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+                <Button Margin="0,5,0,0" Text="测试HybridWebView" Clicked="Test_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
             </StackLayout>
         </ScrollView>
     </Grid>
