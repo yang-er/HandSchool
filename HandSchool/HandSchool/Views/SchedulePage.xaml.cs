@@ -13,7 +13,7 @@ namespace HandSchool.Views
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
 
-        private bool IsWider = false, firstTime = true, IsBusyLoading = false;
+        private bool IsWider = false, IsBusyLoading = false;
 
         public SchedulePage()
 		{
@@ -58,6 +58,11 @@ namespace HandSchool.Views
 
             AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString() }, true)).ShowAsync(Navigation));
             SizeChanged += SetTileSize;
+
+            IsWider = false;
+            DefRow.Height = GridLength.Star;
+            DefCol.Width = ColWidth;
+            scroller.Orientation = ScrollOrientation.Horizontal;
         }
         
         protected override void OnAppearing()
@@ -83,21 +88,20 @@ namespace HandSchool.Views
 
         void SetTileSize(object sender, EventArgs e)
         {
-            if (Width > Height && (!IsWider || firstTime)) 
+            if (Width > Height && !IsWider) 
             {
                 IsWider = true;
                 DefCol.Width = GridLength.Star;
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
             }
-            else if (Width < Height && (IsWider || firstTime))
+            else if (Width < Height && IsWider)
             {
                 IsWider = false;
                 DefRow.Height = GridLength.Star;
                 DefCol.Width = ColWidth;
                 scroller.Orientation = ScrollOrientation.Horizontal;
             }
-            firstTime = false;
         }
     }
 }

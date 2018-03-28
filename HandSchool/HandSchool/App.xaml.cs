@@ -26,6 +26,7 @@ namespace HandSchool
         {
             InitializeComponent();
             Support.Add("吉林大学", LoadJLU);
+            var post = LoadJLU();
 
             PrimaryItems = new List<MasterPageItem> {
                 new MasterPageItem
@@ -92,9 +93,8 @@ namespace HandSchool
                     AppleIcon = new FileImageSource { File = "tab_feed.png" }
                 }
             };
-
-            LoadJLU();
-
+            
+            post.Invoke();
             if (Device.RuntimePlatform == Device.iOS)
             {
                 MainPage = new TabMainPage();
@@ -106,16 +106,18 @@ namespace HandSchool
         }
 
         #region Load School
-        
-        public Dictionary<string, Action> Support = new Dictionary<string, Action>();
 
-        private void LoadJLU()
+        public delegate Action LoadSchool();
+        public Dictionary<string, LoadSchool> Support = new Dictionary<string, LoadSchool>();
+
+        private Action LoadJLU()
         {
             Service = new JLU.UIMS();
             DailyClassCount = 11;
             GradePoint = new JLU.GradeEntrance();
             Schedule = new JLU.Schedule();
             Message = new JLU.MessageEntrance();
+            return () => { };
         }
         
         #endregion
