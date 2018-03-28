@@ -20,7 +20,7 @@ namespace HandSchool.Views
                 MasterBehavior = MasterBehavior.Popover;
             }
             
-            Detail = Outline.PrimaryItems[0].DestPage;
+            Detail = App.Current.PrimaryItems[0].DestPage;
         }
 
         protected override void OnAppearing()
@@ -33,7 +33,7 @@ namespace HandSchool.Views
             }
         }
 
-        private void MasterPageItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void MasterPageItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem is MasterPageItem item)
             {
@@ -41,11 +41,14 @@ namespace HandSchool.Views
                 
                 (sender as ListView).SelectedItem = null;
 
-                Outline.PrimaryItems.ForEach((one) => { one.Selected = false; one.Color = Color.Black; });
-                Outline.SecondaryItems.ForEach((one) => { one.Selected = false; one.Color = Color.Black; });
+                App.Current.PrimaryItems.ForEach((one) => { one.Selected = false; one.Color = Color.Black; });
+                App.Current.SecondaryItems.ForEach((one) => { one.Selected = false; one.Color = Color.Black; });
                 
                 item.Selected = true;
-                item.Color = Outline.ActiveColor;
+                item.Color = App.Current.ActiveColor;
+
+                await Task.Delay(100);
+                IsPresented = false;
             }
         }
     }

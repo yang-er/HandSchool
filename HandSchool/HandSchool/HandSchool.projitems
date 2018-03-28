@@ -93,6 +93,7 @@
       <DependentUpon>SchedulePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TabMainPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\WebViewPage.xaml.cs">
       <DependentUpon>WebViewPage.xaml</DependentUpon>
       <SubType>Code</SubType>
