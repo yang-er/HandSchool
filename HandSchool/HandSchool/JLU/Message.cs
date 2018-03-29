@@ -10,7 +10,7 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
-    public class MessageItem : IMessageItem
+    class MessageItem : IMessageItem
     {
         private MessagePiece piece;
         private bool _unread;
@@ -51,7 +51,7 @@ namespace HandSchool.JLU
         }
     }
 
-    public class MessageEntrance : IMessageEntrance
+    class MessageEntrance : IMessageEntrance
     {
         public string Name => "系统收件箱";
 
