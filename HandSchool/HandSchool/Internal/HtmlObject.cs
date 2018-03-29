@@ -5,38 +5,76 @@ using System.Text;
 
 namespace HandSchool.Internal
 {
-    public interface IHtmlInput
+    public interface IHtmlObject
     {
         void ToHtml(StringBuilder sb, bool full = true);
     }
 
     namespace HTMLs
     {
-        public class FormGroup : IHtmlInput
+        public class Form : IHtmlObject
         {
-            public List<IHtmlInput> Children { get; set; } = new List<IHtmlInput>();
+            public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
+            public string SubmitOption { get; set; } = "return false";
 
             public void ToHtml(StringBuilder sb, bool full = true)
             {
-                sb.Append(""/*@"<div class="form-group">
-    <label for="openmode"><b>开启站点</b></label><br>
-    <div class="custom-control custom-control-inline custom-radio" id="openmode">
-      <input type="radio" class="custom-control-input" name="open" id="openyes" aria-describedby="openHelp" value="1" {if $openmode}checked {/if}>
-      <label class="custom-control-label" for="openyes">是</label>
-    </div>"*/);
+                sb.Append($"<form class=\"setting-form-group\" onsubmit=\"{SubmitOption}\">");
+                Children.ForEach((obj) => obj.ToHtml(sb));
+                sb.Append("</form>");
                 throw new NotImplementedException();
             }
         }
 
-        public class Radio : IHtmlInput
+        public class FormGroup : IHtmlObject
+        {
+            public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append("<div class=\"form-group\">");
+                Children.ForEach((obj) => obj.ToHtml(sb));
+                sb.Append("</div>");
+            }
+        }
+
+        public class Check : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
             public string Title { get; set; } = string.Empty;
             public string Description { get; set; } = string.Empty;
+            public string Value { get; set; } = string.Empty;
+            public string ValueDescription { get; set; } = string.Empty;
 
             public void ToHtml(StringBuilder sb, bool full = true)
             {
-                throw new NotImplementedException();
+                if (full) sb.Append($"<label><b>{Title}</b></label><br>");
+                var guid = Guid.NewGuid().ToString("N").Substring(0, 6);
+                sb.Append("<div class=\"custom-control custom-control-inline custom-checkbox\">");
+                sb.Append($"<input type=\"checkbox\" class=\"custom-control-input\" name=\"{Name}[]\" id=\"{Name}{guid}\" value=\"{Value}\">");
+                sb.Append($"<label class=\"custom-control-label\" for=\"{Name}{guid}\">{ValueDescription}</label></div>");
+                if (full && Description.Length > 0) sb.Append($"<small class=\"form-text text-muted\">{Description}</small>");
+            }
+        }
+
+        public class Radio : IHtmlObject
+        {
+            public string Name { get; set; } = string.Empty;
+            public string Title { get; set; } = string.Empty;
+            public string Description { get; set; } = string.Empty;
+            public NameValueCollection Options { get; set; } = new NameValueCollection();
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                if (full) sb.Append($"<label><b>{Title}</b></label><br>");
+                foreach (var key in Options.AllKeys)
+                {
+                    var guid = Guid.NewGuid().ToString("N").Substring(0, 6);
+                    sb.Append("<div class=\"custom-control custom-control-inline custom-radio\">");
+                    sb.Append($"<input type=\"radio\" class=\"custom-control-input\" name=\"{Name}\" id=\"{Name}{guid}\" value=\"{key}\">");
+                    sb.Append($"<label class=\"custom-control-label\" for=\"{Name}{guid}\">{Options["key"]}</label></div>");
+                }
+                if (full && Description.Length > 0) sb.Append($"<small class=\"form-text text-muted\">{Description}</small>");
             }
         }
 
@@ -47,7 +85,7 @@ namespace HandSchool.Internal
             email
         }
 
-        public class Input : IHtmlInput
+        public class Input : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
             public string Title { get; set; } = string.Empty;
@@ -71,7 +109,7 @@ namespace HandSchool.Internal
             }
         }
 
-        public class Select : IHtmlInput
+        public class Select : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
             public string Title { get; set; } = string.Empty;
@@ -93,6 +131,37 @@ namespace HandSchool.Internal
                 sb.Append("</select>");
                 if (full && Description.Length > 0)
                     sb.Append($"<small id=\"{id}\" class=\"form-text text-muted\">{Description}</small>");
+            }
+        }
+
+        public class Table : IHtmlObject
+        {
+            public string Class { get; set; } = "table table-sm";
+            public List<string> Column { get; set; } = new List<string>();
+            public string BodyId { get; set; } = Guid.NewGuid().ToString("N").Substring(0, 6);
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append($"<table class=\"{Class}\"><thead><tr>");
+                Column.ForEach((s) => sb.Append($"<th scope=\"col\">{s}</th>"));
+                sb.Append($"</tr></thead><tbody id=\"{BodyId}\"></tbody></table>");
+            }
+        }
+
+        public class Bootstrap : IHtmlObject
+        {
+            public string Title { get; set; } = "WebViewPage";
+            public const string Charset = "utf-8";
+            public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\">");
+                sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
+                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><title>{Title}</title></head><body>");
+                Children.ForEach((obj) => obj.ToHtml(sb));
+                sb.Append("<script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script>");
+                sb.Append("<script src=\"bootstrap.bundle.js\"></script></body></html>");
             }
         }
     }

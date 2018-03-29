@@ -12,7 +12,7 @@ namespace HandSchool
         List<string> TableHeader { get; set; }
         string ReturnData { get; set; }
         string JsStr { get; set; }
-        List<IHtmlInput> ParamList { get; }
+        List<IHtmlObject> ParamList { get; }
         void ReFreshPage();
         void ReciveData();
         event Action DataUpdated;
