@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
@@ -8,20 +9,12 @@ namespace HandSchool
     public interface IInfoEntrance : ISystemEntrance
     {
         string Description { get; set; }
+        List<string> TableHeader { get; set; }
         string ReturnData { get; set; }
         string JsStr { get; set; }
-        List<HtmlInput> Paramaslist { get; }
-        string HtmlCreator(List<HtmlInput> Paramslist);
+        List<IHtmlInput> ParamList { get; }
         void ReFreshPage();
         void ReciveData();
-        void OpenWebView();
-        void SentHtmlData();
+        event Action DataUpdated;
     }
-    public struct HtmlInput
-    {
-        string Name;
-        string Type;
-        string PlaceHolder;
-        string DefaultValue;
-    };
 }
