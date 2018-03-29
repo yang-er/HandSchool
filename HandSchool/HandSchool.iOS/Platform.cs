@@ -9,6 +9,7 @@ namespace HandSchool.Internal
     {
         public static Action ShowLoadingAlert(string tips, string title = "提示")
         {
+            throw new System.NotImplementedException();
             // xxx.Show()?
             return () => {
                 // xxxx.Close()?

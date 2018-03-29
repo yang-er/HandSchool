@@ -30,7 +30,14 @@ namespace HandSchool.UWP
             {
                 Control.NavigationCompleted += OnWebViewNavigationCompleted;
                 Control.ScriptNotify += OnWebViewScriptNotify;
-                Control.Source = new Uri(string.Format("ms-appx-web:///WebWrapper//{0}", Element.Uri));
+                if (Element.Html != string.Empty)
+                {
+                    Control.NavigateToString(Element.Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
+                }
+                else
+                {
+                    Control.Source = new Uri(string.Format("ms-appx-web:///WebWrapper//{0}", Element.Uri));
+                }
             }
         }
 

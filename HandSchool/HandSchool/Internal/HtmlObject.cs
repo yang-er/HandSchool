@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
+using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
@@ -156,7 +157,7 @@ namespace HandSchool.Internal
 
             public void ToHtml(StringBuilder sb, bool full = true)
             {
-                sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\">");
+                sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\"><base href=\"{{webview_base_url}}\"></base>");
                 sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
                 sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><title>{Title}</title></head><body>");
                 Children.ForEach((obj) => obj.ToHtml(sb));

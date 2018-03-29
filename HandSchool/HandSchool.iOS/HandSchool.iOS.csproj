@@ -174,6 +174,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\WebWrapper\bootstrap.html" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\WebWrapper\json.js" />
+  </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
