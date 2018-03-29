@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using HandSchool.Internal.HTMLs;
 
 namespace HandSchool.Views
 {
@@ -28,8 +30,22 @@ namespace HandSchool.Views
         private async void Test_Clicked(object sender, EventArgs e)
         {
             var webpg = new WebViewPage(null);
-            webpg.WebView.Uri = "bootstrap.html";
-            webpg.ToolbarItems.Add(new ToolbarItem { Text = "Test", Command = new Command(() => webpg.WebView.JavaScript("$('.table tbody').append('<tr><th scope=\"row\">4</th><td>What</td><td>the</td><td>@fuck</td></tr>')")) });
+            var sb = new StringBuilder();
+            var HtmlObj = new Bootstrap
+            {
+                Children =
+                {
+                    new Internal.HTMLs.Button
+                    {
+                        Title = "WTF Test",
+                        Type = "onclick=\"invokeCSharpAction('hhhh, mmpd. ')\""
+                    }
+                }
+            };
+            HtmlObj.ToHtml(sb);
+            webpg.WebView.Html = sb.ToString();
+            webpg.WebView.RegisterAction(async (str) => await DisplayAlert("invokeCS", str, "ojbk"));
+            webpg.ToolbarItems.Add(new ToolbarItem { Text = "Test", Command = new Command(() => webpg.WebView.JavaScript("$('button').removeClass('btn-primary').addClass('btn-danger')")) });
             await webpg.ShowAsync(Navigation);
         }
     }

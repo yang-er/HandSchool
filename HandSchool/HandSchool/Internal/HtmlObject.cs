@@ -153,11 +153,12 @@ namespace HandSchool.Internal
         {
             public string Title { get; set; } = " 提交 ";
             public string Color { get; set; } = "primary";
+            public string Type { get; set; } = "type=\"submit\"";
 
             public void ToHtml(StringBuilder sb, bool full = true)
             {
                 if (full) sb.Append("<div class=\"form-group\">");
-                sb.Append($"<button type=\"submit\" class=\"btn btn-{Color}\">{Title}</button>");
+                sb.Append($"<button {Type} class=\"btn btn-{Color}\">{Title}</button>");
                 if (full) sb.Append("</div>");
             }
         }
