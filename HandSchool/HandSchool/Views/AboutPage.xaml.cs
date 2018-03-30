@@ -3,7 +3,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using HandSchool.Internal.HTMLs;
+using HandSchool.Internal.HtmlObject;
 
 namespace HandSchool.Views
 {
@@ -35,7 +35,7 @@ namespace HandSchool.Views
             {
                 Children =
                 {
-                    new Internal.HTMLs.Button
+                    new Internal.HtmlObject.Button
                     {
                         Title = "WTF Test",
                         Type = "onclick=\"invokeCSharpAction('hhhh, mmpd. ')\""
