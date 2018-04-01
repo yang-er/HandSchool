@@ -7,12 +7,7 @@ namespace HandSchool.Views
     // Thanks to 山宏岳
     public class PopContentPage : ContentPage
 	{
-        public PopContentPage()
-        {
-            Disappearing += Page_Disappearing;
-        }
-
-        private bool IsModal = false;
+        public bool IsModal { get; set; } = false;
         
         private Task ContinueTask { get; } = new Task(() => { });
 
@@ -21,11 +16,17 @@ namespace HandSchool.Views
             if(navigation is null)
             {
                 App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
+                Disappearing += Page_Disappearing;
                 IsModal = true;
             }
             else
             {
                 navigation.PushAsync(this);
+                if (Parent is NavigationPage)
+                {
+                    _navpg = Parent as NavigationPage;
+                    _navpg.Popped += Page_Popped;
+                }
             }
             return ContinueTask;
         }
@@ -40,6 +41,8 @@ namespace HandSchool.Views
 
         private bool _destoried;
 
+        private NavigationPage _navpg;
+
         private void Page_Disappearing(object sender, EventArgs e)
         {
             if (_destoried)
@@ -49,6 +52,17 @@ namespace HandSchool.Views
             _destoried = true;
             Disappearing -= Page_Disappearing;
 
+            ContinueTask?.Start();
+        }
+
+        private void Page_Popped(object sender, NavigationEventArgs e)
+        {
+            if (_destoried)
+            {
+                return;
+            }
+            _destoried = true;
+            _navpg.Popped -= Page_Popped;
             ContinueTask?.Start();
         }
     }
