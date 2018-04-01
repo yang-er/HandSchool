@@ -115,6 +115,7 @@
     <Content Include="WebWrapper\bootstrap.css" />
     <Content Include="WebWrapper\bootstrap.html" />
     <Content Include="WebWrapper\jquery.js" />
+    <Content Include="WebWrapper\json.js" />
     <Content Include="WebWrapper\popper.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />

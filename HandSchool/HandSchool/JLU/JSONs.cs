@@ -2,7 +2,7 @@
 
 namespace HandSchool.JLU.JsonObject
 {
-    public class RootObject<T>
+    class RootObject<T>
     {
         public string id { get; set; }
         public int status { get; set; }
@@ -11,13 +11,13 @@ namespace HandSchool.JLU.JsonObject
         public string msg { get; set; }
     }
 
-    public class ErrorMsg
+    class ErrorMsg
     {
         public int status { get; set; }
         public string msg { get; set; }
     }
 
-    public class GPAValue
+    class GPAValue
     {
         public float avgScoreBest { get; set; }
         public float avgScoreFirst { get; set; }
@@ -25,7 +25,7 @@ namespace HandSchool.JLU.JsonObject
         public float gpaBest { get; set; }
     }
 
-    public class TeachClassMaster
+    class TeachClassMaster
     {
         public string maxStudCnt { get; set; }
         public LessonSchedule[] lessonSchedules { get; set; }
@@ -36,7 +36,7 @@ namespace HandSchool.JLU.JsonObject
         public LessonSegment lessonSegment { get; set; }
     }
 
-    public class ScheduleValue
+    class ScheduleValue
     {
         public TeachClassMaster teachClassMaster { get; set; }
         public string tcsId { get; set; }
@@ -44,7 +44,7 @@ namespace HandSchool.JLU.JsonObject
         public DateTime dateAccept { get; set; }
     }
 
-    public class ArchiveScoreValue
+    class ArchiveScoreValue
     {
         public string xkkh { get; set; }
         public TeachingTerm teachingTerm { get; set; }
@@ -65,24 +65,24 @@ namespace HandSchool.JLU.JsonObject
         public string selectType { get; set; }
     }
 
-    public class LessonSegment
+    class LessonSegment
     {
         public string lssgId { get; set; }
         public Lesson lesson { get; set; }
         public string fullName { get; set; }
     }
 
-    public class Lesson
+    class Lesson
     {
         public CourseInfo courseInfo { get; set; }
     }
 
-    public class CourseInfo
+    class CourseInfo
     {
         public string courName { get; set; }
     }
 
-    public class Course
+    class Course
     {
         public string englishName { get; set; }
         public string courType3 { get; set; }
@@ -100,20 +100,20 @@ namespace HandSchool.JLU.JsonObject
         public string isCore { get; set; }
     }
 
-    public class LessonSchedule
+    class LessonSchedule
     {
         public Classroom classroom { get; set; }
         public TimeBlock timeBlock { get; set; }
         public string lsschId { get; set; }
     }
 
-    public class Classroom
+    class Classroom
     {
         public string roomId { get; set; }
         public string fullName { get; set; }
     }
 
-    public class TimeBlock
+    class TimeBlock
     {
         public string classSet { get; set; }
         public string name { get; set; }
@@ -124,18 +124,18 @@ namespace HandSchool.JLU.JsonObject
         public string weekOddEven { get; set; }
     }
 
-    public class LessonTeacher
+    class LessonTeacher
     {
         public Teacher teacher { get; set; }
     }
 
-    public class Teacher
+    class Teacher
     {
         public string name { get; set; }
         public string teacherId { get; set; }
     }
 
-    public class TeachingTerm
+    class TeachingTerm
     {
         public string termName { get; set; }
         public DateTime startDate { get; set; }
@@ -149,7 +149,7 @@ namespace HandSchool.JLU.JsonObject
         public string egrade { get; set; }
     }
 
-    public class Student
+    class Student
     {
         public string studId { get; set; }
         public string name { get; set; }
@@ -160,7 +160,7 @@ namespace HandSchool.JLU.JsonObject
         public string egrade { get; set; }
     }
 
-    public class AdminClass
+    class AdminClass
     {
         public string adcId { get; set; }
         public string formalStudCnt { get; set; }
@@ -172,7 +172,7 @@ namespace HandSchool.JLU.JsonObject
         public string campus { get; set; }
     }
 
-    public class MessageBox
+    class MessageBox
     {
         public int count { get; set; }
         public int errno { get; set; }
@@ -183,7 +183,7 @@ namespace HandSchool.JLU.JsonObject
         public int status { get; set; }
     }
 
-    public class MessagePiece
+    class MessagePiece
     {
         public MessageMain message { get; set; }
         public string msgInboxId { get; set; }
@@ -194,7 +194,7 @@ namespace HandSchool.JLU.JsonObject
         public object dateReceive { get; set; }
     }
 
-    public class MessageMain
+    class MessageMain
     {
         public MessageSender sender { get; set; }
         public string body { get; set; }
@@ -204,19 +204,39 @@ namespace HandSchool.JLU.JsonObject
         public DateTime dateCreate { get; set; }
     }
 
-    public class MessageReceiver
+    class MessageReceiver
     {
         public MessageSchool school { get; set; }
         public string name { get; set; }
     }
 
-    public class MessageSchool
+    class MessageSchool
     {
         public string schoolName { get; set; }
     }
 
-    public class MessageSender
+    class MessageSender
     {
         public string name { get; set; }
+    }
+    
+    class CollegeInfo
+    {
+        public string schoolName { get; set; }
+        public object website { get; set; }
+        public string activeStatus { get; set; }
+        public string abbr { get; set; }
+        public object departments { get; set; }
+        public string extSchNo { get; set; }
+        public string schoolType { get; set; }
+        public string englishName { get; set; }
+        public object staff { get; set; }
+        public string division { get; set; }
+        public string schId { get; set; }
+        public object adminClasses { get; set; }
+        public object telephone { get; set; }
+        public object introduction { get; set; }
+        public string xscNo { get; set; }
+        public string campus { get; set; }
     }
 }

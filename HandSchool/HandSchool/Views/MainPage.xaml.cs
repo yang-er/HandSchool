@@ -47,7 +47,8 @@ namespace HandSchool.Views
                 item.Selected = true;
                 item.Color = App.Current.ActiveColor;
 
-                await Task.Delay(100);
+                // Funny fucky question: why this makes fluency?
+                await Task.Run(() => { });
                 IsPresented = false;
             }
         }

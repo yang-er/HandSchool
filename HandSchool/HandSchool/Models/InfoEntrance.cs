@@ -1,27 +1,19 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using System;
 using System.Collections.Generic;
+using Bootstrap = HandSchool.Internal.HtmlObject.Bootstrap;
 using System.Collections.Specialized;
 using System.Text;
+using HandSchool.Views;
 
 namespace HandSchool
 {
     public interface IInfoEntrance : ISystemEntrance
     {
-        string Description { get; set; }
-        string ReturnData { get; set; }
-        string JsStr { get; set; }
-        List<HtmlInput> Paramaslist { get; }
-        string HtmlCreator(List<HtmlInput> Paramslist);
-        void ReFreshPage();
-        void ReciveData();
-        void OpenWebView();
-        void SentHtmlData();
+        string Description { get; }
+        List<string> TableHeader { get; set; }
+        Bootstrap HtmlDocument { get; set; }
+        void Receive(string data);
+        WebViewPage Binding { get; set; }
     }
-    public struct HtmlInput
-    {
-        string Name;
-        string Type;
-        string PlaceHolder;
-        string DefaultValue;
-    };
 }

@@ -1,20 +1,27 @@
-# Introduction
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# 掌上校园 HandSchool
+一个致力于将各个学校不同的教务系统整合成一个手机app的项目。
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## 适配模式
+利用C#和Xamarin.Forms编写，可以运行在 UWP、Andorid、iOS 等平台上。
+目前已经支持 UWP (1709+)、Android (5.0+)，iOS缺少适配，但是可以基本允许。
+学校的接口是全部实现Interface，保证了可以更换学校的文档。
+有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## 贡献
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+### 设计与适配
+- [GitHub@yang-er](https://github.com/yang-er)
+- [GitHub@miasakachenmo](https://github.com/miasakachenmo)
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+### 支持的学校
+- 吉林大学 UIMS
+
+### 文档资料
+- drcom-generic @ drcoms
+- JLULife @ brady
+- CookieAwareWebClient @ zhleiyang
+- PopContentPage @ shanhongyue
+- Xamarin.Forms @ xamarin
+- Docs @ microsoft
+- Bootstrap v4.0
+- etc...
