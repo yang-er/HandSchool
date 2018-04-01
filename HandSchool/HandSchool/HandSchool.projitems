@@ -85,6 +85,10 @@
       <DependentUpon>NewItemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PopContentPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NewMainPage.xaml.cs">
+      <DependentUpon>NewMainPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\OutlinePage.xaml.cs">
       <DependentUpon>OutlinePage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -155,6 +159,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\WebViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

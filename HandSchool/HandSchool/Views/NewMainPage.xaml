@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HandSchool.Views.NewMainPage"
+              BackgroundColor="White"
+             Title="首页">
+    <ContentPage.Content>
+        <StackLayout Padding="10" Spacing="20">
+            <Frame OutlineColor="White"   BackgroundColor="#708090">
+                <StackLayout Padding="1">
+                    <Label Text="{Binding WelcomeStr}"   VerticalOptions="Start" FontSize="Large" TextColor="White"></Label>
+                    <Label Text="{Binding WeekStr}" VerticalOptions="Center" FontSize="Large" TextColor="White"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame OutlineColor="White"  BackgroundColor="#708090">
+                <StackLayout>
+                    <Label Text="{Binding NextClassStr}" FontSize="Large" TextColor="White"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame OutlineColor="White"  BackgroundColor="#708090">
+                <StackLayout>
+                    <Label Text="即将推出" FontSize="Large" TextColor="White"></Label>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

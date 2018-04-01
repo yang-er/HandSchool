@@ -9,6 +9,18 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Frame  HasShadow="True" OutlineColor="Black" x:Name="F1">
+                <Label Text="this is a test" x:Name="lable1"></Label>
+                <Button Text="test button"
+                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
+                                                        Property=Y,Factor=0.5,Constant=-200,ElementName=lable1}"></Button>
+            </Frame>
+            <Frame  HasShadow="True" OutlineColor="Black" x:Name="F2">
+                    <Label Text="this is a test" x:Name="lable2"></Label>
+                    <Button Text="test button"
+                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
+                                                        Property=Y,Factor=0.5,Constant=-200,ElementName=lable2}"></Button>
+          </Frame>
             <ListView x:Name="ItemsListView" 
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
@@ -17,7 +29,9 @@
                  IsPullToRefreshEnabled="true"
                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  CachingStrategy="RecycleElement"
-                 ItemSelected="OnItemSelected">
+                 ItemSelected="OnItemSelected"
+                      IsEnabled="False"
+                      IsVisible="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
