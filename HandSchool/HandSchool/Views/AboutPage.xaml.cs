@@ -29,6 +29,7 @@ namespace HandSchool.Views
 
         private async void Test_Clicked(object sender, EventArgs e)
         {
+            var mp = new NewMainPage();
             var webpg = new WebViewPage(null);
             var sb = new StringBuilder();
             var pp = new JLU.InfoQuery.CollegeIntroduce

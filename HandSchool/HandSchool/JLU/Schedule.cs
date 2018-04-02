@@ -17,7 +17,7 @@ namespace HandSchool.JLU
         public List<CurriculumItem> Items { get; }
         public string StorageFile => "jlu.kcb.json";
         public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
-
+        public int Classnext;
         public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
         {
             if (showAll)
@@ -128,9 +128,27 @@ namespace HandSchool.JLU
         
         public void Save()
         {
+            Items.Sort((CurriculumItem x, CurriculumItem y) =>
+            {
+                return (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin);
+            });
             WriteConfFile("jlu.kcb2.json", Serialize(Items));
         }
+        
+        public void ReflushClassNow()
+        {
+            Classnext = 1;
+            String[] Class =new String[4] { "8:00", "10:00", "13:30", "15:30" };
+            for(int i=0;i<4;i++)
+            {
+                if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(Class[i]))>0)
+                {
+                    Classnext += 2;
+                }
+            }
 
+            return;
+        }
         public Schedule()
         {
             LastReport = ReadConfFile("jlu.kcb2.json");
@@ -138,6 +156,11 @@ namespace HandSchool.JLU
                 Items = JSON<List<CurriculumItem>>(LastReport);
             else
                 Items = new List<CurriculumItem>();
+            Items.Sort((CurriculumItem x, CurriculumItem y)=>
+            {
+                return (x.WeekDay * 100 + x.DayBegin ).CompareTo(y.WeekDay * 100 + y.DayBegin);
+            });
+            ReflushClassNow();
         }
     }
 }
