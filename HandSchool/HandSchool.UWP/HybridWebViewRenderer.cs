@@ -26,30 +26,23 @@ namespace HandSchool.UWP
             {
                 if (Control == null)
                 {
-                    if (Element.nativeObject is null) Element.nativeObject = new WebView();
-                    SetNativeControl(Element.nativeObject as WebView);
+                    SetNativeControl(new WebView());
                     Control.NavigationCompleted += OnWebViewNavigationCompleted;
                     Control.ScriptNotify += OnWebViewScriptNotify;
                     Element.OnExcuteJavaScript += InvokeScript;
-                    LoadSource();
+                }
+
+                if (Element.Html != string.Empty)
+                {
+                    Control.NavigateToString(Element.Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
+                }
+                else
+                {
+                    Control.Source = new Uri(string.Format("ms-appx-web:///WebWrapper//{0}", Element.Uri));
                 }
             }
         }
-
-        void LoadSource()
-        {
-            if (!Element.refresh) return;
-            if (Element.Html != string.Empty)
-            {
-                Control.NavigateToString(Element.Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
-            }
-            else
-            {
-                Control.Source = new Uri(string.Format("ms-appx-web:///WebWrapper//{0}", Element.Uri));
-            }
-            Element.refresh = false;
-        }
-
+        
         async void InvokeScript(string eval)
         {
             await Control.InvokeScriptAsync("eval", new[] { eval });
