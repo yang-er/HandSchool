@@ -28,11 +28,22 @@ namespace HandSchool.ViewModels
             GetNextClass();
 
         }
-        public void GetNextClass()
+        public void GetNextClass()//获取下一节课
         {
-            
+            int WeekDay;
+            int ClassNext;
             foreach(var i in NextClassGeter.Items)
             {
+                if(NextClassGeter.Classnext==11)
+                {
+                    WeekDay = i.WeekDay+1;
+                    ClassNext = 1;
+                }
+                else
+                {
+                    WeekDay = i.WeekDay;
+                    ClassNext = NextClassGeter.Classnext;
+                }
                 if (i.WeekDay <(int) DateTime.Now.DayOfWeek)
                  { }
                 else if(i.WeekDay ==(int) DateTime.Now.DayOfWeek)

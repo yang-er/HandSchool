@@ -138,8 +138,8 @@ namespace HandSchool.JLU
         public void ReflushClassNow()
         {
             Classnext = 1;
-            String[] Class =new String[4] { "8:00", "10:00", "13:30", "15:30" };
-            for(int i=0;i<4;i++)
+            String[] Class =new String[5] { "8:00", "10:00", "13:30", "15:30","18:30" };
+            for(int i=0;i<5;i++)
             {
                 if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(Class[i]))>0)
                 {
