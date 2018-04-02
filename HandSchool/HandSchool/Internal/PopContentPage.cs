@@ -53,7 +53,7 @@ namespace HandSchool.Views
             Destoried = true;
 
             Disappearing -= Page_Disappearing;
-            Destorying.Invoke();
+            Destorying?.Invoke();
 
             ContinueTask?.Start();
         }
@@ -64,7 +64,7 @@ namespace HandSchool.Views
             Destoried = true;
             
             _navpg.Popped -= Page_Popped;
-            Destorying.Invoke();
+            Destorying?.Invoke();
 
             ContinueTask?.Start();
         }
