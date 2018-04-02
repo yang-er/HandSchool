@@ -30,23 +30,21 @@ namespace HandSchool.ViewModels
         }
         public void GetNextClass()//获取下一节课
         {
-            int WeekDay;
-            int ClassNext;
-            foreach(var i in NextClassGeter.Items)
+            int DayOfWeek;
+            if(NextClassGeter.Classnext==11)
             {
-                if(NextClassGeter.Classnext==11)
-                {
-                    WeekDay = i.WeekDay+1;
-                    ClassNext = 1;
-                }
-                else
-                {
-                    WeekDay = i.WeekDay;
-                    ClassNext = NextClassGeter.Classnext;
-                }
-                if (i.WeekDay <(int) DateTime.Now.DayOfWeek)
+                DayOfWeek = (int)DateTime.Now.DayOfWeek + 1;
+                NextClassGeter.Classnext = 1;
+            }
+            else
+            {
+                DayOfWeek = (int)DateTime.Now.DayOfWeek;
+            }
+            foreach (var i in NextClassGeter.Items)
+            {
+                if (i.WeekDay <DayOfWeek)
                  { }
-                else if(i.WeekDay ==(int) DateTime.Now.DayOfWeek)
+                else if(i.WeekDay ==DayOfWeek)
                 {
                     if(i.DayBegin>=NextClassGeter.Classnext)
                     {
@@ -54,7 +52,7 @@ namespace HandSchool.ViewModels
                         return;
                     }
                 }
-                else if(i.WeekDay > (int)DateTime.Now.DayOfWeek)
+                else if(i.WeekDay > DayOfWeek)
                 {
                     NextClassStr = $"下节课是:{i.Name}";
                     return;
@@ -67,8 +65,8 @@ namespace HandSchool.ViewModels
             foreach (var i in NextClassGeter.Items)
             {
                 Debug.Print($"{i.WeekDay}\n");
-                if(i.WeekDay== (int)DateTime.Now.DayOfWeek)break;
-                if(i.WeekDay< (int)DateTime.Now.DayOfWeek)
+                if(i.WeekDay== DayOfWeek)break;
+                if(i.WeekDay< DayOfWeek)
                 {
                     NextClassStr = $"下节课是:{i.Name}";
                     return;
