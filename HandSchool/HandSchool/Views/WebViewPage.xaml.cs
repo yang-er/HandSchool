@@ -12,9 +12,9 @@ namespace HandSchool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class WebViewPage : PopContentPage
 	{
-		public WebViewPage (IInfoEntrance MyWebview)
+		public WebViewPage(IInfoEntrance MyWebview)
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 	}
 }

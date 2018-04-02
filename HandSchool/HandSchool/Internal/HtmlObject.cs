@@ -26,7 +26,7 @@ namespace HandSchool.Internal
                 sb.Append($"<form class=\"setting-form-group\" onsubmit=\"{SubmitOption}\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
                 sb.Append("</form>");
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
         }
 
@@ -173,6 +173,69 @@ namespace HandSchool.Internal
             }
         }
 
+        public class Div : IHtmlObject
+        {
+            public string Class { get; set; } = string.Empty;
+            public string Id { get; set; } = string.Empty;
+            public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append("<div");
+                if (Id == string.Empty) sb.Append(" id=\"" + Id + "\"");
+                if (Class == string.Empty) sb.Append(" class=\"" + Class + "\"");
+                sb.Append(">");
+                Children.ForEach((obj) => obj.ToHtml(sb));
+                sb.Append("</div>");
+            }
+        }
+
+        public class Row : IHtmlObject
+        {
+            public List<IHtmlObject>[] Children { get; set; }
+            public int[] RowWidth { get; set; }
+            public string Id => "";
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append("<div class=\"row\"" + (Id == "" ? "" : " id=\""+ Id +"\"") + ">");
+                for (int i = 0; i < RowWidth.Length; i++)
+                {
+                    sb.Append($"<div class=\"col-12 col-md-{RowWidth[i]}\">");
+                    Children[i].ForEach((obj) => obj.ToHtml(sb));
+                    sb.Append("</div>");
+                }
+                sb.Append("</div>");
+            }
+        }
+
+        public class MasterDetail : IHtmlObject
+        {
+            public string Id { get; private set; } = Guid.NewGuid().ToString("N").Substring(0, 6);
+            public Form InfoGather { get; set; }
+            public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append("<div class=\"row\"><div class=\"col-12 col-md-9\" id=\"" + Id + "\">");
+                Children.ForEach((obj) => obj.ToHtml(sb));
+                sb.Append("</div><div class=\"col-12 col-md-3\">");
+                InfoGather.ToHtml(sb);
+                sb.Append("</div></div>");
+            }
+        }
+
+        public class RawHtml : IHtmlObject
+        {
+            public string Raw { get; set; } = string.Empty;
+            public string Id => "";
+
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append(Raw);
+            }
+        }
+
         public class Bootstrap : IHtmlObject
         {
             public string Title { get; set; } = "WebViewPage";
@@ -184,9 +247,9 @@ namespace HandSchool.Internal
             {
                 sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\"><base href=\"{{webview_base_url}}\"></base>");
                 sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
-                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><title>{Title}</title></head><body>");
+                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><title>{Title}</title></head><body><div class=\"container\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
-                sb.Append("<script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script>");
+                sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script>");
                 sb.Append("<script src=\"bootstrap.bundle.js\"></script></body></html>");
             }
         }

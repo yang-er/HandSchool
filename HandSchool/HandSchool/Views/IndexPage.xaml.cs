@@ -11,18 +11,18 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class NewMainPage : ContentPage
+	public partial class IndexPage : ContentPage
 	{
         String WelcomeStr { get; set; }
         
-        public NewMainPage ()
+        public IndexPage()
 		{
             HandSchool.JLU.UIMS MessageGeter = new HandSchool.JLU.UIMS();
             var Mes=new JLU.MessageEntrance();
             WelcomeStr = "欢迎,"+Mes.Name;
             this.BindingContext =new StartPageMsg();
             
-            InitializeComponent ();
+            InitializeComponent();
         }
         
 	}

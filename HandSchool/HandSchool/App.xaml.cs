@@ -31,7 +31,7 @@ namespace HandSchool
             PrimaryItems = new List<MasterPageItem> {
                 new MasterPageItem
                 {
-                    DestPage = new NavigationPage(new NewMainPage()),
+                    DestPage = new NavigationPage(new IndexPage()),
                     Title = "首页",
                     FontFamily = Helper.SegoeMDL2,
                     Icon = "\xE10F",

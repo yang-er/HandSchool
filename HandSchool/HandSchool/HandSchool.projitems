@@ -36,20 +36,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomProtocol.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\MockDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InfoQueryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemDetailViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CurriculumPage.xaml.cs">
       <DependentUpon>CurriculumPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -72,23 +67,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ItemDetailPage.xaml.cs">
-      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ItemsPage.xaml.cs">
-      <DependentUpon>ItemsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\MessageBoxPage.xaml.cs">
       <DependentUpon>MessageBoxPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\MessageDetailPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml.cs">
-      <DependentUpon>NewItemPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PopContentPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\NewMainPage.xaml.cs">
-      <DependentUpon>NewMainPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\IndexPage.xaml.cs">
+      <DependentUpon>IndexPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\OutlinePage.xaml.cs">
@@ -111,15 +97,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ItemDetailPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ItemsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewItemPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -166,7 +143,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewMainPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\IndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
