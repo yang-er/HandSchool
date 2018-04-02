@@ -16,6 +16,8 @@ namespace HandSchool.Views
     public class HybridWebView : View
     {
         Action<string> action;
+        internal object nativeObject;
+        internal bool refresh = true;
 
         public static readonly BindableProperty UriProperty = BindableProperty.Create(propertyName: "Uri", returnType: typeof(string), declaringType: typeof(HybridWebView), defaultValue: default(string));
         public static readonly BindableProperty HtmlProperty = BindableProperty.Create(propertyName: "Html", returnType: typeof(string), declaringType: typeof(HybridWebView), defaultValue: default(string));
