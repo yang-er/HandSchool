@@ -13,23 +13,25 @@ namespace HandSchool.UWP
 
         protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)
         {
-            base.OnElementChanged(e);
-
-            if (Control == null)
-            {
-                SetNativeControl(new WebView());
-                Element.OnExcuteJavaScript += async (eval) => 
-                await Control.InvokeScriptAsync("eval", new[] { eval });
-            }
-            if (e.OldElement != null)
+            if (e.NewElement is null && !(Control is null))
             {
                 Control.NavigationCompleted -= OnWebViewNavigationCompleted;
                 Control.ScriptNotify -= OnWebViewScriptNotify;
+                Element.OnExcuteJavaScript -= InvokeScript;
             }
+
+            base.OnElementChanged(e);
+
             if (e.NewElement != null)
             {
-                Control.NavigationCompleted += OnWebViewNavigationCompleted;
-                Control.ScriptNotify += OnWebViewScriptNotify;
+                if (Control == null)
+                {
+                    SetNativeControl(new WebView());
+                    Control.NavigationCompleted += OnWebViewNavigationCompleted;
+                    Control.ScriptNotify += OnWebViewScriptNotify;
+                    Element.OnExcuteJavaScript += InvokeScript;
+                }
+                
                 if (Element.Html != string.Empty)
                 {
                     Control.NavigateToString(Element.Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
@@ -39,6 +41,11 @@ namespace HandSchool.UWP
                     Control.Source = new Uri(string.Format("ms-appx-web:///WebWrapper//{0}", Element.Uri));
                 }
             }
+        }
+
+        async void InvokeScript(string eval)
+        {
+            await Control.InvokeScriptAsync("eval", new[] { eval });
         }
 
         async void OnWebViewNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
