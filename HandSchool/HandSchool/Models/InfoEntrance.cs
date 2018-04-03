@@ -18,4 +18,13 @@ namespace HandSchool
         WebViewPage Binding { get; set; }
         Dictionary<string, Command> Menu { get; set; }
     }
+
+    public delegate IInfoEntrance EntranceCreator();
+
+    public struct InfoEntranceWrapper
+    {
+        public string Name;
+        public string Description;
+        public EntranceCreator Load;
+    }
 }

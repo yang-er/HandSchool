@@ -12,6 +12,9 @@ namespace HandSchool
 
         #region School Components
 
+        /// <summary>将学校功能加载到此 App 实例，并返回之后要调用的操作。</summary>
+        public delegate Action LoadSchool();
+        public Dictionary<string, LoadSchool> Support = new Dictionary<string, LoadSchool>();
         public ISchoolSystem Service;
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
@@ -19,6 +22,7 @@ namespace HandSchool
         public ISystemEntrance SelectCourse;
         public int DailyClassCount;
         public static new App Current => Application.Current as App;
+        public List<InfoEntranceWrapper> InfoEntrances { get; set; }
 
         #endregion
 
@@ -104,23 +108,6 @@ namespace HandSchool
                 MainPage = new MainPage();
             }
         }
-
-        #region Load School
-
-        public delegate Action LoadSchool();
-        public Dictionary<string, LoadSchool> Support = new Dictionary<string, LoadSchool>();
-
-        private Action LoadJLU()
-        {
-            Service = new JLU.UIMS();
-            DailyClassCount = 11;
-            GradePoint = new JLU.GradeEntrance();
-            Schedule = new JLU.Schedule();
-            Message = new JLU.MessageEntrance();
-            return () => { };
-        }
-        
-        #endregion
 
         #region State Change
 
