@@ -13,18 +13,21 @@ namespace HandSchool.ViewModels
 {
     public class StartPageMsg
     {
+        public string TeacherStr { get; set; }
+        public string AddressStr { get; set; }
         public string WelcomeStr { get; set; }
         public string WeekStr { get; set; }
         public string NextClassStr { get; set; }
         HandSchool.JLU.UIMS MessageGeter = new HandSchool.JLU.UIMS();
         HandSchool.JLU.Schedule NextClassGeter = new HandSchool.JLU.Schedule();
         public NameValueCollection AttachInfomation { get; set; }
+        public string ChineseWeekday ="一二三四五六七";
         public StartPageMsg()
         {
 
             WelcomeStr = $"欢迎，{MessageGeter.AttachInfomation["studName"]}。";
             
-            WeekStr = $"第{MessageGeter.CurrentWeek}周";
+            WeekStr = $"第{ChineseWeekday[MessageGeter.CurrentWeek]}周";
             GetNextClass();
 
         }
@@ -42,6 +45,8 @@ namespace HandSchool.ViewModels
             }
             foreach (var i in NextClassGeter.Items)
             {
+                if ((int)i.WeekOen == 0 && MessageGeter.CurrentWeek % 2 == 0) continue;
+                if ((int)i.WeekOen == 1 && MessageGeter.CurrentWeek % 2 == 1) continue;
                 if (i.WeekDay <DayOfWeek)
                  { }
                 else if(i.WeekDay ==DayOfWeek)
@@ -49,31 +54,31 @@ namespace HandSchool.ViewModels
                     if(i.DayBegin>=NextClassGeter.Classnext)
                     {
                         NextClassStr = $"下节课是:{i.Name}";
+                        TeacherStr = $"周{ChineseWeekday[i.WeekDay - 1]} {i.DayBegin}-{i.DayEnd} {i.Teacher}"; AddressStr = $"{i.Classroom}";
                         return;
                     }
                 }
                 else if(i.WeekDay > DayOfWeek)
                 {
                     NextClassStr = $"下节课是:{i.Name}";
+                    TeacherStr = $"周{ChineseWeekday[i.WeekDay - 1]} {i.DayBegin}-{i.DayEnd} {i.Teacher}";
+                    AddressStr = $"{i.Classroom}";
                     return;
                 }
             }
             foreach (var i in NextClassGeter.Items)
             {
-                Debug.Print($"{i.WeekDay}\n");
-            }
-            foreach (var i in NextClassGeter.Items)
-            {
+                if ((int)i.WeekOen == 0 && MessageGeter.CurrentWeek % 2 == 0) continue;
+                if ((int)i.WeekOen == 1 && MessageGeter.CurrentWeek % 2 == 1) continue;
                 Debug.Print($"{i.WeekDay}\n");
                 if(i.WeekDay== DayOfWeek)break;
                 if(i.WeekDay< DayOfWeek)
                 {
                     NextClassStr = $"下节课是:{i.Name}";
+                    TeacherStr = $"周{ChineseWeekday[i.WeekDay - 1]} {i.DayBegin}-{i.DayEnd} {i.Teacher}";
+                    AddressStr = $"{i.Classroom}";
                     return;
-                }
-                
-
-                    
+                }   
             }
             NextClassStr = "无(无课程或未刷新)";
             return;
