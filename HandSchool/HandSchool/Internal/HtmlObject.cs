@@ -217,10 +217,10 @@ namespace HandSchool.Internal
 
             public void ToHtml(StringBuilder sb, bool full = true)
             {
-                sb.Append("<div class=\"row\"><div class=\"col-12 col-md-9\" id=\"" + Id + "\">");
-                Children.ForEach((obj) => obj.ToHtml(sb));
-                sb.Append("</div><div class=\"col-12 col-md-3\">");
+                sb.Append("<div class=\"row\"><div class=\"col-12 col-md-3 order-md-1 pt-3\">");
                 InfoGather.ToHtml(sb);
+                sb.Append("</div><div class=\"col-12 col-md-9 mt-3 mb-3 pr-4 pl-4 order-md-0\" id=\"" + Id + "\">");
+                Children.ForEach((obj) => obj.ToHtml(sb));
                 sb.Append("</div></div>");
             }
         }
@@ -241,6 +241,7 @@ namespace HandSchool.Internal
             public string Title { get; set; } = "WebViewPage";
             public const string Charset = "utf-8";
             public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
+            public List<string> JavaScript { get; set; } = new List<string>();
             public string Id => "";
 
             public void ToHtml(StringBuilder sb, bool full = true)
@@ -249,8 +250,9 @@ namespace HandSchool.Internal
                 sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
                 sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><title>{Title}</title></head><body><div class=\"container\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
-                sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script>");
-                sb.Append("<script src=\"bootstrap.bundle.js\"></script></body></html>");
+                sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script><script src=\"bootstrap.bundle.js\"></script>");
+                JavaScript.ForEach((obj) => sb.Append("<script>" + obj + "</script>"));
+                sb.Append("</body></html>");
             }
         }
     }

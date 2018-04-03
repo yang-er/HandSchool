@@ -29,27 +29,7 @@ namespace HandSchool.Views
 
         private async void Test_Clicked(object sender, EventArgs e)
         {
-            var webpg = new WebViewPage(null);
-            var sb = new StringBuilder();
-            var pp = new JLU.InfoQuery.CollegeIntroduce
-            {
-                Binding = webpg
-            };
-            var HtmlObj = new Bootstrap
-            {
-                Children =
-                {
-                    new Internal.HtmlObject.Button
-                    {
-                        Title = "WTF Test",
-                        Type = "onclick=\"invokeCSharpAction('hhhh, mmpd. ')\""
-                    }
-                }
-            };
-            pp.HtmlDocument.ToHtml(sb);
-            webpg.WebView.Html = sb.ToString();
-            //webpg.WebView.RegisterAction(async (str) => await DisplayAlert("invokeCS", str, "ojbk"));
-            //webpg.ToolbarItems.Add(new ToolbarItem { Text = "Test", Command = new Command(() => webpg.WebView.JavaScript("$('button').removeClass('btn-primary').addClass('btn-danger')")) });
+            var webpg = new WebViewPage(new JLU.InfoQuery.CollegeIntroduce());
             await webpg.ShowAsync(Navigation);
             await DisplayAlert("hh", "ttt", "fff");
         }

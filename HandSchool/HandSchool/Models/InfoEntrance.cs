@@ -5,6 +5,7 @@ using Bootstrap = HandSchool.Internal.HtmlObject.Bootstrap;
 using System.Collections.Specialized;
 using System.Text;
 using HandSchool.Views;
+using Xamarin.Forms;
 
 namespace HandSchool
 {
@@ -15,5 +16,6 @@ namespace HandSchool
         Bootstrap HtmlDocument { get; set; }
         void Receive(string data);
         WebViewPage Binding { get; set; }
+        Dictionary<string, Command> Menu { get; set; }
     }
 }

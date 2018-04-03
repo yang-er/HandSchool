@@ -33,6 +33,28 @@ namespace HandSchool.JLU
         public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
         public string CurrentMessage => NeedLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
 
+        public NameValueCollection Division = new NameValueCollection
+        {
+            { "1420", "人文学部" },
+            { "1421", "社会科学学部" },
+            { "1422", "理学部" },
+            { "1423", "工学部" },
+            { "1424", "信息科学学部" },
+            { "1425", "地球科学学部" },
+            { "1426", "白求恩医学部" },
+            { "1428", "农学部" }
+        };
+
+        public NameValueCollection Campus = new NameValueCollection
+        {
+            { "1401", "前卫校区" },
+            { "1402", "南岭校区" },
+            { "1403", "新民校区" },
+            { "1404", "朝阳校区" },
+            { "1405", "南湖校区" },
+            { "1406", "和平校区" }
+        };
+
         public UIMS()
         {
             IsLogin = false;
