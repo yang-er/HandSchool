@@ -2,17 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HandSchool.Views.InfoQueryPage"
-             Title="{Binding Title}">
+             Title="信息查询">
     <ContentPage.Content>
         <ListView x:Name="MyListView"
-                  ItemsSource="{Binding Items}"
                   VerticalOptions="FillAndExpand"
                   HasUnevenRows="true"
+                  GroupDisplayBinding="{Binding GroupTitle}"
+                  ItemTapped="ItemTapped"
+                  IsGroupingEnabled="true"
                   CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Padding="10">
+                        <StackLayout Padding="15">
                             <Label Text="{Binding Name}" 
                                Style="{DynamicResource ListItemTextStyle}"
                                FontSize="16" />

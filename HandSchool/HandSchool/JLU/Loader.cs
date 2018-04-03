@@ -15,10 +15,10 @@ namespace HandSchool
             GradePoint = new GradeEntrance();
             Schedule = new Schedule();
             Message = new MessageEntrance();
-            InfoEntrances = new List<InfoEntranceWrapper>
-            {
-                new InfoEntranceWrapper { Name = "学院介绍查询", Description = "查询学院介绍", Load = () => new CollegeIntroduce() }
-            };
+            var group1 = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
+            group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", () => new CollegeIntroduce()));
+            group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", () => new CollegeIntroduce()));
+            InfoEntrances.Add(group1);
             return () => { };
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using HandSchool.Internal;
 using HandSchool.Views;
@@ -22,7 +23,7 @@ namespace HandSchool
         public ISystemEntrance SelectCourse;
         public int DailyClassCount;
         public static new App Current => Application.Current as App;
-        public List<InfoEntranceWrapper> InfoEntrances { get; set; }
+        public List<ObservableCollection<InfoEntranceWrapper>> InfoEntrances = new List<ObservableCollection<InfoEntranceWrapper>>();
 
         #endregion
 

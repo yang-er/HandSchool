@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Text;
 using HandSchool.Views;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace HandSchool
 {
@@ -21,10 +22,22 @@ namespace HandSchool
 
     public delegate IInfoEntrance EntranceCreator();
 
-    public struct InfoEntranceWrapper
+    public class InfoEntranceGroup : ObservableCollection<InfoEntranceWrapper>
     {
-        public string Name;
-        public string Description;
-        public EntranceCreator Load;
+        public string GroupTitle { get; set; }
+    }
+    
+    public class InfoEntranceWrapper
+    {
+        public string Name { get; }
+        public string Description { get; }
+        public EntranceCreator Load { get; }
+
+        public InfoEntranceWrapper(string name, string description, EntranceCreator creator)
+        {
+            Name = name;
+            Description = description;
+            Load = creator;
+        }
     }
 }

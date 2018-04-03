@@ -42,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InfoQueryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />

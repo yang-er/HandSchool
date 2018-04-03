@@ -1,6 +1,7 @@
 ﻿using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,20 @@ namespace HandSchool.Views
 		public InfoQueryPage()
 		{
 			InitializeComponent();
-            BindingContext = InfoQueryViewModel.Instance;
+            MyListView.ItemsSource = App.Current.InfoEntrances;
         }
-	}
+
+        async void ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (e.Item == null)
+                return;
+
+            var iew = e.Item as InfoEntranceWrapper;
+            var webpg = new WebViewPage(iew.Load.Invoke());
+            await webpg.ShowAsync(Navigation);
+
+            //Deselect Item
+            ((ListView)sender).SelectedItem = null;
+        }
+    }
 }
