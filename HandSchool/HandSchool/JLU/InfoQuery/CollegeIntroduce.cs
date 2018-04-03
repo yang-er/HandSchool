@@ -131,7 +131,7 @@ namespace HandSchool.JLU.InfoQuery
             System.Diagnostics.Debug.WriteLine(data);
             if (data.StartsWith("schId"))
             {
-                if (data == "schId==null")
+                if (data == "schId=null")
                 {
                     await Binding.DisplayAlert("信息查询", "错误：未指定查询学院。", "知道了");
                     return;
