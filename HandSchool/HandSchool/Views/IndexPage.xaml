@@ -15,6 +15,8 @@
             <Frame OutlineColor="White"  BackgroundColor="#708090">
                 <StackLayout>
                     <Label Text="{Binding NextClassStr}" FontSize="Large" TextColor="White"></Label>
+                    <Label Text="{Binding TeacherStr}" FontSize="Large" TextColor="White"></Label>
+                    <Label Text="{Binding AddressStr}" FontSize="Large" TextColor="White"></Label>
                 </StackLayout>
             </Frame>
             <Frame OutlineColor="White"  BackgroundColor="#708090">
