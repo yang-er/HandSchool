@@ -48,6 +48,24 @@ namespace HandSchool.JLU.InfoQuery
         
         public CollegeIntroduce()
         {
+            var sb = new StringBuilder();
+            sb.Append("<select class=\"form-control\" id=\"division\" onchange=\"getList()\"><option value=\"*\">全部学部</option>");
+            foreach (string key in AlreadyKnownThings.Division.Keys)
+                sb.Append($"<option value=\"{key}\">{AlreadyKnownThings.Division[key]}</option>");
+            sb.Append("</select>");
+            var divisions = new RawHtml { Raw = sb.ToString() };
+            sb.Clear();
+            sb.Append("<select class=\"form-control\" id=\"campus\" onchange=\"getList()\"><option value=\"*\">任意校区</option>");
+            foreach (string key in AlreadyKnownThings.Campus.Keys)
+                sb.Append($"<option value=\"{key}\">{AlreadyKnownThings.Campus[key]}</option>");
+            sb.Append("</select>");
+            var campus = new RawHtml { Raw = sb.ToString() };
+            sb.Clear();
+            sb.Append("<select class=\"form-control\" id=\"schId\">");
+            AlreadyKnownThings.Colleges.ForEach((o) => sb.Append(o.ToString("option")));
+            sb.Append("</select>");
+            var sch = new RawHtml { Raw = sb.ToString() };
+            sb.Clear();
             HtmlDocument = new Bootstrap
             {
                 Children =
@@ -58,58 +76,9 @@ namespace HandSchool.JLU.InfoQuery
                         {
                             Children =
                             {
-                                new FormGroup { Children = { new RawHtml { Raw = "<select class=\"form-control\" id=\"division\" onchange=\"getList()\"><option value=\"*\">全部学部</option><option value=\"1420\">人文学部</option><option value=\"1421\">社会科学学部</option><option value=\"1422\">理学部</option><option value=\"1423\">工学部</option><option value=\"1424\">信息科学学部</option><option value=\"1425\">地球科学学部</option><option value=\"1426\">白求恩医学部</option><option value=\"1428\">农学部</option></select>" } } },
-                                new FormGroup { Children = { new RawHtml { Raw = "<select class=\"form-control\" id=\"campus\" onchange=\"getList()\"><option value=\"*\">任意校区</option><option value=\"1401\">前卫校区</option><option value=\"1402\">南岭校区</option><option value=\"1403\">新民校区</option><option value=\"1404\">朝阳校区</option><option value=\"1405\">南湖校区</option><option value=\"1406\">和平校区</option></select>" } } },
-                                new FormGroup { Children = { new RawHtml { Raw = "<select class=\"form-control\" id=\"schId\">" +
-                                    "<option value=\"174\" data-campus=\"1401\" data-part=\"1420\">哲学社会学院</option>" +
-                                    "<option value=\"175\" data-campus=\"1401\" data-part=\"1420\">文学院</option>" +
-                                    "<option value=\"104\" data-campus=\"1401\" data-part=\"1420\">外国语学院</option>" +
-                                    "<option value=\"105\" data-campus=\"1401\" data-part=\"1420\">艺术学院</option>" +
-                                    "<option value=\"106\" data-campus=\"1401\" data-part=\"1420\">体育学院</option>" +
-                                    "<option value=\"182\" data-campus=\"1401\" data-part=\"1420\">新闻与传播学院</option>" +
-                                    "<option value=\"107\" data-campus=\"1401\" data-part=\"1421\">经济学院</option>" +
-                                    "<option value=\"108\" data-campus=\"1401\" data-part=\"1421\">法学院</option>" +
-                                    "<option value=\"109\" data-campus=\"1401\" data-part=\"1421\">行政学院</option>" +
-                                    "<option value=\"110\" data-campus=\"1401\" data-part=\"1421\">商学院</option>" +
-                                    "<option value=\"111\" data-campus=\"1405\" data-part=\"1421\">马克思主义学院</option>" +
-                                    "<option value=\"102\" data-campus=\"1401\" data-part=\"1421\">金融学院</option>" +
-                                    "<option value=\"181\" data-campus=\"1401\" data-part=\"1421\">公共外交学院</option>" +
-                                    "<option value=\"112\" data-campus=\"1401\" data-part=\"1422\">数学学院</option>" +
-                                    "<option value=\"113\" data-campus=\"1401\" data-part=\"1422\">物理学院</option>" +
-                                    "<option value=\"114\" data-campus=\"1401\" data-part=\"1422\">化学学院</option>" +
-                                    "<option value=\"115\" data-campus=\"1401\" data-part=\"1422\">生命科学学院</option>" +
-                                    "<option value=\"116\" data-campus=\"1402\" data-part=\"1423\">机械科学与工程学院</option>" +
-                                    "<option value=\"117\" data-campus=\"1402\" data-part=\"1423\">汽车工程学院</option>" +
-                                    "<option value=\"118\" data-campus=\"1402\" data-part=\"1423\">材料科学与工程学院</option>" +
-                                    "<option value=\"119\" data-campus=\"1402\" data-part=\"1423\">交通学院</option>" +
-                                    "<option value=\"120\" data-campus=\"1402\" data-part=\"1423\">生物与农业工程学院</option>" +
-                                    "<option value=\"121\" data-campus=\"1402\" data-part=\"1423\">管理学院</option>" +
-                                    "<option value=\"122\" data-campus=\"1401\" data-part=\"1424\">电子科学与工程学院</option>" +
-                                    "<option value=\"123\" data-campus=\"1405\" data-part=\"1424\">通信工程学院</option>" +
-                                    "<option value=\"100\" data-campus=\"1401\" data-part=\"1424\">计算机科学与技术学院</option>" +
-                                    "<option value=\"101\" data-campus=\"1401\" data-part=\"1424\">软件学院</option>" +
-                                    "<option value=\"124\" data-campus=\"1404\" data-part=\"1425\">地球科学学院</option>" +
-                                    "<option value=\"125\" data-campus=\"1404\" data-part=\"1425\">地球探测科学与技术学院</option>" +
-                                    "<option value=\"126\" data-campus=\"1404\" data-part=\"1425\">建设工程学院</option>" +
-                                    "<option value=\"127\" data-campus=\"1404\" data-part=\"1425\">环境与资源学院</option>" +
-                                    "<option value=\"128\" data-campus=\"1404\" data-part=\"1425\">仪器科学与电气工程学院</option>" +
-                                    "<option value=\"103\" data-campus=\"1403\" data-part=\"1426\">白求恩医学院</option>" +
-                                    "<option value=\"129\" data-campus=\"1403\" data-part=\"1426\">基础医学院</option>" +
-                                    "<option value=\"130\" data-campus=\"1403\" data-part=\"1426\">公共卫生学院</option>" +
-                                    "<option value=\"131\" data-campus=\"1403\" data-part=\"1426\">药学院</option>" +
-                                    "<option value=\"132\" data-campus=\"1403\" data-part=\"1426\">护理学院</option>" +
-                                    "<option value=\"133\" data-campus=\"1403\" data-part=\"1426\">第一临床医学院</option>" +
-                                    "<option value=\"134\" data-campus=\"1403\" data-part=\"1426\">第二临床医学院</option>" +
-                                    "<option value=\"135\" data-campus=\"1403\" data-part=\"1426\">第三临床医学院</option>" +
-                                    "<option value=\"136\" data-campus=\"1403\" data-part=\"1426\">口腔医学院</option>" +
-                                    "<option value=\"176\" data-campus=\"1403\" data-part=\"1426\">临床医学院</option>" +
-                                    "<option value=\"137\" data-campus=\"1406\" data-part=\"1428\">畜牧兽医学院</option>" +
-                                    "<option value=\"138\" data-campus=\"1406\" data-part=\"1428\">植物科学学院</option>" +
-                                    "<option value=\"139\" data-campus=\"1406\" data-part=\"1428\">军需科技学院</option>" +
-                                    "<option value=\"177\" data-campus=\"1406\" data-part=\"1428\">动物科学学院</option>" +
-                                    "<option value=\"178\" data-campus=\"1406\" data-part=\"1428\">动物医学学院</option>" +
-                                    "<option value=\"187\" data-campus=\"1406\" data-part=\"1423\">食品科学与工程学院</option>" +
-                                    "</select>" } } }
+                                new FormGroup { Children = { divisions } },
+                                new FormGroup { Children = { campus } },
+                                new FormGroup { Children = { sch } }
                             }
                         },
                         Children =
@@ -133,7 +102,7 @@ namespace HandSchool.JLU.InfoQuery
             {
                 if (data == "schId=null")
                 {
-                    await Binding.DisplayAlert("信息查询", "错误：未指定查询学院。", "知道了");
+                    await Binding.DisplayAlert("信息查询", "未指定查询学院。", "知道了");
                     return;
                 }
 
@@ -144,7 +113,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await Binding.DisplayAlert("信息查询", "错误：未定义操作。", "知道了");
+                await Binding.DisplayAlert("信息查询", "未定义操作。", "知道了");
                 throw new NotImplementedException();
             }
         }
@@ -160,9 +129,9 @@ namespace HandSchool.JLU.InfoQuery
             jsBuilder.Append("$('#englishName').text('" + obj.value[0].englishName + "');");
             if (obj.value[0].extSchNo == null) obj.value[0].extSchNo = "??";
             jsBuilder.Append("$('#extSchNo').text('" + obj.value[0].extSchNo + "');");
-            if (obj.value[0].campus == null) obj.value[0].campus = "未知"; else obj.value[0].campus = (App.Current.Service as UIMS).Campus[obj.value[0].campus];
+            if (obj.value[0].campus == null) obj.value[0].campus = "未知"; else obj.value[0].campus = AlreadyKnownThings.Campus[obj.value[0].campus];
             jsBuilder.Append("$('#Icampus').text('" + obj.value[0].campus + "');");
-            if (obj.value[0].division == null) obj.value[0].division = "未知"; else obj.value[0].division = (App.Current.Service as UIMS).Division[obj.value[0].division];
+            if (obj.value[0].division == null) obj.value[0].division = "未知"; else obj.value[0].division = AlreadyKnownThings.Division[obj.value[0].division];
             jsBuilder.Append("$('#Idivision').text('" + obj.value[0].division + "');");
             if (obj.value[0].staff == null) obj.value[0].staff = "未设置";
             jsBuilder.Append("$('#staff').text('" + obj.value[0].staff + "');");

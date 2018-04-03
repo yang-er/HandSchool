@@ -17,6 +17,7 @@ namespace HandSchool.Views
 		public WebViewPage(IInfoEntrance entrance)
 		{
 			InitializeComponent();
+            Title = entrance.Name;
             InfoEntrance = entrance;
             InfoEntrance.Binding = this;
             var sb = new StringBuilder();

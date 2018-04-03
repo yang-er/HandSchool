@@ -13,14 +13,12 @@ namespace HandSchool.UWP
 
         protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)
         {
-            if (e.NewElement is null && !(Control is null))
-            {
-                Control.NavigationCompleted -= OnWebViewNavigationCompleted;
-                Control.ScriptNotify -= OnWebViewScriptNotify;
-                Element.OnExcuteJavaScript -= InvokeScript;
-            }
-
             base.OnElementChanged(e);
+
+            if (e.OldElement != null)
+            {
+                e.OldElement.OnExcuteJavaScript -= InvokeScript;
+            }
 
             if (e.NewElement != null)
             {
@@ -29,9 +27,9 @@ namespace HandSchool.UWP
                     SetNativeControl(new WebView());
                     Control.NavigationCompleted += OnWebViewNavigationCompleted;
                     Control.ScriptNotify += OnWebViewScriptNotify;
-                    Element.OnExcuteJavaScript += InvokeScript;
                 }
 
+                e.NewElement.OnExcuteJavaScript += InvokeScript;
                 if (Element.Html != string.Empty)
                 {
                     Control.NavigateToString(Element.Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
