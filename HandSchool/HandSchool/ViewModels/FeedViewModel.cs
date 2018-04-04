@@ -27,7 +27,7 @@ namespace HandSchool.ViewModels
 
         public FeedViewModel()
         {
-            Title = "站内消息";
+            Title = "学校通知";
             Items = new ObservableCollection<FeedItem>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
@@ -41,7 +41,7 @@ namespace HandSchool.ViewModels
 
             try
             {
-                await App.Current.Message.Execute();
+                await App.Current.Feed.Execute();
             }
             catch (Exception ex)
             {

@@ -57,6 +57,16 @@ namespace HandSchool
                 },
                 new MasterPageItem
                 {
+                    DestPage = new NavigationPage(new FeedPage()),
+                    Title = "学校通知",
+                    FontFamily = Helper.SegoeMDL2,
+                    Icon = "\xE12F",
+                    Color = Color.Black,
+                    Selected = false,
+                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
+                },
+                new MasterPageItem
+                {
                     DestPage = new NavigationPage(new MessageBoxPage()),
                     Title = "站内消息",
                     FontFamily = Helper.SegoeMDL2,

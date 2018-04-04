@@ -13,6 +13,7 @@ namespace HandSchool.Internal
         WebHeaderCollection protocolErrorResponses;
         public new WebHeaderCollection ResponseHeaders => base.ResponseHeaders is null ? protocolErrorResponses : base.ResponseHeaders;
         public bool AllowAutoRedirect { get; set; }
+        public int Timeout { get; set; } = 15000;
 
         public string Location
         {
@@ -48,7 +49,7 @@ namespace HandSchool.Internal
             {
                 req.CookieContainer = Cookie;
                 req.AllowAutoRedirect = AllowAutoRedirect;
-                req.Timeout = 15000;
+                req.Timeout = Timeout;
             }
             return request;
         }

@@ -8,7 +8,7 @@
         public string Comments { get; set; }
         public string PubDate { get; set; }
         public string Creator { get; set; }
-        public string[] Category { get; set; }
+        public string Category { get; set; }
         public string Description { get; set; }
     }
 
