@@ -15,6 +15,7 @@ namespace HandSchool
             GradePoint = new GradeEntrance();
             Schedule = new Schedule();
             Message = new MessageEntrance();
+            Feed = new OA();
             var group1 = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
             group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", () => new CollegeIntroduce()));
             InfoEntrances.Add(group1);

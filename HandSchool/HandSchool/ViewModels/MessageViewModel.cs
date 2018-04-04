@@ -127,7 +127,6 @@ namespace HandSchool.ViewModels
 
             try
             {
-
                 await App.Current.Message.Execute();
             }
             catch (Exception ex)

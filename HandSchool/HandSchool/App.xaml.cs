@@ -20,6 +20,7 @@ namespace HandSchool
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
         public IMessageEntrance Message;
+        public IFeedEntrance Feed;
         public ISystemEntrance SelectCourse;
         public int DailyClassCount;
         public static new App Current => Application.Current as App;

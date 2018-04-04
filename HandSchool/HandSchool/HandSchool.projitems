@@ -22,11 +22,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FeedItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\CollegeIntroduce.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Loader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\OA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\InfoEntrance.cs" />
@@ -42,11 +44,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeedViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CurriculumPage.xaml.cs">
       <DependentUpon>CurriculumPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FeedPage.xaml.cs">
+      <DependentUpon>FeedPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\GradePointPage.xaml.cs">
@@ -146,6 +153,12 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\IndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\FeedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <!--#if (CreateBackendProject)
