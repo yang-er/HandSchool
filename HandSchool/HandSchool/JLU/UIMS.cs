@@ -136,6 +136,7 @@ namespace HandSchool.JLU
                 WriteConfFile("jlu.user.json", AutoLogin ? resp : "");
                 ParseLoginInfo(resp);
 
+
                 // Get term info
                 resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
                 if (resp.StartsWith("<!")) return false;
