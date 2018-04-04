@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\CollegeIntroduce.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Loader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Message.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
@@ -41,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumLabel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InfoQueryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />

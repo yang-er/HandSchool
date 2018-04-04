@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Text;
 using HandSchool.Views;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace HandSchool
 {
@@ -17,5 +18,26 @@ namespace HandSchool
         void Receive(string data);
         WebViewPage Binding { get; set; }
         Dictionary<string, Command> Menu { get; set; }
+    }
+
+    public delegate IInfoEntrance EntranceCreator();
+
+    public class InfoEntranceGroup : ObservableCollection<InfoEntranceWrapper>
+    {
+        public string GroupTitle { get; set; }
+    }
+    
+    public class InfoEntranceWrapper
+    {
+        public string Name { get; }
+        public string Description { get; }
+        public EntranceCreator Load { get; }
+
+        public InfoEntranceWrapper(string name, string description, EntranceCreator creator)
+        {
+            Name = name;
+            Description = description;
+            Load = creator;
+        }
     }
 }
