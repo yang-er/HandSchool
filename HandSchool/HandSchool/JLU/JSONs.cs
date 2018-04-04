@@ -11,6 +11,7 @@ namespace HandSchool.JLU.JsonObject
         public T[] value { get; set; }
         public string resName { get; set; }
         public string msg { get; set; }
+        public string data { get; set; }
     }
 
     class ErrorMsg
@@ -37,7 +38,6 @@ namespace HandSchool.JLU.JsonObject
         public string tcmId { get; set; }
         public LessonSegment lessonSegment { get; set; }
     }
-
     class ScheduleValue
     {
         public TeachClassMaster teachClassMaster { get; set; }
@@ -45,7 +45,13 @@ namespace HandSchool.JLU.JsonObject
         public object student { get; set; }
         public DateTime dateAccept { get; set; }
     }
-
+    class WheatherValue
+    {
+        public string forecast { get; set; }
+        public string high{ get; set; }
+        public string low { get; set; }
+        public string[] data { get; set; }
+    }
     class ArchiveScoreValue
     {
         public string xkkh { get; set; }

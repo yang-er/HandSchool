@@ -21,7 +21,6 @@ namespace HandSchool.Views
             var Mes=new JLU.MessageEntrance();
             WelcomeStr = "欢迎,"+Mes.Name;
             this.BindingContext =new StartPageMsg();
-            
             InitializeComponent();
         }
         

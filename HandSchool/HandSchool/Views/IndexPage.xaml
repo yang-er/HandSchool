@@ -3,25 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HandSchool.Views.IndexPage"
               BackgroundColor="White"
-             Title="首页">
+             Title="首页"
+             >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="刷新" Command="{Binding ReflushCommand}" Order="Secondary" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Padding="10" Spacing="20">
-            <Frame OutlineColor="White"   BackgroundColor="#708090">
+        <StackLayout Padding="10" Spacing="20" >
+            <Frame  BackgroundColor="#708090">
                 <StackLayout Padding="1">
-                    <Label Text="{Binding WelcomeStr}"   VerticalOptions="Start" FontSize="Large" TextColor="White"></Label>
-                    <Label Text="{Binding WeekStr}" VerticalOptions="Center" FontSize="Large" TextColor="White"></Label>
+                    <Label Text="{Binding WelcomeStr}"   VerticalOptions="Start" FontSize="40" TextColor="White"></Label>
+                    <Label Text="{Binding WeekStr}" VerticalOptions="Center" FontSize="40" TextColor="White"></Label>
                 </StackLayout>
             </Frame>
-            <Frame OutlineColor="White"  BackgroundColor="#708090">
+            <Frame   BackgroundColor="#708090">
                 <StackLayout>
-                    <Label Text="{Binding NextClassStr}" FontSize="Large" TextColor="White"></Label>
-                    <Label Text="{Binding TeacherStr}" FontSize="Large" TextColor="White"></Label>
-                    <Label Text="{Binding AddressStr}" FontSize="Large" TextColor="White"></Label>
+                    <Label Text="{Binding NextClassStr}" FontSize="Medium" TextColor="White"></Label>
+                    <Label Text="{Binding TeacherStr}" FontSize="Medium" TextColor="White"></Label>
+                    <Label Text="{Binding AddressStr}" FontSize="Medium" TextColor="White"></Label>
                 </StackLayout>
             </Frame>
-            <Frame OutlineColor="White"  BackgroundColor="#708090">
+            <Frame  BackgroundColor="#708090">
                 <StackLayout>
-                    <Label Text="即将推出" FontSize="Large" TextColor="White"></Label>
+                    <Label Text="今日天气" FontSize="Medium" TextColor="White"></Label>
+                    <Label Text="{Binding WheatherStr}" FontSize="Medium" TextColor="White"></Label>
+                    <Label Text="{Binding TmpStr}" FontSize="Medium" TextColor="White"></Label>
+                    <Label Text="{Binding TipStr}" FontSize="Medium" TextColor="White"></Label>
                 </StackLayout>
             </Frame>
         </StackLayout>
