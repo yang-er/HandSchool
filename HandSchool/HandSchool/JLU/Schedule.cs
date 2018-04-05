@@ -17,7 +17,7 @@ namespace HandSchool.JLU
         public List<CurriculumItem> Items { get; }
         public string StorageFile => "jlu.kcb.json";
         public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
-        public int Classnext;
+        public int Classnext { get; set; }
         public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
         {
             if (showAll)
