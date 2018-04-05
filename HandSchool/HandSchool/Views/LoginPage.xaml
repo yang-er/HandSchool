@@ -9,14 +9,13 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="15">
-            <Entry Text="{Binding Username}" Placeholder="用户名" FontSize="Medium" />
-            <Entry Text="{Binding Password}" Placeholder="密码" IsPassword="True"  FontSize="Medium" />
-            <Label Text="{Binding Tips}" FontSize="Medium" />
             <TableView Intent="Form">
-                <TableSection>
+                <TableSection Title="登录信息">
                     <w:InputCell Text="{Binding Username}" Placeholder="用户名" />
                     <w:InputCell Text="{Binding Password}" Placeholder="密码" IsPassword="True" />
-                    <TextCell Text="{Binding Tips}" />
+                    <ViewCell>
+                        <Label Text="{Binding Tips}" Margin="0,10" />
+                    </ViewCell>
                     <SwitchCell Text="保存密码" On="{Binding SavePassword}" />
                     <SwitchCell Text="自动登录" On="{Binding AutoLogin}" />
                 </TableSection>

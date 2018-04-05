@@ -2,6 +2,7 @@
 
 namespace HandSchool.Views
 {
+    // thanks to Soar1991@cnblogs
     public class InputCell : EntryCell
     {
         public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(propertyName: "IsPassword", returnType: typeof(bool), declaringType: typeof(InputCell), defaultValue: false);
