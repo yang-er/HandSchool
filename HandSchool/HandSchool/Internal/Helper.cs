@@ -12,11 +12,8 @@ namespace HandSchool.Internal
 {
     partial class Helper
     {
-        private static MD5 MD5p = new MD5CryptoServiceProvider();
         private static StringBuilder sb = new StringBuilder();
         private static JsonSerializer json = JsonSerializer.Create();
-        private static bool auto_login = true;
-        private static bool save_password = true;
         public static string[] ScheduleColors = { "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65", "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
         public static string DataBaseDir;
         public static string SegoeMDL2;
@@ -52,32 +49,6 @@ namespace HandSchool.Internal
         {
             return 0;
         }
-        
-        public static bool AutoLogin
-        {
-            get
-            {
-                return auto_login;
-            }
-            set
-            {
-                auto_login = value;
-                if (value) save_password = true;
-            }
-        }
-
-        public static bool SavePassword
-        {
-            get
-            {
-                return save_password;
-            }
-            set
-            {
-                save_password = value;
-                if (!save_password) auto_login = false;
-            }
-        }
 
         public static string ReadConfFile(string name)
         {
@@ -96,16 +67,10 @@ namespace HandSchool.Internal
         public static byte[] MD5(byte[] source)
         {
             byte[] bytHash;
-            try
+            using (MD5 MD5p = new MD5CryptoServiceProvider())
             {
                 bytHash = MD5p.ComputeHash(source);
             }
-            catch (ObjectDisposedException)
-            {
-                MD5p = new MD5CryptoServiceProvider();
-                bytHash = MD5p.ComputeHash(source);
-            }
-            MD5p.Clear();
             return bytHash;
         }
         

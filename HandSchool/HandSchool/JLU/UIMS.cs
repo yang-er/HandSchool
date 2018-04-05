@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
+using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace HandSchool.JLU
             Username = ReadConfFile("jlu.uims.username.txt");
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
-            if (Password == "") SavePassword = false;
+            if (Password == "") LoginViewModel.Instance.SavePassword = false;
 
             try
             {
@@ -49,7 +50,7 @@ namespace HandSchool.JLU
             }
             catch (Newtonsoft.Json.JsonReaderException)
             {
-                AutoLogin = false;
+                LoginViewModel.Instance.AutoLogin = false;
                 NeedLogin = true;
             }
         }
@@ -89,7 +90,7 @@ namespace HandSchool.JLU
             else
             {
                 WriteConfFile("jlu.uims.username.txt", Username);
-                WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
+                WriteConfFile("jlu.uims.password.txt", LoginViewModel.Instance.SavePassword ? Password : "");
             }
 
             WebClient = new AwaredWebClient(ServerUri, Encoding.UTF8);
@@ -133,14 +134,14 @@ namespace HandSchool.JLU
                 // Get User Info
                 string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
                 if (resp.StartsWith("<!")) return false;
-                WriteConfFile("jlu.user.json", AutoLogin ? resp : "");
+                WriteConfFile("jlu.user.json", LoginViewModel.Instance.AutoLogin ? resp : "");
                 ParseLoginInfo(resp);
 
 
                 // Get term info
                 resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
                 if (resp.StartsWith("<!")) return false;
-                WriteConfFile("jlu.teachingterm.json", AutoLogin ? resp : "");
+                WriteConfFile("jlu.teachingterm.json", LoginViewModel.Instance.AutoLogin ? resp : "");
                 ParseTermInfo(resp);
             }
             else

@@ -5,17 +5,20 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
 		          Title="登录教务系统">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="登录" x:Name="LoginButton" />
+        <ToolbarItem Text="登录" Command="{Binding LoginCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="15">
-            <Entry Text="{Binding Service.Username}" Placeholder="用户名" FontSize="Medium" />
-            <Entry Text="{Binding Service.Password}" Placeholder="密码" IsPassword="True"  FontSize="Medium" />
-            <Label Text="{Binding Service.Tips}" FontSize="Medium" />
+            <Entry Text="{Binding Username}" Placeholder="用户名" FontSize="Medium" />
+            <Entry Text="{Binding Password}" Placeholder="密码" IsPassword="True"  FontSize="Medium" />
+            <Label Text="{Binding Tips}" FontSize="Medium" />
             <TableView Intent="Form">
                 <TableSection>
-                    <SwitchCell Text="保存密码" x:Name="SavePassword" />
-                    <SwitchCell Text="自动登录" x:Name="AutoLogin" />
+                    <w:InputCell Text="{Binding Username}" Placeholder="用户名" />
+                    <w:InputCell Text="{Binding Password}" Placeholder="密码" IsPassword="True" />
+                    <TextCell Text="{Binding Tips}" />
+                    <SwitchCell Text="保存密码" On="{Binding SavePassword}" />
+                    <SwitchCell Text="自动登录" On="{Binding AutoLogin}" />
                 </TableSection>
             </TableView>
         </StackLayout>
