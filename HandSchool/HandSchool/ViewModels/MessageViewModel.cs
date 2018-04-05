@@ -16,11 +16,10 @@ using Newtonsoft.Json.Linq;
 
 namespace HandSchool.ViewModels
 {
+
+#error Need to be deleted
     public class StartPageMsg:INotifyPropertyChanged
     {
-        public string TmpStr { get; set; }
-        public string WheatherStr { get; set; }
-        public string TipStr { get; set; }
         public string TeacherStr { get; set; }
         public string AddressStr { get; set; }
         public string WelcomeStr { get; set; }
@@ -32,25 +31,17 @@ namespace HandSchool.ViewModels
         public NameValueCollection AttachInfomation { get; set; }
         public string ChineseWeekday ="一二三四五六七";
         public Command ReflushCommand { get; set; }
-        public void ClearWheatherStr()
-        {
-            WheatherStr = "";
-            TipStr = "";
-            TmpStr = "";
-        }
         public StartPageMsg()
         {
             WebClient = new AwaredWebClient("https://www.sojson.com/open/api/weather/json.shtml?city=", Encoding.UTF8);
             WelcomeStr = $"{App.Current.Service.WelcomeMessage}";
             WeekStr = $"第{ChineseWeekday[App.Current.Service.CurrentWeek]}周";
             GetNextClass();
-            GetWheatherStr();
             ReflushCommand = new Command(async() => await ExecuteReflushCommand());
         }
         async Task ExecuteReflushCommand()
         {
             GetNextClass();
-            GetWheatherStr();
             WelcomeStr = $"{ App.Current.Service.WelcomeMessage}";
             WeekStr = $"第{ChineseWeekday[App.Current.Service.CurrentWeek]}周";
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
@@ -67,14 +58,14 @@ namespace HandSchool.ViewModels
         {
             int DayOfWeek;
             int Classnext;
-            if (App.Current.Schedule.Classnext==11)
+            if (App.Current.Schedule.ClassNext==11)
             {
                 DayOfWeek = (int)DateTime.Now.DayOfWeek + 1;
                 Classnext = 1;
             }
             else
             {
-                Classnext = App.Current.Schedule.Classnext;
+                Classnext = App.Current.Schedule.ClassNext;
                 DayOfWeek = (int)DateTime.Now.DayOfWeek;
             }
             foreach (var i in App.Current.Schedule.Items)
@@ -123,54 +114,8 @@ namespace HandSchool.ViewModels
 
             return; 
         }
-        public void OnGetWheather(object sender, DateChangedEventArgs e)
-        {
-            return;
-        }
-        public async  void GetWheatherStr()
-        {
-            ClearWheatherStr();
-            try
-            {
-                if (string.Compare(LastGetWheatherTime, DateTime.Now.ToShortTimeString())==0)
-                {
-                    WheatherStr = "天气每分钟刷新一次,请稍等";
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
-                    return;
-                }
-                WheatherStr = await WebClient.GetAsync("https://www.sojson.com/open/api/weather/json.shtml?city=长春");
-                Parse();
-                LastGetWheatherTime = DateTime.Now.ToShortTimeString();
-            }
-            catch
-            {
-                WheatherStr = "网络异常,请联网以获得天气";
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
-            }
-        }
-        public void Parse()
-        {
-            JObject jo = (JObject)JsonConvert.DeserializeObject(WheatherStr);
-            string high = jo["data"]["forecast"][0]["high"].ToString();
-            string low = jo["data"]["forecast"][0]["low"].ToString();
-            string type= jo["data"]["forecast"][0]["type"].ToString();
-            string tips = jo["data"]["forecast"][0]["notice"].ToString();
-            WheatherStr = type;
-            TmpStr = $"{high} {low}";
-            TipStr = tips;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
-        }
     }
-
-    public class Test: INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-    }
+    
     public class MessageViewModel : BaseViewModel
     {
         public ObservableCollection<IMessageItem> Items { get; set; }
