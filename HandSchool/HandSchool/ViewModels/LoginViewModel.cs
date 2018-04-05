@@ -71,6 +71,7 @@ namespace HandSchool.ViewModels
             }
 
             IsBusy = true;
+            
             var loadingAlert = Internal.Helper.ShowLoadingAlert("正在登录……");
 
             try
