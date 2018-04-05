@@ -29,8 +29,6 @@ namespace HandSchool.ViewModels
         public string NextClassStr { get; set; }
         public AwaredWebClient WebClient { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-        HandSchool.JLU.UIMS MessageGeter = new HandSchool.JLU.UIMS();
-        HandSchool.JLU.Schedule NextClassGeter = new HandSchool.JLU.Schedule();
         public NameValueCollection AttachInfomation { get; set; }
         public string ChineseWeekday ="一二三四五六七";
         public Command ReflushCommand { get; set; }
@@ -43,8 +41,8 @@ namespace HandSchool.ViewModels
         public StartPageMsg()
         {
             WebClient = new AwaredWebClient("https://www.sojson.com/open/api/weather/json.shtml?city=", Encoding.UTF8);
-            WelcomeStr = $"欢迎，{MessageGeter.AttachInfomation["studName"]}。";
-            WeekStr = $"第{ChineseWeekday[MessageGeter.CurrentWeek]}周";
+            WelcomeStr = $"{App.Current.Service.WelcomeMessage}";
+            WeekStr = $"第{ChineseWeekday[App.Current.Service.CurrentWeek]}周";
             GetNextClass();
             GetWheatherStr();
             ReflushCommand = new Command(async() => await ExecuteReflushCommand());
@@ -53,8 +51,8 @@ namespace HandSchool.ViewModels
         {
             GetNextClass();
             GetWheatherStr();
-            WelcomeStr = $"欢迎，{MessageGeter.AttachInfomation["studName"]}。";
-            WeekStr = $"第{ChineseWeekday[MessageGeter.CurrentWeek]}周";
+            WelcomeStr = $"{ App.Current.Service.WelcomeMessage}";
+            WeekStr = $"第{ChineseWeekday[App.Current.Service.CurrentWeek]}周";
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
         }
         private void NotifyPropertyChange(string propertyName)
@@ -68,29 +66,30 @@ namespace HandSchool.ViewModels
         public void GetNextClass()//获取下一节课
         {
             int DayOfWeek;
-            if(NextClassGeter.Classnext==11)
+            int Classnext;
+            if (App.Current.Schedule.Classnext==11)
             {
                 DayOfWeek = (int)DateTime.Now.DayOfWeek + 1;
-                NextClassGeter.Classnext = 1;
+                Classnext = 1;
             }
             else
             {
+                Classnext = App.Current.Schedule.Classnext;
                 DayOfWeek = (int)DateTime.Now.DayOfWeek;
             }
-            foreach (var i in NextClassGeter.Items)
+            foreach (var i in App.Current.Schedule.Items)
             {
-                if ((int)i.WeekOen == 0 && MessageGeter.CurrentWeek % 2 == 0) continue;
-                if ((int)i.WeekOen == 1 && MessageGeter.CurrentWeek % 2 == 1) continue;
+                if ((int)i.WeekOen == 0 && App.Current.Service.CurrentWeek % 2 == 0) continue;
+                if ((int)i.WeekOen == 1 && App.Current.Service.CurrentWeek % 2 == 1) continue;
                 if (i.WeekDay <DayOfWeek)
-                 { }
+                { }
                 else if(i.WeekDay ==DayOfWeek)
                 {
-                    if(i.DayBegin>=NextClassGeter.Classnext)
+                    if(i.DayBegin>=Classnext)
                     {
                         NextClassStr = $"下节课是:{i.Name}";
                         TeacherStr = $"周{ChineseWeekday[i.WeekDay - 1]} {i.DayBegin}-{i.DayEnd} {i.Teacher}"; AddressStr = $"{i.Classroom}";
                         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
-
                         return;
                     }
                 }
@@ -100,14 +99,13 @@ namespace HandSchool.ViewModels
                     TeacherStr = $"周{ChineseWeekday[i.WeekDay - 1]} {i.DayBegin}-{i.DayEnd} {i.Teacher}";
                     AddressStr = $"{i.Classroom}";
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
-
                     return;
                 }
             }
-            foreach (var i in NextClassGeter.Items)
+            foreach (var i in App.Current.Schedule.Items)
             {
-                if ((int)i.WeekOen == 0 && MessageGeter.CurrentWeek % 2 == 0) continue;
-                if ((int)i.WeekOen == 1 && MessageGeter.CurrentWeek % 2 == 1) continue;
+                if ((int)i.WeekOen == 0 && App.Current.Service.CurrentWeek % 2 == 0) continue;
+                if ((int)i.WeekOen == 1 && App.Current.Service.CurrentWeek % 2 == 1) continue;
                 Debug.Print($"{i.WeekDay}\n");
                 if(i.WeekDay== DayOfWeek)break;
                 if(i.WeekDay< DayOfWeek)
@@ -137,7 +135,7 @@ namespace HandSchool.ViewModels
                 if (string.Compare(LastGetWheatherTime, DateTime.Now.ToShortTimeString())==0)
                 {
                     WheatherStr = "天气每分钟刷新一次,请稍等";
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(""));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
                     return;
                 }
                 WheatherStr = await WebClient.GetAsync("https://www.sojson.com/open/api/weather/json.shtml?city=长春");
@@ -147,12 +145,11 @@ namespace HandSchool.ViewModels
             catch
             {
                 WheatherStr = "网络异常,请联网以获得天气";
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(""));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
             }
         }
         public void Parse()
         {
-            
             JObject jo = (JObject)JsonConvert.DeserializeObject(WheatherStr);
             string high = jo["data"]["forecast"][0]["high"].ToString();
             string low = jo["data"]["forecast"][0]["low"].ToString();
@@ -161,7 +158,7 @@ namespace HandSchool.ViewModels
             WheatherStr = type;
             TmpStr = $"{high} {low}";
             TipStr = tips;
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(""));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
         }
     }
 

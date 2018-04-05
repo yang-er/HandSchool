@@ -24,6 +24,7 @@ namespace HandSchool.JLU
 
         public OA()
         {
+
         }
 
         public async Task Execute()
@@ -49,6 +50,7 @@ namespace HandSchool.JLU
                     Link = (string)item.Element("link"),
                     Id = id++
                 });
+            FeedViewModel.Instance.Items.Clear();
             foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
         }
     }
