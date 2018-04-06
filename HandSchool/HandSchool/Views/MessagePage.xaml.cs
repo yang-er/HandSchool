@@ -11,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MessageBoxPage : ContentPage
+    public partial class MessagePage : ContentPage
     {
-        public MessageBoxPage()
+        public MessagePage()
         {
             InitializeComponent();
             BindingContext = MessageViewModel.Instance;
