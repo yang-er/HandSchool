@@ -45,7 +45,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomProtocol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeedViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IndexViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
@@ -78,8 +80,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\MessageBoxPage.xaml.cs">
-      <DependentUpon>MessageBoxPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MessagePage.xaml.cs">
+      <DependentUpon>MessagePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\MessageDetailPage.cs" />
@@ -124,7 +126,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MessageBoxPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MessagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

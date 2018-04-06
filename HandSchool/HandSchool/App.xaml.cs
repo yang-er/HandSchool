@@ -67,7 +67,7 @@ namespace HandSchool
                 },
                 new MasterPageItem
                 {
-                    DestPage = new NavigationPage(new MessageBoxPage()),
+                    DestPage = new NavigationPage(new MessagePage()),
                     Title = "站内消息",
                     FontFamily = Helper.SegoeMDL2,
                     Icon = "\xE12F",

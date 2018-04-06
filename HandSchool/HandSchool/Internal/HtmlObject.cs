@@ -209,6 +209,19 @@ namespace HandSchool.Internal
             }
         }
 
+        public class UnorderedList : IHtmlObject
+        {
+            public string Id => "";
+            public List<string> Children { get; set; } = new List<string>();
+                
+            public void ToHtml(StringBuilder sb, bool full = true)
+            {
+                sb.Append("<ul>");
+                Children.ForEach((val) => sb.Append($"<li>{val}</li>"));
+                sb.Append("</ul>");
+            }
+        }
+
         public class MasterDetail : IHtmlObject
         {
             public string Id { get; private set; } = Guid.NewGuid().ToString("N").Substring(0, 6);
@@ -234,6 +247,11 @@ namespace HandSchool.Internal
             {
                 sb.Append(Raw);
             }
+
+            public static explicit operator RawHtml(string value)
+            {
+                return new RawHtml { Raw = value };
+            }
         }
 
         public class Bootstrap : IHtmlObject
@@ -242,13 +260,14 @@ namespace HandSchool.Internal
             public const string Charset = "utf-8";
             public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
             public List<string> JavaScript { get; set; } = new List<string>();
+            public string Css { get; set; } = "";
             public string Id => "";
 
             public void ToHtml(StringBuilder sb, bool full = true)
             {
                 sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\"><base href=\"{{webview_base_url}}\"></base>");
                 sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
-                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><title>{Title}</title></head><body><div class=\"container\">");
+                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><style>{Css}</style><title>{Title}</title></head><body><div class=\"container\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
                 sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script><script src=\"bootstrap.bundle.js\"></script>");
                 JavaScript.ForEach((obj) => sb.Append("<script>" + obj + "</script>"));

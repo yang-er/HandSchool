@@ -1,49 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:w="clr-namespace:HandSchool.Views"
              x:Class="HandSchool.Views.AboutPage"
-             Title="关于" IsBusy="True">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                <ContentView Padding="0,40,0,40" VerticalOptions="FillAndExpand">
-                    <Image Source="xamarin_logo.png" VerticalOptions="Center" HeightRequest="64" />
-                </ContentView>
-            </StackLayout>
-        </StackLayout>
-        <ScrollView Grid.Row="1">
-            <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
-                <Label FontSize="22">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="掌上校园" FontAttributes="Bold" FontSize="22" />
-                                <Span Text=" " />
-                                <Span x:Name="Version" Text="1.0" ForegroundColor="{StaticResource LightTextColor}" />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label Text="开放源代码，部分摘自网上已有代码，感谢。" />
-                <Label Text="利用 C# 和 Xamarin.Forms 开发，协议采用 GPLv2。" />
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="已支持的学校：" FontAttributes="Bold" />
-                                <Span Text="" x:Name="SupportedSchools" />
-                                <Span Text="。" />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Button Margin="0,5,0,0" Text="查看源码" Clicked="Web1_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-                <Button Margin="0,5,0,0" Text="测试HybridWebView" Clicked="Test_Clicked" BackgroundColor="{StaticResource Primary}" TextColor="White" />
-            </StackLayout>
-        </ScrollView>
-    </Grid>
+             Title="{Binding Title}">
+    <w:HybridWebView x:Name="WebView" x:FieldModifier="public" />
 </ContentPage>
