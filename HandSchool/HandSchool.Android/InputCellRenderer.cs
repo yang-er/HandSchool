@@ -16,8 +16,8 @@ namespace HandSchool.Droid
         protected override View GetCellCore(Cell item, View convertView, ViewGroup parent, Context context)
         {
             var cell = base.GetCellCore(item, convertView, parent, context);
-
-            if ((cell as EntryCellView)?.EditText is TextView textField && textField.TransformationMethod != PasswordTransformationMethod.Instance)
+            
+            if ((Cell as InputCell).IsPassword && (cell as EntryCellView)?.EditText is TextView textField && textField.TransformationMethod != PasswordTransformationMethod.Instance)
             {
                 textField.TransformationMethod = PasswordTransformationMethod.Instance;
             }
