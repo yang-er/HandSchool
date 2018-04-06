@@ -115,5 +115,22 @@ namespace HandSchool.ViewModels
             await BindingPage.DisplayAlert("哈哈", "我不管，你要对我负责。", "知道了");
             System.Diagnostics.Debug.WriteLine("test mode 3");
         }
+
+        void OpenMarket()
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    Device.OpenUri(new Uri("market://details?id=com.x90yang.HandSchool"));
+                    break;
+                case Device.UWP:
+                    Device.OpenUri(new Uri("ms-windows-store://review/?productid=9PD2FR9HHJQP"));
+                    break;
+                case Device.iOS:
+                    throw new NotImplementedException();
+                    Device.OpenUri(new Uri("itms://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8"));
+                    break;
+            }
+        }
     }
 }
