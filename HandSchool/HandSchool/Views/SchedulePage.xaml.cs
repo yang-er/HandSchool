@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.ViewModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,7 +14,7 @@ namespace HandSchool.Views
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
 
-        private bool IsWider = false, IsBusyLoading = false;
+        private bool IsWider = false;
 
         public SchedulePage()
 		{
@@ -22,9 +23,11 @@ namespace HandSchool.Views
             RowHeight = new GridLength(60, GridUnitType.Absolute);
             ColWidth = new GridLength(100, GridUnitType.Absolute);
             DefCol = new ColumnDefinition { Width = ColWidth };
-            DefRow = new RowDefinition { Height = RowHeight };
+            DefRow = new RowDefinition { Height = GridLength.Star };
 
-            BindingContext = this;
+            BindingContext = ScheduleViewModel.Instance;
+            ScheduleViewModel.Instance.BindingPage = this;
+
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
             
@@ -46,46 +49,17 @@ namespace HandSchool.Views
                 }, 0, ij);
             }
 
-            RefreshButton.Command = new Command(async () => {
-                if (IsBusyLoading) return;
-                IsBusyLoading = true;
-                var alert = Internal.Helper.ShowLoadingAlert("正在加载课程表……");
-                await App.Current.Schedule.Execute();
-                LoadList();
-                alert.Invoke();
-                IsBusyLoading = false;
-            });
-
-            AddButton.Command = new Command(async () => await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString() }, true)).ShowAsync(Navigation));
             SizeChanged += SetTileSize;
-
             IsWider = false;
-            DefRow.Height = GridLength.Star;
-            DefCol.Width = ColWidth;
-            scroller.Orientation = ScrollOrientation.Horizontal;
         }
         
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (Week == -1) Week = App.Current.Service.CurrentWeek;
-            CurrentWeekShow.Text = $"第{Week}周";
-            LoadList();
+            ScheduleViewModel.Instance.LoadList();
             System.Diagnostics.Debug.WriteLine("SchedulePage.OnAppearing. Redrawing.");
         }
-
-        void LoadList()
-        {
-            int i = 7 + App.Current.DailyClassCount;
-            while (grid.Children.Count > i)
-            {
-                grid.Children.RemoveAt(i);
-            }
-            
-            // Render classes
-            App.Current.Schedule.RenderWeek(Week, grid.Children);
-        }
-
+        
         void SetTileSize(object sender, EventArgs e)
         {
             if (Width > Height && !IsWider) 
