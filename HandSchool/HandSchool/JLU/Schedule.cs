@@ -17,7 +17,7 @@ namespace HandSchool.JLU
         public List<CurriculumItem> Items { get; }
         public string StorageFile => "jlu.kcb.json";
         public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
-        public int Classnext;
+        public int ClassNext { get; set; }
         public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
         {
             if (showAll)
@@ -137,13 +137,13 @@ namespace HandSchool.JLU
         
         public void ReflushClassNow()
         {
-            Classnext = 1;
+            ClassNext = 1;
             String[] Class =new String[5] { "8:00", "10:00", "13:30", "15:30","18:30" };
             for(int i=0;i<5;i++)
             {
                 if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(Class[i]))>0)
                 {
-                    Classnext += 2;
+                    ClassNext += 2;
                 }
             }
 
