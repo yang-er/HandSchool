@@ -19,12 +19,16 @@ namespace HandSchool.ViewModels
             get
             {
                 if (instance is null)
-                {
                     instance = new IndexViewModel();
-                    instance.RefreshCommand = new Command(instance.Refresh);
-                }
                 return instance;
             }
+        }
+
+        private IndexViewModel()
+        {
+            RefreshCommand = new Command(Refresh);
+            Title = "掌上校园";
+            Refresh();
         }
 
         #region Weather
@@ -77,7 +81,7 @@ namespace HandSchool.ViewModels
         #region Next Curriculum
 
         CurriculumItem curriculum;
-        public string NextClass => curriculum?.Name == default(string) ? curriculum?.Name : "无（无课程或未刷新）";
+        public string NextClass => curriculum?.Name != default(string) ? curriculum.Name : "无（无课程或未刷新）";
         public string NextTeacher => curriculum?.Teacher;
         public string NextClassroom => curriculum?.Classroom;
 
@@ -95,6 +99,19 @@ namespace HandSchool.ViewModels
 
         #endregion
 
+        #region Welcome
+
+        public string WelcomeMessage => HandSchool.App.Current.Service.WelcomeMessage;
+        public string CurrentMessage => HandSchool.App.Current.Service.CurrentMessage;
+
+        void UpdateWelcome()
+        {
+            OnPropertyChanged("WelcomeMessage");
+            OnPropertyChanged("CurrentMessage");
+        }
+        
+        #endregion
+
         #region Refresh Command
 
         public Command RefreshCommand { get; set; }
@@ -102,6 +119,7 @@ namespace HandSchool.ViewModels
         async void Refresh()
         {
             UpdateNextCurriculum();
+            UpdateWelcome();
             await UpdateWeather();
         }
 

@@ -16,8 +16,9 @@ namespace HandSchool.JLU
         public string LastReport { get; private set; }
         public List<CurriculumItem> Items { get; }
         public string StorageFile => "jlu.kcb.json";
+        public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
         public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
-        public int ClassNext { get; set; }
+
         public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
         {
             if (showAll)
@@ -134,21 +135,25 @@ namespace HandSchool.JLU
             });
             WriteConfFile("jlu.kcb2.json", Serialize(Items));
         }
-        
-        public void ReflushClassNow()
-        {
-            ClassNext = 1;
-            String[] Class =new String[5] { "8:00", "10:00", "13:30", "15:30","18:30" };
-            for(int i=0;i<5;i++)
-            {
-                if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(Class[i]))>0)
-                {
-                    ClassNext += 2;
-                }
-            }
 
-            return;
+        public int ClassNext
+        {
+            get
+            {
+                var ret = 1;
+
+                for (int i = 0; i < 11; i++)
+                {
+                    if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(ClassBetween[i])) > 0)
+                    {
+                        ret += 1;
+                    }
+                }
+
+                return ret;
+            }
         }
+
         public Schedule()
         {
             LastReport = ReadConfFile("jlu.kcb2.json");
@@ -156,11 +161,7 @@ namespace HandSchool.JLU
                 Items = JSON<List<CurriculumItem>>(LastReport);
             else
                 Items = new List<CurriculumItem>();
-            Items.Sort((CurriculumItem x, CurriculumItem y)=>
-            {
-                return (x.WeekDay * 100 + x.DayBegin ).CompareTo(y.WeekDay * 100 + y.DayBegin);
-            });
-            ReflushClassNow();
+            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
         }
     }
 }

@@ -40,7 +40,7 @@ namespace HandSchool
 
     public interface IScheduleEntrance : ISystemEntrance
     {
-        int ClassNext { get; set; }
+        int ClassNext { get; }
         List<CurriculumItem> Items { get; }
         void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false);
         void Save();

@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
-using static HandSchool.ViewModels.StartPageMsg;
 
 namespace HandSchool.JLU
 {

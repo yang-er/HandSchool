@@ -16,7 +16,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HandSchool.ViewModels
 {
-
+    /*
 #error Need to be deleted
     public class StartPageMsg:INotifyPropertyChanged
     {
@@ -115,7 +115,7 @@ namespace HandSchool.ViewModels
             return; 
         }
     }
-    
+    */
     public class MessageViewModel : BaseViewModel
     {
         public ObservableCollection<IMessageItem> Items { get; set; }
