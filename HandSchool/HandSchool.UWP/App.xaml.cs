@@ -5,9 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -75,6 +78,24 @@ namespace HandSchool.UWP
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
+            var coreBar = CoreApplication.GetCurrentView().TitleBar;
+            coreBar.ExtendViewIntoTitleBar = false;
+
+            return;
+            
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            var themeColor = Color.FromArgb(255, 33, 150, 243);
+            titleBar.BackgroundColor = themeColor;
+
+            var foregroundColor = Color.FromArgb(255, 255, 255, 255);
+            titleBar.ForegroundColor = foregroundColor;
+            titleBar.InactiveBackgroundColor = Colors.Transparent;
+            titleBar.InactiveForegroundColor = foregroundColor;
+            titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x88, 0xFF, 0xFF, 0xFF);
+            titleBar.ButtonPressedBackgroundColor = Color.FromArgb(0x88, 0x00, 0x00, 0x00);
+            titleBar.ButtonForegroundColor = foregroundColor;
         }
 
         /// <summary>
