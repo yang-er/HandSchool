@@ -10,8 +10,8 @@
         <StackLayout Padding="10" Spacing="20" >
             <Frame BackgroundColor="#708090">
                 <StackLayout Padding="1">
-                    <Label Text="{Binding WelcomeMessage}" VerticalOptions="Start" FontSize="40" TextColor="White" />
-                    <Label Text="{Binding CurrentMessage}" VerticalOptions="Center" FontSize="40" TextColor="White" />
+                    <Label Text="{Binding WelcomeMessage}" VerticalOptions="Start" FontSize="35" TextColor="White" />
+                    <Label Text="{Binding CurrentMessage}" VerticalOptions="Center" FontSize="30" TextColor="White" />
                 </StackLayout>
             </Frame>
             <Frame BackgroundColor="#708090">

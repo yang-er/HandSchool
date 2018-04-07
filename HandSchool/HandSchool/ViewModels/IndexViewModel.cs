@@ -13,7 +13,6 @@ namespace HandSchool.ViewModels
     public class IndexViewModel : BaseViewModel
     {
         private static IndexViewModel instance = null;
-
         public static IndexViewModel Instance
         {
             get
@@ -81,7 +80,7 @@ namespace HandSchool.ViewModels
         #region Next Curriculum
 
         CurriculumItem curriculum;
-        public string NextClass => curriculum?.Name != default(string) ? curriculum.Name : "无（无课程或未刷新）";
+        public string NextClass => curriculum?.Name != default(string) ? curriculum.Name : "无（今日无课或未刷新）";
         public string NextTeacher => curriculum?.Teacher;
         public string NextClassroom => curriculum?.Classroom;
 
