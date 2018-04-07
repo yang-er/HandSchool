@@ -21,10 +21,20 @@ namespace HandSchool.JLU
         public string PostValue => string.Empty;
         public string StorageFile => "oa.jlu.xml";
         public string LastReport { get; private set; } = string.Empty;
+        public DateTime LastUpdate { get; private set; }
 
         public OA()
         {
-
+            var lu = ReadConfFile(StorageFile + ".time");
+            if (lu == "" || (LastUpdate = DateTime.Parse(lu)).AddHours(1).CompareTo(DateTime.Now) == -1)
+            {
+                Task.Run(Execute);
+            }
+            else
+            {
+                LastReport = ReadConfFile(StorageFile);
+                Parse();
+            }
         }
 
         public async Task Execute()
@@ -33,6 +43,7 @@ namespace HandSchool.JLU
                 LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
             LastReport = LastReport.Trim();
             WriteConfFile(StorageFile, LastReport);
+            WriteConfFile(StorageFile + ".time", DateTime.Now.ToString());
             Parse();
         }
 
