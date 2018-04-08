@@ -49,6 +49,7 @@ namespace HandSchool.JLU
 
         public void Parse()
         {
+            if (LastReport == "") return;
             var xdoc = XDocument.Parse(LastReport);
             var id = 0;
             var items = (from item in xdoc.Root.Element("channel").Descendants("item")

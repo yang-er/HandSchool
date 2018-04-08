@@ -10,7 +10,6 @@ namespace HandSchool.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            RequestedOrientation = ScreenOrientation.Portrait;
             base.OnCreate(bundle);
             var intent = new Intent(this, typeof(MainActivity));
             StartActivity(intent);
