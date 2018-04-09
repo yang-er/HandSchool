@@ -18,7 +18,7 @@ namespace HandSchool.Internal
         {
             base.OnAttachedTo(bindable);
 #if __ANDROID__
-            var dialog = new Android.App.ProgressDialog(Android.App.Application.Context);
+            var dialog = new Android.App.ProgressDialog(HandSchool.Droid.MainActivity.ActivityContext);
             dialog.SetTitle(Title);
             dialog.SetMessage(Tips);
             dialog.Indeterminate = true;

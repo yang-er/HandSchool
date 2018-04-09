@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using HandSchool.ViewModels;
+using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
@@ -16,7 +17,7 @@ namespace HandSchool.Views
 
             if (App.Current.Service.NeedLogin && !App.Current.Service.IsLogin)
             {
-                (new LoginPage()).ShowAsync();
+                LoginViewModel.RequestAsync(App.Current.Service);
             }
         }
     }

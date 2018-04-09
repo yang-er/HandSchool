@@ -1,4 +1,5 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Models;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,9 +30,15 @@ namespace HandSchool.ViewModels
             }
         }
 
+        void SyncData(object sender, LoginStateEventArgs e)
+        {
+            var sys = sender as ISchoolSystem;
+            SetProperty(ref week, sys.CurrentWeek, "CurrentWeek");
+        }
+
         private ScheduleViewModel()
         {
-            week = App.Current.Service.CurrentWeek;
+            App.Current.Service.LoginStateChanged += SyncData;
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Create);
             Title = "课程表";
