@@ -1,8 +1,5 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
@@ -10,14 +7,13 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : PopContentPage
     {
-        public LoginPage()
+        internal LoginPage(LoginViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = LoginViewModel.Instance;
-            LoginViewModel.Instance.StateChanged += Response;
+            BindingContext = viewModel;
         }
 
-        async void Response(object sender, LoginStateEventArgs e)
+        internal async void Response(object sender, LoginStateEventArgs e)
         {
             switch (e.State)
             {
@@ -28,7 +24,7 @@ namespace HandSchool.Views
                     await Close();
                     break;
                 case LoginState.Failed:
-                    await DisplayAlert("登录失败", $"登录失败，{App.Current.Service.InnerError}。", "知道了");
+                    await DisplayAlert("登录失败", $"登录失败，{e.InnerError}。", "知道了");
                     break;
             }
         }

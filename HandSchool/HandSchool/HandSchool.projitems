@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\LoadingBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FeedItem.cs" />

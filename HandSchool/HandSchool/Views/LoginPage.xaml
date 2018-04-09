@@ -9,7 +9,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="15">
-            <TableView Intent="Form">
+            <TableView Intent="Form" BindingContext="{Binding Form}">
                 <TableSection Title="登录信息">
                     <w:InputCell Text="{Binding Username}" Placeholder="用户名" />
                     <w:InputCell Text="{Binding Password}" Placeholder="密码" IsPassword="True" />

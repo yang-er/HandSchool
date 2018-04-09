@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.Models;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -15,7 +16,7 @@ namespace HandSchool.Views
             PrimaryListView.ItemsSource = App.Current.PrimaryItems;
             SecondaryListView.ItemsSource = App.Current.SecondaryItems;
             SecondaryListView.HeightRequest = 12 + 48 * App.Current.SecondaryItems.Count;
-            App.Current.Service.LoggedIn += UpdateSideBar;
+            App.Current.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) UpdateSideBar(); };
             UpdateSideBar();
             LayoutChanged += WSizeChanged;
         }

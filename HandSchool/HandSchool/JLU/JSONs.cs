@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
+#pragma warning disable IDE1006
+
 namespace HandSchool.JLU.JsonObject
 {
     class RootObject<T>
@@ -38,6 +40,7 @@ namespace HandSchool.JLU.JsonObject
         public string tcmId { get; set; }
         public LessonSegment lessonSegment { get; set; }
     }
+
     class ScheduleValue
     {
         public TeachClassMaster teachClassMaster { get; set; }
@@ -45,13 +48,7 @@ namespace HandSchool.JLU.JsonObject
         public object student { get; set; }
         public DateTime dateAccept { get; set; }
     }
-    class WheatherValue
-    {
-        public string forecast { get; set; }
-        public string high{ get; set; }
-        public string low { get; set; }
-        public string[] data { get; set; }
-    }
+
     class ArchiveScoreValue
     {
         public string xkkh { get; set; }
@@ -247,6 +244,52 @@ namespace HandSchool.JLU.JsonObject
         public string xscNo { get; set; }
         public string campus { get; set; }
     }
+    
+    class LoginValue
+    {
+        public string loginMethod { get; set; }
+        public CacheUpdate cacheUpdate { get; set; }
+        public string[] menusFile { get; set; }
+        public int trulySch { get; set; }
+        public GroupsInfo[] groupsInfo { get; set; }
+        public string firstLogin { get; set; }
+        public DefRes defRes { get; set; }
+        public string userType { get; set; }
+        public DateTime sysTime { get; set; }
+        public string nickName { get; set; }
+        public int userId { get; set; }
+        public string welcome { get; set; }
+        public string loginName { get; set; }
+
+        public class CacheUpdate
+        {
+            public long sysDict { get; set; }
+            public long code { get; set; }
+        }
+
+        public class DefRes
+        {
+            public int adcId { get; set; }
+            public int term_l { get; set; }
+            public int university { get; set; }
+            public int teachingTerm { get; set; }
+            public int school { get; set; }
+            public int department { get; set; }
+            public int term_a { get; set; }
+            public int schType { get; set; }
+            public int personId { get; set; }
+            public int year { get; set; }
+            public int term_s { get; set; }
+            public int campus { get; set; }
+        }
+
+        public class GroupsInfo
+        {
+            public int groupId { get; set; }
+            public string groupName { get; set; }
+            public string menuFile { get; set; }
+        }
+    }
 
     class AlreadyKnownThings
     {
@@ -271,9 +314,7 @@ namespace HandSchool.JLU.JsonObject
             { "1405", "南湖校区" },
             { "1406", "和平校区" }
         };
-
-        private static List<CollegeOverview> _colleges;
-
+        
         public static List<CollegeOverview> Colleges { get; } = new List<CollegeOverview>
         {
             new CollegeOverview("哲学社会学院", "1401", "1420", "174"),
@@ -407,3 +448,5 @@ namespace HandSchool.JLU.JsonObject
         }
     }
 }
+
+#pragma warning restore

@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
@@ -11,30 +12,68 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static HandSchool.Internal.Helper;
+using JsonException = Newtonsoft.Json.JsonReaderException;
 
 namespace HandSchool.JLU
 {
-    class UIMS : ISchoolSystem
+    class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
+
+        #region Login Information
+
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool NeedLogin { get; private set; }
+
+        public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
+        public event EventHandler<LoginStateEventArgs> LoginStateChanged;
+
+        private bool is_login = false;
+        public bool IsLogin
+        {
+            get => is_login;
+            private set
+            {
+                SetProperty(ref is_login, value);
+                OnPropertyChanged("WelcomeMessage");
+                OnPropertyChanged("CurrentMessage");
+                OnPropertyChanged("CurrentWeek");
+            }
+        }
+
+        private bool auto_login = true;
+        public bool AutoLogin
+        {
+            get => auto_login;
+            set
+            {
+                SetProperty(ref auto_login, value);
+                if (value) SetProperty(ref save_password, true, "SavePassword");
+            }
+        }
+
+        private bool save_password = true;
+        public bool SavePassword
+        {
+            get => save_password;
+            set
+            {
+                SetProperty(ref save_password, value);
+                if (!value) SetProperty(ref auto_login, true, "AutoLogin");
+            }
+        }
+
+        public string WelcomeMessage => IsLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
+        public string CurrentMessage => IsLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
+
+        #endregion
+        
         public AwaredWebClient WebClient { get; set; }
-        public event Action LoggedIn;
-        private List<ISystemEntrance> methodList = new List<ISystemEntrance>();
-        public List<ISystemEntrance> Methods => methodList;
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
         public LoginValue LoginInfo { get; set; }
-        public bool IsLogin { get; private set; }
-        public bool RebuildRequest { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
-        public bool NeedLogin { get; private set; }
-        public string InnerError { get; private set; }
         public int CurrentWeek { get; set; }
-        public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
-        public string CurrentMessage => NeedLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
-
-
+        
         public UIMS()
         {
             IsLogin = false;
@@ -42,16 +81,16 @@ namespace HandSchool.JLU
             Username = ReadConfFile("jlu.uims.username.txt");
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
-            if (Password == "") LoginViewModel.Instance.SavePassword = false;
+            if (Password == "") SavePassword = false;
 
             try
             {
                 ParseLoginInfo(ReadConfFile("jlu.user.json"));
                 ParseTermInfo(ReadConfFile("jlu.teachingterm.json"));
             }
-            catch (Newtonsoft.Json.JsonReaderException)
+            catch (JsonException)
             {
-                LoginViewModel.Instance.AutoLogin = false;
+                AutoLogin = false;
                 NeedLogin = true;
             }
         }
@@ -81,8 +120,6 @@ namespace HandSchool.JLU
 
         public async Task<bool> Login()
         {
-            RebuildRequest = false;
-
             if (Username == "" || Password == "")
             {
                 NeedLogin = true;
@@ -91,7 +128,7 @@ namespace HandSchool.JLU
             else
             {
                 WriteConfFile("jlu.uims.username.txt", Username);
-                WriteConfFile("jlu.uims.password.txt", LoginViewModel.Instance.SavePassword ? Password : "");
+                WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
             }
 
             WebClient = new AwaredWebClient(ServerUri, Encoding.UTF8);
@@ -106,7 +143,7 @@ namespace HandSchool.JLU
             }
             catch(WebException ex)
             {
-                InnerError = GetWebExceptionMessage(ex);
+                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
                 return false;
             }
 
@@ -124,7 +161,7 @@ namespace HandSchool.JLU
             if (WebClient.Location == "error/dispatch.jsp?reason=loginError")
             {
                 string result = await WebClient.GetAsync("userLogin.jsp?reason=loginError", "text/html");
-                InnerError = Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value;
+                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
                 IsLogin = false;
                 return false;
             }
@@ -135,14 +172,14 @@ namespace HandSchool.JLU
                 // Get User Info
                 string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
                 if (resp.StartsWith("<!")) return false;
-                WriteConfFile("jlu.user.json", LoginViewModel.Instance.AutoLogin ? resp : "");
+                WriteConfFile("jlu.user.json", AutoLogin ? resp : "");
                 ParseLoginInfo(resp);
 
 
                 // Get term info
                 resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
                 if (resp.StartsWith("<!")) return false;
-                WriteConfFile("jlu.teachingterm.json", LoginViewModel.Instance.AutoLogin ? resp : "");
+                WriteConfFile("jlu.teachingterm.json", AutoLogin ? resp : "");
                 ParseTermInfo(resp);
             }
             else
@@ -151,68 +188,27 @@ namespace HandSchool.JLU
             }
 
             IsLogin = true;
-            LoggedIn?.Invoke();
+            LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
             return true;
         }
         
-        public async Task<string> Post(string url, string send)
+        public async Task<bool> RequestLogin()
         {
             if (!IsLogin) await Login();
-            if (!IsLogin) await (new LoginPage()).ShowAsync();
+            if (!IsLogin) await LoginViewModel.RequestAsync(this);
+            return IsLogin;
+        }
+
+        public async Task<string> Post(string url, string send)
+        {
+            await RequestLogin();
             return await WebClient.PostAsync(url, send);
         }
 
         public async Task<string> Get(string url)
         {
-            if (!IsLogin) await Login();
-            if (!IsLogin) await (new LoginPage()).ShowAsync();
+            await RequestLogin();
             return await WebClient.GetAsync(url);
-        }
-        
-        public class LoginValue
-        {
-            public string loginMethod { get; set; }
-            public CacheUpdate cacheUpdate { get; set; }
-            public string[] menusFile { get; set; }
-            public int trulySch { get; set; }
-            public GroupsInfo[] groupsInfo { get; set; }
-            public string firstLogin { get; set; }
-            public DefRes defRes { get; set; }
-            public string userType { get; set; }
-            public DateTime sysTime { get; set; }
-            public string nickName { get; set; }
-            public int userId { get; set; }
-            public string welcome { get; set; }
-            public string loginName { get; set; }
-
-            public class CacheUpdate
-            {
-                public long sysDict { get; set; }
-                public long code { get; set; }
-            }
-
-            public class DefRes
-            {
-                public int adcId { get; set; }
-                public int term_l { get; set; }
-                public int university { get; set; }
-                public int teachingTerm { get; set; }
-                public int school { get; set; }
-                public int department { get; set; }
-                public int term_a { get; set; }
-                public int schType { get; set; }
-                public int personId { get; set; }
-                public int year { get; set; }
-                public int term_s { get; set; }
-                public int campus { get; set; }
-            }
-
-            public class GroupsInfo
-            {
-                public int groupId { get; set; }
-                public string groupName { get; set; }
-                public string menuFile { get; set; }
-            }
         }
     }
 }
