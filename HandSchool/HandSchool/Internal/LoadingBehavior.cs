@@ -6,7 +6,14 @@ namespace HandSchool.Internal
     {
         public string Title { get; set; }
         public string Tips { get; set; }
-        object renderObj;
+
+#if __ANDROID__
+        Android.App.ProgressDialog renderObj;
+#elif __IOS__
+            
+#elif __UWP__
+            
+#endif
 
         public LoadingBehavior(string tips, string title = "提示")
         {
@@ -18,16 +25,15 @@ namespace HandSchool.Internal
         {
             base.OnAttachedTo(bindable);
 #if __ANDROID__
-            var dialog = new Android.App.ProgressDialog(HandSchool.Droid.MainActivity.ActivityContext);
-            dialog.SetTitle(Title);
-            dialog.SetMessage(Tips);
-            dialog.Indeterminate = true;
-            dialog.Show();
-            renderObj = dialog;
+            renderObj = new Android.App.ProgressDialog(HandSchool.Droid.MainActivity.ActivityContext);
+            renderObj.SetTitle(Title);
+            renderObj.SetMessage(Tips);
+            renderObj.Indeterminate = true;
+            renderObj.Show();
 #elif __IOS__
             
 #elif __UWP__
-            
+            bindable.IsBusy = true;
 #endif
         }
 
@@ -35,11 +41,11 @@ namespace HandSchool.Internal
         {
             base.OnDetachingFrom(bindable);
 #if __ANDROID__
-            (renderObj as Android.App.ProgressDialog).Dismiss();
+            renderObj.Dismiss();
 #elif __IOS__
             
 #elif __UWP__
-            
+            bindable.IsBusy = false;
 #endif
         }
     }

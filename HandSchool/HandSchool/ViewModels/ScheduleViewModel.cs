@@ -32,6 +32,7 @@ namespace HandSchool.ViewModels
 
         void SyncData(object sender, LoginStateEventArgs e)
         {
+            if (e.State != LoginState.Succeeded) return;
             var sys = sender as ISchoolSystem;
             SetProperty(ref week, sys.CurrentWeek, "CurrentWeek");
         }
@@ -39,6 +40,7 @@ namespace HandSchool.ViewModels
         private ScheduleViewModel()
         {
             App.Current.Service.LoginStateChanged += SyncData;
+            week = App.Current.Service.CurrentWeek;
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Create);
             Title = "课程表";
