@@ -49,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NavigationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeedViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IndexViewModel.cs" />
