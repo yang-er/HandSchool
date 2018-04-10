@@ -13,6 +13,7 @@ namespace HandSchool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class FeedPage : ContentPage
     {
+        public bool IsPushing { get; set; } = false;
         public FeedPage()
         {
             InitializeComponent();
@@ -21,12 +22,14 @@ namespace HandSchool.Views
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
+            if (e.Item == null|IsPushing==true)
                 return;
+            IsPushing = true;
             await (new MessageDetailPage(e.Item as FeedItem)).ShowAsync(Navigation);
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+            IsPushing = false;
         }
 
     }

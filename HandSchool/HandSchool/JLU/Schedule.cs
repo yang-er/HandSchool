@@ -140,7 +140,7 @@ namespace HandSchool.JLU
         {
             get
             {
-                var ret = 1;
+                var ret = 0;
 
                 for (int i = 0; i < 11; i++)
                 {
