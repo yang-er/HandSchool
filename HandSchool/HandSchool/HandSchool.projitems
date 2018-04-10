@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Blank.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
