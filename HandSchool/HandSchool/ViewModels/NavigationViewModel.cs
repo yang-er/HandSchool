@@ -1,18 +1,13 @@
-﻿using HandSchool.Internal;
-using HandSchool.Views;
-using System;
+﻿using HandSchool.Views;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
     public class NavigationViewModel : BaseViewModel
     {
-        public Color ActiveColor => Color.FromRgb(0, 120, 215);
-        public ObservableCollection<MasterPageItem> PrimaryItems { get; set; }
-        public ObservableCollection<MasterPageItem> SecondaryItems { get; set; }
+        public List<MasterPageItem> PrimaryItems { get; set; } = new List<MasterPageItem>();
+        public List<MasterPageItem> SecondaryItems { get; set; } = new List<MasterPageItem>();
 
         static NavigationViewModel _instance;
         public static NavigationViewModel Instance
@@ -24,95 +19,28 @@ namespace HandSchool.ViewModels
                 return _instance;
             }
         }
+        
+        NavigationPage _index = new NavigationPage(new IndexPage());
+        NavigationPage _schedule = new NavigationPage(new SchedulePage());
+        NavigationPage _config = new NavigationPage(new ConfigPage());
+        NavigationPage _about = new NavigationPage(new AboutPage());
+        NavigationPage _feed, _message, _grade, _query;
 
         private NavigationViewModel()
         {
-            PrimaryItems = new ObservableCollection<MasterPageItem> {
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new IndexPage()),
-                    Title = "首页",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE10F",
-                    Color = ActiveColor,
-                    Selected = true,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new SchedulePage()),
-                    Title = "课程表",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xECA5",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new FeedPage()),
-                    Title = "学校通知",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xED0D",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new MessagePage()),
-                    Title = "站内消息",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE715",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new GradePointPage()),
-                    Title = "学分成绩",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE82D",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new InfoQueryPage()),
-                    Title = "信息查询",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE946",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                }
-            };
-
-            SecondaryItems = new ObservableCollection<MasterPageItem>
-            {
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new ConfigPage()),
-                    Title = "设置",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE713",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-                new MasterPageItem
-                {
-                    DestPage = new NavigationPage(new AboutPage()),
-                    Title = "关于",
-                    FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE783",
-                    Color = Color.Black,
-                    Selected = false,
-                    AppleIcon = new FileImageSource { File = "tab_feed.png" }
-                },
-            };
+            if (App.Current.Feed != null) _feed = new NavigationPage(new FeedPage());
+            if (App.Current.Message != null) _message = new NavigationPage(new MessagePage());
+            if (App.Current.GradePoint != null) _grade = new NavigationPage(new GradePointPage());
+            if (App.Current.InfoEntrances.Count > 0) _query = new NavigationPage(new InfoQueryPage());
+            
+            PrimaryItems.Add(new MasterPageItem("首页", _index, "\xE10F", "tab_feed.png", true));
+            PrimaryItems.Add(new MasterPageItem("课程表", _schedule, "\xECA5", "tab_feed.png"));
+            if (_feed != null) PrimaryItems.Add(new MasterPageItem("学校通知", _feed, "\xED0D", "tab_feed.png"));
+            if (_message != null) PrimaryItems.Add(new MasterPageItem("站内消息", _message, "\xE715", "tab_feed.png"));
+            if (_grade != null) PrimaryItems.Add(new MasterPageItem("学分成绩", _grade, "\xE82D", "tab_feed.png"));
+            if (_query != null) PrimaryItems.Add(new MasterPageItem("信息查询", _query, "\xE946", "tab_feed.png"));
+            SecondaryItems.Add(new MasterPageItem("设置", _config, "\xE713", "tab_feed.png"));
+            SecondaryItems.Add(new MasterPageItem("关于", _about, "\xE783", "tab_feed.png"));
         }
 
         public static Page GetMainPage()
