@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -13,9 +14,9 @@ namespace HandSchool.Views
         public OutlinePage()
 		{
 			InitializeComponent();
-            PrimaryListView.ItemsSource = App.Current.PrimaryItems;
-            SecondaryListView.ItemsSource = App.Current.SecondaryItems;
-            SecondaryListView.HeightRequest = 12 + 48 * App.Current.SecondaryItems.Count;
+            PrimaryListView.ItemsSource = NavigationViewModel.Instance.PrimaryItems;
+            SecondaryListView.ItemsSource = NavigationViewModel.Instance.SecondaryItems;
+            SecondaryListView.HeightRequest = 12 + 48 * NavigationViewModel.Instance.SecondaryItems.Count;
             App.Current.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) UpdateSideBar(); };
             UpdateSideBar();
             LayoutChanged += WSizeChanged;

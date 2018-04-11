@@ -3,12 +3,11 @@ using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
-	public class TabMainPage : TabbedPage
-	{
-		public TabMainPage ()
-		{
-            App.Current.PrimaryItems.ForEach((obj) => Children.Add(obj.DestPage));
-            App.Current.SecondaryItems.ForEach((obj) => Children.Add(obj.DestPage));
+    public class MainPage : TabbedPage
+    {
+        public MainPage()
+        {
+            NavigationViewModel.Instance.PrimaryItems.ForEach((obj) => Children.Add(obj.DestPage));
         }
 
         protected override void OnAppearing()
