@@ -38,7 +38,13 @@ namespace HandSchool
             public bool AutoLogin { get; set; } = true;
             public bool SavePassword { get; set; } = true;
             public string WelcomeMessage => "欢迎。";
-            public string CurrentMessage => "生活天天新鲜~";
+            public string CurrentMessage => "";
+
+            public int DailyClassCount
+            {
+                get => App.Current.DailyClassCount;
+                set => SetProperty(ref App.Current.DailyClassCount, value);
+            }
 
             public AwaredWebClient WebClient { get; set; }
             public NameValueCollection AttachInfomation { get; set; } = new NameValueCollection();

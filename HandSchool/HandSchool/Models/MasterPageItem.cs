@@ -1,18 +1,18 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
     // Thanks to 张高兴
-    public class MasterPageItem : INotifyPropertyChanged
+    public class MasterPageItem : NotifyPropertyChanged
     {
         private Color color = new Color();
         public string FontFamily { get; set; }
         public string Icon { get; set; }
         public NavigationPage DestPage { get; set; }
         private bool selected = false;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public string Title
         {
@@ -22,8 +22,8 @@ namespace HandSchool.Views
 
         public bool Selected
         {
-            get { return selected; }
-            set { selected = value; OnPropertyChanged("Selected"); }
+            get => selected;
+            set => SetProperty(ref selected, value);
         }
 
         public FileImageSource AppleIcon
@@ -34,13 +34,8 @@ namespace HandSchool.Views
         
         public Color Color
         {
-            get { return color; }
-            set { color = value; OnPropertyChanged("Color"); }
-        }
-        
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => color;
+            set => SetProperty(ref color, value);
         }
     }
 }

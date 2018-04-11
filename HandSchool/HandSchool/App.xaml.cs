@@ -50,7 +50,7 @@ namespace HandSchool
                     DestPage = new NavigationPage(new SchedulePage()),
                     Title = "课程表",
                     FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE11F",
+                    Icon = "\xECA5",
                     Color = Color.Black,
                     Selected = false,
                     AppleIcon = new FileImageSource { File = "tab_feed.png" }
@@ -60,7 +60,7 @@ namespace HandSchool
                     DestPage = new NavigationPage(new FeedPage()),
                     Title = "学校通知",
                     FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE12F",
+                    Icon = "\xED0D",
                     Color = Color.Black,
                     Selected = false,
                     AppleIcon = new FileImageSource { File = "tab_feed.png" }
@@ -70,7 +70,7 @@ namespace HandSchool
                     DestPage = new NavigationPage(new MessagePage()),
                     Title = "站内消息",
                     FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE12F",
+                    Icon = "\xE715",
                     Color = Color.Black,
                     Selected = false,
                     AppleIcon = new FileImageSource { File = "tab_feed.png" }
@@ -80,7 +80,7 @@ namespace HandSchool
                     DestPage = new NavigationPage(new GradePointPage()),
                     Title = "学分成绩",
                     FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE12F",
+                    Icon = "\xE82D",
                     Color = Color.Black,
                     Selected = false,
                     AppleIcon = new FileImageSource { File = "tab_feed.png" }
@@ -90,7 +90,7 @@ namespace HandSchool
                     DestPage = new NavigationPage(new InfoQueryPage()),
                     Title = "信息查询",
                     FontFamily = Helper.SegoeMDL2,
-                    Icon = "\xE12F",
+                    Icon = "\xE946",
                     Color = Color.Black,
                     Selected = false,
                     AppleIcon = new FileImageSource { File = "tab_feed.png" }
