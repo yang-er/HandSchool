@@ -1,6 +1,4 @@
-﻿using HandSchool.Models;
-using HandSchool.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,21 +17,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace HandSchool.UWP
 {
-    public sealed partial class FeedPage : ViewPage
+    /// <summary>
+    /// 可用于自身或导航至 Frame 内部的空白页。
+    /// </summary>
+    public sealed partial class MessagePage : ViewPage
     {
-        public FeedPage()
+        public MessagePage()
         {
-            InitializeComponent();
-            BindingContext = FeedViewModel.Instance;
-        }
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is FeedItem item)
-            {
-                Frame.Navigate(typeof(MessageDetailPage));
-                ListView.SelectedItem = null;
-            }
+            this.InitializeComponent();
         }
     }
 }

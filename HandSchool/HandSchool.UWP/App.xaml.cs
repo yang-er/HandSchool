@@ -81,11 +81,13 @@ namespace HandSchool.UWP
 
             var coreBar = CoreApplication.GetCurrentView().TitleBar;
             coreBar.ExtendViewIntoTitleBar = true;
-            
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = Colors.Black;
 
             return;
             
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            
             var themeColor = Color.FromArgb(255, 33, 150, 243);
             titleBar.BackgroundColor = themeColor;
 

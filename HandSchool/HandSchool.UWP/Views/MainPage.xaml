@@ -11,19 +11,20 @@
         <NavigationView x:Name="NavigationView" ItemInvoked="NavigationView_ItemInvoked">
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Margin="24,32,24,0">
+                    <Grid Margin="24,32,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock FontSize="28" VerticalAlignment="Center" FontWeight="Light" Text="23333"/>
-                        <CommandBar Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}">
+                        <TextBlock FontSize="28" VerticalAlignment="Center" FontWeight="Light" Text="{Binding Title}" />
+                        <CommandBar Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}">
                             <AppBarButton Label="Refresh" Icon="Refresh"/>
                         </CommandBar>
                     </Grid>
                 </DataTemplate>
             </NavigationView.HeaderTemplate>
-            <Frame x:Name="ContentFrame" Margin="24">
+            <Frame x:Name="ContentFrame" Margin="12" Navigated="ContentFrame_Navigated">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition/>
