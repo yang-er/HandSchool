@@ -80,7 +80,8 @@ namespace HandSchool.UWP
             Window.Current.Activate();
 
             var coreBar = CoreApplication.GetCurrentView().TitleBar;
-            coreBar.ExtendViewIntoTitleBar = false;
+            coreBar.ExtendViewIntoTitleBar = true;
+            
 
             return;
             

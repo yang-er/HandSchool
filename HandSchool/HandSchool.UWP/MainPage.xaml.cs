@@ -20,7 +20,6 @@ namespace HandSchool.UWP
         public MainPage()
         {
             this.InitializeComponent();
-
             LoadApplication(new HandSchool.App());
         }
     }

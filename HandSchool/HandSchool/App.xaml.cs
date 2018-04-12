@@ -36,6 +36,7 @@ namespace HandSchool
             var post = LoadJLU();
             NavigationViewModel.Instance.IsBusy = false;
             post.Invoke();
+            //if (Device.RuntimePlatform == Device.UWP) return;
             MainPage = new MainPage();
         }
 

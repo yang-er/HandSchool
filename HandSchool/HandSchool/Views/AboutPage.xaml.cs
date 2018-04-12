@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using HandSchool.Internal.HtmlObject;
 using HandSchool.ViewModels;
+using HandSchool.Internal;
 
 namespace HandSchool.Views
 {
@@ -15,7 +16,7 @@ namespace HandSchool.Views
 		{
 			InitializeComponent();
             BindingContext = AboutViewModel.Instance;
-            AboutViewModel.Instance.BindingPage = this;
+            AboutViewModel.Instance.BindingContext = new ViewResponse(this);
             var sb = new StringBuilder();
             AboutViewModel.Instance.HtmlDocument.ToHtml(sb);
             WebView.Html = sb.ToString();

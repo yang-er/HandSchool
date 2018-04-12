@@ -26,7 +26,6 @@ namespace HandSchool.ViewModels
 
         public string Version { get; }
         public Bootstrap HtmlDocument { get; }
-        public AboutPage BindingPage { get; set; }
 
         private AboutViewModel()
         {
@@ -110,9 +109,9 @@ namespace HandSchool.ViewModels
         async void TestMode()
         {
             System.Diagnostics.Debug.WriteLine("test mode");
-            await BindingPage.DisplayAlert("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
+            await BindingContext.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
             System.Diagnostics.Debug.WriteLine("test mode 2");
-            await BindingPage.DisplayAlert("哈哈", "我不管，你要对我负责。", "知道了");
+            await BindingContext.ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
             System.Diagnostics.Debug.WriteLine("test mode 3");
         }
 

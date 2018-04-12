@@ -20,15 +20,11 @@ namespace HandSchool.UWP
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class TestMainPage : Page
+    public sealed partial class FeedPage : Page
     {
-        public TestMainPage()
+        public FeedPage()
         {
             this.InitializeComponent();
-
-            new HandSchool.App();
-
-            NavigationView.MenuItemsSource = HandSchool.ViewModels.NavigationViewModel.Instance.PrimaryItems;
         }
     }
 }

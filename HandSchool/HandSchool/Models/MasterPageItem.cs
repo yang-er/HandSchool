@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace HandSchool.Views
@@ -16,23 +17,33 @@ namespace HandSchool.Views
         public string FontFamily { get; set; }
         public string Icon { get; set; }
         public NavigationPage DestPage { get; set; }
+        public Type DestinationPageType { get; }
         private bool selected = false;
+        private string title;
 
         public MasterPageItem() { }
 
-        public MasterPageItem(string title, NavigationPage dest, string icon, string apple, bool select = false)
+        public MasterPageItem(string title, string dest, string icon, string apple, bool select = false)
         {
-            DestPage = dest;
-            dest.Title = title;
+            this.title = title;
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.Android)
             {
+                DestPage = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance("HandSchool.Views." + dest) as Page);
+                DestPage.Title = title;
+            }
+            else if (Device.RuntimePlatform == Device.iOS)
+            {
+                DestPage = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance("HandSchool.Views." + dest) as Page);
                 DestPage.Icon = new FileImageSource { File = apple };
+                DestPage.Title = title;
             }
             else if (Device.RuntimePlatform == Device.UWP)
             {
                 FontFamily = segoemdl2;
                 Icon = icon;
+                DestPage = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance("HandSchool.Views." + dest) as Page);
+                DestinationPageType = Assembly.GetExecutingAssembly().GetType("HandSchool.UWP." + dest);
             }
 
             selected = select;
@@ -41,8 +52,8 @@ namespace HandSchool.Views
 
         public string Title
         {
-            get => DestPage.Title;
-            set => DestPage.Title = value;
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         public bool Selected
@@ -66,5 +77,7 @@ namespace HandSchool.Views
             get => color;
             set => SetProperty(ref color, value);
         }
+
+        public override string ToString() => title;
     }
 }
