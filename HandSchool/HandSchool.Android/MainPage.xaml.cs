@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;

@@ -11,14 +11,12 @@ namespace HandSchool.ViewModels
     {
         private int week;
         private static ScheduleViewModel instance = null;
-        private RowDefinition DefRow;
-        private ColumnDefinition DefCol;
-        private GridLength RowHeight, ColWidth;
 
+        public int Week => week;
         public string CurrentWeek => $"第{week}周";
-        public SchedulePage BindingPage { get; set; }
         public Command RefreshCommand { get; set; }
         public Command AddCommand { get; set; }
+        public event Action RefreshComplete;
 
         public static ScheduleViewModel Instance
         {
@@ -52,27 +50,21 @@ namespace HandSchool.ViewModels
             IsBusy = true;
                 var alert = Internal.Helper.ShowLoadingAlert("正在加载课程表……");
             await Core.App.Schedule.Execute();
-            LoadList();
+            RefreshComplete?.Invoke();
             alert.Invoke();
             IsBusy = false;
         }
 
-        public void LoadList()
+#if __UWP__
+        void Create()
         {
-            var grid = BindingPage.grid;
-
-            for (int i = grid.Children.Count; i > 7 + Core.App.DailyClassCount; i--)
-            {
-                grid.Children.RemoveAt(i - 1);
-            }
-
-            // Render classes
-            Core.App.Schedule.RenderWeek(week, grid.Children);
+            throw new NotImplementedException();
         }
-
-        async void Create()
+#else
+        async void Create(object param)
         {
-            await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true)).ShowAsync(BindingPage.Navigation);
+            await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true)).ShowAsync(param as INavigation);
         }
+#endif
     }
 }

@@ -7,7 +7,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{Binding CurrentWeek}" />
         <ToolbarItem Text="刷新课表" Command="{Binding RefreshCommand}" Order="Secondary" />
-        <ToolbarItem Text="添加课程" Command="{Binding AddCommand}" Order="Secondary" />
+        <ToolbarItem Text="添加课程" Command="{Binding AddCommand}" x:Name="AddCommander" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView x:Name="scroller" Orientation="Horizontal">

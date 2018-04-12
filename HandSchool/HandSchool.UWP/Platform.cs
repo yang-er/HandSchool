@@ -9,6 +9,7 @@ using Behavior = Xamarin.Forms.Behavior;
 using Windows.UI.Popups;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows.Input;
 
 namespace HandSchool
 {
