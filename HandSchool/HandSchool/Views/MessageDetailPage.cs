@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using HandSchool.Models;
+using Xamarin.Forms;
 
 namespace HandSchool.Views
 {

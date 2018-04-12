@@ -1,4 +1,5 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Models;
+using HandSchool.Views;
 using System.Collections.Generic;
 using Xamarin.Forms;
 

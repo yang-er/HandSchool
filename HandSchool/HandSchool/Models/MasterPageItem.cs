@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Reflection;
 using Xamarin.Forms;
 
-namespace HandSchool.Views
+namespace HandSchool.Models
 {
     // Thanks to 张高兴
     public class MasterPageItem : NotifyPropertyChanged

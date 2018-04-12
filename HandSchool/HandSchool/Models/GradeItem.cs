@@ -5,19 +5,22 @@ using System.Threading.Tasks;
 
 namespace HandSchool
 {
-    public interface IGradeItem
+    namespace Models
     {
-        string Name { get; }
-        string Score { get; }
-        string Point { get; }
-        string Type { get; }
-        string Credit { get; }
-        bool ReSelect { get; }
-        bool Pass { get; }
-        string Term { get; }
-        DateTime Date { get; }
-        NameValueCollection Attach { get; }
-        string Show { get; }
+        public interface IGradeItem
+        {
+            string Name { get; }
+            string Score { get; }
+            string Point { get; }
+            string Type { get; }
+            string Credit { get; }
+            bool ReSelect { get; }
+            bool Pass { get; }
+            string Term { get; }
+            DateTime Date { get; }
+            NameValueCollection Attach { get; }
+            string Show { get; }
+        }
     }
 
     public interface IGradeEntrance : ISystemEntrance
