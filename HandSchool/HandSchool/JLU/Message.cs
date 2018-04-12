@@ -33,12 +33,12 @@ namespace HandSchool.JLU
             _unread = piece.hasReaded == "N";
 
             SetRead = new Command(async () => {
-                await App.Current.Message.SetReadState(Id, true);
+                await Core.App.Message.SetReadState(Id, true);
                 Unread = false;
             });
 
             Delete = new Command(async () => {
-                await App.Current.Message.Delete(Id);
+                await Core.App.Message.Delete(Id);
                 MessageViewModel.Instance.Items.Remove(this);
             });
         }
@@ -65,7 +65,7 @@ namespace HandSchool.JLU
         
         public async Task Execute()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             WriteConfFile(StorageFile, LastReport);
             Parse();
         }
@@ -83,13 +83,13 @@ namespace HandSchool.JLU
         public async Task SetReadState(int id, bool read)
         {
             var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
-            await App.Current.Service.Post(MsgReadPageUri, PostArgs);
+            await Core.App.Service.Post(MsgReadPageUri, PostArgs);
         }
 
         public async Task Delete(int id)
         {
             var PostArgs = "{\"idList\":[\""+id.ToString()+"\"]}";
-            await App.Current.Service.Post(DelPageUri, PostArgs);
+            await Core.App.Service.Post(DelPageUri, PostArgs);
         }
     }
 }

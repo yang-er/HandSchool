@@ -10,22 +10,31 @@ using Xamarin.Forms;
 
 namespace HandSchool
 {
-    public partial class App : Application
+    public partial class Core
     {
-        private Action LoadBlank()
-        {
-            Service = new BlankSchool();
-            DailyClassCount = 11;
-            GradePoint = new GradeEntrance();
-            Schedule = new Schedule();
-            Message = new MessageEntrance();
-            Feed = new FeedEntrance();
-            return () => { };
-        }
+        public ISchoolWrapper Blank { get; } = new Loader();
     }
 
     namespace Blank
     {
+        class Loader : ISchoolWrapper
+        {
+            public string SchoolName => "吉林大学";
+            public string SchoolId => "jlu";
+
+            public void PostLoad() { }
+
+            public void PreLoad()
+            {
+                Core.App.Service = new BlankSchool();
+                Core.App.DailyClassCount = 11;
+                Core.App.GradePoint = new GradeEntrance();
+                Core.App.Schedule = new Schedule();
+                Core.App.Message = new MessageEntrance();
+                Core.App.Feed = new FeedEntrance();
+            }
+        }
+
         class BlankSchool : NotifyPropertyChanged, ISchoolSystem
         {
             public string ServerUri => "";
@@ -42,8 +51,8 @@ namespace HandSchool
 
             public int DailyClassCount
             {
-                get => App.Current.DailyClassCount;
-                set => SetProperty(ref App.Current.DailyClassCount, value);
+                get => Core.App.DailyClassCount;
+                set => SetProperty(ref Core.App.DailyClassCount, value);
             }
 
             public AwaredWebClient WebClient { get; set; }

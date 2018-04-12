@@ -88,9 +88,9 @@ namespace HandSchool.ViewModels
         {
             int today = (int)DateTime.Now.DayOfWeek;
             if (today == 0) today = 7;
-            int toweek = App.Current.Service.CurrentWeek;
-            int tocor = App.Current.Schedule.ClassNext;
-            curriculum = App.Current.Schedule.Items.Find((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
+            int toweek = Core.App.Service.CurrentWeek;
+            int tocor = Core.App.Schedule.ClassNext;
+            curriculum = Core.App.Schedule.Items.Find((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
             OnPropertyChanged("NextClass");
             OnPropertyChanged("NextTeacher");
             OnPropertyChanged("NextClassroom");
@@ -100,8 +100,8 @@ namespace HandSchool.ViewModels
 
         #region Welcome
 
-        public string WelcomeMessage => HandSchool.App.Current.Service.WelcomeMessage;
-        public string CurrentMessage => HandSchool.App.Current.Service.CurrentMessage;
+        public string WelcomeMessage => Core.App.Service.WelcomeMessage;
+        public string CurrentMessage => Core.App.Service.CurrentMessage;
 
         void UpdateWelcome()
         {

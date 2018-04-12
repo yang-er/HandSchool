@@ -33,7 +33,7 @@ namespace HandSchool.Views
                 Title = "编辑课程";
             }
             
-            for (int i = 1; i <= App.Current.DailyClassCount; i++) 
+            for (int i = 1; i <= Core.App.DailyClassCount; i++) 
             {
                 beginDay.Items.Add($"第{i}节");
                 endDay.Items.Add($"第{i}节");
@@ -57,21 +57,21 @@ namespace HandSchool.Views
 
         async Task SaveCommand()
         {
-            App.Current.Schedule.Save();
+            Core.App.Schedule.Save();
             await Close();
         }
 
         async Task RemoveCommand()
         {
-            App.Current.Schedule.Items.Remove(BindingContext as CurriculumItem);
-            App.Current.Schedule.Save();
+            Core.App.Schedule.Items.Remove(BindingContext as CurriculumItem);
+            Core.App.Schedule.Save();
             await Close();
         }
 
         async Task CreateCommand()
         {
-            App.Current.Schedule.Items.Add(BindingContext as CurriculumItem);
-            App.Current.Schedule.Save();
+            Core.App.Schedule.Items.Add(BindingContext as CurriculumItem);
+            Core.App.Schedule.Save();
             await Close();
         }
 	}

@@ -39,8 +39,8 @@ namespace HandSchool.ViewModels
 
         private ScheduleViewModel()
         {
-            App.Current.Service.LoginStateChanged += SyncData;
-            week = App.Current.Service.CurrentWeek;
+            Core.App.Service.LoginStateChanged += SyncData;
+            week = Core.App.Service.CurrentWeek;
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Create);
             Title = "课程表";
@@ -51,7 +51,7 @@ namespace HandSchool.ViewModels
             if (IsBusy) return;
             IsBusy = true;
                 var alert = Internal.Helper.ShowLoadingAlert("正在加载课程表……");
-            await App.Current.Schedule.Execute();
+            await Core.App.Schedule.Execute();
             LoadList();
             alert.Invoke();
             IsBusy = false;
@@ -61,13 +61,13 @@ namespace HandSchool.ViewModels
         {
             var grid = BindingPage.grid;
 
-            for (int i = grid.Children.Count; i > 7 + App.Current.DailyClassCount; i--)
+            for (int i = grid.Children.Count; i > 7 + Core.App.DailyClassCount; i--)
             {
                 grid.Children.RemoveAt(i - 1);
             }
 
             // Render classes
-            App.Current.Schedule.RenderWeek(week, grid.Children);
+            Core.App.Schedule.RenderWeek(week, grid.Children);
         }
 
         async void Create()

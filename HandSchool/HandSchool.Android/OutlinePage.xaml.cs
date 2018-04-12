@@ -17,7 +17,7 @@ namespace HandSchool.Views
             PrimaryListView.ItemsSource = NavigationViewModel.Instance.PrimaryItems;
             SecondaryListView.ItemsSource = NavigationViewModel.Instance.SecondaryItems;
             SecondaryListView.HeightRequest = 12 + 48 * NavigationViewModel.Instance.SecondaryItems.Count;
-            App.Current.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) UpdateSideBar(); };
+            Core.App.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) UpdateSideBar(); };
             UpdateSideBar();
             LayoutChanged += WSizeChanged;
         }
@@ -33,8 +33,8 @@ namespace HandSchool.Views
 
         public void UpdateSideBar()
         {
-            currentMsg.Text = App.Current.Service.CurrentMessage;
-            welcomeMsg.Text = App.Current.Service.WelcomeMessage;
+            currentMsg.Text = Core.App.Service.CurrentMessage;
+            welcomeMsg.Text = Core.App.Service.WelcomeMessage;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace HandSchool.Views
             Destoried = false;
             if(navigation is null)
             {
-                App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
+                Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
                 Disappearing += Page_Disappearing;
                 IsModal = true;
             }

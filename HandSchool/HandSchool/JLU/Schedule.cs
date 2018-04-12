@@ -17,7 +17,7 @@ namespace HandSchool.JLU
         public List<CurriculumItem> Items { get; }
         public string StorageFile => "jlu.kcb.json";
         public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
-        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
+        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + Core.App.Service.AttachInfomation["term"] + ",\"studId\":" + Core.App.Service.AttachInfomation["studId"] + "}}";
 
         public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
         {
@@ -34,7 +34,7 @@ namespace HandSchool.JLU
 
         public async Task Execute()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             // LastReport = ReadConfFile(StorageFile);
             WriteConfFile(StorageFile, LastReport);
             Parse();

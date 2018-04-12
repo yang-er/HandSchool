@@ -120,7 +120,7 @@ namespace HandSchool.JLU.InfoQuery
         
         public async Task Execute()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             obj = JSON<RootObject<CollegeInfo>>(LastReport);
             var jsBuilder = new StringBuilder();
             if (obj.value[0].schoolName == null) obj.value[0].schoolName = "学校很懒，什么也没有留下……";

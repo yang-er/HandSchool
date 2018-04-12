@@ -37,7 +37,7 @@ namespace HandSchool.ViewModels
 
             try
             {
-                await App.Current.GradePoint.Execute();
+                await Core.App.GradePoint.Execute();
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace HandSchool.ViewModels
 
             try
             {
-                return await App.Current.GradePoint.GatherGPA();
+                return await Core.App.GradePoint.GatherGPA();
             }
             catch (Exception ex)
             {

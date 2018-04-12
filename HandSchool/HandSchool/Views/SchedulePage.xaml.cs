@@ -36,7 +36,7 @@ namespace HandSchool.Views
                 grid.ColumnDefinitions.Add(DefCol);
             }
 
-            for (int ij = 1; ij <= App.Current.DailyClassCount; ij++)
+            for (int ij = 1; ij <= Core.App.DailyClassCount; ij++)
             {
                 grid.RowDefinitions.Add(DefRow);
                 grid.Children.Add(new Label()

@@ -23,9 +23,9 @@ namespace HandSchool.Views
         {
             base.OnAppearing();
 
-            if (App.Current.Service.NeedLogin && !App.Current.Service.IsLogin)
+            if (Core.App.Service.NeedLogin && !Core.App.Service.IsLogin)
             {
-                LoginViewModel.RequestAsync(App.Current.Service);
+                LoginViewModel.RequestAsync(Core.App.Service);
             }
         }
 

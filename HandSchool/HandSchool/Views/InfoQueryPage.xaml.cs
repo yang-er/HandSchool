@@ -9,7 +9,7 @@ namespace HandSchool.Views
 		public InfoQueryPage()
 		{
 			InitializeComponent();
-            MyListView.ItemsSource = App.Current.InfoEntrances;
+            MyListView.ItemsSource = Core.App.InfoEntrances;
         }
 
         async void ItemTapped(object sender, ItemTappedEventArgs e)
