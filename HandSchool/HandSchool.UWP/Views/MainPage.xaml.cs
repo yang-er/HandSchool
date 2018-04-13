@@ -48,7 +48,8 @@ namespace HandSchool.UWP
             }
             else if (args.IsSettingsInvoked)
             {
-                System.Diagnostics.Debug.WriteLine("ConfigPage is not finished");
+                if (ContentFrame.CurrentSourcePageType != typeof(AboutPage))
+                    ContentFrame.Navigate(typeof(AboutPage));
             }
         }
 
