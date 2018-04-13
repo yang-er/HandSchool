@@ -28,14 +28,19 @@ namespace HandSchool.UWP
 
         protected virtual void OnPageLoaded(RoutedEventArgs args)
         {
-            var mainpg = (Window.Current.Content as Frame).Content as TestMainPage;
-            mainpg.DataContext = DataContext;
-            if (mainpg.CommandBar != null)
+            if (Window.Current.Content is Frame frame)
             {
-                mainpg.CommandBar.SecondaryCommands.Clear();
-                SecondaryMenu.ForEach((obj) => mainpg.CommandBar.SecondaryCommands.Add(obj));
-                mainpg.CommandBar.PrimaryCommands.Clear();
-                PrimaryMenu.ForEach((obj) => mainpg.CommandBar.PrimaryCommands.Add(obj));
+                if (frame.Content is TestMainPage mainpg)
+                {
+                    mainpg.DataContext = DataContext;
+                    if (mainpg.CommandBar != null)
+                    {
+                        mainpg.CommandBar.SecondaryCommands.Clear();
+                        SecondaryMenu.ForEach((obj) => mainpg.CommandBar.SecondaryCommands.Add(obj));
+                        mainpg.CommandBar.PrimaryCommands.Clear();
+                        PrimaryMenu.ForEach((obj) => mainpg.CommandBar.PrimaryCommands.Add(obj));
+                    }
+                }
             }
         }
     }
