@@ -31,7 +31,7 @@ namespace HandSchool.UWP
         {
             if (e.ClickedItem is FeedItem item)
             {
-                Frame.Navigate(typeof(MessageDetailPage));
+                Frame.Navigate(typeof(MessageDetailPage), item);
                 ListView.SelectedItem = null;
             }
         }

@@ -7,8 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock HorizontalAlignment="Left" Margin="335,486,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="24,0,24,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" Margin="335,486,0,0" Grid.Row="3" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock FontSize="24" Grid.Row="0" Text="{x:Bind Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
+        <TextBlock FontSize="24" Grid.Row="1" Text="{x:Bind Time}" TextWrapping="Wrap" VerticalAlignment="Top" />
+        <TextBlock FontSize="24" Grid.Row="2" Text="{x:Bind Sender}" TextWrapping="Wrap" VerticalAlignment="Top" />
 
     </Grid>
 </local:ViewPage>

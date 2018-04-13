@@ -21,11 +21,10 @@ using NavDataItem = HandSchool.Models.MasterPageItem;
 
 namespace HandSchool.UWP
 {
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
     public sealed partial class TestMainPage : Page
     {
+        public CommandBar CommandBar { get; set; }
+
         public TestMainPage()
         {
             this.InitializeComponent();
@@ -59,8 +58,13 @@ namespace HandSchool.UWP
             if (e.Content is ViewPage page)
             {
                 DataContext = page.DataContext;
-                //TitleLabel.Text = page.BindingContext.Title;
-                //BusyProgress.SetBinding(VisibilityProperty, new Binding { Path = new PropertyPath("") });
+                if (CommandBar != null)
+                {
+                    CommandBar.SecondaryCommands.Clear();
+                    page.SecondaryMenu.ForEach((obj) => CommandBar.SecondaryCommands.Add(obj));
+                    CommandBar.PrimaryCommands.Clear();
+                    page.PrimaryMenu.ForEach((obj) => CommandBar.PrimaryCommands.Add(obj));
+                }
             }
         }
 
@@ -73,6 +77,11 @@ namespace HandSchool.UWP
                 e.Handled = true;
                 ContentFrame.GoBack();
             }
+        }
+
+        private void CommandBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            CommandBar = sender as CommandBar;
         }
     }
 }

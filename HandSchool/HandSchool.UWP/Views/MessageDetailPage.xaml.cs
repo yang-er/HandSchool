@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HandSchool.Models;
+using HandSchool.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Command = Xamarin.Forms.Command;
+using Device = Xamarin.Forms.Device;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -22,9 +26,32 @@ namespace HandSchool.UWP
     /// </summary>
     public sealed partial class MessageDetailPage : ViewPage
     {
+        public string Title { get; private set; }
+        public string Time { get; private set; }
+        public string Sender { get; private set; }
+
         public MessageDetailPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            BindingContext = new BaseViewModel();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter is FeedItem feed)
+            {
+                BindingContext.Title = "通知详情";
+                PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Flag), Label = "详情", Command = new Command(() => Device.OpenUri(new Uri(feed.Link))) });
+                Title = feed.Title;
+                Time = feed.PubDate;
+                Sender = feed.Category;
+            }
+            else if (e.Parameter is IMessageItem msg)
+            {
+
+            }
         }
     }
 }

@@ -7,6 +7,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <local:ViewPage.SecondaryMenu>
+        <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
+    </local:ViewPage.SecondaryMenu>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView x:Name="ListView" ItemsSource="{Binding Items}" ItemClick="ListView_ItemClick" IsItemClickEnabled="True">
@@ -14,7 +18,7 @@
                 <DataTemplate>
                     <StackPanel Margin="8,16,8,16">
                         <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="16"  />
-                        <TextBlock Text="{Binding Category}" FontSize="13" />
+                        <TextBlock Text="{Binding Category}" Margin="0,4,0,0" FontSize="13" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
