@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using HandSchool.Internal;
+using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,12 +15,13 @@ namespace HandSchool.Views
 			InitializeComponent();
             Title = entrance.Name;
             InfoEntrance = entrance;
-            InfoEntrance.Binding = this;
+            InfoEntrance.Binding = new ViewResponse(this);
             var sb = new StringBuilder();
             InfoEntrance.HtmlDocument.ToHtml(sb);
             WebView.Html = sb.ToString();
             foreach (var key in InfoEntrance.Menu.Keys)
                 ToolbarItems.Add(new ToolbarItem { Text = key, Command = InfoEntrance.Menu[key] });
+            entrance.Evaluate = WebView.JavaScript;
         }
     }
 }

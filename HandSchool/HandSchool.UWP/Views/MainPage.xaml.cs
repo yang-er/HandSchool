@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,11 +28,10 @@ namespace HandSchool.UWP
 
         public TestMainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             
-            HandSchool.Core.Initialize();
-            HandSchool.ViewModels.NavigationViewModel.Instance.PrimaryItems.ForEach((item) => NavigationView.MenuItems.Add(new NavigationViewItem { Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = item.Icon }, Content = item }));
-            //NavigationView.Content = new UWP.FeedPage();
+            Core.Initialize();
+            NavigationViewModel.Instance.PrimaryItems.ForEach((item) => NavigationView.MenuItems.Add(new NavigationViewItem { Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = item.Icon }, Content = item }));
             SystemNavigationManager.GetForCurrentView().BackRequested += ContentFrame_BackRequested;
             NavigationView.SelectedItem = NavigationView.MenuItems[0];
             ContentFrame.Navigate(typeof(IndexPage));
@@ -48,25 +48,14 @@ namespace HandSchool.UWP
             }
             else if (args.IsSettingsInvoked)
             {
-                if (ContentFrame.CurrentSourcePageType != typeof(AboutPage))
-                    ContentFrame.Navigate(typeof(AboutPage));
+                if (!(DataContext is AboutViewModel))
+                    ContentFrame.Navigate(typeof(WebViewPage), AboutViewModel.Instance);
             }
         }
 
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-            if (e.Content is ViewPage page)
-            {
-                DataContext = page.DataContext;
-                if (CommandBar != null)
-                {
-                    CommandBar.SecondaryCommands.Clear();
-                    page.SecondaryMenu.ForEach((obj) => CommandBar.SecondaryCommands.Add(obj));
-                    CommandBar.PrimaryCommands.Clear();
-                    page.PrimaryMenu.ForEach((obj) => CommandBar.PrimaryCommands.Add(obj));
-                }
-            }
         }
 
         private void ContentFrame_BackRequested(object sender, BackRequestedEventArgs e)

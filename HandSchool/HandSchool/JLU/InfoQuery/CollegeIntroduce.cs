@@ -13,7 +13,6 @@ namespace HandSchool.JLU.InfoQuery
 {
     class CollegeIntroduce : IInfoEntrance
     {
-        private WebViewPage webpg;
         private RootObject<CollegeInfo> obj;
         private int schId = 101;
         
@@ -28,23 +27,8 @@ namespace HandSchool.JLU.InfoQuery
         public string PostValue => $"{{\"tag\":\"school@schoolSearch\",\"branch\":\"byId\",\"params\":{{\"schId\":\"{schId}\"}}}}";
         public Dictionary<string, Command> Menu { get; set; } = new Dictionary<string, Command>();
 
-        public WebViewPage Binding
-        {
-            get => webpg;
-            set
-            {
-                if (value is null)
-                {
-                    webpg.WebView.Cleanup();
-                    webpg = null;
-                }
-                else
-                {
-                    webpg = value;
-                    value.WebView.RegisterAction(Receive);
-                }
-            }
-        }
+        public IViewResponse Binding { get; set; }
+        public Action<string> Evaluate { get; set; }
         
         public CollegeIntroduce()
         {
@@ -92,7 +76,7 @@ namespace HandSchool.JLU.InfoQuery
                     "function getList() { var campus = $('#campus').val(); var selector = '#schId option' + (campus == '*' ? '' : '[data-campus=\"' + campus + '\"]'); var division = $('#division').val(); selector += (division == '*' ? '' : '[data-part=\"' + division + '\"]'); $('#schId > option').wrap('<span>').hide(); $(selector).unwrap().show(); }; $('#schId').val('101'); function getSchId() { invokeCSharpAction('schId=' + $('#schId').val()); }; "
                 }
             };
-            Menu.Add("查询", new Command(() => webpg.WebView.JavaScript("getSchId()")));
+            Menu.Add("查询", new Command(() => Evaluate("getSchId()")));
         }
 
         public async void Receive(string data)
@@ -102,7 +86,7 @@ namespace HandSchool.JLU.InfoQuery
             {
                 if (data == "schId=null")
                 {
-                    await Binding.DisplayAlert("信息查询", "未指定查询学院。", "知道了");
+                    await Binding.ShowMessage("信息查询", "未指定查询学院。", "知道了");
                     return;
                 }
 
@@ -113,7 +97,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await Binding.DisplayAlert("信息查询", "未定义操作。", "知道了");
+                await Binding.ShowMessage("信息查询", "未定义操作。", "知道了");
                 throw new NotImplementedException();
             }
         }
@@ -141,7 +125,7 @@ namespace HandSchool.JLU.InfoQuery
             jsBuilder.Append("$('#website').text('" + obj.value[0].website + "');");
             if (obj.value[0].introduction == null) obj.value[0].introduction = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#introduction').text('" + obj.value[0].introduction + "');");
-            webpg.WebView.JavaScript(jsBuilder.ToString());
+            Evaluate(jsBuilder.ToString());
         }
 
         public void Parse() { }

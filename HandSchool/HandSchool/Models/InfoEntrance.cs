@@ -16,7 +16,8 @@ namespace HandSchool
         List<string> TableHeader { get; set; }
         Bootstrap HtmlDocument { get; set; }
         void Receive(string data);
-        WebViewPage Binding { get; set; }
+        IViewResponse Binding { get; set; }
+        Action<string> Evaluate { get; set; }
         Dictionary<string, Command> Menu { get; set; }
     }
 
