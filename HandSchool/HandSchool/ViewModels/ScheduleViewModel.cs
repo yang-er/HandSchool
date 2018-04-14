@@ -56,9 +56,11 @@ namespace HandSchool.ViewModels
         }
 
 #if __UWP__
-        void Create()
+        async void Create()
         {
-            throw new NotImplementedException();
+            var box = new UWP.CurriculumDialog(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true);
+            var result = await box.ShowAsync();
+            if (result == Windows.UI.Xaml.Controls.ContentDialogResult.Primary) RefreshComplete?.Invoke();
         }
 #else
         async void Create(object param)

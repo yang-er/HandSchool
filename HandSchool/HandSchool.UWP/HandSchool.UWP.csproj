@@ -113,6 +113,15 @@
     <Compile Include="OutlinePage.xaml.cs">
       <DependentUpon>OutlinePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CurriculumDialog.xaml.cs">
+      <DependentUpon>CurriculumDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CurriculumLabel.xaml.cs">
+      <DependentUpon>CurriculumLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SchedulePage.xaml.cs">
+      <DependentUpon>SchedulePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViewPage.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,6 +196,14 @@
       <SubType>
       </SubType>
     </EmbeddedResource>
+    <Page Include="Views\CurriculumDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CurriculumLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FeedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MessagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SchedulePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

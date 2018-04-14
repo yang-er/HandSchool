@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -69,7 +70,9 @@ namespace HandSchool.Views
             }
 
             // Render classes
-            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, grid.Children);
+            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list);
+            for (int i = 0; i < list.Count; i++)
+                grid.Children.Add(new CurriculumLabel(list[i], i));
         }
 
         void SetTileSize(object sender, EventArgs e)
