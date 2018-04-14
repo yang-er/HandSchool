@@ -30,5 +30,9 @@ namespace HandSchool.UWP
             BindingContext = MessageViewModel.Instance;
         }
 
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
     }
 }

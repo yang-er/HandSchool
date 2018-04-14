@@ -10,21 +10,28 @@
         <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
     </local:ViewPage.SecondaryMenu>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch" >
-        <RelativePanel>
-            <ListView x:Name="MyListView"
-              ItemsSource="{Binding Items}"
-               RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">  
-                <ListView.ItemTemplate>
-                    
-                    <DataTemplate x:Name="xixi"  >
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBlock Text="{Binding Title}" x:Name="li" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" ></TextBlock>
-                            <TextBlock Text="{Binding Date}" RelativePanel.Below="li" ></TextBlock>
-                        </Grid>
-                            
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </RelativePanel>
+        <ListView x:Name="ListView" ItemsSource="{Binding Items}" ItemClick="ListView_ItemClick" IsItemClickEnabled="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                    <Grid Margin="8,16,8,16" HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Date}" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" Text="{Binding Body}" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Text="●" Visibility="{Binding Unread}" Foreground="Red" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                        
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </local:ViewPage>
