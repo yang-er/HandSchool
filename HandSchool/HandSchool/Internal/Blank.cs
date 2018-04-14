@@ -144,7 +144,7 @@ namespace HandSchool
                 throw new NotImplementedException();
             }
 
-            public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
+            public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
             {
                 throw new NotImplementedException();
             }

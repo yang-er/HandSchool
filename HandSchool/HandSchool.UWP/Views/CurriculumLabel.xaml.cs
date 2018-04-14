@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
+using System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-//https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
 namespace HandSchool.UWP
 {
@@ -28,10 +17,9 @@ namespace HandSchool.UWP
         {
             InitializeComponent();
             Context = value;
+            DataContext = Context;
             ColorId = id;
-            Padding = new Thickness(5);
             Update();
-            DoubleTapped += async (sender, args) => await ItemTapped();
         }
 
         public void Update()
@@ -39,21 +27,27 @@ namespace HandSchool.UWP
             Grid.SetColumn(this, Context.WeekDay);
             Grid.SetRow(this, Context.DayBegin);
             Grid.SetRowSpan(this, Context.DayEnd - Context.DayBegin + 1);
-            Title.Text = Context.Name;
-            Where.Text = Context.Classroom;
-            Background = new SolidColorBrush(GetColor());
+        }
+
+        private async void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs args)
+        {
+            args.Handled = true;
+            var dialog = new CurriculumDialog(Context);
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                Update();
+            }
+            else if (result == ContentDialogResult.Secondary)
+            {
+                (Parent as Grid).Children.Remove(this);
+            }
         }
         
-        private async Task ItemTapped()
-        {/*
-            var page = new CurriculumPage(this.Context);
-            await page.ShowAsync(Navigation);
-        */}
-        
-        public Color GetColor()
+        public Brush GetColor()
         {
             // thanks to brady
-            return Internal.Helper.ScheduleColors[ColorId % 8];
+            return new SolidColorBrush(Internal.Helper.ScheduleColors2[ColorId % 8]);
         }
     }
 }

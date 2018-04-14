@@ -40,7 +40,34 @@ namespace HandSchool.UWP
                 Grid.SetRow(label, ij);
                 Grid.Children.Add(label);
             }
-
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            LoadList();
+            System.Diagnostics.Debug.WriteLine("SchedulePage.OnNavigatedTo. Redrawing.");
+            ScheduleViewModel.Instance.RefreshComplete += LoadList;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            ScheduleViewModel.Instance.RefreshComplete -= LoadList;
+        }
+
+        public void LoadList()
+        {
+            for (int i = Grid.Children.Count; i > 7 + Core.App.DailyClassCount; i--)
+            {
+                Grid.Children.RemoveAt(i - 1);
+            }
+
+            // Render classes
+            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list);
+            for (int i = 0; i < list.Count; i++)
+                Grid.Children.Add(new CurriculumLabel(list[i], i));
+        }
+
     }
 }

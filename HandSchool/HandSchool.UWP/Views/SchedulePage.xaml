@@ -13,12 +13,12 @@
         <AppBarButton Label="刷新课表" Command="{Binding RefreshCommand}" Icon="Refresh" />
         <AppBarButton Label="添加课程" Command="{Binding AddCommand}" Icon="Add" />
     </local:ViewPage.SecondaryMenu>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RowSpacing="1" ColumnSpacing="1" Margin="8,0,8,8" x:Name="Grid">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RowSpacing="1" ColumnSpacing="1" Margin="0,0,1,1" x:Name="Grid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="32" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25" />
+            <ColumnDefinition Width="36" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />

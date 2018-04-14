@@ -7,13 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="60"
-    d:DesignWidth="100">
-    <Grid>
+    d:DesignWidth="100"
+    DoubleTapped="OnDoubleTapped"
+    IsDoubleTapEnabled="True">
+    <Grid x:Name="Grid" Background="{x:Bind GetColor()}" Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="TextBlock" Grid.Row="0" FontSize="14" TextWrapping="Wrap" x:Name="Title" VerticalAlignment="Bottom" Margin="0,0,0,4" HorizontalAlignment="Center" />
-        <TextBlock Text="TextBlock" Grid.Row="1" FontSize="14" TextWrapping="Wrap" x:Name="Where" VerticalAlignment="Top" Margin="0,4,0,0" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding Name}" Grid.Row="1" FontSize="16" TextWrapping="Wrap" x:Name="Title" Foreground="White" FontWeight="SemiBold" TextAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding Classroom}" Grid.Row="2" FontSize="16" TextWrapping="Wrap" x:Name="Where" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>
