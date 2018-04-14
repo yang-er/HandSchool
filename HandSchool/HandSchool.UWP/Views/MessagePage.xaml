@@ -6,8 +6,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <local:ViewPage.SecondaryMenu>
+        <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
+    </local:ViewPage.SecondaryMenu>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch" >
+        <RelativePanel>
+            <ListView x:Name="MyListView"
+              ItemsSource="{Binding Items}"
+               RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">  
+                <ListView.ItemTemplate>
+                    
+                    <DataTemplate x:Name="xixi"  >
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBlock Text="{Binding Title}" x:Name="li" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" ></TextBlock>
+                            <TextBlock Text="{Binding Date}" RelativePanel.Below="li" ></TextBlock>
+                        </Grid>
+                            
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </RelativePanel>
     </Grid>
 </local:ViewPage>

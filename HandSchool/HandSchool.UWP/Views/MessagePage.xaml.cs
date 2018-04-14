@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using HandSchool.Models;
+using HandSchool.ViewModels;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -25,6 +27,8 @@ namespace HandSchool.UWP
         public MessagePage()
         {
             this.InitializeComponent();
+            BindingContext = MessageViewModel.Instance;
         }
+
     }
 }
