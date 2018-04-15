@@ -22,8 +22,26 @@ namespace HandSchool.ViewModels
         {
             var viewModel = new LoginViewModel(form);
             viewModel.LoginCommand = new Command(viewModel.Login);
+#if __UWP__
+            /*
+            var newView = Windows.ApplicationModel.Core.CoreApplication.CreateNewView();
+            int newViewId = 0;
+            await newView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                var newWindow = Windows.UI.Xaml.Window.Current;
+                var newAppView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                var frame = new Windows.UI.Xaml.Controls.Frame();
+                frame.Navigate(typeof(UWP.SchedulePage));
+                newWindow.Content = frame;
+                newWindow.Activate();
+                newViewId = newAppView.Id;
+            });
+            var viewShown = await Windows.UI.ViewManagement.ApplicationViewSwitcher.TryShowAsViewModeAsync(newViewId, Windows.UI.ViewManagement.ApplicationViewMode.CompactOverlay);*/
+            await (new UWP.LoginDialog(viewModel)).ShowAsync();
+#else
             viewModel.Page = new LoginPage(viewModel);
             await viewModel.Page.ShowAsync();
+#endif
             return form.IsLogin;
         }
         

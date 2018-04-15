@@ -24,7 +24,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Center" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Date}" FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Date}" FontSize="13" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" Text="{Binding Body}" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Text="●" Visibility="{Binding Unread}" Foreground="Red" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right" />
                     </Grid>
