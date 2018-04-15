@@ -18,6 +18,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock FontSize="28" VerticalAlignment="Center" FontWeight="Light" Text="{Binding Title}" />
+                        <ProgressBar Margin="0,0,0,-12" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="{Binding IsBusy}" />
                         <CommandBar Loaded="CommandBar_Loaded" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}" Name="CommandBar">
                             <AppBarButton Label="Refresh" Icon="Refresh" />
                             <AppBarButton Label="" Icon="Home" />

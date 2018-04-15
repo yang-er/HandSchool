@@ -54,7 +54,6 @@ namespace HandSchool.ViewModels
 
             try
             {
-                await Task.Delay(5000);
                 await Form.Login();
             }
             finally

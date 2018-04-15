@@ -9,12 +9,17 @@
     <local:ViewPage.SecondaryMenu>
         <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
     </local:ViewPage.SecondaryMenu>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch" >
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch">
         <ListView x:Name="ListView" ItemsSource="{Binding Items}" ItemClick="ListView_ItemClick" IsItemClickEnabled="True">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                    <Grid Margin="8,16,8,16" HorizontalAlignment="Stretch">
+                    <Grid Padding="8,16,8,16" HorizontalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -28,8 +33,6 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" Text="{Binding Body}" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center" />
                         <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Text="●" Visibility="{Binding Unread}" Foreground="Red" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right" />
                     </Grid>
-                        
-                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
