@@ -24,7 +24,8 @@ namespace HandSchool.JLU
         public string Username { get; set; }
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
-
+        public bool Confrimed { get; set; } = false;
+    
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 

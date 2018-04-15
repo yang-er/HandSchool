@@ -17,6 +17,7 @@ namespace HandSchool
             string Sender { get; }
             bool Unread { get; set; }
             Command SetRead { get; }
+            Command SetUnread { get; }
             Command Delete { get; }
         }
     }
