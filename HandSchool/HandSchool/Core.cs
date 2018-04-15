@@ -9,7 +9,7 @@ namespace HandSchool
     {
         private static Core _instance;
         public static Core App => _instance;
-
+        public bool Confrimed { get; set; } = false;
         public ISchoolSystem Service;
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
@@ -18,7 +18,6 @@ namespace HandSchool
         public ISystemEntrance SelectCourse;
         public int DailyClassCount;
         public List<ObservableCollection<InfoEntranceWrapper>> InfoEntrances = new List<ObservableCollection<InfoEntranceWrapper>>();
-
         public static List<ISchoolWrapper> Schools { get; } = new List<ISchoolWrapper>();
 
         private Core() { }

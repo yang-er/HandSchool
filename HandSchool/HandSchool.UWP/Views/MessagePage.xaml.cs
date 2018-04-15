@@ -12,7 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+using HandSchool.Models;
+using HandSchool.ViewModels;
+using System.Threading.Tasks;
+using HandSchool.Internal;
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace HandSchool.UWP
@@ -25,6 +28,18 @@ namespace HandSchool.UWP
         public MessagePage()
         {
             this.InitializeComponent();
+            BindingContext = MessageViewModel.Instance;
+        }
+
+        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is IMessageItem item)
+            {
+                var a = e.ClickedItem as IMessageItem;
+                Task.Run(async () => { await Core.App.Message.SetReadState(a.Id, true); a.Unread = false; });
+                Frame.Navigate(typeof(MessageDetailPage), item);
+                ListView.SelectedItem = null;
+            }
         }
     }
 }

@@ -20,6 +20,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Blank.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\CheckBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
