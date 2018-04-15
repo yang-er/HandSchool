@@ -11,7 +11,11 @@ namespace HandSchool.ViewModels
     {
         public Command LoginCommand { get; set; }
         public ILoginField Form { get; }
+#if __UWP__
+        public UWP.LoginDialog Page { get; set; }
+#else
         public LoginPage Page { get; set; }
+#endif
         
         private LoginViewModel(ILoginField form)
         {
@@ -23,21 +27,8 @@ namespace HandSchool.ViewModels
             var viewModel = new LoginViewModel(form);
             viewModel.LoginCommand = new Command(viewModel.Login);
 #if __UWP__
-            /*
-            var newView = Windows.ApplicationModel.Core.CoreApplication.CreateNewView();
-            int newViewId = 0;
-            await newView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                var newWindow = Windows.UI.Xaml.Window.Current;
-                var newAppView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-                var frame = new Windows.UI.Xaml.Controls.Frame();
-                frame.Navigate(typeof(UWP.SchedulePage));
-                newWindow.Content = frame;
-                newWindow.Activate();
-                newViewId = newAppView.Id;
-            });
-            var viewShown = await Windows.UI.ViewManagement.ApplicationViewSwitcher.TryShowAsViewModeAsync(newViewId, Windows.UI.ViewManagement.ApplicationViewMode.CompactOverlay);*/
-            await (new UWP.LoginDialog(viewModel)).ShowAsync();
+            viewModel.Page = new UWP.LoginDialog(viewModel);
+            await viewModel.Page.ShowAsync();
 #else
             viewModel.Page = new LoginPage(viewModel);
             await viewModel.Page.ShowAsync();
@@ -55,18 +46,23 @@ namespace HandSchool.ViewModels
 
             IsBusy = true;
 
+#if !__UWP__
             var behavior = new LoadingBehavior("正在登录……");
             Page.Behaviors.Add(behavior);
+#endif
             Form.LoginStateChanged += Page.Response;
 
             try
             {
+                await Task.Delay(5000);
                 await Form.Login();
             }
             finally
             {
                 IsBusy = false;
+#if !__UWP__
                 Page.Behaviors.Remove(behavior);
+#endif
                 Form.LoginStateChanged -= Page.Response;
             }
         }

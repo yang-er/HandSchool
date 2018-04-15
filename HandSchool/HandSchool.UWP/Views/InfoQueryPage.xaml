@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"><!--
         <SemanticZoom Height="500">
             <SemanticZoom.ZoomedInView>
                 <GridView ItemsSource="{x:Bind x:NullExtension}" SelectionMode="None" ItemTemplate="{StaticResource ZoomedInTemplate}">
@@ -20,6 +20,6 @@
             <SemanticZoom.ZoomedOutView>
                 <ListView ItemsSource="{x:Bind x:NullExtension}" HorizontalAlignment="Stretch" SelectionMode="None" ItemTemplate="{StaticResource ZoomedOutTemplate}" />
             </SemanticZoom.ZoomedOutView>
-        </SemanticZoom>
+        </SemanticZoom>-->
     </Grid>
 </local:ViewPage>

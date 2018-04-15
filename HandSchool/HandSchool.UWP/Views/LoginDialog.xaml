@@ -8,10 +8,17 @@
     mc:Ignorable="d"
     Title="登录"
     PrimaryButtonText="登录"
+    Closing="ContentDialog_Closing"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
-    <Grid>
+    <ContentDialog.Resources>
+        <local:BoolReverseConverter x:Key="cvtBool" /><!--
+        <Style TargetType="Button">
+            <Setter Property="AllowFocusWhenDisabled" Value="5" />
+            <Setter Property="Foreground" Value="Blue" />
+        </Style>-->
+    </ContentDialog.Resources>
+    <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -21,11 +28,11 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="1" PlaceholderText="用户名" Text="{Binding Username, Mode=TwoWay}" Grid.ColumnSpan="2" Margin="0,0,0,8" />
-        <PasswordBox Grid.Row="2" PlaceholderText="密码" PasswordChar="*" Password="{Binding Password, Mode=TwoWay}"  Grid.ColumnSpan="2" Margin="0,0,0,8" />
-        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Tips, Mode=OneWay}" TextWrapping="Wrap" MaxWidth="300" Margin="0,0,0,8" />
-        <CheckBox Grid.Row="4" Grid.Column="0" Content="保存密码" IsChecked="{Binding SavePassword, Mode=TwoWay}" />
-        <CheckBox Grid.Row="4" Grid.Column="1" Content="自动登录" HorizontalAlignment="Right" IsChecked="{Binding AutoLogin, Mode=TwoWay}" />
-        <ProgressBar IsIndeterminate="True" Visibility="Visible" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,8" />
+        <TextBox Grid.Row="0" PlaceholderText="用户名" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" Text="{Binding Username, Mode=TwoWay}" Grid.ColumnSpan="2" Margin="0,0,0,8" />
+        <PasswordBox Grid.Row="1" PlaceholderText="密码" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" PasswordChar="*" Password="{Binding Password, Mode=TwoWay}"  Grid.ColumnSpan="2" Margin="0,0,0,8" />
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Tips, Mode=OneWay}" TextWrapping="Wrap" MaxWidth="300" Margin="0,0,0,8" />
+        <CheckBox Grid.Row="3" Grid.Column="0" Content="保存密码" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" IsChecked="{Binding SavePassword, Mode=TwoWay}" />
+        <CheckBox Grid.Row="3" Grid.Column="1" Content="自动登录" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" HorizontalAlignment="Right" IsChecked="{Binding AutoLogin, Mode=TwoWay}" />
+        <ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay}" Grid.Row="0" Margin="8,2,8,0" VerticalAlignment="Top" Grid.ColumnSpan="2" />
     </Grid>
 </ContentDialog>
