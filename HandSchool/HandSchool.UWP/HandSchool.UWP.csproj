@@ -119,6 +119,9 @@
     <Compile Include="Views\CurriculumLabel.xaml.cs">
       <DependentUpon>CurriculumLabel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GradePointPage.xaml.cs">
+      <DependentUpon>GradePointPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
@@ -211,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FeedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GradePointPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
