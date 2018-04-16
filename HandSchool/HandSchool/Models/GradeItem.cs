@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
@@ -23,9 +22,12 @@ namespace HandSchool
         }
     }
 
-    public interface IGradeEntrance : ISystemEntrance
+    namespace Services
     {
-        string GPAPostValue { get; }
-        Task<string> GatherGPA();
+        public interface IGradeEntrance : ISystemEntrance
+        {
+            string GPAPostValue { get; }
+            Task<string> GatherGPA();
+        }
     }
 }

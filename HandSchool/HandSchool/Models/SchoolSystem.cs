@@ -3,7 +3,7 @@ using HandSchool.Models;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
-namespace HandSchool
+namespace HandSchool.Services
 {
     public interface ISchoolSystem : ILoginField
     {

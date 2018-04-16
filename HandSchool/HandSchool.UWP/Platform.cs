@@ -32,8 +32,6 @@ namespace HandSchool
                 await dialog.ShowAsync();
             }
         }
-
-
     }
 
     namespace UWP
@@ -62,11 +60,9 @@ namespace HandSchool
                 }
             }
 
-            public async Task ShowMessage(string title, string message, string button = "确认")
+            public Task ShowMessage(string title, string message, string button = "确认")
             {
-                var dialog = new MessageDialog(message, title);
-                dialog.Commands.Add(new UICommand(button));
-                await dialog.ShowAsync();
+                return Helper.ShowMessage(title, message, button);
             }
         }
     }

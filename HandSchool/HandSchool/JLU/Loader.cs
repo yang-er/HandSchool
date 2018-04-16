@@ -1,8 +1,7 @@
 ﻿using HandSchool.JLU;
 using HandSchool.JLU.InfoQuery;
-using System;
-using System.Collections.Generic;
-using Xamarin.Forms;
+using HandSchool.Models;
+using HandSchool.Services;
 
 namespace HandSchool
 {

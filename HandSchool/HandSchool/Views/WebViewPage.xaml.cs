@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.Services;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -22,9 +21,12 @@ namespace HandSchool
         }
     }
 
-    public interface IMessageEntrance : ISystemEntrance
+    namespace Services
     {
-        Task SetReadState(int id, bool read);
-        Task Delete(int id);
+        public interface IMessageEntrance : ISystemEntrance
+        {
+            Task SetReadState(int id, bool read);
+            Task Delete(int id);
+        }
     }
 }

@@ -7,19 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"><!--
-        <SemanticZoom Height="500">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <SemanticZoom>
             <SemanticZoom.ZoomedInView>
-                <GridView ItemsSource="{x:Bind x:NullExtension}" SelectionMode="None" ItemTemplate="{StaticResource ZoomedInTemplate}">
-                    <GridView.GroupStyle>
-                        <GroupStyle HeaderTemplate="{StaticResource ZoomedInGroupHeaderTemplate}" />
-                    </GridView.GroupStyle>
-                </GridView>
+                <ListView HorizontalAlignment="Stretch" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" />
             </SemanticZoom.ZoomedInView>
-
             <SemanticZoom.ZoomedOutView>
-                <ListView ItemsSource="{x:Bind x:NullExtension}" HorizontalAlignment="Stretch" SelectionMode="None" ItemTemplate="{StaticResource ZoomedOutTemplate}" />
+                <ListView HorizontalAlignment="Stretch" SelectionMode="None" ItemsSource="{x:Bind DataContent}" />
             </SemanticZoom.ZoomedOutView>
-        </SemanticZoom>-->
+        </SemanticZoom>
     </Grid>
 </local:ViewPage>

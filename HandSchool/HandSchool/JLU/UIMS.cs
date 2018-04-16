@@ -1,12 +1,10 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.ViewModels;
-using HandSchool.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;

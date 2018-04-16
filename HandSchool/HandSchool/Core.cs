@@ -1,7 +1,6 @@
-﻿using System;
+﻿using HandSchool.Models;
+using HandSchool.Services;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace HandSchool
 {
@@ -9,7 +8,7 @@ namespace HandSchool
     {
         private static Core _instance;
         public static Core App => _instance;
-        public bool Confrimed { get; set; } = false;
+        public bool Confirmed { get; set; } = false;
         public ISchoolSystem Service;
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
@@ -17,7 +16,7 @@ namespace HandSchool
         public IFeedEntrance Feed;
         public ISystemEntrance SelectCourse;
         public int DailyClassCount;
-        public List<ObservableCollection<InfoEntranceWrapper>> InfoEntrances = new List<ObservableCollection<InfoEntranceWrapper>>();
+        public List<InfoEntranceGroup> InfoEntrances = new List<InfoEntranceGroup>();
         public static List<ISchoolWrapper> Schools { get; } = new List<ISchoolWrapper>();
 
         private Core() { }
@@ -36,11 +35,14 @@ namespace HandSchool
         }
     }
 
-    public interface ISchoolWrapper
+    namespace Services
     {
-        void PreLoad();
-        void PostLoad();
-        string SchoolName { get; }
-        string SchoolId { get; }
+        public interface ISchoolWrapper
+        {
+            void PreLoad();
+            void PostLoad();
+            string SchoolName { get; }
+            string SchoolId { get; }
+        }
     }
 }

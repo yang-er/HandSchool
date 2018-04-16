@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.Models;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;

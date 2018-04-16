@@ -46,10 +46,7 @@ namespace HandSchool.ViewModels
 
             IsBusy = true;
 
-#if !__UWP__
-            var behavior = new LoadingBehavior("正在登录……");
-            Page.Behaviors.Add(behavior);
-#endif
+            var callback = Helper.ShowLoadingAlert("正在登录……");
             Form.LoginStateChanged += Page.Response;
 
             try
@@ -59,9 +56,7 @@ namespace HandSchool.ViewModels
             finally
             {
                 IsBusy = false;
-#if !__UWP__
-                Page.Behaviors.Remove(behavior);
-#endif
+                callback.Invoke();
                 Form.LoginStateChanged -= Page.Response;
             }
         }

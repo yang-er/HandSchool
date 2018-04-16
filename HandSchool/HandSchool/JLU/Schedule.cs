@@ -1,9 +1,9 @@
 ﻿using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
+using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -55,9 +55,11 @@ namespace HandSchool.JLU
                         SelectDate = obj.dateAccept,
                         Name = obj.teachClassMaster.lessonSegment.fullName,
                     };
+
                     foreach (var t in obj.teachClassMaster.lessonTeachers)
                         item.Teacher += t.teacher.name + " ";
                     item.Teacher = item.Teacher.Trim();
+
                     int tmp = int.Parse(time.timeBlock.classSet);
                     int tmp2 = tmp & (-tmp);
                     while (tmp != 0)
@@ -71,6 +73,7 @@ namespace HandSchool.JLU
                         else if (tmp >= 1)
                             item.DayEnd++;
                     }
+
                     Items.Add(item);
                 }
             }
@@ -124,10 +127,7 @@ namespace HandSchool.JLU
         
         public void Save()
         {
-            Items.Sort((CurriculumItem x, CurriculumItem y) =>
-            {
-                return (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin);
-            });
+            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
             WriteConfFile("jlu.kcb2.json", Serialize(Items));
         }
 

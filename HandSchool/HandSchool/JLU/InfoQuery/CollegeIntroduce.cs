@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
 using HandSchool.JLU.JsonObject;
+using HandSchool.Services;
 using HandSchool.Views;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;

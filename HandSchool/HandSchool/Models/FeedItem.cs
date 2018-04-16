@@ -15,5 +15,8 @@
         }
     }
 
-    public interface IFeedEntrance : ISystemEntrance { }
+    namespace Services
+    {
+        public interface IFeedEntrance : ISystemEntrance { }
+    }
 }

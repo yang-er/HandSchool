@@ -1,12 +1,9 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static HandSchool.Internal.Helper;

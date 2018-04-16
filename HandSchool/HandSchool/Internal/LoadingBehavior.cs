@@ -1,7 +1,9 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
+    [Obsolete("Use Helper.ShowLoadingAlert before we make up one new")]
     public class LoadingBehavior : Behavior<Page>
     {
         public string Title { get; set; }
