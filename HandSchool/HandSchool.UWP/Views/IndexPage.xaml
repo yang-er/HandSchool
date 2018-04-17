@@ -6,9 +6,26 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <local:ViewPage.SecondaryMenu>
+        <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding RefreshCommand}" />
+    </local:ViewPage.SecondaryMenu>
+    <Grid  Background="{Binding ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer>
+            <StackPanel >
+                <TextBlock Text="{Binding WelcomeMessage}"  TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <TextBlock Text="{Binding CurrentMessage}" TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <Line StrokeThickness="1" X1="0" X2="{x:Bind LineLenth}" Y1="10" Y2="10"  Stroke="Black"></Line>
+                <TextBlock Text="{Binding NextClass}"  TextWrapping="Wrap"  FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <TextBlock Text="{Binding NextTeacher}" TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <TextBlock Text="{Binding NextClassroom}" TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <Line StrokeThickness="1" X1="0" X2="{x:Bind LineLenth}" Y1="10" Y2="10"  Stroke="Black"></Line>
+                <TextBlock Text="今日天气"  TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <TextBlock Text="{Binding Weather}" TextWrapping="Wrap"  FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <TextBlock Text="{Binding WeatherRange}" TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10"></TextBlock>
+                <TextBlock Text="{Binding WeatherTips}" TextWrapping="Wrap" FontSize="{x:Bind TextSize}" Padding="10" ></TextBlock>
+                <Line StrokeThickness="1" X1="0" X2="{x:Bind LineLenth}" Y1="10" Y2="10"  Stroke="Black"></Line>
+            </StackPanel>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Button" HorizontalAlignment="Left" Margin="287,317,0,0" VerticalAlignment="Top" Click="Button_Click" />
-
+        </ScrollViewer>
     </Grid>
 </local:ViewPage>

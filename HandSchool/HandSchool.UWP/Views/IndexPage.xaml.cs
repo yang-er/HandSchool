@@ -23,8 +23,12 @@ namespace HandSchool.UWP
     /// </summary>
     public sealed partial class IndexPage : ViewPage
     {
+
+        public int TextSize=20;
+        public int LineLenth = 500;
         public IndexPage()
         {
+            
             InitializeComponent();
             BindingContext = IndexViewModel.Instance;
         }
