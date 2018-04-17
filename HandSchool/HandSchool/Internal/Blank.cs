@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static HandSchool.Internal.Helper;
 
 namespace HandSchool
 {
@@ -20,28 +21,31 @@ namespace HandSchool
     {
         class Loader : ISchoolWrapper
         {
-            public string SchoolName => "吉林大学";
-            public string SchoolId => "jlu";
+            public string SchoolName => "任意大学";
+            public string SchoolId => "blank";
 
             public void PostLoad() { }
 
             public void PreLoad()
             {
-                Core.App.Service = new BlankSchool();
-                Core.App.DailyClassCount = 11;
+                var sch = new BlankSchool();
+                Core.App.Service = sch;
+                Core.App.DailyClassCount = 10;
                 Core.App.Schedule = new Schedule();
-                Core.App.Feed = new FeedEntrance();
+                if (sch.FeedUrl != "") Core.App.Feed = new FeedEntrance(sch.FeedUrl);
             }
         }
 
         class BlankSchool : NotifyPropertyChanged, ISchoolSystem
         {
+            private string feedUrl = "";
+
             public string ServerUri => "";
             public string Username { get; set; } = "";
             public string Password { get; set; } = "";
             public bool IsLogin => true;
             public bool NeedLogin => false;
-            public int CurrentWeek { get; set; } = 0;
+            public int CurrentWeek { get; set; } = 1;
             public string Tips => "";
             public bool AutoLogin { get; set; } = true;
             public bool SavePassword { get; set; } = true;
@@ -53,6 +57,13 @@ namespace HandSchool
             {
                 get => Core.App.DailyClassCount;
                 set => SetProperty(ref Core.App.DailyClassCount, value);
+            }
+
+            [Settings("消息通知地址", "消息通知的RSS地址。")]
+            public string FeedUrl
+            {
+                get => feedUrl;
+                set => SetProperty(ref feedUrl, value);
             }
 
             public AwaredWebClient WebClient { get; set; }
@@ -87,47 +98,57 @@ namespace HandSchool
         
         class Schedule : IScheduleEntrance
         {
+            public List<CurriculumItem> Items { get; private set; }
+            public string LastReport { get; private set; } = "";
+
             public int ClassNext => 0;
+            public string Name => "课程表";
+            public string ScriptFileUri => "";
+            public bool IsPost => true;
+            public string PostValue => "";
+            public string StorageFile => "blank.kcb.json";
 
-            public List<CurriculumItem> Items => new List<CurriculumItem>();
-
-            public string Name => throw new NotImplementedException();
-
-            public string ScriptFileUri => throw new NotImplementedException();
-
-            public bool IsPost => throw new NotImplementedException();
-
-            public string PostValue => throw new NotImplementedException();
-
-            public string StorageFile => throw new NotImplementedException();
-
-            public string LastReport => throw new NotImplementedException();
-
-            public Task Execute()
+            public async Task Execute()
             {
-                throw new NotImplementedException();
+                await Task.Run(() => System.Diagnostics.Debug.WriteLine("HandSchool.Blank.ScheduleEntrance->Excute()"));
+                Parse();
+                Save();
             }
 
             public void Parse()
             {
-                throw new NotImplementedException();
+                System.Diagnostics.Debug.WriteLine("HandSchool.Blank.ScheduleEntrance->Parse()");
             }
 
             public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
             {
-                throw new NotImplementedException();
+                if (showAll)
+                    throw new NotImplementedException();
+
+                list = Items.FindAll((item) => showAll || item.IfShow(week));
             }
 
             public void Save()
             {
-                throw new NotImplementedException();
+                Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
+                WriteConfFile("blank.kcb.json", Serialize(Items));
+            }
+
+            public Schedule()
+            {
+                LastReport = ReadConfFile("blank.kcb.json");
+                if (LastReport != "")
+                    Items = JSON<List<CurriculumItem>>(LastReport);
+                else
+                    Items = new List<CurriculumItem>();
+                Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
             }
         }
-        
+
         class FeedEntrance : IFeedEntrance
         {
             public string Name => "消息通知";
-            public string ScriptFileUri => "";
+            public string ScriptFileUri { get; }
             public bool IsPost => false;
             public string PostValue => "";
             public string StorageFile => "blank.feed.xml";
@@ -141,6 +162,11 @@ namespace HandSchool
             public void Parse()
             {
                 System.Diagnostics.Debug.WriteLine("HandSchool.Blank.FeedIntrance->Parse()");
+            }
+
+            public FeedEntrance(string uri)
+            {
+                ScriptFileUri = uri;
             }
         }
     }
