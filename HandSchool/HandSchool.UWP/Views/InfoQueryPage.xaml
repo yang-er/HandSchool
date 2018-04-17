@@ -8,13 +8,33 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SemanticZoom>
-            <SemanticZoom.ZoomedInView>
-                <ListView HorizontalAlignment="Stretch" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" />
-            </SemanticZoom.ZoomedInView>
-            <SemanticZoom.ZoomedOutView>
-                <ListView HorizontalAlignment="Stretch" SelectionMode="None" ItemsSource="{x:Bind DataContent}" />
-            </SemanticZoom.ZoomedOutView>
-        </SemanticZoom>
+        <Grid.Resources>
+            <CollectionViewSource x:Key="CollectionViewSource" IsSourceGrouped="True" x:Name="CollectionViewSource" />
+        </Grid.Resources>
+        <ListView ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" SelectionMode="None" ShowsScrollingPlaceholders="True" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="8,16,8,16">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="16" />
+                        <TextBlock Text="{Binding Description}" Margin="0,4,0,0" FontSize="13" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.GroupStyle>
+                <GroupStyle HidesIfEmpty="True">
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GroupTitle}" FontSize="20" Margin="8,0,8,0" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
     </Grid>
 </local:ViewPage>

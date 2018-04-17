@@ -34,7 +34,14 @@ namespace HandSchool.UWP
 
         public async void InvokeScript(string eval)
         {
-            await WebView.InvokeScriptAsync("eval", new[] { eval });
+            try
+            {
+                await WebView.InvokeScriptAsync("eval", new[] { eval });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
 
         private string _html = string.Empty;
@@ -69,7 +76,7 @@ namespace HandSchool.UWP
         {
             _reg?.Invoke(e.Value);
         }
-
+        
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is AboutViewModel vm)
@@ -90,8 +97,9 @@ namespace HandSchool.UWP
                 var sb = new StringBuilder();
                 InfoEntrance.HtmlDocument.ToHtml(sb);
                 Html = sb.ToString();
-                foreach (var key in InfoEntrance.Menu.Keys)
-                    SecondaryMenu.Add(new AppBarButton { Label = key, Command = InfoEntrance.Menu[key] });
+                Register = entrance.Receive;
+                foreach (var key in InfoEntrance.Menu)
+                    PrimaryMenu.Add(new AppBarButton { Label = key.Name, Command = key.Command, Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = key.Icon } });
             }
         }
     }

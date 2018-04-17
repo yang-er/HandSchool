@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -25,6 +26,7 @@ namespace HandSchool.UWP
     public sealed partial class TestMainPage : Page
     {
         public CommandBar CommandBar { get; set; }
+        private bool _isSettingsInvoked = false;
 
         public TestMainPage()
         {
@@ -33,7 +35,6 @@ namespace HandSchool.UWP
             Core.Initialize();
             NavigationViewModel.Instance.PrimaryItems.ForEach((item) => NavigationView.MenuItems.Add(new NavigationViewItem { Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = item.Icon }, Content = item }));
             SystemNavigationManager.GetForCurrentView().BackRequested += ContentFrame_BackRequested;
-            NavigationView.SelectedItem = NavigationView.MenuItems[0];
             ContentFrame.Navigate(typeof(IndexPage));
         }
         
@@ -48,14 +49,32 @@ namespace HandSchool.UWP
             }
             else if (args.IsSettingsInvoked)
             {
-                if (!(DataContext is AboutViewModel))
+                if (!_isSettingsInvoked && !((ContentFrame.Content as ViewPage).BindingContext is AboutViewModel))
+                {
+                    _isSettingsInvoked = true;
                     ContentFrame.Navigate(typeof(WebViewPage), AboutViewModel.Instance);
+                    Task.Run(async()=> { await Task.Delay(1000); _isSettingsInvoked = false; });
+                }
             }
         }
 
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            
+            var selected = NavigationView.MenuItems.FirstOrDefault((obj) => ((obj as NavigationViewItem).Content as NavDataItem).DestinationPageType == e.SourcePageType);
+            if (selected is null)
+            {
+                if (e.SourcePageType == typeof(WebViewPage) && !((ContentFrame.Content as ViewPage).BindingContext is AboutViewModel))
+                {
+                    selected = NavigationView.MenuItems.FirstOrDefault((obj) => ((obj as NavigationViewItem).Content as NavDataItem).DestinationPageType == typeof(InfoQueryPage));
+                }
+                else
+                {
+                    selected = NavigationView.SettingsItem;
+                }
+            }
+            NavigationView.SelectedItem = selected;
         }
 
         private void ContentFrame_BackRequested(object sender, BackRequestedEventArgs e)

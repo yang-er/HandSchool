@@ -29,7 +29,6 @@ namespace HandSchool.UWP
                 }
 
                 await Internal.Helper.ShowMessage("成绩详情", info, "确定");
-                ListView.SelectedItem = null;
             }
         }
 

@@ -38,13 +38,14 @@ namespace HandSchool
     {
         public class ViewResponse : IViewResponse
         {
-            public ViewResponse(Page page)
+            public ViewResponse(ViewPage page)
             {
+                Binding = page;
                 _behavior = new ObservableCollection<Behavior>();
                 _behavior.CollectionChanged += CollectionChanged;
             }
 
-            public Page Binding { get; }
+            public ViewPage Binding { get; }
 
             private ObservableCollection<Behavior> _behavior;
             public IList<Behavior> Behaviors => _behavior;
@@ -63,6 +64,11 @@ namespace HandSchool
             public Task ShowMessage(string title, string message, string button = "确认")
             {
                 return Helper.ShowMessage(title, message, button);
+            }
+
+            public void SetIsBusy(bool value, string tips)
+            {
+                Binding.BindingContext.IsBusy = value;
             }
         }
     }
