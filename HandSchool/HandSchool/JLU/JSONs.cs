@@ -224,27 +224,37 @@ namespace HandSchool.JLU.JsonObject
     {
         public string name { get; set; }
     }
-    
+
     class CollegeInfo
     {
         public string schoolName { get; set; }
-        public object website { get; set; }
+        public string website { get; set; }
         public string activeStatus { get; set; }
         public string abbr { get; set; }
         public object departments { get; set; }
         public string extSchNo { get; set; }
         public string schoolType { get; set; }
         public string englishName { get; set; }
-        public object staff { get; set; }
+        public Staff staff { get; set; }
         public string division { get; set; }
         public string schId { get; set; }
-        public object adminClasses { get; set; }
-        public object telephone { get; set; }
-        public object introduction { get; set; }
+        public AdminClass[] adminClasses { get; set; }
+        public string telephone { get; set; }
+        public string introduction { get; set; }
         public string xscNo { get; set; }
         public string campus { get; set; }
     }
     
+    class Staff
+    {
+        public string staffId { get; set; }
+        public string staffStatus { get; set; }
+        public string name { get; set; }
+        public DateTime birthdate { get; set; }
+        public string gender { get; set; }
+        public string workerId { get; set; }
+    }
+
     class LoginValue
     {
         public string loginMethod { get; set; }
@@ -314,7 +324,7 @@ namespace HandSchool.JLU.JsonObject
             { "1405", "南湖校区" },
             { "1406", "和平校区" }
         };
-        
+
         public static List<CollegeOverview> Colleges { get; } = new List<CollegeOverview>
         {
             new CollegeOverview("哲学社会学院", "1401", "1420", "174"),

@@ -13,7 +13,7 @@
     </local:ViewPage.SecondaryMenu>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView x:Name="ListView" ItemsSource="{Binding Items}" ItemClick="ListView_ItemClick" IsItemClickEnabled="True">
+        <ListView x:Name="ListView" ItemsSource="{Binding Items}" SelectionMode="None" ItemClick="ListView_ItemClick" IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="8,16,8,16">

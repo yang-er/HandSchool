@@ -1,8 +1,8 @@
 ﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Bootstrap = HandSchool.Internal.HtmlObject.Bootstrap;
 
@@ -18,7 +18,7 @@ namespace HandSchool
             void Receive(string data);
             IViewResponse Binding { get; set; }
             Action<string> Evaluate { get; set; }
-            Dictionary<string, Command> Menu { get; set; }
+            List<InfoEntranceMenu> Menu { get; set; }
         }
     }
 
@@ -26,7 +26,7 @@ namespace HandSchool
     {
         public delegate IInfoEntrance EntranceCreator();
 
-        public class InfoEntranceGroup : ObservableCollection<InfoEntranceWrapper>
+        public class InfoEntranceGroup : List<InfoEntranceWrapper>
         {
             public string GroupTitle { get; set; }
 
@@ -47,6 +47,20 @@ namespace HandSchool
                 Name = name;
                 Description = description;
                 Load = creator;
+            }
+        }
+
+        public struct InfoEntranceMenu
+        {
+            public string Name;
+            public Command Command;
+            public string Icon;
+
+            public InfoEntranceMenu(string name, Command cmd, string ico)
+            {
+                Name = name;
+                Command = cmd;
+                Icon = ico;
             }
         }
     }
