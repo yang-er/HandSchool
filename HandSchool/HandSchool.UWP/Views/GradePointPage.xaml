@@ -7,10 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <local:ViewPage.SecondaryMenu>
+    <local:ViewPage.PrimaryMenu>
         <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
         <AppBarButton Icon="Attach" Label="统计GPA" Click="GPAButton_Click" />
-    </local:ViewPage.SecondaryMenu>
+    </local:ViewPage.PrimaryMenu>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView x:Name="ListView" ItemsSource="{Binding Items}" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None">

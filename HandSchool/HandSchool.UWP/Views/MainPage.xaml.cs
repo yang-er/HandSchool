@@ -92,5 +92,11 @@ namespace HandSchool.UWP
         {
             CommandBar = sender as CommandBar;
         }
+
+        private void ContentFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            CommandBar?.PrimaryCommands.Clear();
+            CommandBar?.SecondaryCommands.Clear();
+        }
     }
 }

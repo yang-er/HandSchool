@@ -62,8 +62,8 @@ namespace HandSchool.JLU
             }
         }
 
-        public string WelcomeMessage => IsLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
-        public string CurrentMessage => IsLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
+        public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
+        public string CurrentMessage => NeedLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
 
         #endregion
         

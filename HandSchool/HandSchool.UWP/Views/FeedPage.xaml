@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <local:ViewPage.SecondaryMenu>
+    <local:ViewPage.PrimaryMenu>
         <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
-    </local:ViewPage.SecondaryMenu>
+    </local:ViewPage.PrimaryMenu>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView x:Name="ListView" ItemsSource="{Binding Items}" SelectionMode="None" ItemClick="ListView_ItemClick" IsItemClickEnabled="True">
