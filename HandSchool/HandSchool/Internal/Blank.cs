@@ -48,6 +48,7 @@ namespace HandSchool
             public string WelcomeMessage => "欢迎。";
             public string CurrentMessage => "";
 
+            [Settings("每日课程数量", "每日有多少节课，配合课程表使用。")]
             public int DailyClassCount
             {
                 get => Core.App.DailyClassCount;
@@ -67,7 +68,8 @@ namespace HandSchool
             public async Task<bool> Login()
             {
                 await Task.Run(() => System.Diagnostics.Debug.WriteLine("Blank->Login()"));
-                return false;
+                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
+                return true;
             }
 
             public async Task<string> Post(string url, string send)
@@ -85,9 +87,9 @@ namespace HandSchool
         
         class Schedule : IScheduleEntrance
         {
-            public int ClassNext => throw new NotImplementedException();
+            public int ClassNext => 0;
 
-            public List<CurriculumItem> Items => throw new NotImplementedException();
+            public List<CurriculumItem> Items => new List<CurriculumItem>();
 
             public string Name => throw new NotImplementedException();
 
@@ -124,49 +126,21 @@ namespace HandSchool
         
         class FeedEntrance : IFeedEntrance
         {
-            public string Name => throw new NotImplementedException();
+            public string Name => "消息通知";
+            public string ScriptFileUri => "";
+            public bool IsPost => false;
+            public string PostValue => "";
+            public string StorageFile => "blank.feed.xml";
+            public string LastReport { get; private set; }
 
-            public string ScriptFileUri => throw new NotImplementedException();
-
-            public bool IsPost => throw new NotImplementedException();
-
-            public string PostValue => throw new NotImplementedException();
-
-            public string StorageFile => throw new NotImplementedException();
-
-            public string LastReport => throw new NotImplementedException();
-
-            public Task Execute()
+            public async Task Execute()
             {
-                throw new NotImplementedException();
+                await Task.Run(() => System.Diagnostics.Debug.WriteLine("HandSchool.Blank.FeedIntrance->Excute()"));
             }
 
             public void Parse()
             {
-                throw new NotImplementedException();
-            }
-        }
-
-        class Settings : NotifyPropertyChanged, ISettingEntrance
-        {
-            public string StorageFile => "blank.settings.json";
-
-            private int _dailyClassCount = 0;
-            [Settings("每日课时", "一天中的课程时间。")]
-            public int DailyClassCount
-            {
-                get => _dailyClassCount;
-                set => SetProperty(ref _dailyClassCount, value);
-            }
-
-            public void Load()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Save()
-            {
-                throw new NotImplementedException();
+                System.Diagnostics.Debug.WriteLine("HandSchool.Blank.FeedIntrance->Parse()");
             }
         }
     }
