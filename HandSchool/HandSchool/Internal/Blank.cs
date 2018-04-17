@@ -29,9 +29,7 @@ namespace HandSchool
             {
                 Core.App.Service = new BlankSchool();
                 Core.App.DailyClassCount = 11;
-                Core.App.GradePoint = new GradeEntrance();
                 Core.App.Schedule = new Schedule();
-                Core.App.Message = new MessageEntrance();
                 Core.App.Feed = new FeedEntrance();
             }
         }
@@ -84,39 +82,7 @@ namespace HandSchool
                 return false;
             }
         }
-
-        class GradeEntrance : IGradeEntrance
-        {
-            public string GPAPostValue => throw new NotImplementedException();
-
-            public string Name => throw new NotImplementedException();
-
-            public string ScriptFileUri => throw new NotImplementedException();
-
-            public bool IsPost => throw new NotImplementedException();
-
-            public string PostValue => throw new NotImplementedException();
-
-            public string StorageFile => throw new NotImplementedException();
-
-            public string LastReport => throw new NotImplementedException();
-
-            public Task Execute()
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task<string> GatherGPA()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Parse()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        
         class Schedule : IScheduleEntrance
         {
             public int ClassNext => throw new NotImplementedException();
@@ -155,42 +121,7 @@ namespace HandSchool
                 throw new NotImplementedException();
             }
         }
-
-        class MessageEntrance : IMessageEntrance
-        {
-            public string Name => throw new NotImplementedException();
-
-            public string ScriptFileUri => throw new NotImplementedException();
-
-            public bool IsPost => throw new NotImplementedException();
-
-            public string PostValue => throw new NotImplementedException();
-
-            public string StorageFile => throw new NotImplementedException();
-
-            public string LastReport => throw new NotImplementedException();
-
-            public Task Delete(int id)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task Execute()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Parse()
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task SetReadState(int id, bool read)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        
         class FeedEntrance : IFeedEntrance
         {
             public string Name => throw new NotImplementedException();
@@ -211,6 +142,29 @@ namespace HandSchool
             }
 
             public void Parse()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class Settings : NotifyPropertyChanged, ISettingEntrance
+        {
+            public string StorageFile => "blank.settings.json";
+
+            private int _dailyClassCount = 0;
+            [Settings("每日课时", "一天中的课程时间。")]
+            public int DailyClassCount
+            {
+                get => _dailyClassCount;
+                set => SetProperty(ref _dailyClassCount, value);
+            }
+
+            public void Load()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Save()
             {
                 throw new NotImplementedException();
             }
