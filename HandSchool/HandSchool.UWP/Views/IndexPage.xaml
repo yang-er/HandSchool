@@ -11,28 +11,48 @@
     </local:ViewPage.PrimaryMenu>
     <local:ViewPage.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontSize" Value="15" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="Padding" Value="8" />
         </Style>
     </local:ViewPage.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer>
-            <StackPanel Margin="16,0,16,0">
+    <Grid Background="{ThemeResource  AppBarBorderThemeBrush}" >
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="50" />
+                <RowDefinition Height="300" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="36" />
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="230" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="20,20,20,20" Background="White">
+                <Border Background="Gray" Height="100" Width="250" HorizontalAlignment="Center">
+                    <SymbolIcon   Symbol="People"  Height="100" Width="250" HorizontalAlignment="Center"  Foreground="White"></SymbolIcon>
+                </Border>
                 <TextBlock Text="{Binding WelcomeMessage}" />
                 <TextBlock Text="{Binding CurrentMessage}" />
-                <Line StrokeThickness="1" X1="0" X2="{x:Bind LineLenth}" Y1="10" Y2="10"  Stroke="Black"></Line>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="2" Margin="20,20,20,20" Background="White">
+                <Border Background="Gray" Height="100" Width="250" HorizontalAlignment="Center">
+                    <SymbolIcon   Symbol="Clock"  Height="100" Width="250" HorizontalAlignment="Center"  Foreground="White"></SymbolIcon>
+                </Border>
+                <TextBlock Text="下一节课:" />
                 <TextBlock Text="{Binding NextClass}" />
                 <TextBlock Text="{Binding NextTeacher}" />
                 <TextBlock Text="{Binding NextClassroom}" />
-                <Line StrokeThickness="1" X1="0" X2="{x:Bind LineLenth}" Y1="10" Y2="10"  Stroke="Black"></Line>
-                <TextBlock Text="今日天气"></TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="3" Margin="20,20,20,20" Background="White">
+                <Border Background="Gray" Height="100" Width="250" HorizontalAlignment="Center">
+                    <SymbolIcon   Symbol="DockBottom"    Height="100" Width="250" HorizontalAlignment="Center"  Foreground="White"></SymbolIcon>
+                </Border>
+                <TextBlock Text="今日天气"/>
                 <TextBlock Text="{Binding Weather}" />
                 <TextBlock Text="{Binding WeatherRange}" />
                 <TextBlock Text="{Binding WeatherTips}" />
-                <Line StrokeThickness="1" X1="0" X2="{x:Bind LineLenth}" Y1="10" Y2="10"  Stroke="Black"></Line>
             </StackPanel>
-
-        </ScrollViewer>
     </Grid>
 </local:ViewPage>
