@@ -1,6 +1,7 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
 using System.Collections.Generic;
+using static HandSchool.Internal.Helper;
 
 namespace HandSchool
 {
@@ -30,8 +31,17 @@ namespace HandSchool
                     Schools.Add(info.GetValue(_instance) as ISchoolWrapper);
             }
 
-            _instance.Blank.PreLoad();
-            _instance.Blank.PostLoad();
+            var type = ReadConfFile("hs.school.bin");
+            if (type == "")
+            {
+                UWP.SelectTypePage.FetchAsync();
+            }
+            else
+            {
+                var current = Schools.Find((sw) => sw.SchoolId == type);
+                current.PreLoad();
+                current.PostLoad();
+            }
         }
     }
 

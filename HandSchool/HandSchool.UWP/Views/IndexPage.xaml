@@ -16,40 +16,38 @@
             <Setter Property="Padding" Value="8" />
         </Style>
     </local:ViewPage.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-            <Grid.RowDefinitions>
-
-                <RowDefinition Height="50" />
-                <RowDefinition Height="300" />
-                <RowDefinition Height="50" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="36" />
-                <ColumnDefinition Width="230" />
-                <ColumnDefinition Width="230" />
-                <ColumnDefinition Width="230" />
-            </Grid.ColumnDefinitions>
-        <local:CardView Grid.Row="1" Grid.Column="1" Icon="Emoji">
-            <local:CardView.Children>
-                <TextBlock Text="{Binding WelcomeMessage}" />
-                <TextBlock Text="{Binding CurrentMessage}" />
-            </local:CardView.Children>
-        </local:CardView>
-        <local:CardView Grid.Row="1" Grid.Column="2" Icon="Clock">
-            <local:CardView.Children>
-                <TextBlock Text="下一节课" />
-                <TextBlock Text="{Binding NextClass}" />
-                <TextBlock Text="{Binding NextTeacher}" />
-                <TextBlock Text="{Binding NextClassroom}" />
-            </local:CardView.Children>
-        </local:CardView>
-        <local:CardView Grid.Row="1" Grid.Column="3" Icon="Send">
-            <local:CardView.Children>
-                <TextBlock Text="今日天气" />
-                <TextBlock Text="{Binding Weather}" />
-                <TextBlock Text="{Binding WeatherRange}" />
-                <TextBlock Text="{Binding WeatherTips}" />
-            </local:CardView.Children>
-        </local:CardView>
-    </Grid>
+    <GridView
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        SelectionMode="None"
+        Padding="16"
+        HorizontalContentAlignment="Center">
+        <GridViewItem>
+            <local:CardView Icon="Emoji" Width="300" Height="300">
+                <local:CardView.Children>
+                    <TextBlock Text="{Binding WelcomeMessage}" />
+                    <TextBlock Text="{Binding CurrentMessage}" />
+                </local:CardView.Children>
+            </local:CardView>
+        </GridViewItem>
+        <GridViewItem>
+            <local:CardView Icon="Clock" Width="300" Height="300">
+                <local:CardView.Children>
+                    <TextBlock Text="下一节课" />
+                    <TextBlock Text="{Binding NextClass}" />
+                    <TextBlock Text="{Binding NextTeacher}" />
+                    <TextBlock Text="{Binding NextClassroom}" />
+                </local:CardView.Children>
+            </local:CardView>
+        </GridViewItem>
+        <GridViewItem>
+            <local:CardView Icon="Send" Width="300" Height="300">
+                <local:CardView.Children>
+                    <TextBlock Text="今日天气" />
+                    <TextBlock Text="{Binding Weather}" />
+                    <TextBlock Text="{Binding WeatherRange}" />
+                    <TextBlock Text="{Binding WeatherTips}" />
+                </local:CardView.Children>
+            </local:CardView>
+        </GridViewItem>
+    </GridView>
 </local:ViewPage>

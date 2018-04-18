@@ -90,6 +90,9 @@ namespace HandSchool.UWP
                     Grid.Children.Add(tb);
                     break;
 
+                case SettingTypes.Const:
+                    break;
+
                 default:
                     Grid.Children.Add(new TextBlock { Text = "Unknown" });
                     break;

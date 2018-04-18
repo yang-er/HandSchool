@@ -105,14 +105,6 @@
     </Compile>
     <Compile Include="HybridWebViewRenderer.cs" />
     <Compile Include="InputCellRenderer.cs" />
-    <Compile Include="MainPage.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainPageRenderer.cs" />
-    <Compile Include="OutlinePage.xaml.cs">
-      <DependentUpon>OutlinePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +128,9 @@
     </Compile>
     <Compile Include="Views\SchedulePage.xaml.cs">
       <DependentUpon>SchedulePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectTypePage.xaml.cs">
+      <DependentUpon>SelectTypePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -208,15 +203,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <EmbeddedResource Include="OutlinePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>
-      </SubType>
-    </EmbeddedResource>
     <Page Include="Views\CardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SchedulePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectTypePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

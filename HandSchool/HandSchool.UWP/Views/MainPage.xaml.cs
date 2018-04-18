@@ -13,14 +13,14 @@ using NavDataItem = HandSchool.Models.MasterPageItem;
 
 namespace HandSchool.UWP
 {
-    public sealed partial class TestMainPage : Page
+    public sealed partial class MainPage : Page
     {
         public CommandBar CommandBar { get; set; }
         private bool _isSettingsInvoked = false;
 
         private List<NavigationViewItem> NavMenuItems;
 
-        public TestMainPage()
+        public MainPage()
         {
             InitializeComponent();
             

@@ -30,7 +30,7 @@ namespace HandSchool.UWP
         {
             if (Window.Current.Content is Frame frame)
             {
-                if (frame.Content is TestMainPage mainpg)
+                if (frame.Content is MainPage mainpg)
                 {
                     mainpg.DataContext = DataContext;
                     if (mainpg.CommandBar != null)

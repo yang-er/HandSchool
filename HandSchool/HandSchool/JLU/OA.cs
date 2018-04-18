@@ -16,7 +16,7 @@ namespace HandSchool.JLU
         public string ScriptFileUri => "http://oa.52jida.com/feed";
         public bool IsPost => false;
         public string PostValue => string.Empty;
-        public string StorageFile => "oa.jlu.xml";
+        public string StorageFile => "jlu.oa.xml";
         public string LastReport { get; private set; } = string.Empty;
         public DateTime LastUpdate { get; private set; }
 
