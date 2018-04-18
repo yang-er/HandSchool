@@ -52,7 +52,7 @@ namespace HandSchool
             public string WelcomeMessage => "欢迎。";
             public string CurrentMessage => "";
 
-            [Settings("每日课程数量", "每日有多少节课，配合课程表使用。")]
+            [Settings("每日课程数量", "每日有多少节课，配合课程表使用。", 1, 15)]
             public int DailyClassCount
             {
                 get => Core.App.DailyClassCount;

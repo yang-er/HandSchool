@@ -38,6 +38,7 @@ namespace HandSchool
             public PropertyInfo Infomation => pInfo;
             public string Title => attrData.Title;
             public string Description => attrData.Description;
+            public SettingsAttribute AttributeData => attrData;
             public SettingTypes Type { get; protected set; }
 
             public object Value
@@ -64,15 +65,21 @@ namespace HandSchool
         {
             readonly string _title;
             readonly string _description;
+            readonly int _rangeDown;
+            readonly int _rangeUp;
 
-            public SettingsAttribute(string title, string description)
+            public SettingsAttribute(string title, string description, int down = 0, int up = 0)
             {
                 _title = title;
                 _description = description;
+                _rangeDown = down;
+                _rangeUp = up;
             }
 
             public string Title => _title;
             public string Description => _description;
+            public int RangeDown => _rangeDown;
+            public int RangeUp => _rangeUp;
         }
     }
 }
