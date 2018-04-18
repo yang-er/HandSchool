@@ -16,7 +16,7 @@
             <Setter Property="Padding" Value="8" />
         </Style>
     </local:ViewPage.Resources>
-    <Grid Background="{ThemeResource  AppBarBorderThemeBrush}" >
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
             <Grid.RowDefinitions>
 
                 <RowDefinition Height="50" />
@@ -29,30 +29,27 @@
                 <ColumnDefinition Width="230" />
                 <ColumnDefinition Width="230" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Row="1" Grid.Column="1" Margin="20,20,20,20" Background="White">
-                <Border Background="Gray" Height="100" Width="250" HorizontalAlignment="Center">
-                    <SymbolIcon   Symbol="People"  Height="100" Width="250" HorizontalAlignment="Center"  Foreground="White"></SymbolIcon>
-                </Border>
+        <local:CardView Grid.Row="1" Grid.Column="1" Icon="Emoji">
+            <local:CardView.Children>
                 <TextBlock Text="{Binding WelcomeMessage}" />
                 <TextBlock Text="{Binding CurrentMessage}" />
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="2" Margin="20,20,20,20" Background="White">
-                <Border Background="Gray" Height="100" Width="250" HorizontalAlignment="Center">
-                    <SymbolIcon   Symbol="Clock"  Height="100" Width="250" HorizontalAlignment="Center"  Foreground="White"></SymbolIcon>
-                </Border>
-                <TextBlock Text="下一节课:" />
+            </local:CardView.Children>
+        </local:CardView>
+        <local:CardView Grid.Row="1" Grid.Column="2" Icon="Clock">
+            <local:CardView.Children>
+                <TextBlock Text="下一节课" />
                 <TextBlock Text="{Binding NextClass}" />
                 <TextBlock Text="{Binding NextTeacher}" />
                 <TextBlock Text="{Binding NextClassroom}" />
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="3" Margin="20,20,20,20" Background="White">
-                <Border Background="Gray" Height="100" Width="250" HorizontalAlignment="Center">
-                    <SymbolIcon   Symbol="DockBottom"    Height="100" Width="250" HorizontalAlignment="Center"  Foreground="White"></SymbolIcon>
-                </Border>
-                <TextBlock Text="今日天气"/>
+            </local:CardView.Children>
+        </local:CardView>
+        <local:CardView Grid.Row="1" Grid.Column="3" Icon="Send">
+            <local:CardView.Children>
+                <TextBlock Text="今日天气" />
                 <TextBlock Text="{Binding Weather}" />
                 <TextBlock Text="{Binding WeatherRange}" />
                 <TextBlock Text="{Binding WeatherTips}" />
-            </StackPanel>
+            </local:CardView.Children>
+        </local:CardView>
     </Grid>
 </local:ViewPage>
