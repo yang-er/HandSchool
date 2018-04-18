@@ -3,15 +3,16 @@ using HandSchool.Views;
 using System;
 using Windows.UI.Xaml.Controls;
 using Xamarin.Forms.Platform.UWP;
+using HWebView = HandSchool.Views.HybridWebView;
 
-[assembly: ExportRenderer(typeof(HybridWebView), typeof(HybridWebViewRenderer))]
+[assembly: ExportRenderer(typeof(HWebView), typeof(HybridWebViewRenderer))]
 namespace HandSchool.UWP
 {
-    public class HybridWebViewRenderer : ViewRenderer<HybridWebView, WebView>
+    public class HybridWebViewRenderer : ViewRenderer<HWebView, WebView>
     {
         const string JavaScriptFunction = "function invokeCSharpAction(data){window.external.notify(data);}";
 
-        protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<HWebView> e)
         {
             base.OnElementChanged(e);
 
