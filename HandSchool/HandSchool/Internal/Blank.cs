@@ -36,6 +36,11 @@ namespace HandSchool
                 Core.App.Schedule = new Schedule();
                 if (sch.FeedUrl != "") Core.App.Feed = new FeedEntrance(sch.FeedUrl);
             }
+
+            public override string ToString()
+            {
+                return SchoolName;
+            }
         }
 
         class BlankSchool : NotifyPropertyChanged, ISchoolSystem

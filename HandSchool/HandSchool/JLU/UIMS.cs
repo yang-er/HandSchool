@@ -123,7 +123,7 @@ namespace HandSchool.JLU
             if (Username == "" || Password == "")
             {
                 NeedLogin = true;
-                throw new NotImplementedException("Show Login Panel Not Finished");
+                return false;
             }
             else
             {

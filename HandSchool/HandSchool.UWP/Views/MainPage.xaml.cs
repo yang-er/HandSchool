@@ -24,8 +24,6 @@ namespace HandSchool.UWP
         {
             InitializeComponent();
             
-            Core.Initialize();
-            
             NavMenuItems = (
                 from item in NavigationViewModel.Instance.PrimaryItems
                 select new NavigationViewItem
@@ -45,7 +43,13 @@ namespace HandSchool.UWP
             SystemNavigationManager.GetForCurrentView().BackRequested += ContentFrame_BackRequested;
             ContentFrame.Navigate(typeof(IndexPage));
         }
-        
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+        }
+
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             if (args.InvokedItem is NavDataItem item)

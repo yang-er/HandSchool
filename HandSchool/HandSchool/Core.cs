@@ -22,25 +22,26 @@ namespace HandSchool
 
         private Core() { }
 
-        public static void Initialize()
+        public static bool Initialize()
         {
             _instance = new Core();
             foreach (var info in (typeof(Core)).GetProperties())
             {
-                if (info.PropertyType.FullName == "HandSchool.ISchoolWrapper")
+                if (info.PropertyType.FullName == "HandSchool.Services.ISchoolWrapper")
                     Schools.Add(info.GetValue(_instance) as ISchoolWrapper);
             }
 
             var type = ReadConfFile("hs.school.bin");
             if (type == "")
             {
-                UWP.SelectTypePage.FetchAsync();
+                return false;
             }
             else
             {
                 var current = Schools.Find((sw) => sw.SchoolId == type);
                 current.PreLoad();
                 current.PostLoad();
+                return true;
             }
         }
     }
