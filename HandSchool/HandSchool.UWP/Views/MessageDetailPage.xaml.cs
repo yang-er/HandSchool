@@ -24,6 +24,7 @@ namespace HandSchool.UWP
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Tag = e.Parameter;
 
             if (e.Parameter is FeedItem feed)
             {

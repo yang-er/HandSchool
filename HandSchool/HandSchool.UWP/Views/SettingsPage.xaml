@@ -1,0 +1,39 @@
+﻿<local:ViewPage
+    x:Class="HandSchool.UWP.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HandSchool.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot>
+            <Pivot.LeftHeader>
+                <ContentControl VerticalContentAlignment="Stretch" Width="12" />
+            </Pivot.LeftHeader>
+            <PivotItem Header="设置" Margin="0">
+                <ListView x:Name="ListView" ItemsSource="{Binding Items}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="8,16,8,16">
+                                <TextBlock Text="{Binding Title}" />
+                                <TextBox Text="{Binding Value, Mode=TwoWay}" />
+                                <TextBlock Text="{Binding Description}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </PivotItem>
+            <PivotItem Header="关于" Margin="0">
+                <local:HybridWebView x:Name="AboutWebView" />
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</local:ViewPage>

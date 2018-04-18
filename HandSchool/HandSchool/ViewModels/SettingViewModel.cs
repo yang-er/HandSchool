@@ -1,10 +1,8 @@
-﻿using System;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using HandSchool.Internal;
+﻿using HandSchool.Internal;
 using HandSchool.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace HandSchool.ViewModels
 {
@@ -24,12 +22,13 @@ namespace HandSchool.ViewModels
 
         private SettingViewModel()
         {
+            Title = "设置中心";
             var type = Core.App.Service.GetType();
             var props = type.GetProperties();
             Items = (
-                from n in props
-                where n.GetCustomAttribute(typeof(SettingsAttribute)) != null
-                select new SettingWrapper(n)
+                from prop in props
+                where prop.GetCustomAttribute(typeof(SettingsAttribute)) != null
+                select new SettingWrapper(prop)
             ).ToList();
         }
     }

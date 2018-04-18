@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HandSchool
 {
-    public partial class Core
+    public sealed partial class Core
     {
         private static Core _instance;
         public static Core App => _instance;
@@ -30,8 +30,8 @@ namespace HandSchool
                     Schools.Add(info.GetValue(_instance) as ISchoolWrapper);
             }
 
-            _instance.JLU.PreLoad();
-            _instance.JLU.PostLoad();
+            _instance.Blank.PreLoad();
+            _instance.Blank.PostLoad();
         }
     }
 
