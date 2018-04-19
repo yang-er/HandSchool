@@ -46,6 +46,7 @@ namespace HandSchool
         class BlankSchool : NotifyPropertyChanged, ISchoolSystem
         {
             private string feedUrl = "";
+            private string weatherLoc = "长春";
 
             public BlankSchool()
             {
@@ -55,6 +56,7 @@ namespace HandSchool
                 else config = new SettingsJSON();
                 DailyClassCount = config.DailyClassCount;
                 FeedUrl = config.FeedUri;
+                WeatherLocation = config.WeatherLocation;
             }
 
             public string ServerUri => "";
@@ -84,6 +86,13 @@ namespace HandSchool
             {
                 get => feedUrl;
                 set => SetProperty(ref feedUrl, value);
+            }
+
+            [Settings("天气位置", "首页天气显示的位置。")]
+            public string WeatherLocation
+            {
+                get => weatherLoc;
+                set => SetProperty(ref weatherLoc, value);
             }
 
             public AwaredWebClient WebClient { get; set; }
@@ -117,7 +126,7 @@ namespace HandSchool
 
             public void SaveSettings()
             {
-                var save = Serialize(new SettingsJSON { DailyClassCount = Core.App.DailyClassCount, FeedUri = feedUrl });
+                var save = Serialize(new SettingsJSON { DailyClassCount = Core.App.DailyClassCount, FeedUri = feedUrl, WeatherLocation = weatherLoc });
                 WriteConfFile("blank.config.json", save);
             }
 
@@ -125,6 +134,7 @@ namespace HandSchool
             {
                 public int DailyClassCount { get; set; } = 10;
                 public string FeedUri { get; set; } = "";
+                public string WeatherLocation { get; set; } = "长春";
             }
         }
         

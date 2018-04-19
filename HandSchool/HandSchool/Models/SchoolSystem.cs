@@ -13,6 +13,7 @@ namespace HandSchool.Services
         int CurrentWeek { get; set; }
         string WelcomeMessage { get; }
         string CurrentMessage { get; }
+        string WeatherLocation { get; }
         Task<string> Post(string url, string send);
         Task<string> Get(string url);
         Task<bool> RequestLogin();

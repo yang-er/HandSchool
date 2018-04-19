@@ -87,6 +87,8 @@ namespace HandSchool.UWP
             }
             else if (e.Content is MessageDetailPage page)
             {
+                selected = NavigationView.SelectedItem;
+                /*
                 if (page.Tag is FeedItem)
                 {
                     selected = NavMenuItems.Find((item) => item.Tag as Type == typeof(FeedPage));
@@ -94,7 +96,7 @@ namespace HandSchool.UWP
                 else if (page.Tag is IMessageItem)
                 {
                     selected = NavMenuItems.Find((item) => item.Tag as Type == typeof(MessagePage));
-                }
+                }*/
             }
             else
             {

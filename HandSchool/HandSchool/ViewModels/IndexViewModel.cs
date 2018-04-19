@@ -61,7 +61,7 @@ namespace HandSchool.ViewModels
             try
             {
                 var wc = new AwaredWebClient("https://www.sojson.com/open/api/weather/", Encoding.UTF8);
-                weatherJson = await wc.GetAsync("json.shtml?city=长春");
+                weatherJson = await wc.GetAsync("json.shtml?city=" + Core.App.Service.WeatherLocation);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(weatherJson);
                 string high = jo["data"]["forecast"][0]["high"].ToString();
                 string low = jo["data"]["forecast"][0]["low"].ToString();

@@ -71,6 +71,7 @@ namespace HandSchool.JLU
         public AwaredWebClient WebClient { get; set; }
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
+        public string WeatherLocation => "长春";
         public LoginValue LoginInfo { get; set; }
         public int CurrentWeek { get; set; }
         
