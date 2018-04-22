@@ -31,6 +31,11 @@ namespace HandSchool
                 group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", () => new CollegeIntroduce()));
                 Core.App.InfoEntrances.Add(group1);
             }
+
+            public override string ToString()
+            {
+                return SchoolName;
+            }
         }
     }
 }

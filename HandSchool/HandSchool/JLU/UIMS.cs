@@ -23,7 +23,8 @@ namespace HandSchool.JLU
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
         public bool Confrimed { get; set; } = false;
-    
+
+        [Settings("提示", "目前好像没有可用设置。", -233)]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
@@ -70,6 +71,7 @@ namespace HandSchool.JLU
         public AwaredWebClient WebClient { get; set; }
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => "http://uims.jlu.edu.cn/ntms/";
+        public string WeatherLocation => "长春";
         public LoginValue LoginInfo { get; set; }
         public int CurrentWeek { get; set; }
         
@@ -122,7 +124,7 @@ namespace HandSchool.JLU
             if (Username == "" || Password == "")
             {
                 NeedLogin = true;
-                throw new NotImplementedException("Show Login Panel Not Finished");
+                return false;
             }
             else
             {
@@ -208,6 +210,11 @@ namespace HandSchool.JLU
         {
             await RequestLogin();
             return await WebClient.GetAsync(url);
+        }
+
+        public void SaveSettings()
+        {
+            
         }
     }
 }

@@ -16,7 +16,7 @@ namespace HandSchool
             InitializeComponent();
             Core.Initialize();
             NavigationViewModel.Instance.IsBusy = false;
-            MainPage = new MainPage();
+            MainPage = NavigationViewModel.GetMainPage();
         }
         
         protected override void OnStart ()

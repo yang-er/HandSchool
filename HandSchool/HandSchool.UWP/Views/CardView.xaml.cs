@@ -15,12 +15,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace HandSchool.UWP
 {
-    public sealed partial class MainPage
+    public sealed partial class CardView : UserControl
     {
-        public MainPage()
+        public Symbol Icon { get; set; } = Symbol.Emoji;
+        public UIElementCollection Children => StackPanel.Children;
+
+        public CardView()
         {
-            this.InitializeComponent();
-            LoadApplication(new HandSchool.App());
+            InitializeComponent();
         }
     }
 }

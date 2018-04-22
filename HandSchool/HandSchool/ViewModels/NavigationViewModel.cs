@@ -35,8 +35,8 @@ namespace HandSchool.ViewModels
 
         public static Page GetMainPage()
         {
-#if __IOS__
-            return new MainPage();
+#if __UWP__
+            return null;
 #else
             return new MainPage();
 #endif

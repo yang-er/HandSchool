@@ -13,18 +13,16 @@ using NavDataItem = HandSchool.Models.MasterPageItem;
 
 namespace HandSchool.UWP
 {
-    public sealed partial class TestMainPage : Page
+    public sealed partial class MainPage : Page
     {
         public CommandBar CommandBar { get; set; }
         private bool _isSettingsInvoked = false;
 
         private List<NavigationViewItem> NavMenuItems;
 
-        public TestMainPage()
+        public MainPage()
         {
             InitializeComponent();
-            
-            Core.Initialize();
             
             NavMenuItems = (
                 from item in NavigationViewModel.Instance.PrimaryItems
@@ -45,7 +43,13 @@ namespace HandSchool.UWP
             SystemNavigationManager.GetForCurrentView().BackRequested += ContentFrame_BackRequested;
             ContentFrame.Navigate(typeof(IndexPage));
         }
-        
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+        }
+
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             if (args.InvokedItem is NavDataItem item)
@@ -83,6 +87,8 @@ namespace HandSchool.UWP
             }
             else if (e.Content is MessageDetailPage page)
             {
+                selected = NavigationView.SelectedItem;
+                /*
                 if (page.Tag is FeedItem)
                 {
                     selected = NavMenuItems.Find((item) => item.Tag as Type == typeof(FeedPage));
@@ -90,7 +96,7 @@ namespace HandSchool.UWP
                 else if (page.Tag is IMessageItem)
                 {
                     selected = NavMenuItems.Find((item) => item.Tag as Type == typeof(MessagePage));
-                }
+                }*/
             }
             else
             {

@@ -2,11 +2,14 @@
 using HandSchool.Internal;
 using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
@@ -30,15 +33,31 @@ namespace HandSchool
             {
                 var sch = new BlankSchool();
                 Core.App.Service = sch;
-                Core.App.DailyClassCount = 10;
                 Core.App.Schedule = new Schedule();
                 if (sch.FeedUrl != "") Core.App.Feed = new FeedEntrance(sch.FeedUrl);
+            }
+
+            public override string ToString()
+            {
+                return SchoolName;
             }
         }
 
         class BlankSchool : NotifyPropertyChanged, ISchoolSystem
         {
             private string feedUrl = "";
+            private string weatherLoc = "长春";
+
+            public BlankSchool()
+            {
+                var lp = ReadConfFile("blank.config.json");
+                SettingsJSON config;
+                if (lp != "") config = JSON<SettingsJSON>(lp);
+                else config = new SettingsJSON();
+                DailyClassCount = config.DailyClassCount;
+                FeedUrl = config.FeedUri;
+                WeatherLocation = config.WeatherLocation;
+            }
 
             public string ServerUri => "";
             public string Username { get; set; } = "";
@@ -46,7 +65,10 @@ namespace HandSchool
             public bool IsLogin => true;
             public bool NeedLogin => false;
             public int CurrentWeek { get; set; } = 1;
+
+            [Settings("提示", "保存使设置永久生效，部分设置重启后生效。", -233)]
             public string Tips => "";
+
             public bool AutoLogin { get; set; } = true;
             public bool SavePassword { get; set; } = true;
             public string WelcomeMessage => "欢迎。";
@@ -64,6 +86,13 @@ namespace HandSchool
             {
                 get => feedUrl;
                 set => SetProperty(ref feedUrl, value);
+            }
+
+            [Settings("天气位置", "首页天气显示的位置。")]
+            public string WeatherLocation
+            {
+                get => weatherLoc;
+                set => SetProperty(ref weatherLoc, value);
             }
 
             public AwaredWebClient WebClient { get; set; }
@@ -93,6 +122,19 @@ namespace HandSchool
             {
                 await Task.Run(() => System.Diagnostics.Debug.WriteLine("Blank->RequestLogin()"));
                 return false;
+            }
+
+            public void SaveSettings()
+            {
+                var save = Serialize(new SettingsJSON { DailyClassCount = Core.App.DailyClassCount, FeedUri = feedUrl, WeatherLocation = weatherLoc });
+                WriteConfFile("blank.config.json", save);
+            }
+
+            class SettingsJSON
+            {
+                public int DailyClassCount { get; set; } = 10;
+                public string FeedUri { get; set; } = "";
+                public string WeatherLocation { get; set; } = "长春";
             }
         }
         
@@ -147,26 +189,56 @@ namespace HandSchool
 
         class FeedEntrance : IFeedEntrance
         {
-            public string Name => "消息通知";
+            public string Name => "RSS阅读器";
             public string ScriptFileUri { get; }
             public bool IsPost => false;
-            public string PostValue => "";
+            public string PostValue => string.Empty;
             public string StorageFile => "blank.feed.xml";
-            public string LastReport { get; private set; }
+            public string LastReport { get; private set; } = string.Empty;
+            public DateTime LastUpdate { get; private set; }
+
+            public FeedEntrance(string url)
+            {
+                ScriptFileUri = url;
+                var lu = ReadConfFile(StorageFile + ".time");
+                if (lu == "" || (LastUpdate = DateTime.Parse(lu)).AddHours(1).CompareTo(DateTime.Now) == -1)
+                {
+                    Task.Run(Execute);
+                }
+                else
+                {
+                    LastReport = ReadConfFile(StorageFile);
+                    Parse();
+                }
+            }
 
             public async Task Execute()
             {
-                await Task.Run(() => System.Diagnostics.Debug.WriteLine("HandSchool.Blank.FeedIntrance->Excute()"));
+                using (var client = new AwaredWebClient("", System.Text.Encoding.UTF8))
+                    LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
+                LastReport = LastReport.Trim();
+                WriteConfFile(StorageFile, LastReport);
+                WriteConfFile(StorageFile + ".time", DateTime.Now.ToString());
+                Parse();
             }
 
             public void Parse()
             {
-                System.Diagnostics.Debug.WriteLine("HandSchool.Blank.FeedIntrance->Parse()");
-            }
-
-            public FeedEntrance(string uri)
-            {
-                ScriptFileUri = uri;
+                if (LastReport == "") return;
+                var xdoc = XDocument.Parse(LastReport);
+                var id = 0;
+                var items = (from item in xdoc.Root.Element("channel").Descendants("item")
+                             select new FeedItem
+                             {
+                                 Title = (string)item.Element("title"),
+                                 Description = (string)item.Element("description"),
+                                 PubDate = (string)item.Element("pubDate"),
+                                 Category = (string)item.Elements("category").Last(),
+                                 Link = (string)item.Element("link"),
+                                 Id = id++
+                             });
+                FeedViewModel.Instance.Items.Clear();
+                foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
             }
         }
     }
