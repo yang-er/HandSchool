@@ -39,7 +39,8 @@ namespace HandSchool.Views
         public static readonly BindableProperty AttributeProperty =
             BindableProperty.Create(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueCell), default(SettingsAttribute), BindingMode.TwoWay);
         #endregion
-
+        Label title;
+        Label descriptionlabel;
         public ValueCell()
         {
             InitializeComponent();
@@ -89,6 +90,20 @@ namespace HandSchool.Views
 
         private void SetControl(SettingTypes value)
         {
+            title = new Label
+            {
+                Text = TitleText,
+                FontSize = 20
+            };
+            descriptionlabel = new Label
+            {
+                Text = Description,
+                FontSize = 20
+            };
+            Grid.SetColumn(title, 0);
+            Grid.SetRow(title, 0);
+            Grid.SetColumn(descriptionlabel, 0);
+            Grid.SetRow(descriptionlabel, 2);
             switch (value)
             {
                 case SettingTypes.Integer:
@@ -98,16 +113,6 @@ namespace HandSchool.Views
                         Minimum = Attribute.RangeDown,
                         Value = 1,
                     };
-                    var title = new Label
-                    {
-                        Text = TitleText,
-                        FontSize = 20
-                    };
-                    var descriptionlabel = new Label
-                    {
-                        Text = Description,
-                        FontSize = 20
-                    };
                     nmr.SetBinding(Slider.ValueProperty, new Binding { Source = this, Path = "NumericValue", Mode = BindingMode.TwoWay });
                     var ind = new Label();
                     ind.VerticalOptions = LayoutOptions.Center;
@@ -116,10 +121,6 @@ namespace HandSchool.Views
                     Grid.SetColumn(nmr, 0);
                     Grid.SetRow(nmr, 1);
 
-                    Grid.SetColumn(title, 0);
-                    Grid.SetRow(title, 0);
-                    Grid.SetColumn(descriptionlabel,0);
-                    Grid.SetRow(descriptionlabel,2);
                     ind.SetBinding(Label.TextProperty, new Binding { Source = this, Path = "NumericValue" });
                     grid.Children.Add(nmr);
                     grid.Children.Add(ind);
@@ -127,13 +128,21 @@ namespace HandSchool.Views
                     grid.Children.Add(title);
                     break;
                 case SettingTypes.String:
+
                     var tb = new Entry();
                     Grid.SetRow(tb, 1);
                     tb.SetBinding(Entry.TextProperty, new Binding { Source = this, Path = "StringValue", Mode = BindingMode.TwoWay });
                     grid.Children.Add(tb);
+                    grid.Children.Add(descriptionlabel);
+                    grid.Children.Add(title);
                     break;
+                case SettingTypes.Const:
+                    break;
+
                 default:
-                    grid.Children.Add(new Entry { Text = "Unknown" });
+                    grid.Children.Add(new Label { Text = "Unknown" });
+                    grid.Children.Add(descriptionlabel);
+                    grid.Children.Add(title);
                     break;
             }
         }

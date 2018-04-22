@@ -31,7 +31,7 @@ namespace HandSchool
                     Schools.Add(info.GetValue(_instance) as ISchoolWrapper);
             }
 
-            var type = ReadConfFile("hs.school.bin");
+            var type = "jlu";
             if (type == "")
             {
                 return false;
