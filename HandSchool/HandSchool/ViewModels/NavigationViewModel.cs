@@ -23,6 +23,13 @@ namespace HandSchool.ViewModels
         
         private NavigationViewModel()
         {
+            FetchOptions();
+        }
+
+        public void FetchOptions()
+        {
+            PrimaryItems.Clear();
+            SecondaryItems.Clear();
             PrimaryItems.Add(new MasterPageItem("首页", "IndexPage", "\xE10F", "tab_feed.png", true));
             PrimaryItems.Add(new MasterPageItem("课程表", "SchedulePage", "\xECA5", "tab_feed.png"));
             if (Core.App.Feed != null) PrimaryItems.Add(new MasterPageItem("学校通知", "FeedPage", "\xED0D", "tab_feed.png"));

@@ -9,7 +9,7 @@ namespace HandSchool
     {
         private static Core _instance;
         public static Core App => _instance;
-        public bool Confirmed { get; set; } = false;
+        public bool Loaded { get; set; } = false;
         public ISchoolSystem Service;
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
@@ -41,6 +41,7 @@ namespace HandSchool
                 var current = Schools.Find((sw) => sw.SchoolId == type);
                 current.PreLoad();
                 current.PostLoad();
+                _instance.Loaded = true;
                 return true;
             }
         }

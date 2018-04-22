@@ -14,20 +14,36 @@ namespace HandSchool.Views
 		{
 			InitializeComponent();
 
+
+            if (!Core.App.Loaded)
+            {
+                Detail = new SelectTypePage();
+            }
+            else
+            {
+                Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
+                SetOutline();
+            }
+        }
+        
+        private void SetOutline()
+        {
+            Outline.PrimaryListView.ItemsSource = NavigationViewModel.Instance.PrimaryItems;
+            Outline.SecondaryListView.ItemsSource = NavigationViewModel.Instance.SecondaryItems;
+            Outline.SecondaryListView.HeightRequest = 12 + 48 * NavigationViewModel.Instance.SecondaryItems.Count;
+
             Outline.PrimaryListView.ItemSelected += MasterPageItemSelected;
             Outline.SecondaryListView.ItemSelected += MasterPageItemSelected;
-            
-            Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
+
+            Core.App.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) Outline.UpdateSideBar(); };
+            Outline.UpdateSideBar();
         }
 
-        protected override void OnAppearing()
+        public void FinishSettings()
         {
-            base.OnAppearing();
-
-            if(Core.App.Service.NeedLogin && !Core.App.Service.IsLogin)
-            {
-                LoginViewModel.RequestAsync(Core.App.Service);
-            }
+            SetOutline();
+            NavigationViewModel.Instance.FetchOptions();
+            Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
         }
 
         private async void MasterPageItemSelected(object sender, SelectedItemChangedEventArgs e)

@@ -14,11 +14,6 @@ namespace HandSchool.Views
         public OutlinePage()
 		{
 			InitializeComponent();
-            PrimaryListView.ItemsSource = NavigationViewModel.Instance.PrimaryItems;
-            SecondaryListView.ItemsSource = NavigationViewModel.Instance.SecondaryItems;
-            SecondaryListView.HeightRequest = 12 + 48 * NavigationViewModel.Instance.SecondaryItems.Count;
-            Core.App.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) UpdateSideBar(); };
-            UpdateSideBar();
             LayoutChanged += WSizeChanged;
         }
 
