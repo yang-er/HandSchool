@@ -7,8 +7,6 @@ namespace HandSchool.UWP
 {
     public sealed partial class SelectTypePage : Page
     {
-        private static int newViewId = 0;
-
         public SelectTypePage()
         {
             InitializeComponent();

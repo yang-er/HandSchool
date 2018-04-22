@@ -14,8 +14,7 @@ namespace HandSchool
         public App()
         {
             InitializeComponent();
-            Core.Initialize();
-            NavigationViewModel.Instance.IsBusy = false;
+            var loaded = Core.Initialize();
             MainPage = NavigationViewModel.GetMainPage();
         }
         
