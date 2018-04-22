@@ -9,12 +9,12 @@ using HandSchool.Internal;
 
 namespace HandSchool.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AboutPage : ContentPage
-	{
-		public AboutPage()
-		{
-			InitializeComponent();
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class AboutPage : ContentPage
+    {
+        public AboutPage()
+        {
+            InitializeComponent();
             BindingContext = AboutViewModel.Instance;
             AboutViewModel.Instance.BindingContext = new ViewResponse(this);
             var sb = new StringBuilder();

@@ -21,7 +21,7 @@ namespace HandSchool.Views
             InfoEntrance.HtmlDocument.ToHtml(sb);
             WebView.Html = sb.ToString();
             foreach (var key in InfoEntrance.Menu)
-                ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
+            ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
             entrance.Evaluate = WebView.JavaScript;
         }
     }

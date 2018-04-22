@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:w="clr-namespace:HandSchool.Views"
+             x:Class="HandSchool.Views.SettingPage"
+             xmlns:local="clr-namespace:HandSchool.Views"
+             Title="{Binding Title}"
+             x:Name="ThisPage">
+    <ListView x:Name="MyListView"
+              ItemsSource="{Binding Items}"
+              RowHeight="150"
+              ItemSelected="itemseleted">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <w:ValueCell TitleText="{Binding Title}" Description="{Binding Description}" Value="{Binding Value}" Attribute="{Binding AttributeData}" Type="{Binding Type, Mode=OneWay}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+    
+</ContentPage>

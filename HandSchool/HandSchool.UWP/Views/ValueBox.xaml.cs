@@ -19,14 +19,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace HandSchool.UWP
 {
-    public sealed partial class ValueBox : UserControl
+    public sealed partial class ValueBox: UserControl
     {
         public static readonly DependencyProperty ValueProperty = 
             DependencyProperty.Register("Value", typeof(object), typeof(ValueBox), new PropertyMetadata(null));
         public static readonly DependencyProperty NumericValueProperty =
             DependencyProperty.Register("NumericValue", typeof(int), typeof(ValueBox), new PropertyMetadata(0, (d, e) => d.SetValue(ValueProperty, e.NewValue)));
         public static readonly DependencyProperty StringValueProperty =
-            DependencyProperty.Register("StringValue", typeof(object), typeof(ValueBox), new PropertyMetadata("", (d, e) => d.SetValue(ValueProperty, e.NewValue)));
+            DependencyProperty.Register("StringValue", typeof(string), typeof(ValueBox), new PropertyMetadata("", (d, e) => d.SetValue(ValueProperty, e.NewValue)));
         public static readonly DependencyProperty TypeProperty = 
             DependencyProperty.Register("Type", typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unkown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
         public static readonly DependencyProperty AttributeProperty = 
@@ -51,8 +51,8 @@ namespace HandSchool.UWP
         
         private int NumericValue
         {
-            get => (int)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
+            get => (int)GetValue(NumericValueProperty);
+            set => SetValue(NumericValueProperty, value);
         }
 
         private string StringValue
