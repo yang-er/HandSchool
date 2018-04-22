@@ -12,9 +12,14 @@
               ItemSelected="itemseleted">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <w:ValueCell TitleText="{Binding Title}" Description="{Binding Description}" Value="{Binding Value}" Attribute="{Binding AttributeData}" Type="{Binding Type, Mode=OneWay}" />
+                <ViewCell>
+                    <StackLayout>
+                        <Label Text="{Binding Title}" FontSize="16" />
+                        <w:ValueCell Value="{Binding Value}" Attribute="{Binding AttributeData}" Type="{Binding Type}" />
+                        <Label Text="{Binding Description}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-    
 </ContentPage>
