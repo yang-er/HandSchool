@@ -21,6 +21,7 @@ namespace HandSchool.Models
         private string title;
         private string destpg_type;
         private NavigationPage _destpg;
+        public FileImageSource appleIcon = null;
 
         public MasterPageItem() { }
 
@@ -35,10 +36,7 @@ namespace HandSchool.Models
             else if (Device.RuntimePlatform == Device.iOS)
             {
                 destpg_type = "HandSchool.Views." + dest;
-                throw new NotImplementedException();
-                // DestPage = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance("HandSchool.Views." + dest) as Page);
-                // DestPage.Icon = new FileImageSource { File = apple };
-                // DestPage.Title = title;
+                appleIcon = new FileImageSource { File = apple };
             }
             else if (Device.RuntimePlatform == Device.UWP)
             {
@@ -59,7 +57,8 @@ namespace HandSchool.Models
                 {
                     _destpg = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance(destpg_type) as Page)
                     {
-                        Title = title
+                        Title = title,
+                        Icon = appleIcon
                     };
                 }
 
