@@ -1,29 +1,27 @@
-﻿using System;
-using System.Text;
-using System.Windows.Input;
+﻿using HandSchool.ViewModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using HandSchool.Internal.HtmlObject;
-using HandSchool.ViewModels;
-using HandSchool.Internal;
-using HandSchool.Models;
-using System.Diagnostics;
 
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingPage : ContentPage
     {
-
         public SettingPage()
         {
             InitializeComponent();
             BindingContext = SettingViewModel.Instance;
         }
-        public void itemseleted(object sender, EventArgs e)//unseleted the fucking item
+
+        public void ListView_ItemSelected(object sender, EventArgs e)
         {
-            ListView lv = sender as ListView;
-            lv.SelectedItem = null;
+            (sender as ListView).SelectedItem = null;
+        }
+
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            await (new WebViewPage(AboutViewModel.Instance)).ShowAsync(Navigation);
         }
     }
 }

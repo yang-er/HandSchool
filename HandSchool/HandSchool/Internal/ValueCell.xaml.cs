@@ -1,13 +1,5 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
-using HandSchool.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,31 +8,30 @@ namespace HandSchool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ValueCell : ContentView
     {
-        public static readonly BindableProperty ValueProperty =
-            BindableProperty.Create(nameof(Value), typeof(object), typeof(ValueCell), null, BindingMode.TwoWay);
-        
+        public static readonly BindableProperty WrapperProperty =
+            BindableProperty.Create(nameof(Wrapper), typeof(SettingWrapper), typeof(ValueCell), null);
+
         public static readonly BindableProperty NumericValueProperty =
-            BindableProperty.Create(nameof(NumericValue), returnType: typeof(int), declaringType: typeof(ValueCell), defaultValue: 0, defaultBindingMode: BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => bindable.SetValue(NumericValueProperty, newvalue)));
+            BindableProperty.Create(nameof(NumericValue), returnType: typeof(int), declaringType: typeof(ValueCell), defaultValue: 0, defaultBindingMode: BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
 
         public static readonly BindableProperty TypeProperty =
             BindableProperty.Create(nameof(Type), typeof(SettingTypes), typeof(ValueCell), SettingTypes.Unkown, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).SetControl((SettingTypes)newvalue)));
 
         public static readonly BindableProperty StringValueProperty =
-            BindableProperty.Create(nameof(StringValue), typeof(string), typeof(ValueCell), "", BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => bindable.SetValue(ValueProperty, newvalue)));
+            BindableProperty.Create(nameof(StringValue), typeof(string), typeof(ValueCell), "", BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
 
         public static readonly BindableProperty AttributeProperty =
-            BindableProperty.Create(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueCell), default(SettingsAttribute), BindingMode.TwoWay);
+            BindableProperty.Create(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueCell), default(SettingsAttribute), BindingMode.OneWay);
         
         public ValueCell()
         {
             InitializeComponent();
         }
-
-
-        public object Value
+        
+        public SettingWrapper Wrapper
         {
-            get { return GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            get => GetValue(WrapperProperty) as SettingWrapper;
+            set => SetValue(WrapperProperty, value);
         }
 
         public SettingTypes Type
@@ -63,42 +54,44 @@ namespace HandSchool.Views
         
         public string StringValue
         {
-            get { return (string)GetValue(StringValueProperty); }
-            set { SetValue(StringValueProperty, value); }
+            get => (string)GetValue(StringValueProperty);
+            set => SetValue(StringValueProperty, value);
 
         }
-
-
+        
         private void SetControl(SettingTypes value)
         {
             switch (value)
             {
                 case SettingTypes.Integer:
+                    NumericValue = (int)Wrapper.Value;
+
                     var nmr = new Slider
                     {
                         Maximum = Attribute.RangeUp,
                         Minimum = Attribute.RangeDown,
                         Value = 1,
                     };
+
                     nmr.SetBinding(Slider.ValueProperty, new Binding { Source = this, Path = "NumericValue", Mode = BindingMode.TwoWay });
-                    var ind = new Label();
-                    ind.VerticalOptions = LayoutOptions.Center;
+                    var ind = new Label { VerticalOptions = LayoutOptions.Center };
                     Grid.SetColumn(ind, 1);
-                    Grid.SetRow(ind, 1);
                     Grid.SetColumn(nmr, 0);
-                    Grid.SetRow(nmr, 1);
 
                     ind.SetBinding(Label.TextProperty, new Binding { Source = this, Path = "NumericValue" });
                     grid.Children.Add(nmr);
                     grid.Children.Add(ind);
                     break;
+
                 case SettingTypes.String:
+                    StringValue = (string)Wrapper.Value;
 
                     var tb = new Entry();
-                    Grid.SetRow(tb, 1);
+                    Grid.SetColumnSpan(tb, 2);
                     tb.SetBinding(Entry.TextProperty, new Binding { Source = this, Path = "StringValue", Mode = BindingMode.TwoWay });
                     grid.Children.Add(tb);
                     break;
+
                 case SettingTypes.Const:
                     break;
 

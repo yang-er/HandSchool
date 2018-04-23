@@ -61,14 +61,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ConfigPage.xaml.cs">
-      <DependentUpon>ConfigPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\CurriculumPage.xaml.cs">
       <DependentUpon>CurriculumPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -109,7 +101,7 @@
       <DependentUpon>SchedulePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ValueCell.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml.cs">
       <DependentUpon>ValueCell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -172,19 +164,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ConfigPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ValueCell.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
