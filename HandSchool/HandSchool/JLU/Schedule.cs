@@ -1,9 +1,9 @@
 ﻿using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
+using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -17,24 +17,19 @@ namespace HandSchool.JLU
         public List<CurriculumItem> Items { get; }
         public string StorageFile => "jlu.kcb.json";
         public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
-        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + App.Current.Service.AttachInfomation["term"] + ",\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
+        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":" + Core.App.Service.AttachInfomation["term"] + ",\"studId\":" + Core.App.Service.AttachInfomation["studId"] + "}}";
 
-        public void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false)
+        public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
         {
             if (showAll)
                 throw new NotImplementedException();
 
-            int index = 0;
-            foreach (var item in Items)
-            {
-                if (showAll || item.IfShow(week))
-                    list.Add(new CurriculumLabel(item, index++));
-            }
+            list = Items.FindAll((item) => showAll || item.IfShow(week));
         }
 
         public async Task Execute()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             // LastReport = ReadConfFile(StorageFile);
             WriteConfFile(StorageFile, LastReport);
             Parse();
@@ -53,16 +48,18 @@ namespace HandSchool.JLU
                     {
                         WeekBegin = int.Parse(time.timeBlock.beginWeek),
                         WeekEnd = int.Parse(time.timeBlock.endWeek),
-                        WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
+                        WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "E" ? 1 : 0)),
                         WeekDay = int.Parse(time.timeBlock.dayOfWeek),
                         Classroom = time.classroom.fullName,
                         CourseID = obj.teachClassMaster.name,
                         SelectDate = obj.dateAccept,
                         Name = obj.teachClassMaster.lessonSegment.fullName,
                     };
+
                     foreach (var t in obj.teachClassMaster.lessonTeachers)
                         item.Teacher += t.teacher.name + " ";
                     item.Teacher = item.Teacher.Trim();
+
                     int tmp = int.Parse(time.timeBlock.classSet);
                     int tmp2 = tmp & (-tmp);
                     while (tmp != 0)
@@ -76,6 +73,7 @@ namespace HandSchool.JLU
                         else if (tmp >= 1)
                             item.DayEnd++;
                     }
+
                     Items.Add(item);
                 }
             }
@@ -129,10 +127,7 @@ namespace HandSchool.JLU
         
         public void Save()
         {
-            Items.Sort((CurriculumItem x, CurriculumItem y) =>
-            {
-                return (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin);
-            });
+            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
             WriteConfFile("jlu.kcb2.json", Serialize(Items));
         }
 

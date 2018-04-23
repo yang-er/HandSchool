@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -26,7 +27,8 @@ namespace HandSchool.Views
             DefRow = new RowDefinition { Height = GridLength.Star };
 
             BindingContext = ScheduleViewModel.Instance;
-            ScheduleViewModel.Instance.BindingPage = this;
+            ScheduleViewModel.Instance.RefreshComplete += LoadList;
+            AddCommander.CommandParameter = Navigation;
 
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
@@ -36,7 +38,7 @@ namespace HandSchool.Views
                 grid.ColumnDefinitions.Add(DefCol);
             }
 
-            for (int ij = 1; ij <= App.Current.DailyClassCount; ij++)
+            for (int ij = 1; ij <= Core.App.DailyClassCount; ij++)
             {
                 grid.RowDefinitions.Add(DefRow);
                 grid.Children.Add(new Label()
@@ -56,10 +58,23 @@ namespace HandSchool.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ScheduleViewModel.Instance.LoadList();
+            LoadList();
             System.Diagnostics.Debug.WriteLine("SchedulePage.OnAppearing. Redrawing.");
         }
-        
+
+        public void LoadList()
+        {
+            for (int i = grid.Children.Count; i > 7 + Core.App.DailyClassCount; i--)
+            {
+                grid.Children.RemoveAt(i - 1);
+            }
+
+            // Render classes
+            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list);
+            for (int i = 0; i < list.Count; i++)
+                grid.Children.Add(new CurriculumLabel(list[i], i));
+        }
+
         void SetTileSize(object sender, EventArgs e)
         {
             if (Width > Height && !IsWider) 

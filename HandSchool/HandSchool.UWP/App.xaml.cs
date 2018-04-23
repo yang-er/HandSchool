@@ -45,7 +45,7 @@ namespace HandSchool.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
+            var loaded = Core.Initialize();
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -74,17 +74,20 @@ namespace HandSchool.UWP
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(loaded ? typeof(MainPage) : typeof(SelectTypePage), e.Arguments);
             }
             // Ensure the current window is active
             Window.Current.Activate();
 
             var coreBar = CoreApplication.GetCurrentView().TitleBar;
-            coreBar.ExtendViewIntoTitleBar = false;
+            coreBar.ExtendViewIntoTitleBar = true;
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = Colors.Black;
 
             return;
             
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            
             var themeColor = Color.FromArgb(255, 33, 150, 243);
             titleBar.BackgroundColor = themeColor;
 

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using HandSchool.Models;
+using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
@@ -7,7 +8,7 @@ namespace HandSchool.Views
 		public MessageDetailPage(IMessageItem item)
 		{
             Title = "消息详情";
-            ToolbarItems.Add(new ToolbarItem() { Text = "删除" });
+            ToolbarItems.Add(new ToolbarItem() { Text = "删除", Command = item.Delete });
             Content = new StackLayout
             {
                 Spacing = 10,

@@ -18,11 +18,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Blank.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\LoadingBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ViewResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoginField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
@@ -37,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\InfoEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Setting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
@@ -57,10 +60,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\ConfigPage.xaml.cs">
-      <DependentUpon>ConfigPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CurriculumPage.xaml.cs">
       <DependentUpon>CurriculumPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -80,8 +80,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SelectTypePage.xaml.cs">
+      <DependentUpon>SelectTypePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\MessagePage.xaml.cs">
       <DependentUpon>MessagePage.xaml</DependentUpon>
@@ -97,13 +101,17 @@
       <DependentUpon>SchedulePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml.cs">
+      <DependentUpon>ValueCell.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\WebViewPage.xaml.cs">
       <DependentUpon>WebViewPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SettingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
@@ -156,9 +164,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ConfigPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SelectTypePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <!--#if (CreateBackendProject)

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using HandSchool.Models;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
@@ -9,7 +10,7 @@ namespace HandSchool.Views
 		public InfoQueryPage()
 		{
 			InitializeComponent();
-            MyListView.ItemsSource = App.Current.InfoEntrances;
+            MyListView.ItemsSource = Core.App.InfoEntrances;
         }
 
         async void ItemTapped(object sender, ItemTappedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,12 @@ namespace HandSchool.ViewModels
     {
         private int week;
         private static ScheduleViewModel instance = null;
-        private RowDefinition DefRow;
-        private ColumnDefinition DefCol;
-        private GridLength RowHeight, ColWidth;
 
+        public int Week => week;
         public string CurrentWeek => $"第{week}周";
-        public SchedulePage BindingPage { get; set; }
         public Command RefreshCommand { get; set; }
         public Command AddCommand { get; set; }
+        public event Action RefreshComplete;
 
         public static ScheduleViewModel Instance
         {
@@ -39,8 +38,8 @@ namespace HandSchool.ViewModels
 
         private ScheduleViewModel()
         {
-            App.Current.Service.LoginStateChanged += SyncData;
-            week = App.Current.Service.CurrentWeek;
+            Core.App.Service.LoginStateChanged += SyncData;
+            week = Core.App.Service.CurrentWeek;
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Create);
             Title = "课程表";
@@ -51,28 +50,24 @@ namespace HandSchool.ViewModels
             if (IsBusy) return;
             IsBusy = true;
                 var alert = Internal.Helper.ShowLoadingAlert("正在加载课程表……");
-            await App.Current.Schedule.Execute();
-            LoadList();
+            await Core.App.Schedule.Execute();
+            RefreshComplete?.Invoke();
             alert.Invoke();
             IsBusy = false;
         }
 
-        public void LoadList()
-        {
-            var grid = BindingPage.grid;
-
-            for (int i = grid.Children.Count; i > 7 + App.Current.DailyClassCount; i--)
-            {
-                grid.Children.RemoveAt(i - 1);
-            }
-
-            // Render classes
-            App.Current.Schedule.RenderWeek(week, grid.Children);
-        }
-
+#if __UWP__
         async void Create()
         {
-            await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true)).ShowAsync(BindingPage.Navigation);
+            var box = new UWP.CurriculumDialog(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true);
+            var result = await box.ShowAsync();
+            if (result == Windows.UI.Xaml.Controls.ContentDialogResult.Primary) RefreshComplete?.Invoke();
         }
+#else
+        async void Create(object param)
+        {
+            await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true)).ShowAsync(param as INavigation);
+        }
+#endif
     }
 }

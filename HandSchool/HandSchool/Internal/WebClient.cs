@@ -131,7 +131,8 @@ namespace HandSchool.Internal
                 {
                     protocolErrorResponses = new WebHeaderCollection { resp.Headers };
                     protocolErrorResponses["Status"] = ((int)resp.StatusCode).ToString();
-                    throw new NotImplementedException("HTTP Code not dealt");
+                    return "";
+                    // throw new NotImplementedException("HTTP Code not dealt");
                 }
                 else
                 {

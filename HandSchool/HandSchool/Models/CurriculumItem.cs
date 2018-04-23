@@ -1,48 +1,68 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
+using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace HandSchool
 {
-    public enum WeekOddEvenNone { Odd, Even, None }
-    
-    public class CurriculumItem
+    namespace Models
     {
-        public string Name { get; set; }
-        public string Teacher { get; set; }
-        public string CourseID { get; set; }
-        public string Classroom { get; set; }
-        public int WeekBegin { get; set; }
-        public int WeekEnd { get; set; }
-        public WeekOddEvenNone WeekOen { get; set; }
-        public int WeekDay { get; set; }
-        public int DayBegin { get; set; }
-        public int DayEnd { get; set; }
-        public DateTime SelectDate { get; set; }
-        public bool IsCustom { get; set; }
+        public enum WeekOddEvenNone { Odd, Even, None }
 
-        public CurriculumItem()
+        public class CurriculumItem : NotifyPropertyChanged
         {
-            Name = Teacher = CourseID = Classroom = string.Empty;
-            WeekBegin = WeekEnd = WeekDay = DayBegin = DayEnd = 0;
-            WeekOen = WeekOddEvenNone.None;
-            SelectDate = DateTime.Now;
-            IsCustom = false;
-        }
-        
-        public bool IfShow(int week)
-        {
-            bool show = ((int)WeekOen == 2) || ((int)WeekOen == week % 2);
-            show &= (week >= WeekBegin) && (week <= WeekEnd);
-            return show;
+            private string _name;
+            private string _teacher;
+            private string _courseID;
+            private string _classroom;
+            private int _weekBegin;
+            private int _weekEnd;
+            private WeekOddEvenNone _weekOen;
+            private int _weekDay;
+            private int _dayBegin;
+            private int _dayEnd;
+            private DateTime _selectDate;
+            private bool _isCustom;
+
+            public string Name { get => _name; set => SetProperty(ref _name, value); }
+            public string Teacher { get => _teacher; set => SetProperty(ref _teacher, value); }
+            public string CourseID { get => _courseID; set => SetProperty(ref _courseID, value); }
+            public string Classroom { get => _classroom; set => SetProperty(ref _classroom, value); }
+            public int WeekBegin { get => _weekBegin; set => SetProperty(ref _weekBegin, value); }
+            public int WeekEnd { get => _weekEnd; set => SetProperty(ref _weekEnd, value); }
+            public WeekOddEvenNone WeekOen { get => _weekOen; set => SetProperty(ref _weekOen, value); }
+            public int WeekDay { get => _weekDay; set => SetProperty(ref _weekDay, value); }
+            public int DayBegin { get => _dayBegin; set => SetProperty(ref _dayBegin, value); }
+            public int DayEnd { get => _dayEnd; set => SetProperty(ref _dayEnd, value); }
+            public DateTime SelectDate { get => _selectDate; set => SetProperty(ref _selectDate, value); }
+            public bool IsCustom { get => _isCustom; set => SetProperty(ref _isCustom, value); }
+
+            public CurriculumItem()
+            {
+                _name = _teacher = _courseID = _classroom = string.Empty;
+                _weekBegin = _weekEnd = _weekDay = _dayBegin = _dayEnd = 0;
+                _weekOen = WeekOddEvenNone.None;
+                _selectDate = DateTime.Now;
+                _isCustom = false;
+            }
+
+            public bool IfShow(int week)
+            {
+                bool show = ((int)_weekOen == 2) || ((int)_weekOen == week % 2);
+                show &= (week >= _weekBegin) && (week <= _weekEnd);
+                return show;
+            }
         }
     }
 
-    public interface IScheduleEntrance : ISystemEntrance
+    namespace Services
     {
-        int ClassNext { get; }
-        List<CurriculumItem> Items { get; }
-        void RenderWeek(int week, Grid.IGridList<View> list, bool showAll = false);
-        void Save();
+        public interface IScheduleEntrance : ISystemEntrance
+        {
+            int ClassNext { get; }
+            List<CurriculumItem> Items { get; }
+            void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false);
+            void Save();
+        }
     }
 }

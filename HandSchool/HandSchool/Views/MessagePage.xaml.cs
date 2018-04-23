@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace HandSchool.Views
             if (e.Item == null)
                 return;
             var a = e.Item as IMessageItem;
-            Task.Run(async () => { await App.Current.Message.SetReadState(a.Id, true); a.Unread = false; });
+            Task.Run(async () => { await Core.App.Message.SetReadState(a.Id, true); a.Unread = false; });
             
             await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 

@@ -7,17 +7,20 @@ namespace HandSchool.Views
     {
         public MainPage()
         {
-            NavigationViewModel.Instance.PrimaryItems.ForEach((obj) => Children.Add(obj.DestPage));
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (App.Current.Service.NeedLogin && !App.Current.Service.IsLogin)
+            if (!Core.App.Loaded)
             {
-                LoginViewModel.RequestAsync(App.Current.Service);
+                Children.Add(new SelectTypePage() { Title = "选择学校", Icon = "tab_feed.png" });
             }
+            else
+            {
+                NavigationViewModel.Instance.PrimaryItems.ForEach((obj) => Children.Add(obj.DestPage));
+            }
+        }
+        
+        public void FinishSettings()
+        {
+            NavigationViewModel.Instance.PrimaryItems.ForEach((obj) => Children.Add(obj.DestPage));
+            Children.RemoveAt(0);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace HandSchool.ViewModels
 
             try
             {
-                await App.Current.Feed.Execute();
+                await Core.App.Feed.Execute();
             }
             catch (Exception ex)
             {

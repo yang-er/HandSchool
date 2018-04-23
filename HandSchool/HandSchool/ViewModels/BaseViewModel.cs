@@ -6,17 +6,18 @@ namespace HandSchool.ViewModels
     {
         bool isBusy = false;
         string title = string.Empty;
-
+        public IViewResponse BindingContext { get; set; }
+        
         public bool IsBusy
         {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
+            get => isBusy;
+            set => SetProperty(ref isBusy, value);
         }
 
         public string Title
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get => title;
+            set => SetProperty(ref title, value);
         }
     }
 }

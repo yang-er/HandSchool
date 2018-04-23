@@ -19,7 +19,7 @@ namespace HandSchool.Views
             Destoried = false;
             if(navigation is null)
             {
-                App.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
+                Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
                 Disappearing += Page_Disappearing;
                 IsModal = true;
             }
@@ -33,7 +33,8 @@ namespace HandSchool.Views
                 }
                 else
                 {
-                    throw new NotSupportedException("This kind of access");
+                    Disappearing += Page_Disappearing;
+                    System.Diagnostics.Debug.WriteLine("Not support this kind of access, may occured some errors.");
                 }
             }
             return ContinueTask;

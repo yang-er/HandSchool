@@ -1,9 +1,10 @@
 ﻿using HandSchool.Internal;
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using Xamarin.Forms;
 
-namespace HandSchool.Views
+namespace HandSchool.Models
 {
     // Thanks to 张高兴
     public class MasterPageItem : NotifyPropertyChanged
@@ -15,34 +16,60 @@ namespace HandSchool.Views
         private Color color = new Color();
         public string FontFamily { get; set; }
         public string Icon { get; set; }
-        public NavigationPage DestPage { get; set; }
+        public Type DestinationPageType { get; }
         private bool selected = false;
+        private string title;
+        private string destpg_type;
+        private NavigationPage _destpg;
+        public FileImageSource appleIcon = null;
 
         public MasterPageItem() { }
 
-        public MasterPageItem(string title, NavigationPage dest, string icon, string apple, bool select = false)
+        public MasterPageItem(string title, string dest, string icon, string apple, bool select = false)
         {
-            DestPage = dest;
-            dest.Title = title;
+            this.title = title;
 
-            if (Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.Android)
             {
-                DestPage.Icon = new FileImageSource { File = apple };
+                destpg_type = "HandSchool.Views." + dest;
+            }
+            else if (Device.RuntimePlatform == Device.iOS)
+            {
+                destpg_type = "HandSchool.Views." + dest;
+                appleIcon = new FileImageSource { File = apple };
             }
             else if (Device.RuntimePlatform == Device.UWP)
             {
                 FontFamily = segoemdl2;
                 Icon = icon;
+                DestinationPageType = Assembly.GetExecutingAssembly().GetType("HandSchool.UWP." + dest);
             }
 
             selected = select;
             color = select ? active : inactive;
         }
 
+        public NavigationPage DestPage
+        {
+            get
+            {
+                if (_destpg is null)
+                {
+                    _destpg = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance(destpg_type) as Page)
+                    {
+                        Title = title,
+                        Icon = appleIcon
+                    };
+                }
+
+                return _destpg;
+            }
+        }
+
         public string Title
         {
-            get => DestPage.Title;
-            set => DestPage.Title = value;
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         public bool Selected
@@ -54,17 +81,13 @@ namespace HandSchool.Views
                 SetProperty(ref color, value ? active : inactive, "Color");
             }
         }
-
-        public FileImageSource AppleIcon
-        {
-            get => DestPage.Icon;
-            set { if (Device.RuntimePlatform == Device.iOS) DestPage.Icon = value; }
-        }
         
         public Color Color
         {
             get => color;
             set => SetProperty(ref color, value);
         }
+
+        public override string ToString() => title;
     }
 }

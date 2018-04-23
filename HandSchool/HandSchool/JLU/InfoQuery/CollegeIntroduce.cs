@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
 using HandSchool.JLU.JsonObject;
+using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.Views;
 using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
@@ -13,7 +15,6 @@ namespace HandSchool.JLU.InfoQuery
 {
     class CollegeIntroduce : IInfoEntrance
     {
-        private WebViewPage webpg;
         private RootObject<CollegeInfo> obj;
         private int schId = 101;
         
@@ -26,25 +27,10 @@ namespace HandSchool.JLU.InfoQuery
         public bool IsPost => true;
         public string ScriptFileUri => "service/res.do";
         public string PostValue => $"{{\"tag\":\"school@schoolSearch\",\"branch\":\"byId\",\"params\":{{\"schId\":\"{schId}\"}}}}";
-        public Dictionary<string, Command> Menu { get; set; } = new Dictionary<string, Command>();
+        public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
 
-        public WebViewPage Binding
-        {
-            get => webpg;
-            set
-            {
-                if (value is null)
-                {
-                    webpg.WebView.Cleanup();
-                    webpg = null;
-                }
-                else
-                {
-                    webpg = value;
-                    value.WebView.RegisterAction(Receive);
-                }
-            }
-        }
+        public IViewResponse Binding { get; set; }
+        public Action<string> Evaluate { get; set; }
         
         public CollegeIntroduce()
         {
@@ -92,7 +78,7 @@ namespace HandSchool.JLU.InfoQuery
                     "function getList() { var campus = $('#campus').val(); var selector = '#schId option' + (campus == '*' ? '' : '[data-campus=\"' + campus + '\"]'); var division = $('#division').val(); selector += (division == '*' ? '' : '[data-part=\"' + division + '\"]'); $('#schId > option').wrap('<span>').hide(); $(selector).unwrap().show(); }; $('#schId').val('101'); function getSchId() { invokeCSharpAction('schId=' + $('#schId').val()); }; "
                 }
             };
-            Menu.Add("查询", new Command(() => webpg.WebView.JavaScript("getSchId()")));
+            Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getSchId()")), "\uE721"));
         }
 
         public async void Receive(string data)
@@ -102,25 +88,25 @@ namespace HandSchool.JLU.InfoQuery
             {
                 if (data == "schId=null")
                 {
-                    await Binding.DisplayAlert("信息查询", "未指定查询学院。", "知道了");
+                    await Binding.ShowMessage("信息查询", "未指定查询学院。", "知道了");
                     return;
                 }
 
                 schId = int.Parse(data.Split('=')[1]);
-                var loading = ShowLoadingAlert("信息查询中……");
+                Binding.SetIsBusy(true, "信息查询中……");
                 await Execute();
-                loading.Invoke();
+                Binding.SetIsBusy(false);
             }
             else
             {
-                await Binding.DisplayAlert("信息查询", "未定义操作。", "知道了");
+                await Binding.ShowMessage("信息查询", "未定义操作。", "知道了");
                 throw new NotImplementedException();
             }
         }
         
         public async Task Execute()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             obj = JSON<RootObject<CollegeInfo>>(LastReport);
             var jsBuilder = new StringBuilder();
             if (obj.value[0].schoolName == null) obj.value[0].schoolName = "学校很懒，什么也没有留下……";
@@ -133,15 +119,15 @@ namespace HandSchool.JLU.InfoQuery
             jsBuilder.Append("$('#Icampus').text('" + obj.value[0].campus + "');");
             if (obj.value[0].division == null) obj.value[0].division = "未知"; else obj.value[0].division = AlreadyKnownThings.Division[obj.value[0].division];
             jsBuilder.Append("$('#Idivision').text('" + obj.value[0].division + "');");
-            if (obj.value[0].staff == null) obj.value[0].staff = "未设置";
-            jsBuilder.Append("$('#staff').text('" + obj.value[0].staff + "');");
+            if (obj.value[0].staff == null) obj.value[0].staff = new Staff { name = "未设置" };
+            jsBuilder.Append("$('#staff').text('" + obj.value[0].staff.name + "');");
             if (obj.value[0].telephone == null) obj.value[0].telephone = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#telephone').text('" + obj.value[0].telephone + "');");
             if (obj.value[0].website == null) obj.value[0].website = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#website').text('" + obj.value[0].website + "');");
             if (obj.value[0].introduction == null) obj.value[0].introduction = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#introduction').text('" + obj.value[0].introduction + "');");
-            webpg.WebView.JavaScript(jsBuilder.ToString());
+            Evaluate(jsBuilder.ToString());
         }
 
         public void Parse() { }

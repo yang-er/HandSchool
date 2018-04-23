@@ -11,7 +11,11 @@ namespace HandSchool.ViewModels
     {
         public Command LoginCommand { get; set; }
         public ILoginField Form { get; }
+#if __UWP__
+        public UWP.LoginDialog Page { get; set; }
+#else
         public LoginPage Page { get; set; }
+#endif
         
         private LoginViewModel(ILoginField form)
         {
@@ -22,8 +26,13 @@ namespace HandSchool.ViewModels
         {
             var viewModel = new LoginViewModel(form);
             viewModel.LoginCommand = new Command(viewModel.Login);
+#if __UWP__
+            viewModel.Page = new UWP.LoginDialog(viewModel);
+            await viewModel.Page.ShowAsync();
+#else
             viewModel.Page = new LoginPage(viewModel);
             await viewModel.Page.ShowAsync();
+#endif
             return form.IsLogin;
         }
         
@@ -37,8 +46,7 @@ namespace HandSchool.ViewModels
 
             IsBusy = true;
 
-            var behavior = new LoadingBehavior("正在登录……");
-            Page.Behaviors.Add(behavior);
+            var callback = Helper.ShowLoadingAlert("正在登录……");
             Form.LoginStateChanged += Page.Response;
 
             try
@@ -48,7 +56,7 @@ namespace HandSchool.ViewModels
             finally
             {
                 IsBusy = false;
-                Page.Behaviors.Remove(behavior);
+                callback.Invoke();
                 Form.LoginStateChanged -= Page.Response;
             }
         }

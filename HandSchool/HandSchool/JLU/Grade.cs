@@ -1,5 +1,6 @@
-﻿using HandSchool.Internal;
-using HandSchool.JLU.JsonObject;
+﻿using HandSchool.JLU.JsonObject;
+using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Specialized;
@@ -50,13 +51,13 @@ namespace HandSchool.JLU
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
-        public string GPAPostValue => "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":" + App.Current.Service.AttachInfomation["studId"] + "}}";
+        public string GPAPostValue => "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":" + Core.App.Service.AttachInfomation["studId"] + "}}";
         public string StorageFile => "jlu.grade.json";
         public string LastReport { get; private set; }
         
         public async Task Execute()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, PostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             WriteConfFile(StorageFile, LastReport);
             Parse();
         }
@@ -80,7 +81,7 @@ namespace HandSchool.JLU
 
         public async Task<string> GatherGPA()
         {
-            LastReport = await App.Current.Service.Post(ScriptFileUri, GPAPostValue);
+            LastReport = await Core.App.Service.Post(ScriptFileUri, GPAPostValue);
             var ro = JSON<RootObject<GPAValue>>(LastReport);
             return string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
                 ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
