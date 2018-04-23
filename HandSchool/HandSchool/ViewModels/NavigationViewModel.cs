@@ -37,7 +37,6 @@ namespace HandSchool.ViewModels
             if (Core.App.GradePoint != null) PrimaryItems.Add(new MasterPageItem("学分成绩", "GradePointPage", "\xE82D", "tab_feed.png"));
             if (Core.App.InfoEntrances.Count > 0) PrimaryItems.Add(new MasterPageItem("信息查询", "InfoQueryPage", "\xE946", "tab_feed.png"));
             SecondaryItems.Add(new MasterPageItem("设置", "SettingPage", "\xE713", "tab_feed.png"));
-            SecondaryItems.Add(new MasterPageItem("关于", "AboutPage", "\xE783", "tab_feed.png"));
         }
 
         public static Page GetMainPage()

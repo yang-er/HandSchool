@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,6 +24,19 @@ namespace HandSchool.Views
             foreach (var key in InfoEntrance.Menu)
             ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
             entrance.Evaluate = WebView.JavaScript;
+            WebView.RegisterAction(entrance.Receive);
+        }
+
+        public WebViewPage(AboutViewModel viewModel)
+        {
+            InitializeComponent();
+            Title = viewModel.Title;
+            BindingContext = viewModel;
+            var sb = new StringBuilder();
+            viewModel.HtmlDocument.ToHtml(sb);
+            WebView.Html = sb.ToString();
+            WebView.RegisterAction(viewModel.Response);
+            viewModel.BindingContext = new ViewResponse(this);
         }
     }
 }

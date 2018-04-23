@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HandSchool.Internal.HtmlObject;
-using HandSchool.Views;
+﻿using HandSchool.Internal.HtmlObject;
+using System;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
