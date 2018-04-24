@@ -25,8 +25,13 @@ namespace HandSchool
 
 		protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
-		}
+#if !_UWP_
+            (Application.Current.MainPage as MainPage).Detail = new ContentPage();
+               
+#endif
+
+            // Handle when your app sleeps
+        }
 
 		protected override void OnResume ()
 		{
