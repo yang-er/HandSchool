@@ -185,7 +185,7 @@ namespace HandSchool.JLU
             }
             else
             {
-                throw new NotImplementedException("Not implemented response");
+                throw new NotImplementedException($"Not implemented response: {{{WebClient.Location}}}, contact me.");
             }
 
             IsLogin = true;

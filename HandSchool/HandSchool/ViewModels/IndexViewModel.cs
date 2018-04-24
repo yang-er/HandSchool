@@ -27,6 +27,7 @@ namespace HandSchool.ViewModels
         private IndexViewModel()
         {
             RefreshCommand = new Command(Refresh);
+            Core.App.Service.LoginStateChanged += (sender, args) => { if (args.State == LoginState.Succeeded) UpdateWelcome(); };
             Title = "掌上校园";
             Refresh();
         }
