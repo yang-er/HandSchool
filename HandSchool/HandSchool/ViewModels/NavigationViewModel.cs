@@ -39,6 +39,14 @@ namespace HandSchool.ViewModels
             SecondaryItems.Add(new MasterPageItem("设置", "SettingPage", "\xE713", "tab_feed.png"));
         }
 
+        public NavigationPage GuessCurrentPage()
+        {
+            var navitem = PrimaryItems.Find((item) => item.Selected);
+            if (navitem is null) navitem = SecondaryItems.Find((item) => item.Selected);
+            if (navitem is null) navitem = PrimaryItems[0];
+            return navitem.DestPage;
+        }
+
         public static Page GetMainPage()
         {
 #if __UWP__

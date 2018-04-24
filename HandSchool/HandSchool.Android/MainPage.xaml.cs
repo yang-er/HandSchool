@@ -21,10 +21,7 @@ namespace HandSchool.Views
             }
             else
             {
-                var navitem = NavigationViewModel.Instance.PrimaryItems.Find((item) => item.Selected);
-                if (navitem is null) navitem = NavigationViewModel.Instance.SecondaryItems.Find((item) => item.Selected);
-                if (navitem is null) navitem = NavigationViewModel.Instance.PrimaryItems[0];
-                Detail = navitem.DestPage;
+                Detail = NavigationViewModel.Instance.GuessCurrentPage();
                 SetOutline();
             }
         }
@@ -47,6 +44,7 @@ namespace HandSchool.Views
             SetOutline();
             NavigationViewModel.Instance.FetchOptions();
             Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
+            Core.App.Service.RequestLogin();
         }
 
         private async void MasterPageItemSelected(object sender, SelectedItemChangedEventArgs e)

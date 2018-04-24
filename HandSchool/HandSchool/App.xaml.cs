@@ -26,14 +26,17 @@ namespace HandSchool
 		protected override void OnSleep()
 		{
             // Handle when your app sleeps
-#if !_UWP_
+#if __ANDROID__
             (MainPage as MainPage).Detail = new ContentPage();
 #endif
         }
 
 		protected override void OnResume()
 		{
-			// Handle when your app resumes
-		}
+            // Handle when your app resumes
+#if __ANDROID__
+            (MainPage as MainPage).Detail = NavigationViewModel.Instance.GuessCurrentPage();
+#endif
+        }
     }
 }
