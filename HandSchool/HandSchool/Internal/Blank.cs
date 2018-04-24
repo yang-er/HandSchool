@@ -136,8 +136,13 @@ namespace HandSchool
                 public string FeedUri { get; set; } = "";
                 public string WeatherLocation { get; set; } = "长春";
             }
+
+            public string FormatArguments(string args)
+            {
+                return args;
+            }
         }
-        
+
         class Schedule : IScheduleEntrance
         {
             public List<CurriculumItem> Items { get; private set; }

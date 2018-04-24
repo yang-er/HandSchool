@@ -1,18 +1,12 @@
 ﻿using HandSchool.Services;
-using HandSchool.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SelectTypePage : ContentPage
     {
         public SelectTypePage()

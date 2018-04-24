@@ -9,6 +9,9 @@
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="20" >
             <Frame BackgroundColor="#708090">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Frame.GestureRecognizers>
                 <StackLayout Padding="1">
                     <Label Text="{Binding WelcomeMessage}" VerticalOptions="Start" FontSize="35" TextColor="White" />
                     <Label Text="{Binding CurrentMessage}" VerticalOptions="Center" FontSize="30" TextColor="White" />

@@ -1,4 +1,5 @@
-﻿using HandSchool.JLU.JsonObject;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
@@ -11,7 +12,7 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
-    class MessageItem : IMessageItem
+    class MessageItem : NotifyPropertyChanged, IMessageItem
     {
         private MessagePiece piece;
         private bool _unread;
@@ -27,7 +28,6 @@ namespace HandSchool.JLU
         public Command SetUnread { get; }
         public Command Delete { get; }
         public bool IsShowed = true;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public MessageItem(MessagePiece p)
         {
@@ -38,6 +38,7 @@ namespace HandSchool.JLU
                 await Core.App.Message.SetReadState(Id, true);
                 Unread = false;
             });
+
             SetUnread = new Command(async () => {
                 await Core.App.Message.SetReadState(Id, false);
                 Unread = true;
@@ -47,13 +48,6 @@ namespace HandSchool.JLU
                 await Core.App.Message.Delete(Id);
                 MessageViewModel.Instance.Items.Remove(this);
             });
-        }
-        
-        protected void SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
-        {
-            if (Equals(storage, value)) return;
-            storage = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
@@ -72,18 +66,6 @@ namespace HandSchool.JLU
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            await Task.Run(() => { });
-            /*
-            LastReport = "{\"count\":2,\"errno\":0,\"identifier\":\"msgInboxId\",\"items\":" +
-                "[{\"message\":{\"sender\":{\"name\":\"田苗\"},\"body\":\"this is test msg2<br>\"," +
-                "\"title\":\"testmsg2\",\"messageId\":\"243467\",\"dateCreate\":\"2018-04-14T18:50:39\"}," +
-                "\"msgInboxId\":\"9055099\",\"receiver\":{\"school\":{\"schoolName\":\"软件学院\"},\"name\":\"张煜松\"}," +
-                "\"dateRead\":null,\"activeStatus\":\"103\",\"hasReaded\":\"N\",\"dateReceive\":null},{\"message\"" +
-                ":{\"sender\":{\"name\":\"田苗\"},\"body\":\"this is a test message<br >\",\"title\":\"test message\"," +
-                "\"messageId\":\"243465\",\"dateCreate\":\"2018-04-13T23:52:14\"},\"msgInboxId\":\"9055097\",\"receiver\":" +
-                "{\"school\":{\"schoolName\":\"软件学院\"},\"name\":\"张煜松\"},\"dateRead\":null,\"activeStatus\":\"103\"," +
-                "\"hasReaded\":\"N\",\"dateReceive\":null}],\"label\":\"\",\"msg\":\"\",\"status\":0}";
-                */
             WriteConfFile(StorageFile, LastReport);
             Parse();
         }
@@ -103,6 +85,7 @@ namespace HandSchool.JLU
             var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
             await Core.App.Service.Post(MsgReadPageUri, PostArgs);
         }
+
         public async Task Delete(int id)
         {
             var PostArgs = "{\"idList\":[\""+id.ToString()+"\"]}";

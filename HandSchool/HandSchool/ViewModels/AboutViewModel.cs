@@ -20,14 +20,11 @@ namespace HandSchool.ViewModels
                 return instance;
             }
         }
-
-        public string Version { get; }
+        
         public Bootstrap HtmlDocument { get; }
 
         private AboutViewModel()
         {
-            Version = GetType().Assembly.GetName().Version.ToString();
-
             Documents = new UnorderedList
             {
                 Children =
@@ -64,7 +61,7 @@ namespace HandSchool.ViewModels
             {
                 Children =
                 {
-                    (RawHtml) $"<hgroup class=\"mt-3\"><h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2><h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Device.RuntimePlatform} v{Version}</h5></hgroup>",
+                    (RawHtml) $"<hgroup class=\"mt-3\"><h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2><h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Device.RuntimePlatform} v{Core.App.Version}</h5></hgroup>",
                     (RawHtml) "<p>一个致力于将各个学校不同的教务系统整合成一个手机app的项目。</p>",
                     (RawHtml) "<h4>适配模式</h4>",
                     (RawHtml) "<p>利用C#和Xamarin.Forms编写，可以运行在 UWP、Andorid、iOS 等平台上。<br>",

@@ -189,10 +189,18 @@ namespace HandSchool.JLU
             }
 
             IsLogin = true;
+            NeedLogin = false;
             LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
             return true;
         }
         
+        public string FormatArguments(string args)
+        {
+            return args
+                .Replace("`term`", AttachInfomation["term"])
+                .Replace("`studId`", AttachInfomation["studId"]);
+        }
+
         public async Task<bool> RequestLogin()
         {
             if (!IsLogin) await Login();
@@ -202,12 +210,13 @@ namespace HandSchool.JLU
 
         public async Task<string> Post(string url, string send)
         {
-            await RequestLogin();
-            return await WebClient.PostAsync(url, send);
+            if (await RequestLogin() == false) return "";
+            return await WebClient.PostAsync(url, FormatArguments(send));
         }
 
         public async Task<string> Get(string url)
         {
+            if (await RequestLogin() == false) return "";
             await RequestLogin();
             return await WebClient.GetAsync(url);
         }

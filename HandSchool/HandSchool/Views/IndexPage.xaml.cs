@@ -18,5 +18,10 @@ namespace HandSchool.Views
             InitializeComponent();
             BindingContext = IndexViewModel.Instance;
         }
-	}
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Core.App.Service.RequestLogin();
+        }
+    }
 }

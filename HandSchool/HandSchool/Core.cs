@@ -19,6 +19,7 @@ namespace HandSchool
         public int DailyClassCount;
         public List<InfoEntranceGroup> InfoEntrances = new List<InfoEntranceGroup>();
         public static List<ISchoolWrapper> Schools { get; } = new List<ISchoolWrapper>();
+        public string Version => "1.1.6.0";
 
         private Core() { }
 

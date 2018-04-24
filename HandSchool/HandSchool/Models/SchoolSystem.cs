@@ -18,5 +18,6 @@ namespace HandSchool.Services
         Task<string> Get(string url);
         Task<bool> RequestLogin();
         void SaveSettings();
+        string FormatArguments(string args);
     }
 }
