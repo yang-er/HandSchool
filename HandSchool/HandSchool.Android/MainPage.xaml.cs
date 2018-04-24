@@ -15,13 +15,16 @@ namespace HandSchool.Views
 			InitializeComponent();
 
 
-            if (!Core.App.Loaded)
+            if (Core.App.Service is null)
             {
                 Detail = new SelectTypePage();
             }
             else
             {
-                Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
+                var navitem = NavigationViewModel.Instance.PrimaryItems.Find((item) => item.Selected);
+                if (navitem is null) navitem = NavigationViewModel.Instance.SecondaryItems.Find((item) => item.Selected);
+                if (navitem is null) navitem = NavigationViewModel.Instance.PrimaryItems[0];
+                Detail = navitem.DestPage;
                 SetOutline();
             }
         }

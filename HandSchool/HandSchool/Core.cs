@@ -9,7 +9,6 @@ namespace HandSchool
     {
         private static Core _instance;
         public static Core App => _instance;
-        public bool Loaded { get; set; } = false;
         public ISchoolSystem Service;
         public IGradeEntrance GradePoint;
         public IScheduleEntrance Schedule;
@@ -25,6 +24,8 @@ namespace HandSchool
 
         public static bool Initialize()
         {
+            if (_instance != null) return true;
+
             _instance = new Core();
             foreach (var info in (typeof(Core)).GetProperties())
             {
@@ -42,7 +43,6 @@ namespace HandSchool
                 var current = Schools.Find((sw) => sw.SchoolId == type);
                 current.PreLoad();
                 current.PostLoad();
-                _instance.Loaded = true;
                 return true;
             }
         }

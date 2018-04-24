@@ -14,26 +14,24 @@ namespace HandSchool
         public App()
         {
             InitializeComponent();
-            var loaded = Core.Initialize();
+            Core.Initialize();
             MainPage = NavigationViewModel.GetMainPage();
         }
         
-        protected override void OnStart ()
+        protected override void OnStart()
 		{
-			// Handle when your app starts
-		}
-
-		protected override void OnSleep ()
-		{
-#if !_UWP_
-            (Application.Current.MainPage as MainPage).Detail = new ContentPage();
-               
-#endif
-
-            // Handle when your app sleeps
+            // Handle when your app starts
         }
 
-		protected override void OnResume ()
+		protected override void OnSleep()
+		{
+            // Handle when your app sleeps
+#if !_UWP_
+            (MainPage as MainPage).Detail = new ContentPage();
+#endif
+        }
+
+		protected override void OnResume()
 		{
 			// Handle when your app resumes
 		}
