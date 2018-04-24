@@ -24,10 +24,8 @@ namespace HandSchool.Views
             if (IsBusy) return;
 
             IsBusy = true;
-            var loading = Internal.Helper.ShowLoadingAlert("正在登录……");
             await Core.App.Service.RequestLogin();
             IsBusy = false;
-            loading.Invoke();
         }
     }
 }
