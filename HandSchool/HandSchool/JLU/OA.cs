@@ -5,6 +5,7 @@ using HandSchool.ViewModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using static HandSchool.Internal.Helper;
 
@@ -47,20 +48,27 @@ namespace HandSchool.JLU
         public void Parse()
         {
             if (LastReport == "") return;
-            var xdoc = XDocument.Parse(LastReport);
-            var id = 0;
-            var items = (from item in xdoc.Root.Element("channel").Descendants("item")
-                select new FeedItem
-                {
-                    Title = (string)item.Element("title"),
-                    Description = (string)item.Element("description"),
-                    PubDate = (string)item.Element("pubDate"),
-                    Category = (string)item.Elements("category").Last(),
-                    Link = (string)item.Element("link"),
-                    Id = id++
-                });
-            FeedViewModel.Instance.Items.Clear();
-            foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
+            try
+            {
+                var xdoc = XDocument.Parse(LastReport);
+                var id = 0;
+                var items = (from item in xdoc.Root.Element("channel").Descendants("item")
+                             select new FeedItem
+                             {
+                                 Title = (string)item.Element("title"),
+                                 Description = (string)item.Element("description"),
+                                 PubDate = (string)item.Element("pubDate"),
+                                 Category = (string)item.Elements("category").Last(),
+                                 Link = (string)item.Element("link"),
+                                 Id = id++
+                             });
+                FeedViewModel.Instance.Items.Clear();
+                foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
+            }
+            catch (XmlException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
         }
     }
 }

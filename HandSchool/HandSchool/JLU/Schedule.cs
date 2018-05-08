@@ -47,7 +47,7 @@ namespace HandSchool.JLU
                     {
                         WeekBegin = int.Parse(time.timeBlock.beginWeek),
                         WeekEnd = int.Parse(time.timeBlock.endWeek),
-                        WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "E" ? 1 : 0)),
+                        WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
                         WeekDay = int.Parse(time.timeBlock.dayOfWeek),
                         Classroom = time.classroom.fullName,
                         CourseID = obj.teachClassMaster.name,
