@@ -3,9 +3,11 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:w="clr-namespace:HandSchool.Views"
                 x:Class="HandSchool.Views.CurriculumPage"
+                xmlns:local="clr-namespace:HandSchool.Views"
                 Padding="16">
     <ContentPage.Resources>
         <ResourceDictionary>
+            <local:OenConverter  x:Key="cvtOen" />
             <OnPlatform x:Key="marginDown" x:TypeArguments="Thickness" iOS="0,0,0,0" Android="0,0,0,0" WinPhone="0,0,0,10" />
             <OnPlatform x:Key="marginUp" x:TypeArguments="Thickness" iOS="0,0,0,0" Android="0,15,0,0" WinPhone="0,0,0,10" />
             <OnPlatform x:Key="marginCID" x:TypeArguments="Thickness" iOS="0,0,0,0" Android="0,10,0,10" WinPhone="0,10,0,10" />
@@ -104,10 +106,10 @@
                     </Picker.Items>
                 </Picker>
                 <Label Text="每周" Grid.Column="0" Grid.Row="7" />
-                <Picker Grid.Column="1" Grid.Row="7" SelectedIndex="{Binding WeekOen}">
+                <Picker Grid.Column="1" Grid.Row="7" SelectedIndex="{Binding WeekOen,  Mode=TwoWay, Converter={StaticResource cvtOen}}">
                     <Picker.Items>
-                        <x:String>单周</x:String>
                         <x:String>双周</x:String>
+                        <x:String>单周</x:String>
                         <x:String>单双周</x:String>
                     </Picker.Items>
                 </Picker>

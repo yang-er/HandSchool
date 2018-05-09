@@ -1,5 +1,7 @@
 ﻿using HandSchool.Models;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -74,5 +76,18 @@ namespace HandSchool.Views
             Core.App.Schedule.Save();
             await Close();
         }
-	}
+
+    }
+    public class OenConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo language)
+        {
+            return (int)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo language)
+        {
+            return (WeekOddEvenNone)value;
+        }
+    }
 }

@@ -7,7 +7,7 @@ namespace HandSchool
 {
     namespace Models
     {
-        public enum WeekOddEvenNone { Even, Odd, None }
+        public enum WeekOddEvenNone { Even, Odd,None }
 
         public class CurriculumItem : NotifyPropertyChanged
         {
