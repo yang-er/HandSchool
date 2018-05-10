@@ -112,11 +112,11 @@ namespace HandSchool.Droid
 
             using (FileStream fos = new FileStream(filePath, FileMode.Create))
             {
-                byte[] buf = new byte[512];
+                byte[] buf = new byte[65536];
 
                 do
                 {
-                    int numread = Ins.Read(buf, 0, 512);
+                    int numread = Ins.Read(buf, 0, 65536);
                     receivedBytes += numread;
                     if (numread <= 0)
                     {

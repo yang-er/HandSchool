@@ -39,7 +39,8 @@ namespace HandSchool.JLU
         {
             using (var client = new AwaredWebClient("", System.Text.Encoding.UTF8))
                 LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
-            LastReport = LastReport.Replace("", "");
+            if (LastReport == "") return;
+            LastReport = LastReport.Substring(LastReport.IndexOf("<?xml ver"));
             WriteConfFile(StorageFile, LastReport);
             WriteConfFile(StorageFile + ".time", DateTime.Now.ToString());
             Parse();
