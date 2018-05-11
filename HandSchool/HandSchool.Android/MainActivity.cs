@@ -21,6 +21,7 @@ namespace HandSchool.Droid
         public static Context ActivityContext;
         private string[] Arvgs;
         public EventHandler<DialogClickEventArgs> OnClick;
+        private ProgressDialog ProgressDialog;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -34,7 +35,7 @@ namespace HandSchool.Droid
             Internal.Helper.SegoeMDL2 = "segmdl2.ttf#Segoe MDL2 Assets";
             Internal.Helper.AndroidContext = this;
             ActivityContext = this;
-            OnClick += (sender, e) => new Thread(InstallApk).Start();
+            OnClick += (sender, e) => { ProgressDialog = new ProgressDialog(this); new Thread(InstallApk).Start(); };
             Update();
             LoadApplication(new App() {});
         }
@@ -100,16 +101,21 @@ namespace HandSchool.Droid
             int totalBytes = 0;
             string dirPath = "/sdcard/Android/data/com.x90yang.com/files";
             var filePath = Path.Combine(dirPath, $"com.x90yang.HandSchool_v{Arvgs[0]}.apk");
+            ProgressDialog.SetTitle("下载更新包");
+            ProgressDialog.SetProgressStyle(ProgressDialogStyle.Horizontal);
             HttpURLConnection conn = (HttpURLConnection)url.OpenConnection();
             conn.Connect();
             Stream Ins = conn.InputStream;
             totalBytes = conn.ContentLength;
+            ProgressDialog.SetMessage($"正在下载更新包，共 {(totalBytes / 1048576.0).ToString("F")} MB……");
+            ProgressDialog.Max = totalBytes / 1024;
+            RunOnUiThread(ProgressDialog.Show);
 
             if (!Directory.Exists(dirPath))
                 Directory.CreateDirectory(dirPath);
             else if (File.Exists(filePath))
                 File.Delete(filePath);
-
+            
             using (FileStream fos = new FileStream(filePath, FileMode.Create))
             {
                 byte[] buf = new byte[65536];
@@ -125,18 +131,12 @@ namespace HandSchool.Droid
                     fos.Write(buf, 0, numread);
 
                     Log.Debug("Received ", receivedBytes.ToString() + "bytes, together with " + totalBytes.ToString());
+                    ProgressDialog.Progress = receivedBytes / 1024;
 
-                    //进度条代码
-                    /*
-                    if (progessReporter != null)
-                    {
-                        DownloadBytesProgress args = new DownloadBytesProgress(urlToDownload, receivedBytes, totalBytes);
-                        progessReporter.Report(args);
-                    }
-                    */
                 } while (true);
             }
 
+            RunOnUiThread(ProgressDialog.Dismiss);
             var context = this;
             if (context == null) return;
             Intent intent = new Intent(Intent.ActionView);
