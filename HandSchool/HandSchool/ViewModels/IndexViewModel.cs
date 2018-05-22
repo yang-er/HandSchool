@@ -64,6 +64,11 @@ namespace HandSchool.ViewModels
                 var wc = new AwaredWebClient("https://www.sojson.com/open/api/weather/", Encoding.UTF8);
                 weatherJson = await wc.GetAsync("json.shtml?city=" + Core.App.Service.WeatherLocation);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(weatherJson);
+                if((int)(jo["status"])==304)
+                {
+                    Weather = "天气信息获取失败";
+                    return;
+                }
                 string high = jo["data"]["forecast"][0]["high"].ToString();
                 string low = jo["data"]["forecast"][0]["low"].ToString();
                 Weather = jo["data"]["forecast"][0]["type"].ToString();
@@ -87,7 +92,7 @@ namespace HandSchool.ViewModels
         public string NextClassroom => curriculum?.Classroom;
 
         void UpdateNextCurriculum()
-        {
+        { 
             int today = (int)DateTime.Now.DayOfWeek;
             if (today == 0) today = 7;
             int toweek = Core.App.Service.CurrentWeek;
