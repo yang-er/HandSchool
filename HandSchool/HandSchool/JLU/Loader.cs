@@ -29,6 +29,7 @@ namespace HandSchool
                 Core.App.Feed = new OA();
                 var group1 = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
                 group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", () => new CollegeIntroduce()));
+                group1.Add(new InfoEntranceWrapper("一键教务评价", "一键教务评价，省去麻烦事", () => new TeachEvaluate()));
                 Core.App.InfoEntrances.Add(group1);
             }
 
