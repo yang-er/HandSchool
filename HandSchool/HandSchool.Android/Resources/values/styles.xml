@@ -2,11 +2,11 @@
 <resources>
 
   <style name="MainTheme.ActionMode" parent="Widget.AppCompat.ActionMode">
-    <item name="height">@dimen/action_mode_default_height_material_overlay</item>
-    <item name="actionBarSize">@dimen/action_mode_default_height_material_overlay</item>
+    <!--<item name="height">@dimen/action_mode_default_height_material_overlay</item>
+    <item name="actionBarSize">@dimen/action_mode_default_height_material_overlay</item>-->
   </style>
   <style name="MainTheme" parent="MainTheme.Base">
-    <item name="actionBarSize">@dimen/action_bar_default_height_material_overlay</item>
+    <!--<item name="actionBarSize">@dimen/action_bar_default_height_material_overlay</item>-->
   </style>
   <!-- Base theme applied no matter what API -->
   <style name="MainTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
