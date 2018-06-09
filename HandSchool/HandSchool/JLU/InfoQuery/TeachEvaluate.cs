@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
@@ -95,14 +96,16 @@ namespace HandSchool.JLU.InfoQuery
                 Children =
                 {
                     (RawHtml) "<p>本功能可以帮助你完成评教。蓝色代表可以评价，黄色代表需要手动登录网页评价，绿色代表评价完成。</p>",
-                    (RawHtml) ("<table class=\"table\" id=\"evalItemList\"><tr><th>教师</th><th>学院</th>" + (Xamarin.Forms.Device.RuntimePlatform == "UWP" ? "<th>教学任务</th>" : "") + "</tr></table>")
+                    (RawHtml) ("<table class=\"table\" id=\"evalItemList\"><tr><th>教师</th><th>学院</th>" + (Device.RuntimePlatform == "UWP" ? "<th>教学任务</th>" : "") + "</tr></table>")
                 },
                 JavaScript =
                 {
-                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0;var uwp = {(Xamarin.Forms.Device.RuntimePlatform == "UWP" ? "true" : "false")};",
+                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0; var uwp = {(Device.RuntimePlatform == "UWP" ? "true" : "false")};",
                     ReadConfFile("jlu_teacheval.js") ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
                 }
             };
+
+            Menu.Add(new InfoEntranceMenu("开始", new Command(() => Evaluate("solve()")), "\uE8B0"));
         }
     }
 }
