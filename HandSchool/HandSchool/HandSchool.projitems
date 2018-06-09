@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\DrcomProtocol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Update.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NavigationViewModel.cs" />
