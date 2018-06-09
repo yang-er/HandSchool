@@ -7,8 +7,8 @@ using System.Text;
 using static HandSchool.Internal.Helper;
 namespace HandSchool.Models
 {
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public sealed class HotfixAttribute :Attribute
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    public sealed class HotfixAttribute : Attribute
     {
         /**
          *  Hotfix Module
@@ -68,12 +68,13 @@ namespace HandSchool.Models
                     if (force)
                     {
                         WriteConfFile(LocalStorage + ".ver", local_meta);
-                        wc.DownloadFile(meta_exp[1], Path.Combine(DataBaseDir, LocalStorage + ".content"));
+                        wc.DownloadFile(meta_exp[1], Path.Combine(DataBaseDir, LocalStorage));
                     }
                 }
             }
-            catch (WebException)
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex);
                 WriteConfFile(LocalStorage + ".ver", "");
             }
         }
@@ -84,12 +85,12 @@ namespace HandSchool.Models
         /// <returns>数据</returns>
         public string ReadContent()
         {
-            var ret = ReadConfFile(LocalStorage + ".content");
+            var ret = ReadConfFile(LocalStorage);
             if (ret != "") return ret;
             else
             {
                 CheckUpdate(true);
-                return ReadConfFile(LocalStorage + ".content");
+                return ReadConfFile(LocalStorage);
             }
         }
     }

@@ -11,6 +11,7 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
 {
+    [Hotfix("http://localhost/teacheval.js.ver", "jlu_teacheval.js")]
     class TeachEvaluate : IInfoEntrance
     {
         /**
@@ -80,6 +81,11 @@ namespace HandSchool.JLU.InfoQuery
                 System.Diagnostics.Debug.WriteLine(ret);
                 Evaluate("te_callback(" + ret + ")");
             }
+            else if (data.StartsWith("msg;"))
+            {
+                var ops = data.Split(new char[] { ';' }, 2);
+                await Binding.ShowMessage("消息", ops[1]);
+            }
         }
 
         public TeachEvaluate()
@@ -88,16 +94,15 @@ namespace HandSchool.JLU.InfoQuery
             {
                 Children =
                 {
+                    (RawHtml) "<p>本功能可以帮助你完成评教。蓝色代表可以评价，黄色代表需要手动登录网页评价，绿色代表评价完成。</p>",
                     (RawHtml) ("<table class=\"table\" id=\"evalItemList\"><tr><th>教师</th><th>学院</th>" + (Xamarin.Forms.Device.RuntimePlatform == "UWP" ? "<th>教学任务</th>" : "") + "</tr></table>")
                 },
                 JavaScript =
                 {
-                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0;var uwp = {(Xamarin.Forms.Device.RuntimePlatform == "UWP" ? "true" : "false")};"
+                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0;var uwp = {(Xamarin.Forms.Device.RuntimePlatform == "UWP" ? "true" : "false")};",
+                    ReadConfFile("jlu_teacheval.js") ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
                 }
             };
-
-            using (var wc = new AwaredWebClient("http://localhost/", Encoding.Default))
-                HtmlDocument.JavaScript.Add(wc.DownloadString("teacheval.js"));
         }
     }
 }

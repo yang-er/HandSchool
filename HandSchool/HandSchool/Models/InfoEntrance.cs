@@ -3,8 +3,10 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Xamarin.Forms;
 using Bootstrap = HandSchool.Internal.HtmlObject.Bootstrap;
+using HFAttr = HandSchool.Models.HotfixAttribute;
 
 namespace HandSchool
 {
@@ -42,11 +44,14 @@ namespace HandSchool
             public string Description { get; }
             public EntranceCreator Load { get; }
 
-            public InfoEntranceWrapper(string name, string description, EntranceCreator creator)
+            public InfoEntranceWrapper(string name, string description, Type type)
             {
                 Name = name;
                 Description = description;
-                Load = creator;
+                if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
+                    hfattr.CheckUpdate();
+                Load = () => Assembly.GetExecutingAssembly()
+                    .CreateInstance(type.FullName) as IInfoEntrance;
             }
         }
 
