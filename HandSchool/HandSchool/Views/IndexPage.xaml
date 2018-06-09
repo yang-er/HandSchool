@@ -7,28 +7,40 @@
         <ToolbarItem Text="刷新" Command="{Binding RefreshCommand}" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Padding="10" Spacing="20" >
-            <Frame BackgroundColor="#708090">
-                <StackLayout Padding="1">
-                    <Label Text="{Binding WelcomeMessage}" VerticalOptions="Start" FontSize="35" TextColor="White" />
-                    <Label Text="{Binding CurrentMessage}" VerticalOptions="Center" FontSize="30" TextColor="White" />
-                </StackLayout>
-            </Frame>
-            <Frame BackgroundColor="#708090">
-                <StackLayout>
-                    <Label Text="{Binding NextClass}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding NextTeacher}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding NextClassroom}" FontSize="Medium" TextColor="White" />
-                </StackLayout>
-            </Frame>
-            <Frame BackgroundColor="#708090">
-                <StackLayout>
-                    <Label Text="今日天气" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding Weather}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding WeatherRange}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="White" />
-                </StackLayout>
-            </Frame>
-        </StackLayout>
+        <ScrollView Orientation="Vertical">
+            <StackLayout Padding="10" Spacing="20" >
+                <Frame BackgroundColor="#708090">
+                    <StackLayout>
+                        <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="White" />
+                        <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+                <Frame BackgroundColor="#708090" IsVisible="{Binding CurrentHasClass}">
+                    <StackLayout>
+                        <Label Text="现在" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding CurrentClass}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding CurrentTeacher}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding CurrentClassroom}" FontSize="Medium" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+                <Frame BackgroundColor="#708090" IsVisible="{Binding NextHasClass}">
+                    <StackLayout>
+                        <Label Text="接下来" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding NextClass}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding NextTeacher}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding NextClassroom}" FontSize="Medium" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+                <Frame BackgroundColor="#708090">
+                    <StackLayout>
+                        <Label Text="今日天气" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Weather}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding WeatherRange}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

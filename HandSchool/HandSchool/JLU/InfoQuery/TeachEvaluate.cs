@@ -12,7 +12,7 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Hotfix("http://localhost/teacheval.js.ver", "jlu_teacheval.js")]
+    [Hotfix("https://raw.githubusercontent.com/miasakachenmo/store/master/teacheval.js.ver", "jlu_teacheval.js")]
     class TeachEvaluate : IInfoEntrance
     {
         /**

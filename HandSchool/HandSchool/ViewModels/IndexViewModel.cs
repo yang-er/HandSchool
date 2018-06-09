@@ -36,7 +36,7 @@ namespace HandSchool.ViewModels
 
         string weather;
         string weatherRange;
-        string weatherTips;
+        string weatherTips = "愿你拥有比阳光明媚的心情";
         string weatherJson;
         
         public string Weather
@@ -86,10 +86,17 @@ namespace HandSchool.ViewModels
 
         #region Next Curriculum
 
-        CurriculumItem curriculum;
-        public string NextClass => curriculum?.Name != default(string) ? curriculum.Name : "无（今日无课或未刷新）";
-        public string NextTeacher => curriculum?.Teacher;
-        public string NextClassroom => curriculum?.Classroom;
+        CurriculumItem curriculum2;
+        public string CurrentClass => curriculum2?.Name != default(string) ? curriculum2.Name : "无（现在没有课或未刷新）";
+        public string CurrentTeacher => curriculum2?.Teacher;
+        public string CurrentClassroom => curriculum2?.Classroom;
+        public bool CurrentHasClass => curriculum2 != null || curriculum1 is null;
+
+        CurriculumItem curriculum1;
+        public string NextClass => curriculum1?.Name != default(string) ? curriculum1.Name : "无（接下来没有课或未刷新）";
+        public string NextTeacher => curriculum1?.Teacher;
+        public string NextClassroom => curriculum1?.Classroom;
+        public bool NextHasClass => curriculum1 != null;
 
         void UpdateNextCurriculum()
         { 
@@ -97,10 +104,16 @@ namespace HandSchool.ViewModels
             if (today == 0) today = 7;
             int toweek = Core.App.Service.CurrentWeek;
             int tocor = Core.App.Schedule.ClassNext;
-            curriculum = Core.App.Schedule.Items.Find((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
+            curriculum1 = Core.App.Schedule.Items.Find((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
+            curriculum2 = Core.App.Schedule.Items.FindLast((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
             OnPropertyChanged("NextClass");
             OnPropertyChanged("NextTeacher");
             OnPropertyChanged("NextClassroom");
+            OnPropertyChanged("CurrentClass");
+            OnPropertyChanged("CurrentTeacher");
+            OnPropertyChanged("CurrentClassroom");
+            OnPropertyChanged("NextHasClass");
+            OnPropertyChanged("CurrentHasClass");
         }
 
         #endregion
