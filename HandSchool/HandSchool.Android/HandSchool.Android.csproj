@@ -92,9 +92,7 @@
     <Compile Include="SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\segmdl2.ttf" />
     <None Include="Resources\AboutResources.txt" />
-    <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\Widget.axml" />
   </ItemGroup>
   <ItemGroup>
@@ -150,9 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\popper.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\bootstrap.html" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\json.js" />
