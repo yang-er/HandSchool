@@ -42,13 +42,13 @@ namespace HandSchool.Models
         /// 检查更新并存储结果
         /// </summary>
         /// <param name="force">是否强制更新</param>
-        public void CheckUpdate(bool force = false)
+        public async void CheckUpdate(bool force = false)
         {
             try
             {
                 using (var wc = new WebClient())
                 {
-                    var new_meta = wc.DownloadString(UpdateSource);
+                    var new_meta = await wc.DownloadStringTaskAsync(UpdateSource);
                     var meta_exp = new_meta.Split(new char[] { ';' }, 2);
                     var local_meta = ReadConfFile(LocalStorage + ".ver");
 
@@ -68,7 +68,7 @@ namespace HandSchool.Models
                     if (force)
                     {
                         WriteConfFile(LocalStorage + ".ver", local_meta);
-                        wc.DownloadFile(meta_exp[1], Path.Combine(DataBaseDir, LocalStorage));
+                        await wc.DownloadFileTaskAsync(meta_exp[1], Path.Combine(DataBaseDir, LocalStorage));
                     }
                 }
             }
