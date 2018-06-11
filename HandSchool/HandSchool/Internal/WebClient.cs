@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +60,7 @@ namespace HandSchool.Internal
             try
             {
                 var ret = await DownloadStringTaskAsync(address);
-                if (accept != "*/*" && !ResponseHeaders["Content-Type"].StartsWith(accept))
+                if (accept != "*/*" && ResponseHeaders["Content-Type"] is null && !ResponseHeaders["Content-Type"].StartsWith(accept))
                 {
                     throw new ContentAcceptException(ret, ResponseHeaders["Content-Type"], accept);
                 }
