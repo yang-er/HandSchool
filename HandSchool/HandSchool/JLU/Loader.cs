@@ -30,6 +30,7 @@ namespace HandSchool
                 var group1 = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
                 group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", typeof(CollegeIntroduce)));
                 group1.Add(new InfoEntranceWrapper("一键教务评价", "一键教务评价，省去麻烦事", typeof(TeachEvaluate)));
+                group1.Add(new InfoEntranceWrapper("查询空教室", "没地方自习?查个教室吧!", typeof(EmptyRoom)));
                 Core.App.InfoEntrances.Add(group1);
             }
 

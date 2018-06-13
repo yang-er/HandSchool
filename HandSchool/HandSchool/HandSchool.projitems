@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\LoadingBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ViewResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\EmptyRoom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\TeachEvaluate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoginField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MasterPageItem.cs" />

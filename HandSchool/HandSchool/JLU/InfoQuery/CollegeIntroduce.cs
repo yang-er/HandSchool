@@ -129,7 +129,6 @@ namespace HandSchool.JLU.InfoQuery
             jsBuilder.Append("$('#introduction').text('" + obj.value[0].introduction + "');");
             Evaluate(jsBuilder.ToString());
         }
-
         public void Parse() { }
     }
 }

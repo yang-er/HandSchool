@@ -244,7 +244,24 @@ namespace HandSchool.JLU.JsonObject
         public string xscNo { get; set; }
         public string campus { get; set; }
     }
-
+    class RoomInfo
+    {
+        public string setColGroup { get; set; }
+        struct buiding
+        {
+            public string name { get; set; }
+        }
+        public string floor { get; set; }
+        public string setRows { get; set; }
+        public string volume { get; set; }
+        public string roomNo { get; set; }
+        public string usage { get; set; }
+        public string roomId { get; set; }
+        public string clsrmType { get; set; }
+        public string fullName { get; set; }
+        public string examVolume { get; set; }
+        public string notes { get; set; }
+    }
     class Staff
     {
         public string staffId { get; set; }
@@ -361,7 +378,7 @@ namespace HandSchool.JLU.JsonObject
             public string title { get; set; }
         }
     }
-    
+
     class AlreadyKnownThings
     {
         public static NameValueCollection Division { get; } = new NameValueCollection
@@ -384,6 +401,74 @@ namespace HandSchool.JLU.JsonObject
             { "1404", "朝阳校区" },
             { "1405", "南湖校区" },
             { "1406", "和平校区" }
+        };
+        public static List<BuildingOverview> Buildings { get; } = new List<BuildingOverview>
+        {
+            new BuildingOverview("逸夫楼","96","1401"),
+            new BuildingOverview("第三教学楼","68","1401"),
+            new BuildingOverview("经信教学楼","117","1401"),
+            new BuildingOverview("李四光楼","84","1401"),
+            new BuildingOverview("外语楼","121","1401"),
+            new BuildingOverview("计算机新楼","107","1401"),
+            new BuildingOverview("萃文教学楼","100","1401"),
+            new BuildingOverview("体育馆","109","1401"),
+            new BuildingOverview("体育场","67","1401"),
+            new BuildingOverview("画室","123","1401"),
+            new BuildingOverview("新理化楼","120","1401"),
+            new BuildingOverview("数学楼","127","1401"),
+            new BuildingOverview("图书馆","87","1401"),
+            new BuildingOverview("文科实验楼","103","1401"),
+            new BuildingOverview("理化楼","122","1401"),
+            new BuildingOverview("实验楼","102","1401"),
+            new BuildingOverview("外语学院","74","1401"),
+            new BuildingOverview("游泳池","85","1401"),
+            new BuildingOverview("无机合成楼","98","1401"),
+            new BuildingOverview("行政学院","93","1401"),
+            new BuildingOverview("力学实验室","90","1401"),
+            new BuildingOverview("化学楼","92","1401"),
+            new BuildingOverview("公用机房","99","1401"),
+            new BuildingOverview("北区白楼","112","1401"),
+            new BuildingOverview("琴房","113","1401"),
+            new BuildingOverview("行政楼","60","1401"),
+            new BuildingOverview("逸夫楼","65","1402"),
+            //new BuildingOverview("(一)","73","1402"),
+           // new BuildingOverview("(二)","82","1402"),
+            new BuildingOverview("体育馆","91","1402"),
+            //new BuildingOverview("(五)","119","1402"),
+            new BuildingOverview("基础实验楼","124","1402"),
+            new BuildingOverview("汽车交通实验馆","111","1402"),
+            new BuildingOverview("公用机房","70","1402"),
+            new BuildingOverview("能源动力大楼","128","1402"),
+            //new BuildingOverview("","2","1402"),
+            new BuildingOverview("画室","110","1402"),
+            new BuildingOverview("车身教室","116","1402"),
+            new BuildingOverview("测试中心","86","1402"),
+            new BuildingOverview("实习","69","1402"),
+            //new BuildingOverview("（五）","97","1402"),
+            new BuildingOverview("造型室","114","1402"),
+            new BuildingOverview("第一教学楼","72","1403"),
+            new BuildingOverview("第二教学楼","322","1403"),
+            new BuildingOverview("新教学楼","77","1403"),
+            new BuildingOverview("公用机房","71","1403"),
+            new BuildingOverview("第二阶梯教室","78","1403"),
+            new BuildingOverview("第一阶梯教室","81","1403"),
+            new BuildingOverview("义和路","125","1403"),
+            new BuildingOverview("水工楼","94","1404"),
+            new BuildingOverview("鸽子楼","101","1404"),
+            new BuildingOverview("实验楼","95","1404"),
+            new BuildingOverview("地质宫","105","1404"),
+            new BuildingOverview("第1教学楼","89","1405"),
+            new BuildingOverview("第3教学楼","76","1405"),
+            new BuildingOverview("体育场馆","301","1405"),
+            new BuildingOverview("运动场","126","1405"),
+            new BuildingOverview("公用机房","75","1405"),
+            new BuildingOverview("第一教学楼","83","1405"),
+            new BuildingOverview("第2教学楼","106","1405"),
+            new BuildingOverview("风雨操场","108","1405"),
+            new BuildingOverview("体育场","61","1406"),
+            new BuildingOverview("公用机房","80","1406"),
+            new BuildingOverview("科学讲堂","200","1406"),
+            new BuildingOverview("兽医实验楼","201","1406"),
         };
 
         public static List<CollegeOverview> Colleges { get; } = new List<CollegeOverview>
@@ -488,7 +573,30 @@ namespace HandSchool.JLU.JsonObject
             new CollegeOverview("莱姆顿学院", null, null, "179"),
             new CollegeOverview("超硬材料国家重点实验室", "1401", null, "208")
         };
+        public struct BuildingOverview
+        {
+            public string Campus;
+            public string Id;
+            public string Name;
+            public BuildingOverview(string name, string id, string campus)
+            {
+                Name = name;
+                Id = id;
+                Campus = campus;
+            }
+            public string ToString(string type)
+            {
+                if (type == "option")
+                {
+                    string ret = $"<option value=\"{Id}\"";
+                    if (Campus != null) ret += $" data-campus=\"{Campus}\"";
+                    ret += $">{Name}</option>";
+                    return ret;
+                }
+                return Name;
+            }
 
+        }
         public struct CollegeOverview
         {
             public string Name;
