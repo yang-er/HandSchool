@@ -13,6 +13,7 @@ namespace HandSchool
             Integer,
             String,
             Const,
+            Boolean,
         }
 
         public sealed class SettingWrapper<T> : SettingWrapper
@@ -55,6 +56,7 @@ namespace HandSchool
                 if (attrData.RangeDown == -233) Type = SettingTypes.Const;
                 else if (pinfo.PropertyType == typeof(int)) Type = SettingTypes.Integer;
                 else if (pinfo.PropertyType == typeof(string)) Type = SettingTypes.String;
+                else if (pinfo.PropertyType == typeof(bool)) Type = SettingTypes.Boolean;
                 else Type = SettingTypes.Unkown;
             }
         }

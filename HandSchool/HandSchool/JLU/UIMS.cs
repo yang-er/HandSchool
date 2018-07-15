@@ -37,6 +37,14 @@ namespace HandSchool.JLU
             }
         }
 
+        private bool use_https;
+        [Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。")]
+        public bool UseHttps
+        {
+            get => use_https;
+            set => SetProperty(ref use_https, value);
+        }
+
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
@@ -82,18 +90,19 @@ namespace HandSchool.JLU
         
         public AwaredWebClient WebClient { get; set; }
         public NameValueCollection AttachInfomation { get; set; }
-        public string ServerUri => $"http://{proxy_server}/ntms/";
+        public string ServerUri => $"http{(use_https ? "s" : "")}://{proxy_server}/ntms/";
         public string WeatherLocation => "长春";
         public LoginValue LoginInfo { get; set; }
         public int CurrentWeek { get; set; }
 
         public UIMS()
         {
-            var lp = ReadConfFile("blank.config.json");
+            var lp = ReadConfFile("jlu.config.json");
             SettingsJSON config;
             if (lp != "") config = JSON<SettingsJSON>(lp);
             else config = new SettingsJSON();
             proxy_server = config.ProxyServer;
+            use_https = config.UseHttps;
 
             IsLogin = false;
             NeedLogin = false;
@@ -151,9 +160,10 @@ namespace HandSchool.JLU
             }
 
             WebClient = new AwaredWebClient(ServerUri, Encoding.UTF8);
-            WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server));
-            WebClient.Cookie.Add(new Cookie("alu", Username, "/ntms/", proxy_server));
-            WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", proxy_server));
+            var proxy_server_domain = proxy_server.Split(':')[0];
+            WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server_domain));
+            WebClient.Cookie.Add(new Cookie("alu", Username, "/ntms/", proxy_server_domain));
+            WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", proxy_server_domain));
 
             // Access Main Page To Create a JSESSIONID
             try
@@ -241,13 +251,14 @@ namespace HandSchool.JLU
 
         public void SaveSettings()
         {
-            var save = Serialize(new SettingsJSON { ProxyServer = proxy_server });
+            var save = Serialize(new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https });
             WriteConfFile("jlu.config.json", save);
         }
 
         class SettingsJSON
         {
             public string ProxyServer { get; set; } = "uims.jlu.edu.cn";
+            public bool UseHttps { get; set; } = false;
         }
     }
 }

@@ -10,15 +10,17 @@ namespace HandSchool.UWP
     public sealed partial class ValueBox: UserControl
     {
         public static readonly DependencyProperty ValueProperty = 
-            DependencyProperty.Register("Value", typeof(object), typeof(ValueBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(ValueBox), new PropertyMetadata(null));
         public static readonly DependencyProperty NumericValueProperty =
-            DependencyProperty.Register("NumericValue", typeof(int), typeof(ValueBox), new PropertyMetadata(0, (d, e) => d.SetValue(ValueProperty, e.NewValue)));
+            DependencyProperty.Register(nameof(NumericValue), typeof(int), typeof(ValueBox), new PropertyMetadata(0, (d, e) => d.SetValue(ValueProperty, e.NewValue)));
+        public static readonly DependencyProperty BooleanValueProperty =
+            DependencyProperty.Register(nameof(BooleanValue), typeof(bool), typeof(ValueBox), new PropertyMetadata(false, (d, e) => d.SetValue(ValueProperty, e.NewValue)));
         public static readonly DependencyProperty StringValueProperty =
-            DependencyProperty.Register("StringValue", typeof(string), typeof(ValueBox), new PropertyMetadata("", (d, e) => d.SetValue(ValueProperty, e.NewValue)));
+            DependencyProperty.Register(nameof(StringValue), typeof(string), typeof(ValueBox), new PropertyMetadata("", (d, e) => d.SetValue(ValueProperty, e.NewValue)));
         public static readonly DependencyProperty TypeProperty = 
-            DependencyProperty.Register("Type", typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unkown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
+            DependencyProperty.Register(nameof(Type), typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unkown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
         public static readonly DependencyProperty AttributeProperty = 
-            DependencyProperty.Register("Attribute", typeof(SettingsAttribute), typeof(ValueBox), new PropertyMetadata(default(SettingsAttribute)));
+            DependencyProperty.Register(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueBox), new PropertyMetadata(default(SettingsAttribute)));
 
         public ValueBox()
         {
@@ -41,6 +43,12 @@ namespace HandSchool.UWP
         {
             get => (int)GetValue(NumericValueProperty);
             set => SetValue(NumericValueProperty, value);
+        }
+
+        private bool BooleanValue
+        {
+            get => (bool)GetValue(BooleanValueProperty);
+            set => SetValue(BooleanValueProperty, value);
         }
 
         private string StringValue
@@ -69,7 +77,7 @@ namespace HandSchool.UWP
                         TickFrequency = 1,
                         TickPlacement = TickPlacement.Outside
                     };
-                    nmr.SetBinding(RangeBase.ValueProperty, new Binding { Source = this, Path = new PropertyPath("NumericValue"), Mode = BindingMode.TwoWay });
+                    nmr.SetBinding(RangeBase.ValueProperty, new Binding { Source = this, Path = new PropertyPath(nameof(NumericValue)), Mode = BindingMode.TwoWay });
 
                     var ind = new TextBlock
                     {
@@ -77,7 +85,7 @@ namespace HandSchool.UWP
                         Padding = new Thickness(16, 0, 0, 0)
                     };
                     Grid.SetColumn(ind, 1);
-                    ind.SetBinding(TextBlock.TextProperty, new Binding { Source = this, Path = new PropertyPath("NumericValue") });
+                    ind.SetBinding(TextBlock.TextProperty, new Binding { Source = this, Path = new PropertyPath(nameof(NumericValue)) });
 
                     Grid.Children.Add(nmr);
                     Grid.Children.Add(ind);
@@ -86,11 +94,19 @@ namespace HandSchool.UWP
                 case SettingTypes.String:
                     StringValue = (string)Value;
                     var tb = new TextBox();
-                    tb.SetBinding(TextBox.TextProperty, new Binding { Source = this, Path = new PropertyPath("StringValue"), Mode = BindingMode.TwoWay });
+                    tb.SetBinding(TextBox.TextProperty, new Binding { Source = this, Path = new PropertyPath(nameof(StringValue)), Mode = BindingMode.TwoWay });
                     Grid.Children.Add(tb);
                     break;
 
                 case SettingTypes.Const:
+                    break;
+
+                case SettingTypes.Boolean:
+                    BooleanValue = (bool)Value;
+                    var sw = new ToggleSwitch();
+                    Grid.SetColumnSpan(sw, 2);
+                    sw.SetBinding(ToggleSwitch.IsOnProperty, new Binding { Source = this, Path = new PropertyPath(nameof(BooleanValue)), Mode = BindingMode.TwoWay });
+                    Grid.Children.Add(sw);
                     break;
 
                 default:

@@ -40,6 +40,8 @@ namespace HandSchool.Internal
             BaseAddress = baseUrl;
             Encoding = encoding;
             AllowAutoRedirect = false;
+
+            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
         }
 
         protected override WebRequest GetWebRequest(Uri address)

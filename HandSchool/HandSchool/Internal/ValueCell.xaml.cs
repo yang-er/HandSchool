@@ -20,6 +20,9 @@ namespace HandSchool.Views
         public static readonly BindableProperty StringValueProperty =
             BindableProperty.Create(nameof(StringValue), typeof(string), typeof(ValueCell), "", BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
 
+        public static readonly BindableProperty BooleanValueProperty =
+            BindableProperty.Create(nameof(BooleanValue), returnType: typeof(bool), declaringType: typeof(ValueCell), defaultValue: false, defaultBindingMode: BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
+
         public static readonly BindableProperty AttributeProperty =
             BindableProperty.Create(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueCell), default(SettingsAttribute), BindingMode.OneWay);
         
@@ -51,7 +54,13 @@ namespace HandSchool.Views
             get => (int)GetValue(NumericValueProperty);
             set => SetValue(NumericValueProperty, value);
         }
-        
+
+        public bool BooleanValue
+        {
+            get => (bool)GetValue(BooleanValueProperty);
+            set => SetValue(BooleanValueProperty, value);
+        }
+
         public string StringValue
         {
             get => (string)GetValue(StringValueProperty);
@@ -73,12 +82,12 @@ namespace HandSchool.Views
                         Value = 1,
                     };
 
-                    nmr.SetBinding(Slider.ValueProperty, new Binding { Source = this, Path = "NumericValue", Mode = BindingMode.TwoWay });
+                    nmr.SetBinding(Slider.ValueProperty, new Binding { Source = this, Path = nameof(NumericValue), Mode = BindingMode.TwoWay });
                     var ind = new Label { VerticalOptions = LayoutOptions.Center };
                     Grid.SetColumn(ind, 1);
                     Grid.SetColumn(nmr, 0);
 
-                    ind.SetBinding(Label.TextProperty, new Binding { Source = this, Path = "NumericValue" });
+                    ind.SetBinding(Label.TextProperty, new Binding { Source = this, Path = nameof(NumericValue) });
                     grid.Children.Add(nmr);
                     grid.Children.Add(ind);
                     break;
@@ -88,11 +97,20 @@ namespace HandSchool.Views
 
                     var tb = new Entry();
                     Grid.SetColumnSpan(tb, 2);
-                    tb.SetBinding(Entry.TextProperty, new Binding { Source = this, Path = "StringValue", Mode = BindingMode.TwoWay });
+                    tb.SetBinding(Entry.TextProperty, new Binding { Source = this, Path = nameof(StringValue), Mode = BindingMode.TwoWay });
                     grid.Children.Add(tb);
                     break;
 
                 case SettingTypes.Const:
+                    break;
+
+                case SettingTypes.Boolean:
+                    BooleanValue = (bool)Wrapper.Value;
+
+                    var sw = new Switch();
+                    Grid.SetColumnSpan(sw, 2);
+                    sw.SetBinding(Switch.IsToggledProperty, new Binding { Source = this, Path = nameof(BooleanValue), Mode = BindingMode.TwoWay });
+                    grid.Children.Add(sw);
                     break;
 
                 default:
