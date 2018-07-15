@@ -38,7 +38,6 @@ namespace HandSchool.UWP
             else if (e.Parameter is IMessageItem msg)
             {
                 BindingContext.Title = "消息详情";
-                PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Delete), Label = "设为未读", Command = msg.SetUnread });
                 PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Delete), Label = "删除", Command = msg.Delete });
                 Title = msg.Title;
                 Time = "时间：" + msg.Time.ToString();
