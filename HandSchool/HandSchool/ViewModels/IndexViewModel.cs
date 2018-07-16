@@ -26,10 +26,10 @@ namespace HandSchool.ViewModels
 
         private IndexViewModel()
         {
-            RefreshCommand = new Command(Refresh);
+            RefreshCommand = new Command(async () => await Refresh());
             Core.App.Service.LoginStateChanged += (sender, args) => { if (args.State == LoginState.Succeeded) UpdateWelcome(); };
             Title = "掌上校园";
-            Refresh();
+            Task.Run(async () => await Refresh());
         }
 
         #region Weather
@@ -135,7 +135,7 @@ namespace HandSchool.ViewModels
 
         public Command RefreshCommand { get; set; }
 
-        async void Refresh()
+        async Task Refresh()
         {
             UpdateNextCurriculum();
             UpdateWelcome();
