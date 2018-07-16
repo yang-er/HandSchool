@@ -19,11 +19,10 @@ namespace HandSchool.Views
 
         private void WSizeChanged(object sender, EventArgs e)
         {
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                infoBar.HeightRequest = Width * 0.625;
-                stackOfInfo.Margin = new Thickness(20, Width * 0.625 - 70, 0, 0);
-            }
+#if __ANDROID__
+            infoBar.HeightRequest = Width * 0.625;
+            stackOfInfo.Margin = new Thickness(20, Width * 0.625 - 70, 0, 0);
+#endif
         }
 
         public void UpdateSideBar()

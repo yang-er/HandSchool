@@ -61,11 +61,11 @@ namespace HandSchool.ViewModels
             {
                 Children =
                 {
-                    (RawHtml) $"<hgroup class=\"mt-3\"><h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2><h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Device.RuntimePlatform} v{Core.App.Version}</h5></hgroup>",
+                    (RawHtml) $"<hgroup class=\"mt-3\"><h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2><h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Core.RuntimePlatform} v{Core.Version}</h5></hgroup>",
                     (RawHtml) "<p>一个致力于将各个学校不同的教务系统整合成一个手机app的项目。</p>",
                     (RawHtml) "<h4>适配模式</h4>",
                     (RawHtml) "<p>利用C#和Xamarin.Forms编写，可以运行在 UWP、Andorid、iOS 等平台上。<br>",
-                    (RawHtml) "目前已经支持 UWP (1709+)、Android (5.0+)，iOS缺少适配，但是可以基本运行。<br>",
+                    (RawHtml) "目前已经支持 UWP (1803+)、Android (5.0+)，iOS缺少适配，但是可以基本运行。<br>",
                     (RawHtml) "学校的接口是全部实现Interface，保证了可以更换学校的文档。<br>",
                     (RawHtml) "有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView</p>",
                     (RawHtml) "<h4>贡献</h4>",
@@ -115,19 +115,13 @@ namespace HandSchool.ViewModels
 
         void OpenMarket()
         {
-            switch (Device.RuntimePlatform)
-            {
-                case Device.Android:
-                    Device.OpenUri(new Uri("market://details?id=com.x90yang.HandSchool"));
-                    break;
-                case Device.UWP:
-                    Device.OpenUri(new Uri("ms-windows-store://review/?productid=9PD2FR9HHJQP"));
-                    break;
-                case Device.iOS:
-                    throw new NotImplementedException();
-                    Device.OpenUri(new Uri("itms://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8"));
-                    break;
-            }
+#if __ANDROID__
+            // Device.OpenUri(new Uri("market://details?id=com.x90yang.HandSchool"));
+#elif __IOS__
+            // Device.OpenUri(new Uri("itms://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8"));
+#elif __UWP__
+            Device.OpenUri(new Uri("ms-windows-store://review/?productid=9PD2FR9HHJQP"));
+#endif
         }
     }
 }

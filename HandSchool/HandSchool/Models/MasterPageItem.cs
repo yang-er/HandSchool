@@ -29,21 +29,16 @@ namespace HandSchool.Models
         {
             this.title = title;
 
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                destpg_type = "HandSchool.Views." + dest;
-            }
-            else if (Device.RuntimePlatform == Device.iOS)
-            {
-                destpg_type = "HandSchool.Views." + dest;
-                appleIcon = new FileImageSource { File = apple };
-            }
-            else if (Device.RuntimePlatform == Device.UWP)
-            {
-                FontFamily = segoemdl2;
-                Icon = icon;
-                DestinationPageType = Assembly.GetExecutingAssembly().GetType("HandSchool.UWP." + dest);
-            }
+#if __ANDROID__
+            destpg_type = "HandSchool.Views." + dest;
+#elif __IOS__
+            destpg_type = "HandSchool.Views." + dest;
+            appleIcon = new FileImageSource { File = apple };
+#elif __UWP__
+            FontFamily = segoemdl2;
+            Icon = icon;
+            DestinationPageType = Assembly.GetExecutingAssembly().GetType("HandSchool.UWP." + dest);
+#endif
 
             selected = select;
             color = select ? active : inactive;

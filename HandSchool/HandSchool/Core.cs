@@ -18,7 +18,17 @@ namespace HandSchool
         public int DailyClassCount;
         public List<InfoEntranceGroup> InfoEntrances = new List<InfoEntranceGroup>();
         public static List<ISchoolWrapper> Schools { get; } = new List<ISchoolWrapper>();
-        public string Version => "1.3.8.0";
+        public static string Version => "1.4.9.0";
+#if __UWP__
+        public static string RuntimePlatform => "UWP";
+        public static T OnPlatform<T>(T android, T ios, T uwp) => uwp;
+#elif __IOS__
+        public static string RuntimePlatform => "iOS";
+        public static T OnPlatform<T>(T android, T ios, T uwp) => ios;
+#elif __ANDROID__
+        public static string RuntimePlatform => "Android";
+        public static T OnPlatform<T>(T android, T ios, T uwp) => android;
+#endif
 
         private Core() { }
 
@@ -29,7 +39,7 @@ namespace HandSchool
             _instance = new Core();
             foreach (var info in (typeof(Core)).GetProperties())
             {
-                if (info.PropertyType.FullName == "HandSchool.Services.ISchoolWrapper")
+                if (info.PropertyType == typeof(ISchoolWrapper))
                     Schools.Add(info.GetValue(_instance) as ISchoolWrapper);
             }
 

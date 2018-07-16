@@ -33,19 +33,19 @@ namespace HandSchool.ViewModels
             PrimaryItems.Add(new MasterPageItem("首页", "IndexPage", "\xE10F", "tab_feed.png", true));
             PrimaryItems.Add(new MasterPageItem("课程表", "SchedulePage", "\xECA5", "tab_feed.png"));
 
-            if (Device.RuntimePlatform == Device.UWP)
-            {
-                if (Core.App.Feed != null)
-                    PrimaryItems.Add(new MasterPageItem("学校通知", "FeedPage", "\xED0D", "tab_feed.png"));
-                if (Core.App.Message != null)
-                    PrimaryItems.Add(new MasterPageItem("站内消息", "MessagePage", "\xE715", "tab_feed.png"));
-            }
-            else if (Core.App.Feed != null && Core.App.Message != null)
+#if __UWP__
+            if (Core.App.Feed != null)
+                PrimaryItems.Add(new MasterPageItem("学校通知", "FeedPage", "\xED0D", "tab_feed.png"));
+            if (Core.App.Message != null)
+                PrimaryItems.Add(new MasterPageItem("站内消息", "MessagePage", "\xE715", "tab_feed.png"));
+#else
+            if (Core.App.Feed != null && Core.App.Message != null)
                 PrimaryItems.Add(new MasterPageItem("消息通知", "MessageTabbedPage", "\xE715", "tab_feed.png"));
             else if (Core.App.Feed != null)
                 PrimaryItems.Add(new MasterPageItem("学校通知", "FeedPage", "\xED0D", "tab_feed.png"));
             else if (Core.App.Message != null)
                 PrimaryItems.Add(new MasterPageItem("站内消息", "MessagePage", "\xE715", "tab_feed.png"));
+#endif
 
             if (Core.App.GradePoint != null)
                 PrimaryItems.Add(new MasterPageItem("学分成绩", "GradePointPage", "\xE82D", "tab_feed.png"));
