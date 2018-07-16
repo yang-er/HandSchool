@@ -87,6 +87,7 @@ namespace HandSchool.Models
                     return "数据包传输出现错误";
                 case WebExceptionStatus.TrustFailure:
                 case WebExceptionStatus.SecureChannelFailure:
+                    return "SSL证书错误";
                 case WebExceptionStatus.ServerProtocolViolation:
                 case WebExceptionStatus.KeepAliveFailure:
                     return "网络沟通出现错误";

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using X509Cert = System.Security.Cryptography.X509Certificates.X509Certificate;
+using X509Chain = System.Security.Cryptography.X509Certificates.X509Chain;
+using SslPolicyErrors = System.Net.Security.SslPolicyErrors;
 
 namespace HandSchool.Internal
 {
@@ -40,8 +43,13 @@ namespace HandSchool.Internal
             BaseAddress = baseUrl;
             Encoding = encoding;
             AllowAutoRedirect = false;
+            
+            ServicePointManager.ServerCertificateValidationCallback = CertificateValidate;
+        }
 
-            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+        private static bool CertificateValidate(object sender, X509Cert certificate, X509Chain chain, SslPolicyErrors poly)
+        {
+            return true;
         }
 
         protected override WebRequest GetWebRequest(Uri address)

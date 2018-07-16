@@ -106,9 +106,9 @@ namespace HandSchool.Views
 
                 case SettingTypes.Boolean:
                     BooleanValue = (bool)Wrapper.Value;
-
                     var sw = new Switch();
                     Grid.SetColumnSpan(sw, 2);
+                    sw.HorizontalOptions = LayoutOptions.Start;
                     sw.SetBinding(Switch.IsToggledProperty, new Binding { Source = this, Path = nameof(BooleanValue), Mode = BindingMode.TwoWay });
                     grid.Children.Add(sw);
                     break;
