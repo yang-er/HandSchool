@@ -51,6 +51,8 @@ namespace HandSchool
 
         #endregion
 
+        #region 运行时服务
+
         /// <summary>
         /// 单例的加载了当前学校的App
         /// </summary>
@@ -149,5 +151,7 @@ namespace HandSchool
         }
 
         private Core() { }
+
+        #endregion
     }
 }

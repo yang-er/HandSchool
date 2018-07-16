@@ -18,9 +18,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\Feed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\Loader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\Schedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\School.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreLoader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\Blank.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />

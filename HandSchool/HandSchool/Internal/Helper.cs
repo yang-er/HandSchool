@@ -6,21 +6,19 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Xml.Linq;
 using Xamarin.Forms;
+using FeedItem = HandSchool.Models.FeedItem;
 
 namespace HandSchool.Internal
 {
-    partial class Helper
+    static partial class Helper
     {
         private static StringBuilder sb = new StringBuilder();
         private static JsonSerializer json = JsonSerializer.Create();
         public static string[] ScheduleColors = { "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65", "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
-
-        public static int GetDeviceSpecified(string name)
-        {
-            return 0;
-        }
-
+        
         [Obsolete("Use Core.ReadConfig instead.")]
         public static string ReadConfFile(string name)
         {
@@ -31,6 +29,22 @@ namespace HandSchool.Internal
         public static void WriteConfFile(string name, string value)
         {
             Core.WriteConfig(name, value);
+        }
+        
+        public static IEnumerable<FeedItem> ParseRSS(string report)
+        {
+            var xdoc = XDocument.Parse(report);
+            var id = 0;
+            return (from item in xdoc.Root.Element("channel").Descendants("item")
+                    select new FeedItem
+                    {
+                        Title = (string)item.Element("title"),
+                        Description = (string)item.Element("description"),
+                        PubDate = (string)item.Element("pubDate"),
+                        Category = (string)item.Elements("category").Last(),
+                        Link = (string)item.Element("link"),
+                        Id = id++
+                    });
         }
 
         public static byte[] MD5(byte[] source)
