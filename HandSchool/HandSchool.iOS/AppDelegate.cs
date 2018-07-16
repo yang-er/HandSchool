@@ -16,7 +16,6 @@ namespace HandSchool.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            Internal.Helper.DataBaseDir = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

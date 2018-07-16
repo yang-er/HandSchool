@@ -31,7 +31,6 @@ namespace HandSchool.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            Internal.Helper.DataBaseDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             Internal.Helper.AndroidContext = this;
             ActivityContext = this;
             OnClick += (sender, e) => { ProgressDialog = new ProgressDialog(this); new Thread(InstallApk).Start(); };

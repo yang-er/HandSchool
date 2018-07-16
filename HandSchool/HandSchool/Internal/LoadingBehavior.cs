@@ -12,9 +12,9 @@ namespace HandSchool.Internal
 #if __ANDROID__
         Android.App.ProgressDialog renderObj;
 #elif __IOS__
-            
+        
 #elif __UWP__
-            
+        
 #endif
 
         public LoadingBehavior(string tips, string title = "提示")

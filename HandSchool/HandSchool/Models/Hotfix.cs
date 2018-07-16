@@ -1,12 +1,12 @@
-﻿using HandSchool.Internal;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Net;
-using System.Text;
-using static HandSchool.Internal.Helper;
-namespace HandSchool.Models
+
+namespace HandSchool.Services
 {
+    /// <summary>
+    /// 模块热更新
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class HotfixAttribute : Attribute
     {
@@ -50,11 +50,11 @@ namespace HandSchool.Models
                 {
                     var new_meta = await wc.DownloadStringTaskAsync(UpdateSource);
                     var meta_exp = new_meta.Split(new char[] { ';' }, 2);
-                    var local_meta = ReadConfFile(LocalStorage + ".ver");
+                    var local_meta = Core.ReadConfig(LocalStorage + ".ver");
 
                     if (force)
                     {
-
+                        force = true;
                     }
                     else if (local_meta == "")
                     {
@@ -67,15 +67,15 @@ namespace HandSchool.Models
                 
                     if (force)
                     {
-                        WriteConfFile(LocalStorage + ".ver", local_meta);
-                        await wc.DownloadFileTaskAsync(meta_exp[1], Path.Combine(DataBaseDir, LocalStorage));
+                        Core.WriteConfig(LocalStorage + ".ver", local_meta);
+                        await wc.DownloadFileTaskAsync(meta_exp[1], Path.Combine(Core.ConfigDirectory, LocalStorage));
                     }
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
-                WriteConfFile(LocalStorage + ".ver", "");
+                Core.WriteConfig(LocalStorage + ".ver", "");
             }
         }
 
@@ -85,12 +85,12 @@ namespace HandSchool.Models
         /// <returns>数据</returns>
         public string ReadContent()
         {
-            var ret = ReadConfFile(LocalStorage);
+            var ret = Core.ReadConfig(LocalStorage);
             if (ret != "") return ret;
             else
             {
                 CheckUpdate(true);
-                return ReadConfFile(LocalStorage);
+                return Core.ReadConfig(LocalStorage);
             }
         }
     }

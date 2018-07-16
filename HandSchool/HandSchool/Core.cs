@@ -1,49 +1,113 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
+using System;
 using System.Collections.Generic;
-using static HandSchool.Internal.Helper;
+using System.IO;
 
 namespace HandSchool
 {
+    /// <summary>
+    /// 程序核心类
+    /// </summary>
     public sealed partial class Core
     {
-        private static Core _instance;
-        public static Core App => _instance;
+        #region 学校服务
+
+        /// <summary>
+        /// 学校的教务中心服务
+        /// </summary>
         public ISchoolSystem Service;
+
+        /// <summary>
+        /// 获取绩点的入口点
+        /// </summary>
         public IGradeEntrance GradePoint;
+
+        /// <summary>
+        /// 获取课程表的入口点
+        /// </summary>
         public IScheduleEntrance Schedule;
+
+        /// <summary>
+        /// 获取系统消息的入口点
+        /// </summary>
         public IMessageEntrance Message;
+
+        /// <summary>
+        /// 获取消息更新的入口点
+        /// </summary>
         public IFeedEntrance Feed;
         public ISystemEntrance SelectCourse;
+
+        /// <summary>
+        /// 每天有多少节标准课时
+        /// </summary>
         public int DailyClassCount;
+
+        /// <summary>
+        /// 信息查询入口点创造
+        /// </summary>
         public List<InfoEntranceGroup> InfoEntrances = new List<InfoEntranceGroup>();
+
+        #endregion
+
+        /// <summary>
+        /// 单例的加载了当前学校的App
+        /// </summary>
+        public static Core App { get; private set; }
+
+        /// <summary>
+        /// 可用学校列表
+        /// </summary>
         public static List<ISchoolWrapper> Schools { get; } = new List<ISchoolWrapper>();
+
+        /// <summary>
+        /// 当前软件版本号
+        /// </summary>
         public static string Version => "1.4.9.0";
+
+        /// <summary>
+        /// 当前软件运行的平台
+        /// </summary>
 #if __UWP__
         public static string RuntimePlatform => "UWP";
-        public static T OnPlatform<T>(T android, T ios, T uwp) => uwp;
 #elif __IOS__
         public static string RuntimePlatform => "iOS";
-        public static T OnPlatform<T>(T android, T ios, T uwp) => ios;
 #elif __ANDROID__
         public static string RuntimePlatform => "Android";
+#endif
+
+        /// <summary>
+        /// 类似Xamarin的OnPlatform函数
+        /// </summary>
+#if __UWP__
+        public static T OnPlatform<T>(T android, T ios, T uwp) => uwp;
+#elif __IOS__
+        public static T OnPlatform<T>(T android, T ios, T uwp) => ios;
+#elif __ANDROID__
         public static T OnPlatform<T>(T android, T ios, T uwp) => android;
 #endif
 
-        private Core() { }
-
+        /// <summary>
+        /// 初始化核心程序
+        /// </summary>
+        /// <returns>是否已经加载对应学校</returns>
         public static bool Initialize()
         {
-            if (_instance != null) return true;
+            if (App != null) return true;
 
-            _instance = new Core();
-            foreach (var info in (typeof(Core)).GetProperties())
-            {
-                if (info.PropertyType == typeof(ISchoolWrapper))
-                    Schools.Add(info.GetValue(_instance) as ISchoolWrapper);
-            }
+            App = new Core();
+            ListSchools();
 
-            var type = ReadConfFile("hs.school.bin");
+#if __UWP__
+            ConfigDirectory = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+#elif __IOS__
+            ConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library");
+#elif __ANDROID__
+            ConfigDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+#endif
+
+            var type = ReadConfig("hs.school.bin");
             if (type == "")
             {
                 return false;
@@ -51,21 +115,39 @@ namespace HandSchool
             else
             {
                 var current = Schools.Find((sw) => sw.SchoolId == type);
+                if (current is null) return false;
                 current.PreLoad();
                 current.PostLoad();
                 return true;
             }
         }
-    }
 
-    namespace Services
-    {
-        public interface ISchoolWrapper
+        /// <summary>
+        /// 数据基础目录
+        /// </summary>
+        public static string ConfigDirectory { get; private set; }
+
+        /// <summary>
+        /// 读取配置文件
+        /// </summary>
+        /// <param name="name">文件名</param>
+        /// <returns>读取内容</returns>
+        public static string ReadConfig(string name)
         {
-            void PreLoad();
-            void PostLoad();
-            string SchoolName { get; }
-            string SchoolId { get; }
+            string fn = Path.Combine(ConfigDirectory, name);
+            return File.Exists(fn) ? File.ReadAllText(fn) : "";
         }
+
+        /// <summary>
+        /// 写入配置文件
+        /// </summary>
+        /// <param name="name">文件名</param>
+        /// <param name="value">写入内容</param>
+        public static void WriteConfig(string name, string value)
+        {
+            File.WriteAllText(Path.Combine(ConfigDirectory, name), value);
+        }
+
+        private Core() { }
     }
 }

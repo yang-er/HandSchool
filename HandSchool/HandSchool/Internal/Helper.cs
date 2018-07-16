@@ -15,25 +15,22 @@ namespace HandSchool.Internal
         private static StringBuilder sb = new StringBuilder();
         private static JsonSerializer json = JsonSerializer.Create();
         public static string[] ScheduleColors = { "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65", "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
-        public static string DataBaseDir;
 
         public static int GetDeviceSpecified(string name)
         {
             return 0;
         }
 
+        [Obsolete("Use Core.ReadConfig instead.")]
         public static string ReadConfFile(string name)
         {
-            string fn = Path.Combine(DataBaseDir, name);
-            if (File.Exists(fn))
-                return File.ReadAllText(Path.Combine(DataBaseDir, name));
-            else
-                return "";
+            return Core.ReadConfig(name);
         }
 
+        [Obsolete("Use Core.WriteConfig instead.")]
         public static void WriteConfFile(string name, string value)
         {
-            File.WriteAllText(Path.Combine(DataBaseDir, name), value);
+            Core.WriteConfig(name, value);
         }
 
         public static byte[] MD5(byte[] source)

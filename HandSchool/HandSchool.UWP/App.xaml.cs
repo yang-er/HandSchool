@@ -32,7 +32,6 @@ namespace HandSchool.UWP
         /// </summary>
         public App()
         {
-            Internal.Helper.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
