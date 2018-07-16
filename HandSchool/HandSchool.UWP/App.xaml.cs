@@ -33,7 +33,6 @@ namespace HandSchool.UWP
         public App()
         {
             Internal.Helper.DataBaseDir = ApplicationData.Current.LocalFolder.Path;
-            Internal.Helper.SegoeMDL2 = "/Assets/segmdl2.ttf#Segoe MDL2 Assets";
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -45,6 +44,7 @@ namespace HandSchool.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+
             var loaded = Core.Initialize();
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -84,21 +84,6 @@ namespace HandSchool.UWP
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonForegroundColor = Colors.Black;
-
-            return;
-            
-            
-            var themeColor = Color.FromArgb(255, 33, 150, 243);
-            titleBar.BackgroundColor = themeColor;
-
-            var foregroundColor = Color.FromArgb(255, 255, 255, 255);
-            titleBar.ForegroundColor = foregroundColor;
-            titleBar.InactiveBackgroundColor = Colors.Transparent;
-            titleBar.InactiveForegroundColor = foregroundColor;
-            titleBar.ButtonBackgroundColor = titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x88, 0xFF, 0xFF, 0xFF);
-            titleBar.ButtonPressedBackgroundColor = Color.FromArgb(0x88, 0x00, 0x00, 0x00);
-            titleBar.ButtonForegroundColor = foregroundColor;
         }
 
         /// <summary>

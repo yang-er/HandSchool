@@ -55,9 +55,9 @@ namespace HandSchool.JLU
             private set
             {
                 SetProperty(ref is_login, value);
-                OnPropertyChanged("WelcomeMessage");
-                OnPropertyChanged("CurrentMessage");
-                OnPropertyChanged("CurrentWeek");
+                OnPropertyChanged(nameof(WelcomeMessage));
+                OnPropertyChanged(nameof(CurrentMessage));
+                OnPropertyChanged(nameof(CurrentWeek));
             }
         }
 
@@ -68,7 +68,7 @@ namespace HandSchool.JLU
             set
             {
                 SetProperty(ref auto_login, value);
-                if (value) SetProperty(ref save_password, true, "SavePassword");
+                if (value) SetProperty(ref save_password, true, nameof(SavePassword));
             }
         }
 
@@ -79,7 +79,7 @@ namespace HandSchool.JLU
             set
             {
                 SetProperty(ref save_password, value);
-                if (!value) SetProperty(ref auto_login, true, "AutoLogin");
+                if (!value) SetProperty(ref auto_login, true, nameof(AutoLogin));
             }
         }
 
@@ -159,6 +159,7 @@ namespace HandSchool.JLU
                 WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
             }
 
+            if (WebClient != null) WebClient.Dispose();
             WebClient = new AwaredWebClient(ServerUri, Encoding.UTF8);
             var proxy_server_domain = proxy_server.Split(':')[0];
             WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server_domain));

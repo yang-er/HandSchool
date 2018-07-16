@@ -8,21 +8,30 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <NavigationView x:Name="NavigationView" ItemInvoked="NavigationView_ItemInvoked">
+        <NavigationView x:Name="NavigationView" ItemInvoked="NavigationView_ItemInvoked" BackRequested="NavigationView_BackRequested">
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Margin="24,32,0,0">
+                    <Grid Margin="12,28,0,-8" x:Name="HeaderAreaGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock FontSize="28" VerticalAlignment="Center" FontWeight="Light" Text="{Binding Title}" />
+                        </Grid.ColumnDefinitions><!--
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState>
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="720" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="Margin" Value="-60,28,0,-8" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>-->
+                        <TextBlock Margin="0,0,0,-12" FontSize="28" VerticalAlignment="Center" FontWeight="Light" Text="{Binding Title}" />
                         <ProgressBar Margin="0,0,0,-12" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="{Binding IsBusy}" />
-                        <CommandBar Loaded="CommandBar_Loaded" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}" Name="CommandBar">
-                            <AppBarButton Label="Refresh" Icon="Refresh" />
-                            <AppBarButton Label="" Icon="Home" />
-                        </CommandBar>
+                        <CommandBar Loaded="CommandBar_Loaded" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}" Name="CommandBar"></CommandBar>
                     </Grid>
                 </DataTemplate>
             </NavigationView.HeaderTemplate>

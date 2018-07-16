@@ -39,15 +39,14 @@ namespace HandSchool.UWP
             ).ToList();
 
             NavMenuItems.ForEach((i) => NavigationView.MenuItems.Add(i));
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += ContentFrame_BackRequested;
+            
             ContentFrame.Navigate(typeof(IndexPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -72,8 +71,9 @@ namespace HandSchool.UWP
 
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = 
-                ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            NavigationView.IsBackEnabled = ContentFrame.CanGoBack;
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = 
+              //  ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
             object selected = null;
 
@@ -88,15 +88,6 @@ namespace HandSchool.UWP
             else if (e.Content is MessageDetailPage page)
             {
                 selected = NavigationView.SelectedItem;
-                /*
-                if (page.Tag is FeedItem)
-                {
-                    selected = NavMenuItems.Find((item) => item.Tag as Type == typeof(FeedPage));
-                }
-                else if (page.Tag is IMessageItem)
-                {
-                    selected = NavMenuItems.Find((item) => item.Tag as Type == typeof(MessagePage));
-                }*/
             }
             else
             {
@@ -105,18 +96,7 @@ namespace HandSchool.UWP
 
             NavigationView.SelectedItem = selected;
         }
-
-        private void ContentFrame_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (ContentFrame == null)
-                return;
-            if (ContentFrame.CanGoBack && e.Handled == false)
-            {
-                e.Handled = true;
-                ContentFrame.GoBack();
-            }
-        }
-
+        
         private void CommandBar_Loaded(object sender, RoutedEventArgs e)
         {
             CommandBar = sender as CommandBar;
@@ -126,6 +106,11 @@ namespace HandSchool.UWP
         {
             CommandBar?.PrimaryCommands.Clear();
             CommandBar?.SecondaryCommands.Clear();
+        }
+
+        private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            if (ContentFrame.CanGoBack) ContentFrame.GoBack();
         }
     }
 }

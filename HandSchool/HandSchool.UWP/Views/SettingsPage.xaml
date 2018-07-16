@@ -15,7 +15,7 @@
                 <ContentControl VerticalContentAlignment="Stretch" Width="12" />
             </Pivot.LeftHeader>
             <PivotItem Header="设置" Margin="0">
-                <ListView x:Name="ListView" ItemsSource="{Binding Items}" SelectionMode="None">
+                <ListView x:Name="ListView" Margin="0,8,0,0" ItemsSource="{Binding Items}" SelectionMode="None">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalAlignment" Value="Stretch" />

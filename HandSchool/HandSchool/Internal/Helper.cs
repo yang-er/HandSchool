@@ -16,19 +16,6 @@ namespace HandSchool.Internal
         private static JsonSerializer json = JsonSerializer.Create();
         public static string[] ScheduleColors = { "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65", "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
         public static string DataBaseDir;
-        public static string SegoeMDL2;
-#if __UWP__
-        public static Windows.UI.Color[] ScheduleColors2 = {
-            Windows.UI.Color.FromArgb(0xff, 0x59, 0xe0, 0x9e),
-            Windows.UI.Color.FromArgb(0xff, 0xf4, 0x8f, 0xb1),
-            Windows.UI.Color.FromArgb(0xff, 0xce, 0x93, 0xd8),
-            Windows.UI.Color.FromArgb(0xff, 0xff, 0x8a, 0x65),
-            Windows.UI.Color.FromArgb(0xff, 0x9f, 0xa8, 0xda),
-            Windows.UI.Color.FromArgb(0xff, 0x42, 0xa5, 0xf5),
-            Windows.UI.Color.FromArgb(0xff, 0x80, 0xde, 0xea),
-            Windows.UI.Color.FromArgb(0xff, 0xc6, 0xde, 0x7c)
-        };
-#endif
 
         public static int GetDeviceSpecified(string name)
         {

@@ -31,6 +31,18 @@ namespace HandSchool
                 dialog.Commands.Add(new UICommand(button));
                 await dialog.ShowAsync();
             }
+
+
+            public static Windows.UI.Color[] ScheduleColors2 = {
+                Windows.UI.Color.FromArgb(0xff, 0x59, 0xe0, 0x9e),
+                Windows.UI.Color.FromArgb(0xff, 0xf4, 0x8f, 0xb1),
+                Windows.UI.Color.FromArgb(0xff, 0xce, 0x93, 0xd8),
+                Windows.UI.Color.FromArgb(0xff, 0xff, 0x8a, 0x65),
+                Windows.UI.Color.FromArgb(0xff, 0x9f, 0xa8, 0xda),
+                Windows.UI.Color.FromArgb(0xff, 0x42, 0xa5, 0xf5),
+                Windows.UI.Color.FromArgb(0xff, 0x80, 0xde, 0xea),
+                Windows.UI.Color.FromArgb(0xff, 0xc6, 0xde, 0x7c)
+            };
         }
     }
 

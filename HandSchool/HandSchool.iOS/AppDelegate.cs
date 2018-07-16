@@ -17,7 +17,6 @@ namespace HandSchool.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Internal.Helper.DataBaseDir = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "..", "Library");
-            Internal.Helper.SegoeMDL2 = "Segoe MDL2 Assets";
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
