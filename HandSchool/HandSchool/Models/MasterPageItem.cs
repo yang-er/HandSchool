@@ -1,87 +1,116 @@
 ﻿using HandSchool.Internal;
 using System;
-using System.ComponentModel;
 using System.Reflection;
 using Xamarin.Forms;
 
 namespace HandSchool.Models
 {
-    // Thanks to 张高兴
+    /// <summary>
+    /// 系统导航项目
+    /// </summary>
+    /// <remarks>Thanks to 张高兴</remarks>
+    /// <see cref="https://www.cnblogs.com/zhanggaoxing/p/7436523.html" />
     public class MasterPageItem : NotifyPropertyChanged
     {
         static Color active = Color.FromRgb(0, 120, 215);
         static Color inactive = Color.Black;
-        const string segoemdl2 = "/Assets/segmdl2.ttf#Segoe MDL2 Assets";
-
-        private Color color = new Color();
-        public string FontFamily { get; set; }
-        public string Icon { get; set; }
-        public Type DestinationPageType { get; }
-        private bool selected = false;
-        private string title;
-        private string destpg_type;
-        private NavigationPage _destpg;
-        public FileImageSource appleIcon = null;
-
+        
         public MasterPageItem() { }
 
+        /// <summary>
+        /// 系统导航项目
+        /// </summary>
+        /// <param name="title">名称</param>
+        /// <param name="dest">目标页面类型</param>
+        /// <param name="icon">Segoe MDL2 Assets 图标</param>
+        /// <param name="apple">苹果图标</param>
+        /// <param name="select">是否已选中</param>
         public MasterPageItem(string title, string dest, string icon, string apple, bool select = false)
         {
             this.title = title;
+            string destpg_type;
 
-#if __ANDROID__
-            destpg_type = "HandSchool.Views." + dest;
+#if __UWP__
+            destpg_type = "HandSchool.UWP." + dest;
+            Icon = icon;
 #elif __IOS__
             destpg_type = "HandSchool.Views." + dest;
             appleIcon = new FileImageSource { File = apple };
-#elif __UWP__
-            FontFamily = segoemdl2;
-            Icon = icon;
-            DestinationPageType = Assembly.GetExecutingAssembly().GetType("HandSchool.UWP." + dest);
+#elif __ANDROID__
+            destpg_type = "HandSchool.Views." + dest;
 #endif
+            
+            DestinationPageType = Assembly.GetExecutingAssembly().GetType(destpg_type);
 
             selected = select;
             color = select ? active : inactive;
         }
 
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public string Icon { get; set; }
+
+        /// <summary>
+        /// 目标页面类型元数据
+        /// </summary>
+        public Type DestinationPageType { get; }
+
+        /// <summary>
+        /// 目标页面
+        /// </summary>
         public NavigationPage DestPage
         {
             get
             {
-                if (_destpg is null)
-                {
-                    _destpg = new NavigationPage(Assembly.GetExecutingAssembly().CreateInstance(destpg_type) as Page)
-                    {
-                        Title = title,
-                        Icon = appleIcon
-                    };
-                }
+#if __UWP__
+                throw new NotImplementedException("UWP do not use this function");
+#endif
 
-                return _destpg;
+                return _destpg ?? (_destpg = new NavigationPage(Activator.CreateInstance(DestinationPageType) as Page)
+                {
+                    Title = title,
+                    Icon = appleIcon
+                });
             }
         }
 
+        /// <summary>
+        /// 展示的标题
+        /// </summary>
         public string Title
         {
             get => title;
             set => SetProperty(ref title, value);
         }
 
+        /// <summary>
+        /// 是否被选中
+        /// </summary>
         public bool Selected
         {
             get => selected;
             set
             {
                 SetProperty(ref selected, value);
-                SetProperty(ref color, value ? active : inactive, "Color");
+                Color = value ? active : inactive;
             }
         }
-        
+
+        /// <summary>
+        /// 展示的颜色
+        /// </summary>
         public Color Color
         {
             get => color;
             set => SetProperty(ref color, value);
         }
+
+        private Color color = new Color();
+        private bool selected = false;
+        private string title;
+        private NavigationPage _destpg;
+        private FileImageSource appleIcon = null;
 
         public override string ToString() => title;
     }

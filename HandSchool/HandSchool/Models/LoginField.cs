@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Models
 {
+    /// <summary>
+    /// 登录表单
+    /// </summary>
     public interface ILoginField : INotifyPropertyChanged
     {
         /// <summary>
@@ -54,23 +57,47 @@ namespace HandSchool.Models
         event EventHandler<LoginStateEventArgs> LoginStateChanged;
     }
 
+    /// <summary>
+    /// 登录状态改变的事件
+    /// </summary>
     public class LoginStateEventArgs : EventArgs
     {
+        /// <summary>
+        /// 登录状态
+        /// </summary>
         public LoginState State { get; set; }
+
+        /// <summary>
+        /// 内部错误
+        /// </summary>
         public string InnerError { get; set; }
 
+        /// <summary>
+        /// 登录状态改变事件
+        /// </summary>
+        /// <param name="state">登录状态</param>
+        /// <param name="error">错误信息</param>
         public LoginStateEventArgs(LoginState state, string error = "")
         {
             State = state;
             InnerError = error;
         }
 
+        /// <summary>
+        /// 登录状态改变事件
+        /// </summary>
+        /// <param name="ex">网络异常</param>
         public LoginStateEventArgs(WebException ex)
         {
             State = LoginState.Failed;
             InnerError = GetWebExceptionMessage(ex);
         }
 
+        /// <summary>
+        /// 获得异常的消息
+        /// </summary>
+        /// <param name="e">网络异常信息</param>
+        /// <returns>表述字符串</returns>
         public static string GetWebExceptionMessage(WebException e)
         {
             switch (e.Status)
@@ -100,10 +127,24 @@ namespace HandSchool.Models
         }
     }
     
+    /// <summary>
+    /// 登录状态
+    /// </summary>
     public enum LoginState
     {
+        /// <summary>
+        /// 正在登录
+        /// </summary>
         Processing,
+
+        /// <summary>
+        /// 登录成功
+        /// </summary>
         Succeeded,
+
+        /// <summary>
+        /// 登录失败
+        /// </summary>
         Failed
     }
 }

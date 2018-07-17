@@ -1,72 +1,102 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
-using HandSchool.Services;
+﻿using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xamarin.Forms;
-using Bootstrap = HandSchool.Internal.HtmlObject.Bootstrap;
-using HFAttr = HandSchool.Models.HotfixAttribute;
+using HFAttr = HandSchool.Services.HotfixAttribute;
 
-namespace HandSchool
+namespace HandSchool.Models
 {
-    namespace Services
+    /// <summary>
+    /// 创建入口点的函数
+    /// </summary>
+    /// <returns>新的入口点</returns>
+    public delegate IInfoEntrance EntranceCreator();
+
+    /// <summary>
+    /// 入口点组
+    /// </summary>
+    public class InfoEntranceGroup : List<InfoEntranceWrapper>
     {
-        public interface IInfoEntrance : ISystemEntrance
+        /// <summary>
+        /// 组标题
+        /// </summary>
+        public string GroupTitle { get; set; }
+
+        public override string ToString()
         {
-            string Description { get; }
-            List<string> TableHeader { get; set; }
-            Bootstrap HtmlDocument { get; set; }
-            void Receive(string data);
-            IViewResponse Binding { get; set; }
-            Action<string> Evaluate { get; set; }
-            List<InfoEntranceMenu> Menu { get; set; }
+            return GroupTitle;
         }
     }
 
-    namespace Models
+    /// <summary>
+    /// 入口点包装
+    /// </summary>
+    public class InfoEntranceWrapper
     {
-        public delegate IInfoEntrance EntranceCreator();
+        /// <summary>
+        /// 入口点名称
+        /// </summary>
+        public string Name { get; }
 
-        public class InfoEntranceGroup : List<InfoEntranceWrapper>
+        /// <summary>
+        /// 入口点描述
+        /// </summary>
+        public string Description { get; }
+
+        /// <summary>
+        /// 入口点加载委托
+        /// </summary>
+        public EntranceCreator Load { get; }
+
+        /// <summary>
+        /// 入口点包装
+        /// </summary>
+        /// <param name="name">入口点名称</param>
+        /// <param name="description">入口点描述</param>
+        /// <param name="type">入口点加载委托</param>
+        public InfoEntranceWrapper(string name, string description, Type type)
         {
-            public string GroupTitle { get; set; }
-
-            public override string ToString()
-            {
-                return GroupTitle;
-            }
+            Name = name;
+            Description = description;
+            if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
+                Task.Run(() => hfattr.CheckUpdate(false));
+            Load = () => Activator.CreateInstance(type) as IInfoEntrance;
         }
+    }
 
-        public class InfoEntranceWrapper
+    /// <summary>
+    /// 入口点菜单
+    /// </summary>
+    public struct InfoEntranceMenu
+    {
+        /// <summary>
+        /// 菜单名称
+        /// </summary>
+        public string Name;
+
+        /// <summary>
+        /// 菜单执行命令
+        /// </summary>
+        public Command Command;
+
+        /// <summary>
+        /// 菜单图标
+        /// </summary>
+        public string Icon;
+
+        /// <summary>
+        /// 入口点菜单
+        /// </summary>
+        /// <param name="name">菜单名称</param>
+        /// <param name="cmd">菜单执行命令</param>
+        /// <param name="ico">菜单图标</param>
+        public InfoEntranceMenu(string name, Command cmd, string ico)
         {
-            public string Name { get; }
-            public string Description { get; }
-            public EntranceCreator Load { get; }
-
-            public InfoEntranceWrapper(string name, string description, Type type)
-            {
-                Name = name;
-                Description = description;
-                if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
-                    hfattr.CheckUpdate();
-                Load = () => Assembly.GetExecutingAssembly()
-                    .CreateInstance(type.FullName) as IInfoEntrance;
-            }
-        }
-
-        public struct InfoEntranceMenu
-        {
-            public string Name;
-            public Command Command;
-            public string Icon;
-
-            public InfoEntranceMenu(string name, Command cmd, string ico)
-            {
-                Name = name;
-                Command = cmd;
-                Icon = ico;
-            }
+            Name = name;
+            Command = cmd;
+            Icon = ico;
         }
     }
 }
