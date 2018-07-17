@@ -11,12 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class IndexPage : ContentPage
+	public partial class IndexPage : PopContentPage
 	{
         public IndexPage()
 		{
             InitializeComponent();
-            BindingContext = IndexViewModel.Instance;
+            ViewModel = IndexViewModel.Instance;
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)

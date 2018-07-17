@@ -78,6 +78,10 @@ namespace HandSchool.Views
         }
 
     }
+
+    /// <summary>
+    /// WeekOen与int互相转化
+    /// </summary>
     public class OenConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo language)

@@ -66,7 +66,7 @@ namespace HandSchool.JLU
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            WriteConfFile(StorageFile, LastReport);
+            Core.WriteConfig(StorageFile, LastReport);
             Parse();
         }
 

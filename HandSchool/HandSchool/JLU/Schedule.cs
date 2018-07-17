@@ -30,7 +30,7 @@ namespace HandSchool.JLU
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            WriteConfFile(StorageFile, LastReport);
+            Core.WriteConfig(StorageFile, LastReport);
             Parse();
             Save();
         }
@@ -127,7 +127,7 @@ namespace HandSchool.JLU
         public void Save()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            WriteConfFile("jlu.kcb2.json", Serialize(Items));
+            Core.WriteConfig("jlu.kcb2.json", Serialize(Items));
         }
 
         public int ClassNext
@@ -150,7 +150,7 @@ namespace HandSchool.JLU
 
         public Schedule()
         {
-            LastReport = ReadConfFile("jlu.kcb2.json");
+            LastReport = Core.ReadConfig("jlu.kcb2.json");
             if (LastReport != "")
                 Items = JSON<List<CurriculumItem>>(LastReport);
             else

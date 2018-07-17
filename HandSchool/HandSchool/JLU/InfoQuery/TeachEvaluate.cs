@@ -101,7 +101,7 @@ namespace HandSchool.JLU.InfoQuery
                 JavaScript =
                 {
                     $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0; var uwp = {(Core.RuntimePlatform == "UWP" ? "true" : "false")};",
-                    ReadConfFile("jlu_teacheval.js") ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
+                    Core.ReadConfig("jlu_teacheval.js") ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
                 }
             };
 

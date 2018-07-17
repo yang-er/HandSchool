@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Services;
 using System.Reflection;
 
 namespace HandSchool.Models

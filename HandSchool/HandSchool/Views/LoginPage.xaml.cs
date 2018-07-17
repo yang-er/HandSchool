@@ -10,7 +10,7 @@ namespace HandSchool.Views
         internal LoginPage(LoginViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            ViewModel = viewModel;
         }
 
         internal async void Response(object sender, LoginStateEventArgs e)

@@ -17,18 +17,6 @@ namespace HandSchool.Internal
     {
         private static StringBuilder sb = new StringBuilder();
         private static JsonSerializer json = JsonSerializer.Create();
-
-        [Obsolete("Use Core.ReadConfig instead.")]
-        public static string ReadConfFile(string name)
-        {
-            return Core.ReadConfig(name);
-        }
-
-        [Obsolete("Use Core.WriteConfig instead.")]
-        public static void WriteConfFile(string name, string value)
-        {
-            Core.WriteConfig(name, value);
-        }
         
         public static IEnumerable<FeedItem> ParseRSS(string report)
         {

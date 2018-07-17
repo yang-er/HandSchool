@@ -6,12 +6,12 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingPage : ContentPage
+    public partial class SettingPage : PopContentPage
     {
         public SettingPage()
         {
             InitializeComponent();
-            BindingContext = SettingViewModel.Instance;
+            ViewModel = SettingViewModel.Instance;
         }
 
         public void ListView_ItemSelected(object sender, EventArgs e)

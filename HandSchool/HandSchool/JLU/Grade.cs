@@ -58,14 +58,14 @@ namespace HandSchool.JLU
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            WriteConfFile(StorageFile, LastReport);
+            Core.WriteConfig(StorageFile, LastReport);
             Parse();
         }
         
         public GradeEntrance()
         {
             new GradePointViewModel();
-            LastReport = ReadConfFile(StorageFile);
+            LastReport = Core.ReadConfig(StorageFile);
             if (LastReport != "") Parse();
         }
 

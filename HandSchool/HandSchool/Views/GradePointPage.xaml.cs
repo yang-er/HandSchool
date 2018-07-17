@@ -9,12 +9,12 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class GradePointPage : ContentPage
+    public partial class GradePointPage : PopContentPage
     {
         public GradePointPage()
         {
             InitializeComponent();
-            BindingContext = GradePointViewModel.Instance;
+            ViewModel = GradePointViewModel.Instance;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -40,9 +40,7 @@ namespace HandSchool.Views
 
         async void ShowGPA_Clicked(object sender, EventArgs e)
         {
-            var alert = Helper.ShowLoadingAlert("正在加载GPA信息……");
             var gpa = await GradePointViewModel.Instance.ExcuteLoadGPACommand();
-            alert.Invoke();
             await DisplayAlert("学分绩点统计", gpa, "确定");
         }
     }

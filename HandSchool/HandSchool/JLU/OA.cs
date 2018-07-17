@@ -23,14 +23,14 @@ namespace HandSchool.JLU
 
         public OA()
         {
-            var lu = ReadConfFile(StorageFile + ".time");
+            var lu = Core.ReadConfig(StorageFile + ".time");
             if (lu == "" || (LastUpdate = DateTime.Parse(lu)).AddHours(1).CompareTo(DateTime.Now) == -1)
             {
                 Task.Run(Execute);
             }
             else
             {
-                LastReport = ReadConfFile(StorageFile);
+                LastReport = Core.ReadConfig(StorageFile);
                 Parse();
             }
         }
@@ -41,8 +41,8 @@ namespace HandSchool.JLU
                 LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
             if (LastReport == "") return;
             LastReport = LastReport.Substring(LastReport.IndexOf("<?xml ver"));
-            WriteConfFile(StorageFile, LastReport);
-            WriteConfFile(StorageFile + ".time", DateTime.Now.ToString());
+            Core.WriteConfig(StorageFile, LastReport);
+            Core.WriteConfig(StorageFile + ".time", DateTime.Now.ToString());
             Parse();
         }
 
@@ -51,18 +51,7 @@ namespace HandSchool.JLU
             if (LastReport == "") return;
             try
             {
-                var xdoc = XDocument.Parse(LastReport);
-                var id = 0;
-                var items = (from item in xdoc.Root.Element("channel").Descendants("item")
-                             select new FeedItem
-                             {
-                                 Title = (string)item.Element("title"),
-                                 Description = (string)item.Element("description"),
-                                 PubDate = (string)item.Element("pubDate"),
-                                 Category = (string)item.Elements("category").Last(),
-                                 Link = (string)item.Element("link"),
-                                 Id = id++
-                             });
+                var items = ParseRSS(LastReport);
                 FeedViewModel.Instance.Items.Clear();
                 foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
             }

@@ -55,6 +55,7 @@ namespace HandSchool.ViewModels
             if (IsBusy)
                 return "正在加载中，请稍后。";
 
+            View.SetIsBusy(true, "正在加载GPA信息……");
             IsBusy = true;
 
             try
@@ -68,6 +69,7 @@ namespace HandSchool.ViewModels
             finally
             {
                 IsBusy = false;
+                View.SetIsBusy(false);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using HandSchool.ViewModels;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -24,6 +26,19 @@ namespace HandSchool.Views
         /// 正在销毁事件
         /// </summary>
         public event Action Destorying;
+
+        /// <summary>
+        /// 数据交换层
+        /// </summary>
+        public BaseViewModel ViewModel
+        {
+            get => BindingContext as BaseViewModel;
+            set
+            {
+                BindingContext = value;
+                value.View = new ViewResponse(this);
+            }
+        }
 
         /// <summary>
         /// 显示窗口，并在窗口关闭时返回

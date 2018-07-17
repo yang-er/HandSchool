@@ -6,7 +6,7 @@ namespace HandSchool.ViewModels
     {
         bool isBusy = false;
         string title = string.Empty;
-        public IViewResponse BindingContext { get; set; }
+        public IViewResponse View { get; set; }
         
         public bool IsBusy
         {

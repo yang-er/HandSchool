@@ -31,12 +31,11 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             Title = viewModel.Title;
-            BindingContext = viewModel;
+            ViewModel = viewModel;
             var sb = new StringBuilder();
             viewModel.HtmlDocument.ToHtml(sb);
             WebView.Html = sb.ToString();
             WebView.RegisterAction(viewModel.Response);
-            viewModel.BindingContext = new ViewResponse(this);
         }
     }
 }

@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SchedulePage : ContentPage
+	public partial class SchedulePage : PopContentPage
 	{
         public double FontSize => 14;
         private RowDefinition DefRow;
@@ -26,7 +26,7 @@ namespace HandSchool.Views
             DefCol = new ColumnDefinition { Width = ColWidth };
             DefRow = new RowDefinition { Height = GridLength.Star };
 
-            BindingContext = ScheduleViewModel.Instance;
+            ViewModel = ScheduleViewModel.Instance;
             ScheduleViewModel.Instance.RefreshComplete += LoadList;
             AddCommander.CommandParameter = Navigation;
 

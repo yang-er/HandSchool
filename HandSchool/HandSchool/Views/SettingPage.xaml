@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:w="clr-namespace:HandSchool.Views"
-             x:Class="HandSchool.Views.SettingPage"
-             Title="{Binding Title}">
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:w="clr-namespace:HandSchool.Views"
+                  x:Class="HandSchool.Views.SettingPage"
+                  Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="保存" Command="{Binding SaveConfigures}" />
         <ToolbarItem Text="关于" Clicked="ToolbarItem_Clicked" />
@@ -21,4 +21,4 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-</ContentPage>
+</w:PopContentPage>

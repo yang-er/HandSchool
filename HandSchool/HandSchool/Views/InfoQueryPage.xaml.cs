@@ -5,7 +5,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InfoQueryPage : ContentPage
+	public partial class InfoQueryPage : PopContentPage
 	{
 		public InfoQueryPage()
 		{

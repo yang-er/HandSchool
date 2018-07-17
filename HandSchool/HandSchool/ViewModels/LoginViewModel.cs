@@ -46,7 +46,7 @@ namespace HandSchool.ViewModels
 
             IsBusy = true;
 
-            var callback = Helper.ShowLoadingAlert("正在登录……");
+            View.SetIsBusy(true, "正在登录……");
             Form.LoginStateChanged += Page.Response;
 
             try
@@ -56,7 +56,7 @@ namespace HandSchool.ViewModels
             finally
             {
                 IsBusy = false;
-                callback.Invoke();
+                View.SetIsBusy(false);
                 Form.LoginStateChanged -= Page.Response;
             }
         }

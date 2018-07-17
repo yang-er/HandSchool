@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HandSchool.Views.SchedulePage"
-             Title="{Binding Title}"
-             IsBusy="{Binding IsBusy}">
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  x:Class="HandSchool.Views.SchedulePage"
+                  xmlns:w="clr-namespace:HandSchool.Views"
+                  Title="{Binding Title}"
+                  IsBusy="{Binding IsBusy}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{Binding CurrentWeek}" />
         <ToolbarItem Text="刷新课表" Command="{Binding RefreshCommand}" Order="Secondary" />
@@ -32,4 +33,4 @@
             </Grid>
         </ScrollView>
     </ContentPage.Content>
-</ContentPage>
+</w:PopContentPage>

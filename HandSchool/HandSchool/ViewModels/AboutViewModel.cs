@@ -107,9 +107,9 @@ namespace HandSchool.ViewModels
         async void TestMode()
         {
             System.Diagnostics.Debug.WriteLine("test mode");
-            await BindingContext.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
+            await View.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
             System.Diagnostics.Debug.WriteLine("test mode 2");
-            await BindingContext.ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
+            await View.ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
             System.Diagnostics.Debug.WriteLine("test mode 3");
         }
 

@@ -12,12 +12,12 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MessagePage : ContentPage
+    public partial class MessagePage : PopContentPage
     {
         public MessagePage()
         {
             InitializeComponent();
-            BindingContext = MessageViewModel.Instance;
+            ViewModel = MessageViewModel.Instance;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

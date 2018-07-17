@@ -49,10 +49,10 @@ namespace HandSchool.ViewModels
         {
             if (IsBusy) return;
             IsBusy = true;
-                var alert = Internal.Helper.ShowLoadingAlert("正在加载课程表……");
+            View.SetIsBusy(true, "正在加载课程表……");
             await Core.App.Schedule.Execute();
             RefreshComplete?.Invoke();
-            alert.Invoke();
+            View.SetIsBusy(false);
             IsBusy = false;
         }
 

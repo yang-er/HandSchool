@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HandSchool.Views.SelectTypePage">
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:w="clr-namespace:HandSchool.Views"
+                  x:Class="HandSchool.Views.SelectTypePage">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -18,4 +19,4 @@
             <Button Text="下一步" Grid.Row="4" HorizontalOptions="Center" Clicked="Button_Clicked" />
         </Grid>
     </ContentPage.Content>
-</ContentPage>
+</w:PopContentPage>

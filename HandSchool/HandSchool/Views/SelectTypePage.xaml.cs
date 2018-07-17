@@ -2,12 +2,11 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SelectTypePage : ContentPage
+	public partial class SelectTypePage : PopContentPage
     {
         public SelectTypePage()
         {
@@ -19,7 +18,7 @@ namespace HandSchool.Views
         private void Button_Clicked(object sender, EventArgs e)
         {
             var sch = MySchool.SelectedItem as ISchoolWrapper;
-            WriteConfFile("hs.school.bin", sch.SchoolId);
+            Core.WriteConfig("hs.school.bin", sch.SchoolId);
 
             sch.PreLoad();
             sch.PostLoad();

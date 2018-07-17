@@ -97,7 +97,7 @@ namespace HandSchool.JLU
 
         public UIMS()
         {
-            var lp = ReadConfFile("jlu.config.json");
+            var lp = Core.ReadConfig("jlu.config.json");
             SettingsJSON config;
             if (lp != "") config = JSON<SettingsJSON>(lp);
             else config = new SettingsJSON();
@@ -106,15 +106,15 @@ namespace HandSchool.JLU
 
             IsLogin = false;
             NeedLogin = false;
-            Username = ReadConfFile("jlu.uims.username.txt");
+            Username = Core.ReadConfig("jlu.uims.username.txt");
             AttachInfomation = new NameValueCollection();
-            if (Username != "") Password = ReadConfFile("jlu.uims.password.txt");
+            if (Username != "") Password = Core.ReadConfig("jlu.uims.password.txt");
             if (Password == "") SavePassword = false;
 
             try
             {
-                ParseLoginInfo(ReadConfFile("jlu.user.json"));
-                ParseTermInfo(ReadConfFile("jlu.teachingterm.json"));
+                ParseLoginInfo(Core.ReadConfig("jlu.user.json"));
+                ParseTermInfo(Core.ReadConfig("jlu.teachingterm.json"));
             }
             catch (JsonException)
             {
@@ -155,8 +155,8 @@ namespace HandSchool.JLU
             }
             else
             {
-                WriteConfFile("jlu.uims.username.txt", Username);
-                WriteConfFile("jlu.uims.password.txt", SavePassword ? Password : "");
+                Core.WriteConfig("jlu.uims.username.txt", Username);
+                Core.WriteConfig("jlu.uims.password.txt", SavePassword ? Password : "");
             }
 
             if (WebClient != null) WebClient.Dispose();
@@ -202,14 +202,14 @@ namespace HandSchool.JLU
                 // Get User Info
                 string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
                 if (resp.StartsWith("<!")) return false;
-                WriteConfFile("jlu.user.json", AutoLogin ? resp : "");
+                Core.WriteConfig("jlu.user.json", AutoLogin ? resp : "");
                 ParseLoginInfo(resp);
 
 
                 // Get term info
                 resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
                 if (resp.StartsWith("<!")) return false;
-                WriteConfFile("jlu.teachingterm.json", AutoLogin ? resp : "");
+                Core.WriteConfig("jlu.teachingterm.json", AutoLogin ? resp : "");
                 ParseTermInfo(resp);
             }
             else
@@ -232,7 +232,7 @@ namespace HandSchool.JLU
 
         public async Task<bool> RequestLogin()
         {
-            if (!IsLogin) await Login();
+            if (AutoLogin && !IsLogin) await Login();
             if (!IsLogin) await LoginViewModel.RequestAsync(this);
             return IsLogin;
         }
@@ -253,7 +253,7 @@ namespace HandSchool.JLU
         public void SaveSettings()
         {
             var save = Serialize(new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https });
-            WriteConfFile("jlu.config.json", save);
+            Core.WriteConfig("jlu.config.json", save);
         }
 
         class SettingsJSON
