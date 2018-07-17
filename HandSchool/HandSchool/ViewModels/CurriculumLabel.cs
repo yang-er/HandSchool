@@ -50,7 +50,11 @@ namespace HandSchool.Models
         public Color GetColor()
         {
             // thanks to brady
-            return Color.FromHex(Internal.Helper.ScheduleColors[ColorId % 8]);
+            return Color.FromHex(ScheduleColors[ColorId % 8]);
         }
+
+        static readonly string[] ScheduleColors = {
+            "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65",
+            "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
     }
 }

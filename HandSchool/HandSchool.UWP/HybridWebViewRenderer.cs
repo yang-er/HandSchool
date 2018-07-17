@@ -18,7 +18,7 @@ namespace HandSchool.UWP
 
             if (e.OldElement != null)
             {
-                e.OldElement.OnExcuteJavaScript -= InvokeScript;
+                e.OldElement.JavaScriptRequested -= InvokeScript;
             }
 
             if (e.NewElement != null)
@@ -30,7 +30,7 @@ namespace HandSchool.UWP
                     Control.ScriptNotify += OnWebViewScriptNotify;
                 }
 
-                e.NewElement.OnExcuteJavaScript += InvokeScript;
+                e.NewElement.JavaScriptRequested += InvokeScript;
                 if (Element.Html != string.Empty)
                 {
                     Control.NavigateToString(Element.Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));

@@ -4,19 +4,35 @@ using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
-    // Thanks to 山宏岳
+    /// <summary>
+    /// 基于Xamarin封装的页面文件
+    /// </summary>
+    /// <remarks>Thanks to 山宏岳</remarks>
     public class PopContentPage : ContentPage
 	{
-        private NavigationPage _navpg;
-
+        /// <summary>
+        /// 是否已被销毁
+        /// </summary>
         public bool Destoried { get; private set; }
+
+        /// <summary>
+        /// 是否为模态页面
+        /// </summary>
         public bool IsModal { get; set; } = false;
-        private Task ContinueTask { get; } = new Task(() => { });
+
+        /// <summary>
+        /// 正在销毁事件
+        /// </summary>
         public event Action Destorying;
 
+        /// <summary>
+        /// 显示窗口，并在窗口关闭时返回
+        /// </summary>
+        /// <param name="navigation">系统导航</param>
         public Task ShowAsync(INavigation navigation = null)
         {
             Destoried = false;
+
             if(navigation is null)
             {
                 Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
@@ -35,19 +51,28 @@ namespace HandSchool.Views
                 {
                     Disappearing += Page_Disappearing;
                     System.Diagnostics.Debug.WriteLine("Not support this kind of access, may occured some errors.");
+                    System.Diagnostics.Debug.WriteLine("Maybe double tapped but event is one tap.");
                 }
             }
+
             return ContinueTask;
         }
 
-        public async Task Close()
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        public async Task CloseAsync()
         {
             if (IsModal)
                 await Navigation.PopModalAsync();
             else
                 await Navigation.PopAsync();
         }
-        
+
+        private NavigationPage _navpg;
+
+        private Task ContinueTask { get; } = new Task(() => { });
+
         private void Page_Disappearing(object sender, EventArgs e)
         {
             if (Destoried) return;

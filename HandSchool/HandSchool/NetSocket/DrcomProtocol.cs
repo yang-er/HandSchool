@@ -7,11 +7,14 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Internal
 {
+    /// <summary>
+    /// DrCOM D版协议
+    /// </summary>
     public class DrcomProtocol
     {
         // Protocol
         public bool IsWireless = true;
-        public event DrcomLogger OnLog;
+        public event DrcomLogger Logrotate;
         public string InnerSource { get; set; }
         
         // User Infomation
@@ -49,12 +52,12 @@ namespace HandSchool.Internal
                 ClientIP = IPAddress.Parse("0.0.0.0");
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 socket.Connect(ep);
-                OnLog.Invoke("socket", "Initialized with " + socket.Connected.ToString(), false);
+                Logrotate.Invoke("socket", "Initialized with " + socket.Connected.ToString(), false);
                 return socket.Connected;
             }
             catch (SocketException)
             {
-                OnLog.Invoke("socket", "invalid socket, exitting...", false);
+                Logrotate.Invoke("socket", "invalid socket, exitting...", false);
                 InnerSource = "Socket初始化失败。";
                 return false;
             }
@@ -78,12 +81,12 @@ namespace HandSchool.Internal
             /* end with 0x09 */
             data[i++] = 0x09;
 #if DEBUG
-            OnLog.Invoke("challenge", data, true);
+            Logrotate.Invoke("challenge", data, true);
 #else
-            OnLog.Invoke("challenge", "Making challenge packet...", false);
+            Logrotate.Invoke("challenge", "Making challenge packet...", false);
 #endif
         }
-        
+
         public byte[] MakeLoginPacket(byte[] salt, out byte[] data, out int len)
         {
             int pwlen = Password.Length;
@@ -295,9 +298,9 @@ namespace HandSchool.Internal
             len = i;
 
 #if DEBUG
-            OnLog.Invoke("mkpkt", data, true);
+            Logrotate.Invoke("mkpkt", data, true);
 #else
-            OnLog.Invoke("login", "Making login packet...", false);
+            Logrotate.Invoke("login", "Making login packet...", false);
 #endif
             return data;
         }
@@ -331,9 +334,9 @@ namespace HandSchool.Internal
                     Buffer.BlockCopy(ClientIP.GetAddressBytes(), 0, data, 28, 4);
             }
 #if DEBUG
-            OnLog.Invoke("alive", data, true);
+            Logrotate.Invoke("alive", data, true);
 #else
-            OnLog.Invoke("alive", "Sending keep-alive-" + type.ToString() + " packet...", false);
+            Logrotate.Invoke("alive", "Sending keep-alive-" + type.ToString() + " packet...", false);
 #endif
         }
 
@@ -372,14 +375,14 @@ namespace HandSchool.Internal
                         if (e.ErrorCode == 10060)
                         {
                             ret = -1;
-                            OnLog.Invoke("recv", "failed to connect to remote host", false);
+                            Logrotate.Invoke("recv", "failed to connect to remote host", false);
                         }
                         else
                             throw e;
                     }
                     if (ret < 0)
                     {
-                        OnLog.Invoke("recv", "recv() failed", false);
+                        Logrotate.Invoke("recv", "recv() failed", false);
                         return -2;
                     }
 
@@ -387,7 +390,7 @@ namespace HandSchool.Internal
                     {
                         if (buffer[1] == 0x15)
                         {
-                            OnLog.Invoke("login", "! Others logined.", false);
+                            Logrotate.Invoke("login", "! Others logined.", false);
                             InnerSource = "账户在其他地方登录。";
                             return -5;
                         }
@@ -426,13 +429,13 @@ namespace HandSchool.Internal
                 if (r == -5) return -5;
                 if (r < 0)
                 {
-                    OnLog.Invoke("alive", "Alive(" + i + ") timeout.", false);
+                    Logrotate.Invoke("alive", "Alive(" + i + ") timeout.", false);
                     return -1;
                 }
 
                 if (buffer[0] != 0x07)
                 {
-                    OnLog.Invoke("alive", string.Format("Alive fail, unrecognized responese: {0:x}", buffer[0]), false);
+                    Logrotate.Invoke("alive", string.Format("Alive fail, unrecognized responese: {0:x}", buffer[0]), false);
                     return -1;
                 }
 
@@ -453,7 +456,7 @@ namespace HandSchool.Internal
             if (recv_len == -5) return -5;
             if (recv_len <= 0)
             {
-                OnLog.Invoke("login", "Login timeout.", false);
+                Logrotate.Invoke("login", "Login timeout.", false);
                 return -1;
             }
 
@@ -461,18 +464,18 @@ namespace HandSchool.Internal
             {
                 if (buffer[0] == 0x05)
                 {
-                    OnLog.Invoke("login", "Login fail, wrong password or username!", false);
+                    Logrotate.Invoke("login", "Login fail, wrong password or username!", false);
                 }
                 else
                 {
-                    OnLog.Invoke("login", string.Format("Login fail, unrecognized responese: {0:x}", buffer[0]), false);
+                    Logrotate.Invoke("login", string.Format("Login fail, unrecognized responese: {0:x}", buffer[0]), false);
                 }
                 CloseSocket();
                 return -1;
             }
 
             Buffer.BlockCopy(buffer, 0x17, tail, 0, 16);
-            OnLog.Invoke("login", "Login success!", false);
+            Logrotate.Invoke("login", "Login success!", false);
             return 0;
         }
         
@@ -485,34 +488,34 @@ namespace HandSchool.Internal
             buffer[3] = (byte)rand.Next(0, 255);
             buffer[4] = 0x68;
 #if DEBUG
-            OnLog.Invoke("challenge", buffer, true);
+            Logrotate.Invoke("challenge", buffer, true);
 #else
-            OnLog.Invoke("challenge", "Sending challenge packet...", false);
+            Logrotate.Invoke("challenge", "Sending challenge packet...", false);
 #endif
             SendPacket(buffer, 20);
             int recv_len = ReceivePacket();
             if (recv_len == -5) return -5;
             if (recv_len <= 0)
             {
-                OnLog.Invoke("challenge", "Challenge timeout.", false);
+                Logrotate.Invoke("challenge", "Challenge timeout.", false);
                 return -1;
             }
 
             if (buffer[0] != 0x02)
             {
-                OnLog.Invoke("challenge", string.Format("Challenge fail, unrecognized responese: {0:x}", buffer[0]), false);
+                Logrotate.Invoke("challenge", string.Format("Challenge fail, unrecognized responese: {0:x}", buffer[0]), false);
                 return -1;
             }
 
             Buffer.BlockCopy(buffer, 4, salt, 0, 4);
-            OnLog.Invoke("login-salt", salt, true);
+            Logrotate.Invoke("login-salt", salt, true);
 
             if (IsWireless && recv_len >= 25)
             {
                 byte[] host_ip = new byte[4];
                 Buffer.BlockCopy(buffer, 20, host_ip, 0, 4);
                 ClientIP = new IPAddress(host_ip);
-                OnLog.Invoke("login-ip", ClientIP.ToString(), false);
+                Logrotate.Invoke("login-ip", ClientIP.ToString(), false);
             }
 
             return 0;
@@ -522,5 +525,11 @@ namespace HandSchool.Internal
 
     }
 
+    /// <summary>
+    /// 记录DrCOM日志的委托
+    /// </summary>
+    /// <param name="app">程序部分</param>
+    /// <param name="args">参数</param>
+    /// <param name="toHex">转为16进制</param>
     public delegate void DrcomLogger(string app, object args, bool toHex);
 }

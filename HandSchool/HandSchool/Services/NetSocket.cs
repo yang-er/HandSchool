@@ -6,14 +6,8 @@ namespace HandSchool.Services
     /// <summary>
     /// 网络协议
     /// </summary>
-    /// <typeparam name="TProtocol">协议</typeparam>
-    public interface INetSocket<TProtocol>
+    public interface INetSocket
     {
-        /// <summary>
-        /// 协议本体
-        /// </summary>
-        TProtocol Protocol { get; set; }
-
         /// <summary>
         /// 设置认证信息
         /// </summary>
@@ -30,7 +24,7 @@ namespace HandSchool.Services
         /// </summary>
         void Logout();
     }
-
+    
     /// <summary>
     /// 套接字日志委托
     /// </summary>

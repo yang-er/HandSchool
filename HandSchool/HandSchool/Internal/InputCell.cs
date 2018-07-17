@@ -2,11 +2,24 @@
 
 namespace HandSchool.Views
 {
-    // thanks to Soar1991@cnblogs
+    /// <summary>
+    /// 可以输入密码的项目
+    /// </summary>
     public class InputCell : EntryCell
     {
-        public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(propertyName: "IsPassword", returnType: typeof(bool), declaringType: typeof(InputCell), defaultValue: false);
+        /// <summary>
+        /// IsPassword的储存
+        /// </summary>
+        public static readonly BindableProperty IsPasswordProperty = 
+            BindableProperty.Create(
+                propertyName: nameof(IsPassword),
+                returnType: typeof(bool),
+                declaringType: typeof(InputCell),
+                defaultValue: false);
 
+        /// <summary>
+        /// 是否为密码类型
+        /// </summary>
         public bool IsPassword
         {
             get => (bool)GetValue(IsPasswordProperty);

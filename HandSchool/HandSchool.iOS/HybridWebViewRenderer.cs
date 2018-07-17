@@ -41,7 +41,7 @@ namespace HandSchool.iOS
                 throw new System.NotImplementedException();
                 string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, string.Format("WebWrapper/{0}", Element.Uri));
                 Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName, false)));
-                Element.OnExcuteJavaScript += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
+                Element.JavaScriptRequested += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
             }
         }
 

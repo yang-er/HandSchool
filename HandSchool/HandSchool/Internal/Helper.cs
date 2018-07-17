@@ -17,8 +17,7 @@ namespace HandSchool.Internal
     {
         private static StringBuilder sb = new StringBuilder();
         private static JsonSerializer json = JsonSerializer.Create();
-        public static string[] ScheduleColors = { "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65", "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
-        
+
         [Obsolete("Use Core.ReadConfig instead.")]
         public static string ReadConfFile(string name)
         {

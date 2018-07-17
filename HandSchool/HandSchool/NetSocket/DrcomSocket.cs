@@ -1,4 +1,5 @@
 ﻿using HandSchool.Services;
+using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -6,15 +7,17 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Internal
 {
-    public class DrcomSocket : INetSocket<DrcomProtocol>
+    public class DrcomSocket : INetSocket
     {
         public DrcomProtocol Protocol { get; set; }
         public Thread Thread;
 
         public void LoginAndKeepAlive()
         {
+            if (Thread != null && Thread.IsAlive)
+                throw new InvalidOperationException();
             Thread = new Thread(ThreadProcess);
-            Thread.Start(Protocol);
+            Thread.Start();
         }
 
         public void Logout()
@@ -30,21 +33,20 @@ namespace HandSchool.Internal
                 Password = infomation["password"],
                 MAC = PhysicalAddress.Parse(infomation["mac"])
             };
-            Protocol.OnLog += Log;
+            Protocol.Logrotate += Log;
         }
         
-        public event NetSocketLogDelegate OnLog;
-        public event NetSocketLogDelegate OnIpUpdated;
-        public event NetSocketStateDelegate OnStateChanged;
+        public event NetSocketLogDelegate Logrotate;
+        public event NetSocketLogDelegate IpUpdated;
+        public event NetSocketStateDelegate StateChanged;
 
         int trytimes = 0;
 
-        private void ThreadProcess(object args)
+        private void ThreadProcess()
         {
-            OnStateChanged.Invoke(true, "");
+            StateChanged.Invoke(true, "");
             try
             {
-                Protocol = (DrcomProtocol)args;
                 Protocol.Initialize();
                 int ret = 0;
                 trytimes = 5;
@@ -64,9 +66,10 @@ namespace HandSchool.Internal
                     if (p == -5) throw new NetSocketException() { Source = Protocol.InnerSource };
                     if (p < 0) continue;
 
-                    OnIpUpdated.Invoke(Protocol.ClientIP.ToString());
+                    IpUpdated.Invoke(Protocol.ClientIP.ToString());
                     break;
                 }
+
                 while (true)
                 {
                     ret = 0;
@@ -87,18 +90,18 @@ namespace HandSchool.Internal
             catch (ThreadAbortException)
             {
                 Log("logout", "logging out...", false);
-                OnStateChanged.Invoke(false, "");
+                StateChanged.Invoke(false, "");
             }
             catch (NetSocketException e)
             {
                 Log("drcom", "Socket closed. Please redail. ", false);
-                OnStateChanged.Invoke(false, e.Source);
+                StateChanged.Invoke(false, e.Source);
             }
         }
 
         private void Log(string app, object args, bool toHex)
         {
-            if (OnLog.GetInvocationList().Length == 0)
+            if (Logrotate.GetInvocationList().Length == 0)
                 return;
             string ept;
             if (toHex)
@@ -109,7 +112,7 @@ namespace HandSchool.Internal
             {
                 ept = (string)args;
             }
-            OnLog.Invoke(string.Format("[{0}] {1}", app, ept));
+            Logrotate.Invoke(string.Format("[{0}] {1}", app, ept));
         }
     }
 }

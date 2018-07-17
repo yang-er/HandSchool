@@ -21,7 +21,7 @@ namespace HandSchool.Views
                     await DisplayAlert("正在登录", "正在登录中，请稍后……", "知道了");
                     break;
                 case LoginState.Succeeded:
-                    await Close();
+                    await CloseAsync();
                     break;
                 case LoginState.Failed:
                     await DisplayAlert("登录失败", $"登录失败，{e.InnerError}。", "知道了");

@@ -21,7 +21,7 @@ namespace HandSchool.Views
             if (isCreate)
             {
                 saveButton.Command = new Command(async () => await CreateCommand());
-                removeButton.Command = new Command(async () => await Close());
+                removeButton.Command = new Command(async () => await CloseAsync());
                 saveButton.Text = "创建";
                 removeButton.Text = "取消";
                 Title = "添加自定义课程";
@@ -60,21 +60,21 @@ namespace HandSchool.Views
         async Task SaveCommand()
         {
             Core.App.Schedule.Save();
-            await Close();
+            await CloseAsync();
         }
 
         async Task RemoveCommand()
         {
             Core.App.Schedule.Items.Remove(BindingContext as CurriculumItem);
             Core.App.Schedule.Save();
-            await Close();
+            await CloseAsync();
         }
 
         async Task CreateCommand()
         {
             Core.App.Schedule.Items.Add(BindingContext as CurriculumItem);
             Core.App.Schedule.Save();
-            await Close();
+            await CloseAsync();
         }
 
     }
