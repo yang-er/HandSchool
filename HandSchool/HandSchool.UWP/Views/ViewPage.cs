@@ -1,28 +1,28 @@
-﻿using System;
+﻿using HandSchool.Internal;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WPage = Windows.UI.Xaml.Controls.Page;
-using BaseViewModel = HandSchool.ViewModels.BaseViewModel;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using BaseViewModel = HandSchool.ViewModels.BaseViewModel;
+using WPage = Windows.UI.Xaml.Controls.Page;
 
 namespace HandSchool.UWP
 {
     public class ViewPage : WPage
     {
+        protected ViewResponse ViewResponse { get; }
+
         public ViewPage() : base()
         {
             Loaded += (sender, e) => OnPageLoaded(e);
+            ViewResponse = new ViewResponse(this);
         }
 
-        public BaseViewModel BindingContext
+        public BaseViewModel ViewModel
         {
             get => DataContext as BaseViewModel;
-            set => DataContext = value;
+            set=> DataContext = value;
         }
-
+        
         public List<AppBarButton> PrimaryMenu { get; set; } = new List<AppBarButton>();
         public List<AppBarButton> SecondaryMenu { get; set; } = new List<AppBarButton>();
 
@@ -33,6 +33,8 @@ namespace HandSchool.UWP
                 if (frame.Content is MainPage mainpg)
                 {
                     mainpg.DataContext = DataContext;
+                    ViewModel.View = ViewResponse;
+
                     if (mainpg.CommandBar != null)
                     {
                         mainpg.CommandBar.SecondaryCommands.Clear();

@@ -22,16 +22,15 @@ namespace HandSchool.UWP
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             System.Diagnostics.Debug.Assert(e.Parameter is IInfoEntrance, "Error leading");
-            var entrance = e.Parameter as IInfoEntrance;
+            InfoEntrance = e.Parameter as IInfoEntrance;
 
-            BindingContext = new BaseViewModel { Title = entrance.Name };
-            entrance.Evaluate = WebView.InvokeScript;
-            InfoEntrance = entrance;
-            InfoEntrance.Binding = new ViewResponse(this);
+            ViewModel = new BaseViewModel { Title = InfoEntrance.Name };
+            InfoEntrance.Evaluate = WebView.InvokeScript;
+            InfoEntrance.Binding = ViewResponse;
             var sb = new StringBuilder();
             InfoEntrance.HtmlDocument.ToHtml(sb);
             WebView.Html = sb.ToString();
-            WebView.Register = entrance.Receive;
+            WebView.Register = InfoEntrance.Receive;
             foreach (var key in InfoEntrance.Menu)
                 PrimaryMenu.Add(new AppBarButton
                 {

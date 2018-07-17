@@ -90,7 +90,7 @@
     <Compile Include="OutlinePage.xaml.cs">
       <DependentUpon>OutlinePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Platform.cs" />
+    <Compile Include="ViewResponse.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashScreen.cs" />

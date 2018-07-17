@@ -98,7 +98,7 @@
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <Compile Include="Platform.cs" />
+    <Compile Include="ViewResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <BundleResource Include="Resources\segmdl2.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

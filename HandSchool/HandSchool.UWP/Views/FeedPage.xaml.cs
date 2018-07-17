@@ -9,7 +9,7 @@ namespace HandSchool.UWP
         public FeedPage()
         {
             InitializeComponent();
-            BindingContext = FeedViewModel.Instance;
+            ViewModel = FeedViewModel.Instance;
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)

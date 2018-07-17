@@ -14,7 +14,7 @@ namespace HandSchool.UWP
         public InfoQueryPage()
         {
             InitializeComponent();
-            BindingContext = new BaseViewModel { Title = "信息查询" };
+            ViewModel = new BaseViewModel { Title = "信息查询" };
             CollectionViewSource.Source = DataSource;
         }
 

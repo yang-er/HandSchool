@@ -10,7 +10,7 @@ namespace HandSchool.UWP
         public MessagePage()
         {
             InitializeComponent();
-            BindingContext = MessageViewModel.Instance;
+            ViewModel = MessageViewModel.Instance;
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)

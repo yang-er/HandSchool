@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
 using Windows.UI.Xaml.Controls;
@@ -28,13 +29,13 @@ namespace HandSchool.UWP
             switch (e.State)
             {
                 case LoginState.Processing:
-                    await Internal.Helper.ShowMessage("正在登录", "正在登录中，请稍后……", "知道了");
+                    await ViewResponse.ShowMessageAsync("正在登录", "正在登录中，请稍后……", "知道了");
                     break;
                 case LoginState.Succeeded:
                     deferral?.Complete();
                     break;
                 case LoginState.Failed:
-                    await Internal.Helper.ShowMessage("登录失败", $"登录失败，{e.InnerError}。", "知道了");
+                    await ViewResponse.ShowMessageAsync("登录失败", $"登录失败，{e.InnerError}。", "知道了");
                     deferral?.Complete();
                     break;
             }

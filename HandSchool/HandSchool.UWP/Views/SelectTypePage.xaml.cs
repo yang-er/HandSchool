@@ -1,7 +1,6 @@
 ﻿using HandSchool.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.UWP
 {
@@ -16,7 +15,7 @@ namespace HandSchool.UWP
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var sch = MySchool.SelectedItem as ISchoolWrapper;
-            WriteConfFile("hs.school.bin", sch.SchoolId);
+            Core.WriteConfig("hs.school.bin", sch.SchoolId);
 
             sch.PreLoad();
             sch.PostLoad();

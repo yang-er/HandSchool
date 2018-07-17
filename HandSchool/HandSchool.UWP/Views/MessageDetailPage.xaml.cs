@@ -18,7 +18,7 @@ namespace HandSchool.UWP
         public MessageDetailPage()
         {
             InitializeComponent();
-            BindingContext = new BaseViewModel();
+            ViewModel = new BaseViewModel();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -28,7 +28,7 @@ namespace HandSchool.UWP
 
             if (e.Parameter is FeedItem feed)
             {
-                BindingContext.Title = "通知详情";
+                ViewModel.Title = "通知详情";
                 PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Flag), Label = "详情", Command = new Command(() => Device.OpenUri(new Uri(feed.Link))) });
                 Title = feed.Title;
                 Time = "时间：" + feed.PubDate;
@@ -37,7 +37,7 @@ namespace HandSchool.UWP
             }
             else if (e.Parameter is IMessageItem msg)
             {
-                BindingContext.Title = "消息详情";
+                ViewModel.Title = "消息详情";
                 PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Delete), Label = "删除", Command = msg.Delete });
                 Title = msg.Title;
                 Time = "时间：" + msg.Time.ToString();

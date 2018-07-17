@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,7 +11,7 @@ namespace HandSchool.UWP
         public GradePointPage()
         {
             InitializeComponent();
-            BindingContext = GradePointViewModel.Instance;
+            ViewModel = GradePointViewModel.Instance;
         }
 
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -28,14 +29,14 @@ namespace HandSchool.UWP
                     info += "\n" + key + "：" + iGi.Attach.Get((string)key);
                 }
 
-                await Internal.Helper.ShowMessage("成绩详情", info, "确定");
+                await ViewResponse.ShowMessageAsync("成绩详情", info, "确定");
             }
         }
 
         private async void GPAButton_Click(object sender, RoutedEventArgs e)
         {
             var gpa = await GradePointViewModel.Instance.ExcuteLoadGPACommand();
-            await Internal.Helper.ShowMessage("学分绩点统计", gpa, "确定");
+            await ViewResponse.ShowMessageAsync("学分绩点统计", gpa, "确定");
         }
     }
 }

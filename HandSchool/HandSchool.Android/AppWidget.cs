@@ -5,9 +5,9 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Util;
 using Android.Widget;
-using HandSchool.Droid;
 using HandSchool.ViewModels;
-namespace HelloAppWidget
+
+namespace HandSchool.Droid
 {
 	[BroadcastReceiver(Label = "HellApp Widget")]
 	[IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]

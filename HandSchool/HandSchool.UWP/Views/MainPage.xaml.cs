@@ -46,7 +46,7 @@ namespace HandSchool.UWP
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -72,8 +72,6 @@ namespace HandSchool.UWP
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
             NavigationView.IsBackEnabled = ContentFrame.CanGoBack;
-            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = 
-              //  ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
             object selected = null;
 

@@ -9,7 +9,7 @@ namespace HandSchool.UWP
 {
     public sealed partial class CurriculumDialog : ContentDialog
     {
-        public CurriculumItem BindingContext
+        public CurriculumItem Model
         {
             get => DataContext as CurriculumItem;
             set => DataContext = value;
@@ -18,7 +18,7 @@ namespace HandSchool.UWP
         public CurriculumDialog(CurriculumItem item, bool isCreate = false)
         {
             InitializeComponent();
-            BindingContext = item;
+            Model = item;
 
             if (isCreate)
             {
@@ -54,13 +54,13 @@ namespace HandSchool.UWP
 
         private void Remove(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.Items.Remove(BindingContext);
+            Core.App.Schedule.Items.Remove(Model);
             Core.App.Schedule.Save();
         }
 
         private void Create(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.Items.Add(BindingContext);
+            Core.App.Schedule.Items.Add(Model);
             Core.App.Schedule.Save();
         }
 

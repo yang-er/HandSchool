@@ -1,9 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Net;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Util;
 using HandSchool.Internal;
 using Java.Lang;
@@ -12,7 +10,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+
 namespace HandSchool.Droid
 {
     [Activity(Label = "掌上校园", Icon = "@drawable/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -31,7 +29,6 @@ namespace HandSchool.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            Internal.Helper.AndroidContext = this;
             ActivityContext = this;
             OnClick += (sender, e) => { ProgressDialog = new ProgressDialog(this); new Thread(InstallApk).Start(); };
             Update();
