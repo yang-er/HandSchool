@@ -2808,6 +2808,9 @@ namespace HandSchool.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f0900b7
+			public const int NextClassPlaceString = 2131296439;
+			
 			// aapt resource value: 0x7f09009e
 			public const int action0 = 2131296414;
 			
@@ -3348,17 +3351,14 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090093
 			public const int volume_item_container = 2131296403;
 			
-			// aapt resource value: 0x7f0900b5
-			public const int widgetAnnouncementIcon = 2131296437;
-			
 			// aapt resource value: 0x7f0900b4
 			public const int widgetBackground = 2131296436;
 			
 			// aapt resource value: 0x7f0900b6
 			public const int widgetMedium = 2131296438;
 			
-			// aapt resource value: 0x7f0900b7
-			public const int widgetSmall = 2131296439;
+			// aapt resource value: 0x7f0900b5
+			public const int widgetSmall = 2131296437;
 			
 			// aapt resource value: 0x7f090027
 			public const int withText = 2131296295;

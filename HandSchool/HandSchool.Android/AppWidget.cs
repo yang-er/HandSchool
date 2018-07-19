@@ -49,7 +49,7 @@ namespace HandSchool.Droid
 		private void SetTextViewText(RemoteViews widgetView)
 		{
 			widgetView.SetTextViewText(Resource.Id.widgetMedium, "刷新中");
-			widgetView.SetTextViewText(Resource.Id.widgetSmall, string.Format("Last update: {0:H:mm:ss}", DateTime.Now));
+			widgetView.SetTextViewText(Resource.Id.widgetSmall, string.Format("{0:H:mm:ss}", DateTime.Now));
 		}
 
 		private void RegisterClicks(Context context, int[] appWidgetIds, RemoteViews widgetView)
@@ -62,9 +62,8 @@ namespace HandSchool.Droid
 			var piBackground = PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.UpdateCurrent);
 			widgetView.SetOnClickPendingIntent(Resource.Id.widgetBackground, piBackground);
 
-			// Register click event for the Announcement-icon
-			widgetView.SetOnClickPendingIntent(Resource.Id.widgetAnnouncementIcon, GetPendingSelfIntent(context, AnnouncementClick));
-		}
+            // Register click event for the Announcement-icon
+        }
 
 		private PendingIntent GetPendingSelfIntent(Context context, string action)
 		{

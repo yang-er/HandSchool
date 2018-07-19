@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#f5f5f5"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widgetBackground"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:gridSpec="1|16|#0093eeff|K:#ee8700ff:16,l:72,l:16,r|S:#83ee00ff:16,0,l:16,56,l:16,0,r">
     <RelativeLayout
-        android:layout_width="72dip"
-        android:layout_height="fill_parent">
-        <ImageView
-            android:id="@+id/widgetAnnouncementIcon"
-            android:src="@drawable/announcement"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
-            android:layout_marginLeft="15dip"
-            android:layout_marginTop="20dip" />
-    </RelativeLayout>
+        android:layout_width="20dip"
+        android:layout_height="fill_parent" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="216dip"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/widgetSmall"
+            android:text="00:00"
+            android:textColor="#FFFFFF"
+            android:textSize="50dip"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+        <TextView
             android:id="@+id/widgetMedium"
+            android:singleLine="true"
             android:text="HelloAppWidget"
-            android:textColor="#003082"
+            android:textColor="#FFFFFF"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
         <TextView
-            android:id="@+id/widgetSmall"
-            android:text="Last refresh: 00:00"
-            android:textColor="#003082"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/NextClassPlaceString"
+            android:text="HelloAppWidget"
+            android:textColor="#FFFFFF"
+            android:textSize="10dip"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
