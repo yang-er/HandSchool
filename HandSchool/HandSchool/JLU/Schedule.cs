@@ -8,9 +8,9 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
+    [Entrance("课程表")]
     class Schedule : IScheduleEntrance
     {
-        public string Name => "课程表";
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string LastReport { get; private set; }

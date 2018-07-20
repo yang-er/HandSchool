@@ -1,6 +1,7 @@
 ﻿using HandSchool.JLU.InfoQuery;
 using HandSchool.Models;
 using HandSchool.Services;
+using System.Threading.Tasks;
 
 namespace HandSchool.JLU
 {
@@ -9,7 +10,10 @@ namespace HandSchool.JLU
         public string SchoolName => "吉林大学";
         public string SchoolId => "jlu";
 
-        public void PostLoad() { }
+        public void PostLoad()
+        {
+            Task.Run(() => JsonObject.AlreadyKnownThings.Initialize());
+        }
 
         public void PreLoad()
         {
@@ -23,6 +27,7 @@ namespace HandSchool.JLU
             group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", typeof(CollegeIntroduce)));
             group1.Add(new InfoEntranceWrapper("一键教务评价", "一键教务评价，省去麻烦事", typeof(TeachEvaluate)));
             group1.Add(new InfoEntranceWrapper("查询空教室", "没地方自习?查个教室吧!", typeof(EmptyRoom)));
+            group1.Add(new InfoEntranceWrapper("专业培养计划", "看看我们要学什么，提前预习偷偷补课。", typeof(ProgramMaster)));
             Core.App.InfoEntrances.Add(group1);
         }
 

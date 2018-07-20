@@ -7,13 +7,13 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Blank
 {
+    [Entrance("课程表")]
     class Schedule : IScheduleEntrance
     {
         public List<CurriculumItem> Items { get; private set; }
         public string LastReport { get; private set; } = "";
 
         public int ClassNext => 0;
-        public string Name => "课程表";
         public string ScriptFileUri => "";
         public bool IsPost => true;
         public string PostValue => "";

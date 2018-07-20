@@ -11,9 +11,9 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
+    [Entrance("网上教务")]
     class OA : IFeedEntrance
     {
-        public string Name => "网上教务";
         public string ScriptFileUri => "http://oa.52jida.com/feed";
         public bool IsPost => false;
         public string PostValue => string.Empty;

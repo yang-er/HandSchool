@@ -1,9 +1,11 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using System.Reflection;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using EntAttr = HandSchool.Services.EntranceAttribute;
 
 namespace HandSchool.Views
 {
@@ -15,7 +17,8 @@ namespace HandSchool.Views
 		public WebViewPage(IInfoEntrance entrance)
 		{
 			InitializeComponent();
-            Title = entrance.Name;
+            var meta = entrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
+            Title = meta.Title;
             InfoEntrance = entrance;
             InfoEntrance.Binding = new ViewResponse(this);
             var sb = new StringBuilder();

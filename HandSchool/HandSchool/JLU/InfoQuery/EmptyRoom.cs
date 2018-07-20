@@ -12,18 +12,15 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
+    [Entrance("查空教室", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
     class EmptyRoom : IInfoEntrance
     {
-        public string Description => "没地方自习?试试这个吧";
-
         private RootObject<List<RoomInfo>> obj;
-        public List<string> TableHeader { get; set; }
         public Bootstrap HtmlDocument { get; set; }
         public IViewResponse Binding { get; set; }
         public Action<string> Evaluate { get; set; }
         public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
-
-        public string Name => "查空教室";
+        
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => $"{{\"tag\":\"roomIdle@roomUsage\",\"branch\":\"default\",\"params\":{{\"termId\":{TermId},\"bid\":\"{Bid}\",\"rname\":\"\",\"dateActual\":{{}},\"cs\":{Cs},\"d_actual\":\"{Today}T00:00:00+08:00\"}}}}";//today:2018-06-12 termid,bid,cs

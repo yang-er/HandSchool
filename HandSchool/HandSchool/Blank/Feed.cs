@@ -7,9 +7,9 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Blank
 {
+    [Entrance("RSS阅读器")]
     class FeedEntrance : IFeedEntrance
     {
-        public string Name => "RSS阅读器";
         public string ScriptFileUri { get; }
         public bool IsPost => false;
         public string PostValue => string.Empty;

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using HFAttr = HandSchool.Services.HotfixAttribute;
+using EntAttr = HandSchool.Services.EntranceAttribute;
 
 namespace HandSchool.Models
 {
@@ -55,11 +56,25 @@ namespace HandSchool.Models
         /// </summary>
         /// <param name="name">入口点名称</param>
         /// <param name="description">入口点描述</param>
-        /// <param name="type">入口点加载委托</param>
+        /// <param name="type">入口点类型</param>
         public InfoEntranceWrapper(string name, string description, Type type)
         {
             Name = name;
             Description = description;
+            if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
+                Task.Run(() => hfattr.CheckUpdate(false));
+            Load = () => Activator.CreateInstance(type) as IInfoEntrance;
+        }
+
+        /// <summary>
+        /// 入口点包装
+        /// </summary>
+        /// <param name="type">入口点类型</param>
+        public InfoEntranceWrapper(Type type)
+        {
+            var ent = type.GetCustomAttribute(typeof(EntAttr)) as EntAttr;
+            Name = ent.Title;
+            Description = ent.Description;
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
                 Task.Run(() => hfattr.CheckUpdate(false));
             Load = () => Activator.CreateInstance(type) as IInfoEntrance;

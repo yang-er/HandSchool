@@ -24,6 +24,9 @@ namespace HandSchool.JLU
         public bool NeedLogin { get; private set; }
         public bool Confrimed { get; set; } = false;
 
+        [Settings("提示", "保存使设置永久生效，部分设置重启后生效。", -233)]
+        public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
+
         private string proxy_server;
         [Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。")]
         public string ProxyServer
@@ -45,7 +48,6 @@ namespace HandSchool.JLU
             set => SetProperty(ref use_https, value);
         }
 
-        public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
         private bool is_login = false;

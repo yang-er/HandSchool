@@ -13,14 +13,12 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
 {
+    [Entrance("学院介绍查询", "查询各个学院的详细信息。", EntranceType.InfoEntrance)]
     class CollegeIntroduce : IInfoEntrance
     {
         private RootObject<CollegeInfo> obj;
         private int schId = 101;
         
-        public string Name => "学院介绍查询";
-        public string Description => "查询各个学院的详细信息。";
-        public List<string> TableHeader { get; set; }
         public Bootstrap HtmlDocument { get; set; }
         public string LastReport { get; private set; }
         public string StorageFile => "No storage";

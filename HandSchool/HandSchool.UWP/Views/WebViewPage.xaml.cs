@@ -1,9 +1,11 @@
 ﻿using HandSchool.Services;
 using HandSchool.ViewModels;
+using System.Reflection;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using EntAttr = HandSchool.Services.EntranceAttribute;
 
 namespace HandSchool.UWP
 {
@@ -24,7 +26,8 @@ namespace HandSchool.UWP
             System.Diagnostics.Debug.Assert(e.Parameter is IInfoEntrance, "Error leading");
             InfoEntrance = e.Parameter as IInfoEntrance;
 
-            ViewModel = new BaseViewModel { Title = InfoEntrance.Name };
+            var meta = InfoEntrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
+            ViewModel = new BaseViewModel { Title = meta.Title };
             InfoEntrance.Evaluate = WebView.InvokeScript;
             InfoEntrance.Binding = ViewResponse;
             var sb = new StringBuilder();

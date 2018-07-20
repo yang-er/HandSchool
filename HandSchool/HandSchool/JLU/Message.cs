@@ -51,10 +51,9 @@ namespace HandSchool.JLU
         }
     }
 
+    [Entrance("系统收件箱")]
     class MessageEntrance : IMessageEntrance
     {
-        public string Name => "系统收件箱";
-
         public string ScriptFileUri => "siteMessages/get-message-in-box.do";
         public string MsgReadPageUri => "siteMessages/read-message.do";
         public string DelPageUri => "siteMessages/delete-recv-message.do";

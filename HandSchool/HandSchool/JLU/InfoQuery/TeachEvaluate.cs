@@ -12,6 +12,7 @@ using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
 {
+    [Entrance("一键教学评价", "一键教学评价，省去麻烦事。", EntranceType.InfoEntrance)]
     [Hotfix("https://raw.githubusercontent.com/miasakachenmo/store/master/teacheval.js.ver", "jlu_teacheval.js")]
     class TeachEvaluate : IInfoEntrance
     {
@@ -36,16 +37,13 @@ namespace HandSchool.JLU.InfoQuery
 
         const string evalList = "{\"tag\":\"student@evalItem\",\"branch\":\"self\",\"params\":{\"blank\":\"Y\"}}";
         const string evalPost = "{\"guidelineId\":\"120\",\"evalItemId\":\"`evalItemId`\",\"answers\":{\"prob11\":\"A\",\"prob12\":\"A\",\"prob13\":\"N\",\"prob14\":\"A\",\"prob15\":\"A\",\"prob21\":\"A\",\"prob22\":\"A\",\"prob23\":\"A\",\"prob31\":\"A\",\"prob32\":\"A\",\"prob33\":\"A\",\"prob41\":\"A\",\"prob42\":\"A\",\"prob43\":\"A\",\"prob51\":\"A\",\"prob52\":\"A\",\"sat6\":\"A\",\"mulsel71\":\"K\",\"advice72\":\"good\",\"prob73\":\"Y\"},\"clicks\":{\"mulsel71\":176187,\"prob11\":143759,\"prob12\":146540,\"prob13\":148790,\"prob14\":150583,\"prob15\":152233,\"prob21\":153748,\"prob22\":155383,\"prob23\":156628,\"prob31\":158877,\"prob32\":161367,\"prob33\":164157,\"prob41\":165950,\"prob42\":167053,\"prob43\":168304,\"prob51\":169768,\"prob52\":170968,\"prob73\":177732,\"sat6\":172791,\"_boot_\":0}}";
-
-        public string Description => throw new NotImplementedException();
-        public List<string> TableHeader { get; set; }
+        
         public Bootstrap HtmlDocument { get; set; }
         public IViewResponse Binding { get; set; }
         public Action<string> Evaluate { get; set; }
         public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
         public string LastReport { get; private set; }
-
-        public string Name => "一键教学评价";
+        
         public string ScriptFileUri => "action/eval/eval-with-answer.do";
         public bool IsPost => true;
         public string PostValue => evalPost;

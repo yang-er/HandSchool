@@ -8,11 +8,6 @@ namespace HandSchool.Services
     public interface ISystemEntrance
     {
         /// <summary>
-        /// 入口点名称
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
         /// 脚本文件地址
         /// </summary>
         string ScriptFileUri { get; }

@@ -43,11 +43,11 @@ namespace HandSchool.JLU
         public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
     }
 
+    [Entrance("成绩查询")]
     class GradeEntrance : IGradeEntrance
     {
         public int RowLimit { get; set; } = 15;
-
-        public string Name => "成绩查询";
+        
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";

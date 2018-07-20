@@ -12,16 +12,6 @@ namespace HandSchool.Services
     public interface IInfoEntrance : ISystemEntrance
     {
         /// <summary>
-        /// 入口点功能描述
-        /// </summary>
-        string Description { get; }
-
-        /// <summary>
-        /// 表头
-        /// </summary>
-        List<string> TableHeader { get; set; }
-
-        /// <summary>
         /// 使用的Bootstrap文档
         /// </summary>
         Bootstrap HtmlDocument { get; set; }
