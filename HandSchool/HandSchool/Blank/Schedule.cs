@@ -1,9 +1,10 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Blank
 {
@@ -21,14 +22,15 @@ namespace HandSchool.Blank
 
         public async Task Execute()
         {
-            await Task.Run(() => System.Diagnostics.Debug.WriteLine("HandSchool.Blank.ScheduleEntrance->Excute()"));
+            Debug.WriteLine("Blank.ScheduleEntrance->Excute()");
+            await Task.Run(() => { });
             Parse();
             Save();
         }
 
         public void Parse()
         {
-            System.Diagnostics.Debug.WriteLine("HandSchool.Blank.ScheduleEntrance->Parse()");
+            Debug.WriteLine("Blank.ScheduleEntrance->Parse()");
         }
 
         public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
@@ -42,14 +44,14 @@ namespace HandSchool.Blank
         public void Save()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.WriteConfig("blank.kcb.json", Serialize(Items));
+            Core.WriteConfig("blank.kcb.json", Helper.Serialize(Items));
         }
 
         public Schedule()
         {
             LastReport = Core.ReadConfig("blank.kcb.json");
             if (LastReport != "")
-                Items = JSON<List<CurriculumItem>>(LastReport);
+                Items = Helper.JSON<List<CurriculumItem>>(LastReport);
             else
                 Items = new List<CurriculumItem>();
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));

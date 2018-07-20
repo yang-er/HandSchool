@@ -2,18 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
-using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
+    /// <summary>
+    /// HTML 对象
+    /// </summary>
     public interface IHtmlObject
     {
+        /// <summary>
+        /// HTML 元素的 ID
+        /// </summary>
         string Id { get; }
+
+        /// <summary>
+        /// 转化为字符串
+        /// </summary>
+        /// <param name="sb">字符串缓冲区</param>
+        /// <param name="full">完整输出</param>
         void ToHtml(StringBuilder sb, bool full = true);
     }
 
     namespace HtmlObject
     {
+        /// <summary>
+        /// 表示表单的 HTML 对象
+        /// </summary>
         public class Form : IHtmlObject
         {
             public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
@@ -26,10 +40,12 @@ namespace HandSchool.Internal
                 sb.Append($"<form class=\"setting-form-group\" onsubmit=\"{SubmitOption}\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
                 sb.Append("</form>");
-                //throw new NotImplementedException();
             }
         }
 
+        /// <summary>
+        /// 表示表单项外 div 的 HTML 元素
+        /// </summary>
         public class FormGroup : IHtmlObject
         {
             public List<IHtmlObject> Children { get; set; } = new List<IHtmlObject>();
@@ -43,6 +59,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 复选框
+        /// </summary>
         public class Check : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
@@ -63,6 +82,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 单选框
+        /// </summary>
         public class Radio : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
@@ -85,6 +107,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 输入类型
+        /// </summary>
         public enum InputType
         {
             text,
@@ -92,6 +117,9 @@ namespace HandSchool.Internal
             email
         }
 
+        /// <summary>
+        /// 表示输入框
+        /// </summary>
         public class Input : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
@@ -117,6 +145,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// ComboBox选择
+        /// </summary>
         public class Select : IHtmlObject
         {
             public string Name { get; set; } = string.Empty;
@@ -143,6 +174,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示数据表
+        /// </summary>
         public class Table : IHtmlObject
         {
             public string Class { get; set; } = "table table-sm";
@@ -158,6 +192,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示按钮
+        /// </summary>
         public class Button : IHtmlObject
         {
             public string Title { get; set; } = " 提交 ";
@@ -173,6 +210,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示 div
+        /// </summary>
         public class Div : IHtmlObject
         {
             public string Class { get; set; } = string.Empty;
@@ -190,6 +230,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示 row-col
+        /// </summary>
         public class Row : IHtmlObject
         {
             public List<IHtmlObject>[] Children { get; set; }
@@ -209,6 +252,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示 ul
+        /// </summary>
         public class UnorderedList : IHtmlObject
         {
             public string Id => "";
@@ -222,6 +268,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示主内容加侧边栏
+        /// </summary>
         public class MasterDetail : IHtmlObject
         {
             public string Id { get; private set; } = Guid.NewGuid().ToString("N").Substring(0, 6);
@@ -238,6 +287,10 @@ namespace HandSchool.Internal
             }
         }
 
+
+        /// <summary>
+        /// 表示原始 HTML 代码
+        /// </summary>
         public class RawHtml : IHtmlObject
         {
             public string Raw { get; set; } = string.Empty;
@@ -254,6 +307,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 表示 Bootstrap 文档
+        /// </summary>
         public class Bootstrap : IHtmlObject
         {
             public string Title { get; set; } = "WebViewPage";

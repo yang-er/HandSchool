@@ -3,21 +3,24 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Blank
 {
+    [Entrance("任意大学", type: EntranceType.SchoolEntrance)]
     class BlankSchool : NotifyPropertyChanged, ISchoolSystem
     {
+        const string config_file = "blank.config.json";
+
         private string feedUrl = "";
         private string weatherLoc = "长春";
 
         public BlankSchool()
         {
-            var lp = Core.ReadConfig("blank.config.json");
+            var lp = Core.ReadConfig(config_file);
             SettingsJSON config;
-            if (lp != "") config = JSON<SettingsJSON>(lp);
+            if (lp != "") config = Helper.JSON<SettingsJSON>(lp);
             else config = new SettingsJSON();
             DailyClassCount = config.DailyClassCount;
             FeedUrl = config.FeedUri;
@@ -66,33 +69,43 @@ namespace HandSchool.Blank
 
         public async Task<string> Get(string url)
         {
-            await Task.Run(() => System.Diagnostics.Debug.WriteLine("Blank->Get(url)"));
+            Debug.WriteLine("Blank->Get(url)");
+            await Task.Run(() => { });
             return "";
         }
 
         public async Task<bool> Login()
         {
-            await Task.Run(() => System.Diagnostics.Debug.WriteLine("Blank->Login()"));
+            Debug.WriteLine("Blank->Login()");
+            await Task.Run(() => { });
             LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
             return true;
         }
 
         public async Task<string> Post(string url, string send)
         {
-            await Task.Run(() => System.Diagnostics.Debug.WriteLine("Blank->Post(url, send)"));
+            Debug.WriteLine("Blank->Post(url, send)");
+            await Task.Run(() => { });
             return "";
         }
 
         public async Task<bool> RequestLogin()
         {
-            await Task.Run(() => System.Diagnostics.Debug.WriteLine("Blank->RequestLogin()"));
+            Debug.WriteLine("Blank->RequestLogin()");
+            await Task.Run(() => { });
             return false;
         }
 
         public void SaveSettings()
         {
-            var save = Serialize(new SettingsJSON { DailyClassCount = Core.App.DailyClassCount, FeedUri = feedUrl, WeatherLocation = weatherLoc });
-            Core.WriteConfig("blank.config.json", save);
+            var save = Helper.Serialize(new SettingsJSON
+            {
+                DailyClassCount = Core.App.DailyClassCount,
+                FeedUri = feedUrl,
+                WeatherLocation = weatherLoc
+            });
+
+            Core.WriteConfig(config_file, save);
         }
 
         class SettingsJSON

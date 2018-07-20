@@ -3,7 +3,6 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Threading.Tasks;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.Blank
 {
@@ -37,15 +36,15 @@ namespace HandSchool.Blank
             using (var client = new AwaredWebClient("", System.Text.Encoding.UTF8))
                 LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
             LastReport = LastReport.Trim();
+            Parse();
             Core.WriteConfig(StorageFile, LastReport);
             Core.WriteConfig(StorageFile + ".time", DateTime.Now.ToString());
-            Parse();
         }
 
         public void Parse()
         {
             if (LastReport == "") return;
-            var items = ParseRSS(LastReport);
+            var items = Helper.ParseRSS(LastReport);
             FeedViewModel.Instance.Items.Clear();
             foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
         }

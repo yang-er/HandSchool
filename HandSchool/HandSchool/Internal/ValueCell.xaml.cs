@@ -1,74 +1,150 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
+    /// <summary>
+    /// 设置页面的值单元格
+    /// </summary>
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ValueCell : ContentView
     {
+        /// <summary>
+        /// 为 Wrapper 做后部存储
+        /// </summary>
         public static readonly BindableProperty WrapperProperty =
-            BindableProperty.Create(nameof(Wrapper), typeof(SettingWrapper), typeof(ValueCell), null);
+            BindableProperty.Create(
+                propertyName: nameof(Wrapper),
+                returnType: typeof(SettingWrapper),
+                declaringType: typeof(ValueCell),
+                defaultValue: null);
 
+        /// <summary>
+        /// 为 NumericValue 做后部存储
+        /// </summary>
         public static readonly BindableProperty NumericValueProperty =
-            BindableProperty.Create(nameof(NumericValue), returnType: typeof(int), declaringType: typeof(ValueCell), defaultValue: 0, defaultBindingMode: BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
+            BindableProperty.Create(
+                propertyName: nameof(NumericValue),
+                returnType: typeof(int),
+                declaringType: typeof(ValueCell),
+                defaultValue: 0,
+                defaultBindingMode: BindingMode.TwoWay,
+                propertyChanged: ((bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv));
 
+        /// <summary>
+        /// 为 Type 做后部存储
+        /// </summary>
         public static readonly BindableProperty TypeProperty =
-            BindableProperty.Create(nameof(Type), typeof(SettingTypes), typeof(ValueCell), SettingTypes.Unkown, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).SetControl((SettingTypes)newvalue)));
+            BindableProperty.Create(
+                propertyName: nameof(Type),
+                returnType: typeof(SettingTypes),
+                declaringType: typeof(ValueCell),
+                defaultValue: SettingTypes.Unkown,
+                propertyChanged: ((bind, old, newv) => (bind as ValueCell).SetControl((SettingTypes)newv)));
 
+        /// <summary>
+        /// 为 StringValue 做后部存储
+        /// </summary>
         public static readonly BindableProperty StringValueProperty =
-            BindableProperty.Create(nameof(StringValue), typeof(string), typeof(ValueCell), "", BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
+            BindableProperty.Create(
+                propertyName: nameof(StringValue),
+                returnType: typeof(string),
+                declaringType: typeof(ValueCell),
+                defaultValue: "",
+                defaultBindingMode: BindingMode.TwoWay,
+                propertyChanged: ((bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv));
 
+        /// <summary>
+        /// 为 BooleanValue 做后部存储
+        /// </summary>
         public static readonly BindableProperty BooleanValueProperty =
-            BindableProperty.Create(nameof(BooleanValue), returnType: typeof(bool), declaringType: typeof(ValueCell), defaultValue: false, defaultBindingMode: BindingMode.TwoWay, propertyChanged: ((bindable, oldvalue, newvalue) => (bindable as ValueCell).Wrapper.Value = newvalue));
+            BindableProperty.Create(
+                propertyName: nameof(BooleanValue),
+                returnType: typeof(bool),
+                declaringType: typeof(ValueCell),
+                defaultValue: false,
+                defaultBindingMode: BindingMode.TwoWay,
+                propertyChanged: ((bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv));
 
+        /// <summary>
+        /// 为 Attribute 做后部存储
+        /// </summary>
         public static readonly BindableProperty AttributeProperty =
-            BindableProperty.Create(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueCell), default(SettingsAttribute), BindingMode.OneWay);
+            BindableProperty.Create(
+                propertyName: nameof(Attribute),
+                returnType: typeof(SettingsAttribute),
+                declaringType: typeof(ValueCell),
+                defaultValue: default(SettingsAttribute),
+                defaultBindingMode: BindingMode.OneWay);
         
+        /// <summary>
+        /// 值单元格
+        /// </summary>
         public ValueCell()
         {
             InitializeComponent();
         }
         
+        /// <summary>
+        /// 包装设置属性
+        /// </summary>
         public SettingWrapper Wrapper
         {
             get => GetValue(WrapperProperty) as SettingWrapper;
             set => SetValue(WrapperProperty, value);
         }
 
+        /// <summary>
+        /// 设置类型
+        /// </summary>
         public SettingTypes Type
         {
             get => (SettingTypes)GetValue(TypeProperty);
             set => SetValue(TypeProperty, value);
         }
 
+        /// <summary>
+        /// 设置特性元数据
+        /// </summary>
         public SettingsAttribute Attribute
         {
             get => (SettingsAttribute)GetValue(AttributeProperty);
             set => SetValue(AttributeProperty, value);
         }
 
+        /// <summary>
+        /// 数字值
+        /// </summary>
         public int NumericValue
         {
             get => (int)GetValue(NumericValueProperty);
             set => SetValue(NumericValueProperty, value);
         }
 
+        /// <summary>
+        /// 开关值
+        /// </summary>
         public bool BooleanValue
         {
             get => (bool)GetValue(BooleanValueProperty);
             set => SetValue(BooleanValueProperty, value);
         }
 
+        /// <summary>
+        /// 字符串值
+        /// </summary>
         public string StringValue
         {
             get => (string)GetValue(StringValueProperty);
             set => SetValue(StringValueProperty, value);
-
         }
         
+        /// <summary>
+        /// 设置内部控件
+        /// </summary>
+        /// <param name="value">值</param>
         private void SetControl(SettingTypes value)
         {
             switch (value)

@@ -55,14 +55,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SettingWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SystemEntrance.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Drcom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NetSocket\DrcomSocket.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NetSocket\DrcomProtocol.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\NetSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Hotfix.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
@@ -199,9 +195,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)NetSocket\" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />
