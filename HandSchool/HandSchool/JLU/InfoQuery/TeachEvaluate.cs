@@ -1,14 +1,11 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
-using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -34,9 +31,6 @@ namespace HandSchool.JLU.InfoQuery
          *     begin
          *   发回的数据是te_callback(原json)，不做特殊处理
          */
-
-        const string evalList = "{\"tag\":\"student@evalItem\",\"branch\":\"self\",\"params\":{\"blank\":\"Y\"}}";
-        const string evalPost = "{\"guidelineId\":\"120\",\"evalItemId\":\"`evalItemId`\",\"answers\":{\"prob11\":\"A\",\"prob12\":\"A\",\"prob13\":\"N\",\"prob14\":\"A\",\"prob15\":\"A\",\"prob21\":\"A\",\"prob22\":\"A\",\"prob23\":\"A\",\"prob31\":\"A\",\"prob32\":\"A\",\"prob33\":\"A\",\"prob41\":\"A\",\"prob42\":\"A\",\"prob43\":\"A\",\"prob51\":\"A\",\"prob52\":\"A\",\"sat6\":\"A\",\"mulsel71\":\"K\",\"advice72\":\"good\",\"prob73\":\"Y\"},\"clicks\":{\"mulsel71\":176187,\"prob11\":143759,\"prob12\":146540,\"prob13\":148790,\"prob14\":150583,\"prob15\":152233,\"prob21\":153748,\"prob22\":155383,\"prob23\":156628,\"prob31\":158877,\"prob32\":161367,\"prob33\":164157,\"prob41\":165950,\"prob42\":167053,\"prob43\":168304,\"prob51\":169768,\"prob52\":170968,\"prob73\":177732,\"sat6\":172791,\"_boot_\":0}}";
         
         public Bootstrap HtmlDocument { get; set; }
         public IViewResponse Binding { get; set; }
@@ -46,26 +40,11 @@ namespace HandSchool.JLU.InfoQuery
         
         public string ScriptFileUri => "action/eval/eval-with-answer.do";
         public bool IsPost => true;
-        public string PostValue => evalPost;
+        public string PostValue => null;
         public string StorageFile => "No storage";
-
-        [Obsolete]
-        public async Task Execute()
-        {
-            LastReport = await Core.App.Service.Post("service/res.do", evalList);
-            var fetched_list = JSON<RootObject<StudEval>>(LastReport);
-            foreach (var op in fetched_list.value)
-            {
-                if (op.evalActTime.evalGuideline.evalGuidelineId == "120")
-                {
-                    await Core.App.Service.Post("action/eval/eval-with-answer.do", evalPost.Replace("`evalItemId`", op.evalItemId));
-                }
-            }
-
-            throw new NotImplementedException();
-        }
-
-        public void Parse() { }
+        
+        public Task Execute() { throw new InvalidOperationException(); }
+        public void Parse() { throw new InvalidOperationException(); }
 
         public async void Receive(string data)
         {
@@ -99,7 +78,7 @@ namespace HandSchool.JLU.InfoQuery
                 JavaScript =
                 {
                     $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0; var uwp = {(Core.RuntimePlatform == "UWP" ? "true" : "false")};",
-                    Core.ReadConfig("jlu_teacheval.js") ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
+                    HotfixAttribute.ReadContent(this) ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
                 }
             };
 

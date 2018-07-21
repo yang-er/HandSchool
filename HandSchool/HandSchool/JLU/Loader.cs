@@ -24,10 +24,11 @@ namespace HandSchool.JLU
             Core.App.Message = new MessageEntrance();
             Core.App.Feed = new OA();
             var group1 = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
-            group1.Add(new InfoEntranceWrapper("学院介绍查询", "查询学院介绍", typeof(CollegeIntroduce)));
-            group1.Add(new InfoEntranceWrapper("一键教务评价", "一键教务评价，省去麻烦事", typeof(TeachEvaluate)));
-            group1.Add(new InfoEntranceWrapper("查询空教室", "没地方自习?查个教室吧!", typeof(EmptyRoom)));
-            group1.Add(new InfoEntranceWrapper("专业培养计划", "看看我们要学什么，提前预习偷偷补课。", typeof(ProgramMaster)));
+            group1.Add(new InfoEntranceWrapper(typeof(EmptyRoom)));
+            group1.Add(new InfoEntranceWrapper(typeof(TeachEvaluate)));
+            group1.Add(new InfoEntranceWrapper(typeof(CollegeIntroduce)));
+            group1.Add(new InfoEntranceWrapper(typeof(ProgramMaster)));
+            group1.Add(new InfoEntranceWrapper(typeof(ClassSchedule)));
             Core.App.InfoEntrances.Add(group1);
         }
 

@@ -41,6 +41,32 @@ namespace HandSchool.JLU.JsonObject
         public LessonSegment lessonSegment { get; set; }
     }
 
+    class LessonIdList
+    {
+        public object arrangeInfo { get; set; }
+        public LessonSchedule[] lessonSchedules { get; set; }
+        public object teachingTerm { get; set; }
+        public object department { get; set; }
+        public string activeStatus { get; set; }
+        public string tcmId { get; set; }
+        public DateTime dateCreate { get; set; }
+        public string egrade { get; set; }
+        public LessonSegment lessonSegment { get; set; }
+        public string maxStudCnt { get; set; }
+        public object selectPlan { get; set; }
+        public string scorePoint { get; set; }
+        public object school { get; set; }
+        public string studCnt { get; set; }
+        public object teachClassStuds { get; set; }
+        public LessonTeacher[] lessonTeachers { get; set; }
+        public string name { get; set; }
+        public string fixedStudCnt { get; set; }
+        public string tcmType { get; set; }
+        public string scoreFormat { get; set; }
+        public object notes { get; set; }
+        public string campus { get; set; }
+    }
+
     class ScheduleValue
     {
         public TeachClassMaster teachClassMaster { get; set; }
@@ -72,14 +98,19 @@ namespace HandSchool.JLU.JsonObject
 
     class LessonSegment
     {
+        public string classHour { get; set; }
         public string lssgId { get; set; }
         public Lesson lesson { get; set; }
+        public string weekHour { get; set; }
+        public string segType { get; set; }
+        public string lsSeq { get; set; }
         public string fullName { get; set; }
     }
 
     class Lesson
     {
         public CourseInfo courseInfo { get; set; }
+        public string extLessonNo { get; set; }
     }
 
     class CourseInfo
@@ -90,6 +121,7 @@ namespace HandSchool.JLU.JsonObject
     class Course
     {
         public string englishName { get; set; }
+        public SchoolInfo school { get; set; }
         public string courType3 { get; set; }
         public string adviceHour { get; set; }
         public string batch { get; set; }
@@ -104,7 +136,7 @@ namespace HandSchool.JLU.JsonObject
         public string isPe { get; set; }
         public string isCore { get; set; }
     }
-
+    
     class LessonSchedule
     {
         public Classroom classroom { get; set; }
@@ -131,13 +163,23 @@ namespace HandSchool.JLU.JsonObject
 
     class LessonTeacher
     {
+        public string lstchId { get; set; }
+        public string canScore { get; set; }
+        public string canEval { get; set; }
+        public string teachDuty { get; set; }
         public Teacher teacher { get; set; }
     }
 
     class Teacher
     {
+        public string staffId { get; set; }
+        public string staffStatus { get; set; }
         public string name { get; set; }
+        public DateTime birthdate { get; set; }
+        public string gender { get; set; }
+        public string workerId { get; set; }
         public string teacherId { get; set; }
+        public string profTitle { get; set; }
     }
 
     class TeachingTerm
@@ -241,6 +283,20 @@ namespace HandSchool.JLU.JsonObject
         public AdminClass[] adminClasses { get; set; }
         public string telephone { get; set; }
         public string introduction { get; set; }
+        public string xscNo { get; set; }
+        public string campus { get; set; }
+    }
+    
+    class SchoolInfo
+    {
+        public string englishName { get; set; }
+        public string schoolName { get; set; }
+        public string division { get; set; }
+        public string schId { get; set; }
+        public string activeStatus { get; set; }
+        public string extSchNo { get; set; }
+        public string abbr { get; set; }
+        public string schoolType { get; set; }
         public string xscNo { get; set; }
         public string campus { get; set; }
     }
@@ -384,7 +440,7 @@ namespace HandSchool.JLU.JsonObject
     class ProgItem
     {
         public string optionalCredit { get; set; }
-        public InputSchool inputSchool { get; set; }
+        public SchoolInfo inputSchool { get; set; }
         public string practiceCredit { get; set; }
         public string extProgNo { get; set; }
         public LifeStatus lifeStatus { get; set; }
@@ -401,20 +457,6 @@ namespace HandSchool.JLU.JsonObject
         public object applyField { get; set; }
         public object notes { get; set; }
         public string beginEgrade { get; set; }
-
-        public class InputSchool
-        {
-            public string englishName { get; set; }
-            public string schoolName { get; set; }
-            public string division { get; set; }
-            public string schId { get; set; }
-            public string activeStatus { get; set; }
-            public string extSchNo { get; set; }
-            public string abbr { get; set; }
-            public string schoolType { get; set; }
-            public string xscNo { get; set; }
-            public string campus { get; set; }
-        }
 
         public class LifeStatus
         {
@@ -435,7 +477,7 @@ namespace HandSchool.JLU.JsonObject
             public string campus { get; set; }
         }
     }
-    
+
     class ProgTerm
     {
         public string exprClassHour { get; set; }
@@ -443,7 +485,7 @@ namespace HandSchool.JLU.JsonObject
         public string testForm { get; set; }
         public string advGrade { get; set; }
         public string gradRequire { get; set; }
-        public CourseInfo courseInfo { get; set; }
+        public Course courseInfo { get; set; }
         public string progDId { get; set; }
         public string classHour { get; set; }
         public string termSeq { get; set; }
@@ -454,40 +496,42 @@ namespace HandSchool.JLU.JsonObject
         public object type6 { get; set; }
         public string introduction { get; set; }
         public object programMaster { get; set; }
-
-        public class CourseInfo
-        {
-            public string englishName { get; set; }
-            public School school { get; set; }
-            public string courType3 { get; set; }
-            public string adviceHour { get; set; }
-            public string batch { get; set; }
-            public string activeStatus { get; set; }
-            public string type5 { get; set; }
-            public string extCourseNo { get; set; }
-            public string courName { get; set; }
-            public string courseId { get; set; }
-            public string courType1 { get; set; }
-            public string adviceCredit { get; set; }
-
-            public class School
-            {
-                public string englishName { get; set; }
-                public string schoolName { get; set; }
-                public string division { get; set; }
-                public string schId { get; set; }
-                public string activeStatus { get; set; }
-                public string extSchNo { get; set; }
-                public string abbr { get; set; }
-                public string schoolType { get; set; }
-                public string xscNo { get; set; }
-                public string campus { get; set; }
-            }
-        }
+    }
+    
+    class CollegeCourse
+    {
+        public object examCovers { get; set; }
+        public TeachingTerm teachingTerm { get; set; }
+        public object lessonSegments { get; set; }
+        public string selectAdvice { get; set; }
+        public string scoreStatus { get; set; }
+        public Course courseInfo { get; set; }
+        public SchoolInfo teachSchool { get; set; }
+        public string activeStatus { get; set; }
+        public string extLessonNo { get; set; }
+        public object applyPlanLessons { get; set; }
+        public object selectPlan { get; set; }
+        public string lessonId { get; set; }
+        public string totalClassHour { get; set; }
+        public Staff leader { get; set; }
+        public string tcmType { get; set; }
+        public DateTime dateInput { get; set; }
     }
     
     class AlreadyKnownThings
     {
+        public static string Type5Name(string type5)
+        {
+            switch (type5)
+            {
+                case "4160": return "必修课";
+                case "4161": return "选修课";
+                case "4162": return "限选课";
+                case "4164": return "体育课";
+                default: return "未知";
+            }
+        }
+
         public static bool Loaded { get; private set; } = false;
 
         public static NameValueCollection Division { get; private set; }

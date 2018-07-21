@@ -172,51 +172,51 @@ namespace HandSchool.JLU
             try
             {
                 await WebClient.GetAsync("", "*/*");
+
+                // Set Login Session
+                var loginData = new NameValueCollection
+                {
+                    { "j_username", Username },
+                    { "j_password", MD5("UIMS" + Username + Password, Encoding.UTF8) },
+                    { "mousePath", "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACKTIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMdSQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3dawG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghgHRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQHlhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwIDlvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL" }
+                };
+
+                WebClient.Headers.Set("Referer", ServerUri + "userLogin.jsp?reason=nologin");
+                await WebClient.PostAsync("j_spring_security_check", loginData);
+
+                if (WebClient.Location == "error/dispatch.jsp?reason=loginError")
+                {
+                    string result = await WebClient.GetAsync("userLogin.jsp?reason=loginError", "text/html");
+                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
+                    IsLogin = false;
+                    return false;
+                }
+                else if (WebClient.Location == "index.do")
+                {
+                    AttachInfomation.Clear();
+
+                    // Get User Info
+                    string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
+                    if (resp.StartsWith("<!")) return false;
+                    Core.WriteConfig("jlu.user.json", AutoLogin ? resp : "");
+                    ParseLoginInfo(resp);
+
+
+                    // Get term info
+                    resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
+                    if (resp.StartsWith("<!")) return false;
+                    Core.WriteConfig("jlu.teachingterm.json", AutoLogin ? resp : "");
+                    ParseTermInfo(resp);
+                }
+                else
+                {
+                    throw new NotImplementedException($"Not implemented response: {{{WebClient.Location}}}, contact me.");
+                }
             }
-            catch(WebException ex)
+            catch (WebException ex)
             {
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
                 return false;
-            }
-
-            // Set Login Session
-            var loginData = new NameValueCollection
-            {
-                { "j_username", Username },
-                { "j_password", MD5("UIMS" + Username + Password, Encoding.UTF8) },
-                { "mousePath", "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACKTIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMdSQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3dawG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghgHRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQHlhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwIDlvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL" }
-            };
-
-            WebClient.Headers.Set("Referer", ServerUri + "userLogin.jsp?reason=nologin");
-            await WebClient.PostAsync("j_spring_security_check", loginData);
-
-            if (WebClient.Location == "error/dispatch.jsp?reason=loginError")
-            {
-                string result = await WebClient.GetAsync("userLogin.jsp?reason=loginError", "text/html");
-                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
-                IsLogin = false;
-                return false;
-            }
-            else if (WebClient.Location == "index.do")
-            {
-                AttachInfomation.Clear();
-
-                // Get User Info
-                string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
-                if (resp.StartsWith("<!")) return false;
-                Core.WriteConfig("jlu.user.json", AutoLogin ? resp : "");
-                ParseLoginInfo(resp);
-
-
-                // Get term info
-                resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
-                if (resp.StartsWith("<!")) return false;
-                Core.WriteConfig("jlu.teachingterm.json", AutoLogin ? resp : "");
-                ParseTermInfo(resp);
-            }
-            else
-            {
-                throw new NotImplementedException($"Not implemented response: {{{WebClient.Location}}}, contact me.");
             }
 
             IsLogin = true;

@@ -158,7 +158,7 @@ namespace HandSchool.JLU.InfoQuery
                     sb.Append("<tr>");
                     sb.Append($"<td>{opt.courseInfo.courName}</td>");
                     sb.Append($"<td>{opt.courseInfo.extCourseNo}</td>");
-                    sb.Append($"<td>{Type5Name(opt.courseInfo.type5)}</td>");
+                    sb.Append($"<td>{AlreadyKnownThings.Type5Name(opt.courseInfo.type5)}</td>");
                     sb.Append($"<td>{opt.advGrade}</td>");
                     sb.Append($"<td>{opt.termSeq}</td>");
                     sb.Append($"<td>{opt.courseInfo.school.schoolName}</td>");
@@ -176,18 +176,6 @@ namespace HandSchool.JLU.InfoQuery
                 Binding.SetIsBusy(is_busy = false);
                 Evaluate?.Invoke($"$('#progList').html('<tr><td colspan=\"9\">加载失败</td></tr>')");
                 await Binding.ShowMessage("提示", "加载教学方案失败。");
-            }
-        }
-
-        static string Type5Name(string type5)
-        {
-            switch (type5)
-            {
-                case "4160": return "必修课";
-                case "4161": return "选修课";
-                case "4162": return "限选课";
-                case "4164": return "体育课";
-                default: return "未知";
             }
         }
 

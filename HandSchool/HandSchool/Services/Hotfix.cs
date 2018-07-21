@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 
 namespace HandSchool.Services
 {
@@ -85,13 +86,19 @@ namespace HandSchool.Services
         /// <returns>数据</returns>
         public string ReadContent()
         {
-            var ret = Core.ReadConfig(LocalStorage);
-            if (ret != "") return ret;
-            else
-            {
-                CheckUpdate(true);
-                return Core.ReadConfig(LocalStorage);
-            }
+            return Core.ReadConfig(LocalStorage);
+        }
+
+        /// <summary>
+        /// 读取本地的数据
+        /// </summary>
+        /// <param name="obj">附加对象</param>
+        /// <returns>数据</returns>
+        public static string ReadContent(object obj)
+        {
+            var hf = obj.GetType().GetCustomAttribute(typeof(HotfixAttribute)) as HotfixAttribute;
+            System.Diagnostics.Debug.Assert(hf != null, "HotfixAttribute not attached.");
+            return hf.ReadContent();
         }
     }
 }

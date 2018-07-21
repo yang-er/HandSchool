@@ -62,7 +62,7 @@ namespace HandSchool.Models
             Name = name;
             Description = description;
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
-                Task.Run(() => hfattr.CheckUpdate(false));
+                hfattr.CheckUpdate(false);
             Load = () => Activator.CreateInstance(type) as IInfoEntrance;
         }
 
@@ -76,7 +76,7 @@ namespace HandSchool.Models
             Name = ent.Title;
             Description = ent.Description;
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
-                Task.Run(() => hfattr.CheckUpdate(false));
+                hfattr.CheckUpdate(false);
             Load = () => Activator.CreateInstance(type) as IInfoEntrance;
         }
     }

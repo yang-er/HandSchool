@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />

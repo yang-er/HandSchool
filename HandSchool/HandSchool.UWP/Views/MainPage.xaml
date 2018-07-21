@@ -16,19 +16,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
-                        </Grid.ColumnDefinitions><!--
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-                                <VisualState>
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="720" />
-                                    </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="Margin" Value="-60,28,0,-8" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>-->
+                        </Grid.ColumnDefinitions>
                         <TextBlock Margin="0,0,0,-12" FontSize="28" VerticalAlignment="Center" FontWeight="Light" Text="{Binding Title}" />
                         <ProgressBar Margin="0,0,0,-12" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="{Binding IsBusy}" />
                         <CommandBar Loaded="CommandBar_Loaded" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}" Name="CommandBar"></CommandBar>
