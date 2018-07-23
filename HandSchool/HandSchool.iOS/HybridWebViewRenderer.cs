@@ -29,6 +29,7 @@ namespace HandSchool.iOS
                 var webView = new WKWebView(Frame, config);
                 SetNativeControl(webView);
             }
+
             if (e.OldElement != null)
             {
                 userController.RemoveAllUserScripts();
@@ -36,18 +37,28 @@ namespace HandSchool.iOS
                 var hybridWebView = e.OldElement as HybridWebView;
                 hybridWebView.Cleanup();
             }
+
             if (e.NewElement != null)
             {
-                throw new System.NotImplementedException();
-                string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, string.Format("WebWrapper/{0}", Element.Uri));
-                Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName, false)));
-                Element.JavaScriptRequested += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
+                if (Element.Html == "")
+                {
+                    string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, string.Format("WebWrapper/{0}", Element.Uri));
+                    Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName, false)));
+                }
+                else
+                {
+                    string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, "WebWrapper");
+                    Control.LoadHtmlString(Element.Html, new NSUrl(fileName, true));
+                }
+
+                Element.JavaScriptRequested += async (eval) => await Control.EvaluateJavaScriptAsync(eval);
+                // Element.JavaScriptRequested += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
             }
         }
 
         public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
         {
-            Element.InvokeAction(message.Body.ToString());
+            Element.InvokeAction(message.Body as NSString);
         }
     }
 }

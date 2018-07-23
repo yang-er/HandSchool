@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using UIKit;
 using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
@@ -20,7 +20,7 @@ namespace HandSchool.Internal
 
         public void SetIsBusy(bool value, string tips)
         {
-            throw new NotImplementedException();
+            UIApplication.SharedApplication.NetworkActivityIndicatorVisible = value;
         }
     }
 }
