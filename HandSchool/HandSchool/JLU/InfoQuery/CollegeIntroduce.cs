@@ -98,7 +98,7 @@ namespace HandSchool.JLU.InfoQuery
             else
             {
                 await Binding.ShowMessage("信息查询", "未定义操作。", "知道了");
-                throw new NotImplementedException();
+                await Binding.ShowMessage("信息查询", "未知响应：" + data);
             }
         }
         

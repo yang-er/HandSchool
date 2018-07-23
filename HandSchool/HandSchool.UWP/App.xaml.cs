@@ -54,7 +54,7 @@ namespace HandSchool.UWP
         
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            throw new NotImplementedException("Failed to load Page " + e.SourcePageType.FullName);
         }
         
         private void OnSuspending(object sender, SuspendingEventArgs e)

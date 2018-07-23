@@ -96,6 +96,7 @@ namespace HandSchool.JLU.InfoQuery
             };
             Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getdata()")), "\uE721"));
         }
+
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
@@ -104,10 +105,7 @@ namespace HandSchool.JLU.InfoQuery
             
         }
 
-        public void Parse()
-        {
-            throw new NotImplementedException();
-        }
+        public void Parse() { }
 
         public async void Receive(string data)
         {

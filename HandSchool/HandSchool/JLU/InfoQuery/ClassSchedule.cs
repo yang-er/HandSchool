@@ -203,7 +203,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                throw new NotImplementedException();
+                Binding.ShowMessage("错误", "未知响应：" + data);
             }
         }
     }

@@ -64,9 +64,8 @@ namespace HandSchool.Models
             get
             {
 #if __UWP__
-                throw new NotImplementedException("UWP do not use this function");
+                System.Diagnostics.Debug.Assert(false, "UWP do not use this function");
 #endif
-
                 return _destpg ?? (_destpg = new NavigationPage(Activator.CreateInstance(DestinationPageType) as Page)
                 {
                     Title = title,

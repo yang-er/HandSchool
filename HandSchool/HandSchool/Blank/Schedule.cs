@@ -35,9 +35,6 @@ namespace HandSchool.Blank
 
         public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
         {
-            if (showAll)
-                throw new NotImplementedException();
-
             list = Items.FindAll((item) => showAll || item.IfShow(week));
         }
 

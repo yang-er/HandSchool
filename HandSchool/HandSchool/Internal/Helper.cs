@@ -72,6 +72,7 @@ namespace HandSchool.Internal
         /// <typeparam name="T">目标转换类型</typeparam>
         /// <param name="jsonString">源JSON字符串</param>
         /// <returns>反序列化后的值</returns>
+        /// <exception cref="JsonException" />
         public static T JSON<T>(string jsonString)
         {
             if (jsonString == "") throw new JsonReaderException();
