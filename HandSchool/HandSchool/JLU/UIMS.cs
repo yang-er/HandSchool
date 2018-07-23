@@ -9,13 +9,17 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static HandSchool.Internal.Helper;
 using JsonException = Newtonsoft.Json.JsonReaderException;
 
 namespace HandSchool.JLU
 {
     class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
+        const string config_file = "jlu.config.json";
+        const string config_username = "jlu.uims.username.txt";
+        const string config_password = "jlu.uims.password.txt";
+        const string config_usercache = "jlu.user.json";
+        const string config_teachterm = "jlu.teachingterm.json";
 
         #region Login Information
 
@@ -99,24 +103,24 @@ namespace HandSchool.JLU
 
         public UIMS()
         {
-            var lp = Core.ReadConfig("jlu.config.json");
+            var lp = Core.ReadConfig(config_file);
             SettingsJSON config;
-            if (lp != "") config = JSON<SettingsJSON>(lp);
+            if (lp != "") config = Helper.JSON<SettingsJSON>(lp);
             else config = new SettingsJSON();
             proxy_server = config.ProxyServer;
             use_https = config.UseHttps;
 
             IsLogin = false;
             NeedLogin = false;
-            Username = Core.ReadConfig("jlu.uims.username.txt");
+            Username = Core.ReadConfig(config_username);
             AttachInfomation = new NameValueCollection();
-            if (Username != "") Password = Core.ReadConfig("jlu.uims.password.txt");
+            if (Username != "") Password = Core.ReadConfig(config_password);
             if (Password == "") SavePassword = false;
 
             try
             {
-                ParseLoginInfo(Core.ReadConfig("jlu.user.json"));
-                ParseTermInfo(Core.ReadConfig("jlu.teachingterm.json"));
+                ParseLoginInfo(Core.ReadConfig(config_usercache));
+                ParseTermInfo(Core.ReadConfig(config_teachterm));
             }
             catch (JsonException)
             {
@@ -127,7 +131,7 @@ namespace HandSchool.JLU
 
         private void ParseLoginInfo(string resp)
         {
-            LoginInfo = JSON<LoginValue>(resp);
+            LoginInfo = Helper.JSON<LoginValue>(resp);
             AttachInfomation.Add("studId", LoginInfo.userId.ToString());
             AttachInfomation.Add("studName", LoginInfo.nickName);
             AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
@@ -135,7 +139,7 @@ namespace HandSchool.JLU
 
         private void ParseTermInfo(string resp)
         {
-            var ro = JSON<RootObject<TeachingTerm>>(resp).value[0];
+            var ro = Helper.JSON<RootObject<TeachingTerm>>(resp).value[0];
             if (ro.vacationDate < DateTime.Now)
             {
                 AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假"));
@@ -157,8 +161,8 @@ namespace HandSchool.JLU
             }
             else
             {
-                Core.WriteConfig("jlu.uims.username.txt", Username);
-                Core.WriteConfig("jlu.uims.password.txt", SavePassword ? Password : "");
+                Core.WriteConfig(config_username, Username);
+                Core.WriteConfig(config_password, SavePassword ? Password : "");
             }
 
             if (WebClient != null) WebClient.Dispose();
@@ -177,7 +181,7 @@ namespace HandSchool.JLU
                 var loginData = new NameValueCollection
                 {
                     { "j_username", Username },
-                    { "j_password", MD5("UIMS" + Username + Password, Encoding.UTF8) },
+                    { "j_password", Helper.MD5("UIMS" + Username + Password, Encoding.UTF8) },
                     { "mousePath", "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACKTIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMdSQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3dawG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghgHRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQHlhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwIDlvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL" }
                 };
 
@@ -198,24 +202,31 @@ namespace HandSchool.JLU
                     // Get User Info
                     string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
                     if (resp.StartsWith("<!")) return false;
-                    Core.WriteConfig("jlu.user.json", AutoLogin ? resp : "");
+                    Core.WriteConfig(config_usercache, AutoLogin ? resp : "");
                     ParseLoginInfo(resp);
-
-
+                    
                     // Get term info
                     resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
                     if (resp.StartsWith("<!")) return false;
-                    Core.WriteConfig("jlu.teachingterm.json", AutoLogin ? resp : "");
+                    Core.WriteConfig(config_teachterm, AutoLogin ? resp : "");
                     ParseTermInfo(resp);
                 }
                 else
                 {
-                    throw new NotImplementedException($"Not implemented response: {{{WebClient.Location}}}, contact me.");
+                    throw new ContentAcceptException(WebClient.Location, null, null);
                 }
             }
             catch (WebException ex)
             {
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
+                return false;
+            }
+            catch (ContentAcceptException ex)
+            {
+                var error = "UIMS服务器似乎出了点问题……";
+                if (ex.Current != "")
+                    error += "服务器未知响应：" + ex.Data + "，请联系开发者。";
+                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, error));
                 return false;
             }
 
@@ -254,8 +265,8 @@ namespace HandSchool.JLU
 
         public void SaveSettings()
         {
-            var save = Serialize(new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https });
-            Core.WriteConfig("jlu.config.json", save);
+            var save = Helper.Serialize(new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https });
+            Core.WriteConfig(config_file, save);
         }
 
         class SettingsJSON
