@@ -51,7 +51,7 @@ namespace HandSchool.iOS
                     Control.LoadHtmlString(Element.Html, new NSUrl(fileName, true));
                 }
 
-                Element.JavaScriptRequested += async (eval) => await Control.EvaluateJavaScriptAsync(eval);
+                Element.JavaScriptRequested += (eval) => Control.EvaluateJavaScript(eval, null);
                 // Element.JavaScriptRequested += (eval) => userController.AddUserScript(new WKUserScript(new NSString(eval), WKUserScriptInjectionTime.AtDocumentEnd, false));
             }
         }
