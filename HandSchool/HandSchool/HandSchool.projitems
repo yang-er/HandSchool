@@ -197,6 +197,11 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\ViewModels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\Models\" />
+  </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />
   #endif-->

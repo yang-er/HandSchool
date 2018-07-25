@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class CardView : UserControl
     {

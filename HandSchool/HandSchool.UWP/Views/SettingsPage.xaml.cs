@@ -2,7 +2,7 @@
 using HandSchool.ViewModels;
 using System.Text;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class SettingsPage : ViewPage
     {

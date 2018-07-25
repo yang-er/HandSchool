@@ -5,7 +5,7 @@ using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class LoginDialog : ContentDialog
     {

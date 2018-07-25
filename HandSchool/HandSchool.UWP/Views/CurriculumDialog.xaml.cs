@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class CurriculumDialog : ContentDialog
     {

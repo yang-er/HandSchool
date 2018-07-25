@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using EntAttr = HandSchool.Services.EntranceAttribute;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     /// <summary>
     /// 提供信息查询页面
