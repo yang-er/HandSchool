@@ -4,9 +4,6 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
                   x:Class="HandSchool.Views.FeedPage"
                   Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="刷新列表" Command="{Binding LoadItemsCommand}" Order="Secondary" />
-    </ContentPage.ToolbarItems>
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"

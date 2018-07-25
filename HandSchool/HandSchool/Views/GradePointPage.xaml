@@ -5,7 +5,6 @@
                   x:Class="HandSchool.Views.GradePointPage"
                   Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="刷新列表" Command="{Binding LoadItemsCommand}" Order="Secondary" />
         <ToolbarItem Name="统计GPA" Clicked="ShowGPA_Clicked" Order="Secondary" />
     </ContentPage.ToolbarItems>
     <ListView x:Name="MyListView"
