@@ -86,11 +86,13 @@ namespace HandSchool.JLU
             catch (WebException ex)
             {
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
+                return IsLogin = false;
             }
             catch (JsonException)
             {
                 System.Diagnostics.Debug.WriteLine(LastReport);
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
+                return IsLogin = false;
             }
         }
 
