@@ -62,6 +62,7 @@ namespace HandSchool.Droid
     {
         public override void Run()
         {
+            /*
             AppWidgetManager manager = AppWidgetManager.GetInstance(MainActivity.ActivityContext);
             ComponentName componentName = new ComponentName(MainActivity.ActivityContext, Class.FromType(typeof(AppWidget)));
             var View = new RemoteViews(MainActivity.ActivityContext.PackageName,Resource.Layout.Widget);
@@ -69,6 +70,7 @@ namespace HandSchool.Droid
             View.SetTextViewText(Resource.Id.widgetMedium,"下节课:" +IndexViewModel.Instance.NextClass);
             View.SetTextViewText(Resource.Id.NextClassPlaceString, "上课地点:" + IndexViewModel.Instance.NextClassroom);
             manager.UpdateAppWidget(componentName, View);
+            */
         }
     }
 }

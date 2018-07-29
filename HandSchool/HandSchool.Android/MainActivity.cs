@@ -32,8 +32,8 @@ namespace HandSchool.Droid
             ActivityContext = this;
             OnClick += (sender, e) => { ProgressDialog = new ProgressDialog(this); new Thread(InstallApk).Start(); };
             Update();
-            Intent it = new Intent(this, typeof(SampleService));
-            StartService(it);
+            //Intent it = new Intent(this, typeof(SampleService));
+            //StartService(it);
             LoadApplication(new App() {});
         }
 

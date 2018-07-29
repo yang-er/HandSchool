@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/com.x90yang.handschool"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <GridView
+        android:id="@+id/ClassGrid"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:numColumns="7"
+        android:listSelector="@android:color/transparent"
+        android:horizontalSpacing="1dip" />
+</RelativeLayout>
