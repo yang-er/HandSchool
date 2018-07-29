@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HandSchool.Droid</RootNamespace>
     <AssemblyName>HandSchool.Android</AssemblyName>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -72,6 +72,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v7.GridLayout">
+      <Version>25.4.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.1.0.637273" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="25.4.0.2" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="25.4.0.2" />
@@ -81,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppWidget.cs" />
+    <Compile Include="ClassTableRemoteService.cs" />
+    <Compile Include="ClassTableWidget.cs" />
+    <Compile Include="ClassTableWidgetFactory.cs" />
     <Compile Include="HybridWebViewRenderer.cs" />
     <Compile Include="InputCellRenderer.cs" />
     <Compile Include="MainActivity.cs" />
@@ -90,6 +96,7 @@
     <Compile Include="OutlinePage.xaml.cs">
       <DependentUpon>OutlinePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ResizeableTextView.cs" />
     <Compile Include="SampleService.cs" />
     <Compile Include="ViewResponse.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -173,6 +180,27 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\previewImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\classtablewidget.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\classtablewidgetprovider.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\classtableitem.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Colors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\classnumitem.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

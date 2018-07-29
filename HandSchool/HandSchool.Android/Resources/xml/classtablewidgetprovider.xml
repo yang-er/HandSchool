@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+	android:minWidth="1000dip"
+	android:minHeight="250dip"
+	android:resizeMode="horizontal|vertical"
+	android:initialLayout="@layout/classtablewidget"
+	android:previewImage="@drawable/previewImage"
+/>

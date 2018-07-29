@@ -41,6 +41,7 @@ namespace HandSchool.Droid
             var widgetView = new RemoteViews(context.PackageName, Resource.Layout.Widget);
 
 			SetTextViewText(widgetView);
+            //widgetView.SetInt(Resource.Id.widgetMedium, "setBackgroundColor",Android.Graphics.Color.Red);
 			RegisterClicks(context, appWidgetIds, widgetView);
             
 			return widgetView;
