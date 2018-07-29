@@ -517,7 +517,14 @@ namespace HandSchool.JLU.JsonObject
         public string tcmType { get; set; }
         public DateTime dateInput { get; set; }
     }
-    
+
+    class YktLogin
+    {
+        public bool success { get; set; }
+        public string msg { get; set; }
+        public object obj { get; set; }
+    }
+
     class AlreadyKnownThings
     {
         public static string Type5Name(string type5)

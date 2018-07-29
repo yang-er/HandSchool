@@ -1,4 +1,4 @@
-﻿using HandSchool.UWP;
+﻿using HandSchool.UWP.Views;
 using HandSchool.Views;
 using System;
 using System.Threading.Tasks;

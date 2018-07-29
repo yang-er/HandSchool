@@ -4,7 +4,7 @@ using HandSchool.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class GradePointPage : ViewPage
     {

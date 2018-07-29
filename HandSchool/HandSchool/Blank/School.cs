@@ -5,6 +5,7 @@ using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HandSchool.Blank
 {
@@ -30,6 +31,8 @@ namespace HandSchool.Blank
         public string ServerUri => "";
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
+        public string CaptchaCode { get; set; } = "";
+        public byte[] CaptchaSource { get; set; } = null;
         public bool IsLogin => true;
         public bool NeedLogin => false;
         public int CurrentWeek { get; set; } = 1;
@@ -65,6 +68,7 @@ namespace HandSchool.Blank
 
         public AwaredWebClient WebClient { get; set; }
         public NameValueCollection AttachInfomation { get; set; } = new NameValueCollection();
+
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
         public async Task<string> Get(string url)
@@ -118,6 +122,12 @@ namespace HandSchool.Blank
         public string FormatArguments(string args)
         {
             return args;
+        }
+
+        public async Task<bool> PrepareLogin()
+        {
+            await Task.Run(() => { });
+            return true;
         }
     }
 }

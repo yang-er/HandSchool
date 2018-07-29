@@ -1,7 +1,7 @@
 ﻿using HandSchool.ViewModels;
 using Windows.UI.Xaml;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class IndexPage : ViewPage
     {

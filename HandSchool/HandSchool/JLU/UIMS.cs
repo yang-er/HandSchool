@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using JsonException = Newtonsoft.Json.JsonReaderException;
 
 namespace HandSchool.JLU
@@ -100,6 +101,8 @@ namespace HandSchool.JLU
         public string WeatherLocation => "长春";
         public LoginValue LoginInfo { get; set; }
         public int CurrentWeek { get; set; }
+        public string CaptchaCode { get; set; } = "";
+        public byte[] CaptchaSource { get; set; } = null;
 
         public UIMS()
         {
@@ -267,6 +270,12 @@ namespace HandSchool.JLU
         {
             var save = Helper.Serialize(new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https });
             Core.WriteConfig(config_file, save);
+        }
+
+        public async Task<bool> PrepareLogin()
+        {
+            await Task.Run(() => { });
+            return true;
         }
 
         class SettingsJSON

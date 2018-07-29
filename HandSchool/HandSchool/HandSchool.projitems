@@ -29,6 +29,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ViewResponse.cs" />
@@ -196,6 +198,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\ViewModels\" />
   </ItemGroup>
   <!--#if (CreateBackendProject)
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />

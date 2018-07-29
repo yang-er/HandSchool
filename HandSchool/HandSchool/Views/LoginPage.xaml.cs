@@ -11,6 +11,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = viewModel;
+            // Xamarin.Forms.ImageSource
         }
 
         internal async void Response(object sender, LoginStateEventArgs e)

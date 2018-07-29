@@ -25,19 +25,20 @@ namespace HandSchool.Models
         /// <param name="icon">Segoe MDL2 Assets 图标</param>
         /// <param name="apple">苹果图标</param>
         /// <param name="select">是否已选中</param>
-        public MasterPageItem(string title, string dest, string icon, string apple, bool select = false)
+        public MasterPageItem(string title, string dest, string icon, string apple, bool select = false, string category = "")
         {
             this.title = title;
             string destpg_type;
+            if (category != "") category += ".";
 
 #if __UWP__
-            destpg_type = "HandSchool.UWP." + dest;
+            destpg_type = $"HandSchool.UWP.{category}Views.{dest}";
             Icon = icon;
 #elif __IOS__
-            destpg_type = "HandSchool.Views." + dest;
+            destpg_type = $"HandSchool.{category}Views.{dest}";
             appleIcon = new FileImageSource { File = apple };
 #elif __ANDROID__
-            destpg_type = "HandSchool.Views." + dest;
+            destpg_type = $"HandSchool.{category}Views.{dest}";
 #endif
             
             DestinationPageType = Assembly.GetExecutingAssembly().GetType(destpg_type);

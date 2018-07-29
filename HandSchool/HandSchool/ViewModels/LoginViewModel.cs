@@ -12,7 +12,7 @@ namespace HandSchool.ViewModels
         public Command LoginCommand { get; set; }
         public ILoginField Form { get; }
 #if __UWP__
-        public UWP.LoginDialog Page { get; set; }
+        public UWP.Views.LoginDialog Page { get; set; }
 #else
         public LoginPage Page { get; set; }
 #endif
@@ -27,8 +27,8 @@ namespace HandSchool.ViewModels
             var viewModel = new LoginViewModel(form);
             viewModel.LoginCommand = new Command(viewModel.Login);
 #if __UWP__
-            viewModel.View = new ViewResponse(default(UWP.ViewPage));
-            viewModel.Page = new UWP.LoginDialog(viewModel);
+            viewModel.View = new ViewResponse(default(UWP.Views.ViewPage));
+            viewModel.Page = new UWP.Views.LoginDialog(viewModel);
             await viewModel.Page.ShowAsync();
 #else
             viewModel.View = new ViewResponse(default(PopContentPage));

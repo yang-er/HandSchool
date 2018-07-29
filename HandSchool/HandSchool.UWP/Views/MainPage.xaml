@@ -26,7 +26,7 @@
             <Frame x:Name="ContentFrame" Margin="0,12,0,0" Navigated="ContentFrame_Navigated" Navigating="ContentFrame_Navigating">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
-                        <NavigationThemeTransition/>
+                        <NavigationThemeTransition />
                     </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>

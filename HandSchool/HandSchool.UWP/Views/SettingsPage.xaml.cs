@@ -1,8 +1,9 @@
 ﻿using HandSchool.Internal;
 using HandSchool.ViewModels;
 using System.Text;
+using Windows.UI.Xaml;
 
-namespace HandSchool.UWP
+namespace HandSchool.UWP.Views
 {
     public sealed partial class SettingsPage : ViewPage
     {
@@ -16,6 +17,11 @@ namespace HandSchool.UWP
             AboutViewModel.Instance.HtmlDocument.ToHtml(sb);
             AboutWebView.Html = sb.ToString();
             AboutWebView.Register = AboutViewModel.Instance.Response;
+        }
+
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await LoginViewModel.RequestAsync(JLU.Loader.Ykt);
         }
     }
 }

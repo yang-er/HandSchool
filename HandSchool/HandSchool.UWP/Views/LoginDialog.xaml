@@ -1,8 +1,8 @@
 ﻿<ContentDialog
-    x:Class="HandSchool.UWP.LoginDialog"
+    x:Class="HandSchool.UWP.Views.LoginDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:HandSchool.UWP"
+    xmlns:local="using:HandSchool.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -21,6 +21,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -28,9 +29,11 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.Row="0" PlaceholderText="用户名" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" Text="{Binding Username, Mode=TwoWay}" Grid.ColumnSpan="2" Margin="0,0,0,8" />
         <PasswordBox Grid.Row="1" PlaceholderText="密码" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" PasswordChar="*" Password="{Binding Password, Mode=TwoWay}"  Grid.ColumnSpan="2" Margin="0,0,0,8" />
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Tips, Mode=OneWay}" TextWrapping="Wrap" MaxWidth="300" Margin="0,0,0,8" />
-        <CheckBox Grid.Row="3" Grid.Column="0" Content="保存密码" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" IsChecked="{Binding SavePassword, Mode=TwoWay}" />
-        <CheckBox Grid.Row="3" Grid.Column="1" Content="自动登录" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" HorizontalAlignment="Right" IsChecked="{Binding AutoLogin, Mode=TwoWay}" />
+        <TextBox Grid.Row="2" Visibility="Collapsed" PlaceholderText="验证码" x:Name="CaptchaBpx" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" Text="{Binding CaptchaCode, Mode=TwoWay}" Margin="0,0,0,8" />
+        <Image Grid.Row="2" Visibility="Collapsed" MaxHeight="32" Grid.Column="1" x:Name="CaptchaImage" HorizontalAlignment="Right" Margin="0,0,0,8" />
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Tips, Mode=OneWay}" TextWrapping="Wrap" MaxWidth="300" Margin="0,0,0,8" />
+        <CheckBox Grid.Row="4" Grid.Column="0" Content="保存密码" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" IsChecked="{Binding SavePassword, Mode=TwoWay}" />
+        <CheckBox Grid.Row="4" Grid.Column="1" Content="自动登录" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" HorizontalAlignment="Right" IsChecked="{Binding AutoLogin, Mode=TwoWay}" />
         <ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay}" Grid.Row="0" Margin="8,2,8,0" VerticalAlignment="Top" Grid.ColumnSpan="2" />
     </Grid>
 </ContentDialog>
