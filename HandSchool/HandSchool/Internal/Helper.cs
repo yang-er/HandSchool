@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -112,6 +113,30 @@ namespace HandSchool.Internal
             string ret = sb.ToString();
             sb.Clear();
             return ret;
+        }
+
+        /// <summary>
+        /// 解开Base64编码
+        /// </summary>
+        /// <param name="value">base64</param>
+        /// <returns>origin</returns>
+        public static string UnBase64(string value)
+        {
+            if (value == null || value == "") return "";
+            byte[] bytes = Convert.FromBase64String(value);
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
+        /// 进行Base64编码
+        /// </summary>
+        /// <param name="value">origin</param>
+        /// <returns>base64</returns>
+        public static string ToBase64(string value)
+        {
+            if (value == null || value == "") return "";
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
+            return Convert.ToBase64String(bytes);
         }
 
         /// <summary>

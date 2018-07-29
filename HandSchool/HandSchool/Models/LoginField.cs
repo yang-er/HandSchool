@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HandSchool.Models
 {
@@ -40,6 +42,22 @@ namespace HandSchool.Models
         /// </summary>
         /// <returns>是否登录成功</returns>
         Task<bool> Login();
+
+        /// <summary>
+        /// 登录之前的准备
+        /// </summary>
+        /// <returns>是否准备成功</returns>
+        Task<bool> PrepareLogin();
+
+        /// <summary>
+        /// 验证码内容
+        /// </summary>
+        string CaptchaCode { get; set; }
+
+        /// <summary>
+        /// 验证码源 image/jpeg
+        /// </summary>
+        byte[] CaptchaSource { get; }
 
         /// <summary>
         /// 是否自动登录

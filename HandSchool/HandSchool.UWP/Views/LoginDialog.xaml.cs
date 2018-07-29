@@ -4,6 +4,9 @@ using HandSchool.ViewModels;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
 
 namespace HandSchool.UWP.Views
 {
@@ -17,6 +20,7 @@ namespace HandSchool.UWP.Views
             InitializeComponent();
             ViewModel = vm;
             DataContext = vm.Form;
+            UpdateCaptchaInfomation();
         }
         
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
@@ -52,6 +56,37 @@ namespace HandSchool.UWP.Views
                 deferral = args.GetDeferral();
                 ViewModel.LoginCommand.Execute(null);
             }
+        }
+
+        public async void UpdateCaptchaInfomation()
+        {
+            ViewModel.IsBusy = true;
+
+            if (!await ViewModel.Form.PrepareLogin())
+            {
+                await ViewResponse.ShowMessageAsync("登录失败", "登录失败，出现了一些问题。");
+            }
+
+            if (ViewModel.Form.CaptchaSource == null)
+            {
+                CaptchaBpx.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                CaptchaImage.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            else
+            {
+                CaptchaBpx.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                CaptchaImage.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+                var ret = new BitmapImage();
+                var stream = new InMemoryRandomAccessStream();
+                var writer = new DataWriter(stream.GetOutputStreamAt(0));
+                writer.WriteBytes(ViewModel.Form.CaptchaSource);
+                await writer.StoreAsync();
+                await ret.SetSourceAsync(stream);
+                CaptchaImage.Source = ret;
+            }
+
+            ViewModel.IsBusy = false;
         }
     }
 

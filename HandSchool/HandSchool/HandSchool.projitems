@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ViewResponse.cs" />

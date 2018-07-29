@@ -9,10 +9,13 @@ namespace HandSchool.JLU
     {
         public string SchoolName => "吉林大学";
         public string SchoolId => "jlu";
+        
+        public static SchoolCard Ykt { get; private set; }
 
         public void PostLoad()
         {
             Task.Run(() => JsonObject.AlreadyKnownThings.Initialize());
+            Ykt = new SchoolCard();
         }
 
         public void PreLoad()

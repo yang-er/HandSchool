@@ -123,6 +123,37 @@ namespace HandSchool.Internal
             }
         }
 
+        public async Task<byte[]> GetAsync(string address, string accept, string type)
+        {
+            try
+            {
+                var ret = await DownloadDataTaskAsync(address);
+                if (accept != "*/*" && ResponseHeaders["Content-Type"] is null && !ResponseHeaders["Content-Type"].StartsWith(accept))
+                {
+                    throw new ContentAcceptException(Helper.HexDigest(ret), ResponseHeaders["Content-Type"], accept);
+                }
+                return ret;
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response is HttpWebResponse resp)
+                {
+                    protocolErrorResponses = new WebHeaderCollection { resp.Headers };
+                    protocolErrorResponses["Status"] = ((int)resp.StatusCode).ToString() + " " + resp.StatusCode.ToString();
+                    return null;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+            catch (NotSupportedException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// 以POST形式发送数据
         /// </summary>
