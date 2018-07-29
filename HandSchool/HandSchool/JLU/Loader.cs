@@ -1,4 +1,5 @@
 ﻿using HandSchool.JLU.InfoQuery;
+using HandSchool.JLU.ViewModels;
 using HandSchool.Models;
 using HandSchool.Services;
 using System.Threading.Tasks;
@@ -9,12 +10,13 @@ namespace HandSchool.JLU
     {
         public string SchoolName => "吉林大学";
         public string SchoolId => "jlu";
-        
-        public static SchoolCard Ykt { get; private set; }
+
+        public static SchoolCard Ykt;
 
         public void PostLoad()
         {
             Task.Run(() => JsonObject.AlreadyKnownThings.Initialize());
+            new YktViewModel();
             Ykt = new SchoolCard();
         }
 

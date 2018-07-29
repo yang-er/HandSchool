@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using System.Text.RegularExpressions;
 using System.Net;
 using Newtonsoft.Json;
+using HandSchool.JLU.ViewModels;
 
 namespace HandSchool.JLU
 {
@@ -58,13 +59,10 @@ namespace HandSchool.JLU
                 { "openid", "" },
                 { "Schoolcode", "JLU" }
             };
-
-            WebClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/17.17134";
-            WebClient.Headers["X-Requested-With"] = "XMLHttpRequest";
-            WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/Account/Login?next=aHR0cDovLzIwMi45OC4xOC4yNDk6ODA3MC9TeW5DYXJkL01hbmFnZS9CYXNpY0luZm8=";
-            WebClient.Headers["Origin"] = "http://ykt.jlu.edu.cn:8070";
+            
             try
             {
+                WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/Account/Login?next=aHR0cDovLzIwMi45OC4xOC4yNDk6ODA3MC9TeW5DYXJkL01hbmFnZS9CYXNpY0luZm8=";
                 LastReport = await WebClient.PostAsync("Account/Login", post_value);
 
                 if (LastReport == "被拒绝")
@@ -80,7 +78,8 @@ namespace HandSchool.JLU
                     return IsLogin = false;
                 }
 
-                System.Diagnostics.Debug.WriteLine(await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html"));
+                YktViewModel.Instance.BasicInfo.ParseFromHtml(await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html"));
+                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
                 return IsLogin = true;
             }
             catch (WebException ex)
