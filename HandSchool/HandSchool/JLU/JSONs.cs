@@ -518,7 +518,7 @@ namespace HandSchool.JLU.JsonObject
         public DateTime dateInput { get; set; }
     }
 
-    class YktLogin
+    class YktResult
     {
         public bool success { get; set; }
         public string msg { get; set; }

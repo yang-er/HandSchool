@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 using System.Net;
 using Newtonsoft.Json;
 using HandSchool.JLU.ViewModels;
+using HandSchool.JLU.Models;
+using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace HandSchool.JLU
 {
@@ -71,7 +74,7 @@ namespace HandSchool.JLU
                     return IsLogin = false;
                 }
 
-                var result = Helper.JSON<YktLogin>(LastReport);
+                var result = Helper.JSON<YktResult>(LastReport);
                 if (!result.success)
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, result.msg));
@@ -80,6 +83,8 @@ namespace HandSchool.JLU
 
                 YktViewModel.Instance.BasicInfo.ParseFromHtml(await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html"));
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
+                var a = await ChargeMoney(0.1);
+                
                 return IsLogin = true;
             }
             catch (WebException ex)
@@ -96,6 +101,52 @@ namespace HandSchool.JLU
         }
 
         #endregion
+        public async Task<IEnumerable<PickCardInfo>> GetPickCardInfo()
+        {
+            //TODO:检查登陆
+            try
+            {
+                string Html = await WebClient.GetAsync("InfoPub/CardNotice/NFixCardList", "*/*");
+                Html = Html.Replace("    ", "")
+                           .Replace("\r", "")
+                           .Replace("\n", "");
+                var PrasedHtml = Regex.Match(Html, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)");
+                return PickCardInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + PrasedHtml.Value + "</table>" + "</div>" + "</Root>");
+            }
+            catch(WebException ex)
+            {
+                //TODO:  返回的对吗emmmm
+                return new List<PickCardInfo>();
+            }
+            
+        }
+        public async Task<bool> ChargeMoney(double Money)
+        {
+            var post_value = new NameValueCollection
+            {
+                { "Amount", Money.ToString("f1")},
+                { "FromCard", "bcard" },
+                { "Password", Helper.ToBase64(Password) },
+                { "ToCard", "card" },
+            };
+            try
+            {
+               
+                var Response = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
+                var Result = Helper.JSON<YktResult>(Response);
+                if (!Result.success)
+                {
+                    return false;
+                }
+            }
+            catch(JsonException ex)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
 
         public AwaredWebClient WebClient { get; } = new AwaredWebClient("http://ykt.jlu.edu.cn:8070", Encoding.UTF8);
 
