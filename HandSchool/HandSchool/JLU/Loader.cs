@@ -2,6 +2,7 @@
 using HandSchool.JLU.ViewModels;
 using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU
@@ -12,12 +13,14 @@ namespace HandSchool.JLU
         public string SchoolId => "jlu";
 
         public static SchoolCard Ykt;
+        public static InfoEntranceGroup InfoList;
 
         public void PostLoad()
         {
             Task.Run(() => JsonObject.AlreadyKnownThings.Initialize());
             new YktViewModel();
             Ykt = new SchoolCard();
+            NavigationViewModel.Instance.PrimaryItems.Add(new MasterPageItem("校园一卡通", "YktPage", "\xE719", "tab_feed.png", false, "JLU"));
         }
 
         public void PreLoad()
@@ -28,13 +31,13 @@ namespace HandSchool.JLU
             Core.App.Schedule = new Schedule();
             Core.App.Message = new MessageEntrance();
             Core.App.Feed = new OA();
-            var group1 = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
-            group1.Add(new InfoEntranceWrapper(typeof(EmptyRoom)));
-            group1.Add(new InfoEntranceWrapper(typeof(TeachEvaluate)));
-            group1.Add(new InfoEntranceWrapper(typeof(CollegeIntroduce)));
-            group1.Add(new InfoEntranceWrapper(typeof(ProgramMaster)));
-            group1.Add(new InfoEntranceWrapper(typeof(ClassSchedule)));
-            Core.App.InfoEntrances.Add(group1);
+            InfoList = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
+            InfoList.Add(new InfoEntranceWrapper(typeof(EmptyRoom)));
+            InfoList.Add(new InfoEntranceWrapper(typeof(TeachEvaluate)));
+            InfoList.Add(new InfoEntranceWrapper(typeof(CollegeIntroduce)));
+            InfoList.Add(new InfoEntranceWrapper(typeof(ProgramMaster)));
+            InfoList.Add(new InfoEntranceWrapper(typeof(ClassSchedule)));
+            Core.App.InfoEntrances.Add(InfoList);
         }
 
         public override string ToString()

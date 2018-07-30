@@ -83,7 +83,7 @@ namespace HandSchool.JLU
 
                 YktViewModel.Instance.BasicInfo.ParseFromHtml(await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html"));
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-                var a = await ChargeMoney(0.1);
+                // var a = await ChargeMoney(0.1);
                 
                 return IsLogin = true;
             }

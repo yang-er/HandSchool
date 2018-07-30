@@ -21,7 +21,7 @@ namespace HandSchool.UWP.Views
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            await LoginViewModel.RequestAsync(JLU.Loader.Ykt);
+            await LoginViewModel.RequestAsync(HandSchool.JLU.Loader.Ykt);
         }
     }
 }

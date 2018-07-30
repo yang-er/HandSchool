@@ -23,6 +23,7 @@ namespace HandSchool.JLU.ViewModels
             System.Diagnostics.Debug.Assert(Instance is null);
             Instance = this;
             PickCardInfo = new ObservableCollection<PickCardInfo>();
+            Title = "校园一卡通";
             BasicInfo = new SchoolCardInfo();
         }
     }
