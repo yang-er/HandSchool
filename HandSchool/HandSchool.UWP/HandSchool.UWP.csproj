@@ -103,7 +103,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="JLU\Views\YktPage.xaml.cs">
+    <Compile Include="JLU\YktPage.xaml.cs">
       <DependentUpon>YktPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardView.xaml.cs">
@@ -203,7 +203,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="JLU\Views\YktPage.xaml">
+    <Page Include="JLU\YktPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
