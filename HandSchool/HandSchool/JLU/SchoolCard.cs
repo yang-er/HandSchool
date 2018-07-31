@@ -15,6 +15,7 @@ using HandSchool.JLU.ViewModels;
 using HandSchool.JLU.Models;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
+using HandSchool.ViewModels;
 
 namespace HandSchool.JLU
 {
@@ -71,14 +72,14 @@ namespace HandSchool.JLU
                 if (LastReport == "被拒绝")
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "软件版本过老，无法登录。"));
-                    return IsLogin = false;
+                    return false;
                 }
 
                 var result = Helper.JSON<YktResult>(LastReport);
                 if (!result.success)
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, result.msg));
-                    return IsLogin = false;
+                    return false;
                 }
 
                 YktViewModel.Instance.BasicInfo.ParseFromHtml(await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html"));
@@ -101,6 +102,14 @@ namespace HandSchool.JLU
         }
 
         #endregion
+
+        public async Task<bool> RequestLogin()
+        {
+            if (AutoLogin && !IsLogin) await Login();
+            if (!IsLogin) await LoginViewModel.RequestAsync(this);
+            return IsLogin;
+        }
+
         public async Task<IEnumerable<PickCardInfo>> GetPickCardInfo()
         {
             //TODO:检查登陆

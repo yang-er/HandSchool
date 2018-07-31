@@ -18,10 +18,5 @@ namespace HandSchool.UWP.Views
             AboutWebView.Html = sb.ToString();
             AboutWebView.Register = AboutViewModel.Instance.Response;
         }
-
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            await LoginViewModel.RequestAsync(HandSchool.JLU.Loader.Ykt);
-        }
     }
 }

@@ -29,7 +29,7 @@ namespace HandSchool.UWP.JLU.Views
 
         private async void ViewPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!Loader.Ykt.IsLogin) await LoginViewModel.RequestAsync(Loader.Ykt);
+            await Loader.Ykt.RequestLogin();
         }
     }
 }

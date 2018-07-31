@@ -13,10 +13,5 @@ namespace HandSchool.UWP.Views
             InitializeComponent();
             ViewModel = IndexViewModel.Instance;
         }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            await LoginViewModel.RequestAsync(Core.App.Service);
-        }
     }
 }
