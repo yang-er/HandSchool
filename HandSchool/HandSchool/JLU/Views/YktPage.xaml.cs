@@ -1,4 +1,5 @@
-﻿using HandSchool.JLU.ViewModels;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,6 +15,7 @@ namespace HandSchool.JLU.Views
 		{
 			InitializeComponent();
             BindingContext = YktViewModel.Instance;
+            YktViewModel.Instance.View = new ViewResponse(this);
 		}
 
         private void ChargeRequested(object sender, EventArgs e)

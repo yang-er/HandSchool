@@ -5,7 +5,7 @@
                   Title="{Binding Title}"
                   Appearing="TabbedPage_Appearing"
                   x:Class="HandSchool.JLU.Views.YktPage">
-    <w:PopContentPage Title="概览">
+    <w:PopContentPage Title="概览" BindingContext="{Binding .}">
         <TableView Intent="Form"
               BindingContext="{Binding BasicInfo}"
               VerticalOptions="FillAndExpand"
@@ -82,13 +82,14 @@
             </TableSection>
         </TableView>
     </w:PopContentPage>
-    <w:PopContentPage Title="拾卡">
+    <w:PopContentPage Title="拾卡" BindingContext="{Binding .}">
         <ListView ItemsSource="{Binding PickCardInfo}"
               IsPullToRefreshEnabled="true"
               RefreshCommand="{Binding LoadPickCardInfoCommand}"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               VerticalOptions="FillAndExpand"
               HasUnevenRows="true"
+              SelectionMode="None"
               CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -108,13 +109,14 @@
             </ListView.ItemTemplate>
         </ListView>
     </w:PopContentPage>
-    <w:PopContentPage Title="消费记录">
+    <w:PopContentPage Title="消费记录" BindingContext="{Binding .}">
         <ListView ItemsSource="{Binding RecordInfo}"
               IsPullToRefreshEnabled="true"
               RefreshCommand="{Binding RecordFindCommand}"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               VerticalOptions="FillAndExpand"
               HasUnevenRows="true"
+              SelectionMode="None"
               CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>

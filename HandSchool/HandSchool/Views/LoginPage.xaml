@@ -9,15 +9,25 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="15">
-            <TableView Intent="Form" BindingContext="{Binding Form}">
+            <TableView Intent="Form" BindingContext="{Binding Form}" HasUnevenRows="True">
                 <TableSection Title="登录信息">
                     <w:InputCell Text="{Binding Username}" Placeholder="用户名" />
                     <w:InputCell Text="{Binding Password}" Placeholder="密码" IsPassword="True" />
+                    <ViewCell x:Name="CaptchaFullBox">
+                        <Grid Margin="15,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Column="0" Text="{Binding CaptchaCode}" Placeholder="验证码" />
+                            <Image Grid.Column="1" x:Name="CaptchaImage" HeightRequest="32" Aspect="AspectFit" />
+                        </Grid>
+                    </ViewCell>
                     <ViewCell>
-                        <Label Text="{Binding Tips}" Style="{DynamicResource ListItemDetailTextStyle}" Margin="0,10" FontSize="13" />
+                        <Label Text="{Binding Tips}" Style="{DynamicResource ListItemDetailTextStyle}" Margin="15" FontSize="13" />
                     </ViewCell>
                     <SwitchCell Text="保存密码" On="{Binding SavePassword}" />
-                    <SwitchCell Text="自动登录" On="{Binding AutoLogin}" />
+                    <SwitchCell x:Name="AutoLoginBox" Text="自动登录" On="{Binding AutoLogin}" />
                 </TableSection>
             </TableView>
         </StackLayout>

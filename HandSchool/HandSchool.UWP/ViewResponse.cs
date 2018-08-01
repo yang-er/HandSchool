@@ -3,6 +3,7 @@ using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
 {
@@ -13,7 +14,7 @@ namespace HandSchool.Internal
             Binding = page;
         }
 
-        public ViewResponse(PopContentPage popContentPage)
+        public ViewResponse(XPage page)
         {
             System.Diagnostics.Debug.Assert(false, "UWP modules shouldn't accept Xamarin");
         }

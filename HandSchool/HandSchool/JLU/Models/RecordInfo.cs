@@ -16,8 +16,11 @@ namespace HandSchool.JLU.Models
         public string RecordCost { get; set; }
         public string RemainMoney { get; set; }
 
-        public string Title => RecordTime;
-        public string Description => "消费时间：" + RecordTime + (RecordPlace == "无" ? "" : "\n商户名称：" + RecordPlace) +"\n交易金额:"+RecordCost+"\n交易名称:"+RecordName+"\n卡余额:"+RemainMoney;
+        public string Title => $"{RecordName} {(RecordCost.StartsWith("-") ? "" : "+")}{RecordCost}";
+        public string Description => 
+            $"消费时间：{RecordTime}" + 
+            (RecordPlace == "无" ? "" : $"\n商户名称：{RecordPlace}") +
+            "\n卡余额：" + RemainMoney;
 
         public RecordInfo() { }
 
