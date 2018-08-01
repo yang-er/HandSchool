@@ -20,7 +20,7 @@ namespace HandSchool.JLU
             Task.Run(() => JsonObject.AlreadyKnownThings.Initialize());
             new YktViewModel();
             Ykt = new SchoolCard();
-            NavigationViewModel.Instance.PrimaryItems.Add(new MasterPageItem("校园一卡通", "YktPage", "\xE719", "tab_feed.png", false, "JLU"));
+            NavigationViewModel.Instance.PrimaryItems.Add(new MasterPageItem("一卡通", "YktPage", "\xE719", "tab_feed.png", false, "JLU"));
         }
 
         public void PreLoad()

@@ -168,10 +168,11 @@ namespace HandSchool.JLU
             var post_value = new NameValueCollection
             {
                 { "FromCard", "bcard" },
-                 { "ToCard", "card" },
+                { "ToCard", "card" },
                 { "Amount", true_money.ToString("f2")},
                 { "Password", Helper.ToBase64(Password) }
             };
+
             WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/SynCard/Manage/Transfer";
             LastReport = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
             var Result = Helper.JSON<YktResult>(LastReport);
@@ -186,27 +187,24 @@ namespace HandSchool.JLU
                 return true;
             }
         }
-
-        public async Task  QueryCost(int[] TimeArea)
+        
+        /// <exception cref="WebException" />
+        /// <exception cref="ContentAcceptException" />
+        public async Task QueryCost()
         {
             if (!await RequestLogin()) return;
-
-            string MidHtml=await WebClient.GetAsync("SynCard/Manage/TrjnQuery","*/*");
-            string PrasedHtml = Regex.Match(MidHtml, @"(?<=<select class=""ui select"" id=""selectCardnos"" name=""selectCardnos""><option value="")[\s\S]*?(?="">)").Value;
-            string Url = string.Format("?cardno={0}&beginTime={1}%2F{2}%2F{3}&endTime={4}%2F{5}%2F{6}",PrasedHtml,TimeArea[0], TimeArea[1], TimeArea[2], TimeArea[3], TimeArea[4], TimeArea[5]);
-            string ResultHtml = await WebClient.GetAsync("SynCard/Manage/TrjnHistory"+Url);
+            string ResultHtml = await WebClient.GetAsync("SynCard/Manage/TrjnHistory");
             ResultHtml = ResultHtml.Replace("    ", "")
-            .Replace("\r", "")
-            .Replace("\n", "");
+                                   .Replace("\r", "")
+                                   .Replace("\n", "");
+
             string ToPrase = Regex.Match(ResultHtml, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)").Value;
             var enumer = RecordInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + ToPrase + "</table>" + "</div>" + "</Root>");
             YktViewModel.Instance.RecordInfo.Clear();
             foreach(var i in enumer)
-            {
                 YktViewModel.Instance.RecordInfo.Add(i);
-            }
-            return;
         }
+
         public AwaredWebClient WebClient { get; } = new AwaredWebClient("http://ykt.jlu.edu.cn:8070", Encoding.UTF8);
 
         public string LastReport { get; private set; }

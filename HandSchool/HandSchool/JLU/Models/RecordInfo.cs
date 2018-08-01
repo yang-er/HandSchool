@@ -10,7 +10,6 @@ namespace HandSchool.JLU.Models
 {
     class RecordInfo
     {
-
         public string RecordTime { get; set; }
         public string RecordPlace { get; set; }
         public string RecordName { get; set; }

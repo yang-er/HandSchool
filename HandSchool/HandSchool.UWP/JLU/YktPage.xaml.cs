@@ -31,18 +31,14 @@ namespace HandSchool.UWP.JLU.Views
         {
             if (await Loader.Ykt.RequestLogin())
             {
-                YktViewModel.Instance.LoadPickCardInfoCommand.Execute(null);
+                await YktViewModel.Instance.GetPickCardInfo();
+                await YktViewModel.Instance.ProcessQuery();
             }
         }
 
         private void ChargeRequested(object sender, RoutedEventArgs e)
         {
             YktViewModel.Instance.ChargeCreditCommand.Execute(ChargeCreditBox.Text);
-        }
-        private void QueryRequest(object sender, RoutedEventArgs e)
-        {
-            int[] TimeArea = { StartDate.Date.Year, StartDate.Date.Month, StartDate.Date.Day,EndDate.Date.Year, EndDate.Date.Month, EndDate.Date.Day };
-            YktViewModel.Instance.RecordFindCommand.Execute(TimeArea);
         }
     }
 }

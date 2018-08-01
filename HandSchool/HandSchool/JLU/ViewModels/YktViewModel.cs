@@ -9,6 +9,7 @@ using WebException = System.Net.WebException;
 using JsonException = Newtonsoft.Json.JsonException;
 using HandSchool.Internal;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 namespace HandSchool.JLU.ViewModels
 {
@@ -17,7 +18,6 @@ namespace HandSchool.JLU.ViewModels
         public static YktViewModel Instance { get; private set; }
         public ObservableCollection<PickCardInfo> PickCardInfo { get; set; }
         public ObservableCollection<RecordInfo> RecordInfo { get; set; }
-        public ObservableCollection<HistoryCashInfo> CashHistory { get; set; }
         public SchoolCardInfo BasicInfo { get; set; }
 
         public Command LoadPickCardInfoCommand { get; set; }
@@ -31,22 +31,22 @@ namespace HandSchool.JLU.ViewModels
             Title = "校园一卡通";
             BasicInfo = new SchoolCardInfo();
             PickCardInfo = new ObservableCollection<PickCardInfo>();
-            //CashHistory = new ObservableCollection<HistoryCashInfo>();
             RecordInfo = new ObservableCollection<RecordInfo>();
-            LoadPickCardInfoCommand = new Command(GetPickCardInfo);
-            ChargeCreditCommand = new Command(ProcessCharge);
-            RecordFindCommand = new Command(ProcessQuery);
+            LoadPickCardInfoCommand = new Command(async() => await GetPickCardInfo());
+            ChargeCreditCommand = new Command(async (obj) => await ProcessCharge(obj));
+            RecordFindCommand = new Command(async () => await ProcessQuery());
         }
 
-        private async void ProcessQuery(object obj)
+        public async Task ProcessQuery()
         {
             if (IsBusy) return;
             View.SetIsBusy(true, "正在加载消费信息……");
             IsBusy = true;
             string last_error=null;
+
             try
             {
-                await Loader.Ykt.QueryCost(obj as int[]);
+                await Loader.Ykt.QueryCost();
             }
             catch (WebException)
             {
@@ -65,13 +65,11 @@ namespace HandSchool.JLU.ViewModels
                 IsBusy = false;
                 View.SetIsBusy(false);
                 if (last_error != null)
-                    await View.ShowMessage("查询", last_error);
+                    await View.ShowMessage("查询失败", last_error);
             }
-
-
         }
 
-        private async void GetPickCardInfo()
+        public async Task GetPickCardInfo()
         {
             if (IsBusy) return;
             View.SetIsBusy(true, "正在加载拾卡信息……");
@@ -95,7 +93,8 @@ namespace HandSchool.JLU.ViewModels
                 View.SetIsBusy(false);
             }
         }
-        private async void ProcessCharge(object money)
+
+        public async Task ProcessCharge(object money)
         {
             if (IsBusy) return;
             View.SetIsBusy(true, "正在充值……");

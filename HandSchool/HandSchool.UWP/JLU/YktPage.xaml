@@ -65,10 +65,10 @@
                         <StackPanel Padding="8,12">
                             <TextBlock Text="挂失状态" FontWeight="SemiBold" FontSize="16" />
                             <TextBlock Text="{Binding BasicInfo.LostState}" FontSize="14" />
-                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                            <!--<StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                                 <PasswordBox x:Name="LostPasswordBox" Width="150" PlaceholderText="校园卡查询密码" />
                                 <Button Content="挂失" Margin="8,0,0,0" />
-                            </StackPanel>
+                            </StackPanel>-->
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
@@ -110,30 +110,22 @@
                 </ListView>
             </PivotItem>
             <PivotItem Header="消费记录" Margin="0">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <DatePicker Width="150" x:Name="StartDate"  />
-                        <TextBlock Text="-" />
-                        <DatePicker Width="150" x:Name="EndDate"  />
-                        <Button Content="查询" Click="QueryRequest" />
-                    </StackPanel>
-                    <ListView x:Name="HistoryListView" ItemsSource="{Binding RecordInfo}" SelectionMode="None">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Padding="8,12">
-                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
-                                    <TextBlock Text="{Binding Description}" FontSize="14" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
+                <ListView x:Name="HistoryListView" ItemsSource="{Binding RecordInfo}" SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="8,12">
+                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
+                                <TextBlock Text="{Binding Description}" FontSize="14" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </PivotItem>
         </Pivot>
 
