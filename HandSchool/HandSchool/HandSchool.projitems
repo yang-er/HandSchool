@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\HistoryCashInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\RecordInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\ViewModels\YktViewModel.cs" />

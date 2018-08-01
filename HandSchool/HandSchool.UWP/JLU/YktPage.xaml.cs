@@ -39,5 +39,10 @@ namespace HandSchool.UWP.JLU.Views
         {
             YktViewModel.Instance.ChargeCreditCommand.Execute(ChargeCreditBox.Text);
         }
+        private void QueryRequest(object sender, RoutedEventArgs e)
+        {
+            int[] TimeArea = { StartDate.Date.Year, StartDate.Date.Month, StartDate.Date.Day,EndDate.Date.Year, EndDate.Date.Month, EndDate.Date.Day };
+            YktViewModel.Instance.RecordFindCommand.Execute(TimeArea);
+        }
     }
 }
