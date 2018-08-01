@@ -167,12 +167,12 @@ namespace HandSchool.JLU
 
             var post_value = new NameValueCollection
             {
-                { "Amount", true_money.ToString("f1")},
                 { "FromCard", "bcard" },
-                { "Password", Helper.ToBase64(Password) },
-                { "ToCard", "card" },
+                 { "ToCard", "card" },
+                { "Amount", true_money.ToString("f1")},
+                { "Password", Helper.ToBase64(Password) }
             };
-            
+            WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/SynCard/Manage/Transfer";
             LastReport = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
             var Result = Helper.JSON<YktResult>(LastReport);
 
