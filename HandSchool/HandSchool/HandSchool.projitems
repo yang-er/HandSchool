@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\HistoryCashInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />

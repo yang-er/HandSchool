@@ -21,7 +21,9 @@ namespace HandSchool.JLU
 {
     class SchoolCard : NotifyPropertyChanged, ILoginField
     {
-        const string password_config = "jlu.schoolcard.password.conf";
+        const string config_username = "jlu.schoolcard.username.txt";
+        const string config_password = "jlu.schoolcard.password.txt";
+        const string config_school = "jlu.schoolcard.detail.json";
 
         #region Login Fields
 
@@ -53,6 +55,16 @@ namespace HandSchool.JLU
 
         public async Task<bool> Login()
         {
+            if (Username == "" || Password == "")
+            {
+                return false;
+            }
+            else
+            {
+                Core.WriteConfig(config_username, Username);
+                Core.WriteConfig(config_password, SavePassword ? Password : "");
+            }
+
             var post_value = new NameValueCollection
             {
                 { "SignType", "SynSno" },
@@ -82,11 +94,7 @@ namespace HandSchool.JLU
                     return false;
                 }
 
-                YktViewModel.Instance.BasicInfo.ParseFromHtml(await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html"));
-                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-                // var a = await ChargeMoney(0.1);
-                
-                return IsLogin = true;
+                await BasicInfoAsync();
             }
             catch (WebException ex)
             {
@@ -99,9 +107,11 @@ namespace HandSchool.JLU
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
                 return IsLogin = false;
             }
+            
+            IsLogin = true;
+            LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
+            return true;
         }
-
-        #endregion
 
         public async Task<bool> RequestLogin()
         {
@@ -110,51 +120,71 @@ namespace HandSchool.JLU
             return IsLogin;
         }
 
-        public async Task<IEnumerable<PickCardInfo>> GetPickCardInfo()
+        #endregion
+        
+        public SchoolCard()
         {
-            //TODO:检查登陆
-            try
-            {
-                string Html = await WebClient.GetAsync("InfoPub/CardNotice/NFixCardList", "*/*");
-                Html = Html.Replace("    ", "")
-                           .Replace("\r", "")
-                           .Replace("\n", "");
-                var PrasedHtml = Regex.Match(Html, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)");
-                return PickCardInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + PrasedHtml.Value + "</table>" + "</div>" + "</Root>");
-            }
-            catch(WebException ex)
-            {
-                //TODO:  返回的对吗emmmm
-                return new List<PickCardInfo>();
-            }
-            
+            IsLogin = false;
+            Username = Core.ReadConfig(config_username);
+            if (Username != "") Password = Core.ReadConfig(config_password);
+            SavePassword = Password != "";
         }
-        public async Task<bool> ChargeMoney(double Money)
+
+        public async Task BasicInfoAsync()
         {
+            LastReport = await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html");
+            YktViewModel.Instance.BasicInfo.ParseFromHtml(LastReport);
+        }
+
+        /// <exception cref="WebException" />
+        /// <exception cref="ContentAcceptException" />
+        public async Task GetPickCardInfo()
+        {
+            if (!await RequestLogin()) return;
+            
+            string Html = await WebClient.GetAsync("InfoPub/CardNotice/NFixCardList", "*/*");
+            Html = Html.Replace("    ", "")
+                        .Replace("\r", "")
+                        .Replace("\n", "");
+            var PrasedHtml = Regex.Match(Html, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)");
+            var enumer = PickCardInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + PrasedHtml.Value + "</table>" + "</div>" + "</Root>");
+            YktViewModel.Instance.PickCardInfo.Clear();
+            foreach (var item in enumer)
+                YktViewModel.Instance.PickCardInfo.Add(item);
+        }
+
+        /// <exception cref="OverflowException" />
+        /// <exception cref="FormatException" />
+        /// <exception cref="WebException" />
+        /// <exception cref="JsonException" />
+        /// <exception cref="ContentAcceptException" />
+        public async Task<bool> ChargeMoney(string money)
+        {
+            if (!await RequestLogin()) return false;
+            var true_money = double.Parse(money);
+            if (true_money > 200 || true_money <= 0)
+                throw new OverflowException();
+
             var post_value = new NameValueCollection
             {
-                { "Amount", Money.ToString("f1")},
+                { "Amount", true_money.ToString("f1")},
                 { "FromCard", "bcard" },
                 { "Password", Helper.ToBase64(Password) },
                 { "ToCard", "card" },
             };
-            try
+            
+            LastReport = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
+            var Result = Helper.JSON<YktResult>(LastReport);
+
+            if (!Result.success)
             {
-               
-                var Response = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
-                var Result = Helper.JSON<YktResult>(Response);
-                if (!Result.success)
-                {
-                    return false;
-                }
-            }
-            catch(JsonException ex)
-            {
+                LastReport = Result.msg;
                 return false;
             }
-
-            return true;
-
+            else
+            {
+                return true;
+            }
         }
 
         public AwaredWebClient WebClient { get; } = new AwaredWebClient("http://ykt.jlu.edu.cn:8070", Encoding.UTF8);

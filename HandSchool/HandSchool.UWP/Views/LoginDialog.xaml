@@ -33,7 +33,7 @@
         <Image Grid.Row="2" Visibility="Collapsed" MaxHeight="32" Grid.Column="1" x:Name="CaptchaImage" HorizontalAlignment="Right" Margin="0,0,0,8" />
         <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Tips, Mode=OneWay}" TextWrapping="Wrap" MaxWidth="300" Margin="0,0,0,8" />
         <CheckBox Grid.Row="4" Grid.Column="0" Content="保存密码" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" IsChecked="{Binding SavePassword, Mode=TwoWay}" />
-        <CheckBox Grid.Row="4" Grid.Column="1" Content="自动登录" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" HorizontalAlignment="Right" IsChecked="{Binding AutoLogin, Mode=TwoWay}" />
+        <CheckBox Grid.Row="4" Grid.Column="1" Content="自动登录" IsEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}" x:Name="AutoLoginBox" HorizontalAlignment="Right" IsChecked="{Binding AutoLogin, Mode=TwoWay}" />
         <ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.IsBusy, Mode=OneWay}" Grid.Row="0" Margin="8,2,8,0" VerticalAlignment="Top" Grid.ColumnSpan="2" />
     </Grid>
 </ContentDialog>

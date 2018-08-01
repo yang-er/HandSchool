@@ -11,11 +11,14 @@ namespace HandSchool.JLU.Models
 {
     class PickCardInfo
     {
-        public string CardNumber;
-        public string Picker;
-        public string Contact;
-        public string Time;
-        public string Address;
+        public string CardNumber { get; set; }
+        public string Picker { get; set; }
+        public string Contact { get; set; }
+        public string Time { get; set; }
+        public string Address { get; set; }
+
+        public string Title => CardNumber;
+        public string Description => "拾卡时间：" + Time + (Address == "无" ? "" : "\n地址：" + Address) + (Contact == "无" ? "" : "\n联系方式：" + Contact);
 
         public PickCardInfo() { }
 

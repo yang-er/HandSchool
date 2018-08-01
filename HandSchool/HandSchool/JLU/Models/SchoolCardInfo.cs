@@ -5,16 +5,16 @@ namespace HandSchool.JLU.Models
 {
     class SchoolCardInfo : NotifyPropertyChanged
     {
-        private string _name = "登录后可见";
-        private string _cardno = "登录后可见";
-        private string _balance = "登录后可见";
-        private string _bankno = "登录后可见";
-        private string _gdthis = "登录后可见";
-        private string _gdlast = "登录后可见";
-        private string _loststate = "登录后可见";
-        private string _frozstate = "登录后可见";
-        private string _idtype = "登录后可见";
-        private string _department = "登录后可见";
+        private string _name = "未知";
+        private string _cardno = "不知道";
+        private string _balance = "不清楚";
+        private string _bankno = "不知晓";
+        private string _gdthis = "听不清";
+        private string _gdlast = "看不见";
+        private string _loststate = "可能正确吧";
+        private string _frozstate = "大概正常吧";
+        private string _idtype = "你先登录";
+        private string _department = "猜不透";
 
         public string Name
         {

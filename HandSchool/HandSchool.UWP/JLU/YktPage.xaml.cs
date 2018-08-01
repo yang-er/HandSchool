@@ -29,7 +29,15 @@ namespace HandSchool.UWP.JLU.Views
 
         private async void ViewPage_Loaded(object sender, RoutedEventArgs e)
         {
-            await Loader.Ykt.RequestLogin();
+            if (await Loader.Ykt.RequestLogin())
+            {
+                YktViewModel.Instance.LoadPickCardInfoCommand.Execute(null);
+            }
+        }
+
+        private void ChargeRequested(object sender, RoutedEventArgs e)
+        {
+            YktViewModel.Instance.ChargeCreditCommand.Execute(ChargeCreditBox.Text);
         }
     }
 }

@@ -6,17 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    Loaded="ViewPage_Loaded"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <w:ViewPage.PrimaryMenu>
-        <AppBarButton Icon="Admin" Name="Login" Click="ViewPage_Loaded" />
-    </w:ViewPage.PrimaryMenu>
     <Grid>
         <Pivot>
             <Pivot.LeftHeader>
                 <ContentControl VerticalContentAlignment="Stretch" Width="12" />
             </Pivot.LeftHeader>
             <PivotItem Header="概览" Margin="0">
-                <ListView Margin="0,8,0,0" ItemsSource="{Binding PickCardInfo}" SelectionMode="None">
+                <ListView Margin="0,8,0,0" SelectionMode="None">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -26,61 +24,69 @@
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="姓名" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.Name}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.Name}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="学工号" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.CardNo}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.CardNo}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="校园卡余额" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.Balance}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.Balance}" FontSize="14" />
+                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                <TextBox x:Name="ChargeCreditBox" Text="100.00" Width="100" />
+                                <Button Content="充值" Margin="8,0,0,0" Click="ChargeRequested" />
+                            </StackPanel>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="银行卡号" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.BankNo}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.BankNo}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="当前过渡余额" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.GdThis}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.GdThis}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="上次过渡余额" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.GdLast}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.GdLast}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="挂失状态" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.LostState}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.LostState}" FontSize="14" />
+                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                <PasswordBox x:Name="LostPasswordBox" Width="150" PlaceholderText="校园卡查询密码" />
+                                <Button Content="挂失" Margin="8,0,0,0" />
+                            </StackPanel>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="冻结状态" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.FrozenState}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.FrozenState}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="身份类型" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.IdType}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.IdType}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Padding="8,12">
                             <TextBlock Text="部门名称" FontWeight="SemiBold" FontSize="16" />
-                            <TextBlock Text="{Binding BasicInfo.Department}" FontSize="13" />
+                            <TextBlock Text="{Binding BasicInfo.Department}" FontSize="14" />
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
@@ -97,31 +103,37 @@
                         <DataTemplate>
                             <StackPanel Padding="8,12">
                                 <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
-
-                                <TextBlock Text="{Binding Description}" FontSize="13" />
+                                <TextBlock Text="{Binding Description}" FontSize="14" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </PivotItem>
             <PivotItem Header="消费记录" Margin="0">
-                <ListView x:Name="HistoryListView" Margin="0,8,0,0" ItemsSource="{Binding PickCardInfo}" SelectionMode="None">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Padding="8,12">
-                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
-
-                                <TextBlock Text="{Binding Description}" FontSize="13" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <DatePicker Width="150" />
+                        <TextBlock Text="-" />
+                        <DatePicker Width="150" />
+                        <Button Content="查询" />
+                    </StackPanel>
+                    <ListView x:Name="HistoryListView" ItemsSource="{Binding CashHistory}" SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Padding="8,12">
+                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
+                                    <TextBlock Text="{Binding Description}" FontSize="14" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </PivotItem>
         </Pivot>
 

@@ -36,11 +36,12 @@ namespace HandSchool.UWP.Views
                     await ViewResponse.ShowMessageAsync("正在登录", "正在登录中，请稍后……", "知道了");
                     break;
                 case LoginState.Succeeded:
-                    deferral?.Complete();
+                    deferral.Complete();
                     break;
                 case LoginState.Failed:
                     await ViewResponse.ShowMessageAsync("登录失败", $"登录失败，{e.InnerError}。", "知道了");
-                    deferral?.Complete();
+                    UpdateCaptchaInfomation();
+                    deferral.Complete();
                     break;
             }
         }
@@ -71,11 +72,13 @@ namespace HandSchool.UWP.Views
             {
                 CaptchaBpx.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 CaptchaImage.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                AutoLoginBox.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
                 CaptchaBpx.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 CaptchaImage.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                AutoLoginBox.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
                 var ret = new BitmapImage();
                 var stream = new InMemoryRandomAccessStream();
