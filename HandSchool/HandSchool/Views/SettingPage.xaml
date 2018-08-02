@@ -8,7 +8,7 @@
         <ToolbarItem Text="保存" Command="{Binding SaveConfigures}" />
         <ToolbarItem Text="关于" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
-    <ListView ItemsSource="{Binding Items}" HasUnevenRows="True" ItemSelected="ListView_ItemSelected">
+    <ListView ItemsSource="{Binding Items}" HasUnevenRows="True" ItemSelected="ListView_ItemSelected" SelectionMode="None">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>

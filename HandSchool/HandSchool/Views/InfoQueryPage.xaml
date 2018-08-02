@@ -11,6 +11,7 @@
                   GroupDisplayBinding="{Binding GroupTitle}"
                   ItemTapped="ItemTapped"
                   IsGroupingEnabled="true"
+                  SelectionMode="None"
                   CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -1,8 +1,6 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
-using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -34,7 +32,7 @@ namespace HandSchool.Views
 
             await DisplayAlert("成绩详情", info, "确定");
 
-            //Deselect Item
+            // Deselect Item
             ((ListView)sender).SelectedItem = null;
         }
 

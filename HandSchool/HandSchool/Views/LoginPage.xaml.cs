@@ -1,9 +1,8 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
-using Xamarin.Forms.Xaml;
-using Xamarin.Forms;
 using System.IO;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {

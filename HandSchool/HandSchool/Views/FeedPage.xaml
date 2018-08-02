@@ -8,6 +8,7 @@
               ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               IsPullToRefreshEnabled="true"
+              SelectionMode="None"
               RefreshCommand="{Binding LoadItemsCommand}"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               VerticalOptions="FillAndExpand"

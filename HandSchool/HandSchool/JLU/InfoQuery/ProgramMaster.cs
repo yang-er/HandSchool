@@ -1,14 +1,14 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
+using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using HandSchool.JLU.JsonObject;
-using JsonException = Newtonsoft.Json.JsonException;
 using Command = Xamarin.Forms.Command;
+using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {

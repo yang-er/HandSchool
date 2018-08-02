@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 
 namespace HandSchool.JLU.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class YktPage : TabbedPage
 	{
         private bool FirstOpen = true;

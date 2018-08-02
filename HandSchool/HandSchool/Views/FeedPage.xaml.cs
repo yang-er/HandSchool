@@ -1,17 +1,11 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class FeedPage : PopContentPage
     {
         public bool IsPushing { get; set; } = false;
@@ -29,10 +23,9 @@ namespace HandSchool.Views
             IsPushing = true;
             await (new MessageDetailPage(e.Item as FeedItem)).ShowAsync(Navigation);
 
-            //Deselect Item
+            // Deselect Item
             ((ListView)sender).SelectedItem = null;
             IsPushing = false;
         }
-
     }
 }

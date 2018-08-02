@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using HandSchool.Internal;
+﻿using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.Views;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -105,7 +103,7 @@ namespace HandSchool.JLU.InfoQuery
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            obj = JSON<RootObject<CollegeInfo>>(LastReport);
+            obj = Helper.JSON<RootObject<CollegeInfo>>(LastReport);
             var jsBuilder = new StringBuilder();
             if (obj.value[0].schoolName == null) obj.value[0].schoolName = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#schoolName').text('" + obj.value[0].schoolName + "');");

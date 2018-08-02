@@ -17,7 +17,7 @@ namespace HandSchool.Droid
     class ClassTableWidgetFactory : Java.Lang.Object, RemoteViewsService.IRemoteViewsFactory
     {
         //Colors From https://blog.csdn.net/zhang_hui_cs/article/details/7459414
-        static Color[] ClassColors = {
+        static readonly Color[] ClassColors = {
             new Color(250,249,222),
             new Color(255, 242, 226),
             new Color(253, 230, 224),
@@ -28,9 +28,10 @@ namespace HandSchool.Droid
             new Color(131,175,155),
             new Color(200,200,169),
             new Color(252,157,154)
-         };
+        };
+
         static string WeekDayName = "一二三四五六七";
-        public int Count =>77;
+        public int Count => 77;
 
         public bool HasStableIds => true;
 

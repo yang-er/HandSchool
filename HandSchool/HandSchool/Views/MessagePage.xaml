@@ -18,6 +18,7 @@
               VerticalOptions="FillAndExpand"
               HorizontalOptions="FillAndExpand"
               HasUnevenRows="true"
+              SelectionMode="None"
               CachingStrategy="RecycleElement">
         <ListView.ItemTemplate>
             <DataTemplate>

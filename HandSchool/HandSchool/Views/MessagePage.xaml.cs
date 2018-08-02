@@ -1,10 +1,5 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,14 +19,17 @@ namespace HandSchool.Views
         {
             if (e.Item == null)
                 return;
-            var a = e.Item as IMessageItem;
-            Task.Run(async () => { await Core.App.Message.SetReadState(a.Id, true); a.Unread = false; });
+            SetReadState(e.Item as IMessageItem);
             
             await (new MessageDetailPage(e.Item as IMessageItem)).ShowAsync(Navigation);
 
-            //Deselect Item
+            // Deselect Item
             ((ListView)sender).SelectedItem = null;
         }
 
+        private void SetReadState(IMessageItem item)
+        {
+            Task.Run(async () => { await Core.App.Message.SetReadState(item.Id, true); item.Unread = false; });
+        }
     }
 }

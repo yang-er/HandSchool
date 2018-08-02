@@ -1,21 +1,16 @@
 ﻿using HandSchool.Internal;
-using HandSchool.Models;
-using HandSchool.Services;
 using HandSchool.JLU.JsonObject;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using System.Text.RegularExpressions;
-using System.Net;
-using Newtonsoft.Json;
-using HandSchool.JLU.ViewModels;
 using HandSchool.JLU.Models;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
+using HandSchool.JLU.ViewModels;
+using HandSchool.Models;
 using HandSchool.ViewModels;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace HandSchool.JLU
 {

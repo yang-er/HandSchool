@@ -1,6 +1,5 @@
 ﻿using HandSchool.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -48,9 +47,9 @@ namespace HandSchool.Views
                 if (sub is Label lab)
                 {
                     if (lab.FontAttributes == FontAttributes.None)
-                        lab.FontSize = Device.GetNamedSize(Core.OnPlatform(NamedSize.Default, NamedSize.Medium, NamedSize.Default), lab);
+                        lab.FontSize = Device.GetNamedSize(NamedSize.Default, lab);
                     else if (lab.FontAttributes == FontAttributes.Bold)
-                        lab.FontSize = Device.GetNamedSize(Core.OnPlatform(NamedSize.Medium, NamedSize.Large, NamedSize.Medium), lab);
+                        lab.FontSize = Device.GetNamedSize(NamedSize.Medium, lab);
                     lab.FontAttributes = FontAttributes.None;
                     lab.VerticalOptions = LayoutOptions.Center;
                 }

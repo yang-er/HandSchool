@@ -7,8 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using JsonException = Newtonsoft.Json.JsonException;
 using Command = Xamarin.Forms.Command;
+using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {

@@ -27,10 +27,12 @@
                     <StackLayout Padding="15">
                         <Label Text="校园卡余额" FontSize="16" />
                         <Label Text="{Binding Balance}" FontSize="13" />
-                        <StackLayout Orientation="Horizontal" Margin="0,4,0,0">
-                            <Entry x:Name="ChargeCreditBox" Text="0.00" WidthRequest="100" />
-                            <Button Text="充值" Margin="8,0,0,0" Clicked="ChargeRequested" />
-                        </StackLayout>
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" Padding="15">
+                        <Entry x:Name="ChargeCreditBox" Text="0.00" WidthRequest="100" />
+                        <Button Text="充值" Margin="8,0,0,0" Clicked="ChargeRequested" />
                     </StackLayout>
                 </ViewCell>
                 <ViewCell>

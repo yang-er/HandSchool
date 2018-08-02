@@ -1,15 +1,12 @@
-﻿using HandSchool.JLU.Models;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.Models;
 using HandSchool.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using Xamarin.Forms;
-using WebException = System.Net.WebException;
-using JsonException = Newtonsoft.Json.JsonException;
-using HandSchool.Internal;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using JsonException = Newtonsoft.Json.JsonException;
+using WebException = System.Net.WebException;
 
 namespace HandSchool.JLU.ViewModels
 {
