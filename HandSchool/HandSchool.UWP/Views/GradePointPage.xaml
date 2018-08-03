@@ -9,7 +9,6 @@
 
     <local:ViewPage.PrimaryMenu>
         <AppBarButton Icon="Refresh" Label="刷新" Command="{Binding LoadItemsCommand}" />
-        <AppBarButton Icon="Attach" Label="统计GPA" Click="GPAButton_Click" />
     </local:ViewPage.PrimaryMenu>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

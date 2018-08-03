@@ -32,13 +32,7 @@ namespace HandSchool.JLU
         public DateTime Date => asv.dateScore;
         public NameValueCollection Attach { get; private set; }
 
-        public string Type
-        {
-            get
-            {
-                return "";
-            }
-        }
+        public string Type => AlreadyKnownThings.Type5Name(asv.type5);
 
         public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
     }
@@ -46,45 +40,60 @@ namespace HandSchool.JLU
     [Entrance("成绩查询")]
     class GradeEntrance : IGradeEntrance
     {
-        public int RowLimit { get; set; } = 15;
+        const string config_grade = "jlu.grade.json";
+        const string config_gpa = "jlu.gpa.json";
+
+        public int RowLimit { get; set; } = 25;
         
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
         public string GPAPostValue => "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":`studId`}}";
-        public string StorageFile => "jlu.grade.json";
+        public string StorageFile => config_grade;
         public string LastReport { get; private set; }
-        
+        public string LastReportGPA { get; private set; }
+
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            Core.WriteConfig(StorageFile, LastReport);
+            Core.WriteConfig(config_grade, LastReport);
+            await GatherGPA();
             Parse();
         }
         
         public GradeEntrance()
         {
             new GradePointViewModel();
-            LastReport = Core.ReadConfig(StorageFile);
+            LastReportGPA = Core.ReadConfig(config_gpa);
+            if (LastReportGPA != "") ParseGPA();
+            LastReport = Core.ReadConfig(config_grade);
             if (LastReport != "") Parse();
         }
 
         public void Parse()
         {
             var ro = JSON<RootObject<ArchiveScoreValue>>(LastReport);
-            GradePointViewModel.Instance.Items.Clear();
+            
             foreach (var asv in ro.value)
             {
                 GradePointViewModel.Instance.Items.Add(new GradeItem(asv));
             }
         }
 
-        public async Task<string> GatherGPA()
+        public void ParseGPA()
         {
-            LastReport = await Core.App.Service.Post(ScriptFileUri, GPAPostValue);
-            var ro = JSON<RootObject<GPAValue>>(LastReport);
-            return string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
+            var ro = JSON<RootObject<GPAValue>>(LastReportGPA);
+            var str = string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
                 ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
+            GradePointViewModel.Instance.Items.Clear();
+            GradePointViewModel.Instance.Items.Add(new GPAItem(str));
+        }
+
+        public async Task GatherGPA()
+        {
+            LastReportGPA = await Core.App.Service.Post(ScriptFileUri, GPAPostValue);
+            Core.WriteConfig(config_gpa, LastReportGPA);
+            ParseGPA();
         }
     }
 }

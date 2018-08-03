@@ -63,4 +63,30 @@ namespace HandSchool.Models
         /// </summary>
         string Show { get; }
     }
+
+    /// <summary>
+    /// GPA统计的项目
+    /// </summary>
+    public class GPAItem : IGradeItem
+    {
+        public string Name => "GPA统计";
+
+        public string Score => "";
+        public string Point => "";
+        public string Type => "";
+        public string Credit => "";
+        public string Term => "";
+        public bool ReSelect => false;
+        public bool Pass => true;
+        public NameValueCollection Attach => null;
+
+        public DateTime Date { get; }
+        public string Show { get; }
+
+        public GPAItem(string to_show)
+        {
+            Show = to_show;
+            Date = DateTime.Now;
+        }
+    }
 }

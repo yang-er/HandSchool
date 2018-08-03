@@ -534,6 +534,7 @@ namespace HandSchool.JLU.JsonObject
                 case "4160": return "必修课";
                 case "4161": return "选修课";
                 case "4162": return "限选课";
+                case "4163": return "校选修课";
                 case "4164": return "体育课";
                 default: return "未知";
             }

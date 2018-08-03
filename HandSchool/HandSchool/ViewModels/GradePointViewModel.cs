@@ -49,28 +49,5 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
         }
-
-        public async Task<string> ExcuteLoadGPACommand()
-        {
-            if (IsBusy)
-                return "正在加载中，请稍后。";
-
-            View.SetIsBusy(true, "正在加载GPA信息……");
-            IsBusy = true;
-
-            try
-            {
-                return await Core.App.GradePoint.GatherGPA();
-            }
-            catch (Exception ex)
-            {
-                return "发生异常。" + ex.ToString();
-            }
-            finally
-            {
-                IsBusy = false;
-                View.SetIsBusy(false);
-            }
-        }
     }
 }

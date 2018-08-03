@@ -13,9 +13,19 @@ namespace HandSchool.Services
         string GPAPostValue { get; }
 
         /// <summary>
+        /// 解析GPA
+        /// </summary>
+        void ParseGPA();
+
+        /// <summary>
         /// 获取GPA
         /// </summary>
         /// <returns></returns>
-        Task<string> GatherGPA();
+        Task GatherGPA();
+
+        /// <summary>
+        /// 上次GPA返回值
+        /// </summary>
+        string LastReportGPA { get; }
     }
 }

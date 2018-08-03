@@ -18,6 +18,8 @@ namespace HandSchool.UWP.Views
         {
             if (e.ClickedItem is IGradeItem iGi)
             {
+                if (e.ClickedItem is GPAItem) return;
+
                 var info = string.Format(
                     "名称：{0}\n类型：{1}\n学期：{2}\n发布日期：{3}\n" +
                     "学分：{4}\n分数：{5}\n绩点：{6}\n通过：{7}\n重修：{8}",
@@ -31,12 +33,6 @@ namespace HandSchool.UWP.Views
 
                 await ViewResponse.ShowMessageAsync("成绩详情", info, "确定");
             }
-        }
-
-        private async void GPAButton_Click(object sender, RoutedEventArgs e)
-        {
-            var gpa = await GradePointViewModel.Instance.ExcuteLoadGPACommand();
-            await ViewResponse.ShowMessageAsync("学分绩点统计", gpa, "确定");
         }
     }
 }
