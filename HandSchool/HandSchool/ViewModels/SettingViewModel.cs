@@ -30,12 +30,17 @@ namespace HandSchool.ViewModels
             Title = "设置中心";
             var type = Core.App.Service.GetType();
             var props = type.GetProperties();
+
             Items = (
                 from prop in props
                 where prop.GetCustomAttribute(typeof(SettingsAttribute)) != null
                 select new SettingWrapper(prop)
             ).ToList();
-            SaveConfigures = new Command(Core.App.Service.SaveSettings);
+
+            SaveConfigures = new Command(async () => {
+                Core.App.Service.SaveSettings();
+                await View.ShowMessage("设置中心", "保存成功！");
+            });
         }
     }
 }

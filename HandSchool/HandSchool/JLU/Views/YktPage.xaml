@@ -56,7 +56,7 @@
                 <ViewCell>
                     <StackLayout Padding="15">
                         <Label Text="挂失状态" FontSize="16" />
-                        <Label Text="{Binding GdThis}" FontSize="13" />
+                        <Label Text="{Binding LostState}" FontSize="13" />
                         <!--<StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                                 <PasswordBox x:Name="LostPasswordBox" Width="150" PlaceholderText="校园卡查询密码" />
                                 <Button Content="挂失" Margin="8,0,0,0" />
