@@ -25,7 +25,7 @@ namespace HandSchool.Models
         /// <param name="icon">Segoe MDL2 Assets 图标</param>
         /// <param name="apple">苹果图标</param>
         /// <param name="select">是否已选中</param>
-        public MasterPageItem(string title, string dest, string icon, string apple, bool select = false, string category = "")
+        public MasterPageItem(string title, string dest, string icon = "", bool select = false, string category = "")
         {
             this.title = title;
             string destpg_type;
@@ -34,10 +34,7 @@ namespace HandSchool.Models
 #if __UWP__
             destpg_type = $"HandSchool.UWP.{category}Views.{dest}";
             Icon = icon;
-#elif __IOS__
-            destpg_type = $"HandSchool.{category}Views.{dest}";
-            appleIcon = new FileImageSource { File = apple };
-#elif __ANDROID__
+#else
             destpg_type = $"HandSchool.{category}Views.{dest}";
 #endif
             
@@ -70,7 +67,7 @@ namespace HandSchool.Models
                 return _destpg ?? (_destpg = new NavigationPage(Activator.CreateInstance(DestinationPageType) as Page)
                 {
                     Title = title,
-                    Icon = appleIcon
+                    Icon = AppleIcon
                 });
             }
         }
@@ -106,11 +103,15 @@ namespace HandSchool.Models
             set => SetProperty(ref color, value);
         }
 
+        /// <summary>
+        /// iOS的Tab Icon
+        /// </summary>
+        public FileImageSource AppleIcon { get; set; }
+
         private Color color = new Color();
         private bool selected = false;
         private string title;
         private NavigationPage _destpg;
-        private FileImageSource appleIcon = null;
 
         public override string ToString() => title;
     }

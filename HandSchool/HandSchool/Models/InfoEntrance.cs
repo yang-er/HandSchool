@@ -18,8 +18,11 @@ namespace HandSchool.Models
     /// <summary>
     /// 入口点组
     /// </summary>
-    public class InfoEntranceGroup : List<InfoEntranceWrapper>
+    public class InfoEntranceGroup : List<IEntranceWrapper>
     {
+        public InfoEntranceGroup() { }
+        public InfoEntranceGroup(string tit) { GroupTitle = tit; }
+
         /// <summary>
         /// 组标题
         /// </summary>
@@ -34,7 +37,62 @@ namespace HandSchool.Models
     /// <summary>
     /// 入口点包装
     /// </summary>
-    public class InfoEntranceWrapper
+    public interface IEntranceWrapper
+    {
+        /// <summary>
+        /// 入口点名称
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// 入口点描述
+        /// </summary>
+        string Description { get; }
+    }
+
+    /// <summary>
+    /// 单击进入的入口点包装
+    /// </summary>
+    public class TapEntranceWrapper : IEntranceWrapper
+    {
+        private readonly Func<INavigation, Task> internal_action;
+
+        /// <summary>
+        /// 入口点名称
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// 入口点描述
+        /// </summary>
+        public string Description { get; }
+
+        /// <summary>
+        /// 入口点被通知
+        /// </summary>
+        public Task Activate(INavigation nav)
+        {
+            return internal_action?.Invoke(nav);
+        }
+
+        /// <summary>
+        /// 入口点包装
+        /// </summary>
+        /// <param name="name">入口点名称</param>
+        /// <param name="desc">入口点描述</param>
+        /// <param name="action">入口点动作</param>
+        public TapEntranceWrapper(string name, string desc, Func<INavigation, Task> action)
+        {
+            Name = name;
+            Description = desc;
+            internal_action = action;
+        }
+    }
+
+    /// <summary>
+    /// 信息查询入口点包装
+    /// </summary>
+    public class InfoEntranceWrapper : IEntranceWrapper
     {
         /// <summary>
         /// 入口点名称

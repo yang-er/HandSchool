@@ -12,16 +12,19 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = SettingViewModel.Instance;
+
+#if __ANDROID__
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "关于",
+                Command = new Command(async () => await (new WebViewPage(AboutViewModel.Instance)).ShowAsync(Navigation))
+            });
+#endif
         }
 
         public void ListView_ItemSelected(object sender, EventArgs e)
         {
             (sender as ListView).SelectedItem = null;
-        }
-
-        private async void ToolbarItem_Clicked(object sender, EventArgs e)
-        {
-            await (new WebViewPage(AboutViewModel.Instance)).ShowAsync(Navigation);
         }
     }
 }

@@ -18,12 +18,16 @@ namespace HandSchool.Views
             if (e.Item == null)
                 return;
 
-            var iew = e.Item as InfoEntranceWrapper;
-            var webpg = new WebViewPage(iew.Load.Invoke());
-            await webpg.ShowAsync(Navigation);
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            if (e.Item is InfoEntranceWrapper iew)
+            {
+                var webpg = new WebViewPage(iew.Load.Invoke());
+                await webpg.ShowAsync(Navigation);
+            }
+            else if (e.Item is TapEntranceWrapper tew)
+            {
+                System.Diagnostics.Debug.Assert(Core.RuntimePlatform == "iOS");
+                await tew.Activate(Navigation);
+            }
         }
     }
 }
