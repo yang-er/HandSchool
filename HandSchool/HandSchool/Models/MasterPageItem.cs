@@ -57,14 +57,17 @@ namespace HandSchool.Models
         /// <summary>
         /// 目标页面
         /// </summary>
+        public Page CorePage => _destpg2 ?? (_destpg2 = Activator.CreateInstance(DestinationPageType) as Page);
+
+        /// <summary>
+        /// 目标导航页面
+        /// </summary>
         public NavigationPage DestPage
         {
             get
             {
-#if __UWP__
-                System.Diagnostics.Debug.Assert(false, "UWP do not use this function");
-#endif
-                return _destpg ?? (_destpg = new NavigationPage(Activator.CreateInstance(DestinationPageType) as Page)
+                System.Diagnostics.Debug.Assert(Core.RuntimePlatform == "Android", "Others do not use this function");
+                return _destpg ?? (_destpg = new NavigationPage(CorePage)
                 {
                     Title = title,
                     Icon = AppleIcon
@@ -112,6 +115,7 @@ namespace HandSchool.Models
         private bool selected = false;
         private string title;
         private NavigationPage _destpg;
+        private Page _destpg2;
 
         public override string ToString() => title;
     }
