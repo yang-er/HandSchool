@@ -5,7 +5,7 @@ namespace HandSchool.Services
     /// <summary>
     /// 可用的应用设置项
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class SettingsAttribute : Attribute
     {
         /// <summary>

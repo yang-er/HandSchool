@@ -32,6 +32,11 @@ namespace HandSchool.Models
         /// 开关类型
         /// </summary>
         Boolean,
+
+        /// <summary>
+        /// 行为类型
+        /// </summary>
+        Action,
     }
     
     /// <summary>
@@ -43,6 +48,11 @@ namespace HandSchool.Models
         /// 属性信息
         /// </summary>
         public PropertyInfo Infomation { get; }
+
+        /// <summary>
+        /// 方法信息
+        /// </summary>
+        public MethodInfo MethodInfo { get; }
 
         /// <summary>
         /// 设置元数据
@@ -93,6 +103,18 @@ namespace HandSchool.Models
                 Type = SettingTypes.Boolean;
             else
                 Type = SettingTypes.Unkown;
+        }
+
+        /// <summary>
+        /// 设置入口点包装
+        /// </summary>
+        /// <param name="mInfo">方法信息</param>
+        public SettingWrapper(MethodInfo mInfo)
+        {
+            MethodInfo = mInfo;
+            AttributeData = mInfo.GetCustomAttribute(typeof(SettingsAttribute)) as SettingsAttribute;
+            System.Diagnostics.Debug.Assert(AttributeData != null, "Error setting here.");
+            Type = SettingTypes.Action;
         }
     }
 }

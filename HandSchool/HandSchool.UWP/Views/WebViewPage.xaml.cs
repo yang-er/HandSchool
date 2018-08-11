@@ -14,7 +14,7 @@ namespace HandSchool.UWP.Views
     /// </summary>
     public sealed partial class WebViewPage : ViewPage
     {
-        private IInfoEntrance InfoEntrance { get; set; }
+        private IWebEntrance InfoEntrance { get; set; }
 
         public WebViewPage()
         {
@@ -23,16 +23,14 @@ namespace HandSchool.UWP.Views
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            System.Diagnostics.Debug.Assert(e.Parameter is IInfoEntrance, "Error leading");
-            InfoEntrance = e.Parameter as IInfoEntrance;
+            System.Diagnostics.Debug.Assert(e.Parameter is IWebEntrance, "Error leading");
+            InfoEntrance = e.Parameter as IWebEntrance;
 
             var meta = InfoEntrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
             ViewModel = new BaseViewModel { Title = meta.Title };
             InfoEntrance.Evaluate = WebView.InvokeScript;
             InfoEntrance.Binding = ViewResponse;
-            var sb = new StringBuilder();
-            InfoEntrance.HtmlDocument.ToHtml(sb);
-            WebView.Html = sb.ToString();
+
             WebView.Register = InfoEntrance.Receive;
             foreach (var key in InfoEntrance.Menu)
                 PrimaryMenu.Add(new AppBarButton
@@ -45,6 +43,17 @@ namespace HandSchool.UWP.Views
                         Glyph = key.Icon
                     }
                 });
+
+            if (InfoEntrance is IInfoEntrance info)
+            {
+                var sb = new StringBuilder();
+                info.HtmlDocument.ToHtml(sb);
+                WebView.Html = sb.ToString();
+            }
+            else if (InfoEntrance is IUrlEntrance urle)
+            {
+                WebView.Url = urle.HtmlUrl;
+            }
         }
     }
 }

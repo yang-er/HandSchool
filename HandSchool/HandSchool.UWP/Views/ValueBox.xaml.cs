@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,6 +22,8 @@ namespace HandSchool.UWP.Views
             DependencyProperty.Register(nameof(Type), typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unkown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
         public static readonly DependencyProperty AttributeProperty = 
             DependencyProperty.Register(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueBox), new PropertyMetadata(default(SettingsAttribute)));
+        public static readonly DependencyProperty WrapperProperty =
+            DependencyProperty.Register(nameof(Wrapper), typeof(SettingWrapper), typeof(ValueBox), new PropertyMetadata(default(SettingWrapper)));
 
         public ValueBox()
         {
@@ -32,7 +35,13 @@ namespace HandSchool.UWP.Views
             get => GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
-        
+
+        public SettingWrapper Wrapper
+        {
+            get => GetValue(WrapperProperty) as SettingWrapper;
+            set => SetValue(WrapperProperty, value);
+        }
+
         public SettingTypes Type
         {
             get => (SettingTypes)GetValue(TypeProperty);
@@ -107,6 +116,10 @@ namespace HandSchool.UWP.Views
                     Grid.SetColumnSpan(sw, 2);
                     sw.SetBinding(ToggleSwitch.IsOnProperty, new Binding { Source = this, Path = new PropertyPath(nameof(BooleanValue)), Mode = BindingMode.TwoWay });
                     Grid.Children.Add(sw);
+                    break;
+
+                case SettingTypes.Action:
+                    (Parent as Control).Tapped += (s,e) => Wrapper.MethodInfo.CreateDelegate(typeof(Action)).DynamicInvoke();
                     break;
 
                 default:

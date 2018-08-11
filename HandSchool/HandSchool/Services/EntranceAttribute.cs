@@ -56,5 +56,10 @@ namespace HandSchool.Services
         /// 学校服务入口点
         /// </summary>
         SchoolEntrance,
+
+        /// <summary>
+        /// 网址入口点
+        /// </summary>
+        UrlEntrance,
     }
 }

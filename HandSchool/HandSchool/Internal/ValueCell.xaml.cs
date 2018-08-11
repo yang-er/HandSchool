@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -188,6 +189,10 @@ namespace HandSchool.Views
                     sw.HorizontalOptions = LayoutOptions.Start;
                     sw.SetBinding(Switch.IsToggledProperty, new Binding { Source = this, Path = nameof(BooleanValue), Mode = BindingMode.TwoWay });
                     grid.Children.Add(sw);
+                    break;
+
+                case SettingTypes.Action:
+                    (Parent.Parent as ViewCell).Tapped += (s, e) => Wrapper.MethodInfo.CreateDelegate(typeof(Action)).DynamicInvoke();
                     break;
 
                 default:
