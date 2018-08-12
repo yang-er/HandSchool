@@ -1,5 +1,4 @@
 ﻿using HandSchool.Models;
-using HandSchool.Views;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -119,19 +118,6 @@ namespace HandSchool.ViewModels
             if (navitem is null) navitem = SecondaryItems.Find((item) => item.Selected);
             if (navitem is null) navitem = PrimaryItems[0];
             return navitem.DestPage;
-        }
-
-        /// <summary>
-        /// 获取主页
-        /// </summary>
-        /// <returns>绕过编译</returns>
-        public static Page GetMainPage()
-        {
-#if __UWP__
-            return null;
-#else
-            return new MainPage();
-#endif
         }
     }
 }

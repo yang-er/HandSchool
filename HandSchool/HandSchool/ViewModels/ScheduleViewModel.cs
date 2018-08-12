@@ -1,6 +1,5 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -66,7 +65,7 @@ namespace HandSchool.ViewModels
 #else
         async void Create(object param)
         {
-            await (new CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true)).ShowAsync(param as INavigation);
+            await (new Views.CurriculumPage(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true)).ShowAsync(param as INavigation);
         }
 #endif
     }

@@ -1,6 +1,5 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
-using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -14,7 +13,7 @@ namespace HandSchool.ViewModels
 #if __UWP__
         public UWP.Views.LoginDialog Page { get; set; }
 #else
-        public LoginPage Page { get; set; }
+        public Views.LoginPage Page { get; set; }
 #endif
         
         private LoginViewModel(ILoginField form)
@@ -31,8 +30,8 @@ namespace HandSchool.ViewModels
             viewModel.Page = new UWP.Views.LoginDialog(viewModel);
             await viewModel.Page.ShowAsync();
 #else
-            viewModel.View = new ViewResponse(default(PopContentPage));
-            viewModel.Page = new LoginPage(viewModel);
+            viewModel.View = new ViewResponse(default(Views.PopContentPage));
+            viewModel.Page = new Views.LoginPage(viewModel);
             await viewModel.Page.ShowAsync();
 #endif
             return form.IsLogin;

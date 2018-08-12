@@ -1,5 +1,4 @@
 ﻿using HandSchool.UWP.Views;
-using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -13,12 +12,7 @@ namespace HandSchool.Internal
         {
             Binding = page;
         }
-
-        public ViewResponse(XPage page)
-        {
-            System.Diagnostics.Debug.Assert(false, "UWP modules shouldn't accept Xamarin");
-        }
-
+        
         public ViewPage Binding { get; }
             
         public Task ShowMessage(string title, string message, string button = "确认")

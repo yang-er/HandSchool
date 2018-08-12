@@ -9,70 +9,41 @@
     <Import_RootNamespace>HandSchool</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Blank\Feed.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Blank\Loader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Blank\Schedule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Blank\School.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreLoader.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\RecordInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\ViewModels\YktViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Views\YktPage.xaml.cs">
-      <DependentUpon>YktPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\ViewResponse.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\EmptyRoom.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\TeachEvaluate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginField.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\MasterPageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\FeedItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\Helper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\CollegeIntroduce.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Loader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Message.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\OA.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MasterPageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FeedItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\InfoEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SettingWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FeedEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GradeEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InfoEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MessageEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ScheduleEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\SettingWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SystemEntrance.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Hotfix.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NavigationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeedViewModel.cs" />
@@ -82,137 +53,30 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\CurriculumPage.xaml.cs">
-      <DependentUpon>CurriculumPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\FeedPage.xaml.cs">
-      <DependentUpon>FeedPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\GradePointPage.xaml.cs">
-      <DependentUpon>GradePointPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\InfoQueryPage.xaml.cs">
-      <DependentUpon>InfoQueryPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml.cs">
-      <DependentUpon>LoginPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\MessageTabbedPage.xaml.cs">
-      <DependentUpon>MessageTabbedPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\SelectTypePage.xaml.cs">
-      <DependentUpon>SelectTypePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\SettingPage.xaml.cs">
-      <DependentUpon>SettingPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\MessagePage.xaml.cs">
-      <DependentUpon>MessagePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\MessageDetailPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\PopContentPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\IndexPage.xaml.cs">
-      <DependentUpon>IndexPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\SchedulePage.xaml.cs">
-      <DependentUpon>SchedulePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml.cs">
-      <DependentUpon>ValueCell.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\WebViewPage.xaml.cs">
-      <DependentUpon>WebViewPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SettingPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\Feed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\Loader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\Schedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blank\School.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\GradePointPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Loader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\OA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\EmptyRoom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\TeachEvaluate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ProgramMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\CollegeIntroduce.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\RecordInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\ViewModels\YktViewModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SchedulePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MessagePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CurriculumPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\InfoQueryPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\WebViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\IndexPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\FeedPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SelectTypePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MessageTabbedPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)JLU\Views\YktPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <!--#if (CreateBackendProject)
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataStore.cs" />
-  #endif-->
 </Project>

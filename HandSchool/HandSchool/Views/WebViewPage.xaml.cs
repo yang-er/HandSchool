@@ -12,7 +12,7 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class WebViewPage : PopContentPage
 	{
-        private IInfoEntrance InfoEntrance { get; }
+        private IWebEntrance InfoEntrance { get; }
 
 		public WebViewPage(IInfoEntrance entrance)
 		{
@@ -22,10 +22,24 @@ namespace HandSchool.Views
             InfoEntrance = entrance;
             InfoEntrance.Binding = new ViewResponse(this);
             var sb = new StringBuilder();
-            InfoEntrance.HtmlDocument.ToHtml(sb);
+            entrance.HtmlDocument.ToHtml(sb);
             WebView.Html = sb.ToString();
             foreach (var key in InfoEntrance.Menu)
-            ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
+                ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
+            entrance.Evaluate = WebView.JavaScript;
+            WebView.RegisterAction(entrance.Receive);
+        }
+
+        public WebViewPage(IUrlEntrance entrance)
+        {
+            InitializeComponent();
+            var meta = entrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
+            Title = meta.Title;
+            InfoEntrance = entrance;
+            InfoEntrance.Binding = new ViewResponse(this);
+            WebView.Uri = entrance.HtmlUrl;
+            foreach (var key in InfoEntrance.Menu)
+                ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
             entrance.Evaluate = WebView.JavaScript;
             WebView.RegisterAction(entrance.Receive);
         }
