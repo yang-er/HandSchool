@@ -1,14 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using CoreGraphics;
+using System.Threading.Tasks;
 using UIKit;
+using Xamarin.Forms;
 using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
 {
     public class ViewResponse : IViewResponse
     {
+        private UIActivityIndicatorView Spinner;
+        private UIViewController ViewControl;
+
         public ViewResponse(XPage page)
         {
             Binding = page;
+            ViewControl = page.CreateViewController();
         }
 
         public XPage Binding { get; }
@@ -20,7 +26,28 @@ namespace HandSchool.Internal
 
         public void SetIsBusy(bool value, string tips)
         {
-            UIApplication.SharedApplication.NetworkActivityIndicatorVisible = value;
+            if (value)
+            {
+                if (Spinner is null)
+                {
+                    Spinner = new UIActivityIndicatorView(new CGRect(0, 0, 100, 100))
+                    {
+                        Center = ViewControl.View.Center,
+                        ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge,
+                        BackgroundColor = UIColor.Gray
+                    };
+
+                    ViewControl.View.AddSubview(Spinner);
+                }
+
+                Spinner.StartAnimating();
+            }
+            else
+            {
+                Spinner.StopAnimating();
+            }
+
+            // UIApplication.SharedApplication.NetworkActivityIndicatorVisible = value;
         }
     }
 }
