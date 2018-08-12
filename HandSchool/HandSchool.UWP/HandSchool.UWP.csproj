@@ -169,12 +169,21 @@
   <ItemGroup>
     <None Include="HandSchool.UWP_StoreKey.pfx" />
     <None Include="Package.xml" />
-    <Content Include="WebWrapper\bootstrap.bundle.js" />
-    <Content Include="WebWrapper\bootstrap.css" />
-    <Content Include="WebWrapper\bootstrap.html" />
-    <Content Include="WebWrapper\jquery.js" />
-    <Content Include="WebWrapper\json.js" />
-    <Content Include="WebWrapper\popper.js" />
+    <Content Include="..\CommonAssets\bootstrap.bundle.js">
+        <Link>WebWrapper\bootstrap.bundle.js</Link>
+    </Content>
+    <Content Include="..\CommonAssets\bootstrap.css">
+        <Link>WebWrapper\bootstrap.css</Link>
+    </Content>
+    <Content Include="..\CommonAssets\jquery.js">
+        <Link>WebWrapper\jquery.js</Link>
+    </Content>
+    <Content Include="..\CommonAssets\json.js">
+        <Link>WebWrapper\json.js</Link>
+    </Content>
+    <Content Include="..\CommonAssets\popper.js">
+        <Link>WebWrapper\popper.js</Link>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />

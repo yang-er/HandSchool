@@ -150,11 +150,21 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\bootstrap.css" />
-    <AndroidAsset Include="Assets\bootstrap.bundle.js" />
-    <AndroidAsset Include="Assets\jquery.js" />
-    <AndroidAsset Include="Assets\popper.js" />
-    <AndroidAsset Include="Assets\json.js" />
+    <AndroidAsset Include="..\CommonAssets\bootstrap.css">
+      <Link>Assets\bootstrap.css</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\bootstrap.bundle.js">
+      <Link>Assets\bootstrap.bundle.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\jquery.js">
+      <Link>Assets\jquery.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\popper.js">
+      <Link>Assets\popper.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\json.js">
+      <Link>Assets\json.js</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">

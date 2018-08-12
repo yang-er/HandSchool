@@ -164,22 +164,29 @@
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\WebWrapper\bootstrap.css" />
+    <BundleResource Include="..\CommonAssets\bootstrap.css">
+        <Link>Resources\WebWrapper\bootstrap.css</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\WebWrapper\bootstrap.bundle.js" />
+    <BundleResource Include="..\CommonAssets\bootstrap.bundle.js">
+        <Link>Resources\WebWrapper\bootstrap.bundle.js</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\WebWrapper\jquery.js" />
+    <BundleResource Include="..\CommonAssets\jquery.js">
+        <Link>Resources\WebWrapper\jquery.js</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\WebWrapper\popper.js" />
+    <BundleResource Include="..\CommonAssets\popper.js">
+        <Link>Resources\WebWrapper\popper.js</Link>
+    </BundleResource>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\WebWrapper\bootstrap.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\WebWrapper\json.js" />
+    <BundleResource Include="..\CommonAssets\json.js">
+        <Link>Resources\WebWrapper\json.js</Link>
+    </BundleResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
