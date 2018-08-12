@@ -37,6 +37,7 @@ namespace HandSchool.Internal
                         BackgroundColor = UIColor.Gray
                     };
 
+                    Spinner.Layer.CornerRadius = 10;
                     ViewControl.View.AddSubview(Spinner);
                 }
 
