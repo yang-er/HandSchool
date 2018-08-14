@@ -98,6 +98,8 @@
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
+    <Compile Include="PageRenderer.cs" />
+    <Compile Include="TabbedRenderer.cs" />
     <Compile Include="ViewResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <BundleResource Include="Resources\segmdl2.ttf">
@@ -165,27 +167,27 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\CommonAssets\bootstrap.css">
-        <Link>Resources\WebWrapper\bootstrap.css</Link>
+      <Link>Resources\WebWrapper\bootstrap.css</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\CommonAssets\bootstrap.bundle.js">
-        <Link>Resources\WebWrapper\bootstrap.bundle.js</Link>
+      <Link>Resources\WebWrapper\bootstrap.bundle.js</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\CommonAssets\jquery.js">
-        <Link>Resources\WebWrapper\jquery.js</Link>
+      <Link>Resources\WebWrapper\jquery.js</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\CommonAssets\popper.js">
-        <Link>Resources\WebWrapper\popper.js</Link>
+      <Link>Resources\WebWrapper\popper.js</Link>
     </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\CommonAssets\json.js">
-        <Link>Resources\WebWrapper\json.js</Link>
+      <Link>Resources\WebWrapper\json.js</Link>
     </BundleResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
