@@ -165,6 +165,9 @@
     <AndroidAsset Include="..\CommonAssets\json.js">
       <Link>Assets\json.js</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\privacy.html">
+      <Link>Assets\privacy.html</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">

@@ -183,5 +183,8 @@
     <None Include="..\CommonAssets\json.js">
         <Link>WebWrapper\json.js</Link>
     </None>
+    <None Include="..\CommonAssets\privacy.html">
+        <Link>WebWrapper\privacy.html</Link>
+    </None>
   </ItemGroup>
 </Project>

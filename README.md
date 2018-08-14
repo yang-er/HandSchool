@@ -3,7 +3,7 @@
 
 ## 适配模式
 利用C#和Xamarin.Forms编写，可以运行在 UWP、Andorid、iOS 等平台上。
-目前已经支持 UWP (1709+)、Android (5.0+)，iOS缺少适配，但是可以基本允许。
+目前已经支持 UWP (1803+)、Android (5.0+)，iOS (10.0+)。
 学校的接口是全部实现Interface，保证了可以更换学校的文档。
 有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView
 
@@ -23,5 +23,6 @@
 - PopContentPage @ shanhongyue
 - Xamarin.Forms @ xamarin
 - Docs @ microsoft
+- Creating Mobile Apps with Xamarin.Forms @ Microsoft Press
 - Bootstrap v4.0
 - etc...
