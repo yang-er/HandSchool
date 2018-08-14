@@ -3,7 +3,7 @@ using HandSchool.ViewModels;
 using System.Text;
 using Windows.UI.Xaml;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     public sealed partial class SettingsPage : ViewPage
     {

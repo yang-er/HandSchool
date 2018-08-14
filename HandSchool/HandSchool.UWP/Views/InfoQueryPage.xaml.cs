@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     // Thanks to arcsinW
     public sealed partial class InfoQueryPage : ViewPage

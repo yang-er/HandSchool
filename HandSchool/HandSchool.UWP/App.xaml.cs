@@ -1,4 +1,4 @@
-﻿using HandSchool.UWP.Views;
+﻿using HandSchool.Views;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;

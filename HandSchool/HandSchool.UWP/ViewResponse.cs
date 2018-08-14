@@ -1,8 +1,7 @@
-﻿using HandSchool.UWP.Views;
+﻿using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
 {

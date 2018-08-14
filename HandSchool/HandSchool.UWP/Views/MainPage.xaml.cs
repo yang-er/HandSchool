@@ -1,6 +1,5 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
-using HandSchool.UWP.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NavDataItem = HandSchool.Models.MasterPageItem;
 
-namespace HandSchool.UWP
+namespace HandSchool.Views
 {
     public sealed partial class MainPage : Page
     {

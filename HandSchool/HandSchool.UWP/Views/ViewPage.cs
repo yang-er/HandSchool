@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 using BaseViewModel = HandSchool.ViewModels.BaseViewModel;
 using WPage = Windows.UI.Xaml.Controls.Page;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     public class ViewPage : WPage
     {

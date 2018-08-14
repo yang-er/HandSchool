@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Navigation;
 using Command = Xamarin.Forms.Command;
 using Device = Xamarin.Forms.Device;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     public sealed partial class MessageDetailPage : ViewPage
     {

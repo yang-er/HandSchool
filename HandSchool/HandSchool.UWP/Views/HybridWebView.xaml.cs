@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     /// <summary>
     /// 混合式网页浏览器

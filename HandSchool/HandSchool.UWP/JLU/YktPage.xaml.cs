@@ -1,23 +1,8 @@
-﻿using HandSchool.JLU;
-using HandSchool.JLU.ViewModels;
-using HandSchool.UWP.Views;
-using HandSchool.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using HandSchool.JLU.ViewModels;
+using HandSchool.Views;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
-namespace HandSchool.UWP.JLU.Views
+namespace HandSchool.JLU.Views
 {
     public sealed partial class YktPage : ViewPage
     {
