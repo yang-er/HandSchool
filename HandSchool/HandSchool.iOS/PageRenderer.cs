@@ -11,27 +11,28 @@ namespace HandSchool.iOS
 {
     class PopContentPageRenderer : PageRenderer
     {
-        UIActivityIndicatorView Spinner;
+        private UIActivityIndicatorView Spinner;
         private PopContentPage ElementPage => Element as PopContentPage;
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
 
-            var page = e.NewElement as PopContentPage;
-            var view = NativeView;
+            if (e.NewElement is PopContentPage page)
+                page.PropertyChanged += IsBusyChanged;
+            if (e.OldElement is PopContentPage page2)
+                page2.PropertyChanged -= IsBusyChanged;
+            if (Spinner != null) return;
 
             Spinner = new UIActivityIndicatorView(new CGRect(0, 0, 100, 100))
             {
-                Center = NativeView.Center,
                 ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge,
-                BackgroundColor = UIColor.Gray
+                BackgroundColor = UIColor.Gray,
             };
 
             Spinner.Layer.CornerRadius = 10;
             Spinner.ToView();
             NativeView.AddSubview(Spinner);
-            page.PropertyChanged += IsBusyChanged;
         }
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs args)
@@ -39,9 +40,14 @@ namespace HandSchool.iOS
             if (args.PropertyName == "IsBusy")
             {
                 if (ElementPage.IsBusy)
+                {
+                    Spinner.Center = NativeView.Center;
                     Spinner.StartAnimating();
+                }
                 else
+                {
                     Spinner.StopAnimating();
+                }
             }
         }
     }
