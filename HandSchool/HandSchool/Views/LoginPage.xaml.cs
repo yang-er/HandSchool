@@ -47,13 +47,13 @@ namespace HandSchool.Views
 
             if (viewModel.Form.CaptchaSource == null)
             {
-                CaptchaFullBox.IsEnabled = false;
-                AutoLoginBox.IsEnabled = true;
+                CaptchaBox.IsVisible = false;
+                AutoLoginBox.IsVisible = true;
             }
             else
             {
-                CaptchaFullBox.IsEnabled = true;
-                AutoLoginBox.IsEnabled = false;
+                CaptchaBox.IsVisible = true;
+                AutoLoginBox.IsVisible = false;
 
                 if (image_mem != null)
                     image_mem.Close();

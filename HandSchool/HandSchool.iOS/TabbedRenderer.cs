@@ -1,4 +1,5 @@
-﻿using HandSchool.iOS;
+﻿using System.ComponentModel;
+using HandSchool.iOS;
 using HandSchool.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -8,10 +9,29 @@ namespace HandSchool.iOS
 {
     class MainPageRenderer : TabbedRenderer
     {
+        internal MainPage MainPage => Element as MainPage;
+
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
             HidesBottomBarWhenPushed = true;
+
+            if (e.NewElement is MainPage pg)
+                if (pg.IsSelectPage)
+                    TabBar.Hidden = true;
+
+            if (e.NewElement != null)
+                e.NewElement.PropertyChanged += SelectPageChanged;
+            if (e.OldElement != null)
+                e.OldElement.PropertyChanged -= SelectPageChanged;
+        }
+
+        private void SelectPageChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == "IsSelectPage")
+            {
+                TabBar.Hidden = MainPage.IsSelectPage;
+            }
         }
     }
 }
