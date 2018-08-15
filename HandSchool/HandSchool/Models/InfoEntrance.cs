@@ -109,6 +109,8 @@ namespace HandSchool.Models
         /// </summary>
         public EntranceCreator Load { get; }
 
+        public delegate IUrlEntrance LoadUrl();
+        public LoadUrl LoadURL;
         /// <summary>
         /// 入口点包装
         /// </summary>
@@ -122,6 +124,9 @@ namespace HandSchool.Models
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
                 hfattr.CheckUpdate(false);
             Load = () => Activator.CreateInstance(type) as IInfoEntrance;
+            LoadURL = () => Activator.CreateInstance(type) as IUrlEntrance;
+
+
         }
 
         /// <summary>
@@ -136,6 +141,8 @@ namespace HandSchool.Models
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
                 hfattr.CheckUpdate(false);
             Load = () => Activator.CreateInstance(type) as IInfoEntrance;
+            LoadURL = () => Activator.CreateInstance(type) as IUrlEntrance;
+
         }
     }
 

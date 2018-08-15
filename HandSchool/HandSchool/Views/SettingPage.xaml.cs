@@ -17,7 +17,7 @@ namespace HandSchool.Views
             ToolbarItems.Add(new ToolbarItem
             {
                 Text = "关于",
-                Command = new Command(async () => await (new WebViewPage(AboutViewModel.Instance)).ShowAsync(Navigation))
+                Command = new Command(async () => await (new AboutPage()).ShowAsync(Navigation))
             });
 #endif
         }

@@ -16,7 +16,9 @@ namespace HandSchool.ViewModels
         UnorderedList Developers;
         UnorderedList Documents;
         UnorderedList SupportedSchool;
-
+        public List<InfoEntranceGroup> InfoEntrances { get; set; } = new List<InfoEntranceGroup>();
+        public InfoEntranceGroup AboutEntrances { get; set; } = new InfoEntranceGroup { GroupTitle = "关于" };
+        public string Version { get; set; }
         public static AboutViewModel Instance
         {
             get
@@ -30,8 +32,17 @@ namespace HandSchool.ViewModels
 
         private AboutViewModel()
         {
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(UpadteCheck)));
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(MarkApp)));
+
+           
+            InfoEntrances.Add(AboutEntrances);
+
+
             Documents = new UnorderedList
             {
+               
                 Children =
                 {
                     "drcom-generic @ drcoms",
@@ -86,7 +97,10 @@ namespace HandSchool.ViewModels
                 },
                 Css = "*{-ms-user-select:none;-webkit-user-select:none;user-select:none;}"
             };
-
+#if __ANDROID__
+            Version = Droid.MainActivity.ActivityContext.PackageManager.GetPackageInfo(Droid.MainActivity.ActivityContext.PackageName, 0).VersionName;
+#endif
+            //TODO 苹果版本号
             Title = "关于";
         }
 
@@ -132,10 +146,36 @@ namespace HandSchool.ViewModels
         [Entrance("隐私政策", "提供关于本程序如何使用您的隐私的一些说明。", EntranceType.UrlEntrance)]
         public class PrivacyPolicy : IUrlEntrance
         {
+            public string HtmlUrl { get; set; } = "privacy.html";
+            public IViewResponse Binding { get; set; }
+            public Action<string> Evaluate { get; set; }
+            public List<InfoEntranceMenu> Menu { get; set; }= new List<InfoEntranceMenu>();
+            public void Receive(string data) { }
+        }
+
+        [Entrance("检查更新", "检查更新", EntranceType.UrlEntrance)]
+        public class UpadteCheck : IUrlEntrance
+        {
             public string HtmlUrl { get; set; }
             public IViewResponse Binding { get; set; }
             public Action<string> Evaluate { get; set; }
             public List<InfoEntranceMenu> Menu { get; set; }
+            public void Receive(string data) { }
+        }
+
+        [Entrance("软件评分", "软件评分", EntranceType.UrlEntrance)]
+        public class  MarkApp : IUrlEntrance
+        {
+#if __ANDROID__
+            public string HtmlUrl { get; set; } = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
+#elif __IOS__
+            public string HtmlUrl { get; set; } = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
+#elif __UWP__
+            public string HtmlUrl { get; set; } = "ms-windows-store://review/?productid=9PD2FR9HHJQP";
+#endif
+            public IViewResponse Binding { get; set; }
+            public Action<string> Evaluate { get; set; }
+            public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
             public void Receive(string data) { }
         }
     }

@@ -17,12 +17,14 @@ namespace HandSchool.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public static Context ActivityContext;
+        public static MainActivity Instance;
         private string[] Arvgs;
         public EventHandler<DialogClickEventArgs> OnClick;
         private ProgressDialog ProgressDialog;
 
         protected override void OnCreate(Bundle bundle)
         {
+            Instance = this;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             

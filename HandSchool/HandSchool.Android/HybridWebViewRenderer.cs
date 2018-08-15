@@ -40,7 +40,7 @@ namespace HandSchool.Droid
             if (e.NewElement != null)
             {
                 Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
-                if (Element.Html != string.Empty)
+                if (Element.Html != string.Empty&& Element.Html!=null)
                 {
                     Control.LoadDataWithBaseURL("file:///android_asset/", Element.Html.Replace("{webview_base_url}", "file:///android_asset/"), "text/html", "utf-8", null);
                 }
@@ -48,6 +48,7 @@ namespace HandSchool.Droid
                 {
                     Control.LoadUrl(string.Format("file:///android_asset/{0}", Element.Uri));
                 }
+
                 InjectJS(JavaScriptFunction);
                 Element.JavaScriptRequested += EvalJS;
             }

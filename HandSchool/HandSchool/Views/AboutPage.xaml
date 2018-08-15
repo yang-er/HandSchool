@@ -6,12 +6,42 @@
                   Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
-            <ListView Margin="100,0">
-                
+            <Image
+                Source="abouticon.png"
+                Margin="0,20,0,0"
+                Scale="1.5"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"/>
+            <Label
+                Text="掌上校园"
+                FontSize="Large"
+                TextColor="Black"
+                HorizontalOptions="Center"/>
+            <Label
+                Text="{Binding Version}"
+                FontSize="Medium"
+                HorizontalOptions="Center"/>
+            <ListView x:Name="MyListView"
+                      ItemsSource="{Binding AboutEntrances}"
+                  Margin="0,10"
+                  VerticalOptions="FillAndExpand"
+                  HasUnevenRows="true"
+                  ItemTapped="ItemTapped"
+                  SelectionMode="None"
+                  CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15">
+                                <Label Text="{Binding Name}" 
+                               TextColor="Black"
+                               Style="{DynamicResource ListItemTextStyle}"
+                               FontSize="Medium" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 </w:PopContentPage>
