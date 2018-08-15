@@ -3,7 +3,7 @@ using HandSchool.ViewModels;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     public sealed partial class MessagePage : ViewPage
     {

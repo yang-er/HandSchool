@@ -1,5 +1,10 @@
-﻿using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internal;
+using HandSchool.Internal.HtmlObject;
+using HandSchool.Models;
+using HandSchool.Services;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
@@ -122,6 +127,16 @@ namespace HandSchool.ViewModels
 #elif __UWP__
             Device.OpenUri(new Uri("ms-windows-store://review/?productid=9PD2FR9HHJQP"));
 #endif
+        }
+
+        [Entrance("隐私政策", "提供关于本程序如何使用您的隐私的一些说明。", EntranceType.UrlEntrance)]
+        public class PrivacyPolicy : IUrlEntrance
+        {
+            public string HtmlUrl { get; set; }
+            public IViewResponse Binding { get; set; }
+            public Action<string> Evaluate { get; set; }
+            public List<InfoEntranceMenu> Menu { get; set; }
+            public void Receive(string data) { }
         }
     }
 }

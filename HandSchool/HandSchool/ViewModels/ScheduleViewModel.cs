@@ -2,8 +2,6 @@
 using HandSchool.Services;
 using HandSchool.Views;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
@@ -59,7 +57,7 @@ namespace HandSchool.ViewModels
 #if __UWP__
         async void Create()
         {
-            var box = new UWP.Views.CurriculumDialog(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true);
+            var box = new CurriculumDialog(new CurriculumItem { IsCustom = true, CourseID = "CUSTOM-" + DateTime.Now.ToString("s") }, true);
             var result = await box.ShowAsync();
             if (result == Windows.UI.Xaml.Controls.ContentDialogResult.Primary) RefreshComplete?.Invoke();
         }

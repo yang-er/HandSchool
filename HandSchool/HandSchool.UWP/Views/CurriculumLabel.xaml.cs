@@ -1,13 +1,11 @@
-﻿using System.Threading.Tasks;
-using Windows.UI;
-using Windows.UI.Xaml;
+﻿using HandSchool.Models;
 using System;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using HandSchool.Models;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     public sealed partial class CurriculumLabel : UserControl
     {

@@ -37,7 +37,7 @@ namespace HandSchool.JLU.ViewModels
         public async Task ProcessQuery()
         {
             if (IsBusy) return;
-            View.SetIsBusy(true, "正在加载消费信息……");
+            // View.SetIsBusy(true, "正在加载消费信息……");
             IsBusy = true;
             string last_error=null;
 
@@ -60,7 +60,7 @@ namespace HandSchool.JLU.ViewModels
             finally
             {
                 IsBusy = false;
-                View.SetIsBusy(false);
+                // View.SetIsBusy(false);
                 if (last_error != null)
                     await View.ShowMessage("查询失败", last_error);
             }
@@ -69,7 +69,7 @@ namespace HandSchool.JLU.ViewModels
         public async Task GetPickCardInfo()
         {
             if (IsBusy) return;
-            View.SetIsBusy(true, "正在加载拾卡信息……");
+            // View.SetIsBusy(true, "正在加载拾卡信息……");
             IsBusy = true;
 
             try
@@ -87,7 +87,7 @@ namespace HandSchool.JLU.ViewModels
             finally
             {
                 IsBusy = false;
-                View.SetIsBusy(false);
+                // View.SetIsBusy(false);
             }
         }
 
@@ -131,6 +131,8 @@ namespace HandSchool.JLU.ViewModels
                 View.SetIsBusy(false);
                 if (last_error != null)
                     await View.ShowMessage("充值失败", last_error);
+                else
+                    await View.ShowMessage("充值成功", "成功充值了" + money as string + "元。");
             }
         }
     }

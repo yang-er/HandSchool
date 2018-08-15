@@ -1,12 +1,10 @@
 ﻿using HandSchool.Internal;
-using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
@@ -37,8 +35,19 @@ namespace HandSchool.JLU
 
         public async Task Execute()
         {
-            using (var client = new AwaredWebClient("", System.Text.Encoding.UTF8))
-                LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
+            try
+            {
+                LastReport = "";
+                using (var client = new AwaredWebClient("", System.Text.Encoding.UTF8))
+                    LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.NameResolutionFailure)
+                    System.Diagnostics.Debug.WriteLine("App not connected");
+                else throw ex;
+            }
+
             if (LastReport == "") return;
             LastReport = LastReport.Substring(LastReport.IndexOf("<?xml ver"));
             Core.WriteConfig(StorageFile, LastReport);

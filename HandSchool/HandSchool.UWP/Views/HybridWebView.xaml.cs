@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace HandSchool.UWP.Views
+namespace HandSchool.Views
 {
     /// <summary>
     /// 混合式网页浏览器
@@ -36,13 +36,21 @@ namespace HandSchool.UWP.Views
         public string Html { get; set; }
         
         /// <summary>
+        /// 导航的目标网址
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
         /// invokeCSharpAction的回调函数
         /// </summary>
         public Action<string> Register { get; set; }
 
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            WebView.NavigateToString(Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
+            if (Html != string.Empty)
+                WebView.NavigateToString(Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
+            else
+                WebView.Navigate(new Uri(Url));
         }
 
         private async void OnWebViewNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)

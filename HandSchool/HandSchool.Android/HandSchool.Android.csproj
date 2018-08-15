@@ -150,11 +150,24 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\bootstrap.css" />
-    <AndroidAsset Include="Assets\bootstrap.bundle.js" />
-    <AndroidAsset Include="Assets\jquery.js" />
-    <AndroidAsset Include="Assets\popper.js" />
-    <AndroidAsset Include="Assets\json.js" />
+    <AndroidAsset Include="..\CommonAssets\bootstrap.css">
+      <Link>Assets\bootstrap.css</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\bootstrap.bundle.js">
+      <Link>Assets\bootstrap.bundle.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\jquery.js">
+      <Link>Assets\jquery.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\popper.js">
+      <Link>Assets\popper.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\json.js">
+      <Link>Assets\json.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\CommonAssets\privacy.html">
+      <Link>Assets\privacy.html</Link>
+    </AndroidAsset>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">
@@ -203,5 +216,6 @@
     </AndroidResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
+  <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

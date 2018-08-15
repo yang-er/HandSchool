@@ -15,7 +15,7 @@ namespace HandSchool
         {
             InitializeComponent();
             Core.Initialize();
-            MainPage = NavigationViewModel.GetMainPage();
+            MainPage = new MainPage();
         }
         
         protected override void OnStart()

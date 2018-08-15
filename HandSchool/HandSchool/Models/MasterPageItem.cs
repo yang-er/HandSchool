@@ -30,14 +30,9 @@ namespace HandSchool.Models
             this.title = title;
             string destpg_type;
             if (category != "") category += ".";
-
-#if __UWP__
-            destpg_type = $"HandSchool.UWP.{category}Views.{dest}";
             Icon = icon;
-#else
+
             destpg_type = $"HandSchool.{category}Views.{dest}";
-#endif
-            
             DestinationPageType = Assembly.GetExecutingAssembly().GetType(destpg_type);
 
             selected = select;
