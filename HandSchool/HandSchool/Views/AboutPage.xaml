@@ -4,23 +4,16 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
                   x:Class="HandSchool.Views.AboutPage"
                   Title="{Binding Title}">
-    <ContentPage.Content>
-        <StackLayout>
-            <Image
-                Source="abouticon.png"
-                Margin="0,20,0,0"
-                Scale="1.5"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"/>
-            <Label
-                Text="掌上校园"
-                FontSize="Large"
-                TextColor="Black"
-                HorizontalOptions="Center"/>
-            <Label
-                Text="{Binding Version}"
-                FontSize="Medium"
-                HorizontalOptions="Center"/>
+    <StackLayout>
+        <Image Source="abouticon.png" Margin="0,25,0,0" HorizontalOptions="CenterAndExpand" />
+        <Label Text="掌上校园" FontSize="Large" TextColor="Black" HorizontalOptions="Center" />
+        <Label Text="{Binding Version}" FontSize="Medium" HorizontalOptions="Center" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <ListView x:Name="MyListView"
                       ItemsSource="{Binding AboutEntrances}"
                       Margin="0,10"
@@ -28,20 +21,20 @@
                       HasUnevenRows="true"
                       ItemTapped="ItemTapped"
                       SelectionMode="None"
+                      HeightRequest="240"
+                      Grid.Column="1"
                       CachingStrategy="RecycleElement">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="15">
-                                <Label Text="{Binding Name}" 
-                               TextColor="Black"
-                               Style="{DynamicResource ListItemTextStyle}"
-                               FontSize="Medium" />
+                            <StackLayout Padding="15" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" FontSize="Medium" HorizontalOptions="StartAndExpand" />
+                                <Label Text="＞" Style="{DynamicResource ListItemTextStyle}" TextColor="LightGray" FontSize="Medium" HorizontalOptions="End" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
-    </ContentPage.Content>
+        </Grid>
+    </StackLayout>
 </w:PopContentPage>

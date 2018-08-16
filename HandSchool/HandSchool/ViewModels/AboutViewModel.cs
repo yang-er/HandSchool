@@ -33,12 +33,12 @@ namespace HandSchool.ViewModels
         private AboutViewModel()
         {
             AboutEntrances.Add(new TapEntranceWrapper("检查更新", "", (nav) => Task.Run(() => CheckUpdate())));
-            AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
             AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(LicenseInfo)));
 
             InfoEntrances.Add(AboutEntrances);
-
-
+            
             Documents = new UnorderedList
             {
 
@@ -142,7 +142,7 @@ namespace HandSchool.ViewModels
 #if __ANDROID__
             Droid.MainActivity.Instance.Update();
 #elif __UWP__
-            Device.OpenUrl(new Uri("ms-windows-store://pdp/?productid=9PD2FR9HHJQP"));
+            Device.OpenUri(new Uri("ms-windows-store://pdp/?productid=9PD2FR9HHJQP"));
 #elif __IOS__
             OpenMarket();
 #endif
