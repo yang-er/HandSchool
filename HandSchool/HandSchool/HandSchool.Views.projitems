@@ -177,7 +177,4 @@
       <Link>WebWrapper\privacy.html</Link>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)JLU\Views\" />
-  </ItemGroup>
 </Project>

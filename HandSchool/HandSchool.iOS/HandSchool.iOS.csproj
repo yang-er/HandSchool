@@ -94,15 +94,15 @@
     <Compile Include="JLU\YktPage.xaml.cs">
       <DependentUpon>YktPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.cs" />
-    <Compile Include="HybridWebViewRenderer.cs" />
-    <Compile Include="InputCellRenderer.cs" />
+    <Compile Include="Views\MainPage.cs" />
+    <Compile Include="Views\HybridWebViewRenderer.cs" />
+    <Compile Include="Views\InputCellRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <Compile Include="PageRenderer.cs" />
-    <Compile Include="TabbedRenderer.cs" />
+    <Compile Include="Views\PageRenderer.cs" />
+    <Compile Include="Views\TabbedRenderer.cs" />
     <Compile Include="ViewResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <BundleResource Include="Resources\segmdl2.ttf">
