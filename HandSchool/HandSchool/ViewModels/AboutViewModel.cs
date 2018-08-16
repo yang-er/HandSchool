@@ -27,22 +27,21 @@ namespace HandSchool.ViewModels
                 return instance;
             }
         }
-        
+
         public Bootstrap HtmlDocument { get; }
 
         private AboutViewModel()
         {
-            AboutEntrances.Add(new InfoEntranceWrapper(typeof(UpadteCheck)));
+            AboutEntrances.Add(new TapEntranceWrapper("检查更新", "", (nav) => Task.Run(() => CheckUpdate())));
             AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
-            AboutEntrances.Add(new InfoEntranceWrapper(typeof(MarkApp)));
+            AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
 
-           
             InfoEntrances.Add(AboutEntrances);
 
 
             Documents = new UnorderedList
             {
-               
+
                 Children =
                 {
                     "drcom-generic @ drcoms",
@@ -97,10 +96,8 @@ namespace HandSchool.ViewModels
                 },
                 Css = "*{-ms-user-select:none;-webkit-user-select:none;user-select:none;}"
             };
-#if __ANDROID__
-            Version = Droid.MainActivity.ActivityContext.PackageManager.GetPackageInfo(Droid.MainActivity.ActivityContext.PackageName, 0).VersionName;
-#endif
-            //TODO 苹果版本号
+            
+            Version = Core.Version;
             Title = "关于";
         }
 
@@ -123,7 +120,7 @@ namespace HandSchool.ViewModels
             }
         }
 
-        async void TestMode()
+        private async void TestMode()
         {
             System.Diagnostics.Debug.WriteLine("test mode");
             await View.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
@@ -132,14 +129,23 @@ namespace HandSchool.ViewModels
             System.Diagnostics.Debug.WriteLine("test mode 3");
         }
 
-        void OpenMarket()
+        private void OpenMarket()
+        {
+            Device.BeginInvokeOnMainThread(() => Device.OpenUri(new Uri(Core.OnPlatform(
+                "https://www.coolapk.com/apk/com.x90yang.HandSchool",
+                "https://github.com/yang-er/HandSchool", // "itms://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8",
+                "ms-windows-store://review/?productid=9PD2FR9HHJQP"
+            ))));
+        }
+
+        private void CheckUpdate()
         {
 #if __ANDROID__
-            // Device.OpenUri(new Uri("market://details?id=com.x90yang.HandSchool"));
-#elif __IOS__
-            // Device.OpenUri(new Uri("itms://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8"));
+            Droid.MainActivity.Instance.Update();
 #elif __UWP__
-            Device.OpenUri(new Uri("ms-windows-store://review/?productid=9PD2FR9HHJQP"));
+            Device.OpenUrl(new Uri("ms-windows-store://pdp/?productid=9PD2FR9HHJQP"));
+#elif __IOS__
+            OpenMarket();
 #endif
         }
 
@@ -147,32 +153,6 @@ namespace HandSchool.ViewModels
         public class PrivacyPolicy : IUrlEntrance
         {
             public string HtmlUrl { get; set; } = "privacy.html";
-            public IViewResponse Binding { get; set; }
-            public Action<string> Evaluate { get; set; }
-            public List<InfoEntranceMenu> Menu { get; set; }= new List<InfoEntranceMenu>();
-            public void Receive(string data) { }
-        }
-
-        [Entrance("检查更新", "检查更新", EntranceType.UrlEntrance)]
-        public class UpadteCheck : IUrlEntrance
-        {
-            public string HtmlUrl { get; set; }
-            public IViewResponse Binding { get; set; }
-            public Action<string> Evaluate { get; set; }
-            public List<InfoEntranceMenu> Menu { get; set; }
-            public void Receive(string data) { }
-        }
-
-        [Entrance("软件评分", "软件评分", EntranceType.UrlEntrance)]
-        public class  MarkApp : IUrlEntrance
-        {
-#if __ANDROID__
-            public string HtmlUrl { get; set; } = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
-#elif __IOS__
-            public string HtmlUrl { get; set; } = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
-#elif __UWP__
-            public string HtmlUrl { get; set; } = "ms-windows-store://review/?productid=9PD2FR9HHJQP";
-#endif
             public IViewResponse Binding { get; set; }
             public Action<string> Evaluate { get; set; }
             public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();

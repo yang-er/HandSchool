@@ -25,7 +25,6 @@ namespace HandSchool.Views
             }
             else if (e.Item is TapEntranceWrapper tew)
             {
-                System.Diagnostics.Debug.Assert(Core.RuntimePlatform == "iOS");
                 await tew.Activate(Navigation);
             }
         }

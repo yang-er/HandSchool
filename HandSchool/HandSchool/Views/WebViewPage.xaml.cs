@@ -14,30 +14,25 @@ namespace HandSchool.Views
 	{
         private IWebEntrance InfoEntrance { get; }
 
-		public WebViewPage(IInfoEntrance entrance)
+		public WebViewPage(IWebEntrance entrance)
 		{
 			InitializeComponent();
             var meta = entrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
             Title = meta.Title;
             InfoEntrance = entrance;
             InfoEntrance.Binding = new ViewResponse(this);
-            var sb = new StringBuilder();
-            entrance.HtmlDocument.ToHtml(sb);
-            WebView.Html = sb.ToString();
-            foreach (var key in InfoEntrance.Menu)
-                ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
-            entrance.Evaluate = WebView.JavaScript;
-            WebView.RegisterAction(entrance.Receive);
-        }
 
-        public WebViewPage(IUrlEntrance entrance)
-        {
-            InitializeComponent();
-            var meta = entrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
-            Title = meta.Title;
-            InfoEntrance = entrance;
-            InfoEntrance.Binding = new ViewResponse(this);
-            WebView.Uri = entrance.HtmlUrl;
+            if (entrance is IInfoEntrance ie)
+            {
+                var sb = new StringBuilder();
+                ie.HtmlDocument.ToHtml(sb);
+                WebView.Html = sb.ToString();
+            }
+            else if (entrance is IUrlEntrance iu)
+            {
+                WebView.Uri = iu.HtmlUrl;
+            }
+
             foreach (var key in InfoEntrance.Menu)
                 ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
             entrance.Evaluate = WebView.JavaScript;

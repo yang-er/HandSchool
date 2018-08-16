@@ -87,7 +87,7 @@ namespace HandSchool.JLU.InfoQuery
                         },
                         Children =
                         {
-                            (RawHtml) "<table class=\"table table-responsive\" style=\"max-height:20em;overflow-y:auto;\"><thead><tr>",
+                            (RawHtml) "<table class=\"table table-responsive\"><thead><tr>",
                             (RawHtml) ( "<th scope=\"col\" style=\"min-width:17em\">课程名称</th>" +
                                         "<th scope=\"col\" style=\"min-width:8em\">课程代码</th>" +
                                         "<th scope=\"col\" style=\"min-width:7em\">类别</th>" +

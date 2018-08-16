@@ -13,7 +13,7 @@ namespace HandSchool.Models
     /// 创建入口点的函数
     /// </summary>
     /// <returns>新的入口点</returns>
-    public delegate IInfoEntrance EntranceCreator();
+    public delegate IWebEntrance EntranceCreator();
 
     /// <summary>
     /// 入口点组
@@ -109,8 +109,6 @@ namespace HandSchool.Models
         /// </summary>
         public EntranceCreator Load { get; }
 
-        public delegate IUrlEntrance LoadUrl();
-        public LoadUrl LoadURL;
         /// <summary>
         /// 入口点包装
         /// </summary>
@@ -123,10 +121,7 @@ namespace HandSchool.Models
             Description = description;
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
                 hfattr.CheckUpdate(false);
-            Load = () => Activator.CreateInstance(type) as IInfoEntrance;
-            LoadURL = () => Activator.CreateInstance(type) as IUrlEntrance;
-
-
+            Load = () => Activator.CreateInstance(type) as IWebEntrance;
         }
 
         /// <summary>
@@ -140,9 +135,7 @@ namespace HandSchool.Models
             Description = ent.Description;
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
                 hfattr.CheckUpdate(false);
-            Load = () => Activator.CreateInstance(type) as IInfoEntrance;
-            LoadURL = () => Activator.CreateInstance(type) as IUrlEntrance;
-
+            Load = () => Activator.CreateInstance(type) as IWebEntrance;
         }
     }
 
