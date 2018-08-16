@@ -9,11 +9,18 @@ using Xamarin.Forms;
 
 namespace HandSchool
 {
-	public partial class App : Application
-	{
+    public partial class App : Application
+    {
         public App()
         {
             InitializeComponent();
+#if __ANDROID__
+            var theme = new Style(typeof(NavigationPage));
+            Resources.TryGetValue("Primary", out var priColor);
+            theme.Setters.Add(NavigationPage.BarBackgroundColorProperty, priColor);
+            theme.Setters.Add(NavigationPage.BarTextColorProperty, Color.White);
+            Resources.Add(theme);
+#endif
             Core.Initialize();
             MainPage = new MainPage();
         }
