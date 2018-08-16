@@ -4,9 +4,9 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
                   x:Class="HandSchool.Views.IndexPage"
                   Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="刷新" Command="{Binding RefreshCommand}" Order="Secondary" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     <ContentPage.Content>
         <ScrollView Orientation="Vertical">
             <StackLayout Padding="10" Spacing="20" >

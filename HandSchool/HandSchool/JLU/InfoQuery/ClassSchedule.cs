@@ -87,7 +87,7 @@ namespace HandSchool.JLU.InfoQuery
                         },
                         Children =
                         {
-                            (RawHtml) "<table class=\"table table-responsive\" style=\"max-height:40em;overflow-y:auto;\"><thead><tr>",
+                            (RawHtml) "<table class=\"table table-responsive\" style=\"max-height:20em;overflow-y:auto;\"><thead><tr>",
                             (RawHtml) ( "<th scope=\"col\" style=\"min-width:17em\">课程名称</th>" +
                                         "<th scope=\"col\" style=\"min-width:8em\">课程代码</th>" +
                                         "<th scope=\"col\" style=\"min-width:7em\">类别</th>" +
@@ -131,8 +131,8 @@ namespace HandSchool.JLU.InfoQuery
                 var sb = new StringBuilder();
                 foreach (var opt in lists.value)
                 {
-                    sb.Append($"<tr ondblclick=\"showDetail(this,{opt.lessonId})\">" +
-                        $"<td>{opt.courseInfo.courName}</td>" +
+                    sb.Append(
+                        $"<tr><td><a href=\"javascript:showDetail(this,{opt.lessonId})\">{opt.courseInfo.courName}</a></td>" +
                         $"<td>{opt.courseInfo.extCourseNo}</td><td>" +
                         (opt.extLessonNo.EndsWith("-cx") ? "重修" : AlreadyKnownThings.Type5Name(opt.courseInfo.type5)) +
                         $"</td><td>{opt.leader.name}</td></tr>");
