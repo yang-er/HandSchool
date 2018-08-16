@@ -91,18 +91,42 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms">
+      <Version>3.1.0.697729</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JLU\YktHistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <Compile Include="JLU\YktHistoryPage.xaml.cs">
       <DependentUpon>YktHistoryPage.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="JLU\YktPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <Compile Include="JLU\YktPage.xaml.cs">
       <DependentUpon>YktPage.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="JLU\YktPickCardPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <Compile Include="JLU\YktPickCardPage.xaml.cs">
       <DependentUpon>YktPickCardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.cs" />
     <Compile Include="Views\HybridWebViewRenderer.cs" />
-    <Compile Include="Views\InputCellRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -111,9 +135,6 @@
     <Compile Include="Views\TabbedRenderer.cs" />
     <Compile Include="ViewResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <BundleResource Include="Resources\segmdl2.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </BundleResource>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -131,98 +152,40 @@
     <BundleResource Include="Resources\Icon-Small.png" />
     <BundleResource Include="Resources\Icon-Small%402x.png" />
     <BundleResource Include="Resources\Icon-Small%403x.png" />
-    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.Serialization" />
-    <Reference Include="Xamarin.iOS" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms">
-      <Version>3.1.0.697729</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\tab_about.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\tab_about%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\tab_about%403x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\tab_feed.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\tab_feed%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\tab_feed%403x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\xamarin_logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\xamarin_logo%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
+    <BundleResource Include="Resources\abouticon.png" />
+    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="..\CommonAssets\bootstrap.css">
       <Link>Resources\WebWrapper\bootstrap.css</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\CommonAssets\bootstrap.bundle.js">
       <Link>Resources\WebWrapper\bootstrap.bundle.js</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\CommonAssets\jquery.js">
       <Link>Resources\WebWrapper\jquery.js</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\CommonAssets\popper.js">
       <Link>Resources\WebWrapper\popper.js</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\CommonAssets\json.js">
       <Link>Resources\WebWrapper\json.js</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="..\CommonAssets\privacy.html">
       <Link>Resources\WebWrapper\privacy.html</Link>
     </BundleResource>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\abouticon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="JLU\YktPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="JLU\YktPickCardPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="JLU\YktHistoryPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <BundleResource Include="..\CommonAssets\license.html">
+      <Link>Resources\WebWrapper\license.html</Link>
+    </BundleResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />

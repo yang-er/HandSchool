@@ -187,6 +187,9 @@
     <Content Include="..\CommonAssets\privacy.html">
       <Link>WebWrapper\privacy.html</Link>
     </Content>
+    <Content Include="..\CommonAssets\license.html">
+      <Link>WebWrapper\license.html</Link>
+    </Content>
     <AndroidResource Include="Assets\abouticon.png">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
@@ -300,7 +303,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\segmdl2.ttf" />
     <None Include="HandSchool.snk" />
   </ItemGroup>
   <ItemGroup />

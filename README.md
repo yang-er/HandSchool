@@ -17,7 +17,6 @@
 - 吉林大学 UIMS
 
 ### 文档资料
-- drcom-generic @ drcoms
 - JLULife @ brady
 - CookieAwareWebClient @ zhleiyang
 - PopContentPage @ shanhongyue

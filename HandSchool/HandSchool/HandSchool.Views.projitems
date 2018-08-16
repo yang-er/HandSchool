@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\InputCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PopContentPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MessageDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
@@ -175,6 +174,9 @@
     </None>
     <None Include="..\CommonAssets\privacy.html">
       <Link>WebWrapper\privacy.html</Link>
+    </None>
+    <None Include="..\CommonAssets\license.html">
+      <Link>WebWrapper\license.html</Link>
     </None>
   </ItemGroup>
 </Project>

@@ -44,7 +44,6 @@ namespace HandSchool.ViewModels
 
                 Children =
                 {
-                    "drcom-generic @ drcoms",
                     "JLULife @ brady",
                     "CookieAwareWebClient @ zhleiyang",
                     "PopContentPage @ shanhongyue",
@@ -153,6 +152,16 @@ namespace HandSchool.ViewModels
         public class PrivacyPolicy : IUrlEntrance
         {
             public string HtmlUrl { get; set; } = "privacy.html";
+            public IViewResponse Binding { get; set; }
+            public Action<string> Evaluate { get; set; }
+            public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
+            public void Receive(string data) { }
+        }
+
+        [Entrance("开放源代码许可", "提供关于本程序开源许可证的一些说明。", EntranceType.UrlEntrance)]
+        public class LicenseInfo : IUrlEntrance
+        {
+            public string HtmlUrl { get; set; } = "license.html";
             public IViewResponse Binding { get; set; }
             public Action<string> Evaluate { get; set; }
             public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
