@@ -15,8 +15,7 @@ namespace HandSchool.JLU.Views
 		public YktPage()
 		{
 			InitializeComponent();
-            BindingContext = YktViewModel.Instance;
-            YktViewModel.Instance.View = new ViewResponse(this);
+            ViewModel = YktViewModel.Instance;
 		}
 
         private void ChargeRequested(object sender, EventArgs e)
@@ -30,6 +29,24 @@ namespace HandSchool.JLU.Views
 
             FirstOpen = false;
             await Loader.Ykt.RequestLogin();
+        }
+
+        private async void PickCardInfoRequested(object sender, EventArgs e)
+        {
+            var page = new YktPickCardPage();
+            var task = page.ShowAsync(Navigation);
+            if (YktViewModel.Instance.PickCardInfo.Count == 0)
+                await YktViewModel.Instance.GetPickCardInfo();
+            await task;
+        }
+
+        private async void HistoryInfoRequested(object sender, EventArgs e)
+        {
+            var page = new YktHistoryPage();
+            var task = page.ShowAsync(Navigation);
+            if (YktViewModel.Instance.RecordInfo.Count == 0)
+                await YktViewModel.Instance.ProcessQuery();
+            await task;
         }
     }
 }

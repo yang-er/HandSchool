@@ -91,8 +91,14 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="JLU\YktHistoryPage.xaml.cs">
+      <DependentUpon>YktHistoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JLU\YktPage.xaml.cs">
       <DependentUpon>YktPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JLU\YktPickCardPage.xaml.cs">
+      <DependentUpon>YktPickCardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.cs" />
     <Compile Include="Views\HybridWebViewRenderer.cs" />
@@ -206,6 +212,16 @@
   <ItemGroup>
     <EmbeddedResource Include="JLU\YktPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JLU\YktPickCardPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JLU\YktHistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
