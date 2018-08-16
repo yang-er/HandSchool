@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:w="clr-namespace:HandSchool.Views"
+                  Title="{Binding Title}"
+                  Appearing="TabbedPage_Appearing"
+                  x:Class="HandSchool.JLU.Views.YktPage">
+    <ContentPage.Content>
+        <TableView Intent="Form"
+              BindingContext="{Binding BasicInfo}"
+              VerticalOptions="FillAndExpand"
+              HasUnevenRows="true">
+            <TableSection>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="姓名" FontSize="16" />
+                        <Label Text="{Binding Name}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="学工号" FontSize="16" />
+                        <Label Text="{Binding CardNo}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="校园卡余额" FontSize="16" />
+                        <Label Text="{Binding Balance}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" Padding="15">
+                        <Entry x:Name="ChargeCreditBox" Text="0.00" WidthRequest="100" />
+                        <Button Text="充值" Margin="8,0,0,0" Clicked="ChargeRequested" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="银行卡号" FontSize="16" />
+                        <Label Text="{Binding BankNo}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="当前过渡余额" FontSize="16" />
+                        <Label Text="{Binding GdThis}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="上次过渡余额" FontSize="16" />
+                        <Label Text="{Binding GdLast}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="挂失状态" FontSize="16" />
+                        <Label Text="{Binding LostState}" FontSize="13" />
+                        <!--<StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                <PasswordBox x:Name="LostPasswordBox" Width="150" PlaceholderText="校园卡查询密码" />
+                                <Button Content="挂失" Margin="8,0,0,0" />
+                            </StackPanel>-->
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="冻结状态" FontSize="16" />
+                        <Label Text="{Binding FrozenState}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="身份类型" FontSize="16" />
+                        <Label Text="{Binding IdType}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+                <ViewCell>
+                    <StackLayout Padding="15">
+                        <Label Text="部门名称" FontSize="16" />
+                        <Label Text="{Binding Department}" FontSize="13" />
+                    </StackLayout>
+                </ViewCell>
+            </TableSection>
+        </TableView>
+
+    </ContentPage.Content>
+</w:PopContentPage>

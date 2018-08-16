@@ -148,16 +148,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)JLU\Views\YktPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Views\YktPage.xaml.cs">
-      <DependentUpon>YktPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -169,22 +159,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CommonAssets\bootstrap.css">
-        <Link>WebWrapper\bootstrap.css</Link>
+      <Link>WebWrapper\bootstrap.css</Link>
     </None>
     <None Include="..\CommonAssets\bootstrap.bundle.js">
-        <Link>WebWrapper\bootstrap.bundle.js</Link>
+      <Link>WebWrapper\bootstrap.bundle.js</Link>
     </None>
     <None Include="..\CommonAssets\jquery.js">
-        <Link>WebWrapper\jquery.js</Link>
+      <Link>WebWrapper\jquery.js</Link>
     </None>
     <None Include="..\CommonAssets\popper.js">
-        <Link>WebWrapper\popper.js</Link>
+      <Link>WebWrapper\popper.js</Link>
     </None>
     <None Include="..\CommonAssets\json.js">
-        <Link>WebWrapper\json.js</Link>
+      <Link>WebWrapper\json.js</Link>
     </None>
     <None Include="..\CommonAssets\privacy.html">
-        <Link>WebWrapper\privacy.html</Link>
+      <Link>WebWrapper\privacy.html</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\Views\" />
   </ItemGroup>
 </Project>

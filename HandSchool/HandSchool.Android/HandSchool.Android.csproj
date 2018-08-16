@@ -89,6 +89,9 @@
     <Compile Include="ClassTableWidgetFactory.cs" />
     <Compile Include="HybridWebViewRenderer.cs" />
     <Compile Include="InputCellRenderer.cs" />
+    <Compile Include="JLU\YktPage.xaml.cs">
+      <DependentUpon>YktPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -220,6 +223,11 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JLU\YktPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />

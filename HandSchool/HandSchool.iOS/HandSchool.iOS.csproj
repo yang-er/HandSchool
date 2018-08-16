@@ -91,6 +91,9 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="JLU\YktPage.xaml.cs">
+      <DependentUpon>YktPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.cs" />
     <Compile Include="HybridWebViewRenderer.cs" />
     <Compile Include="InputCellRenderer.cs" />
@@ -199,6 +202,11 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\abouticon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JLU\YktPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />

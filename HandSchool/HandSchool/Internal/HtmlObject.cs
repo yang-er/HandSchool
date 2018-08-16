@@ -323,9 +323,11 @@ namespace HandSchool.Internal
             {
                 sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\"><base href=\"{{webview_base_url}}\"></base>");
                 sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
-                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><style>{Css}</style><title>{Title}</title></head><body><div class=\"container-fluid\">");
+                sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><style>{Css}</style><title>{Title}</title></head>");
+                sb.Append($"<body class=\"{Core.RuntimePlatform}\"><div class=\"container-fluid\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
-                sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\"></script><script src=\"json.js\"></script><script src=\"bootstrap.bundle.js\"></script>");
+                sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\">");
+                sb.Append("</script><script src=\"json.js\"></script><script src=\"bootstrap.bundle.js\"></script>");
                 JavaScript.ForEach((obj) => sb.Append("<script>" + obj + "</script>"));
                 sb.Append("</body></html>");
             }
