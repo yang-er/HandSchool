@@ -127,7 +127,7 @@ namespace HandSchool.JLU.InfoQuery
             try
             {
                 LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-                var lists = Helper.JSON<RootObject<CollegeCourse>>(LastReport);
+                var lists = LastReport.ParseJSON<RootObject<CollegeCourse>>();
                 var sb = new StringBuilder();
                 foreach (var opt in lists.value)
                 {
@@ -157,7 +157,7 @@ namespace HandSchool.JLU.InfoQuery
             try
             {
                 LastReport = await Core.App.Service.Post(ScriptFileUri, PostDetail);
-                var lists = Helper.JSON<RootObject<LessonIdList>>(LastReport);
+                var lists = LastReport.ParseJSON<RootObject<LessonIdList>>();
                 var sb = new StringBuilder();
                 foreach (var opt in lists.value)
                 {

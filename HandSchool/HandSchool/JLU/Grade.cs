@@ -1,11 +1,11 @@
-﻿using HandSchool.JLU.JsonObject;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
@@ -72,7 +72,7 @@ namespace HandSchool.JLU
 
         public void Parse()
         {
-            var ro = JSON<RootObject<ArchiveScoreValue>>(LastReport);
+            var ro = LastReport.ParseJSON<RootObject<ArchiveScoreValue>>();
             
             foreach (var asv in ro.value)
             {
@@ -82,7 +82,7 @@ namespace HandSchool.JLU
 
         public void ParseGPA()
         {
-            var ro = JSON<RootObject<GPAValue>>(LastReportGPA);
+            var ro = LastReportGPA.ParseJSON<RootObject<GPAValue>>();
             var str = string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
                 ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
             GradePointViewModel.Instance.Items.Clear();

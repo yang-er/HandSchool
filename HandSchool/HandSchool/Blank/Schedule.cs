@@ -41,14 +41,14 @@ namespace HandSchool.Blank
         public void Save()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.WriteConfig("blank.kcb.json", Helper.Serialize(Items));
+            Core.WriteConfig("blank.kcb.json", Items.Serialize());
         }
 
         public Schedule()
         {
             LastReport = Core.ReadConfig("blank.kcb.json");
             if (LastReport != "")
-                Items = Helper.JSON<List<CurriculumItem>>(LastReport);
+                Items = LastReport.ParseJSON<List<CurriculumItem>>();
             else
                 Items = new List<CurriculumItem>();
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));

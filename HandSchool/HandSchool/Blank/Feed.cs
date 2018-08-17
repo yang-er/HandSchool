@@ -44,7 +44,7 @@ namespace HandSchool.Blank
         public void Parse()
         {
             if (LastReport == "") return;
-            var items = Helper.ParseRSS(LastReport);
+            var items = LastReport.ParseRSS();
             FeedViewModel.Instance.Items.Clear();
             foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
         }

@@ -108,7 +108,7 @@ namespace HandSchool.JLU
         {
             var lp = Core.ReadConfig(config_file);
             SettingsJSON config;
-            if (lp != "") config = Helper.JSON<SettingsJSON>(lp);
+            if (lp != "") config = lp.ParseJSON<SettingsJSON>();
             else config = new SettingsJSON();
             proxy_server = config.ProxyServer;
             use_https = config.UseHttps;
@@ -134,7 +134,7 @@ namespace HandSchool.JLU
 
         private void ParseLoginInfo(string resp)
         {
-            LoginInfo = Helper.JSON<LoginValue>(resp);
+            LoginInfo = resp.ParseJSON<LoginValue>();
             AttachInfomation.Add("studId", LoginInfo.userId.ToString());
             AttachInfomation.Add("studName", LoginInfo.nickName);
             AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
@@ -142,7 +142,7 @@ namespace HandSchool.JLU
 
         private void ParseTermInfo(string resp)
         {
-            var ro = Helper.JSON<RootObject<TeachingTerm>>(resp).value[0];
+            var ro = resp.ParseJSON<RootObject<TeachingTerm>>().value[0];
             if (ro.vacationDate < DateTime.Now)
             {
                 AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假"));
@@ -184,7 +184,7 @@ namespace HandSchool.JLU
                 var loginData = new NameValueCollection
                 {
                     { "j_username", Username },
-                    { "j_password", Helper.MD5("UIMS" + Username + Password, Encoding.UTF8) },
+                    { "j_password", $"UIMS{Username}{Password}".ToMD5(Encoding.UTF8) },
                     { "mousePath", "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACKTIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMdSQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3dawG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghgHRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQHlhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwIDlvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL" }
                 };
 
@@ -268,7 +268,7 @@ namespace HandSchool.JLU
 
         public void SaveSettings()
         {
-            var save = Helper.Serialize(new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https });
+            var save = new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https }.Serialize();
             Core.WriteConfig(config_file, save);
         }
 

@@ -5,7 +5,6 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
@@ -60,7 +59,7 @@ namespace HandSchool.JLU
             if (LastReport == "") return;
             try
             {
-                var items = ParseRSS(LastReport);
+                var items = LastReport.ParseRSS();
                 FeedViewModel.Instance.Items.Clear();
                 foreach (var item in items) FeedViewModel.Instance.Items.Add(item);
             }

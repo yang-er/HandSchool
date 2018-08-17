@@ -117,7 +117,7 @@ namespace HandSchool.JLU.InfoQuery
             try
             {
                 LastReport = await Core.App.Service.Post(ScriptFileUri, PostList);
-                var lists = Helper.JSON<RootObject<ProgItem>>(LastReport);
+                var lists = LastReport.ParseJSON<RootObject<ProgItem>>();
                 var sb = new StringBuilder();
                 sb.Append("<option value=\"-1\" selected>请选择</option>");
                 foreach (var opt in lists.value)
@@ -151,7 +151,7 @@ namespace HandSchool.JLU.InfoQuery
             try
             {
                 LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-                var lists = Helper.JSON<RootObject<ProgTerm>>(LastReport);
+                var lists = LastReport.ParseJSON<RootObject<ProgTerm>>();
                 var sb = new StringBuilder();
                 foreach (var opt in lists.value)
                 {

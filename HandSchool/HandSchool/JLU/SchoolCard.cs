@@ -64,7 +64,7 @@ namespace HandSchool.JLU
             {
                 { "SignType", "SynSno" },
                 { "UserAccount", Username },
-                { "Password", Helper.ToBase64(Password) },
+                { "Password", Password.ToBase64() },
                 { "NextUrl", "aHR0cDovLzIwMi45OC4xOC4yNDk6ODA3MC9TeW5DYXJkL01hbmFnZS9CYXNpY0luZm8=" },
                 { "CheckCode", CaptchaCode },
                 { "openid", "" },
@@ -82,7 +82,7 @@ namespace HandSchool.JLU
                     return false;
                 }
 
-                var result = Helper.JSON<YktResult>(LastReport);
+                var result = LastReport.ParseJSON<YktResult>();
                 if (!result.success)
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, result.msg));
@@ -165,12 +165,12 @@ namespace HandSchool.JLU
                 { "FromCard", "bcard" },
                 { "ToCard", "card" },
                 { "Amount", true_money.ToString("f2")},
-                { "Password", Helper.ToBase64(Password) }
+                { "Password", Password.ToBase64() }
             };
 
             WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/SynCard/Manage/Transfer";
             LastReport = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
-            var Result = Helper.JSON<YktResult>(LastReport);
+            var Result = LastReport.ParseJSON<YktResult>();
 
             if (!Result.success)
             {

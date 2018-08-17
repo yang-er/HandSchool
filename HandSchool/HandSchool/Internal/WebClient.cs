@@ -130,7 +130,7 @@ namespace HandSchool.Internal
                 var ret = await DownloadDataTaskAsync(address);
                 if (accept != "*/*" && ResponseHeaders["Content-Type"] is null && !ResponseHeaders["Content-Type"].StartsWith(accept))
                 {
-                    throw new ContentAcceptException(Helper.HexDigest(ret), ResponseHeaders["Content-Type"], accept);
+                    throw new ContentAcceptException(ret.ToHexDigest(), ResponseHeaders["Content-Type"], accept);
                 }
                 return ret;
             }

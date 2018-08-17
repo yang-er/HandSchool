@@ -1,10 +1,10 @@
-﻿using HandSchool.JLU.JsonObject;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
@@ -34,7 +34,7 @@ namespace HandSchool.JLU
         
         public void Parse()
         {
-            var table = JSON<RootObject<ScheduleValue>>(LastReport);
+            var table = LastReport.ParseJSON<RootObject<ScheduleValue>>();
             Items.RemoveAll(obj => !obj.IsCustom);
             foreach (var obj in table.value)
             {
@@ -124,7 +124,7 @@ namespace HandSchool.JLU
         public void Save()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.WriteConfig("jlu.kcb2.json", Serialize(Items));
+            Core.WriteConfig("jlu.kcb2.json", Items.Serialize());
         }
 
         public int ClassNext
@@ -149,7 +149,7 @@ namespace HandSchool.JLU
         {
             LastReport = Core.ReadConfig("jlu.kcb2.json");
             if (LastReport != "")
-                Items = JSON<List<CurriculumItem>>(LastReport);
+                Items = LastReport.ParseJSON<List<CurriculumItem>>();
             else
                 Items = new List<CurriculumItem>();
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));

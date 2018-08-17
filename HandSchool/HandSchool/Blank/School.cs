@@ -21,7 +21,7 @@ namespace HandSchool.Blank
         {
             var lp = Core.ReadConfig(config_file);
             SettingsJSON config;
-            if (lp != "") config = Helper.JSON<SettingsJSON>(lp);
+            if (lp != "") config = lp.ParseJSON<SettingsJSON>();
             else config = new SettingsJSON();
             DailyClassCount = config.DailyClassCount;
             FeedUrl = config.FeedUri;
@@ -102,12 +102,12 @@ namespace HandSchool.Blank
 
         public void SaveSettings()
         {
-            var save = Helper.Serialize(new SettingsJSON
+            var save = new SettingsJSON
             {
                 DailyClassCount = Core.App.DailyClassCount,
                 FeedUri = feedUrl,
                 WeatherLocation = weatherLoc
-            });
+            }.Serialize();
 
             Core.WriteConfig(config_file, save);
         }

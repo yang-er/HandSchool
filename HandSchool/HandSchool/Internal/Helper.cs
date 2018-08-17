@@ -11,7 +11,7 @@ using FeedItem = HandSchool.Models.FeedItem;
 namespace HandSchool.Internal
 {
     /// <summary>
-    /// 提供基础静态方法的帮助类
+    /// 提供基础静态方法的帮助拓展类
     /// </summary>
     static partial class Helper
     {
@@ -23,7 +23,7 @@ namespace HandSchool.Internal
         /// </summary>
         /// <param name="report">RSS文档文件</param>
         /// <returns><see cref="FeedItem" /> 的枚举</returns>
-        public static IEnumerable<FeedItem> ParseRSS(string report)
+        public static IEnumerable<FeedItem> ParseRSS(this string report)
         {
             var xdoc = XDocument.Parse(report);
             var id = 0;
@@ -44,27 +44,25 @@ namespace HandSchool.Internal
         /// </summary>
         /// <param name="source">源编码数组</param>
         /// <returns>加密后编码数组</returns>
-        public static byte[] MD5(byte[] source)
+        public static byte[] ToMD5(this byte[] source)
         {
             byte[] bytHash;
             using (MD5 MD5p = new MD5CryptoServiceProvider())
-            {
                 bytHash = MD5p.ComputeHash(source);
-            }
             return bytHash;
         }
         
         /// <summary>
-        /// 对 <see cref="string[]" /> 进行MD5运算
+        /// 对 <see cref="string" /> 进行MD5运算
         /// </summary>
         /// <param name="source">源字符串</param>
         /// <param name="encoding">指定编码，默认UTF-8</param>
         /// <returns>编码后字符串</returns>
-        public static string MD5(string source, Encoding encoding = null)
+        public static string ToMD5(this string source, Encoding encoding = null)
         {
             if (encoding == null)
                 encoding = Encoding.UTF8;
-            return HexDigest(MD5(encoding.GetBytes(source)), true);
+            return encoding.GetBytes(source).ToMD5().ToHexDigest(true);
         }
 
         /// <summary>
@@ -74,7 +72,7 @@ namespace HandSchool.Internal
         /// <param name="jsonString">源JSON字符串</param>
         /// <returns>反序列化后的值</returns>
         /// <exception cref="JsonException" />
-        public static T JSON<T>(string jsonString)
+        public static T ParseJSON<T>(this string jsonString)
         {
             if (jsonString == "") throw new JsonReaderException();
             return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
@@ -85,7 +83,7 @@ namespace HandSchool.Internal
         /// </summary>
         /// <param name="value">对象</param>
         /// <returns>JSON文本</returns>
-        public static string Serialize(object value)
+        public static string Serialize(this object value)
         {
             json.Serialize(new JsonTextWriter(new StringWriter(sb)), value);
             var ret = sb.ToString();
@@ -99,7 +97,7 @@ namespace HandSchool.Internal
         /// <param name="source">源编码数组</param>
         /// <param name="lower">是否为小写字母</param>
         /// <returns>十六进制字符串</returns>
-        public static string HexDigest(byte[] source, bool lower = false)
+        public static string ToHexDigest(this byte[] source, bool lower = false)
         {
             char[] chars = (lower ? "0123456789abcdef" : "0123456789ABCDEF").ToCharArray();
             int bit;
@@ -120,7 +118,7 @@ namespace HandSchool.Internal
         /// </summary>
         /// <param name="value">base64</param>
         /// <returns>origin</returns>
-        public static string UnBase64(string value)
+        public static string UnBase64(this string value)
         {
             if (value == null || value == "") return "";
             byte[] bytes = Convert.FromBase64String(value);
@@ -132,7 +130,7 @@ namespace HandSchool.Internal
         /// </summary>
         /// <param name="value">origin</param>
         /// <returns>base64</returns>
-        public static string ToBase64(string value)
+        public static string ToBase64(this string value)
         {
             if (value == null || value == "") return "";
             byte[] bytes = Encoding.UTF8.GetBytes(value);
@@ -145,7 +143,7 @@ namespace HandSchool.Internal
         /// <param name="dict">字符串数组</param>
         /// <param name="startupDelimiter">起始字符</param>
         /// <returns>application/x-form-urlencoded</returns>
-        public static string HttpBuildQuery(Dictionary<string, string> dict, string startupDelimiter = "")
+        public static string HttpBuildQuery(this Dictionary<string, string> dict, string startupDelimiter = "")
         {
             string result = string.Empty;
             foreach (var item in dict)

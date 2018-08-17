@@ -103,7 +103,7 @@ namespace HandSchool.JLU.InfoQuery
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            obj = Helper.JSON<RootObject<CollegeInfo>>(LastReport);
+            obj = LastReport.ParseJSON<RootObject<CollegeInfo>>();
             var jsBuilder = new StringBuilder();
             if (obj.value[0].schoolName == null) obj.value[0].schoolName = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#schoolName').text('" + obj.value[0].schoolName + "');");

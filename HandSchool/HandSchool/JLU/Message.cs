@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using static HandSchool.Internal.Helper;
 
 namespace HandSchool.JLU
 {
@@ -71,7 +70,7 @@ namespace HandSchool.JLU
 
         public void Parse()
         {
-            var ro = JSON<MessageBox>(LastReport);
+            var ro = LastReport.ParseJSON<MessageBox>();
             MessageViewModel.Instance.Items.Clear();
             foreach (var asv in ro.items)
             {
