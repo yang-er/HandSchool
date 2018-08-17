@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:w="clr-namespace:HandSchool.Views"
-                  Title="{Binding Title}"
+                  Title="消费记录"
                   x:Class="HandSchool.JLU.Views.YktHistoryPage">
     <ListView ItemsSource="{Binding RecordInfo}"
               IsPullToRefreshEnabled="true"
