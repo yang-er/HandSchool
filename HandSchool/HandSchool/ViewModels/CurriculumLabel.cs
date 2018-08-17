@@ -23,6 +23,9 @@ namespace HandSchool.Models
                 FormattedText = new FormattedString { Spans = { Title, At, Where } },
                 VerticalOptions = HorizontalOptions = LayoutOptions.CenterAndExpand
             });
+#if __IOS__
+            Where.FontSize *= 0.8;
+#endif
             Update();
             GestureRecognizers.Add(new TapGestureRecognizer
             {
