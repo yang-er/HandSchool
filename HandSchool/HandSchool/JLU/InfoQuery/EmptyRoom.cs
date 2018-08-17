@@ -39,14 +39,14 @@ namespace HandSchool.JLU.InfoQuery
             foreach (string key in AlreadyKnownThings.Campus.Keys)
                 sb.Append($"<option value=\"{key}\">{AlreadyKnownThings.Campus[key]}</option>");
             sb.Append("</select>");
-            var divisions = new RawHtml { Raw = sb.ToString() };
+            var divisions = sb.ToRawHtml();
             sb.Clear();
 
             // Building list
             sb.Append("<select class=\"form-control\" id=\"buildings\">");
             AlreadyKnownThings.Buildings.ForEach((o) => sb.Append(o.ToString("option")));
             sb.Append("</select>");
-            var buildings = new RawHtml { Raw = sb.ToString() };
+            var buildings = sb.ToRawHtml();
             sb.Clear();
 
             // Start Class
@@ -54,7 +54,7 @@ namespace HandSchool.JLU.InfoQuery
             for (int i = 1; i <= 11; i++)
                 sb.Append($"<option class=\"startclass\" value=\"{i}\" on>从第{i}节</option>");
             sb.Append("</select>");
-            var startclass = new RawHtml { Raw = sb.ToString() };
+            var startclass = sb.ToRawHtml();
             sb.Clear();
 
             // End class
@@ -62,7 +62,7 @@ namespace HandSchool.JLU.InfoQuery
             for (int i = 1; i <= 11; i++)
                 sb.Append($"<option class=\"endclass\" value=\"{i}\">到第{i}节</option>");
             sb.Append("</select>");
-            var endclass = new RawHtml { Raw = sb.ToString() };
+            var endclass = sb.ToRawHtml();
             sb.Clear();
 
             // Html document
@@ -76,15 +76,17 @@ namespace HandSchool.JLU.InfoQuery
                         {
                             Children =
                             {
-                                new FormGroup { Children = { divisions } },
-                                new FormGroup { Children = { buildings } },
-                                new FormGroup { Children = { startclass } },
-                                new FormGroup { Children = { endclass } },
+                                divisions.WrapFormGroup(),
+                                buildings.WrapFormGroup(),
+                                startclass.WrapFormGroup(),
+                                endclass.WrapFormGroup(),
                             }
                         },
                         Children =
                         {
-                            (RawHtml) "<table class=\"table\" id=\"rooms\"><tr><th>教室名称</th><th>容量</th><th>说明</th></tr></table>"
+                            "<table class=\"table\" id=\"rooms\">" +
+                            "<tr><th>教室名称</th><th>容量</th><th>说明</th></tr>" +
+                            "</table>".ToRawHtml()
                         }
                     }
                 },

@@ -31,23 +31,27 @@ namespace HandSchool.JLU.InfoQuery
         public CollegeIntroduce()
         {
             var sb = new StringBuilder();
+
             sb.Append("<select class=\"form-control\" id=\"division\" onchange=\"getList()\"><option value=\"*\">全部学部</option>");
             foreach (string key in AlreadyKnownThings.Division.Keys)
                 sb.Append($"<option value=\"{key}\">{AlreadyKnownThings.Division[key]}</option>");
             sb.Append("</select>");
-            var divisions = new RawHtml { Raw = sb.ToString() };
+            var divisions = sb.ToRawHtml();
             sb.Clear();
+
             sb.Append("<select class=\"form-control\" id=\"campus\" onchange=\"getList()\"><option value=\"*\">任意校区</option>");
             foreach (string key in AlreadyKnownThings.Campus.Keys)
                 sb.Append($"<option value=\"{key}\">{AlreadyKnownThings.Campus[key]}</option>");
             sb.Append("</select>");
-            var campus = new RawHtml { Raw = sb.ToString() };
+            var campus = sb.ToRawHtml();
             sb.Clear();
+
             sb.Append("<select class=\"form-control\" id=\"schId\">");
             AlreadyKnownThings.Colleges.ForEach((o) => sb.Append(o.ToString("option")));
             sb.Append("</select>");
-            var sch = new RawHtml { Raw = sb.ToString() };
+            var sch = sb.ToRawHtml();
             sb.Clear();
+
             HtmlDocument = new Bootstrap
             {
                 Children =
@@ -58,22 +62,33 @@ namespace HandSchool.JLU.InfoQuery
                         {
                             Children =
                             {
-                                new FormGroup { Children = { divisions } },
-                                new FormGroup { Children = { campus } },
-                                new FormGroup { Children = { sch } }
+                                divisions.WrapFormGroup(),
+                                campus.WrapFormGroup(),
+                                sch.WrapFormGroup()
                             }
                         },
                         Children =
                         {
-                            new RawHtml { Raw = "<h4>名称</h4><p id=\"schoolName\">软件学院</p><h4>英文名称</h4><p id=\"englishName\">College of Software</p><h4>外部编号</h4><p id=\"extSchNo\">54</p><h4>校区</h4><p id=\"Icampus\">前卫校区</p><h4>学部</h4><p id=\"Idivision\">信息科学学部</p><h4>负责人</h4><p id=\"staff\">未设置</p><h4>联系电话</h4><p id=\"telephone\">学校很懒，什么也没有留下……</p><h4>院系主页</h4><p id=\"website\">学校很懒，什么也没有留下……</p><h4>院系介绍</h4><p id=\"introduction\">学校很懒，什么也没有留下……</p>" }
+                            "<h4>名称</h4><p id=\"schoolName\">软件学院</p>" +
+                            "<h4>英文名称</h4><p id=\"englishName\">College of Software</p>" +
+                            "<h4>外部编号</h4><p id=\"extSchNo\">54</p>" +
+                            "<h4>校区</h4><p id=\"Icampus\">前卫校区</p>" +
+                            "<h4>学部</h4><p id=\"Idivision\">信息科学学部</p>" +
+                            "<h4>负责人</h4><p id=\"staff\">未设置</p>" +
+                            "<h4>联系电话</h4><p id=\"telephone\">学校很懒，什么也没有留下……</p>" +
+                            "<h4>院系主页</h4><p id=\"website\">学校很懒，什么也没有留下……</p>" +
+                            "<h4>院系介绍</h4><p id=\"introduction\">学校很懒，什么也没有留下……</p>".ToRawHtml()
                         }
                     }
                 },
                 JavaScript =
                 {
-                    "function getList() { var campus = $('#campus').val(); var selector = '#schId option' + (campus == '*' ? '' : '[data-campus=\"' + campus + '\"]'); var division = $('#division').val(); selector += (division == '*' ? '' : '[data-part=\"' + division + '\"]'); $('#schId > option').wrap('<span>').hide(); $(selector).unwrap().show(); }; $('#schId').val('101'); function getSchId() { invokeCSharpAction('schId=' + $('#schId').val()); }; "
+                    "function getList() { var campus = $('#campus').val(); var selector = '#schId option' + (campus == '*' ? '' : '[data-campus=\"' + campus + '\"]'); var division = $('#division').val(); selector += (division == '*' ? '' : '[data-part=\"' + division + '\"]'); $('#schId > option').wrap('<span>').hide(); $(selector).unwrap().show(); }",
+                    "function getSchId() { invokeCSharpAction('schId=' + $('#schId').val()); }",
+                    "$('#schId').val('101')"
                 }
             };
+
             Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getSchId()")), "\uE721"));
         }
 
@@ -105,26 +120,40 @@ namespace HandSchool.JLU.InfoQuery
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
             obj = LastReport.ParseJSON<RootObject<CollegeInfo>>();
             var jsBuilder = new StringBuilder();
-            if (obj.value[0].schoolName == null) obj.value[0].schoolName = "学校很懒，什么也没有留下……";
+            if (obj.value[0].schoolName == null)
+                obj.value[0].schoolName = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#schoolName').text('" + obj.value[0].schoolName + "');");
-            if (obj.value[0].englishName == null) obj.value[0].englishName = "School is lazy, left nothing...";
+            if (obj.value[0].englishName == null)
+                obj.value[0].englishName = "School is lazy, left nothing...";
             jsBuilder.Append("$('#englishName').text('" + obj.value[0].englishName + "');");
-            if (obj.value[0].extSchNo == null) obj.value[0].extSchNo = "??";
+            if (obj.value[0].extSchNo == null)
+                obj.value[0].extSchNo = "??";
             jsBuilder.Append("$('#extSchNo').text('" + obj.value[0].extSchNo + "');");
-            if (obj.value[0].campus == null) obj.value[0].campus = "未知"; else obj.value[0].campus = AlreadyKnownThings.Campus[obj.value[0].campus];
+            if (obj.value[0].campus == null)
+                obj.value[0].campus = "未知";
+            else
+                obj.value[0].campus = AlreadyKnownThings.Campus[obj.value[0].campus];
             jsBuilder.Append("$('#Icampus').text('" + obj.value[0].campus + "');");
-            if (obj.value[0].division == null) obj.value[0].division = "未知"; else obj.value[0].division = AlreadyKnownThings.Division[obj.value[0].division];
+            if (obj.value[0].division == null)
+                obj.value[0].division = "未知";
+            else
+                obj.value[0].division = AlreadyKnownThings.Division[obj.value[0].division];
             jsBuilder.Append("$('#Idivision').text('" + obj.value[0].division + "');");
-            if (obj.value[0].staff == null) obj.value[0].staff = new Staff { name = "未设置" };
+            if (obj.value[0].staff == null)
+                obj.value[0].staff = new Staff { name = "未设置" };
             jsBuilder.Append("$('#staff').text('" + obj.value[0].staff.name + "');");
-            if (obj.value[0].telephone == null) obj.value[0].telephone = "学校很懒，什么也没有留下……";
+            if (obj.value[0].telephone == null)
+                obj.value[0].telephone = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#telephone').text('" + obj.value[0].telephone + "');");
-            if (obj.value[0].website == null) obj.value[0].website = "学校很懒，什么也没有留下……";
+            if (obj.value[0].website == null)
+                obj.value[0].website = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#website').text('" + obj.value[0].website + "');");
-            if (obj.value[0].introduction == null) obj.value[0].introduction = "学校很懒，什么也没有留下……";
+            if (obj.value[0].introduction == null)
+                obj.value[0].introduction = "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#introduction').text('" + obj.value[0].introduction + "');");
             Evaluate(jsBuilder.ToString());
         }
+
         public void Parse() { }
     }
 }

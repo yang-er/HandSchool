@@ -301,9 +301,16 @@ namespace HandSchool.Internal
                 sb.Append(Raw);
             }
 
-            public static explicit operator RawHtml(string value)
+            public static RawHtml operator +(RawHtml a, string b)
             {
-                return new RawHtml { Raw = value };
+                a.Raw += b;
+                return a;
+            }
+
+            public static RawHtml operator +(string a, RawHtml b)
+            {
+                b.Raw = a + b.Raw;
+                return b;
             }
         }
 

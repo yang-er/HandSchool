@@ -72,12 +72,18 @@ namespace HandSchool.JLU.InfoQuery
             {
                 Children =
                 {
-                    (RawHtml) "<p>本功能可以帮助你完成评教。蓝色代表可以评价，黄色代表需要手动登录网页评价，绿色代表评价完成。</p>",
-                    (RawHtml) ("<table class=\"table\" id=\"evalItemList\"><tr><th>教师</th><th>学院</th>" + (Core.RuntimePlatform == "UWP" ? "<th>教学任务</th>" : "") + "</tr></table>")
+                    "<p class=\"mt-4\">本功能可以帮助你完成评教。蓝色代表可以评价，黄色代表需要手动登录网页评价，绿色代表评价完成。</p>".ToRawHtml(),
+                    "<table class=\"table\" id=\"evalItemList\">" +
+                    "<tr><th>教师</th><th>学院</th>" + 
+                    Core.OnPlatform("", "", "<th>教学任务</th>") + 
+                    "</tr></table>".ToRawHtml()
                 },
                 JavaScript =
                 {
-                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}, term = {Core.App.Service.AttachInfomation["term"]}; var list = []; var i = 0, len = 0; var uwp = {(Core.RuntimePlatform == "UWP" ? "true" : "false")};",
+                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}, " +
+                    $"term = {Core.App.Service.AttachInfomation["term"]}; " +
+                    $"var list = []; var i = 0, len = 0; " +
+                    $"var uwp = {(Core.RuntimePlatform == "UWP" ? "true" : "false")};",
                     HotfixAttribute.ReadContent(this) ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
                 }
             };

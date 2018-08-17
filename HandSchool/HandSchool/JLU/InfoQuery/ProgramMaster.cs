@@ -37,7 +37,7 @@ namespace HandSchool.JLU.InfoQuery
                 sb.Append($"<option value=\"{opt.Id}\">{opt.Opt} - {opt.Name}</option>");
             }
             sb.Append("</select>");
-            var sch = (RawHtml)sb.ToString();
+            var sch = sb.ToRawHtml();
             sb.Clear();
 
             sb.Append("<select class=\"form-control\" id=\"batch\">");
@@ -46,7 +46,7 @@ namespace HandSchool.JLU.InfoQuery
                 sb.Append($"<option value=\"{opt}\">{opt}版</option>");
             }
             sb.Append("</select>");
-            var btch = (RawHtml)sb.ToString();
+            var btch = sb.ToRawHtml();
             sb.Clear();
 
             sb.Append("<select class=\"form-control\" id=\"progId\">");
@@ -54,7 +54,7 @@ namespace HandSchool.JLU.InfoQuery
             sb.Append("<option value=\"413\">软件工程(软件学院)2013版培养计划</option>");
             sb.Append("<option value=\"489\">工科试验班(软件工程)2013版培养计划</option>");
             sb.Append("</select>");
-            var prog = (RawHtml)sb.ToString();
+            var prog = sb.ToRawHtml();
             sb.Clear();
 
             HtmlDocument = new Bootstrap
@@ -67,24 +67,25 @@ namespace HandSchool.JLU.InfoQuery
                         {
                             Children =
                             {
-                                new FormGroup { Children = { sch } },
-                                new FormGroup { Children = { btch } },
-                                new FormGroup { Children = { prog } },
+                                sch.WrapFormGroup(),
+                                btch.WrapFormGroup(),
+                                prog.WrapFormGroup(),
                             }
                         },
                         Children =
                         {
-                            (RawHtml) "<table class=\"table table-responsive\"><thead><tr>",
-                            (RawHtml) ( "<th scope=\"col\" style=\"min-width:15em\">课程名称</th>" +
-                                        "<th scope=\"col\" style=\"min-width:8em\">课程代码</th>" +
-                                        "<th scope=\"col\" style=\"min-width:6em\">课程性质</th>" +
-                                        "<th scope=\"col\" style=\"min-width:6em\">建议学年</th>" +
-                                        "<th scope=\"col\" style=\"min-width:6em\">建议学期</th>" +
-                                        "<th scope=\"col\" style=\"min-width:15em\">开课学院</th>" +
-                                        "<th scope=\"col\" style=\"min-width:6em\">课程学分</th>" +
-                                        "<th scope=\"col\" style=\"min-width:7.5em\">课程总学时</th>" +
-                                        "<th scope=\"col\" style=\"min-width:7.5em\">内实践学时</th>"),
-                            (RawHtml) "</tr></thead><tbody id=\"progList\"><tr><td colspan=\"9\">请先选择一个教学计划</td></tr></tbody></table>"
+                            "<table class=\"table table-responsive\"><thead><tr>" +
+                            "<th scope=\"col\" style=\"min-width:15em\">课程名称</th>" +
+                            "<th scope=\"col\" style=\"min-width:8em\">课程代码</th>" +
+                            "<th scope=\"col\" style=\"min-width:6em\">课程性质</th>" +
+                            "<th scope=\"col\" style=\"min-width:6em\">建议学年</th>" +
+                            "<th scope=\"col\" style=\"min-width:6em\">建议学期</th>" +
+                            "<th scope=\"col\" style=\"min-width:15em\">开课学院</th>" +
+                            "<th scope=\"col\" style=\"min-width:6em\">课程学分</th>" +
+                            "<th scope=\"col\" style=\"min-width:7.5em\">课程总学时</th>" +
+                            "<th scope=\"col\" style=\"min-width:7.5em\">内实践学时</th>" +
+                            "</tr></thead><tbody id=\"progList\"><tr><td colspan=\"9\">" +
+                            "请先选择一个教学计划</td></tr></tbody></table>".ToRawHtml()
                         }
                     }
                 },
