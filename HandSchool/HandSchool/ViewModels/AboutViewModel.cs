@@ -58,8 +58,8 @@ namespace HandSchool.ViewModels
             {
                 Children =
                 {
-                    "<a href=\"https://github.com/yang-er\" target=\"_blank\">Github @ yang-er</a>",
-                    "<a href=\"https://github.com/miasakachenmo\" target=\"_blank\">Github @ miasakachenmo</a>"
+                    "<a href=\"https://github.com/yang-er\" target=\"_blank\">GitHub@yang-er</a>",
+                    "<a href=\"https://github.com/miasakachenmo\" target=\"_blank\">GitHub@miasakachenmo</a>"
                 }
             };
 
@@ -75,25 +75,22 @@ namespace HandSchool.ViewModels
             {
                 Children =
                 {
-                    /*
-                    (RawHtml) $"<hgroup class=\"mt-3\"><h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2><h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Core.RuntimePlatform} v{Core.Version}</h5></hgroup>",
-                    (RawHtml) "<p>一个致力于将各个学校不同的教务系统整合成一个手机app的项目。</p>",
-                    (RawHtml) "<h4>适配模式</h4>",
-                    (RawHtml) "<p>利用C#和Xamarin.Forms编写，可以运行在 UWP、Andorid、iOS 等平台上。<br>",
-                    (RawHtml) "目前已经支持 UWP (1803+)、Android (5.0+)，iOS缺少适配，但是可以基本运行。<br>",
-                    (RawHtml) "学校的接口是全部实现Interface，保证了可以更换学校的文档。<br>",
-                    (RawHtml) "有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView</p>",
-                    (RawHtml) "<h4>贡献</h4>",
-                    (RawHtml) "<h5>设计与适配</h5>",
+                    "<hgroup class=\"mt-3\">" +
+                    "<h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2>" +
+                    $"<h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Core.RuntimePlatform} v{Core.Version}</h5>" +
+                    "</hgroup>".ToRawHtml(),
+                    "<p>一个致力于将各个学校不同的教务系统整合成一个手机app的项目。</p>".ToRawHtml(),
+                    "<h4>适配模式</h4>".ToRawHtml(),
+                    "<p>利用C#和Xamarin.Forms编写，可以运行在 UWP、Andorid、iOS 等平台上。<br>目前已经支持 UWP (1803+)、Android (5.0+)，iOS（10.0+）。<br>学校的接口是全部实现Interface，保证了可以更换学校的文档。<br>有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView</p>".ToRawHtml(),
+                    "<h4>贡献</h4>".ToRawHtml(),
+                    "<h5>设计与适配</h5>".ToRawHtml(),
                     Developers,
-                    (RawHtml) "<h5>支持的学校</h5>",
+                    "<h5>支持的学校</h5>".ToRawHtml(),
                     SupportedSchool,
-                    (RawHtml) "<h5>文档资料</h5>",
+                    "<h5>文档资料</h5>".ToRawHtml(),
                     Documents,
-                    (RawHtml) "<h4>开放源代码</h4>",
-                    (RawHtml) "<p class=\"mb-3\">采用GPLv2协议，<a href=\"https://github.com/yang-er/HandSchool\" target=\"_blank\">查看源代码</a>。<br>",
-                    (RawHtml) "欢迎Pull Request，反馈bug！</p>",
-                    */
+                    "<h4>开放源代码</h4>".ToRawHtml(),
+                    "<p class=\"mb-3\">采用GPLv2协议，<a href=\"https://github.com/yang-er/HandSchool\" target=\"_blank\">查看源代码</a>。<br>欢迎Pull Request，反馈bug！</p>".ToRawHtml(),
                 },
                 Css = "*{-ms-user-select:none;-webkit-user-select:none;user-select:none;}"
             };
