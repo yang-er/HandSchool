@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dip"
+    android:padding="1dip"
+    android:layout_height="45dip"
+>
+    <TextView
+        android:id="@+id/class1"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textSize="9sp" />
+</FrameLayout>
+    

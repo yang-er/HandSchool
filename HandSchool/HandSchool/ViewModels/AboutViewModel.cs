@@ -75,6 +75,7 @@ namespace HandSchool.ViewModels
             {
                 Children =
                 {
+                    /*
                     (RawHtml) $"<hgroup class=\"mt-3\"><h2>掌上校园 <span onclick=\"invokeCSharpAction('shop')\">#</span></h2><h5 onclick=\"invokeCSharpAction('test')\">HandSchool.{Core.RuntimePlatform} v{Core.Version}</h5></hgroup>",
                     (RawHtml) "<p>一个致力于将各个学校不同的教务系统整合成一个手机app的项目。</p>",
                     (RawHtml) "<h4>适配模式</h4>",
@@ -92,6 +93,7 @@ namespace HandSchool.ViewModels
                     (RawHtml) "<h4>开放源代码</h4>",
                     (RawHtml) "<p class=\"mb-3\">采用GPLv2协议，<a href=\"https://github.com/yang-er/HandSchool\" target=\"_blank\">查看源代码</a>。<br>",
                     (RawHtml) "欢迎Pull Request，反馈bug！</p>",
+                    */
                 },
                 Css = "*{-ms-user-select:none;-webkit-user-select:none;user-select:none;}"
             };

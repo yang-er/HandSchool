@@ -17,7 +17,7 @@ namespace HandSchool.Droid
     class ClassTableWidgetFactory : Java.Lang.Object, RemoteViewsService.IRemoteViewsFactory
     {
         //Colors From https://blog.csdn.net/zhang_hui_cs/article/details/7459414
-        static readonly Color[] ClassColors = {
+        public static readonly Color[] ClassColors = {
             new Color(250,249,222),
             new Color(255, 242, 226),
             new Color(253, 230, 224),
@@ -86,6 +86,7 @@ namespace HandSchool.Droid
             position -= 7;
             */
             Remote = new RemoteViews(MyContext.PackageName, Resource.Layout.classtableitem);
+            Remote = new RemoteViews(MyContext.PackageName, Resource.Id.ClassGrid);
             //FrameLayout frame = new FrameLayout(MyContext);
             if (items[position %7, position/7]!=null)
             {
@@ -100,7 +101,11 @@ namespace HandSchool.Droid
                 Remote.SetTextViewText(Resource.Id.ClassTableText,"    ");
                 Color color = Android.Graphics.Color.White;
                 color.A = 30;
+                TextView a = new TextView(MainActivity.ActivityContext);
                 Remote.SetInt(Resource.Id.ClassTableText, "setBackgroundColor", color);
+                if(position==1)
+                    Remote.SetInt(Resource.Id.ClassTableText, "setHeight", 10);
+
             }
                 
             return Remote;
