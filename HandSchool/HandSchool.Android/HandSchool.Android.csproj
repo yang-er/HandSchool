@@ -204,9 +204,12 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\singleclassitem_1.axml">
+    <AndroidResource Include="Resources\layout\classindex.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\singleclassitem_1.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_2.axml" />

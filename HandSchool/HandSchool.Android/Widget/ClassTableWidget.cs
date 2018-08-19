@@ -99,8 +99,11 @@ namespace HandSchool.Droid
 
 
             RenderItems();
+            RemoteViews ClassIndex = new RemoteViews(context.PackageName, Resource.Layout.classindex);
             RemoteViews remoteViews = new RemoteViews(context.PackageName, Resource.Layout.classtablewidget);
+            
             remoteViews.RemoveAllViews(Resource.Id.ClassGrid);
+            remoteViews.AddView(Resource.Id.ClassGrid, ClassIndex);
             for (int i = 0; i < 7; i++)
             {
                 RemoteViews SingleLine = new RemoteViews(context.PackageName, Resource.Layout.SingleLine);
@@ -123,7 +126,7 @@ namespace HandSchool.Droid
                         int LayoutId = (int)typeof(Resource.Layout).GetField("singleclassitem_" + Period.ToString()).GetRawConstantValue();
                         int ViewId = (int)typeof(Resource.Id).GetField("class" + Period.ToString()).GetRawConstantValue();
                         RemoteViews AddView = new RemoteViews(context.PackageName, LayoutId);
-                        AddView.SetTextViewText(ViewId, items[i, j].Name + items[i, j].Classroom);
+                        AddView.SetTextViewText(ViewId, items[i, j].Name +"\n"+ items[i, j].Classroom);
                         Color color = ClassColors[items[i, j].Name[0] % 10];
                         color.A = 95;
 

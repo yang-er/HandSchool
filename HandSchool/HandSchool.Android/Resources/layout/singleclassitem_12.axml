@@ -8,6 +8,7 @@
     <TextView
         android:id="@+id/class12"
         android:gravity="center"
+        android:padding="1dip"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:textSize="9sp" />
