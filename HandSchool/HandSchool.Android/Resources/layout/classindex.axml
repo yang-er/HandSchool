@@ -9,66 +9,77 @@
         android:text="1"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="2"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="3"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="4"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="5"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="6"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="7"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="8"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="9"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="10"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
     <TextView
         android:text="11"
         android:textSize="9sp"
         android:gravity="center"
-        android:layout_height="46dip"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:layout_width="fill_parent" />
 </LinearLayout>

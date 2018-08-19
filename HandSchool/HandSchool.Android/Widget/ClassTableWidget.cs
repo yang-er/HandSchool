@@ -107,16 +107,25 @@ namespace HandSchool.Droid
             for (int i = 0; i < 7; i++)
             {
                 RemoteViews SingleLine = new RemoteViews(context.PackageName, Resource.Layout.SingleLine);
+                int AlreadyFillBlanks = 0;
                 for (int j = 0; j < 11; j++)
                 {
                     if (items[i, j] == null)
                     {
-                        continue;
+                        if (AlreadyFillBlanks == 11)
+                            continue;
+                        int Period = 11 - AlreadyFillBlanks;
+
+                        int LayoutId = (int)typeof(Resource.Layout).GetField("singleclassitem_" + Period.ToString()).GetRawConstantValue();
+                        RemoteViews AddView = new RemoteViews(context.PackageName, LayoutId);
+                        SingleLine.AddView(Resource.Id.singleline, AddView);
+                        AlreadyFillBlanks += Period;
                     }
                     else if (items[i, j].Name == "")
                     {
                         int Period = items[i, j].DayEnd - items[i, j].DayBegin + 1;
                         int LayoutId = (int)typeof(Resource.Layout).GetField("singleclassitem_" + Period.ToString()).GetRawConstantValue();
+                        AlreadyFillBlanks += Period;
                         RemoteViews AddView = new RemoteViews(context.PackageName, LayoutId);
                         SingleLine.AddView(Resource.Id.singleline, AddView);
                     }
@@ -129,12 +138,13 @@ namespace HandSchool.Droid
                         AddView.SetTextViewText(ViewId, items[i, j].Name +"\n"+ items[i, j].Classroom);
                         Color color = ClassColors[items[i, j].Name[0] % 10];
                         color.A = 95;
-
+                        AlreadyFillBlanks += Period;
                         AddView.SetInt(ViewId, "setBackgroundColor", color);
                         SingleLine.AddView(Resource.Id.singleline, AddView);
 
                     }
                 }
+                AlreadyFillBlanks = 0;
                 remoteViews.AddView(Resource.Id.ClassGrid, SingleLine);
             }
                 
