@@ -61,7 +61,6 @@ namespace HandSchool.Models
         {
             get
             {
-                System.Diagnostics.Debug.Assert(Core.RuntimePlatform == "Android", "Others do not use this function");
                 return _destpg ?? (_destpg = new NavigationPage(CorePage)
                 {
                     Title = title,
