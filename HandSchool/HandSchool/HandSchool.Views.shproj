@@ -8,4 +8,27 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <Import Project="HandSchool.Views.projitems" Label="Shared" />
+  <ItemGroup>
+    <None Include="..\CommonAssets\bootstrap.css">
+      <Link>WebWrapper\bootstrap.css</Link>
+    </None>
+    <None Include="..\CommonAssets\bootstrap.bundle.js">
+      <Link>WebWrapper\bootstrap.bundle.js</Link>
+    </None>
+    <None Include="..\CommonAssets\jquery.js">
+      <Link>WebWrapper\jquery.js</Link>
+    </None>
+    <None Include="..\CommonAssets\popper.js">
+      <Link>WebWrapper\popper.js</Link>
+    </None>
+    <None Include="..\CommonAssets\json.js">
+      <Link>WebWrapper\json.js</Link>
+    </None>
+    <None Include="..\CommonAssets\privacy.html">
+      <Link>WebWrapper\privacy.html</Link>
+    </None>
+    <None Include="..\CommonAssets\license.html">
+      <Link>WebWrapper\license.html</Link>
+    </None>
+  </ItemGroup>
 </Project>
