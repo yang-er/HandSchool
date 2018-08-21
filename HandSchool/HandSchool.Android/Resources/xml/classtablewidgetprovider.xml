@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-	android:minWidth="70dip"
-	android:minHeight="70dip"
+	android:minWidth="280dip"
+	android:minHeight="280dip"
 	android:resizeMode="horizontal|vertical"
 	android:initialLayout="@layout/classtablewidget"
 	android:previewImage="@drawable/previewImage"

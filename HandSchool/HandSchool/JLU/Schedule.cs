@@ -21,6 +21,7 @@ namespace HandSchool.JLU
 
         public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
         {
+            if (week == 0) week = 1;
             list = Items.FindAll((item) => showAll || item.IfShow(week));
         }
 

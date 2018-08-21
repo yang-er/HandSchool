@@ -2,6 +2,7 @@
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace HandSchool
@@ -77,6 +78,8 @@ namespace HandSchool
         public static string RuntimePlatform => "iOS";
 #elif __ANDROID__
         public static string RuntimePlatform => "Android";
+#elif __MOCKS__
+        public static string RuntimePlatform => "UnitTest";
 #endif
 
         /// <summary>
@@ -87,6 +90,8 @@ namespace HandSchool
 #elif __IOS__
         public static T OnPlatform<T>(T android, T ios, T uwp) => ios;
 #elif __ANDROID__
+        public static T OnPlatform<T>(T android, T ios, T uwp) => android;
+#elif __MOCKS__
         public static T OnPlatform<T>(T android, T ios, T uwp) => android;
 #endif
 
@@ -107,6 +112,8 @@ namespace HandSchool
             ConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library");
 #elif __ANDROID__
             ConfigDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+#elif __MOCKS__
+            ConfigDirectory = Path.Combine(Environment.CurrentDirectory, "log");
 #endif
 
             var type = ReadConfig("hs.school.bin");
@@ -150,8 +157,39 @@ namespace HandSchool
             File.WriteAllText(Path.Combine(ConfigDirectory, name), value);
         }
 
+        /// <summary>
+        /// 调试阶段的断言
+        /// </summary>
+        /// <param name="cond">条件</param>
+        /// <param name="val">断言内容</param>
+        public static void Assert(bool cond, string val)
+        {
+#if DEBUG
+            if (cond) throw new Exception(val);
+#endif
+        }
+
+        /// <summary>
+        /// 写入调试信息
+        /// </summary>
+        /// <param name="output">内容</param>
+        public static void Log(string output)
+        {
+            Debug.WriteLine(output);
+        }
+
+        /// <summary>
+        /// 写入调试信息
+        /// </summary>
+        /// <param name="format">格式</param>
+        /// <param name="param">参数</param>
+        public static void Log(string format, params object[] param)
+        {
+            Debug.WriteLine(format, param);
+        }
+
         private Core() { }
 
-        #endregion
+#endregion
     }
 }

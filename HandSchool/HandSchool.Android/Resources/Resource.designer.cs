@@ -5686,10 +5686,7 @@ namespace HandSchool.Droid
 		{
 			
 			// aapt resource value: 0x7f070000
-			public const int appwidgetprovider = 2131165184;
-			
-			// aapt resource value: 0x7f070001
-			public const int classtablewidgetprovider = 2131165185;
+			public const int classtablewidgetprovider = 2131165184;
 			
 			static Xml()
 			{
