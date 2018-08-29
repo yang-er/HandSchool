@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <AndroidKeyStore>false</AndroidKeyStore>
     <AndroidSigningKeyStore>G:\tlylz99.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>***REMOVED***</AndroidSigningStorePass>
