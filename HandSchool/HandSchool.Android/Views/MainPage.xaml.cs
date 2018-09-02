@@ -41,8 +41,8 @@ namespace HandSchool.Views
 
         public void FinishSettings()
         {
-            SetOutline();
             NavigationViewModel.Instance.FetchOptions();
+            SetOutline();
             Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
             Core.App.Service.RequestLogin();
         }
