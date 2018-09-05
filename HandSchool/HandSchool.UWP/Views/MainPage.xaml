@@ -32,5 +32,6 @@
             </Frame>
         </NavigationView>
 
+        <Border Height="48" Margin="96,0,96,0" VerticalAlignment="Top" x:Name="titleBarBack" Background="Transparent" />
     </Grid>
 </Page>
