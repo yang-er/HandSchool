@@ -333,9 +333,11 @@ namespace HandSchool.Internal
                 sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><style>{Css}</style><title>{Title}</title></head>");
                 sb.Append($"<body class=\"{Core.RuntimePlatform}\"><div class=\"container-fluid\">");
                 Children.ForEach((obj) => obj.ToHtml(sb));
-                sb.Append("</div><script src=\"jquery.js\"></script><script src=\"popper.js\">");
-                sb.Append("</script><script src=\"json.js\"></script><script src=\"bootstrap.bundle.js\"></script>");
+                sb.Append("</div><script src=\"jquery.js\"></script>");
                 JavaScript.ForEach((obj) => sb.Append("<script>" + obj + "</script>"));
+#if __ANDROID__
+                sb.Append("<script>function invokeCSharpAction(data){jsBridge.invokeAction(data);}</script>");
+#endif
                 sb.Append("</body></html>");
             }
         }

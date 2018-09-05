@@ -167,17 +167,8 @@
     <AndroidAsset Include="..\CommonAssets\bootstrap.css">
       <Link>Assets\bootstrap.css</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\CommonAssets\bootstrap.bundle.js">
-      <Link>Assets\bootstrap.bundle.js</Link>
-    </AndroidAsset>
     <AndroidAsset Include="..\CommonAssets\jquery.js">
       <Link>Assets\jquery.js</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\CommonAssets\popper.js">
-      <Link>Assets\popper.js</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\CommonAssets\json.js">
-      <Link>Assets\json.js</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\CommonAssets\privacy.html">
       <Link>Assets\privacy.html</Link>

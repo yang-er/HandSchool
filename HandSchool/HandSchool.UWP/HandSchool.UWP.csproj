@@ -172,20 +172,11 @@
   <ItemGroup>
     <None Include="HandSchool.UWP_StoreKey.pfx" />
     <None Include="Package.xml" />
-    <Content Include="..\CommonAssets\bootstrap.bundle.js">
-      <Link>WebWrapper\bootstrap.bundle.js</Link>
-    </Content>
     <Content Include="..\CommonAssets\bootstrap.css">
       <Link>WebWrapper\bootstrap.css</Link>
     </Content>
     <Content Include="..\CommonAssets\jquery.js">
       <Link>WebWrapper\jquery.js</Link>
-    </Content>
-    <Content Include="..\CommonAssets\json.js">
-      <Link>WebWrapper\json.js</Link>
-    </Content>
-    <Content Include="..\CommonAssets\popper.js">
-      <Link>WebWrapper\popper.js</Link>
     </Content>
     <Content Include="..\CommonAssets\privacy.html">
       <Link>WebWrapper\privacy.html</Link>

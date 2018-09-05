@@ -49,7 +49,7 @@ namespace HandSchool.Droid
                     Control.LoadUrl(string.Format("file:///android_asset/{0}", Element.Uri));
                 }
 
-                InjectJS(JavaScriptFunction);
+                // InjectJS(JavaScriptFunction);
                 Element.JavaScriptRequested += EvalJS;
             }
         }

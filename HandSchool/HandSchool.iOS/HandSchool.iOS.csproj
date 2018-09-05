@@ -169,17 +169,8 @@
     <BundleResource Include="..\CommonAssets\bootstrap.css">
       <Link>Resources\WebWrapper\bootstrap.css</Link>
     </BundleResource>
-    <BundleResource Include="..\CommonAssets\bootstrap.bundle.js">
-      <Link>Resources\WebWrapper\bootstrap.bundle.js</Link>
-    </BundleResource>
     <BundleResource Include="..\CommonAssets\jquery.js">
       <Link>Resources\WebWrapper\jquery.js</Link>
-    </BundleResource>
-    <BundleResource Include="..\CommonAssets\popper.js">
-      <Link>Resources\WebWrapper\popper.js</Link>
-    </BundleResource>
-    <BundleResource Include="..\CommonAssets\json.js">
-      <Link>Resources\WebWrapper\json.js</Link>
     </BundleResource>
     <BundleResource Include="..\CommonAssets\privacy.html">
       <Link>Resources\WebWrapper\privacy.html</Link>
