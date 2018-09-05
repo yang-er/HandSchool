@@ -37,6 +37,7 @@ namespace HandSchool.JLU
             InfoList.Add(new InfoEntranceWrapper(typeof(CollegeIntroduce)));
             InfoList.Add(new InfoEntranceWrapper(typeof(ProgramMaster)));
             InfoList.Add(new InfoEntranceWrapper(typeof(ClassSchedule)));
+            InfoList.Add(new InfoEntranceWrapper(typeof(SelectCourse)));
             Core.App.InfoEntrances.Add(InfoList);
         }
 

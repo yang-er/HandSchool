@@ -8972,4 +8972,6 @@ a.text-dark:hover, a.text-dark:focus {
     border: 1px solid #ddd !important;
   }
 }
+
+.linked-a { color: #004baa !important; cursor: hand; }
 /*# sourceMappingURL=bootstrap.css.map */

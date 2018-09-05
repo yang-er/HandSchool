@@ -87,17 +87,17 @@ namespace HandSchool.JLU.InfoQuery
                         },
                         Children =
                         {
+                            "<table class=\"table table-responsive\" id=\"lessonIdP\"><thead><tr>" +
+                            "<th scope=\"col\" style=\"min-width:15em\">上课时间地点</th>" +
+                            "<th scope=\"col\" style=\"min-width:6em\">任课教师</th>" +
+                            "<th scope=\"col\" style=\"min-width:6em\">选课人数</th>" +
+                            "</tr></thead><tbody id=\"lessonId\"></tbody></table>" +
                             "<table class=\"table table-responsive\"><thead><tr>" +
                             "<th scope=\"col\" style=\"min-width:17em\">课程名称</th>" +
                             "<th scope=\"col\" style=\"min-width:8em\">课程代码</th>" +
                             "<th scope=\"col\" style=\"min-width:7em\">类别</th>" +
                             "<th scope=\"col\" style=\"min-width:9em\">课程负责人</th>" +
-                            "</tr></thead><tbody id=\"lessonList\"></tbody></table>" +
-                            "<table class=\"table table-responsive\" id=\"lessonIdP\"><thead><tr>" +
-                            "<th scope=\"col\" style=\"min-width:15em\">上课时间地点</th>" +
-                            "<th scope=\"col\" style=\"min-width:6em\">任课教师</th>" +
-                            "<th scope=\"col\" style=\"min-width:6em\">选课人数</th>" +
-                            "</tr></thead><tbody id=\"lessonId\"></tbody></table>".ToRawHtml()
+                            "</tr></thead><tbody id=\"lessonList\"></tbody></table>".ToRawHtml()
                         }
                     }
                 },
@@ -106,11 +106,7 @@ namespace HandSchool.JLU.InfoQuery
                     "$('#schId').on('change',function(){invokeCSharpAction('schId='+$(this).val())});",
                     "$('#tcmType').on('change',function(){invokeCSharpAction('tcmType='+$(this).val())});",
                     "$('#termId').on('change',function(){invokeCSharpAction('termId='+$(this).val())});",
-                    "function showDetail(obj,v){" +
-                        "$('#lessonList .table-primary').removeClass('table-primary');" +
-                        "$(obj).addClass('table-primary');" +
-                        "invokeCSharpAction('lessonId='+v);" +
-                    "};",
+                    "function showDetail(v){invokeCSharpAction('lessonId='+v)};",
                     "$(function(){$('#schId').val('101')});"
                 }
             };
@@ -132,7 +128,7 @@ namespace HandSchool.JLU.InfoQuery
                 foreach (var opt in lists.value)
                 {
                     sb.Append(
-                        $"<tr><td><a href=\"javascript:showDetail(this,{opt.lessonId})\">{opt.courseInfo.courName}</a></td>" +
+                        $"<tr><td><a class=\"linked-a\" onclick=\"showDetail({opt.lessonId})\">{opt.courseInfo.courName}</a></td>" +
                         $"<td>{opt.courseInfo.extCourseNo}</td><td>" +
                         (opt.extLessonNo.EndsWith("-cx") ? "重修" : AlreadyKnownThings.Type5Name(opt.courseInfo.type5)) +
                         $"</td><td>{opt.leader.name}</td></tr>");
