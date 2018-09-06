@@ -42,8 +42,17 @@ namespace HandSchool.iOS
             {
                 if (Element.Html == "" || Element.Html is null)
                 {
-                    string fileName = Element.Uri.Contains("://") ? Element.Uri : Path.Combine(NSBundle.MainBundle.BundlePath, string.Format("WebWrapper/{0}", Element.Uri));
-                    Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName, false)));
+                    if (Element.Uri.Contains("://"))
+                    {
+                        string fileName = Element.Uri;
+                        Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName)));
+                        Control.NavigationDelegate = new NavigationDelegate();
+                    }
+                    else
+                    {
+                        string fileName = Path.Combine(NSBundle.MainBundle.BundlePath, "WebWrapper", Element.Uri);
+                        Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName, false)));
+                    }
                 }
                 else
                 {
@@ -59,6 +68,11 @@ namespace HandSchool.iOS
         public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
         {
             Element.InvokeAction(message.Body as NSString);
+        }
+
+        class NavigationDelegate : WKNavigationDelegate
+        {
+            // override 
         }
     }
 }
