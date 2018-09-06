@@ -1,6 +1,8 @@
 ﻿using Foundation;
 using HandSchool.iOS;
 using HandSchool.Views;
+using ObjCRuntime;
+using System;
 using System.IO;
 using WebKit;
 using Xamarin.Forms;
@@ -45,8 +47,8 @@ namespace HandSchool.iOS
                     if (Element.Uri.Contains("://"))
                     {
                         string fileName = Element.Uri;
+                        Control.WeakNavigationDelegate = new NavigationDelegate(e.NewElement);
                         Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName)));
-                        Control.NavigationDelegate = new NavigationDelegate();
                     }
                     else
                     {
@@ -72,7 +74,33 @@ namespace HandSchool.iOS
 
         class NavigationDelegate : WKNavigationDelegate
         {
-            // override 
+            WeakReference<HybridWebView> inner;
+
+            public NavigationDelegate(HybridWebView target)
+            {
+                inner = new WeakReference<HybridWebView>(target);
+            }
+
+            public override void DecidePolicy(WKWebView webView, WKNavigationAction navigationAction, Action<WKNavigationActionPolicy> decisionHandler)
+            {
+                if (inner.TryGetTarget(out var target))
+                {
+                    var nav2 = navigationAction.Request.Url.AbsoluteString;
+                    if (navigationAction.NavigationType == WKNavigationType.Other)
+                    {
+                        decisionHandler(WKNavigationActionPolicy.Allow);
+                    }
+                    else
+                    {
+                        decisionHandler(WKNavigationActionPolicy.Cancel);
+                        target.RaiseSubUrlRequest(nav2);
+                    }
+                }
+                else
+                {
+                    decisionHandler(WKNavigationActionPolicy.Allow);
+                }
+            }
         }
     }
 }
