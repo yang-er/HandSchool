@@ -31,12 +31,21 @@ namespace HandSchool.Views
             else if (entrance is IUrlEntrance iu)
             {
                 WebView.Uri = iu.HtmlUrl;
+                WebView.SubUrlRequested += OnSubUrlRequested;
             }
 
             foreach (var key in InfoEntrance.Menu)
                 ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
             entrance.Evaluate = WebView.JavaScript;
             WebView.RegisterAction(entrance.Receive);
+        }
+
+        protected virtual void OnSubUrlRequested(string req)
+        {
+            if (InfoEntrance is IUrlEntrance iu)
+            {
+                new WebViewPage(iu.SubUrlRequested(req)).ShowAsync(Navigation);
+            }
         }
 
         public WebViewPage(AboutViewModel viewModel)

@@ -155,6 +155,7 @@ namespace HandSchool.ViewModels
             public Action<string> Evaluate { get; set; }
             public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
             public void Receive(string data) { }
+            public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
 
         [Entrance("开放源代码许可", "提供关于本程序开源许可证的一些说明。", EntranceType.UrlEntrance)]
@@ -165,6 +166,7 @@ namespace HandSchool.ViewModels
             public Action<string> Evaluate { get; set; }
             public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
             public void Receive(string data) { }
+            public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
     }
 }

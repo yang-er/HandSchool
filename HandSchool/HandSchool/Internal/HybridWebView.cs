@@ -59,6 +59,20 @@ namespace HandSchool.Views
         public event Action<string> JavaScriptRequested;
 
         /// <summary>
+        /// 请求子网页的事件
+        /// </summary>
+        public event Action<string> SubUrlRequested;
+
+        /// <summary>
+        /// 触发请求子网页
+        /// </summary>
+        /// <param name="sub">子网页地址</param>
+        public void RaiseSubUrlRequest(string sub)
+        {
+            SubUrlRequested?.Invoke(sub);
+        }
+
+        /// <summary>
         /// 执行JavaScript
         /// </summary>
         /// <param name="str">JS代码</param>
