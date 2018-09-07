@@ -57,7 +57,7 @@ namespace HandSchool.JLU.InfoQuery
                     "<p class=\"mt-3\">目前选课：<span id=\"splanName\">未知</span></p>" +
 
                     "<table class=\"table table-responsive\">" +
-                    "<thead><tr><th style=\"min-width:3.5em\">状态</th><th style=\"min-width:14em\">课程</th>" +
+                    "<thead><tr><th style=\"min-width:4em\">状态</th><th style=\"min-width:14em\">课程</th>" +
                     "<th style=\"min-width:5em\">类型</th></tr></thead><tbody id=\"courList\">" +
                     "</tbody></table>" +
 
