@@ -53,6 +53,15 @@ namespace HandSchool.Views
             else if (InfoEntrance is IUrlEntrance urle)
             {
                 WebView.Url = urle.HtmlUrl;
+                WebView.SubUrlRequested += OnSubUrlRequested;
+            }
+        }
+
+        private void OnSubUrlRequested(string url)
+        {
+            if (InfoEntrance is IUrlEntrance iu)
+            {
+                Frame.Navigate(typeof(WebViewPage), iu.SubUrlRequested(url));
             }
         }
     }

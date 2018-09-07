@@ -8974,4 +8974,4 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .linked-a { color: #004baa !important; cursor: hand; }
-/*# sourceMappingURL=bootstrap.css.map */
+body.UWP { padding-left: 0px; padding-right: 0px; }

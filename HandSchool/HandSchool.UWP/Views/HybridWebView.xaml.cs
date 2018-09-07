@@ -12,6 +12,7 @@ namespace HandSchool.Views
         public HybridWebView()
         {
             InitializeComponent();
+            WebView.NavigationStarting += OnWebViewNavigating;
         }
 
         /// <summary>
@@ -45,9 +46,14 @@ namespace HandSchool.Views
         /// </summary>
         public Action<string> Register { get; set; }
 
+        /// <summary>
+        /// 请求子网页的事件
+        /// </summary>
+        public event Action<string> SubUrlRequested;
+        
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            if (Html != string.Empty)
+            if (Html != string.Empty && Html != null)
                 WebView.NavigateToString(Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
             else
                 WebView.Navigate(new Uri(Url));
@@ -65,6 +71,15 @@ namespace HandSchool.Views
         private void OnWebViewScriptNotify(object sender, NotifyEventArgs e)
         {
             Register?.Invoke(e.Value);
+        }
+
+        private void OnWebViewNavigating(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            if (args.Uri.OriginalString != Url)
+            {
+                args.Cancel = true;
+                SubUrlRequested?.Invoke(args.Uri.OriginalString);
+            }
         }
     }
 }
