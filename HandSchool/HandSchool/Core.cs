@@ -67,7 +67,7 @@ namespace HandSchool
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Version => "1.4.9.0";
+        public static string Version => "1.5.11.0";
 
         /// <summary>
         /// 当前软件运行的平台
