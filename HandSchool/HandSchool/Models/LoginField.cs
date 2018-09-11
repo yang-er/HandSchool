@@ -38,6 +38,11 @@ namespace HandSchool.Models
         bool NeedLogin { get; }
 
         /// <summary>
+        /// 表单的名称
+        /// </summary>
+        string FormName { get; }
+
+        /// <summary>
         /// 登录函数
         /// </summary>
         /// <returns>是否登录成功</returns>

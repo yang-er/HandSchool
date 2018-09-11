@@ -16,6 +16,7 @@ namespace HandSchool.Blank
 
         private string feedUrl = "";
         private string weatherLoc = "长春";
+        public string FormName => "";
 
         public BlankSchool()
         {

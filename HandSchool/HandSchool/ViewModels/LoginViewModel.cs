@@ -21,6 +21,7 @@ namespace HandSchool.ViewModels
         private LoginViewModel(ILoginField form)
         {
             Form = form;
+            Title = "登录" + form.FormName;
         }
 
         public static async Task<bool> RequestAsync(ILoginField form)

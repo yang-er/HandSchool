@@ -33,6 +33,7 @@ namespace HandSchool.JLU
         public byte[] CaptchaSource { get; set; }
 
         public string Tips => "校园卡查询密码默认为身份证最后六位数字。";
+        public string FormName => "校园卡服务中心";
         public bool NeedLogin => !_islogin;
         public bool IsLogin { get => _islogin; private set => SetProperty(ref _islogin, value); }
         public bool AutoLogin { get => _autologin; set => SetProperty(ref _autologin, value); }

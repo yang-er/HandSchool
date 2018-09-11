@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="登录教务系统"
+    Title="{x:Bind ViewModel.Title}"
     PrimaryButtonText="登录"
     Closing="ContentDialog_Closing"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"

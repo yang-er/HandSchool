@@ -27,10 +27,12 @@ namespace HandSchool.JLU
         public string Username { get; set; }
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
-        public bool Confrimed { get; set; } = false;
-
+        
         [Settings("提示", "保存使设置永久生效，部分设置重启后生效。", -233)]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
+
+        [Settings("访问选择", "如果您觉得当前网络访问UIMS较慢，可以将服务器地址设置为10.60.65.8并开启SSL连接。", -233)]
+        public string FormName => "UIMS教务管理系统";
 
         private string proxy_server;
         [Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。")]
@@ -281,7 +283,7 @@ namespace HandSchool.JLU
         class SettingsJSON
         {
             public string ProxyServer { get; set; } = "uims.jlu.edu.cn";
-            public bool UseHttps { get; set; } = false;
+            public bool UseHttps { get; set; } = true;
         }
     }
 }
