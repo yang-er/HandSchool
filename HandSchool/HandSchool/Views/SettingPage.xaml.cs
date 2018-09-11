@@ -26,5 +26,11 @@ namespace HandSchool.Views
         {
             (sender as ListView).SelectedItem = null;
         }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            Core.App.Service.AutoLogin = false;
+            Core.App.Service.RequestLogin();
+        }
     }
 }

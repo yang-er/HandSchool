@@ -7,17 +7,23 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="保存" Command="{Binding SaveConfigures}" />
     </ContentPage.ToolbarItems>
-    <ListView ItemsSource="{Binding Items}" HasUnevenRows="True" ItemSelected="ListView_ItemSelected" SelectionMode="None">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Padding="15">
-                        <Label Text="{Binding Title}" FontSize="16" />
-                        <w:ValueCell Wrapper="{Binding .}" Attribute="{Binding AttributeData}" Type="{Binding Type}" />
-                        <Label Text="{Binding Description}" FontSize="13" />
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <StackLayout>
+        <ListView ItemsSource="{Binding Items}" HasUnevenRows="True" ItemSelected="ListView_ItemSelected" SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="15">
+                            <Label Text="{Binding Title}" FontSize="16" />
+                            <w:ValueCell Wrapper="{Binding .}" Attribute="{Binding AttributeData}" Type="{Binding Type}" />
+                            <Label Text="{Binding Description}" FontSize="13" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button
+            Text="退出登陆"
+            Clicked="Button_Clicked"
+            BackgroundColor="WhiteSmoke"/>
+    </StackLayout>
 </w:PopContentPage>
