@@ -11,7 +11,7 @@ namespace HandSchool.JLU
     [Entrance("网上教务")]
     class OA : IFeedEntrance
     {
-        public string ScriptFileUri => "http://oa.52jida.com/feed";
+        public string ScriptFileUri => "https://joj.chinacloudsites.cn/feed.xml";
         public bool IsPost => false;
         public string PostValue => string.Empty;
         public string StorageFile => "jlu.oa.xml";
@@ -38,7 +38,9 @@ namespace HandSchool.JLU
             {
                 LastReport = "";
                 using (var client = new AwaredWebClient("", System.Text.Encoding.UTF8))
-                    LastReport = await client.GetAsync(ScriptFileUri, "application/rss+xml");
+                {
+                    LastReport = await client.GetAsync(ScriptFileUri, "text/xml");
+                }
             }
             catch (WebException ex)
             {

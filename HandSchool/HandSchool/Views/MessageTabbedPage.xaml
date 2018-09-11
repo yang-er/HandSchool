@@ -5,5 +5,5 @@
             Title="消息通知"
             x:Class="HandSchool.Views.MessageTabbedPage">
     <w:FeedPage Title="学校通知" />
-    <w:MessagePage Title="站内消息" />
+    <w:MessagePage Title="站内消息" Appearing="TabbedPage_Appearing" />
 </TabbedPage>

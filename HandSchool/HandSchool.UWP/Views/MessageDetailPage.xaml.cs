@@ -33,7 +33,9 @@ namespace HandSchool.Views
                 Title = feed.Title;
                 Time = "时间：" + feed.PubDate;
                 Sender = "分类：" + feed.Category;
-                Body = feed.Description.Replace(' ', '\n');
+                var desc = feed.Description.Trim();
+                while (desc.Contains("    ")) desc = desc.Replace("    ", "  ");
+                Body = desc;
             }
             else if (e.Parameter is IMessageItem msg)
             {
