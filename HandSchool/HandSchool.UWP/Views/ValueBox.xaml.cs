@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using Windows.UI.Xaml;
@@ -119,7 +120,7 @@ namespace HandSchool.Views
                     break;
 
                 case SettingTypes.Action:
-                    (Parent as Control).Tapped += (s,e) => Wrapper.MethodInfo.CreateDelegate(typeof(Action)).DynamicInvoke();
+                    (Parent as StackPanel).Tapped += (s,e) => Wrapper.MethodInfo.Invoke(Core.App.Service, new object[] { new ViewResponse(null) });
                     break;
 
                 default:

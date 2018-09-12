@@ -16,11 +16,11 @@ namespace HandSchool.JLU
 {
     class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
-        const string config_file = "jlu.config.json";
-        const string config_username = "jlu.uims.username.txt";
-        const string config_password = "jlu.uims.password.txt";
-        const string config_usercache = "jlu.user.json";
-        const string config_teachterm = "jlu.teachingterm.json";
+        internal const string config_file = "jlu.config.json";
+        internal const string config_username = "jlu.uims.username.txt";
+        internal const string config_password = "jlu.uims.password.txt";
+        internal const string config_usercache = "jlu.user.json";
+        internal const string config_teachterm = "jlu.teachingterm.json";
 
         #region Login Information
 
@@ -30,12 +30,11 @@ namespace HandSchool.JLU
         
         [Settings("提示", "保存使设置永久生效，部分设置重启后生效。", -233)]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
-
-        [Settings("访问选择", "如果您觉得当前网络访问UIMS较慢，可以将服务器地址设置为10.60.65.8并开启SSL连接。", -233)]
+        
         public string FormName => "UIMS教务管理系统";
 
         private string proxy_server;
-        [Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。")]
+        [Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。\n如果在JLU.NET等公用WiFi下访问，建议改为 10.60.65.8。")]
         public string ProxyServer
         {
             get => proxy_server;
@@ -48,7 +47,7 @@ namespace HandSchool.JLU
         }
 
         private bool use_https;
-        [Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。")]
+        [Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。连接成功率更高。")]
         public bool UseHttps
         {
             get => use_https;
@@ -112,8 +111,8 @@ namespace HandSchool.JLU
             SettingsJSON config;
             if (lp != "") config = lp.ParseJSON<SettingsJSON>();
             else config = new SettingsJSON();
-            proxy_server = config.ProxyServer;
-            use_https = config.UseHttps;
+            ProxyServer = config.ProxyServer;
+            UseHttps = config.UseHttps;
 
             IsLogin = false;
             NeedLogin = false;
@@ -272,6 +271,28 @@ namespace HandSchool.JLU
         {
             var save = new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https }.Serialize();
             Core.WriteConfig(config_file, save);
+        }
+
+        [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
+        public async void ResetSettings(IViewResponse resp)
+        {
+            if (!await resp.ShowActionSheet("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
+            Core.WriteConfig(config_username, "");
+            Core.WriteConfig(config_password, "");
+            Core.WriteConfig(config_usercache, "");
+            Core.WriteConfig(config_username, "");
+            Core.WriteConfig(OA.config_oa, "");
+            Core.WriteConfig(OA.config_oa_time, "");
+            Core.WriteConfig(Schedule.config_kcb, "");
+            Core.WriteConfig(Schedule.config_kcb_orig, "");
+            Core.WriteConfig(SchoolCard.config_username, "");
+            Core.WriteConfig(SchoolCard.config_password, "");
+            Core.WriteConfig(SchoolCard.config_school, "");
+            Core.WriteConfig(MessageEntrance.config_msgbox, "");
+            Core.WriteConfig(GradeEntrance.config_gpa, "");
+            Core.WriteConfig(GradeEntrance.config_grade, "");
+            Core.WriteConfig("hs.school.bin", "");
+            await resp.ShowMessage("清除数据", "重置应用成功！重启应用后生效。");
         }
 
         public async Task<bool> PrepareLogin()

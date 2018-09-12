@@ -45,6 +45,11 @@ namespace HandSchool.Models
     public sealed class SettingWrapper
     {
         /// <summary>
+        /// 在动作模式时占位
+        /// </summary>
+        public static string ActionPlaceHolder { get; set; } = "";
+
+        /// <summary>
         /// 属性信息
         /// </summary>
         public PropertyInfo Infomation { get; }
@@ -111,6 +116,7 @@ namespace HandSchool.Models
         /// <param name="mInfo">方法信息</param>
         public SettingWrapper(MethodInfo mInfo)
         {
+            Infomation = typeof(SettingWrapper).GetProperty(nameof(ActionPlaceHolder));
             MethodInfo = mInfo;
             AttributeData = mInfo.GetCustomAttribute(typeof(SettingsAttribute)) as SettingsAttribute;
             System.Diagnostics.Debug.Assert(AttributeData != null, "Error setting here.");

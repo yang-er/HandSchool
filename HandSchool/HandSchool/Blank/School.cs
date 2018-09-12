@@ -130,5 +130,14 @@ namespace HandSchool.Blank
             await Task.Run(() => { });
             return true;
         }
+
+        [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
+        public async void ResetSettings(IViewResponse resp)
+        {
+            if (!await resp.ShowActionSheet("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
+            Core.WriteConfig(config_file, "");
+            Core.WriteConfig("hs.school.bin", "");
+            await resp.ShowMessage("重置应用", "重置应用成功！重启应用后生效。");
+        }
     }
 }

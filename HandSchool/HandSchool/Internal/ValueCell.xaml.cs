@@ -1,5 +1,7 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -192,7 +194,7 @@ namespace HandSchool.Views
                     break;
 
                 case SettingTypes.Action:
-                    (Parent.Parent as ViewCell).Tapped += (s, e) => Wrapper.MethodInfo.CreateDelegate(typeof(Action)).DynamicInvoke();
+                    (Parent.Parent as ViewCell).Tapped += (s, e) => Wrapper.MethodInfo.Invoke(Core.App.Service, new object[] { new ViewResponse(NavigationViewModel.Instance.SecondaryItems[0].CorePage) });
                     break;
 
                 default:

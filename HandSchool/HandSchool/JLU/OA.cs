@@ -11,23 +11,25 @@ namespace HandSchool.JLU
     [Entrance("网上教务")]
     class OA : IFeedEntrance
     {
+        internal const string config_oa = "jlu.oa.xml";
+        internal const string config_oa_time = "jlu.oa.xml.time";
         public string ScriptFileUri => "https://joj.chinacloudsites.cn/feed.xml";
         public bool IsPost => false;
         public string PostValue => string.Empty;
-        public string StorageFile => "jlu.oa.xml";
+        public string StorageFile => config_oa;
         public string LastReport { get; private set; } = string.Empty;
         public DateTime LastUpdate { get; private set; }
 
         public OA()
         {
-            var lu = Core.ReadConfig(StorageFile + ".time");
+            var lu = Core.ReadConfig(config_oa_time);
             if (lu == "" || (LastUpdate = DateTime.Parse(lu)).AddHours(1).CompareTo(DateTime.Now) == -1)
             {
                 Task.Run(Execute);
             }
             else
             {
-                LastReport = Core.ReadConfig(StorageFile);
+                LastReport = Core.ReadConfig(config_oa);
                 Parse();
             }
         }
@@ -51,8 +53,8 @@ namespace HandSchool.JLU
 
             if (LastReport == "") return;
             LastReport = LastReport.Substring(LastReport.IndexOf("<?xml ver"));
-            Core.WriteConfig(StorageFile, LastReport);
-            Core.WriteConfig(StorageFile + ".time", DateTime.Now.ToString());
+            Core.WriteConfig(config_oa, LastReport);
+            Core.WriteConfig(config_oa_time, DateTime.Now.ToString());
             Parse();
         }
 

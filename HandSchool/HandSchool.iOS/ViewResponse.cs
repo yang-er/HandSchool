@@ -25,6 +25,11 @@ namespace HandSchool.Internal
             return Binding.DisplayAlert(title, message, button);
         }
 
+        public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
+        {
+            return Binding.DisplayAlert(title, description, accept, cancel);
+        }
+
         public void SetIsBusy(bool value, string tips)
         {
             Binding.IsBusy = value;

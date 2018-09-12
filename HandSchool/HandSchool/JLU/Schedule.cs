@@ -11,11 +11,14 @@ namespace HandSchool.JLU
     [Entrance("课程表")]
     class Schedule : IScheduleEntrance
     {
+        internal const string config_kcb_orig = "jlu.kcb.json";
+        internal const string config_kcb = "jlu.kcb2.json";
+
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string LastReport { get; private set; }
         public List<CurriculumItem> Items { get; }
-        public string StorageFile => "jlu.kcb.json";
+        public string StorageFile => config_kcb_orig;
         public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
         public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
 
@@ -28,7 +31,7 @@ namespace HandSchool.JLU
         public async Task Execute()
         {
             LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            Core.WriteConfig(StorageFile, LastReport);
+            Core.WriteConfig(config_kcb_orig, LastReport);
             Parse();
             Save();
         }
@@ -125,7 +128,7 @@ namespace HandSchool.JLU
         public void Save()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.WriteConfig("jlu.kcb2.json", Items.Serialize());
+            Core.WriteConfig(config_kcb, Items.Serialize());
         }
 
         public int ClassNext
@@ -148,7 +151,7 @@ namespace HandSchool.JLU
 
         public Schedule()
         {
-            LastReport = Core.ReadConfig("jlu.kcb2.json");
+            LastReport = Core.ReadConfig(config_kcb);
             if (LastReport != "")
                 Items = LastReport.ParseJSON<List<CurriculumItem>>();
             else

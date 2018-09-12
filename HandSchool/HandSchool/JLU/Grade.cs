@@ -40,8 +40,8 @@ namespace HandSchool.JLU
     [Entrance("成绩查询")]
     class GradeEntrance : IGradeEntrance
     {
-        const string config_grade = "jlu.grade.json";
-        const string config_gpa = "jlu.gpa.json";
+        internal const string config_grade = "jlu.grade.json";
+        internal const string config_gpa = "jlu.gpa.json";
 
         public int RowLimit { get; set; } = 25;
         

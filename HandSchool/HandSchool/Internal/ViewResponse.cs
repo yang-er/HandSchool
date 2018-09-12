@@ -16,6 +16,16 @@ namespace HandSchool.Internal
         Task ShowMessage(string title, string message, string button = "确认");
 
         /// <summary>
+        /// 弹出询问框
+        /// </summary>
+        /// <param name="title">对话框标题</param>
+        /// <param name="description">消息正文</param>
+        /// <param name="cancel">取消按钮文字</param>
+        /// <param name="accept">确定按钮文字</param>
+        /// <returns>是否确定</returns>
+        Task<bool> ShowActionSheet(string title, string description, string cancel, string accept);
+
+        /// <summary>
         /// 设置忙状态
         /// </summary>
         /// <param name="value">值</param>

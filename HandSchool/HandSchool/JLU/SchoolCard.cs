@@ -16,9 +16,9 @@ namespace HandSchool.JLU
 {
     class SchoolCard : NotifyPropertyChanged, ILoginField
     {
-        const string config_username = "jlu.schoolcard.username.txt";
-        const string config_password = "jlu.schoolcard.password.txt";
-        const string config_school = "jlu.schoolcard.detail.json";
+        internal const string config_username = "jlu.schoolcard.username.txt";
+        internal const string config_password = "jlu.schoolcard.password.txt";
+        internal const string config_school = "jlu.schoolcard.detail.json";
 
         #region Login Fields
 
