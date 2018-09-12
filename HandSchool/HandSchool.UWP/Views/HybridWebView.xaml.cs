@@ -12,7 +12,6 @@ namespace HandSchool.Views
         public HybridWebView()
         {
             InitializeComponent();
-            WebView.NavigationStarting += OnWebViewNavigating;
         }
 
         /// <summary>
@@ -54,9 +53,14 @@ namespace HandSchool.Views
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
             if (Html != string.Empty && Html != null)
+            {
                 WebView.NavigateToString(Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
+            }
             else
+            {
                 WebView.Navigate(new Uri(Url));
+                if (Url.Contains("://")) WebView.NavigationStarting += OnWebViewNavigating;
+            }
         }
 
         private async void OnWebViewNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
@@ -75,7 +79,7 @@ namespace HandSchool.Views
 
         private void OnWebViewNavigating(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            if (args.Uri.OriginalString != Url)
+            if (args.Uri?.OriginalString != Url)
             {
                 args.Cancel = true;
                 SubUrlRequested?.Invoke(args.Uri.OriginalString);

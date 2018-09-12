@@ -8975,3 +8975,4 @@ a.text-dark:hover, a.text-dark:focus {
 
 .linked-a { color: #004baa !important; cursor: hand; }
 body.UWP { padding-left: 0px; padding-right: 0px; }
+.UWP .container-fluid { padding-left: 20px; padding-right: 20px; }

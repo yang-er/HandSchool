@@ -26,7 +26,7 @@
                         <DataTemplate>
                             <StackPanel Padding="8,12">
                                 <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
-                                <local:ValueBox Margin="0,8" Value="{Binding Value, Mode=TwoWay}" Attribute="{Binding AttributeData}" Type="{Binding Type, Mode=OneTime}" />
+                                <local:ValueBox Margin="0,8" Value="{Binding Value, Mode=TwoWay}" Wrapper="{Binding Self, Mode=OneTime}" Attribute="{Binding AttributeData}" Type="{Binding Type, Mode=OneTime}" />
                                 <TextBlock Text="{Binding Description}" FontSize="13" />
                             </StackPanel>
                         </DataTemplate>

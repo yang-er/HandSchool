@@ -120,7 +120,10 @@ namespace HandSchool.Views
                     break;
 
                 case SettingTypes.Action:
-                    (Parent as StackPanel).Tapped += (s,e) => Wrapper.MethodInfo.Invoke(Core.App.Service, new object[] { new ViewResponse(null) });
+                    var btn = new Button();
+                    btn.Content = "执行";
+                    btn.Tapped += (s,e) => Wrapper.MethodInfo.Invoke(Core.App.Service, new object[] { new ViewResponse(null) });
+                    Grid.Children.Add(btn);
                     break;
 
                 default:

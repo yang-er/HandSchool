@@ -21,7 +21,7 @@ namespace HandSchool.Internal
 
         public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
         {
-            return ShowActionSheetAsync(title, cancel, description, accept);
+            return ShowActionSheetAsync(title, description, cancel, accept);
         }
 
         public void SetIsBusy(bool value, string tips) { }

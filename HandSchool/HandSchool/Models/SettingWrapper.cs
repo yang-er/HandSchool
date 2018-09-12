@@ -45,6 +45,11 @@ namespace HandSchool.Models
     public sealed class SettingWrapper
     {
         /// <summary>
+        /// 绑定自己使用
+        /// </summary>
+        public SettingWrapper Self => this;
+
+        /// <summary>
         /// 在动作模式时占位
         /// </summary>
         public static string ActionPlaceHolder { get; set; } = "";
