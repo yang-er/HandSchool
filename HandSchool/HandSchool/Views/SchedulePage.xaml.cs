@@ -28,7 +28,6 @@ namespace HandSchool.Views
 
             ViewModel = ScheduleViewModel.Instance;
             ScheduleViewModel.Instance.RefreshComplete += LoadList;
-            AddCommander.CommandParameter = Navigation;
 
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
@@ -59,7 +58,28 @@ namespace HandSchool.Views
         {
             base.OnAppearing();
             LoadList();
-            System.Diagnostics.Debug.WriteLine("SchedulePage.OnAppearing. Redrawing.");
+            Core.Log("SchedulePage.OnAppearing. Redrawing.");
+        }
+
+        private async void ShowActionList(object sender, EventArgs e)
+        {
+            var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "没有地点的课", "显示所有周");
+
+            switch (result)
+            {
+                case "刷新课表":
+                    ScheduleViewModel.Instance.RefreshCommand.Execute(null);
+                    break;
+                case "添加课程":
+                    ScheduleViewModel.Instance.AddCommand.Execute(Navigation);
+                    break;
+                case "没有地点的课":
+                    break;
+                case "显示所有周":
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void LoadList()

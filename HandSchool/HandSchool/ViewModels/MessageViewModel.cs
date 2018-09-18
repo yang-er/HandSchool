@@ -15,7 +15,8 @@ namespace HandSchool.ViewModels
         static MessageViewModel instance = null;
         public Command LoadItemsCommand { get; set; }
         public Command DeleteAllCommand { get; set; }
-        
+        public Command ReadAllCommand { get; set; }
+
         public static MessageViewModel Instance
         {
             get
@@ -31,7 +32,7 @@ namespace HandSchool.ViewModels
             Items = new ObservableCollection<IMessageItem>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             DeleteAllCommand = new Command(async () => await ExecuteDeleteAllCommand());
-
+            ReadAllCommand = new Command(async () => await ExecuteReadAllCommand());
         }
 
         async Task ExecuteDeleteAllCommand()
@@ -42,6 +43,14 @@ namespace HandSchool.ViewModels
             }
 
             Instance.Items.Clear();
+        }
+
+        async Task ExecuteReadAllCommand()
+        {
+            foreach (var item in Instance.Items)
+            {
+                await Core.App.Message.SetReadState(item.Id, true);
+            }
         }
 
         async Task ExecuteLoadItemsCommand()
