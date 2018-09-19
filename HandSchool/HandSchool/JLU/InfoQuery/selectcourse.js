@@ -1,6 +1,7 @@
 
 var splanId = "0";
 var lslId = 0;
+var studId2 = 0;
 
 function showDetail(id)
 {
@@ -14,10 +15,12 @@ function responseSplanId(resp) /* Get current select course plan */
 {
 	if (resp.value.length == 0)
 	{
+		invokeCSharpAction('finished');
 		invokeCSharpAction('msg;目前选课暂无活动的选课计划。');
 	}
 	else if (resp.value.length > 1)
 	{
+		invokeCSharpAction('finished');
 		invokeCSharpAction('msg;目前活动的选课计划超过1个，可能出现错误，请手动选课。');
 	}
 	else
@@ -91,7 +94,12 @@ function responseLsltId(resp) /* List all the course schedule */
 
 function te_callback(resp)
 {
-	if (resp.id == 'splanId')
+	if (resp.welcome == 'welcome')
+	{
+		studId2 = resp.userId;
+		invokeCSharpAction('post;service/res.do;{"type":"query","res":"query-splan-by-stud","params":{"studId":'+studId2+'}}');
+	}
+	else if (resp.resName == 'query-splan-by-stud')
 	{
 		responseSplanId(resp);
 	}
@@ -115,5 +123,5 @@ function te_callback(resp)
 
 $(function(){
 	invokeCSharpAction('begin');
-	invokeCSharpAction('post;service/res.do;{"tag":"selectPlan@lessonSelect","branch":"byStage","params":{"open":"Y"}}');
+	invokeCSharpAction('post;action/getCurrentUserInfo.do;{}');
 });
