@@ -22,7 +22,7 @@ namespace HandSchool.Blank
 
         public async Task Execute()
         {
-            Debug.WriteLine("Blank.ScheduleEntrance->Excute()");
+            Core.Log("Blank.ScheduleEntrance->Excute()");
             await Task.Run(() => { });
             Parse();
             Save();
@@ -30,7 +30,7 @@ namespace HandSchool.Blank
 
         public void Parse()
         {
-            Debug.WriteLine("Blank.ScheduleEntrance->Parse()");
+            Core.Log("Blank.ScheduleEntrance->Parse()");
         }
 
         public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)

@@ -26,7 +26,7 @@ namespace HandSchool.Views
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Core.Log(ex);
             }
         }
         

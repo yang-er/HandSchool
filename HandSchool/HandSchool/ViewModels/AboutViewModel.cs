@@ -120,11 +120,11 @@ namespace HandSchool.ViewModels
 
         private async void TestMode()
         {
-            System.Diagnostics.Debug.WriteLine("test mode");
+            Core.Log("test mode");
             await View.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
-            System.Diagnostics.Debug.WriteLine("test mode 2");
+            Core.Log("test mode 2");
             await View.ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
-            System.Diagnostics.Debug.WriteLine("test mode 3");
+            Core.Log("test mode 3");
         }
 
         private void OpenMarket()

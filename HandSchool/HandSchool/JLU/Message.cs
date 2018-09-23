@@ -4,6 +4,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -63,7 +64,24 @@ namespace HandSchool.JLU
         
         public async Task Execute()
         {
-            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            try
+            {
+                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await MessageViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    MessageViewModel.Instance.View.SetIsBusy(false);
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
             Core.WriteConfig(StorageFile, LastReport);
             Parse();
         }
@@ -81,13 +99,49 @@ namespace HandSchool.JLU
         public async Task SetReadState(int id, bool read)
         {
             var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
-            await Core.App.Service.Post(MsgReadPageUri, PostArgs);
+            MessageViewModel.Instance.View.SetIsBusy(true, "正在设置阅读状态……");
+
+            try
+            {
+                await Core.App.Service.Post(MsgReadPageUri, PostArgs);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await MessageViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    MessageViewModel.Instance.View.SetIsBusy(false);
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
 
         public async Task Delete(int id)
         {
             var PostArgs = "{\"idList\":[\""+id.ToString()+"\"]}";
-            await Core.App.Service.Post(DelPageUri, PostArgs);
+            MessageViewModel.Instance.View.SetIsBusy(true, "正在删除……");
+
+            try
+            {
+                await Core.App.Service.Post(DelPageUri, PostArgs);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await MessageViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    MessageViewModel.Instance.View.SetIsBusy(false);
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

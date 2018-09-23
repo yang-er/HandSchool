@@ -5,6 +5,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Command = Xamarin.Forms.Command;
@@ -117,7 +118,24 @@ namespace HandSchool.JLU.InfoQuery
             Binding.SetIsBusy(is_busy = true, "正在加载教学方案……");
             try
             {
-                LastReport = await Core.App.Service.Post(ScriptFileUri, PostList);
+                try
+                {
+                    LastReport = await Core.App.Service.Post(ScriptFileUri, PostList);
+                }
+                catch (WebException ex)
+                {
+                    if (ex.Status == WebExceptionStatus.Timeout)
+                    {
+                        Binding.SetIsBusy(is_busy = false);
+                        await Binding.ShowMessage("错误", "连接超时，请重试。");
+                        return;
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+
                 var lists = LastReport.ParseJSON<RootObject<ProgItem>>();
                 var sb = new StringBuilder();
                 sb.Append("<option value=\"-1\" selected>请选择</option>");
@@ -151,7 +169,24 @@ namespace HandSchool.JLU.InfoQuery
             Evaluate?.Invoke($"$('#progList').html('<tr><td colspan=\"9\">正在加载……</td></tr>')");
             try
             {
-                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+                try
+                {
+                    LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+                }
+                catch (WebException ex)
+                {
+                    if (ex.Status == WebExceptionStatus.Timeout)
+                    {
+                        await Binding.ShowMessage("错误", "连接超时，请重试。");
+                        Binding.SetIsBusy(is_busy = false);
+                        return;
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+                
                 var lists = LastReport.ParseJSON<RootObject<ProgTerm>>();
                 var sb = new StringBuilder();
                 foreach (var opt in lists.value)

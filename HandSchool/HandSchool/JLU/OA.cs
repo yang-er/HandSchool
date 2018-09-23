@@ -47,7 +47,7 @@ namespace HandSchool.JLU
             catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.NameResolutionFailure)
-                    System.Diagnostics.Debug.WriteLine("App not connected");
+                    Core.Log("App not connected");
                 else throw ex;
             }
 
@@ -69,7 +69,7 @@ namespace HandSchool.JLU
             }
             catch (XmlException ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                Core.Log(ex);
             }
         }
     }

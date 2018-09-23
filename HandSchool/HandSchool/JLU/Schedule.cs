@@ -2,8 +2,10 @@
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU
@@ -30,7 +32,23 @@ namespace HandSchool.JLU
 
         public async Task Execute()
         {
-            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            try
+            {
+                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await ScheduleViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
             Core.WriteConfig(config_kcb_orig, LastReport);
             Parse();
             Save();

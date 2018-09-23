@@ -60,7 +60,7 @@ namespace HandSchool.Views
                 if (item.DestinationPageType != null && item.DestinationPageType != ContentFrame.CurrentSourcePageType)
                     ContentFrame.Navigate(item.DestinationPageType);
                 else
-                    System.Diagnostics.Debug.WriteLine(item.Title + "is not finished");
+                    Core.Log(item.Title + "is not finished");
             }
             else if (args.IsSettingsInvoked)
             {

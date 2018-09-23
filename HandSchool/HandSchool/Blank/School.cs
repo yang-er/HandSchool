@@ -74,14 +74,14 @@ namespace HandSchool.Blank
 
         public async Task<string> Get(string url)
         {
-            Debug.WriteLine("Blank->Get(url)");
+            Core.Log("Blank->Get(url)");
             await Task.Run(() => { });
             return "";
         }
 
         public async Task<bool> Login()
         {
-            Debug.WriteLine("Blank->Login()");
+            Core.Log("Blank->Login()");
             await Task.Run(() => { });
             LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
             return true;
@@ -89,14 +89,14 @@ namespace HandSchool.Blank
 
         public async Task<string> Post(string url, string send)
         {
-            Debug.WriteLine("Blank->Post(url, send)");
+            Core.Log("Blank->Post(url, send)");
             await Task.Run(() => { });
             return "";
         }
 
         public async Task<bool> RequestLogin()
         {
-            Debug.WriteLine("Blank->RequestLogin()");
+            Core.Log("Blank->RequestLogin()");
             await Task.Run(() => { });
             return false;
         }

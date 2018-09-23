@@ -118,7 +118,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Core.Log(ex);
                 return "";
             }
         }
@@ -149,7 +149,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Core.Log(ex);
                 return null;
             }
         }
@@ -182,7 +182,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Core.Log(ex);
                 return "";
             }
         }
@@ -203,6 +203,7 @@ namespace HandSchool.Internal
             {
                 Headers.Set("Content-Type", type);
                 var ret = await UploadStringTaskAsync(script, "POST", value);
+                if (ResponseHeaders.Get("Location") != null) return "";
                 if (accept != "*/*" && !ResponseHeaders["Content-Type"].StartsWith(accept))
                 {
                     throw new ContentAcceptException(ret, ResponseHeaders["Content-Type"], accept);
@@ -225,7 +226,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Core.Log(ex);
                 return "";
             }
         }

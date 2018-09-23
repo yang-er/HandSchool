@@ -257,14 +257,46 @@ namespace HandSchool.JLU
         public async Task<string> Post(string url, string send)
         {
             if (await RequestLogin() == false) return "";
-            return await WebClient.PostAsync(url, FormatArguments(send));
+            try
+            {
+                var ret = await WebClient.PostAsync(url, FormatArguments(send));
+
+                if (WebClient.Location == "error/dispatch.jsp?reason=nologin")
+                {
+                    throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+                }
+
+                return ret;
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                    is_login = false;
+                throw ex;
+            }
         }
 
         public async Task<string> Get(string url)
         {
             if (await RequestLogin() == false) return "";
             await RequestLogin();
-            return await WebClient.GetAsync(url);
+            try
+            {
+                var ret = await WebClient.GetAsync(url);
+
+                if (WebClient.Location == "error/dispatch.jsp?reason=nologin")
+                {
+                    throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+                }
+
+                return ret;
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                    is_login = false;
+                throw ex;
+            }
         }
 
         public void SaveSettings()

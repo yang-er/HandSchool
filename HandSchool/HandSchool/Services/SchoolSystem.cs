@@ -51,6 +51,7 @@ namespace HandSchool.Services
         /// <param name="url">地址</param>
         /// <param name="send">发送的数据</param>
         /// <returns>接收的数据</returns>
+        /// <exception cref="System.Net.WebException" />
         Task<string> Post(string url, string send);
 
         /// <summary>
@@ -58,6 +59,7 @@ namespace HandSchool.Services
         /// </summary>
         /// <param name="url">地址</param>
         /// <returns>接收的数据</returns>
+        /// <exception cref="System.Net.WebException" />
         Task<string> Get(string url);
 
         /// <summary>

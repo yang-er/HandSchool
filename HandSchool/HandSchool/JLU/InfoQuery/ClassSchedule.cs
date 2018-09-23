@@ -5,6 +5,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Command = Xamarin.Forms.Command;
@@ -142,6 +143,18 @@ namespace HandSchool.JLU.InfoQuery
                 Binding.SetIsBusy(is_busy = false);
                 await Binding.ShowMessage("提示", "加载课程列表失败。");
             }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    Binding.SetIsBusy(is_busy = false);
+                    await Binding.ShowMessage("错误", "连接超时，请重试。");
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
 
         async void SolveLessonId()
@@ -175,6 +188,18 @@ namespace HandSchool.JLU.InfoQuery
             {
                 Binding.SetIsBusy(is_busy = false);
                 await Binding.ShowMessage("提示", "加载教学班列表失败。");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    Binding.SetIsBusy(is_busy = false);
+                    await Binding.ShowMessage("错误", "连接超时，请重试。");
+                }
+                else
+                {
+                    throw ex;
+                }
             }
         }
 

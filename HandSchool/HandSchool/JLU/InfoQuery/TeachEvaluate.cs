@@ -4,6 +4,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -55,8 +56,27 @@ namespace HandSchool.JLU.InfoQuery
             else if (data.StartsWith("post;"))
             {
                 var ops = data.Split(new char[] { ';' }, 3);
-                var ret = await Core.App.Service.Post(ops[1], ops[2]);
-                System.Diagnostics.Debug.WriteLine(ret);
+                string ret;
+
+                try
+                {
+                    ret = await Core.App.Service.Post(ops[1], ops[2]);
+                }
+                catch (WebException ex)
+                {
+                    if (ex.Status == WebExceptionStatus.Timeout)
+                    {
+                        Binding.SetIsBusy(false);
+                        await Binding.ShowMessage("错误", "连接超时，请重试。");
+                        return;
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+                
+                Core.Log(ret);
                 Evaluate("te_callback(" + ret + ")");
             }
             else if (data.StartsWith("msg;"))

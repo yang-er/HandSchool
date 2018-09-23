@@ -181,6 +181,15 @@ namespace HandSchool
         /// <summary>
         /// 写入调试信息
         /// </summary>
+        /// <param name="output">内容</param>
+        public static void Log(Exception output)
+        {
+            Debug.WriteLine(output);
+        }
+
+        /// <summary>
+        /// 写入调试信息
+        /// </summary>
         /// <param name="format">格式</param>
         /// <param name="param">参数</param>
         public static void Log(string format, params object[] param)

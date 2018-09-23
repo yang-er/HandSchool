@@ -75,7 +75,7 @@ namespace HandSchool.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
+                Core.Log(ex);
                 Core.WriteConfig(LocalStorage + ".ver", "");
             }
         }

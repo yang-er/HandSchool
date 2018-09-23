@@ -5,6 +5,7 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Specialized;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU
@@ -55,7 +56,23 @@ namespace HandSchool.JLU
 
         public async Task Execute()
         {
-            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            try
+            {
+                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await GradePointViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
             Core.WriteConfig(config_grade, LastReport);
             await GatherGPA();
             Parse();
@@ -91,7 +108,23 @@ namespace HandSchool.JLU
 
         public async Task GatherGPA()
         {
-            LastReportGPA = await Core.App.Service.Post(ScriptFileUri, GPAPostValue);
+            try
+            {
+                LastReportGPA = await Core.App.Service.Post(ScriptFileUri, GPAPostValue);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await GradePointViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
             Core.WriteConfig(config_gpa, LastReportGPA);
             ParseGPA();
         }

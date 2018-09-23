@@ -5,6 +5,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -94,7 +95,7 @@ namespace HandSchool.JLU.InfoQuery
 
         public async void Receive(string data)
         {
-            System.Diagnostics.Debug.WriteLine(data);
+            Core.Log(data);
             if (data.StartsWith("schId"))
             {
                 if (data == "schId=null")
@@ -117,7 +118,26 @@ namespace HandSchool.JLU.InfoQuery
         
         public async Task Execute()
         {
-            LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            Binding.SetIsBusy(true, "正在加载信息……");
+
+            try
+            {
+                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    Binding.SetIsBusy(false);
+                    await Binding.ShowMessage("错误", "连接超时，请重试。");
+                    return;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+
             obj = LastReport.ParseJSON<RootObject<CollegeInfo>>();
             var jsBuilder = new StringBuilder();
             if (obj.value[0].schoolName == null)

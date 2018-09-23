@@ -65,8 +65,8 @@ namespace HandSchool.Views
                 else
                 {
                     Disappearing += Page_Disappearing;
-                    System.Diagnostics.Debug.WriteLine("Not support this kind of access, may occured some errors.");
-                    System.Diagnostics.Debug.WriteLine("Maybe double tapped but event is one tap.");
+                    Core.Log("Not support this kind of access, may occured some errors.");
+                    Core.Log("Maybe double tapped but event is one tap.");
                 }
             }
 

@@ -99,7 +99,7 @@ namespace HandSchool.JLU
             }
             catch (JsonException)
             {
-                System.Diagnostics.Debug.WriteLine(LastReport);
+                Core.Log(LastReport);
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
                 return IsLogin = false;
             }
