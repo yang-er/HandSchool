@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internal\PopContentPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MessageDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\PickerCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />

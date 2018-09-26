@@ -8,10 +8,13 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AboutPage : PopContentPage
 	{
-		public AboutPage ()
-		{
-			InitializeComponent ();
+        public AboutPage()
+        {
+            InitializeComponent();
             ViewModel = AboutViewModel.Instance;
+#if __IOS__
+            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+#endif
         }
 
         async void ItemTapped(object sender, ItemTappedEventArgs e)

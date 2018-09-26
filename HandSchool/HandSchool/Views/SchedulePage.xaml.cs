@@ -15,7 +15,7 @@ namespace HandSchool.Views
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
 
-        private bool IsWider = false;
+        private bool IsWider = false, forceSize = true;
 
         public SchedulePage()
 		{
@@ -52,6 +52,7 @@ namespace HandSchool.Views
 
             SizeChanged += SetTileSize;
             IsWider = false;
+            forceSize = true;
         }
         
         protected override void OnAppearing()
@@ -97,19 +98,27 @@ namespace HandSchool.Views
 
         void SetTileSize(object sender, EventArgs e)
         {
-            if (Width > Height && !IsWider) 
+            if (Width > Height && (!IsWider || forceSize))
             {
+                forceSize = false;
                 IsWider = true;
                 DefCol.Width = GridLength.Star;
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
+#if __IOS__
+                scroller.Margin = new Thickness(0, 0, 0, 0);
+#endif
             }
-            else if (Width < Height && IsWider)
+            else if (Width < Height && (IsWider || forceSize))
             {
+                forceSize = false;
                 IsWider = false;
                 DefRow.Height = GridLength.Star;
                 DefCol.Width = ColWidth;
                 scroller.Orientation = ScrollOrientation.Horizontal;
+#if __IOS__
+                scroller.Margin = new Thickness(0, iOS.NavigationPageRenderer.NavigationBarHeight, 0, 0);
+#endif
             }
         }
     }

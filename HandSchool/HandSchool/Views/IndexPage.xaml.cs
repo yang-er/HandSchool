@@ -16,6 +16,8 @@ namespace HandSchool.Views
             var themer = new Style(typeof(Frame));
             themer.Setters.Add(Frame.HasShadowProperty, false);
             Resources.Add(themer);
+            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetLargeTitleDisplay(this, Xamarin.Forms.PlatformConfiguration.iOSSpecific.LargeTitleDisplayMode.Always);
 #endif
         }
 

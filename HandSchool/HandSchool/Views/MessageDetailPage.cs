@@ -28,6 +28,10 @@ namespace HandSchool.Views
                 },
                 Orientation = ScrollOrientation.Vertical
             };
+
+#if __IOS__
+            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+#endif
         }
 
         public MessageDetailPage(FeedItem item)
@@ -54,6 +58,10 @@ namespace HandSchool.Views
                 },
                 Orientation = ScrollOrientation.Vertical
             };
+
+#if __IOS__
+            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+#endif
         }
 	}
 }

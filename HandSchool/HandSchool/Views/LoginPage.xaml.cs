@@ -15,6 +15,12 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = viewModel;
+            ShowCancel = true;
+
+#if __IOS__
+            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+#endif
+
             UpdateCaptchaInfomation();
         }
 

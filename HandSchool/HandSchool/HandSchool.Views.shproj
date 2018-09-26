@@ -9,16 +9,16 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <Import Project="HandSchool.Views.projitems" Label="Shared" />
   <ItemGroup>
-    <None Include="..\CommonAssets\bootstrap.css">
+    <None Include="$(MSBuildThisFileDirectory)..\CommonAssets\bootstrap.css">
       <Link>WebWrapper\bootstrap.css</Link>
     </None>
-    <None Include="..\CommonAssets\jquery.js">
+    <None Include="$(MSBuildThisFileDirectory)..\CommonAssets\jquery.js">
       <Link>WebWrapper\jquery.js</Link>
     </None>
-    <None Include="..\CommonAssets\privacy.html">
+    <None Include="$(MSBuildThisFileDirectory)..\CommonAssets\privacy.html">
       <Link>WebWrapper\privacy.html</Link>
     </None>
-    <None Include="..\CommonAssets\license.html">
+    <None Include="$(MSBuildThisFileDirectory)..\CommonAssets\license.html">
       <Link>WebWrapper\license.html</Link>
     </None>
   </ItemGroup>

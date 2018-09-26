@@ -31,7 +31,6 @@ namespace HandSchool.iOS
             };
 
             Spinner.Layer.CornerRadius = 10;
-            Spinner.ToView();
             NativeView.AddSubview(Spinner);
         }
 

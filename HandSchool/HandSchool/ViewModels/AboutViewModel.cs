@@ -32,7 +32,10 @@ namespace HandSchool.ViewModels
 
         private AboutViewModel()
         {
+            AboutEntrances.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => OpenSource())));
+#if !__IOS__
             AboutEntrances.Add(new TapEntranceWrapper("检查更新", "", (nav) => Task.Run(() => CheckUpdate())));
+#endif
             AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
             AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
             AboutEntrances.Add(new InfoEntranceWrapper(typeof(LicenseInfo)));
@@ -125,6 +128,13 @@ namespace HandSchool.ViewModels
             Core.Log("test mode 2");
             await View.ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
             Core.Log("test mode 3");
+        }
+
+        private void OpenSource()
+        {
+            Device.BeginInvokeOnMainThread(() => Device.OpenUri(new Uri(
+                "https://github.com/yang-er/HandSchool"
+            )));
         }
 
         private void OpenMarket()

@@ -1,15 +1,14 @@
 ﻿using HandSchool.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
-using Xamarin.Forms.Platform;
-using IOS = Xamarin.Forms.PlatformConfiguration.iOS;
-using PF = Xamarin.Forms.Platform.iOS.Platform;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using UIViewController = UIKit.UIViewController;
+using PlatformAPI = Xamarin.Forms.Platform.iOS.Platform;
 
 namespace HandSchool.Views
 {
     public class MainPage : TabbedPage
     {
+        private static MainPage Instance;
+
         bool _isselpage = false;
         internal bool IsSelectPage
         {
@@ -23,8 +22,15 @@ namespace HandSchool.Views
             }
         }
 
+        public static UIViewController GetActivePage()
+        {
+            return PlatformAPI.GetRenderer(Instance.CurrentPage) as UIViewController;
+        }
+
         public MainPage()
         {
+            Instance = this;
+
             if (Core.App.Service is null)
             {
                 Children.Add(new SelectTypePage() { Title = "选择学校", Icon = "tab_feed.png" });

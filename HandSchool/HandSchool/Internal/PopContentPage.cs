@@ -23,6 +23,11 @@ namespace HandSchool.Views
         public bool IsModal { get; set; } = false;
 
         /// <summary>
+        /// 是否显示取消按钮
+        /// </summary>
+        public bool ShowCancel { get; set; } = false;
+
+        /// <summary>
         /// 正在销毁事件
         /// </summary>
         public event Action Destorying;

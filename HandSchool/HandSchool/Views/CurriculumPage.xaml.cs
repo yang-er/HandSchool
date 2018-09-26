@@ -39,21 +39,9 @@ namespace HandSchool.Views
                 beginDay.Items.Add($"第{i}节");
                 endDay.Items.Add($"第{i}节");
             }
-            beginDay.SetBinding(Picker.SelectedIndexProperty, new Binding("DayBegin"));
-            endDay.SetBinding(Picker.SelectedIndexProperty, new Binding("DayEnd"));
 
-            foreach (var sub in grid.Children)
-            {
-                if (sub is Label lab)
-                {
-                    if (lab.FontAttributes == FontAttributes.None)
-                        lab.FontSize = Device.GetNamedSize(NamedSize.Default, lab);
-                    else if (lab.FontAttributes == FontAttributes.Bold)
-                        lab.FontSize = Device.GetNamedSize(NamedSize.Medium, lab);
-                    lab.FontAttributes = FontAttributes.None;
-                    lab.VerticalOptions = LayoutOptions.Center;
-                }
-            }
+            beginDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayBegin"));
+            endDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayEnd"));
         }
 
         async Task SaveCommand()

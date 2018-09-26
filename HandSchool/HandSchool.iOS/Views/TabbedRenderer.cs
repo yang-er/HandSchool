@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using HandSchool.iOS;
 using HandSchool.Views;
+using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -19,6 +20,7 @@ namespace HandSchool.iOS
             if (e.NewElement is MainPage pg)
                 if (pg.IsSelectPage)
                     TabBar.Hidden = true;
+            TabBar.Translucent = true;
 
             if (e.NewElement != null)
                 e.NewElement.PropertyChanged += SelectPageChanged;
