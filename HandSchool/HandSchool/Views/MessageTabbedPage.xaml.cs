@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.ViewModels;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,12 +15,12 @@ namespace HandSchool.Views
             InitializeComponent();
         }
 
-        private async void TabbedPage_Appearing(object sender, EventArgs e)
+        private void TabbedPage_Appearing(object sender, EventArgs e)
         {
             if (!FirstOpen) return;
 
             FirstOpen = false;
-            await Core.App.Message.Execute();
+            MessageViewModel.Instance.LoadItemsCommand.Execute(null);
         }
     }
 }

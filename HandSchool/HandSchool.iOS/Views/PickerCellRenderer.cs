@@ -58,8 +58,7 @@ namespace HandSchool.iOS
             }
 
             uiac.AddAction(UIAlertAction.Create("取消", UIAlertActionStyle.Cancel, null));
-
-            MainPage.GetActivePage().PresentViewController(uiac, true, null);
+            MainPageRenderer.GlobalViewController.PresentViewController(uiac, true, null);
         }
     }
 }

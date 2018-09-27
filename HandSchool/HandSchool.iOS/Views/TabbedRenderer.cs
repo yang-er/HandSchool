@@ -11,6 +11,12 @@ namespace HandSchool.iOS
     class MainPageRenderer : TabbedRenderer
     {
         internal MainPage MainPage => Element as MainPage;
+        internal static UIViewController GlobalViewController;
+
+        public MainPageRenderer()
+        {
+            GlobalViewController = this;
+        }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {

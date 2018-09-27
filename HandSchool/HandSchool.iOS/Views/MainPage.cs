@@ -21,12 +21,7 @@ namespace HandSchool.Views
                 OnPropertyChanged("IsSelectPage");
             }
         }
-
-        public static UIViewController GetActivePage()
-        {
-            return PlatformAPI.GetRenderer(Instance.CurrentPage) as UIViewController;
-        }
-
+        
         public MainPage()
         {
             Instance = this;

@@ -24,5 +24,10 @@ namespace HandSchool.Internal
         {
             MessagingCenter.Send(this, tips, value);
         }
+
+        public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
+        {
+            return Binding.DisplayAlert(title, description, accept, cancel);
+        }
     }
 }

@@ -5,10 +5,10 @@
                   Title="{Binding Title}"
                   Appearing="TabbedPage_Appearing"
                   x:Class="HandSchool.JLU.Views.YktPage">
-    <TableView Intent="Form"
-              BindingContext="{Binding BasicInfo}"
-              VerticalOptions="FillAndExpand"
-              HasUnevenRows="true">
+    <TableView Intent="Settings"
+               BindingContext="{Binding BasicInfo}"
+               VerticalOptions="FillAndExpand"
+               HasUnevenRows="true">
         <TableSection>
             <ViewCell>
                 <StackLayout Padding="15">

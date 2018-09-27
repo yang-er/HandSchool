@@ -9,13 +9,9 @@ namespace HandSchool.Internal
 {
     public class ViewResponse : IViewResponse
     {
-        // private UIActivityIndicatorView Spinner;
-        // private UIViewController ViewControl;
-
         public ViewResponse(XPage page)
         {
             Binding = page;
-            // ViewControl = page.CreateViewController();
         }
 
         public XPage Binding { get; }

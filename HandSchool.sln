@@ -15,7 +15,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HandSchool.Views", "HandSch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandSchool.UnitTest", "HandSchool\HandSchool.UnitTest\HandSchool.UnitTest.csproj", "{7525FE37-FD1F-48E6-A152-1F0AF9B3CDD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandSchool.Cmd", "HandSchool\HandSchool.Cmd\HandSchool.Cmd.csproj", "{C6BEAE9D-12DC-4132-A205-7F1C1C04D5EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandSchool.Cmd", "HandSchool\HandSchool.Cmd\HandSchool.Cmd.csproj", "{C6BEAE9D-12DC-4132-A205-7F1C1C04D5EC}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -26,7 +26,6 @@ Global
 		HandSchool\HandSchool\HandSchool.projitems*{5336e020-94ce-463d-a157-92c876ff65fd}*SharedItemsImports = 13
 		HandSchool\HandSchool\HandSchool.Views.projitems*{5336e020-94ce-463d-a157-92c876ff65ff}*SharedItemsImports = 13
 		HandSchool\HandSchool\HandSchool.projitems*{7525fe37-fd1f-48e6-a152-1f0af9b3cdd0}*SharedItemsImports = 4
-		HandSchool\HandSchool\HandSchool.Views.projitems*{7525fe37-fd1f-48e6-a152-1f0af9b3cdd0}*SharedItemsImports = 4
 		HandSchool\HandSchool\HandSchool.projitems*{db443285-1ca4-4904-b57e-74f40007743f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
