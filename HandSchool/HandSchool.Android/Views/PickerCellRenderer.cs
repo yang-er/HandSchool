@@ -35,7 +35,7 @@ namespace HandSchool.Droid
                 cellView = new PickerCellView(context, item);
                 cellView.EditText.Click += OnClicked;
             }
-
+            
             UpdatePicker();
             return cellView;
         }
@@ -85,7 +85,7 @@ namespace HandSchool.Droid
             {
                 _cell = cell;
                 SetMinimumWidth((int)context.ToPixels(50));
-                SetMinimumHeight((int)context.ToPixels(85));
+                SetMinimumHeight((int)context.ToPixels(36));
                 Orientation = Orientation.Horizontal;
                 
                 var padding = (int)context.ToPixels(8);
@@ -100,6 +100,7 @@ namespace HandSchool.Droid
                     AddView(_label, layoutParams);
 
                 EditText = new EditText(context);
+                EditText.KeyListener = null;
                 EditText.OnFocusChangeListener = this;
                 //editText.SetBackgroundDrawable (null);
                 layoutParams = new LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent) { Width = 0, Weight = 1, Gravity = GravityFlags.FillHorizontal | GravityFlags.Center };
