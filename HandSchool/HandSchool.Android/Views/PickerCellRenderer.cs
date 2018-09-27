@@ -1,89 +1,140 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using HandSchool.Droid;
 using HandSchool.Views;
+using System;
+using System.ComponentModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using ATextView = Android.Widget.TextView;
+using AView = Android.Views.View;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace HandSchool.Droid
 {
     class PickerCellRenderer : CellRenderer
     {
-        Android.Widget.TextView cell;
-        public static readonly BindableProperty ReusableCellProperty =
-        BindableProperty.Create(
-        propertyName: "ReusableCell",
-        returnType: typeof(Android.Views.View),
-        declaringType: typeof(PickerCell),
-        defaultValue: default(Android.Views.View)
-    );
+        PickerCellView cellView;
+        PickerCell nativeCell;
+        Context currentContext;
 
         const string CellName = "HandSchool.PickerCell";
-        public  new  Android.Views.View GetCell(Cell item, Android.Views.View reusableCell, ViewGroup parent, Context context)
+        
+        protected override AView GetCellCore(Cell item, AView convertView, ViewGroup parent, Context context)
         {
-            if (!(reusableCell is Android.Views.View tvc))
-                tvc = new TextView(context);
-            var pc = item as PickerCell;
-            pc.SetValue(ReusableCellProperty, tvc);
-            //pc.Tapped += ShowTap;
-            //pc.PropertyChanged += HandlePropertyChanged;
-            (tvc as TextView).Text = pc.Title;
-            //tvc.DetailTextLabel.Text = pc.Items[pc.SelectedIndex];
-            //tvc.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-            return tvc;
+            currentContext = context;
+            nativeCell = (PickerCell)item;
+
+            cellView = convertView as PickerCellView;
+
+            if (cellView == null)
+            {
+                cellView = new PickerCellView(context, item);
+                cellView.EditText.Click += OnClicked;
+            }
+
+            UpdatePicker();
+            return cellView;
         }
-        protected override Android.Views.View GetCellCore(Cell item, Android.Views.View convertView, ViewGroup parent, Context context)
+
+        protected override void OnCellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var nativeCell = (PickerCell)item;
-            //Console.WriteLine("\t\t" + nativeCell.Name);
+            base.OnCellPropertyChanged(sender, e);
 
-            cell = convertView as Android.Widget.TextView;
-            if (cell == null)
-            {
-                cell = new Android.Widget.TextView(context);
-                cell.Text = nativeCell.Title + ":" + nativeCell.Items[nativeCell.SelectedIndex];
-                MyListener myListener = new MyListener();
-                myListener.Items=nativeCell.Items.ToList();
-                cell.SetOnClickListener(myListener);
-                
-                    
-            }
-            else
-            {
-                //cell.NativeCell.PropertyChanged -= OnNativeCellPropertyChanged;
-            }
-
-            //nativeCell.PropertyChanged += OnNativeCellPropertyChanged;
-
-            //cell.UpdateCell(nativeCell);
-            return cell;
+            if (e.PropertyName == PickerCell.TitleProperty.PropertyName)
+                UpdatePicker();
+            else if (e.PropertyName == Picker.SelectedIndexProperty.PropertyName)
+                UpdatePicker();
         }
-    }
-    class MyListener : Java.Lang.Object ,Android.Views.View.IOnClickListener
-    {
-        public List<string> Items=new List<string>();
-        public int SelectedIndex = 0;
-        public event EventHandler<DialogClickEventArgs> Handler;
-        public void OnClick(Android.Views.View v)
+
+        private void AlertDialogHandler(object sender, DialogClickEventArgs args)
         {
-            if(Handler==null)
-            {
-                Handler = (sender, e) => { SelectedIndex = e.Which; };
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.ActivityContext);
-            builder.SetSingleChoiceItems(Items.ToArray(), SelectedIndex, Handler);
+            nativeCell.SelectedIndex = args.Which;
+            (sender as AlertDialog).Dismiss();
+        }
+
+        private void OnClicked(object sender, EventArgs args)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(currentContext);
+            builder.SetSingleChoiceItems(nativeCell.Items.ToArray(), nativeCell.SelectedIndex, AlertDialogHandler);
             builder.Show();
         }
-    }
 
+        void UpdatePicker()
+        {
+            cellView.LabelText = nativeCell.Title;
+            
+            if (nativeCell.SelectedIndex == -1 || nativeCell.Items == null || nativeCell.SelectedIndex >= nativeCell.Items.Count)
+                cellView.EditText.Text = null;
+            else
+                cellView.EditText.Text = nativeCell.Items[nativeCell.SelectedIndex];
+        }
+        
+        sealed class PickerCellView : LinearLayout, AView.IOnFocusChangeListener, INativeElementView
+        {
+            public const double DefaultMinHeight = 55;
+
+            readonly Cell _cell;
+            readonly ATextView _label;
+            string _labelTextText;
+            
+            public PickerCellView(Context context, Cell cell) : base(context)
+            {
+                _cell = cell;
+                SetMinimumWidth((int)context.ToPixels(50));
+                SetMinimumHeight((int)context.ToPixels(85));
+                Orientation = Orientation.Horizontal;
+                
+                var padding = (int)context.ToPixels(8);
+                SetPadding((int)context.ToPixels(15), padding, padding, padding);
+
+                _label = new ATextView(context);
+                Android.Support.V4.Widget.TextViewCompat.SetTextAppearance(_label, Android.Resource.Style.TextAppearanceSmall);
+                _label.SetWidth((int)context.ToPixels(80));
+
+                var layoutParams = new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent) { Gravity = GravityFlags.CenterVertical };
+                using (layoutParams)
+                    AddView(_label, layoutParams);
+
+                EditText = new EditText(context);
+                EditText.OnFocusChangeListener = this;
+                //editText.SetBackgroundDrawable (null);
+                layoutParams = new LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent) { Width = 0, Weight = 1, Gravity = GravityFlags.FillHorizontal | GravityFlags.Center };
+                using (layoutParams)
+                    AddView(EditText, layoutParams);
+            }
+            
+            public EditText EditText { get; }
+
+            public Action<bool> FocusChanged { get; set; }
+
+            public string LabelText
+            {
+                get { return _labelTextText; }
+                set
+                {
+                    if (_labelTextText == value)
+                        return;
+
+                    _labelTextText = value;
+                    _label.Text = value;
+                }
+            }
+
+            public Element Element => _cell;
+            
+            void IOnFocusChangeListener.OnFocusChange(AView view, bool hasFocus)
+            {
+                FocusChanged?.Invoke(hasFocus);
+            }
+            
+            public void SetRenderHeight(double height)
+            {
+                SetMinimumHeight((int)Context.ToPixels(height == -1 ? DefaultMinHeight : height));
+            }
+        }
+    }
 }
