@@ -88,6 +88,7 @@
     <Compile Include="SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\PickerCellRenderer.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
   <ItemGroup>
