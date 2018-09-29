@@ -53,6 +53,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HotfixController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Blank\Feed.cs" />

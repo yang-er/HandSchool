@@ -20,6 +20,7 @@ namespace HandSchool.Views
         public SchedulePage()
 		{
 			InitializeComponent();
+            ShowIsBusyDialog = true;
 
             RowHeight = new GridLength(60, GridUnitType.Absolute);
             ColWidth = new GridLength(100, GridUnitType.Absolute);

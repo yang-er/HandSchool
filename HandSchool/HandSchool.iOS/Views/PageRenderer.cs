@@ -36,7 +36,7 @@ namespace HandSchool.iOS
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == "IsBusy")
+            if (args.PropertyName == "IsBusy" && ElementPage.ShowIsBusyDialog)
             {
                 if (ElementPage.IsBusy)
                 {

@@ -1,10 +1,6 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -25,7 +21,7 @@ namespace HandSchool.ViewModels
             }
         }
 
-        public FeedViewModel()
+        private FeedViewModel()
         {
             Title = "学校通知";
             Items = new ObservableCollection<FeedItem>();
@@ -34,10 +30,8 @@ namespace HandSchool.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载新闻……");
 
             try
             {
@@ -49,7 +43,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                IsBusy = false;
+                SetIsBusy(false);
             }
         }
     }

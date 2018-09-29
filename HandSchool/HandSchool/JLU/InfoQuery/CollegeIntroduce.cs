@@ -3,8 +3,6 @@ using HandSchool.Internal.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,21 +11,13 @@ using Xamarin.Forms;
 namespace HandSchool.JLU.InfoQuery
 {
     [Entrance("学院介绍查询", "查询各个学院的详细信息。", EntranceType.InfoEntrance)]
-    class CollegeIntroduce : IInfoEntrance
+    class CollegeIntroduce : BaseController, IInfoEntrance
     {
-        private RootObject<CollegeInfo> obj;
         private int schId = 101;
         
         public Bootstrap HtmlDocument { get; set; }
-        public string LastReport { get; private set; }
-        public string StorageFile => "No storage";
-        public bool IsPost => true;
         public string ScriptFileUri => "service/res.do";
         public string PostValue => $"{{\"tag\":\"school@schoolSearch\",\"branch\":\"byId\",\"params\":{{\"schId\":\"{schId}\"}}}}";
-        public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
-
-        public IViewResponse Binding { get; set; }
-        public Action<string> Evaluate { get; set; }
         
         public CollegeIntroduce()
         {
@@ -93,32 +83,63 @@ namespace HandSchool.JLU.InfoQuery
             Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getSchId()")), "\uE721"));
         }
 
-        public async void Receive(string data)
+        public override async void Receive(string data)
         {
-            Core.Log(data);
             if (data.StartsWith("schId"))
             {
                 if (data == "schId=null")
                 {
-                    await Binding.ShowMessage("信息查询", "未指定查询学院。", "知道了");
+                    await ShowMessage("信息查询", "未指定查询学院。", "知道了");
                     return;
                 }
 
                 schId = int.Parse(data.Split('=')[1]);
-                Binding.SetIsBusy(true, "信息查询中……");
                 await Execute();
-                Binding.SetIsBusy(false);
             }
             else
             {
-                await Binding.ShowMessage("信息查询", "未定义操作。", "知道了");
-                await Binding.ShowMessage("信息查询", "未知响应：" + data);
+                await ShowMessage("信息查询", "未定义操作。", "知道了");
+                await ShowMessage("信息查询", "未知响应：" + data);
             }
         }
         
+        private void CreateInfo(StringBuilder jsBuilder, CollegeInfo info)
+        {
+            if (info.schoolName == null) info.schoolName = "学校很懒，什么也没有留下……";
+            jsBuilder.Append("$('#schoolName').text('" + info.schoolName + "');");
+
+            if (info.englishName == null) info.englishName = "School is lazy, left nothing...";
+            jsBuilder.Append("$('#englishName').text('" + info.englishName + "');");
+
+            if (info.extSchNo == null) info.extSchNo = "??";
+            jsBuilder.Append("$('#extSchNo').text('" + info.extSchNo + "');");
+
+            if (info.campus == null) info.campus = "未知";
+            else info.campus = AlreadyKnownThings.Campus[info.campus];
+            jsBuilder.Append("$('#Icampus').text('" + info.campus + "');");
+
+            if (info.division == null) info.division = "未知";
+            else info.division = AlreadyKnownThings.Division[info.division];
+            jsBuilder.Append("$('#Idivision').text('" + info.division + "');");
+
+            if (info.staff == null) info.staff = new Staff { name = "未设置" };
+            jsBuilder.Append("$('#staff').text('" + info.staff.name + "');");
+
+            if (info.telephone == null) info.telephone = "学校很懒，什么也没有留下……";
+            jsBuilder.Append("$('#telephone').text('" + info.telephone + "');");
+
+            if (info.website == null) info.website = "学校很懒，什么也没有留下……";
+            jsBuilder.Append("$('#website').text('" + info.website + "');");
+
+            if (info.introduction == null) info.introduction = "学校很懒，什么也没有留下……";
+            jsBuilder.Append("$('#introduction').text('" + info.introduction + "');");
+        }
+
         public async Task Execute()
         {
-            Binding.SetIsBusy(true, "正在加载信息……");
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载信息……");
+            string LastReport;
 
             try
             {
@@ -128,8 +149,8 @@ namespace HandSchool.JLU.InfoQuery
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
-                    Binding.SetIsBusy(false);
-                    await Binding.ShowMessage("错误", "连接超时，请重试。");
+                    SetIsBusy(false);
+                    await View.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
                 else
@@ -138,42 +159,11 @@ namespace HandSchool.JLU.InfoQuery
                 }
             }
 
-            obj = LastReport.ParseJSON<RootObject<CollegeInfo>>();
+            SetIsBusy(false);
+            var obj = LastReport.ParseJSON<RootObject<CollegeInfo>>();
             var jsBuilder = new StringBuilder();
-            if (obj.value[0].schoolName == null)
-                obj.value[0].schoolName = "学校很懒，什么也没有留下……";
-            jsBuilder.Append("$('#schoolName').text('" + obj.value[0].schoolName + "');");
-            if (obj.value[0].englishName == null)
-                obj.value[0].englishName = "School is lazy, left nothing...";
-            jsBuilder.Append("$('#englishName').text('" + obj.value[0].englishName + "');");
-            if (obj.value[0].extSchNo == null)
-                obj.value[0].extSchNo = "??";
-            jsBuilder.Append("$('#extSchNo').text('" + obj.value[0].extSchNo + "');");
-            if (obj.value[0].campus == null)
-                obj.value[0].campus = "未知";
-            else
-                obj.value[0].campus = AlreadyKnownThings.Campus[obj.value[0].campus];
-            jsBuilder.Append("$('#Icampus').text('" + obj.value[0].campus + "');");
-            if (obj.value[0].division == null)
-                obj.value[0].division = "未知";
-            else
-                obj.value[0].division = AlreadyKnownThings.Division[obj.value[0].division];
-            jsBuilder.Append("$('#Idivision').text('" + obj.value[0].division + "');");
-            if (obj.value[0].staff == null)
-                obj.value[0].staff = new Staff { name = "未设置" };
-            jsBuilder.Append("$('#staff').text('" + obj.value[0].staff.name + "');");
-            if (obj.value[0].telephone == null)
-                obj.value[0].telephone = "学校很懒，什么也没有留下……";
-            jsBuilder.Append("$('#telephone').text('" + obj.value[0].telephone + "');");
-            if (obj.value[0].website == null)
-                obj.value[0].website = "学校很懒，什么也没有留下……";
-            jsBuilder.Append("$('#website').text('" + obj.value[0].website + "');");
-            if (obj.value[0].introduction == null)
-                obj.value[0].introduction = "学校很懒，什么也没有留下……";
-            jsBuilder.Append("$('#introduction').text('" + obj.value[0].introduction + "');");
+            CreateInfo(jsBuilder, obj.value[0]);
             Evaluate(jsBuilder.ToString());
         }
-
-        public void Parse() { }
     }
 }

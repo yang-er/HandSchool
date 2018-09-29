@@ -20,7 +20,7 @@ namespace HandSchool.Services
         /// <summary>
         /// 页面响应
         /// </summary>
-        IViewResponse Binding { get; set; }
+        IViewResponse View { get; set; }
 
         /// <summary>
         /// 执行JavaScript脚本的函数
@@ -54,7 +54,7 @@ namespace HandSchool.Services
     /// <summary>
     /// 信息入口点
     /// </summary>
-    public interface IInfoEntrance : ISystemEntrance, IWebEntrance
+    public interface IInfoEntrance : IWebEntrance
     {
         /// <summary>
         /// 使用的Bootstrap文档

@@ -31,7 +31,7 @@ namespace HandSchool.ViewModels
         {
             if (e.State != LoginState.Succeeded) return;
             var sys = sender as ISchoolSystem;
-            SetProperty(ref week, sys.CurrentWeek, "CurrentWeek");
+            SetProperty(ref week, sys.CurrentWeek, nameof(CurrentWeek));
         }
 
         private ScheduleViewModel()
@@ -46,12 +46,10 @@ namespace HandSchool.ViewModels
         async void Refresh()
         {
             if (IsBusy) return;
-            IsBusy = true;
-            View.SetIsBusy(true, "正在加载课程表……");
+            SetIsBusy(true, "正在加载课程表……");
             await Core.App.Schedule.Execute();
             RefreshComplete?.Invoke();
-            View.SetIsBusy(false);
-            IsBusy = false;
+            SetIsBusy(false);
         }
 
 #if __UWP__

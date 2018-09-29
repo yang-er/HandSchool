@@ -37,9 +37,8 @@ namespace HandSchool.JLU.ViewModels
         public async Task ProcessQuery()
         {
             if (IsBusy) return;
-            // View.SetIsBusy(true, "正在加载消费信息……");
-            IsBusy = true;
-            string last_error=null;
+            SetIsBusy(true, "正在加载消费信息……");
+            string last_error = null;
 
             try
             {
@@ -59,8 +58,7 @@ namespace HandSchool.JLU.ViewModels
             }
             finally
             {
-                IsBusy = false;
-                // View.SetIsBusy(false);
+                SetIsBusy(false);
                 if (last_error != null)
                     await View.ShowMessage("查询失败", last_error);
             }
@@ -69,8 +67,7 @@ namespace HandSchool.JLU.ViewModels
         public async Task GetPickCardInfo()
         {
             if (IsBusy) return;
-            // View.SetIsBusy(true, "正在加载拾卡信息……");
-            IsBusy = true;
+            SetIsBusy(true, "正在加载拾卡信息……");
 
             try
             {
@@ -86,16 +83,16 @@ namespace HandSchool.JLU.ViewModels
             }
             finally
             {
-                IsBusy = false;
-                // View.SetIsBusy(false);
+                SetIsBusy(false);
             }
         }
 
         public async Task ProcessCharge(object money)
         {
             if (IsBusy) return;
-            View.SetIsBusy(true, "正在充值……");
-            IsBusy = true;
+            if (!await View.ShowActionSheet("提示", "向校园卡转账成功后，所转金额都会先是在过渡余额中，在餐厅等处的卡机上进行刷卡操作后，过渡余额即会转入校园卡。是否继续充值？", "否", "是")) return;
+
+            SetIsBusy(true, "正在充值……");
             string last_error = null;
 
             try
@@ -127,8 +124,7 @@ namespace HandSchool.JLU.ViewModels
             }
             finally
             {
-                IsBusy = false;
-                View.SetIsBusy(false);
+                SetIsBusy(false);
                 if (last_error != null)
                     await View.ShowMessage("充值失败", last_error);
                 else

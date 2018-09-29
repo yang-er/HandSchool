@@ -1,7 +1,6 @@
 ﻿using HandSchool.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -22,7 +21,7 @@ namespace HandSchool.ViewModels
             }
         }
 
-        public GradePointViewModel()
+        private GradePointViewModel()
         {
             Title = "学分成绩";
             Items = new ObservableCollection<IGradeItem>();
@@ -31,10 +30,8 @@ namespace HandSchool.ViewModels
 
         public async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载成绩……");
 
             try
             {
@@ -46,7 +43,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                IsBusy = false;
+                SetIsBusy(false);
             }
         }
     }

@@ -4,38 +4,26 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using Command = Xamarin.Forms.Command;
 using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {
     [Entrance("学院开课情况查询", "看看可以去蹭哪些课吧~", EntranceType.InfoEntrance)]
-    class ClassSchedule : IInfoEntrance
+    class ClassSchedule : BaseController, IInfoEntrance
     {
         public Bootstrap HtmlDocument { get; set; }
-        public IViewResponse Binding { get; set; }
-        public Action<string> Evaluate { get; set; }
-        public string LastReport { get; set; }
-        public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
 
         private int termId = 135;
         private int schId = 101;
         private int tcmType = -1;
         private int lessonId;
-        private bool is_busy = false;
         
-        public string ScriptFileUri => "service/res.do";
-        public bool IsPost => true;
-        public string PostValue => $"{{\"tag\":\"lesson@globalStore\",\"branch\":\"default\",\"params\":{{\"termId\":{termId},\"schId\":\"{schId}\"{(tcmType == -1 ? "" : ",\"tcmType\":\""+ tcmType +"\"")}}},\"orderBy\":\"courseInfo.courName, extLessonNo\"}}";
-        public string PostDetail => $"{{\"tag\":\"teachClassMaster@selectResultAdjust\",\"branch\":\"byLesson\",\"params\":{{\"lessonId\":\"{lessonId}\"}}}}";
-        public string StorageFile => "No storage";
-
-        public Task Execute() { throw new InvalidOperationException(); }
-        public void Parse() { throw new InvalidOperationException(); }
+        const string ScriptFileUri = "service/res.do";
+        string PostValue => $"{{\"tag\":\"lesson@globalStore\",\"branch\":\"default\",\"params\":{{\"termId\":{termId},\"schId\":\"{schId}\"{(tcmType == -1 ? "" : ",\"tcmType\":\""+ tcmType +"\"")}}},\"orderBy\":\"courseInfo.courName, extLessonNo\"}}";
+        string PostDetail => $"{{\"tag\":\"teachClassMaster@selectResultAdjust\",\"branch\":\"byLesson\",\"params\":{{\"lessonId\":\"{lessonId}\"}}}}";
 
         public ClassSchedule()
         {
@@ -43,9 +31,7 @@ namespace HandSchool.JLU.InfoQuery
 
             sb.Append("<select class=\"form-control\" id=\"schId\">");
             foreach (var opt in AlreadyKnownThings.Colleges)
-            {
                 sb.Append($"<option value=\"{opt.Id}\">{opt.Name}</option>");
-            }
             sb.Append("</select>");
             var sch = sb.ToRawHtml();
             sb.Clear();
@@ -115,15 +101,15 @@ namespace HandSchool.JLU.InfoQuery
             Menu.Add(new InfoEntranceMenu("加载", new Command(SolveLessonList), "\uE721"));
         }
 
-        async void SolveLessonList()
+        private async void SolveLessonList()
         {
-            if (is_busy) return;
-            Binding.SetIsBusy(is_busy = true, "正在加载课程列表……");
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载课程列表……");
             Evaluate?.Invoke($"$('#lessonList').html('<tr><td colspan=\"4\">正在加载…</td></tr>');$('#lessonId').html('')");
 
             try
             {
-                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
                 var lists = LastReport.ParseJSON<RootObject<CollegeCourse>>();
                 var sb = new StringBuilder();
                 foreach (var opt in lists.value)
@@ -136,19 +122,19 @@ namespace HandSchool.JLU.InfoQuery
                 }
                 Evaluate?.Invoke($"$('#lessonList').html('{sb.ToString()}')");
                 sb.Clear();
-                Binding.SetIsBusy(is_busy = false);
+                SetIsBusy(false);
             }
             catch (JsonException)
             {
-                Binding.SetIsBusy(is_busy = false);
-                await Binding.ShowMessage("提示", "加载课程列表失败。");
+                SetIsBusy(false);
+                await ShowMessage("提示", "加载课程列表失败。");
             }
             catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
-                    Binding.SetIsBusy(is_busy = false);
-                    await Binding.ShowMessage("错误", "连接超时，请重试。");
+                    SetIsBusy(false);
+                    await ShowMessage("错误", "连接超时，请重试。");
                 }
                 else
                 {
@@ -157,17 +143,18 @@ namespace HandSchool.JLU.InfoQuery
             }
         }
 
-        async void SolveLessonId()
+        private async void SolveLessonId()
         {
-            if (is_busy) return;
-            Binding.SetIsBusy(is_busy = true, "正在加载教学班列表……");
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载教学班列表……");
             Evaluate?.Invoke($"$('#lessonId').html('<tr><td colspan=\"4\">正在加载…</td></tr>')");
 
             try
             {
-                LastReport = await Core.App.Service.Post(ScriptFileUri, PostDetail);
+                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostDetail);
                 var lists = LastReport.ParseJSON<RootObject<LessonIdList>>();
                 var sb = new StringBuilder();
+
                 foreach (var opt in lists.value)
                 {
                     sb.Append("<tr><td>");
@@ -180,21 +167,22 @@ namespace HandSchool.JLU.InfoQuery
                     if (opt.lessonTeachers.Length > 0) sb.Remove(sb.Length - 1, 1);
                     sb.Append($"</td><td>{opt.studCnt}</td></tr>");
                 }
+
                 Evaluate?.Invoke($"$('#lessonId').html('{sb.ToString()}')");
                 sb.Clear();
-                Binding.SetIsBusy(is_busy = false);
+                SetIsBusy(false);
             }
             catch (JsonException)
             {
-                Binding.SetIsBusy(is_busy = false);
-                await Binding.ShowMessage("提示", "加载教学班列表失败。");
+                SetIsBusy(false);
+                await ShowMessage("提示", "加载教学班列表失败。");
             }
             catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
-                    Binding.SetIsBusy(is_busy = false);
-                    await Binding.ShowMessage("错误", "连接超时，请重试。");
+                    SetIsBusy(false);
+                    await ShowMessage("错误", "连接超时，请重试。");
                 }
                 else
                 {
@@ -203,7 +191,7 @@ namespace HandSchool.JLU.InfoQuery
             }
         }
 
-        public void Receive(string data)
+        public override void Receive(string data)
         {
             if (data.StartsWith("termId="))
             {
@@ -224,7 +212,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                Binding.ShowMessage("错误", "未知响应：" + data);
+                ShowMessage("错误", "未知响应：" + data);
             }
         }
     }

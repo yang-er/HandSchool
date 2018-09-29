@@ -8,6 +8,8 @@ using System.Text;
 using System.Xml.Linq;
 using FeedItem = HandSchool.Models.FeedItem;
 using HandSchool.Internal.HtmlObject;
+using System.Threading.Tasks;
+using HandSchool.ViewModels;
 
 namespace HandSchool.Internal
 {
@@ -186,6 +188,30 @@ namespace HandSchool.Internal
         public static FormGroup WrapFormGroup(this IHtmlObject obj)
         {
             return new FormGroup { Children = { obj } };
+        }
+
+        /// <summary>
+        /// 弹出询问框
+        /// </summary>
+        /// <param name="title">对话框标题</param>
+        /// <param name="description">消息正文</param>
+        /// <param name="cancel">取消按钮文字</param>
+        /// <param name="accept">确定按钮文字</param>
+        /// <returns>是否确定</returns>
+        public static Task<bool> ShowActionSheet(this BaseViewModel vm, string title, string description, string cancel, string accept)
+        {
+            return vm.View.ShowActionSheet(title, description, cancel, accept);
+        }
+
+        /// <summary>
+        /// 弹出消息对话框
+        /// </summary>
+        /// <param name="title">对话框标题</param>
+        /// <param name="message">消息正文</param>
+        /// <param name="button">按钮文字</param>
+        public static Task ShowMessage(this BaseViewModel vm, string title, string message, string button = "确认")
+        {
+            return vm.View.ShowMessage(title, message, button);
         }
     }
 }

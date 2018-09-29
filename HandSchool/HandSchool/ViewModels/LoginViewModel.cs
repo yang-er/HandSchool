@@ -28,7 +28,6 @@ namespace HandSchool.ViewModels
         {
             var viewModel = new LoginViewModel(form);
             viewModel.LoginCommand = new Command(viewModel.Login);
-            viewModel.View = new ViewResponse(null);
             viewModel.Page = new LoginPage(viewModel);
             await viewModel.Page.ShowAsync();
             return form.IsLogin;
@@ -42,9 +41,7 @@ namespace HandSchool.ViewModels
                 return;
             }
 
-            IsBusy = true;
-
-            View.SetIsBusy(true, "正在登录……");
+            SetIsBusy(true, "正在登录……");
             Form.LoginStateChanged += Page.Response;
 
             try
@@ -53,8 +50,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                IsBusy = false;
-                View.SetIsBusy(false);
+                SetIsBusy(false);
                 Form.LoginStateChanged -= Page.Response;
             }
         }

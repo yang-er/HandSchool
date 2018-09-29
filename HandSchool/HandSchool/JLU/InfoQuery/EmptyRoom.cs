@@ -3,32 +3,25 @@ using HandSchool.Internal.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
     [Entrance("查空教室", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
-    class EmptyRoom : IInfoEntrance
+    class EmptyRoom : BaseController, IInfoEntrance
     {
         public Bootstrap HtmlDocument { get; set; }
-        public IViewResponse Binding { get; set; }
-        public Action<string> Evaluate { get; set; }
-        public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
-        
-        public string ScriptFileUri => "service/res.do";
-        public bool IsPost => true;
-        public string PostValue => $"{{\"tag\":\"roomIdle@roomUsage\",\"branch\":\"default\",\"params\":{{\"termId\":{TermId},\"bid\":\"{Bid}\",\"rname\":\"\",\"dateActual\":{{}},\"cs\":{Cs},\"d_actual\":\"{Today}T00:00:00+08:00\"}}}}";
-        public string StorageFile => "No storage";
-        public string Cs = "";
-        public string Bid = "";
-        public string Today = "";
-        public string TermId = "";
-        public string LastReport { get; set; }
+
+        private string ScriptFileUri => "service/res.do";
+        private string PostValue => $"{{\"tag\":\"roomIdle@roomUsage\",\"branch\":\"default\",\"params\":{{\"termId\":{TermId},\"bid\":\"{Bid}\",\"rname\":\"\",\"dateActual\":{{}},\"cs\":{Cs},\"d_actual\":\"{Today}T00:00:00+08:00\"}}}}";
+
+        private string Cs = "";
+        private string Bid = "";
+        private string Today = "";
+        private string TermId = "";
+        private string LastReport { get; set; }
 
         public EmptyRoom()
         {
@@ -103,36 +96,12 @@ namespace HandSchool.JLU.InfoQuery
 
             Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getdata()")), "\uE721"));
         }
-
-        public async Task Execute()
-        {
-            try
-            {
-                LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-            }
-            catch (WebException ex)
-            {
-                if (ex.Status == WebExceptionStatus.Timeout)
-                {
-                    await Binding.ShowMessage("错误", "连接超时，请重试。");
-                    return;
-                }
-                else
-                {
-                    throw ex;
-                }
-            }
-            
-            Evaluate($"callback({LastReport})");
-        }
-
-        public void Parse() { }
-
-        public async void Receive(string data)
+        
+        public override async void Receive(string data)
         {
             if(!data.StartsWith("time"))
             {
-                await Binding.ShowMessage("查空教室", "请选择合法数据！", "知道了");
+                await ShowMessage("查空教室", "请选择合法数据！", "知道了");
             }
             else
             {
@@ -140,9 +109,26 @@ namespace HandSchool.JLU.InfoQuery
                 Today = Res[1];
                 Bid = Res[3];
                 Cs = Res[5];
-                Binding.SetIsBusy(true, "信息查询中……");
-                await Execute();
-                Binding.SetIsBusy(false);
+                SetIsBusy(true, "信息查询中……");
+
+                try
+                {
+                    var LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+                    Evaluate($"callback({LastReport})");
+                }
+                catch (WebException ex)
+                {
+                    if (ex.Status == WebExceptionStatus.Timeout)
+                    {
+                        await ShowMessage("错误", "连接超时，请重试。");
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
+
+                SetIsBusy(false);
             }
         }
     }

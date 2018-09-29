@@ -19,6 +19,7 @@ namespace HandSchool.ViewModels
         public List<InfoEntranceGroup> InfoEntrances { get; set; } = new List<InfoEntranceGroup>();
         public InfoEntranceGroup AboutEntrances { get; set; } = new InfoEntranceGroup { GroupTitle = "关于" };
         public string Version { get; set; }
+
         public static AboutViewModel Instance
         {
             get
@@ -149,7 +150,7 @@ namespace HandSchool.ViewModels
         private void CheckUpdate()
         {
 #if __ANDROID__
-            Droid.MainActivity.Instance.Update();
+            Droid.MainActivity.UpdateManager.Update();
 #elif __UWP__
             Device.OpenUri(new Uri("ms-windows-store://pdp/?productid=9PD2FR9HHJQP"));
 #elif __IOS__
@@ -158,24 +159,18 @@ namespace HandSchool.ViewModels
         }
 
         [Entrance("隐私政策", "提供关于本程序如何使用您的隐私的一些说明。", EntranceType.UrlEntrance)]
-        public class PrivacyPolicy : IUrlEntrance
+        public class PrivacyPolicy : BaseController, IUrlEntrance
         {
             public string HtmlUrl { get; set; } = "privacy.html";
-            public IViewResponse Binding { get; set; }
-            public Action<string> Evaluate { get; set; }
-            public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
-            public void Receive(string data) { }
+            public override void Receive(string data) { }
             public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
 
         [Entrance("开放源代码许可", "提供关于本程序开源许可证的一些说明。", EntranceType.UrlEntrance)]
-        public class LicenseInfo : IUrlEntrance
+        public class LicenseInfo : BaseController, IUrlEntrance
         {
             public string HtmlUrl { get; set; } = "license.html";
-            public IViewResponse Binding { get; set; }
-            public Action<string> Evaluate { get; set; }
-            public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
-            public void Receive(string data) { }
+            public override void Receive(string data) { }
             public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
     }

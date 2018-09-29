@@ -80,7 +80,6 @@ namespace HandSchool.JLU
         
         public GradeEntrance()
         {
-            new GradePointViewModel();
             LastReportGPA = Core.ReadConfig(config_gpa);
             if (LastReportGPA != "") ParseGPA();
             LastReport = Core.ReadConfig(config_grade);

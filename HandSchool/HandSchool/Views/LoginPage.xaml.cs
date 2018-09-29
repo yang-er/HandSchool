@@ -14,6 +14,7 @@ namespace HandSchool.Views
         internal LoginPage(LoginViewModel viewModel)
         {
             InitializeComponent();
+            ShowIsBusyDialog = true;
             ViewModel = viewModel;
             ShowCancel = true;
 
@@ -44,7 +45,7 @@ namespace HandSchool.Views
         public async void UpdateCaptchaInfomation()
         {
             var viewModel = ViewModel as LoginViewModel;
-            ViewModel.IsBusy = true;
+            viewModel.SetIsBusy(true, "正在加载资源……");
 
             if (!await viewModel.Form.PrepareLogin())
             {
@@ -67,7 +68,7 @@ namespace HandSchool.Views
                 CaptchaImage.Source = ImageSource.FromStream(() => image_mem);
             }
 
-            ViewModel.IsBusy = false;
+            viewModel.SetIsBusy(false);
         }
     }
 }

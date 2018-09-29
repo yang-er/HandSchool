@@ -24,12 +24,5 @@ namespace HandSchool.Internal
         /// <param name="accept">确定按钮文字</param>
         /// <returns>是否确定</returns>
         Task<bool> ShowActionSheet(string title, string description, string cancel, string accept);
-
-        /// <summary>
-        /// 设置忙状态
-        /// </summary>
-        /// <param name="value">值</param>
-        /// <param name="tips">提示</param>
-        void SetIsBusy(bool value, string tips = "");
     }
 }

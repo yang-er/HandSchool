@@ -55,9 +55,8 @@ namespace HandSchool.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
-                return;
-            IsBusy = true;
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载消息……");
 
             try
             {
@@ -69,7 +68,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                IsBusy = false;
+                SetIsBusy(false);
             }
         }
     }

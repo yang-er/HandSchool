@@ -14,18 +14,18 @@ using JsonException = Newtonsoft.Json.JsonException;
 namespace HandSchool.JLU.InfoQuery
 {
     [Entrance("专业培养计划", "看看我们要学什么，提前预习偷偷补课。", EntranceType.InfoEntrance)]
-    class ProgramMaster : IInfoEntrance
+    class ProgramMaster : BaseController, IInfoEntrance
     {
         public Bootstrap HtmlDocument { get; set; }
-        public IViewResponse Binding { get; set; }
-        public Action<string> Evaluate { get; set; }
-        public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
         public int[] Batches = { 2009, 2013, 2018 };
 
         private int batch = 2013;
         private int schId = 101;
-        private int progId = 489;
-        private bool is_busy = false;
+        private int progId = -1;
+
+        public string ScriptFileUri => "service/res.do";
+        public string PostValue => $"{{\"tag\":\"programDetail@common\",\"branch\":\"default\",\"params\":{{\"progId\":\"{progId}\"}},\"orderBy\":\" advGrade, termSeq, courseInfo.extCourseNo\"}}";
+        public string PostList => $"{{\"type\":\"search\",\"branch\":\"default\",\"params\":{{\"schId\":\"{schId}\",\"active\":\"Y\",\"batch\":\"{batch}\"}},\"tag\":\"programMaster@programsQuery\"}}";
 
         public ProgramMaster()
         {
@@ -102,93 +102,68 @@ namespace HandSchool.JLU.InfoQuery
             Menu.Add(new InfoEntranceMenu("加载", new Command(SolveProgVal), "\uE721"));
         }
 
-        public string ScriptFileUri => "service/res.do";
-        public bool IsPost => false;
-        public string PostValue => $"{{\"tag\":\"programDetail@common\",\"branch\":\"default\",\"params\":{{\"progId\":\"{progId}\"}},\"orderBy\":\" advGrade, termSeq, courseInfo.extCourseNo\"}}";
-        public string PostList => $"{{\"type\":\"search\",\"branch\":\"default\",\"params\":{{\"schId\":\"{schId}\",\"active\":\"Y\",\"batch\":\"{batch}\"}},\"tag\":\"programMaster@programsQuery\"}}";
-        public string StorageFile => "No storage";
-        public string LastReport { get; set; }
-        
-        public Task Execute() { throw new InvalidOperationException(); }
-        public void Parse() { throw new InvalidOperationException(); }
-
         public async void SolveProgId()
         {
-            if (is_busy) return;
-            Binding.SetIsBusy(is_busy = true, "正在加载教学方案……");
+            if (IsBusy) return;
+            SetIsBusy(true, "正在加载教学方案……");
+
             try
             {
-                try
-                {
-                    LastReport = await Core.App.Service.Post(ScriptFileUri, PostList);
-                }
-                catch (WebException ex)
-                {
-                    if (ex.Status == WebExceptionStatus.Timeout)
-                    {
-                        Binding.SetIsBusy(is_busy = false);
-                        await Binding.ShowMessage("错误", "连接超时，请重试。");
-                        return;
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
-                }
-
+                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostList);
                 var lists = LastReport.ParseJSON<RootObject<ProgItem>>();
                 var sb = new StringBuilder();
                 sb.Append("<option value=\"-1\" selected>请选择</option>");
+
                 foreach (var opt in lists.value)
                 {
                     sb.Append($"<option value=\"{opt.progId}\">{opt.title}</option>");
                 }
+
                 Evaluate?.Invoke($"$('#progId').html('{sb.ToString()}')");
                 sb.Clear();
-                Binding.SetIsBusy(is_busy = false);
+                SetIsBusy(false);
             }
             catch (JsonException)
             {
-                Binding.SetIsBusy(is_busy = false);
-                await Binding.ShowMessage("提示", "加载教学方案失败。");
+                SetIsBusy(false);
+                await ShowMessage("提示", "加载教学方案失败。");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    SetIsBusy(false);
+                    await ShowMessage("错误", "连接超时，请重试。");
+                    return;
+                }
+                else
+                {
+                    await ShowMessage("错误", ex.ToString());
+                    throw ex;
+                }
             }
         }
 
         public async void SolveProgVal()
         {
-            if (is_busy) return;
+            if (IsBusy) return;
 
             if (progId == -1)
             {
-                await Binding.ShowMessage("提示", "请选择一个培养计划！");
+                await ShowMessage("提示", "请选择一个培养计划！");
                 Evaluate?.Invoke($"$('#progList').html('<tr><td colspan=\"9\">请先选择一个教学计划</td></tr>')");
                 return;
             }
 
-            Binding.SetIsBusy(is_busy = true, "正在加载培养方案内容……");
+            SetIsBusy(true, "正在加载培养方案内容……");
             Evaluate?.Invoke($"$('#progList').html('<tr><td colspan=\"9\">正在加载……</td></tr>')");
+
             try
             {
-                try
-                {
-                    LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-                }
-                catch (WebException ex)
-                {
-                    if (ex.Status == WebExceptionStatus.Timeout)
-                    {
-                        await Binding.ShowMessage("错误", "连接超时，请重试。");
-                        Binding.SetIsBusy(is_busy = false);
-                        return;
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
-                }
-                
+                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
                 var lists = LastReport.ParseJSON<RootObject<ProgTerm>>();
                 var sb = new StringBuilder();
+
                 foreach (var opt in lists.value)
                 {
                     sb.Append("<tr>");
@@ -203,19 +178,33 @@ namespace HandSchool.JLU.InfoQuery
                     sb.Append($"<td>{opt.exprCredit}</td>");
                     sb.Append("</tr>");
                 }
+
                 Evaluate?.Invoke($"$('#progList').html('{sb.ToString()}')");
                 sb.Clear();
-                Binding.SetIsBusy(is_busy = false);
+                SetIsBusy(false);
             }
             catch (JsonException)
             {
-                Binding.SetIsBusy(is_busy = false);
+                SetIsBusy(false);
                 Evaluate?.Invoke($"$('#progList').html('<tr><td colspan=\"9\">加载失败</td></tr>')");
-                await Binding.ShowMessage("提示", "加载教学方案失败。");
+                await ShowMessage("提示", "加载教学方案失败。");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    SetIsBusy(false);
+                    await ShowMessage("错误", "连接超时，请重试。");
+                }
+                else
+                {
+                    await ShowMessage("错误", ex.ToString());
+                    throw ex;
+                }
             }
         }
 
-        public void Receive(string data)
+        public override void Receive(string data)
         {
             if (data.StartsWith("batch="))
             {
@@ -233,7 +222,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                Binding.ShowMessage("错误", "未知响应：" + data);
+                ShowMessage("错误", "未知响应：" + data);
             }
         }
     }

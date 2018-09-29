@@ -41,6 +41,7 @@ namespace HandSchool.Views
             set
             {
                 BindingContext = value;
+                SetBinding(IsBusyProperty, new Binding("IsBusy", BindingMode.OneWay));
                 value.View = new ViewResponse(this);
             }
         }
@@ -88,6 +89,8 @@ namespace HandSchool.Views
             else
                 await Navigation.PopAsync();
         }
+
+        public bool ShowIsBusyDialog { get; protected set; }
 
         private NavigationPage _navpg;
 

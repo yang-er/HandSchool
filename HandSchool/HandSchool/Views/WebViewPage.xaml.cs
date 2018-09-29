@@ -17,10 +17,13 @@ namespace HandSchool.Views
 		public WebViewPage(IWebEntrance entrance)
 		{
 			InitializeComponent();
+            ShowIsBusyDialog = true;
             var meta = entrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
             Title = meta.Title;
+
             InfoEntrance = entrance;
-            InfoEntrance.Binding = new ViewResponse(this);
+            var baseController = InfoEntrance as BaseController;
+            ViewModel = baseController;
 
             if (entrance is IInfoEntrance ie)
             {
@@ -46,17 +49,6 @@ namespace HandSchool.Views
             {
                 new WebViewPage(iu.SubUrlRequested(req)).ShowAsync(Navigation);
             }
-        }
-
-        public WebViewPage(AboutViewModel viewModel)
-        {
-            InitializeComponent();
-            Title = viewModel.Title;
-            ViewModel = viewModel;
-            var sb = new StringBuilder();
-            viewModel.HtmlDocument.ToHtml(sb);
-            WebView.Html = sb.ToString();
-            WebView.RegisterAction(viewModel.Response);
         }
     }
 }
