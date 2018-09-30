@@ -80,8 +80,8 @@ namespace HandSchool.ViewModels
             };
 #endif
 
-            AddMenuEntry("首页", "IndexPage", "\xE10F", sel: true, apple: "tab_feed.png");
-            AddMenuEntry("课程表", "SchedulePage", "\xECA5", apple: "tab_feed.png");
+            AddMenuEntry("首页", "IndexPage", "\xE10F", sel: true, apple: "tab_rec.png");
+            AddMenuEntry("课程表", "SchedulePage", "\xECA5", apple: "tab_sched.png");
 
 #if !__ANDROID__
             if (Core.App.Feed != null)

@@ -5,7 +5,7 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
                   Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="操作" Clicked="Handle_Clicked" />
+        <ToolbarItem Text="更多" Clicked="Handle_Clicked" />
     </ContentPage.ToolbarItems>
     <ListView x:Name="MyListView"
               ItemsSource="{Binding Items}"
