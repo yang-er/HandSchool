@@ -42,11 +42,18 @@ namespace HandSchool.JLU
 
         public async Task<bool> PrepareLogin()
         {
-            var prepare = await WebClient.GetAsync("", "*/*");
-            var login_str = await WebClient.GetAsync("Account/Login", "*/*");
-            var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
-            CaptchaSource = await WebClient.GetAsync(captcha_url.Groups[1].Value, "image/jif", "jif");
-            return CaptchaSource != null;
+            try
+            {
+                var prepare = await WebClient.GetAsync("", "*/*");
+                var login_str = await WebClient.GetAsync("Account/Login", "*/*");
+                var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
+                CaptchaSource = await WebClient.GetAsync(captcha_url.Groups[1].Value, "image/jif", "jif");
+                return CaptchaSource != null;
+            }
+            catch (WebException)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> Login()

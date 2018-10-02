@@ -256,7 +256,11 @@ namespace HandSchool.JLU
 
         public async Task<string> Post(string url, string send)
         {
-            if (await RequestLogin() == false) return "";
+            if (await RequestLogin() == false)
+            {
+                throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+            }
+
             try
             {
                 var ret = await WebClient.PostAsync(url, FormatArguments(send));
@@ -278,8 +282,11 @@ namespace HandSchool.JLU
 
         public async Task<string> Get(string url)
         {
-            if (await RequestLogin() == false) return "";
-            await RequestLogin();
+            if (await RequestLogin() == false)
+            {
+                throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+            }
+
             try
             {
                 var ret = await WebClient.GetAsync(url);
