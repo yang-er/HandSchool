@@ -5,6 +5,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
@@ -97,7 +98,7 @@ namespace HandSchool.JLU.InfoQuery
             Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getdata()")), "\uE721"));
         }
         
-        public override async void Receive(string data)
+        public override async Task Receive(string data)
         {
             if(!data.StartsWith("time"))
             {
@@ -120,6 +121,7 @@ namespace HandSchool.JLU.InfoQuery
                 {
                     if (ex.Status == WebExceptionStatus.Timeout)
                     {
+                        SetIsBusy(false);
                         await ShowMessage("错误", "连接超时，请重试。");
                     }
                     else
@@ -127,8 +129,6 @@ namespace HandSchool.JLU.InfoQuery
                         throw ex;
                     }
                 }
-
-                SetIsBusy(false);
             }
         }
     }

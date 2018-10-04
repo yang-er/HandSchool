@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.Views
@@ -14,7 +15,7 @@ namespace HandSchool.Views
     /// <see cref="https://github.com/xamarin/xamarin-forms-samples/tree/master/CustomRenderers/HybridWebView" />
     public class HybridWebView : View
     {
-        Action<string> action;
+        Func<string, Task> action;
 
         /// <summary>
         /// Uri属性的内部储存
@@ -85,7 +86,7 @@ namespace HandSchool.Views
         /// 注册invokeCSharpAction回调函数
         /// </summary>
         /// <param name="callback">回调函数</param>
-        public void RegisterAction(Action<string> callback)
+        public void RegisterAction(Func<string, Task> callback)
         {
             action = callback;
         }

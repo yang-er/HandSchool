@@ -3,6 +3,7 @@ using HandSchool.Internal.HtmlObject;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HandSchool.Services
 {
@@ -15,7 +16,7 @@ namespace HandSchool.Services
         /// 接收invokeCSharpAction的信息
         /// </summary>
         /// <param name="data">字符串接收</param>
-        void Receive(string data);
+        Task Receive(string data);
 
         /// <summary>
         /// 页面响应

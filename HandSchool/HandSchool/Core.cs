@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace HandSchool
 {
@@ -157,6 +158,10 @@ namespace HandSchool
             File.WriteAllText(Path.Combine(ConfigDirectory, name), value);
         }
 
+        #endregion
+
+        #region 调试服务
+
         /// <summary>
         /// 调试阶段的断言
         /// </summary>
@@ -196,9 +201,52 @@ namespace HandSchool
         {
             Debug.WriteLine(format, param);
         }
+        
+        /// <summary>
+        /// 在主线程上运行异步操作
+        /// </summary>
+        public static Task EnsureOnMainThread(Func<Task> task)
+        {
+            if (System.Threading.Thread.CurrentThread.ManagedThreadId != 1)
+            {
+                var awaiter = new Task(() => { });
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await task();
+                    awaiter?.Start();
+                });
+                return awaiter;
+            }
+            else
+            {
+                return task();
+            }
+        }
+
+        /// <summary>
+        /// 在主线程上运行异步操作
+        /// </summary>
+        public static Task<T> EnsureOnMainThread<T>(Func<Task<T>> task)
+        {
+            if (System.Threading.Thread.CurrentThread.ManagedThreadId != 1)
+            {
+                T retval = default(T);
+                var awaiter = new Task<T>(() => retval);
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
+                {
+                    retval = await task();
+                    awaiter?.Start();
+                });
+                return awaiter;
+            }
+            else
+            {
+                return task();
+            }
+        }
 
         private Core() { }
 
-#endregion
+        #endregion
     }
 }

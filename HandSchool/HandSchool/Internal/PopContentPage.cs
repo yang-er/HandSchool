@@ -90,6 +90,9 @@ namespace HandSchool.Views
                 await Navigation.PopAsync();
         }
 
+        /// <summary>
+        /// 是否显示正忙的弹窗
+        /// </summary>
         public bool ShowIsBusyDialog { get; protected set; }
 
         private NavigationPage _navpg;

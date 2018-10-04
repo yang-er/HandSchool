@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal.HtmlObject;
 using HandSchool.Services;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace HandSchool.Internal
 {
@@ -34,7 +35,7 @@ namespace HandSchool.Internal
         /// 回调函数
         /// </summary>
         /// <param name="data"></param>
-        public override async void Receive(string data)
+        public override async Task Receive(string data)
         {
             if (data == "finished")
             {

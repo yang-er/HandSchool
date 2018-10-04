@@ -23,7 +23,7 @@ namespace HandSchool.Internal
         /// 接收消息
         /// </summary>
         /// <param name="data">消息</param>
-        public abstract void Receive(string data);
+        public abstract Task Receive(string data);
 
         /// <summary>
         /// 弹出询问框
@@ -35,7 +35,7 @@ namespace HandSchool.Internal
         /// <returns>是否确定</returns>
         public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
         {
-            return View.ShowActionSheet(title, description, cancel, accept);
+            return Core.EnsureOnMainThread(() => View.ShowActionSheet(title, description, cancel, accept));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace HandSchool.Internal
         /// <param name="button">按钮文字</param>
         public Task ShowMessage(string title, string message, string button = "确认")
         {
-            return View.ShowMessage(title, message, button);
+            return Core.EnsureOnMainThread(() => View.ShowMessage(title, message, button));
         }
     }
 }

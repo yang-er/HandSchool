@@ -2,6 +2,7 @@
 using HandSchool.Models;
 using HandSchool.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -15,9 +16,9 @@ namespace HandSchool.JLU.InfoQuery
             return new LibrarySearch(sub);
         }
 
-        public override void Receive(string data)
+        public override async Task Receive(string data)
         {
-            Core.Log(data);
+            await Task.Run(() => Core.Log(data));
         }
 
         public LibrarySearch()

@@ -162,7 +162,7 @@ namespace HandSchool.ViewModels
         public class PrivacyPolicy : BaseController, IUrlEntrance
         {
             public string HtmlUrl { get; set; } = "privacy.html";
-            public override void Receive(string data) { }
+            public override Task Receive(string data) { return Task.Run(() => { }); }
             public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
 
@@ -170,7 +170,7 @@ namespace HandSchool.ViewModels
         public class LicenseInfo : BaseController, IUrlEntrance
         {
             public string HtmlUrl { get; set; } = "license.html";
-            public override void Receive(string data) { }
+            public override Task Receive(string data) { return Task.Run(() => { }); }
             public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
     }

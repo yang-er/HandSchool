@@ -6,6 +6,7 @@ using HandSchool.Services;
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Command = Xamarin.Forms.Command;
 using JsonException = Newtonsoft.Json.JsonException;
 
@@ -191,7 +192,7 @@ namespace HandSchool.JLU.InfoQuery
             }
         }
 
-        public override void Receive(string data)
+        public override async Task Receive(string data)
         {
             if (data.StartsWith("termId="))
             {
@@ -212,7 +213,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                ShowMessage("错误", "未知响应：" + data);
+                await ShowMessage("错误", "未知响应：" + data);
             }
         }
     }
