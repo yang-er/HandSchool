@@ -1,4 +1,5 @@
-﻿using HandSchool.Services;
+﻿using HandSchool.Internal;
+using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Reflection;
 using System.Text;
@@ -24,12 +25,12 @@ namespace HandSchool.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             System.Diagnostics.Debug.Assert(e.Parameter is IWebEntrance, "Error leading");
-            InfoEntrance = e.Parameter as IWebEntrance;
+            InfoEntrance = e.Parameter as BaseController;
 
             var meta = InfoEntrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
             ViewModel = new BaseViewModel { Title = meta.Title };
             InfoEntrance.Evaluate = WebView.InvokeScript;
-            InfoEntrance.Binding = ViewResponse;
+            InfoEntrance.View = ViewResponse;
 
             WebView.Register = InfoEntrance.Receive;
             foreach (var key in InfoEntrance.Menu)

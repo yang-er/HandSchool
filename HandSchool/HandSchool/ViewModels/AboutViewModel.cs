@@ -103,7 +103,7 @@ namespace HandSchool.ViewModels
             Title = "关于";
         }
 
-        public void Response(string value)
+        public async Task Response(string value)
         {
             if (value.StartsWith("open="))
             {
@@ -113,7 +113,7 @@ namespace HandSchool.ViewModels
             {
                 if ((++test_count - 10) % 20 == 10)
                 {
-                    TestMode();
+                    await TestMode();
                 }
             }
             else if (value == "shop")
@@ -122,7 +122,7 @@ namespace HandSchool.ViewModels
             }
         }
 
-        private async void TestMode()
+        private async Task TestMode()
         {
             Core.Log("test mode");
             await View.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");

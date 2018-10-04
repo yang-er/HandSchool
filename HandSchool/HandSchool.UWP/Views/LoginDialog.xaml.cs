@@ -61,7 +61,7 @@ namespace HandSchool.Views
 
         public async void UpdateCaptchaInfomation()
         {
-            ViewModel.IsBusy = true;
+            ViewModel.SetIsBusy(true, "");
 
             if (!await ViewModel.Form.PrepareLogin())
             {
@@ -89,7 +89,7 @@ namespace HandSchool.Views
                 CaptchaImage.Source = ret;
             }
 
-            ViewModel.IsBusy = false;
+            ViewModel.SetIsBusy(false);
         }
     }
 
