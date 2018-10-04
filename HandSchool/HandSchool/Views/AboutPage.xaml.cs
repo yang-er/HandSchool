@@ -32,5 +32,12 @@ namespace HandSchool.Views
                 await tew.Activate(Navigation);
             }
         }
+
+        private void PopContentPage_SizeChanged(object sender, System.EventArgs e)
+        {
+            string visualState = Width > Height ? "Landscape" : "Portrait";
+            VisualStateManager.GoToState(mainLayout, visualState);
+            VisualStateManager.GoToState(aboutIcon, visualState);
+        }
     }
 }
