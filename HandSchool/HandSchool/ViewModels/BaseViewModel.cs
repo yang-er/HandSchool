@@ -19,17 +19,7 @@ namespace HandSchool.ViewModels
         public IViewResponse View
         {
             get => viewResp;
-            set
-            {
-                viewResp = value;
-#if __ANDROID__
-                var resp = value as ViewResponse;
-                if (resp.Binding is Views.PopContentPage pg && pg.ShowIsBusyDialog)
-                {
-                    IsBusyChanged += () => resp.SetIsBusy(isBusy, busyDescription);
-                }
-#endif
-            }
+            set => viewResp = value;
         }
 
         /// <summary>

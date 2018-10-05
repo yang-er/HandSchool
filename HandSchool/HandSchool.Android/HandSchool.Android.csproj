@@ -90,6 +90,8 @@
   <ItemGroup>
     <Compile Include="UpdateManager.cs" />
     <Compile Include="Views\EntryCellRenderer.cs" />
+    <Compile Include="Views\NavigationRenderer.cs" />
+    <Compile Include="Views\PageRenderer.cs" />
     <Compile Include="Views\PickerCellRenderer.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
