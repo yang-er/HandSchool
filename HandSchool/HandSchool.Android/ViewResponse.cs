@@ -26,22 +26,5 @@ namespace HandSchool.Internal
         {
             return Binding.DisplayAlert(title, description, accept, cancel);
         }
-
-        public void SetIsBusy(bool value, string tips)
-        {
-            if (value)
-            {
-                var dialog = new ProgressDialog(MainActivity.ActivityContext);
-                dialog.SetTitle("请稍后");
-                dialog.SetMessage(tips);
-                dialog.Indeterminate = true;
-                dialog.Show();
-                alertCallback = dialog.Dismiss;
-            }
-            else
-            {
-                alertCallback?.Invoke();
-            }
-        }
     }
 }

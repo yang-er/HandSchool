@@ -204,7 +204,7 @@ namespace HandSchool.JLU.InfoQuery
             }
         }
 
-        public override void Receive(string data)
+        public override async Task Receive(string data)
         {
             if (data.StartsWith("batch="))
             {
@@ -222,7 +222,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                ShowMessage("错误", "未知响应：" + data);
+                await ShowMessage("错误", "未知响应：" + data);
             }
         }
     }

@@ -23,14 +23,17 @@ namespace HandSchool.ViewModels
             Form = form;
             Title = "登录" + form.FormName;
         }
-
-        public static async Task<bool> RequestAsync(ILoginField form)
+        
+        public static Task<bool> RequestAsync(ILoginField form)
         {
-            var viewModel = new LoginViewModel(form);
-            viewModel.LoginCommand = new Command(viewModel.Login);
-            viewModel.Page = new LoginPage(viewModel);
-            await viewModel.Page.ShowAsync();
-            return form.IsLogin;
+            return Core.EnsureOnMainThread(async () =>
+            {
+                var viewModel = new LoginViewModel(form);
+                viewModel.LoginCommand = new Command(viewModel.Login);
+                viewModel.Page = new LoginPage(viewModel);
+                await viewModel.Page.ShowAsync();
+                return form.IsLogin;
+            });
         }
         
         async void Login()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -43,7 +44,7 @@ namespace HandSchool.Views
         /// <summary>
         /// invokeCSharpAction的回调函数
         /// </summary>
-        public Action<string> Register { get; set; }
+        public Func<string, Task> Register { get; set; }
 
         /// <summary>
         /// 请求子网页的事件

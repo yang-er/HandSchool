@@ -9,28 +9,12 @@ namespace HandSchool.ViewModels
     public class BaseViewModel : NotifyPropertyChanged
     {
         bool isBusy = false;
-        string busyDescription = "请稍后……";
         string title = string.Empty;
-        IViewResponse viewResp = null;
 
         /// <summary>
         /// 程序绑定的页面
         /// </summary>
-        public IViewResponse View
-        {
-            get => viewResp;
-            set
-            {
-                viewResp = value;
-#if __ANDROID__
-                var resp = value as ViewResponse;
-                if (resp.Binding is Views.PopContentPage pg && pg.ShowIsBusyDialog)
-                {
-                    IsBusyChanged += () => resp.SetIsBusy(isBusy, busyDescription);
-                }
-#endif
-            }
-        }
+        public IViewResponse View { get; set; }
 
         /// <summary>
         /// 状态更改的事件处理
@@ -41,16 +25,7 @@ namespace HandSchool.ViewModels
         /// ViewModel是否正忙
         /// </summary>
         public bool IsBusy => isBusy;
-
-        /// <summary>
-        /// ViewModel忙的描述
-        /// </summary>
-        public string BusyDescription
-        {
-            get => busyDescription;
-            set => SetProperty(ref busyDescription, value);
-        }
-
+        
         /// <summary>
         /// 设置忙的函数
         /// </summary>
@@ -58,7 +33,6 @@ namespace HandSchool.ViewModels
         /// <param name="tips">忙的提示</param>
         public void SetIsBusy(bool value, string tips = "")
         {
-            BusyDescription = tips;
             SetProperty(ref isBusy, value, nameof(IsBusy), IsBusyChanged);
         }
 

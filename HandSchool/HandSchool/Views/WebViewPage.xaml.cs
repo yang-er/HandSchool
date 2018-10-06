@@ -33,8 +33,10 @@ namespace HandSchool.Views
             }
             else if (entrance is IUrlEntrance iu)
             {
+                baseController.SetIsBusy(true);
                 WebView.Uri = iu.HtmlUrl;
                 WebView.SubUrlRequested += OnSubUrlRequested;
+                WebView.LoadCompleted += () => baseController.SetIsBusy(false);
             }
 
             foreach (var key in InfoEntrance.Menu)
