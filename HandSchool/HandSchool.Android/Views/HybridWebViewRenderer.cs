@@ -31,12 +31,14 @@ namespace HandSchool.Droid
                 webView.Settings.JavaScriptEnabled = true;
                 SetNativeControl(webView);
             }
+
             if (e.OldElement != null)
             {
                 Control.RemoveJavascriptInterface("jsBridge");
                 var hybridWebView = e.OldElement as HybridWebView;
                 hybridWebView.Cleanup();
             }
+
             if (e.NewElement != null)
             {
                 Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
@@ -56,8 +58,7 @@ namespace HandSchool.Droid
                         Control.LoadUrl(string.Format("file:///android_asset/{0}", Element.Uri));
                     }
                 }
-
-                // InjectJS(JavaScriptFunction);
+                
                 Element.JavaScriptRequested += EvalJS;
             }
         }
@@ -75,7 +76,7 @@ namespace HandSchool.Droid
             Device.BeginInvokeOnMainThread(() => InjectJS(script));
         }
     }
-
+    
     public class AWebViewClient : WebViewClient
     {
         WeakReference<HybridWebView> inner;
@@ -83,6 +84,14 @@ namespace HandSchool.Droid
         public AWebViewClient(HybridWebView view)
         {
             inner = new WeakReference<HybridWebView>(view);
+        }
+
+        public override void OnPageFinished(AWebView view, string url)
+        {
+            if (inner.TryGetTarget(out var target))
+            {
+                target.NotifyLoadComplete();
+            }
         }
 
         public override bool ShouldOverrideUrlLoading(AWebView view, IWebResourceRequest request)

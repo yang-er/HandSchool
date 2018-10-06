@@ -76,6 +76,23 @@ namespace HandSchool.iOS
         {
             WeakReference<HybridWebView> inner;
 
+            public override void DidFinishNavigation(WKWebView webView, WKNavigation navigation)
+            {
+                if (inner.TryGetTarget(out var target))
+                {
+                    if (webView.IsLoading == false) target.NotifyLoadComplete();
+                }
+            }
+
+            public override void DidFailNavigation(WKWebView webView, WKNavigation navigation, NSError error)
+            {
+                if (inner.TryGetTarget(out var target))
+                {
+                    target.NotifyLoadComplete();
+                    target.InvokeAction("document.write('error: " + error.Description + "')");
+                }
+            }
+
             public NavigationDelegate(HybridWebView target)
             {
                 inner = new WeakReference<HybridWebView>(target);

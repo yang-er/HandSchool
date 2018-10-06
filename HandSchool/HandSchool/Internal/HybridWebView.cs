@@ -65,6 +65,19 @@ namespace HandSchool.Views
         public event Action<string> SubUrlRequested;
 
         /// <summary>
+        /// 加载完成
+        /// </summary>
+        public event Action LoadCompleted;
+
+        /// <summary>
+        /// 触发加载完成
+        /// </summary>
+        public void NotifyLoadComplete()
+        {
+            LoadCompleted?.Invoke();
+        }
+
+        /// <summary>
         /// 触发请求子网页
         /// </summary>
         /// <param name="sub">子网页地址</param>

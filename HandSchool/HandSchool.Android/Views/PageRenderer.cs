@@ -27,6 +27,8 @@ namespace HandSchool.Droid
                     pg.ToolbarItems.Add(new ToolbarItem("取消", null, async () => await pg.CloseAsync()));
                 }
             }
+
+            SetIsBusy();
         }
         
         private void SetIsBusy()

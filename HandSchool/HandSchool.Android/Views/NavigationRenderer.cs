@@ -39,8 +39,8 @@ namespace HandSchool.Droid
         
         public override void AddView(AView child, int index, LayoutParams @params)
         {
-            if (child.GetType().ToString() == sPageContainer)
-                index = 1;
+            if (index == -1 && AddFlag && child.GetType().ToString() == sPageContainer)
+                index = ChildCount - 1;
             base.AddView(child, index, @params);
 
             if (child is AToolbar)
@@ -66,6 +66,10 @@ namespace HandSchool.Droid
             if (view.GetType().ToString() == sPageContainer)
             {
                 PageContainer = null;
+            }
+            else if (view is AProgressBar)
+            {
+                AddFlag = false;
             }
         }
 
