@@ -78,10 +78,34 @@ namespace HandSchool.Views
                 case "没有地点的课":
                     break;
                 case "显示所有周":
+                    //可能封装个函数或者小改下架构可读性比较好？
+                    ScheduleViewModel.Instance.RefreshComplete -= LoadList;
+                    ScheduleViewModel.Instance.RefreshComplete += LoadAllList;//在这个委托里会将委托重新置为LoadList 一次性使用
+                    ScheduleViewModel.Instance.RefreshCommand.Execute(null);
                     break;
                 default:
                     break;
             }
+        }
+        public void LoadAllList()
+        {
+            for (int i = grid.Children.Count; i > 7 + Core.App.DailyClassCount; i--)
+            {
+                grid.Children.RemoveAt(i - 1);
+            }
+
+            // Render classes
+            ClassTableController Controller = new ClassTableController();
+
+            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list,true);
+            for (int i = 0; i < list.Count; i++)
+                Controller.AddClass(list[i]);
+            Controller.MargeClassSet();
+            foreach (var DayList in Controller.CurriculumItemGrid)
+                foreach (var Class in DayList)
+                    grid.Children.Add(new CurriculumLabelSet(Class));
+            ScheduleViewModel.Instance.RefreshComplete -= LoadAllList;
+            ScheduleViewModel.Instance.RefreshComplete += LoadList;
         }
 
         public void LoadList()
