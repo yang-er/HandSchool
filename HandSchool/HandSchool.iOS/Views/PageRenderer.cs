@@ -18,25 +18,38 @@ namespace HandSchool.iOS
         {
             base.OnElementChanged(e);
 
-            if (e.NewElement is PopContentPage page)
-                page.PropertyChanged += IsBusyChanged;
-            if (e.OldElement is PopContentPage page2)
-                page2.PropertyChanged -= IsBusyChanged;
-            if (Spinner != null) return;
-
-            Spinner = new UIActivityIndicatorView(new CGRect(0, 0, 100, 100))
+            if (Spinner == null)
             {
-                ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge,
-                BackgroundColor = UIColor.Gray,
-            };
+                Spinner = new UIActivityIndicatorView(new CGRect(0, 0, 100, 100))
+                {
+                    ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge,
+                    BackgroundColor = UIColor.Gray,
+                };
 
-            Spinner.Layer.CornerRadius = 10;
-            NativeView.AddSubview(Spinner);
+                Spinner.Layer.CornerRadius = 10;
+                NativeView.AddSubview(Spinner);
+            }
+
+            if (e.NewElement is PopContentPage page)
+            {
+                page.PropertyChanged += IsBusyChanged;
+                SetIsBusy();
+            }
+
+            if (e.OldElement is PopContentPage page2)
+            {
+                page2.PropertyChanged -= IsBusyChanged;
+            }
         }
 
         private void IsBusyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == "IsBusy" && ElementPage.ShowIsBusyDialog)
+            if (args.PropertyName == "IsBusy") SetIsBusy();
+        }
+
+        private void SetIsBusy()
+        {
+            if (ElementPage.ShowIsBusyDialog)
             {
                 if (ElementPage.IsBusy)
                 {
