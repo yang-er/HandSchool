@@ -86,6 +86,7 @@ namespace HandSchool.JLU
                     Items.Add(item);
                 }
             }
+            ItemsSet = null;
         }
 
         /*

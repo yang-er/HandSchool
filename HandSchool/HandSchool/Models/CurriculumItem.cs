@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace HandSchool.Models
@@ -194,6 +195,68 @@ namespace HandSchool.Models
 
     public class CurriculumItemSet2 : CurriculumItemBase
     {
+        public int DayBegin = 0;
+        public int DayEnd = 0;
+
+        public static bool CompareClass(CurriculumItem A, CurriculumItem B)
+        {
+            if (A.Name != B.Name ||
+                        A.DayBegin != B.DayBegin ||
+                        A.DayEnd != B.DayEnd ||
+                        A.Teacher != B.Teacher ||
+                        A.Classroom != B.Classroom ||
+                        A.WeekBegin != B.WeekBegin
+                        )
+                return false;
+            else
+                return true;
+        }
+
+        public static bool operator ==(CurriculumItemSet2 A, CurriculumItemSet2 B)
+        {
+            if (B is null || B.CurriculumItemList.Count != A.CurriculumItemList.Count)
+            {
+                return false;
+            }
+            else
+            {
+                var Temp = B.CurriculumItemList;
+                for (int i = 0; i < A.CurriculumItemList.Count; i++)
+                    if (!CompareClass(Temp[i], B.CurriculumItemList[i]))
+                        return false;
+                return true;
+            }
+        }
+
+        public static bool operator !=(CurriculumItemSet2 A, CurriculumItemSet2 B)
+        {
+            return !(A == B);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this == obj as CurriculumItemSet2;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public void MergeClasses()
+        {
+            for (int i = 0; i < CurriculumItemList.Count; i++)
+            {
+                for (int j = i + 1; j < CurriculumItemList.Count; j++)
+                {
+                    if (CompareClass(CurriculumItemList[i], CurriculumItemList[j]))
+                        CurriculumItemList.RemoveAt(j);
+                }
+            }
+        }
+
+        public List<CurriculumItem> CurriculumItemList = new List<CurriculumItem>();
+
         public override CurriculumDescription[] ToDescription()
         {
             throw new NotImplementedException();

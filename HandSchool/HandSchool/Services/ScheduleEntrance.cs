@@ -85,11 +85,13 @@ namespace HandSchool.Services
         public void AddItem(CurriculumItem item)
         {
             Items.Add(item);
+            ItemsSet = null;
         }
 
         public void RemoveItem(CurriculumItem item)
         {
             Items.Remove(item);
+            ItemsSet = null;
         }
 
         public ScheduleEntranceBase()
