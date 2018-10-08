@@ -14,7 +14,7 @@ namespace HandSchool.Views
         private ColumnDefinition DefCol;
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
-        public new ScheduleViewModel ViewModel => ViewModel as ScheduleViewModel;
+        public new ScheduleViewModel ViewModel => base.ViewModel as ScheduleViewModel;
 
         private bool IsWider = false, forceSize = true;
 

@@ -1,15 +1,10 @@
-﻿using Android.App;
-using HandSchool.Droid;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
 {
     public class ViewResponse : IViewResponse
     {
-        private Action alertCallback;
-
         public ViewResponse(XPage page)
         {
             Binding = page;

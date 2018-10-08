@@ -66,10 +66,10 @@ namespace HandSchool.Droid
             if (Core.App.Schedule is null) return;
 
             Core.App.Schedule.RenderWeek(Core.App.Service.CurrentWeek, out var temp);
-            item = temp;
+            //item = temp;
             for (int i = 0; i < 7; i++)
             {
-                List<CurriculumItem> list = temp.FindAll((item) => item.WeekDay == i + 1);
+                List<CurriculumItem> list = null;// = temp.FindAll((item) => item.WeekDay == i + 1);
                 int LastEnd = 0;
                 int Count = 0;
 
