@@ -14,6 +14,7 @@ namespace HandSchool.Views
         private ColumnDefinition DefCol;
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
+        public new ScheduleViewModel ViewModel => ViewModel as ScheduleViewModel;
 
         private bool IsWider = false, forceSize = true;
 
@@ -27,8 +28,8 @@ namespace HandSchool.Views
             DefCol = new ColumnDefinition { Width = ColWidth };
             DefRow = new RowDefinition { Height = GridLength.Star };
 
-            ViewModel = ScheduleViewModel.Instance;
-            ScheduleViewModel.Instance.RefreshComplete += LoadList;
+            base.ViewModel = ScheduleViewModel.Instance;
+            ViewModel.RefreshComplete += LoadList;
 
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
@@ -65,47 +66,37 @@ namespace HandSchool.Views
 
         private async void ShowActionList(object sender, EventArgs e)
         {
-            var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "没有地点的课", "显示所有周");
+            var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "没有地点的课", "修改当前周");
 
             switch (result)
             {
                 case "刷新课表":
-                    ScheduleViewModel.Instance.RefreshCommand.Execute(null);
+                    ViewModel.RefreshCommand.Execute(null);
                     break;
                 case "添加课程":
-                    ScheduleViewModel.Instance.AddCommand.Execute(Navigation);
+                    ViewModel.AddCommand.Execute(Navigation);
                     break;
                 case "没有地点的课":
                     break;
-                case "显示所有周":
-                    //可能封装个函数或者小改下架构可读性比较好？
-                    ScheduleViewModel.Instance.RefreshComplete -= LoadList;
-                    ScheduleViewModel.Instance.RefreshComplete += LoadAllList;//在这个委托里会将委托重新置为LoadList 一次性使用
-                    ScheduleViewModel.Instance.RefreshCommand.Execute(null);
+                case "修改当前周":
+                    var paramlist = new string[25];
+                    paramlist[0] = "所有周";
+                    for (int i = 1; i < 25; i++)
+                        paramlist[i] = $"第{i}周";
+                    var ret = await DisplayActionSheet("显示周", "取消", null, paramlist);
+
+                    if (ret != "取消")
+                    {
+                        for (int i = 0; i < 25; i++)
+                            if (ret == paramlist[i])
+                                ViewModel.SetCurrentWeek(i);
+                        LoadList();
+                    }
+
                     break;
                 default:
                     break;
             }
-        }
-        public void LoadAllList()
-        {
-            for (int i = grid.Children.Count; i > 7 + Core.App.DailyClassCount; i--)
-            {
-                grid.Children.RemoveAt(i - 1);
-            }
-
-            // Render classes
-            ClassTableController Controller = new ClassTableController();
-
-            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list,true);
-            for (int i = 0; i < list.Count; i++)
-                Controller.AddClass(list[i]);
-            Controller.MargeClassSet();
-            foreach (var DayList in Controller.CurriculumItemGrid)
-                foreach (var Class in DayList)
-                    grid.Children.Add(new CurriculumLabelSet(Class));
-            ScheduleViewModel.Instance.RefreshComplete -= LoadAllList;
-            ScheduleViewModel.Instance.RefreshComplete += LoadList;
         }
 
         public void LoadList()
@@ -116,9 +107,13 @@ namespace HandSchool.Views
             }
 
             // Render classes
-            Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list);
-            for (int i = 0; i < list.Count; i++)
-                grid.Children.Add(new CurriculumLabel(list[i], i));
+            Core.App.Schedule.RenderWeek(ViewModel.Week, out var list);
+
+            int count = 0;
+            foreach (var item in list)
+            {
+                grid.Children.Add(new CurriculumLabel(item, count++));
+            }
         }
 
         void SetTileSize(object sender, EventArgs e)

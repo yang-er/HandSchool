@@ -1,52 +1,77 @@
 ﻿using HandSchool.Views;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.Models
 {
     public class CurriculumLabel : StackLayout
     {
-        public CurriculumItem Context { get; }
+        public CurriculumItemBase Context { get; }
         public int ColorId { get; private set; }
-        public Span Title = new Span { FontAttributes = FontAttributes.Bold, ForegroundColor = Color.White };
-        public Span At = new Span { Text = "\n" };
-        public Span Where = new Span { ForegroundColor = Color.FromRgba(255, 255, 255, 220) };
 
-        public CurriculumLabel(CurriculumItem value, int id)
+        public CurriculumLabel(CurriculumItemBase value, int id)
         {
             Context = value;
             ColorId = id;
             Padding = new Thickness(5);
-            Children.Add(new Label {
+            VerticalOptions = LayoutOptions.FillAndExpand;
+            HorizontalOptions = LayoutOptions.FillAndExpand;
+
+            var formattedString = new FormattedString();
+            var desc = value.ToDescription();
+            foreach (var item in desc)
+            {
+                if (formattedString.Spans.Count > 0)
+                {
+                    formattedString.Spans.Add(new Span { Text = "\n\n" });
+                }
+
+                var tit = new Span
+                {
+                    FontAttributes = FontAttributes.Bold,
+                    ForegroundColor = Color.White,
+                    Text = item.Title
+                };
+
+                var des = new Span
+                {
+                    ForegroundColor = Color.FromRgba(255, 255, 255, 220),
+                    Text = item.Description
+                };
+
+#if __IOS__
+                des.FontSize *= 0.8;
+#endif
+                formattedString.Spans.Add(tit);
+                formattedString.Spans.Add(new Span { Text = "\n" });
+                formattedString.Spans.Add(des);
+            }
+
+            Children.Add(new Label
+            {
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                FormattedText = new FormattedString { Spans = { Title, At, Where } },
+                FormattedText = formattedString,
                 VerticalOptions = HorizontalOptions = LayoutOptions.CenterAndExpand
             });
-#if __IOS__
-            Where.FontSize *= 0.8;
-#endif
-            Update();
-            GestureRecognizers.Add(new TapGestureRecognizer
-            {
-                Command = new Command(async () => await ItemTapped()),
-                NumberOfTapsRequired = 2
-            });
-        }
 
-        public void Update()
-        {
             Grid.SetColumn(this, Context.WeekDay);
             Grid.SetRow(this, Context.DayBegin);
             Grid.SetRowSpan(this, Context.DayEnd - Context.DayBegin + 1);
-            Title.Text = Context.Name;
-            Where.Text = Context.Classroom;
             BackgroundColor = GetColor();
+
+            if (Context is CurriculumItem)
+            {
+                GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    Command = new Command(EditCurriculum),
+                    NumberOfTapsRequired = 2
+                });
+            }
         }
         
-        private async Task ItemTapped()
+        private async void EditCurriculum()
         {
-            var page = new CurriculumPage(this.Context);
+            var page = new CurriculumPage(Context as CurriculumItem);
             await page.ShowAsync(Navigation);
         }
 

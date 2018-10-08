@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using System;
+using System.ComponentModel;
 
 namespace HandSchool.Models
 {
@@ -9,9 +10,63 @@ namespace HandSchool.Models
     public enum WeekOddEvenNone { Even, Odd, None }
 
     /// <summary>
+    /// 课程描述
+    /// </summary>
+    public class CurriculumDescription
+    {
+        internal CurriculumDescription(string tit, string desc)
+        {
+            Title = tit;
+            Description = desc;
+        }
+
+        public readonly string Title;
+        public readonly string Description;
+    }
+
+    /// <summary>
     /// 课程表项目
     /// </summary>
-    public class CurriculumItem : NotifyPropertyChanged
+    public abstract class CurriculumItemBase : NotifyPropertyChanged
+    {
+        private int _dayBegin;
+        private int _dayEnd;
+        private int _weekDay;
+
+        /// <summary>
+        /// 星期几
+        /// </summary>
+        public int WeekDay
+        {
+            get => _weekDay;
+            set => SetProperty(ref _weekDay, value);
+        }
+
+        /// <summary>
+        /// 开始节
+        /// </summary>
+        public int DayBegin
+        {
+            get => _dayBegin;
+            set => SetProperty(ref _dayBegin, value);
+        }
+
+        /// <summary>
+        /// 结束节
+        /// </summary>
+        public int DayEnd
+        {
+            get => _dayEnd;
+            set => SetProperty(ref _dayEnd, value);
+        }
+
+        public abstract CurriculumDescription[] ToDescription();
+    }
+
+    /// <summary>
+    /// 单节课程表项目
+    /// </summary>
+    public class CurriculumItem : CurriculumItemBase
     {
         private string _name;
         private string _teacher;
@@ -20,9 +75,6 @@ namespace HandSchool.Models
         private int _weekBegin;
         private int _weekEnd;
         private WeekOddEvenNone _weekOen;
-        private int _weekDay;
-        private int _dayBegin;
-        private int _dayEnd;
         private DateTime _selectDate;
         private bool _isCustom;
 
@@ -88,34 +140,7 @@ namespace HandSchool.Models
             get => _weekOen;
             set => SetProperty(ref _weekOen, value);
         }
-
-        /// <summary>
-        /// 星期几
-        /// </summary>
-        public int WeekDay
-        {
-            get => _weekDay;
-            set => SetProperty(ref _weekDay, value);
-        }
-
-        /// <summary>
-        /// 开始节
-        /// </summary>
-        public int DayBegin
-        {
-            get => _dayBegin;
-            set => SetProperty(ref _dayBegin, value);
-        }
-
-        /// <summary>
-        /// 结束节
-        /// </summary>
-        public int DayEnd
-        {
-            get => _dayEnd;
-            set => SetProperty(ref _dayEnd, value);
-        }
-
+        
         /// <summary>
         /// 选课日期
         /// </summary>
@@ -140,7 +165,7 @@ namespace HandSchool.Models
         public CurriculumItem()
         {
             _name = _teacher = _courseID = _classroom = string.Empty;
-            _weekBegin = _weekEnd = _weekDay = _dayBegin = _dayEnd = 0;
+            _weekBegin = _weekEnd = 0;
             _weekOen = WeekOddEvenNone.None;
             _selectDate = DateTime.Now;
             _isCustom = false;
@@ -156,6 +181,22 @@ namespace HandSchool.Models
             bool show = ((int)_weekOen == 2) || ((int)_weekOen == week % 2);
             show &= (week >= _weekBegin) && (week <= _weekEnd);
             return show;
+        }
+
+        public override CurriculumDescription[] ToDescription()
+        {
+            return new CurriculumDescription[1]
+            {
+                new CurriculumDescription(Name, Classroom)
+            };
+        }
+    }
+
+    public class CurriculumItemSet2 : CurriculumItemBase
+    {
+        public override CurriculumDescription[] ToDescription()
+        {
+            throw new NotImplementedException();
         }
     }
 }

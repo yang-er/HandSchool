@@ -36,7 +36,7 @@ namespace HandSchool.Models
             foreach(var DayList in CurriculumItemGrid)
             {
                 for (int i = 0; i < DayList.Count - 1; i++)
-                    if (DayList[i].Equals(DayList[i + 1]) || DayList[i + 1].DayBegin==0)
+                    if (DayList[i] == DayList[i + 1] || DayList[i + 1].DayBegin==0)
                     {
                         DayList.RemoveAt(i + 1);
                         i--;
@@ -47,7 +47,7 @@ namespace HandSchool.Models
  
             foreach (var DayList in CurriculumItemGrid)
                 foreach (var ClassSet in DayList)
-                    ClassSet.MargeClasses();
+                    ClassSet.MergeClasses();
             
         }
 

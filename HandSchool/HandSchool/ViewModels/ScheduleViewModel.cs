@@ -12,7 +12,7 @@ namespace HandSchool.ViewModels
         private static ScheduleViewModel instance = null;
 
         public int Week => week;
-        public string CurrentWeek => $"第{week}周";
+        public string CurrentWeek => week == 0 ? "所有周" : $"第{week}周";
         public Command RefreshCommand { get; set; }
         public Command AddCommand { get; set; }
         public event Action RefreshComplete;
@@ -32,6 +32,11 @@ namespace HandSchool.ViewModels
             if (e.State != LoginState.Succeeded) return;
             var sys = sender as ISchoolSystem;
             SetProperty(ref week, sys.CurrentWeek, nameof(CurrentWeek));
+        }
+
+        public void SetCurrentWeek(int n)
+        {
+            SetProperty(ref week, n, nameof(CurrentWeek));
         }
 
         private ScheduleViewModel()

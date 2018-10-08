@@ -1,26 +1,18 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
-using HandSchool.Services;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using HandSchool.Services;
 using System.Threading.Tasks;
 
 namespace HandSchool.Blank
 {
     [Entrance("课程表")]
-    class Schedule : IScheduleEntrance
+    class Schedule : ScheduleEntranceBase
     {
-        public List<CurriculumItem> Items { get; private set; }
-        public string LastReport { get; private set; } = "";
+        public override int ClassNext => 0;
+        public override string ScriptFileUri => "";
+        public override bool IsPost => true;
+        public override string PostValue => "";
+        public override string StorageFile => "blank.kcb.json";
 
-        public int ClassNext => 0;
-        public string ScriptFileUri => "";
-        public bool IsPost => true;
-        public string PostValue => "";
-        public string StorageFile => "blank.kcb.json";
-
-        public async Task Execute()
+        public override async Task Execute()
         {
             Core.Log("Blank.ScheduleEntrance->Excute()");
             await Task.Run(() => { });
@@ -28,30 +20,11 @@ namespace HandSchool.Blank
             Save();
         }
 
-        public void Parse()
+        public override void Parse()
         {
             Core.Log("Blank.ScheduleEntrance->Parse()");
         }
-
-        public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
-        {
-            list = Items.FindAll((item) => showAll || item.IfShow(week));
-        }
-
-        public void Save()
-        {
-            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.WriteConfig("blank.kcb.json", Items.Serialize());
-        }
-
-        public Schedule()
-        {
-            LastReport = Core.ReadConfig("blank.kcb.json");
-            if (LastReport != "")
-                Items = LastReport.ParseJSON<List<CurriculumItem>>();
-            else
-                Items = new List<CurriculumItem>();
-            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-        }
+        
+        public Schedule() : base() { }
     }
 }

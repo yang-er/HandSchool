@@ -4,33 +4,24 @@ using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU
 {
     [Entrance("课程表")]
-    class Schedule : IScheduleEntrance
+    class Schedule : ScheduleEntranceBase
     {
         internal const string config_kcb_orig = "jlu.kcb.json";
         internal const string config_kcb = "jlu.kcb2.json";
 
-        public string ScriptFileUri => "service/res.do";
-        public bool IsPost => true;
-        public string LastReport { get; private set; }
-        public List<CurriculumItem> Items { get; }
-        public string StorageFile => config_kcb_orig;
+        public override string ScriptFileUri => "service/res.do";
+        public override bool IsPost => true;
+        public override string StorageFile => config_kcb_orig;
         public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
-        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
-
-        public void RenderWeek(int week, out List<CurriculumItem> list, bool showAll = false)
-        {
-            if (week == 0) week = 1;
-            list = Items.FindAll((item) => showAll || item.IfShow(week));
-        }
-
-        public async Task Execute()
+        public override string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
+        
+        public override async Task Execute()
         {
             try
             {
@@ -54,7 +45,7 @@ namespace HandSchool.JLU
             Save();
         }
         
-        public void Parse()
+        public override void Parse()
         {
             var table = LastReport.ParseJSON<RootObject<ScheduleValue>>();
             Items.RemoveAll(obj => !obj.IsCustom);
@@ -143,13 +134,7 @@ namespace HandSchool.JLU
         private NameValueCollection theater = new NameValueCollection();
         */
         
-        public void Save()
-        {
-            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.WriteConfig(config_kcb, Items.Serialize());
-        }
-
-        public int ClassNext
+        public override int ClassNext
         {
             get
             {
@@ -167,14 +152,6 @@ namespace HandSchool.JLU
             }
         }
 
-        public Schedule()
-        {
-            LastReport = Core.ReadConfig(config_kcb);
-            if (LastReport != "")
-                Items = LastReport.ParseJSON<List<CurriculumItem>>();
-            else
-                Items = new List<CurriculumItem>();
-            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-        }
+        public Schedule() : base() { }
     }
 }
