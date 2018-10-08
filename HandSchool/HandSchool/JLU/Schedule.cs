@@ -17,7 +17,7 @@ namespace HandSchool.JLU
 
         public override string ScriptFileUri => "service/res.do";
         public override bool IsPost => true;
-        public override string StorageFile => config_kcb_orig;
+        public override string StorageFile => config_kcb;
         public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
         public override string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
         

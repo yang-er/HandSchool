@@ -52,14 +52,14 @@ namespace HandSchool.Views
 
         async Task RemoveCommand()
         {
-            Core.App.Schedule.Items.Remove(BindingContext as CurriculumItem);
+            Core.App.Schedule.RemoveItem(BindingContext as CurriculumItem);
             Core.App.Schedule.Save();
             await CloseAsync();
         }
 
         async Task CreateCommand()
         {
-            Core.App.Schedule.Items.Add(BindingContext as CurriculumItem);
+            Core.App.Schedule.AddItem(BindingContext as CurriculumItem);
             Core.App.Schedule.Save();
             await CloseAsync();
         }

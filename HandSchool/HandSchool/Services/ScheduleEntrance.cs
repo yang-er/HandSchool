@@ -29,6 +29,18 @@ namespace HandSchool.Services
         void RemoveItem(CurriculumItem item);
 
         /// <summary>
+        /// 查找课程
+        /// </summary>
+        /// <param name="pred">判断条件</param>
+        CurriculumItem FindItem(Predicate<CurriculumItem> pred);
+
+        /// <summary>
+        /// 查找最后一个课程
+        /// </summary>
+        /// <param name="pred">判断条件</param>
+        CurriculumItem FindLastItem(Predicate<CurriculumItem> pred);
+
+        /// <summary>
         /// 渲染课程表
         /// </summary>
         /// <param name="week">第几周</param>
@@ -92,6 +104,16 @@ namespace HandSchool.Services
         {
             Items.Remove(item);
             ItemsSet = null;
+        }
+
+        public CurriculumItem FindItem(Predicate<CurriculumItem> pred)
+        {
+            return Items.Find(pred);
+        }
+
+        public CurriculumItem FindLastItem(Predicate<CurriculumItem> pred)
+        {
+            return Items.FindLast(pred);
         }
 
         public ScheduleEntranceBase()

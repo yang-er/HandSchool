@@ -104,8 +104,8 @@ namespace HandSchool.ViewModels
             if (today == 0) today = 7;
             int toweek = Core.App.Service.CurrentWeek;
             int tocor = Core.App.Schedule.ClassNext;
-            curriculum1 = Core.App.Schedule.Items.Find((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
-            curriculum2 = Core.App.Schedule.Items.FindLast((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
+            curriculum1 = Core.App.Schedule.FindItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
+            curriculum2 = Core.App.Schedule.FindLastItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
             OnPropertyChanged("NextClass");
             OnPropertyChanged("NextTeacher");
             OnPropertyChanged("NextClassroom");
