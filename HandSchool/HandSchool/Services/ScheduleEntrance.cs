@@ -85,7 +85,12 @@ namespace HandSchool.Services
 
         protected virtual void FetchItemsSet()
         {
-            throw new NotImplementedException();
+            ClassTableController Controller = new ClassTableController();
+
+            var list = Items;
+            foreach (var i in list)
+                Controller.AddClass(i);
+            ItemsSet=Controller.ToList();
         }
         
         public void Save()

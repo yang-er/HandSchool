@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ClassTableController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItemSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />

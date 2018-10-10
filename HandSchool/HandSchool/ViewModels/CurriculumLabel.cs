@@ -1,4 +1,5 @@
 ﻿using HandSchool.Views;
+using System;
 using Xamarin.Forms;
 
 namespace HandSchool.Models
@@ -8,6 +9,41 @@ namespace HandSchool.Models
         public CurriculumItemBase Context { get; }
         public int ColorId { get; private set; }
 
+        private void Layout_SizeChanged(object sender, EventArgs e)
+        {
+            var Height = this.Height-10;
+            var Width = this.Width-10;
+            while(GetTotalHeight(Width)>Height)
+            {
+                foreach (Span Item in (Children[0] as Label).FormattedText.Spans)
+                    Item.FontSize -= 1;
+            }
+            
+        }
+        private double GetTotalHeight(double Width)
+        {
+            double TotalHeight = 0;
+            foreach(var i in Children)
+            {
+                TotalHeight += GetLabelHeight(i as Label, Width);
+            }
+            TotalHeight += (Children.Count - 1 )* (Children[0] as Label).FontSize;
+            return TotalHeight;
+        }
+        private double GetLabelHeight(Label label,double Width)
+        {
+            
+            double TotalHeight = 0;
+            double Padding = 6;
+            double TextHeight = label.FormattedText.Spans[0].FontSize + 6;
+            string Text = label.FormattedText.ToString();
+            string[] SplitedText = Text.Split('\n');
+            foreach (string Item in SplitedText)
+            {
+                TotalHeight += ((int)(1 + Item.Length * (TextHeight-Padding) / Width)) * TextHeight;
+            }
+            return TotalHeight;
+        }
         public CurriculumLabel(CurriculumItemBase value, int id)
         {
             Context = value;
@@ -19,11 +55,14 @@ namespace HandSchool.Models
 
             var formattedString = new FormattedString();
             var desc = value.ToDescription();
+            var test = this.Height;
+            var width = this.Width;
+            this.SizeChanged += Layout_SizeChanged;
             foreach (var item in desc)
             {
                 if (formattedString.Spans.Count > 0)
                 {
-                    formattedString.Spans.Add(new Span { Text = "\n\n" });
+                    formattedString.Spans.Add(new Span { Text = "\n\n"});
                 }
 
                 var tit = new Span

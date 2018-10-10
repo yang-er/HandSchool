@@ -112,6 +112,8 @@ namespace HandSchool.Views
             int count = 0;
             foreach (var item in list)
             {
+                var height = grid.HeightRequest;
+                var width = grid.WidthRequest;
                 grid.Children.Add(new CurriculumLabel(item, count++));
             }
         }

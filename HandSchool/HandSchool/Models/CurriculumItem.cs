@@ -195,9 +195,9 @@ namespace HandSchool.Models
 
     public class CurriculumItemSet2 : CurriculumItemBase
     {
-        public int DayBegin = 0;
-        public int DayEnd = 0;
 
+
+        public static string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
         public static bool CompareClass(CurriculumItem A, CurriculumItem B)
         {
             if (A.Name != B.Name ||
@@ -220,9 +220,8 @@ namespace HandSchool.Models
             }
             else
             {
-                var Temp = B.CurriculumItemList;
                 for (int i = 0; i < A.CurriculumItemList.Count; i++)
-                    if (!CompareClass(Temp[i], B.CurriculumItemList[i]))
+                    if (!CompareClass(A.CurriculumItemList[i], B.CurriculumItemList[i]))
                         return false;
                 return true;
             }
@@ -245,6 +244,12 @@ namespace HandSchool.Models
 
         public void MergeClasses()
         {
+            if(CurriculumItemList.Count == 0)
+            {
+                DayEnd = 0;
+                return;
+            }
+            DayEnd = Core.App.DailyClassCount + 1;
             for (int i = 0; i < CurriculumItemList.Count; i++)
             {
                 for (int j = i + 1; j < CurriculumItemList.Count; j++)
@@ -253,13 +258,47 @@ namespace HandSchool.Models
                         CurriculumItemList.RemoveAt(j);
                 }
             }
+            CurriculumItemList.Sort((a, b) => { return a.WeekBegin.CompareTo(b.WeekBegin); });
+            foreach (var item in CurriculumItemList)
+                DayEnd = Math.Min(DayEnd, item.DayEnd);
+            WeekDay = CurriculumItemList[0].WeekDay;
+        }
+        public static CurriculumItemSet2 operator +(CurriculumItemSet2 A, CurriculumItem B)
+        {
+            A.CurriculumItemList.Add(B);
+            return A;
         }
 
+        public static CurriculumItemSet2 operator +(CurriculumItemSet2 A, CurriculumItemSet2 B)
+        {
+            A.CurriculumItemList.AddRange(B.CurriculumItemList);
+            return A;
+        }
         public List<CurriculumItem> CurriculumItemList = new List<CurriculumItem>();
-
         public override CurriculumDescription[] ToDescription()
         {
-            throw new NotImplementedException();
+
+            CurriculumDescription[] curriculumDescriptions = new CurriculumDescription[CurriculumItemList.Count];
+            var Temp = new List<CurriculumItem>(CurriculumItemList);
+            for (int i=0;i< Temp.Count;i++)
+            {
+                string Title = Temp[i].Name;
+                string Desc = $"{WeekEvenOddToString[(int)Temp[i].WeekOen]}{Temp[i].WeekBegin}周-{Temp[i].WeekEnd}周";
+                for (int j=i+1;j<Temp.Count;j++)
+                    if(Temp[i].Name== Temp[j].Name)
+                    {
+                        Desc += $"\n{WeekEvenOddToString[(int)Temp[j].WeekOen]}{Temp[j].WeekBegin}周-{Temp[j].WeekEnd}周";
+                        Temp.RemoveAt(j);
+                    }
+               
+               curriculumDescriptions[i] = new CurriculumDescription(Title, Desc);
+            }
+            CurriculumDescription[] Result = new CurriculumDescription[Temp.Count];
+            for (int i = 0; i < Temp.Count; i++)
+                Result[i] = curriculumDescriptions[i];
+
+            return Result;
+            
         }
     }
 }
