@@ -2,6 +2,11 @@
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Xamarin.Forms.Internals;
+using Xamarin.Forms.Platform.UWP;
 
 namespace HandSchool.Internal
 {
@@ -19,9 +24,17 @@ namespace HandSchool.Internal
             return ShowMessageAsync(title, message, button);
         }
 
-        public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
+        public Task<bool> ShowAskMessage(string title, string description, string cancel, string accept)
         {
             return ShowActionSheetAsync(title, description, cancel, accept);
+        }
+        
+        public Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
+        {
+            var options = new ActionSheetArguments(title, cancel, destruction, buttons);
+            var actionSheet = ActionSheetFlyout(options);
+            actionSheet.ShowAt(Binding.Frame);
+            return options.Result.Task;
         }
 
         public void SetIsBusy(bool value, string tips) { }
@@ -31,6 +44,33 @@ namespace HandSchool.Internal
             var dialog = new MessageDialog(message, title);
             dialog.Commands.Add(new UICommand(button));
             await dialog.ShowAsync();
+        }
+
+        static Flyout ActionSheetFlyout(ActionSheetArguments options)
+        {
+            bool userDidSelect = false;
+            var flyoutContent = new FormsFlyout(options);
+            
+            var actionSheet = new Flyout
+            {
+                FlyoutPresenterStyle = (Style) Application.Current.Resources["FormsFlyoutPresenterStyle"],
+                Placement = FlyoutPlacementMode.Full,
+                Content = flyoutContent
+            };
+            
+            flyoutContent.OptionSelected += (s, e) =>
+            {
+                userDidSelect = true;
+                actionSheet.Hide();
+            };
+            
+            actionSheet.Closed += (s, e) =>
+            {
+                if (!userDidSelect)
+                    options.SetResult(null);
+            };
+
+            return actionSheet;
         }
 
         public static async Task<bool> ShowActionSheetAsync(string title, string description, string cancel, string accept)

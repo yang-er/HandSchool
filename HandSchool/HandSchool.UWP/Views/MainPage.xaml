@@ -6,12 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <NavigationView x:Name="NavigationView" ItemInvoked="NavigationView_ItemInvoked" BackRequested="NavigationView_BackRequested">
             <NavigationView.HeaderTemplate>
                 <DataTemplate>
-                    <Grid Margin="12,28,0,-8" x:Name="HeaderAreaGrid">
+                    <Grid Loaded="HeaderAreaGrid_Loaded" x:Name="HeaderAreaGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />

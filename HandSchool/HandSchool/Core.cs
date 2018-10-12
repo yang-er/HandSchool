@@ -68,7 +68,7 @@ namespace HandSchool
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Version => "1.5.11.0";
+        public static string Version => "1.6.13.0";
 
         /// <summary>
         /// 当前软件运行的平台
@@ -210,11 +210,13 @@ namespace HandSchool
             if (System.Threading.Thread.CurrentThread.ManagedThreadId != 1)
             {
                 var awaiter = new Task(() => { });
+
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                 {
                     await task();
                     awaiter?.Start();
                 });
+
                 return awaiter;
             }
             else
@@ -230,14 +232,14 @@ namespace HandSchool
         {
             if (System.Threading.Thread.CurrentThread.ManagedThreadId != 1)
             {
-                T retval = default(T);
-                var awaiter = new Task<T>(() => retval);
+                var awaiter = new TaskCompletionSource<T>();
+
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(async () =>
                 {
-                    retval = await task();
-                    awaiter?.Start();
+                    awaiter.TrySetResult(await task());
                 });
-                return awaiter;
+
+                return awaiter.Task;
             }
             else
             {

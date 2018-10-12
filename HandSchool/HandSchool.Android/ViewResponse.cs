@@ -17,9 +17,14 @@ namespace HandSchool.Internal
             return Binding.DisplayAlert(title, message, button);
         }
 
-        public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
+        public Task<bool> ShowAskMessage(string title, string description, string cancel, string accept)
         {
             return Binding.DisplayAlert(title, description, accept, cancel);
+        }
+
+        public Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
+        {
+            return Binding.DisplayActionSheet(title, cancel, destruction, buttons);
         }
     }
 }
