@@ -10,6 +10,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NavDataItem = HandSchool.Models.MasterPageItem;
@@ -19,6 +20,7 @@ namespace HandSchool.Views
     public sealed partial class MainPage : Page
     {
         public CommandBar CommandBar { get; set; }
+        public Grid HeaderAreaGrid { get; set; }
         private bool _isSettingsInvoked = false;
 
         private List<NavigationViewItem> NavMenuItems;
@@ -109,10 +111,46 @@ namespace HandSchool.Views
             CommandBar?.PrimaryCommands.Clear();
             CommandBar?.SecondaryCommands.Clear();
         }
-
+        
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             if (ContentFrame.CanGoBack) ContentFrame.GoBack();
+        }
+
+        private void HeaderAreaGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            HeaderAreaGrid = sender as Grid;
+            HeaderAreaGrid.SetBinding(MarginProperty, new Binding
+            {
+                Source = NavigationView,
+                Path = new PropertyPath("DisplayMode"),
+                Converter = new NavigationViewStateConverter(),
+                Mode = BindingMode.OneWay
+            });
+        }
+
+        class NavigationViewStateConverter : IValueConverter
+        {
+            Thickness MinimalMargin { get; } = new Thickness(-72, 28, 0, -8);
+            Thickness OtherMargin { get; } = new Thickness(12, 28, 0, -8);
+
+            public object Convert(object value, Type targetType, object parameter, string language)
+            {
+                if (value is NavigationViewDisplayMode _value)
+                {
+                    Core.Log(_value.ToString());
+                    return _value == NavigationViewDisplayMode.Minimal ? MinimalMargin : OtherMargin;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, string language)
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using HandSchool.Models;
 using System;
 using Windows.UI;
+using Windows.UI.Text;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -9,20 +11,64 @@ namespace HandSchool.Views
 {
     public sealed partial class CurriculumLabel : UserControl
     {
-        public CurriculumItem Context { get; }
+        public CurriculumItemBase Context { get; }
         public int ColorId { get; private set; }
 
-        public CurriculumLabel(CurriculumItem value, int id)
+        public CurriculumLabel(CurriculumItemBase value, int id)
         {
             InitializeComponent();
             Context = value;
-            DataContext = Context;
             ColorId = id;
             Update();
+            
+            if (Context is CurriculumItem)
+            {
+                IsDoubleTapEnabled = true;
+                DoubleTapped += OnDoubleTapped;
+            }
         }
 
         public void Update()
         {
+            StackLayout.Children.Clear();
+
+            foreach (var descr in Context.ToDescription())
+            {
+                if (StackLayout.Children.Count > 0)
+                {
+                    StackLayout.Children.Add(new TextBlock
+                    {
+                        FontSize = 16,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                    });
+                }
+
+                StackLayout.Children.Add(new TextBlock
+                {
+                    Text = descr.Title,
+                    FontSize = 16,
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    FontWeight = FontWeights.SemiBold,
+                    TextAlignment = TextAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                });
+
+                StackLayout.Children.Add(new TextBlock
+                {
+                    Text = descr.Description,
+                    FontSize = 16,
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = new SolidColorBrush(Colors.White),
+                    FontWeight = FontWeights.Normal,
+                    TextAlignment = TextAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                });
+            }
+
             Grid.SetColumn(this, Context.WeekDay);
             Grid.SetRow(this, Context.DayBegin);
             Grid.SetRowSpan(this, Context.DayEnd - Context.DayBegin + 1);
@@ -31,8 +77,9 @@ namespace HandSchool.Views
         private async void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs args)
         {
             args.Handled = true;
-            var dialog = new CurriculumDialog(Context);
+            var dialog = new CurriculumDialog(Context as CurriculumItem);
             var result = await dialog.ShowAsync();
+
             if (result == ContentDialogResult.Primary)
             {
                 Update();

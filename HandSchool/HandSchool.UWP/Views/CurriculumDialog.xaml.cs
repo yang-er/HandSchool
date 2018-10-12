@@ -54,13 +54,13 @@ namespace HandSchool.Views
 
         private void Remove(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.Items.Remove(Model);
+            Core.App.Schedule.RemoveItem(Model);
             Core.App.Schedule.Save();
         }
 
         private void Create(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.Items.Add(Model);
+            Core.App.Schedule.AddItem(Model);
             Core.App.Schedule.Save();
         }
 

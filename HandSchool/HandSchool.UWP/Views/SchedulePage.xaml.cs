@@ -49,8 +49,9 @@ namespace HandSchool.Views
 
             // Render classes
             Core.App.Schedule.RenderWeek(ScheduleViewModel.Instance.Week, out var list);
-            for (int i = 0; i < list.Count; i++)
-                Grid.Children.Add(new CurriculumLabel(list[i], i));
+            int count = 0;
+            foreach (var item in list)
+                Grid.Children.Add(new CurriculumLabel(item, count++));
         }
 
     }
