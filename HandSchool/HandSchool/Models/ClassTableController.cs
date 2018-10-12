@@ -21,7 +21,8 @@ namespace HandSchool.Models
         }
         public void AddClass(CurriculumItem NewItem)
         {
-
+            if (NewItem.WeekBegin == 0)
+                return;
             for(int i=NewItem.DayBegin-1;i<NewItem.DayEnd;i++)
             {
                 CurriculumItemGrid[NewItem.WeekDay - 1][i] += NewItem;
@@ -40,7 +41,10 @@ namespace HandSchool.Models
                 for (int i = 0; i < DayList.Count - 1; i++)
                     if (DayList[i] == DayList[i + 1] || DayList[i + 1].DayEnd==0)
                     {
+                        if(DayList[i + 1].DayBegin != 0)
+                            DayList[i].DayEnd = DayList[i + 1].DayBegin;
                         DayList.RemoveAt(i + 1);
+                        
                         i--;
                     }
                 if (DayList[0].DayEnd == 0)

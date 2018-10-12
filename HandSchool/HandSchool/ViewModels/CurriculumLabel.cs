@@ -11,31 +11,44 @@ namespace HandSchool.Models
 
         private void Layout_SizeChanged(object sender, EventArgs e)
         {
+
+            foreach (Span Item in (Children[0] as Label).FormattedText.Spans)
+                Item.FontSize = (Children[0] as Label).FontSize;
+#if __IOS__
+                des.FontSize *= 0.8;
+#endif
+        //每次都重置一次初始大小 因为此方法在横竖屏切换时可能被多次调用
             var Height = this.Height-10;
             var Width = this.Width-10;
-            while(GetTotalHeight(Width)>Height)
+            double NowFontSize = (Children[0] as Label).FontSize;
+
+            while (GetTotalHeight(Width, NowFontSize) >Height&&NowFontSize>1)
+                NowFontSize--;
+
+            foreach (Span Item in (Children[0] as Label).FormattedText.Spans)
             {
-                foreach (Span Item in (Children[0] as Label).FormattedText.Spans)
-                    Item.FontSize -= 1;
+                Item.FontSize =NowFontSize;
+#if __IOS__
+            des.FontSize =NowFontSize;
+#endif
             }
-            
         }
-        private double GetTotalHeight(double Width)
+        private double GetTotalHeight(double Width,double NowFontSize)
         {
             double TotalHeight = 0;
             foreach(var i in Children)
             {
-                TotalHeight += GetLabelHeight(i as Label, Width);
+                TotalHeight += GetLabelHeight(i as Label, Width, NowFontSize);
             }
-            TotalHeight += (Children.Count - 1 )* (Children[0] as Label).FontSize;
+            TotalHeight += (Children.Count - 1 )* NowFontSize;
             return TotalHeight;
         }
-        private double GetLabelHeight(Label label,double Width)
+        private double GetLabelHeight(Label label,double Width,double NowFontSize)
         {
             
             double TotalHeight = 0;
-            double Padding = 6;
-            double TextHeight = label.FormattedText.Spans[0].FontSize + 6;
+            double Padding = NowFontSize * 0.42;
+            double TextHeight = NowFontSize + Padding;
             string Text = label.FormattedText.ToString();
             string[] SplitedText = Text.Split('\n');
             foreach (string Item in SplitedText)
@@ -55,8 +68,6 @@ namespace HandSchool.Models
 
             var formattedString = new FormattedString();
             var desc = value.ToDescription();
-            var test = this.Height;
-            var width = this.Width;
             this.SizeChanged += Layout_SizeChanged;
             foreach (var item in desc)
             {
