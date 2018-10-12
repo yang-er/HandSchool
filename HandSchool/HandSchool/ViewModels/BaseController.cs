@@ -20,6 +20,19 @@ namespace HandSchool.Internal
         public List<InfoEntranceMenu> Menu { get; set; } = new List<InfoEntranceMenu>();
 
         /// <summary>
+        /// 弹出
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="cancel">取消</param>
+        /// <param name="destruction">删除</param>
+        /// <param name="buttons">按钮</param>
+        /// <returns>按下的按钮标签</returns>
+        public Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
+        {
+            return Core.EnsureOnMainThread(() => View.DisplayActionSheet(title, cancel, destruction, buttons));
+        }
+
+        /// <summary>
         /// 接收消息
         /// </summary>
         /// <param name="data">消息</param>
@@ -33,9 +46,9 @@ namespace HandSchool.Internal
         /// <param name="cancel">取消按钮文字</param>
         /// <param name="accept">确定按钮文字</param>
         /// <returns>是否确定</returns>
-        public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
+        public Task<bool> ShowAskMessage(string title, string description, string cancel, string accept)
         {
-            return Core.EnsureOnMainThread(() => View.ShowActionSheet(title, description, cancel, accept));
+            return Core.EnsureOnMainThread(() => View.ShowAskMessage(title, description, cancel, accept));
         }
 
         /// <summary>

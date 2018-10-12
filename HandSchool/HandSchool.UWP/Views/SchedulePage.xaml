@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <local:ViewPage.PrimaryMenu>
-        <AppBarButton Label="{Binding CurrentWeek}" Icon="Calendar" />
+        <AppBarButton Label="{Binding CurrentWeek}" Command="{Binding ChangeWeekCommand}" Icon="Calendar" />
     </local:ViewPage.PrimaryMenu>
     <local:ViewPage.SecondaryMenu>
         <AppBarButton Label="刷新课表" Command="{Binding RefreshCommand}" Icon="Refresh" />

@@ -315,7 +315,7 @@ namespace HandSchool.JLU
         [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
         public async void ResetSettings(IViewResponse resp)
         {
-            if (!await resp.ShowActionSheet("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
+            if (!await resp.ShowAskMessage("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
             Core.WriteConfig(config_username, "");
             Core.WriteConfig(config_password, "");
             Core.WriteConfig(config_usercache, "");

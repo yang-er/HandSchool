@@ -79,20 +79,7 @@ namespace HandSchool.Views
                 case "没有地点的课":
                     break;
                 case "修改当前周":
-                    var paramlist = new string[25];
-                    paramlist[0] = "所有周";
-                    for (int i = 1; i < 25; i++)
-                        paramlist[i] = $"第{i}周";
-                    var ret = await DisplayActionSheet("显示周", "取消", null, paramlist);
-
-                    if (ret != "取消")
-                    {
-                        for (int i = 0; i < 25; i++)
-                            if (ret == paramlist[i])
-                                ViewModel.SetCurrentWeek(i);
-                        LoadList();
-                    }
-
+                    ViewModel.ChangeWeekCommand.Execute(null);
                     break;
                 default:
                     break;

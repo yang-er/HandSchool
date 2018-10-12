@@ -53,6 +53,5 @@ namespace HandSchool.Views
             foreach (var item in list)
                 Grid.Children.Add(new CurriculumLabel(item, count++));
         }
-
     }
 }

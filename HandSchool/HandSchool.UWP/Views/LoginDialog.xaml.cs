@@ -33,13 +33,13 @@ namespace HandSchool.Views
             switch (e.State)
             {
                 case LoginState.Processing:
-                    await ViewResponse.ShowMessageAsync("正在登录", "正在登录中，请稍后……", "知道了");
+                    await ViewModel.ShowMessage("正在登录", "正在登录中，请稍后……", "知道了");
                     break;
                 case LoginState.Succeeded:
                     deferral.Complete();
                     break;
                 case LoginState.Failed:
-                    await ViewResponse.ShowMessageAsync("登录失败", $"登录失败，{e.InnerError}。", "知道了");
+                    await ViewModel.ShowMessage("登录失败", $"登录失败，{e.InnerError}。", "知道了");
                     UpdateCaptchaInfomation();
                     deferral.Complete();
                     break;
@@ -65,7 +65,7 @@ namespace HandSchool.Views
 
             if (!await ViewModel.Form.PrepareLogin())
             {
-                await ViewResponse.ShowMessageAsync("登录失败", "登录失败，出现了一些问题。");
+                await ViewModel.ShowMessage("登录失败", "登录失败，出现了一些问题。");
             }
 
             if (ViewModel.Form.CaptchaSource == null)

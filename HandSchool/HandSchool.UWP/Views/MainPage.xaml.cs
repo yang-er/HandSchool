@@ -138,7 +138,6 @@ namespace HandSchool.Views
             {
                 if (value is NavigationViewDisplayMode _value)
                 {
-                    Core.Log(_value.ToString());
                     return _value == NavigationViewDisplayMode.Minimal ? MinimalMargin : OtherMargin;
                 }
                 else

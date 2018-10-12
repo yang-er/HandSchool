@@ -90,7 +90,7 @@ namespace HandSchool.JLU.ViewModels
         public async Task ProcessCharge(object money)
         {
             if (IsBusy) return;
-            if (!await View.ShowActionSheet("提示", "向校园卡转账成功后，所转金额都会先是在过渡余额中，在餐厅等处的卡机上进行刷卡操作后，过渡余额即会转入校园卡。是否继续充值？", "否", "是")) return;
+            if (!await View.ShowAskMessage("提示", "向校园卡转账成功后，所转金额都会先是在过渡余额中，在餐厅等处的卡机上进行刷卡操作后，过渡余额即会转入校园卡。是否继续充值？", "否", "是")) return;
 
             SetIsBusy(true, "正在充值……");
             string last_error = null;

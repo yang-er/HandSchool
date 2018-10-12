@@ -31,7 +31,7 @@ namespace HandSchool.Views
                     info += "\n" + key + "：" + iGi.Attach.Get((string)key);
                 }
 
-                await ViewResponse.ShowMessageAsync("成绩详情", info, "确定");
+                await ViewModel.ShowMessage("成绩详情", info, "确定");
             }
         }
     }

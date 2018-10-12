@@ -198,9 +198,9 @@ namespace HandSchool.Internal
         /// <param name="cancel">取消按钮文字</param>
         /// <param name="accept">确定按钮文字</param>
         /// <returns>是否确定</returns>
-        public static Task<bool> ShowActionSheet(this BaseViewModel vm, string title, string description, string cancel, string accept)
+        public static Task<bool> ShowAskMessage(this BaseViewModel vm, string title, string description, string cancel, string accept)
         {
-            return vm.View.ShowActionSheet(title, description, cancel, accept);
+            return vm.View.ShowAskMessage(title, description, cancel, accept);
         }
 
         /// <summary>
@@ -212,6 +212,19 @@ namespace HandSchool.Internal
         public static Task ShowMessage(this BaseViewModel vm, string title, string message, string button = "确认")
         {
             return vm.View.ShowMessage(title, message, button);
+        }
+
+        /// <summary>
+        /// 弹出动作列表
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="cancel">取消</param>
+        /// <param name="destruction">删除</param>
+        /// <param name="buttons">按钮</param>
+        /// <returns>按下的按钮标签</returns>
+        public static Task<string> DisplayActionSheet(this BaseViewModel vm, string title, string cancel, string destruction, params string[] buttons)
+        {
+            return vm.View.DisplayActionSheet(title, cancel, destruction, buttons);
         }
     }
 }

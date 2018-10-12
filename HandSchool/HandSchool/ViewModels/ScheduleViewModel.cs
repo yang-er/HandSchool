@@ -15,6 +15,7 @@ namespace HandSchool.ViewModels
         public string CurrentWeek => week == 0 ? "所有周" : $"第{week}周";
         public Command RefreshCommand { get; set; }
         public Command AddCommand { get; set; }
+        public Command ChangeWeekCommand { get; set; }
         public event Action RefreshComplete;
 
         public static ScheduleViewModel Instance
@@ -45,6 +46,7 @@ namespace HandSchool.ViewModels
             week = Core.App.Service.CurrentWeek;
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Create);
+            ChangeWeekCommand = new Command(ChangeWeek);
             Title = "课程表";
         }
 
@@ -55,6 +57,23 @@ namespace HandSchool.ViewModels
             await Core.App.Schedule.Execute();
             RefreshComplete?.Invoke();
             SetIsBusy(false);
+        }
+
+        async void ChangeWeek()
+        {
+            var paramlist = new string[25];
+            paramlist[0] = "所有周";
+            for (int i = 1; i < 25; i++)
+                paramlist[i] = $"第{i}周";
+            var ret = await View.DisplayActionSheet("显示周", "取消", null, paramlist);
+
+            if (ret != "取消")
+            {
+                for (int i = 0; i < 25; i++)
+                    if (ret == paramlist[i])
+                        SetCurrentWeek(i);
+                RefreshComplete?.Invoke();
+            }
         }
 
 #if __UWP__

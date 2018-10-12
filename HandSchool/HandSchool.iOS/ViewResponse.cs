@@ -1,8 +1,4 @@
-﻿using CoreGraphics;
-using System.Threading.Tasks;
-using UIKit;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
+﻿using System.Threading.Tasks;
 using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
@@ -21,7 +17,7 @@ namespace HandSchool.Internal
             return Binding.DisplayAlert(title, message, button);
         }
 
-        public Task<bool> ShowActionSheet(string title, string description, string cancel, string accept)
+        public Task<bool> ShowAskMessage(string title, string description, string cancel, string accept)
         {
             return Binding.DisplayAlert(title, description, accept, cancel);
         }
@@ -29,7 +25,11 @@ namespace HandSchool.Internal
         public void SetIsBusy(bool value, string tips)
         {
             Binding.IsBusy = value;
-            // UIApplication.SharedApplication.NetworkActivityIndicatorVisible = value;
+        }
+
+        public Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
+        {
+            return Binding.DisplayActionSheet(title, cancel, destruction, buttons);
         }
     }
 }
