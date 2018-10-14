@@ -32,7 +32,7 @@ namespace HandSchool.Internal
         public bool AllowAutoRedirect { get; set; }
 
         /// <summary>
-        /// 进行Web请求的超时时间长度
+        /// 进行Web请求的超时时间长度，以ms为单位
         /// </summary>
         public int Timeout { get; set; } = 15000;
 
@@ -43,21 +43,19 @@ namespace HandSchool.Internal
         {
             get
             {
-                try
-                {
-                    var ret = ResponseHeaders["Location"];
-                    if (ret.StartsWith(BaseAddress))
-                        return ret.Replace(BaseAddress, string.Empty);
-                    else
-                        return ret;
-                }
-                catch (NullReferenceException)
-                {
-                    return "";
-                }
+                if (ResponseHeaders is null) return "";
+                else if (ResponseHeaders.Get("Location") is null) return "";
+
+                var ret = ResponseHeaders["Location"];
+                if (ret.StartsWith(BaseAddress))
+                    return ret.Replace(BaseAddress, string.Empty);
+                else return ret;
             }
         }
 
+        /// <summary>
+        /// 创建关注Cookie、自定义验证HTTPS的WebClient。
+        /// </summary>
         /// <param name="baseUrl">请求的基地址（WebClient.BaseAddress）</param>
         /// <param name="encoding">请求的编码（WebClient.Encoding）</param>
         /// <param name="redirect">是否自动跳转（AwaredWebClient.AllowAutoRedirect）</param>
@@ -72,24 +70,24 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 检验SSL服务器证书是否有效
+        /// 检验SSL服务器证书是否有效。
         /// </summary>
-        /// <param name="sender">进行TLS握手的请求</param>
-        /// <param name="certificate">X509证书</param>
-        /// <param name="chain">X509证书链</param>
-        /// <param name="poly">错误策略</param>
-        /// <returns>是否进行握手</returns>
+        /// <param name="sender">进行TLS握手的请求。</param>
+        /// <param name="certificate">X509证书。</param>
+        /// <param name="chain">X509证书链。</param>
+        /// <param name="poly">错误策略。</param>
+        /// <returns>是否进行握手。</returns>
         public static bool CertificateValidate(object sender, X509Cert certificate, X509Chain chain, SslPolicyErrors poly)
         {
             return true;
         }
 
         /// <summary>
-        /// 以GET形式发送数据
+        /// 以GET形式发送数据。
         /// </summary>
-        /// <param name="address">获取的地址</param>
-        /// <param name="accept">期望接收的数据类型</param>
-        /// <returns>获取到的数据内容</returns>
+        /// <param name="address">获取请求的地址。</param>
+        /// <param name="accept">期望接收的数据类型。</param>
+        /// <returns>获取到的数据字符串。</returns>
         /// <exception cref="WebException" />
         /// <exception cref="ContentAcceptException" />
         public async Task<string> GetAsync(string address, string accept = json)
@@ -123,6 +121,15 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 以GET形式发送数据。
+        /// </summary>
+        /// <param name="address">获取请求的地址。</param>
+        /// <param name="accept">期望接收的数据类型。</param>
+        /// <param name="type">期望接收的数据格式。</param>
+        /// <returns>获取到的数据字节数组。</returns>
+        /// <exception cref="WebException" />
+        /// <exception cref="ContentAcceptException" />
         public async Task<byte[]> GetAsync(string address, string accept, string type)
         {
             try
@@ -155,11 +162,11 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 以POST形式发送数据
+        /// 以POST形式发送数据。
         /// </summary>
-        /// <param name="script">发送去的地址</param>
-        /// <param name="value">发送的键值对，以application/x-www-form-urlencoded形式编码</param>
-        /// <returns>获取到的数据内容</returns>
+        /// <param name="script">发送去的地址。</param>
+        /// <param name="value">发送的键值对，以application/x-www-form-urlencoded形式编码。</param>
+        /// <returns>获取到的数据内容。</returns>
         /// <exception cref="WebException" />
         public async Task<string> PostAsync(string script, NameValueCollection value)
         {
@@ -188,13 +195,13 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 以POST形式发送数据
+        /// 以POST形式发送数据。
         /// </summary>
-        /// <param name="script">发送去的地址</param>
-        /// <param name="value">发送的数据内容，默认为application/json</param>
-        /// <param name="type">发送的Content-Type</param>
-        /// <param name="accept">发送的Accept，期望服务器返回</param>
-        /// <returns>获取到的数据内容</returns>
+        /// <param name="script">发送去的地址。</param>
+        /// <param name="value">发送的数据内容，默认为application/json。</param>
+        /// <param name="type">发送的Content-Type。</param>
+        /// <param name="accept">发送的Accept，期望服务器返回。</param>
+        /// <returns>获取到的数据内容。</returns>
         /// <exception cref="WebException" />
         /// <exception cref="ContentAcceptException" />
         public async Task<string> PostAsync(string script, string value, string type = json, string accept = json)
@@ -270,11 +277,11 @@ namespace HandSchool.Internal
         public string Accept { get; }
 
         /// <summary>
-        /// 内容类型不相容错误
+        /// 创建内容类型不相容错误。
         /// </summary>
-        /// <param name="ret">返回的内容本身</param>
-        /// <param name="cur">目前的返回内容类型</param>
-        /// <param name="acc">本应接收的内容类型</param>
+        /// <param name="ret">返回的内容本身。</param>
+        /// <param name="cur">目前的返回内容类型。</param>
+        /// <param name="acc">本应接收的内容类型。</param>
         public ContentAcceptException(string ret, string cur, string acc)
         {
             Result = ret;
