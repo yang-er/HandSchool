@@ -31,7 +31,7 @@ namespace HandSchool.Services
         /// <summary>
         /// 可用菜单
         /// </summary>
-        List<InfoEntranceMenu> Menu { get; set; }
+        List<InfoEntranceMenu> Menu { get; }
     }
 
     /// <summary>

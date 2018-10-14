@@ -5,14 +5,36 @@ using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
+    /// <summary>
+    /// 界面导航的视图模型，提供了视图服务。
+    /// </summary>
     public class NavigationViewModel : BaseViewModel
     {
-        public List<MasterPageItem> PrimaryItems { get; set; } = new List<MasterPageItem>();
-        public List<MasterPageItem> SecondaryItems { get; set; } = new List<MasterPageItem>();
-        public List<MasterPageItem> AppleItems { get; set; } = new List<MasterPageItem>();
-        public InfoEntranceGroup InAppEntrance { get; set; } = new InfoEntranceGroup("其他功能");
-        
         static NavigationViewModel _instance;
+
+        /// <summary>
+        /// Android 版本侧栏入口点列表
+        /// </summary>
+        public List<MasterPageItem> PrimaryItems { get; }
+
+        /// <summary>
+        /// Android 版本侧栏设置
+        /// </summary>
+        public List<MasterPageItem> SecondaryItems { get; }
+
+        /// <summary>
+        /// iOS 版本下底栏
+        /// </summary>
+        public List<MasterPageItem> AppleItems { get; }
+
+        /// <summary>
+        /// iOS 版本下非底栏入口点列表
+        /// </summary>
+        public InfoEntranceGroup InAppEntrance { get; }
+        
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
         public static NavigationViewModel Instance
         {
             get
@@ -23,20 +45,29 @@ namespace HandSchool.ViewModels
             }
         }
         
+        /// <summary>
+        /// 加载预定义的所有菜单内容。
+        /// </summary>
         private NavigationViewModel()
         {
+            PrimaryItems = new List<MasterPageItem>();
+            SecondaryItems = new List<MasterPageItem>();
+#if __IOS__
+            AppleItems = new List<MasterPageItem>();
+            InAppEntrance = new InfoEntranceGroup("其他功能");
+#endif
             FetchOptions();
         }
 
         /// <summary>
-        /// 添加菜单入口点
+        /// 添加菜单入口点到主要页面中。
         /// </summary>
-        /// <param name="title">菜单标题</param>
-        /// <param name="dest">目标页面类名称</param>
-        /// <param name="icon">UWP的图标</param>
-        /// <param name="cg">分类</param>
-        /// <param name="sel">是否被默认选中</param>
-        /// <param name="apple">iOS系统展示的图标</param>
+        /// <param name="title">入口点菜单的标题。</param>
+        /// <param name="dest">目标页面的类名称，将通过反射创建实例。</param>
+        /// <param name="icon">UWP 的图标。</param>
+        /// <param name="cg">学校命名空间，如果为空默认为全局类。</param>
+        /// <param name="sel">是否被默认选中。</param>
+        /// <param name="apple">iOS 系统展示的图标。为空时收起到信息查询中。</param>
         public void AddMenuEntry(string title, string dest, string icon, string cg = "", bool sel = false, string apple = "")
         {
             var item = new MasterPageItem(title, dest, icon, sel, cg);
@@ -58,7 +89,7 @@ namespace HandSchool.ViewModels
         }
         
         /// <summary>
-        /// 根据现有的条目添加菜单入口点
+        /// 根据现有的预定义菜单内容添加入口点。
         /// </summary>
         public void FetchOptions()
         {
@@ -110,9 +141,8 @@ namespace HandSchool.ViewModels
         }
 
         /// <summary>
-        /// 猜想当前页面
+        /// 通过浏览选项猜想当前页面，以供安卓挂起恢复时直接返回。
         /// </summary>
-        /// <returns>Android版挂起恢复时返回的页面</returns>
         public NavigationPage GuessCurrentPage()
         {
             var navitem = PrimaryItems.Find((item) => item.Selected);

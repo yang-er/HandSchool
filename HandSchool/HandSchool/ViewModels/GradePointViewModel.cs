@@ -6,21 +6,39 @@ using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
+    /// <summary>
+    /// 绩点成绩的视图模型，提供了加载绩点的命令和数据源。
+    /// </summary>
     public class GradePointViewModel : BaseViewModel
     {
-        public ObservableCollection<IGradeItem> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
         static GradePointViewModel instance = null;
 
+        /// <summary>
+        /// 绩点成绩列表
+        /// </summary>
+        public ObservableCollection<IGradeItem> Items { get; set; }
+
+        /// <summary>
+        /// 加载绩点的命令
+        /// </summary>
+        public Command LoadItemsCommand { get; set; }
+
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
         public static GradePointViewModel Instance
         {
             get
             {
-                if (instance is null) instance = new GradePointViewModel();
+                if (instance is null)
+                    instance = new GradePointViewModel();
                 return instance;
             }
         }
 
+        /// <summary>
+        /// 建立绩点视图模型的数据源和刷新操作。
+        /// </summary>
         private GradePointViewModel()
         {
             Title = "学分成绩";
@@ -28,10 +46,12 @@ namespace HandSchool.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
-        public async Task ExecuteLoadItemsCommand()
+        /// <summary>
+        /// 加载绩点的具体函数。
+        /// </summary>
+        private async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy) return;
-            SetIsBusy(true, "正在加载成绩……");
+            if (IsBusy) return; IsBusy = true;
 
             try
             {
@@ -43,7 +63,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                SetIsBusy(false);
+                IsBusy = false;
             }
         }
     }

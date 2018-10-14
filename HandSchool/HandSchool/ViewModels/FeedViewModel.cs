@@ -6,21 +6,39 @@ using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
+    /// <summary>
+    /// 学校通知的视图模型，提供了刷新和数据源的功能。
+    /// </summary>
     public class FeedViewModel : BaseViewModel
     {
-        public ObservableCollection<FeedItem> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
         static FeedViewModel instance = null;
 
+        /// <summary>
+        /// 消息内容列表
+        /// </summary>
+        public ObservableCollection<FeedItem> Items { get; set; }
+
+        /// <summary>
+        /// 加载消息的命令
+        /// </summary>
+        public Command LoadItemsCommand { get; set; }
+
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
         public static FeedViewModel Instance
         {
             get
             {
-                if (instance is null) instance = new FeedViewModel();
+                if (instance is null)
+                    instance = new FeedViewModel();
                 return instance;
             }
         }
 
+        /// <summary>
+        /// 将学校通知的数据源和刷新操作组织起来。
+        /// </summary>
         private FeedViewModel()
         {
             Title = "学校通知";
@@ -28,10 +46,12 @@ namespace HandSchool.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
-        async Task ExecuteLoadItemsCommand()
+        /// <summary>
+        /// 加载消息的方法。
+        /// </summary>
+        private async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy) return;
-            SetIsBusy(true, "正在加载新闻……");
+            if (IsBusy) return; IsBusy = true;
 
             try
             {
@@ -43,7 +63,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                SetIsBusy(false);
+                IsBusy = false;
             }
         }
     }

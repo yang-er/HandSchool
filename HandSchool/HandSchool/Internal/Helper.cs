@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HandSchool.Internal.HtmlObject;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,14 +8,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
 using FeedItem = HandSchool.Models.FeedItem;
-using HandSchool.Internal.HtmlObject;
-using System.Threading.Tasks;
-using HandSchool.ViewModels;
 
 namespace HandSchool.Internal
 {
     /// <summary>
-    /// 提供基础静态方法的帮助拓展类
+    /// 提供基础静态方法的帮助拓展类。
     /// </summary>
     static partial class Helper
     {
@@ -22,10 +20,10 @@ namespace HandSchool.Internal
         private static JsonSerializer json = JsonSerializer.Create();
         
         /// <summary>
-        /// 解析RSS文档
+        /// 将字符串解析为RSS文档。
         /// </summary>
-        /// <param name="report">RSS文档文件</param>
-        /// <returns><see cref="FeedItem" /> 的枚举</returns>
+        /// <param name="report">RSS文档字符串。</param>
+        /// <returns><see cref="FeedItem" /> 的枚举器。</returns>
         public static IEnumerable<FeedItem> ParseRSS(this string report)
         {
             var xdoc = XDocument.Parse(report);
@@ -43,10 +41,10 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 对 <see cref="byte[]" /> 进行MD5运算
+        /// 对 <see cref="byte[]" /> 进行MD5运算。
         /// </summary>
-        /// <param name="source">源编码数组</param>
-        /// <returns>加密后编码数组</returns>
+        /// <param name="source">源编码数组。</param>
+        /// <returns>加密后编码数组。</returns>
         public static byte[] ToMD5(this byte[] source)
         {
             byte[] bytHash;
@@ -56,11 +54,11 @@ namespace HandSchool.Internal
         }
         
         /// <summary>
-        /// 对 <see cref="string" /> 进行MD5运算
+        /// 对 <see cref="string" /> 进行MD5运算。
         /// </summary>
-        /// <param name="source">源字符串</param>
-        /// <param name="encoding">指定编码，默认UTF-8</param>
-        /// <returns>编码后字符串</returns>
+        /// <param name="source">源字符串。</param>
+        /// <param name="encoding">指定编码，默认UTF-8。</param>
+        /// <returns>编码后字符串。</returns>
         public static string ToMD5(this string source, Encoding encoding = null)
         {
             if (encoding == null)
@@ -69,11 +67,11 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 将字符串转化为 <see cref="T" /> 的对象
+        /// 将JSON字符串转化为 <see cref="T" /> 的对象。
         /// </summary>
-        /// <typeparam name="T">目标转换类型</typeparam>
-        /// <param name="jsonString">源JSON字符串</param>
-        /// <returns>反序列化后的值</returns>
+        /// <typeparam name="T">目标转换类型。</typeparam>
+        /// <param name="jsonString">源JSON字符串。</param>
+        /// <returns>反序列化后的值。</returns>
         /// <exception cref="JsonException" />
         public static T ParseJSON<T>(this string jsonString)
         {
@@ -82,10 +80,10 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 将对象序列化为JSON文本
+        /// 将对象序列化为JSON文本。
         /// </summary>
-        /// <param name="value">对象</param>
-        /// <returns>JSON文本</returns>
+        /// <param name="value">要被序列化的对象。</param>
+        /// <returns>序列化后的JSON文本。</returns>
         public static string Serialize(this object value)
         {
             json.Serialize(new JsonTextWriter(new StringWriter(sb)), value);
@@ -95,11 +93,11 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 将 <see cref="byte[]" /> 转化为对应的十六进制码字符串
+        /// 将 <see cref="byte[]" /> 转化为对应的十六进制码字符串。
         /// </summary>
-        /// <param name="source">源编码数组</param>
-        /// <param name="lower">是否为小写字母</param>
-        /// <returns>十六进制字符串</returns>
+        /// <param name="source">源编码数组。</param>
+        /// <param name="lower">是否为小写字母。</param>
+        /// <returns>十六进制字符串。</returns>
         public static string ToHexDigest(this byte[] source, bool lower = false)
         {
             char[] chars = (lower ? "0123456789abcdef" : "0123456789ABCDEF").ToCharArray();
@@ -117,10 +115,10 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 解开Base64编码
+        /// 解开Base64编码。
         /// </summary>
-        /// <param name="value">base64</param>
-        /// <returns>origin</returns>
+        /// <param name="value">Base64字符串。</param>
+        /// <returns>原字符串。</returns>
         public static string UnBase64(this string value)
         {
             if (value == null || value == "") return "";
@@ -129,10 +127,10 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 进行Base64编码
+        /// 进行Base64编码。
         /// </summary>
-        /// <param name="value">origin</param>
-        /// <returns>base64</returns>
+        /// <param name="value">元字符串。</param>
+        /// <returns>Base64字符串。</returns>
         public static string ToBase64(this string value)
         {
             if (value == null || value == "") return "";
@@ -141,10 +139,10 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 将字符串数组转为application/x-form-urlencoded
+        /// 将字符串数组转为application/x-form-urlencoded。
         /// </summary>
-        /// <param name="dict">字符串数组</param>
-        /// <param name="startupDelimiter">起始字符</param>
+        /// <param name="dict">字符串数组。</param>
+        /// <param name="startupDelimiter">起始字符。</param>
         /// <returns>application/x-form-urlencoded</returns>
         public static string HttpBuildQuery(this Dictionary<string, string> dict, string startupDelimiter = "")
         {
@@ -161,70 +159,33 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
-        /// 将字符串转化为 RawHtml
+        /// 将字符串转化为 RawHtml。
         /// </summary>
-        /// <param name="value">原字符串</param>
-        /// <returns>转化对象</returns>
+        /// <param name="value">原字符串。</param>
+        /// <returns>转化对象。</returns>
         public static RawHtml ToRawHtml(this string value)
         {
             return new RawHtml { Raw = value };
         }
 
         /// <summary>
-        /// 将字符串转化为 RawHtml
+        /// 将字符串转化为 RawHtml。
         /// </summary>
-        /// <param name="sb">原字符串</param>
-        /// <returns>转化对象</returns>
+        /// <param name="sb">原字符串。</param>
+        /// <returns>转化对象。</returns>
         public static RawHtml ToRawHtml(this StringBuilder sb)
         {
             return new RawHtml { Raw = sb.ToString() };
         }
 
         /// <summary>
-        /// 将对象外面嵌套FormGroup
+        /// 将对象外面嵌套FormGroup。
         /// </summary>
-        /// <param name="obj">被嵌套内容</param>
-        /// <returns>嵌套完对象</returns>
+        /// <param name="obj">被嵌套内容。</param>
+        /// <returns>嵌套完对象。</returns>
         public static FormGroup WrapFormGroup(this IHtmlObject obj)
         {
             return new FormGroup { Children = { obj } };
-        }
-
-        /// <summary>
-        /// 弹出询问框
-        /// </summary>
-        /// <param name="title">对话框标题</param>
-        /// <param name="description">消息正文</param>
-        /// <param name="cancel">取消按钮文字</param>
-        /// <param name="accept">确定按钮文字</param>
-        /// <returns>是否确定</returns>
-        public static Task<bool> ShowAskMessage(this BaseViewModel vm, string title, string description, string cancel, string accept)
-        {
-            return vm.View.ShowAskMessage(title, description, cancel, accept);
-        }
-
-        /// <summary>
-        /// 弹出消息对话框
-        /// </summary>
-        /// <param name="title">对话框标题</param>
-        /// <param name="message">消息正文</param>
-        /// <param name="button">按钮文字</param>
-        public static Task ShowMessage(this BaseViewModel vm, string title, string message, string button = "确认")
-        {
-            return vm.View.ShowMessage(title, message, button);
-        }
-
-        /// <summary>
-        /// 弹出动作列表
-        /// </summary>
-        /// <param name="title">标题</param>
-        /// <param name="cancel">取消</param>
-        /// <param name="destruction">删除</param>
-        /// <param name="buttons">按钮</param>
-        /// <returns>按下的按钮标签</returns>
-        public static Task<string> DisplayActionSheet(this BaseViewModel vm, string title, string cancel, string destruction, params string[] buttons)
-        {
-            return vm.View.DisplayActionSheet(title, cancel, destruction, buttons);
         }
     }
 }

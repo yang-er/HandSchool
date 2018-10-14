@@ -1,31 +1,54 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
+    /// <summary>
+    /// 站内消息的视图模型，提供了读取删除等功能。
+    /// </summary>
     public class MessageViewModel : BaseViewModel
     {
-        public ObservableCollection<IMessageItem> Items { get; set; }
         static MessageViewModel instance = null;
+
+        /// <summary>
+        /// 目前的所有站内消息
+        /// </summary>
+        public ObservableCollection<IMessageItem> Items { get; set; }
+
+        /// <summary>
+        /// 加载消息的命令
+        /// </summary>
         public Command LoadItemsCommand { get; set; }
+
+        /// <summary>
+        /// 删除所有的命令
+        /// </summary>
         public Command DeleteAllCommand { get; set; }
+
+        /// <summary>
+        /// 全部设置已读的命令
+        /// </summary>
         public Command ReadAllCommand { get; set; }
 
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
         public static MessageViewModel Instance
         {
             get
             {
-                if (instance is null) instance = new MessageViewModel();
+                if (instance is null)
+                    instance = new MessageViewModel();
                 return instance;
             }
         }
 
+        /// <summary>
+        /// 将视图模型的操作加载。
+        /// </summary>
         public MessageViewModel()
         {
             Title = "站内消息";
@@ -35,7 +58,10 @@ namespace HandSchool.ViewModels
             ReadAllCommand = new Command(async () => await ExecuteReadAllCommand());
         }
 
-        async Task ExecuteDeleteAllCommand()
+        /// <summary>
+        /// 删除所有站内消息。
+        /// </summary>
+        private async Task ExecuteDeleteAllCommand()
         {
             foreach (var item in Instance.Items)
             {
@@ -45,7 +71,10 @@ namespace HandSchool.ViewModels
             Instance.Items.Clear();
         }
 
-        async Task ExecuteReadAllCommand()
+        /// <summary>
+        /// 将所有站内消息设置为已读状态。
+        /// </summary>
+        private async Task ExecuteReadAllCommand()
         {
             foreach (var item in Instance.Items)
             {
@@ -53,10 +82,12 @@ namespace HandSchool.ViewModels
             }
         }
 
-        async Task ExecuteLoadItemsCommand()
+        /// <summary>
+        /// 加载所有的站内消息内容。
+        /// </summary>
+        private async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy) return;
-            SetIsBusy(true, "正在加载消息……");
+            if (IsBusy) return; IsBusy = true;
 
             try
             {
@@ -68,7 +99,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                SetIsBusy(false);
+                IsBusy = false;
             }
         }
     }

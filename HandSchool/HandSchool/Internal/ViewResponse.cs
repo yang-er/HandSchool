@@ -3,36 +3,36 @@
 namespace HandSchool.Internal
 {
     /// <summary>
-    /// 页面的响应
+    /// 用于暴露部分 View 行为给 ViewModel 的响应。
     /// </summary>
     public interface IViewResponse
     {
         /// <summary>
-        /// 弹出消息对话框
+        /// 弹出消息对话框，用作消息提醒。
         /// </summary>
-        /// <param name="title">对话框标题</param>
-        /// <param name="message">消息正文</param>
-        /// <param name="button">按钮文字</param>
+        /// <param name="title">对话框的标题。</param>
+        /// <param name="message">弹出消息的正文。</param>
+        /// <param name="button">确认按钮的文字。</param>
         Task ShowMessage(string title, string message, string button = "确认");
 
         /// <summary>
-        /// 弹出询问框
+        /// 弹出询问对话框，用作操作确认。
         /// </summary>
-        /// <param name="title">对话框标题</param>
-        /// <param name="description">消息正文</param>
-        /// <param name="cancel">取消按钮文字</param>
-        /// <param name="accept">确定按钮文字</param>
-        /// <returns>是否确定</returns>
+        /// <param name="title">对话框的标题。</param>
+        /// <param name="description">弹出消息的正文。</param>
+        /// <param name="cancel">取消按钮的文字。</param>
+        /// <param name="accept">确认按钮的文字。</param>
+        /// <returns>按下的是否为确定。</returns>
         Task<bool> ShowAskMessage(string title, string description, string cancel, string accept);
 
         /// <summary>
-        /// 弹出动作列表
+        /// 弹出选择对话框，从中选择一个操作。
         /// </summary>
-        /// <param name="title">标题</param>
-        /// <param name="cancel">取消</param>
-        /// <param name="destruction">删除</param>
-        /// <param name="buttons">按钮</param>
-        /// <returns>按下的按钮标签</returns>
+        /// <param name="title">对话框的标题。</param>
+        /// <param name="cancel">对话框的取消按钮文字。为 <see cref="null"/> 时不显示按钮。</param>
+        /// <param name="destruction">对话框的删除按钮文字。为 <see cref="null"/> 时不显示按钮。</param>
+        /// <param name="buttons">可选的动作列表每一项的文字。</param>
+        /// <returns>按下的按钮标签文字。</returns>
         Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons);
     }
 }
