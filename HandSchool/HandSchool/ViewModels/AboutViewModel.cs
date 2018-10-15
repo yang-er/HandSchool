@@ -125,9 +125,9 @@ namespace HandSchool.ViewModels
         private async Task TestMode()
         {
             Core.Log("test mode");
-            await View.ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
+            await ShowMessage("嘻嘻", "你好像发现了什么彩蛋。", "知道了");
             Core.Log("test mode 2");
-            await View.ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
+            await ShowMessage("哈哈", "我不管，你要对我负责。", "知道了");
             Core.Log("test mode 3");
         }
 

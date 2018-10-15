@@ -22,16 +22,21 @@ namespace HandSchool.JLU
 
         public OA()
         {
-            var lu = Core.ReadConfig(config_oa_time);
-            if (lu == "" || (LastUpdate = DateTime.Parse(lu)).AddHours(1).CompareTo(DateTime.Now) == -1)
+            Task.Run(async () =>
             {
-                Task.Run(Execute);
-            }
-            else
-            {
-                LastReport = Core.ReadConfig(config_oa);
-                Parse();
-            }
+                await Task.Yield();
+                var lu = Core.ReadConfig(config_oa_time);
+
+                if (lu == "" || (LastUpdate = DateTime.Parse(lu)).AddHours(1).CompareTo(DateTime.Now) == -1)
+                {
+                    await Execute();
+                }
+                else
+                {
+                    LastReport = Core.ReadConfig(config_oa);
+                    Parse();
+                }
+            });
         }
 
         public async Task Execute()

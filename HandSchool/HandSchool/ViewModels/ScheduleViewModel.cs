@@ -1,7 +1,10 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.Views;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
@@ -9,10 +12,37 @@ namespace HandSchool.ViewModels
     /// <summary>
     /// 课程表的视图模型，提供了增删改查功能。
     /// </summary>
-    [ToFix("将数据源迁移至视图模型")]
     public class ScheduleViewModel : BaseViewModel
     {
         private int week;
+        static ScheduleViewModel instance = null;
+        const string storageFile = "jlu.kcb2.json";
+
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
+        public static ScheduleViewModel Instance
+        {
+            get
+            {
+                if (instance is null)
+                    instance = new ScheduleViewModel();
+                return instance;
+            }
+        }
+
+        /// <summary>
+        /// 将当前周、增删改查等操作加载。
+        /// </summary>
+        private ScheduleViewModel()
+        {
+            Core.App.LoginStateChanged += SyncData;
+            ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
+            RefreshCommand = new Command(Refresh);
+            AddCommand = new Command(Create);
+            ChangeWeekCommand = new Command(ChangeWeek);
+            Title = "课程表";
+        }
 
         /// <summary>
         /// 当前周
@@ -30,19 +60,6 @@ namespace HandSchool.ViewModels
         public event Action RefreshComplete;
 
         /// <summary>
-        /// 将当前周、增删改查等操作加载。
-        /// </summary>
-        private ScheduleViewModel()
-        {
-            Core.App.Service.LoginStateChanged += SyncData;
-            week = Core.App.Service.CurrentWeek;
-            RefreshCommand = new Command(Refresh);
-            AddCommand = new Command(Create);
-            ChangeWeekCommand = new Command(ChangeWeek);
-            Title = "课程表";
-        }
-
-        /// <summary>
         /// 当教务系统登录时，同步目前周。
         /// </summary>
         private void SyncData(object sender, LoginStateEventArgs e)
@@ -51,6 +68,8 @@ namespace HandSchool.ViewModels
             var sys = sender as ISchoolSystem;
             SetProperty(ref week, sys.CurrentWeek, nameof(CurrentWeek));
         }
+
+        #region 增删改查命令
 
         /// <summary>
         /// 刷新课程表的命令
@@ -141,19 +160,135 @@ namespace HandSchool.ViewModels
         }
 #endif
 
-        static ScheduleViewModel instance = null;
+        #endregion
+
+        #region 数据源及操作
+
+        public Lazy<List<CurriculumItem>> ItemsLoader;
 
         /// <summary>
-        /// 视图模型的实例
+        /// 所有的课程表内容
         /// </summary>
-        public static ScheduleViewModel Instance
+        private List<CurriculumItem> Items => ItemsLoader.Value;
+
+        /// <summary>
+        /// 课程表合并状态内容
+        /// </summary>
+        private List<CurriculumItemSet2> ItemsSet { get; set; }
+
+        /// <summary>
+        /// 从周的条件渲染课程表。
+        /// </summary>
+        /// <param name="week">第几周。</param>
+        /// <param name="list">输出列表的迭代器。</param>
+        public void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
         {
-            get
+            if (week == 0)
             {
-                if (instance is null)
-                    instance = new ScheduleViewModel();
-                return instance;
+                if (ItemsSet is null) FetchItemsSet();
+                list = ItemsSet;
+            }
+            else
+            {
+                list = Items.FindAll((item) => item.IfShow(week));
             }
         }
+
+        /// <summary>
+        /// 获取多节课的课程表列表。
+        /// </summary>
+        private void FetchItemsSet()
+        {
+            ClassTableController Controller = new ClassTableController();
+
+            var list = Items;
+            foreach (var i in list)
+                Controller.AddClass(i);
+            ItemsSet = Controller.ToList();
+        }
+
+        /// <summary>
+        /// 添加课程。
+        /// </summary>
+        /// <param name="item">新的课程表项目。</param>
+        [DebuggerStepThrough]
+        public void AddItem(CurriculumItem item)
+        {
+            Items.Add(item);
+            ItemsSet = null;
+        }
+
+        /// <summary>
+        /// 删除课程。
+        /// </summary>
+        /// <param name="item">已有的课程表项目。</param>
+        [DebuggerStepThrough]
+        public void RemoveItem(CurriculumItem item)
+        {
+            Items.Remove(item);
+            ItemsSet = null;
+        }
+
+        /// <summary>
+        /// 寻找第一个满足谓词的课程表项目。
+        /// </summary>
+        /// <param name="pred">判断课程表项目的谓词。</param>
+        /// <returns>课程表项目的内容。</returns>
+        [DebuggerStepThrough]
+        public CurriculumItem FindItem(Predicate<CurriculumItem> pred)
+        {
+            return Items.Find(pred);
+        }
+
+        /// <summary>
+        /// 寻找最后一个满足谓词的课程表项目。
+        /// </summary>
+        /// <param name="pred">判断课程表项目的谓词。</param>
+        /// <returns>课程表项目的内容。</returns>
+        [DebuggerStepThrough]
+        public CurriculumItem FindLastItem(Predicate<CurriculumItem> pred)
+        {
+            return Items.FindLast(pred);
+        }
+
+        /// <summary>
+        /// 删除所有满足谓词的项目
+        /// </summary>
+        /// <param name="pred">判断课程表项目的谓词。</param>
+        [DebuggerStepThrough]
+        public void RemoveAllItem(Predicate<CurriculumItem> pred)
+        {
+            Items.RemoveAll(pred);
+            ItemsSet = null;
+        }
+
+        /// <summary>
+        /// 保存课程表项目
+        /// </summary>
+        public void SaveToFile()
+        {
+            Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
+            Core.WriteConfig(storageFile, Items.Serialize());
+        }
+
+        /// <summary>
+        /// 从文件加载课程表列表。
+        /// </summary>
+        /// <returns>课程表内容</returns>
+        private List<CurriculumItem> LoadFromFile()
+        {
+            var LastReport = Core.ReadConfig(storageFile);
+
+            if (LastReport != "")
+            {
+                return LastReport.ParseJSON<List<CurriculumItem>>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace HandSchool.Internal
@@ -24,6 +25,7 @@ namespace HandSchool.Internal
         /// <param name="propertyName">改变的属性的名称。推荐使用 <see cref="nameof"/> 来指代。</param>
         /// <param name="onChanged">在改变时触发 <see cref="Action"/> 完成自定义的属性改变事件。</param>
         /// <returns>是否改变了原值</returns>
+        [DebuggerStepThrough]
         protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName]string propertyName = "", Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
@@ -33,11 +35,12 @@ namespace HandSchool.Internal
             OnPropertyChanged(propertyName);
             return true;
         }
-        
+
         /// <summary>
         /// 属性改变时简化地触发事件。
         /// </summary>
         /// <param name="propertyName">改变了值的属性的名称。推荐使用 <see cref="nameof"/> 来指代。</param>
+        [DebuggerStepThrough]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

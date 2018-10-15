@@ -1,4 +1,5 @@
 ﻿using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -46,24 +47,23 @@ namespace HandSchool.Views
 
         async Task SaveCommand()
         {
-            Core.App.Schedule.Save();
+            ScheduleViewModel.Instance.SaveToFile();
             await CloseAsync();
         }
 
         async Task RemoveCommand()
         {
-            Core.App.Schedule.RemoveItem(BindingContext as CurriculumItem);
-            Core.App.Schedule.Save();
+            ScheduleViewModel.Instance.RemoveItem(BindingContext as CurriculumItem);
+            ScheduleViewModel.Instance.SaveToFile();
             await CloseAsync();
         }
 
         async Task CreateCommand()
         {
-            Core.App.Schedule.AddItem(BindingContext as CurriculumItem);
-            Core.App.Schedule.Save();
+            ScheduleViewModel.Instance.AddItem(BindingContext as CurriculumItem);
+            ScheduleViewModel.Instance.SaveToFile();
             await CloseAsync();
         }
-
     }
 
     /// <summary>

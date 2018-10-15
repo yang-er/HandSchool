@@ -92,7 +92,7 @@ namespace HandSchool.JLU
         }
 
         public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
-        public string CurrentMessage => NeedLogin ? DateTime.Now.ToShortDateString() : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
+        public string CurrentMessage => NeedLogin ? "登录后可以查看更多内容" : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
 
         #endregion
         
@@ -105,22 +105,32 @@ namespace HandSchool.JLU
         public string CaptchaCode { get; set; } = "";
         public byte[] CaptchaSource { get; set; } = null;
 
-        public UIMS()
+        /// <summary>
+        /// 建立访问UIMS的对象。
+        /// </summary>
+        /// <param name="injectedHandler">事件处理传递方法。</param>
+        [ToFix("存在性能问题，瓶颈在JSON的解析上")]
+        public UIMS(EventHandler<LoginStateEventArgs> injectedHandler = null)
         {
+            if (injectedHandler != null)
+            {
+                LoginStateChanged += injectedHandler;
+            }
+
             var lp = Core.ReadConfig(config_file);
             SettingsJSON config;
             if (lp != "") config = lp.ParseJSON<SettingsJSON>();
             else config = new SettingsJSON();
             ProxyServer = config.ProxyServer;
             UseHttps = config.UseHttps;
-
+            
             IsLogin = false;
             NeedLogin = false;
             Username = Core.ReadConfig(config_username);
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = Core.ReadConfig(config_password);
             if (Password == "") SavePassword = false;
-
+            
             try
             {
                 ParseLoginInfo(Core.ReadConfig(config_usercache));
@@ -204,7 +214,7 @@ namespace HandSchool.JLU
                     AttachInfomation.Clear();
 
                     // Get User Info
-                    string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "", "application/x-www-form-urlencoded");
+                    string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "{}");
                     if (resp.StartsWith("<!")) return false;
                     Core.WriteConfig(config_usercache, AutoLogin ? resp : "");
                     ParseLoginInfo(resp);

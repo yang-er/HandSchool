@@ -9,6 +9,9 @@ using Xamarin.Forms;
 
 namespace HandSchool.Blank
 {
+    /// <summary>
+    /// 默认的空白大学，提供了一些基本操作。
+    /// </summary>
     [Entrance("任意大学", type: EntranceType.SchoolEntrance)]
     class BlankSchool : NotifyPropertyChanged, ISchoolSystem
     {

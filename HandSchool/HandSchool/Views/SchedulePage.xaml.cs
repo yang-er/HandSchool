@@ -94,7 +94,7 @@ namespace HandSchool.Views
             }
 
             // Render classes
-            Core.App.Schedule.RenderWeek(ViewModel.Week, out var list);
+            ScheduleViewModel.Instance.RenderWeek(ViewModel.Week, out var list);
 
             int count = 0;
             foreach (var item in list)

@@ -12,19 +12,26 @@ namespace HandSchool.JLU.ViewModels
 {
     class YktViewModel : BaseViewModel
     {
-        public static YktViewModel Instance { get; private set; }
-        public ObservableCollection<PickCardInfo> PickCardInfo { get; set; }
-        public ObservableCollection<RecordInfo> RecordInfo { get; set; }
-        public SchoolCardInfo BasicInfo { get; set; }
+        static YktViewModel _instance = null;
 
-        public Command LoadPickCardInfoCommand { get; set; }
-        public Command ChargeCreditCommand { get; set; }
-        public Command RecordFindCommand { get; set; }
-
-        public YktViewModel()
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
+        public static YktViewModel Instance
         {
-            System.Diagnostics.Debug.Assert(Instance is null);
-            Instance = this;
+            get
+            {
+                if (_instance is null)
+                    _instance = new YktViewModel();
+                return _instance;
+            }
+        }
+
+        /// <summary>
+        /// 建立校园一卡通的视图模型，加载命令。
+        /// </summary>
+        private YktViewModel()
+        {
             Title = "校园一卡通";
             BasicInfo = new SchoolCardInfo();
             PickCardInfo = new ObservableCollection<PickCardInfo>();
@@ -34,10 +41,43 @@ namespace HandSchool.JLU.ViewModels
             RecordFindCommand = new Command(async () => await ProcessQuery());
         }
 
+        /// <summary>
+        /// 拾卡信息
+        /// </summary>
+        public ObservableCollection<PickCardInfo> PickCardInfo { get; set; }
+
+        /// <summary>
+        /// 消费记录
+        /// </summary>
+        public ObservableCollection<RecordInfo> RecordInfo { get; set; }
+
+        /// <summary>
+        /// 基础信息
+        /// </summary>
+        public SchoolCardInfo BasicInfo { get; set; }
+
+        /// <summary>
+        /// 加载拾卡信息的命令
+        /// </summary>
+        public Command LoadPickCardInfoCommand { get; set; }
+
+        /// <summary>
+        /// 充值校园卡的命令
+        /// </summary>
+        public Command ChargeCreditCommand { get; set; }
+
+        /// <summary>
+        /// 加载消费记录的命令
+        /// </summary>
+        public Command RecordFindCommand { get; set; }
+
+        /// <summary>
+        /// 加载消费记录。
+        /// </summary>
         public async Task ProcessQuery()
         {
             if (IsBusy) return;
-            SetIsBusy(true, "正在加载消费信息……");
+            IsBusy = true;
             string last_error = null;
 
             try
@@ -58,16 +98,19 @@ namespace HandSchool.JLU.ViewModels
             }
             finally
             {
-                SetIsBusy(false);
+                IsBusy = false;
                 if (last_error != null)
-                    await View.ShowMessage("查询失败", last_error);
+                    await ShowMessage("查询失败", last_error);
             }
         }
 
+        /// <summary>
+        /// 获取拾卡信息。
+        /// </summary>
         public async Task GetPickCardInfo()
         {
             if (IsBusy) return;
-            SetIsBusy(true, "正在加载拾卡信息……");
+            IsBusy = true;
 
             try
             {
@@ -75,24 +118,31 @@ namespace HandSchool.JLU.ViewModels
             }
             catch (WebException)
             {
-                await View.ShowMessage("拾卡信息", "拾卡信息加载失败，请检查网络连接。");
+                await ShowMessage("拾卡信息", "拾卡信息加载失败，请检查网络连接。");
             }
             catch (ContentAcceptException)
             {
-                await View.ShowMessage("拾卡信息", "拾卡信息加载失败，可能是软件过老。");
+                await ShowMessage("拾卡信息", "拾卡信息加载失败，可能是软件过老。");
             }
             finally
             {
-                SetIsBusy(false);
+                IsBusy = false;
             }
         }
 
+        /// <summary>
+        /// 处理充值命令。
+        /// </summary>
+        /// <param name="money">充值金额</param>
         public async Task ProcessCharge(object money)
         {
             if (IsBusy) return;
-            if (!await View.ShowAskMessage("提示", "向校园卡转账成功后，所转金额都会先是在过渡余额中，在餐厅等处的卡机上进行刷卡操作后，过渡余额即会转入校园卡。是否继续充值？", "否", "是")) return;
+            if (!await ShowAskMessage("提示", 
+                "向校园卡转账成功后，所转金额都会先是在过渡余额中，" +
+                "在餐厅等处的卡机上进行刷卡操作后，过渡余额即会转入校园卡。" +
+                "是否继续充值？", "否", "是")) return;
 
-            SetIsBusy(true, "正在充值……");
+            IsBusy = true;
             string last_error = null;
 
             try
@@ -124,11 +174,11 @@ namespace HandSchool.JLU.ViewModels
             }
             finally
             {
-                SetIsBusy(false);
+                IsBusy = false;
                 if (last_error != null)
-                    await View.ShowMessage("充值失败", last_error);
+                    await ShowMessage("充值失败", last_error);
                 else
-                    await View.ShowMessage("充值成功", "成功充值了" + money as string + "元。");
+                    await ShowMessage("充值成功", "成功充值了" + money as string + "元。");
             }
         }
     }

@@ -65,7 +65,7 @@ namespace HandSchool.Droid
             if (Core.App is null && !Core.Initialize()) return;
             if (Core.App.Schedule is null) return;
 
-            Core.App.Schedule.RenderWeek(Core.App.Service.CurrentWeek, out var temp);
+            ViewModels.ScheduleViewModel.Instance.RenderWeek(Core.App.Service.CurrentWeek, out var temp);
             //item = temp;
             for (int i = 0; i < 7; i++)
             {

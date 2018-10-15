@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -45,6 +46,7 @@ namespace HandSchool
         /// </summary>
         /// <param name="name">即将读取的文件名。</param>
         /// <returns>读取得到的内容。</returns>
+        [DebuggerStepThrough]
         public static string ReadConfig(string name)
         {
             string fn = Path.Combine(ConfigDirectory, name);
@@ -56,6 +58,7 @@ namespace HandSchool
         /// </summary>
         /// <param name="name">即将写入的文件名。</param>
         /// <param name="value">将要写入的内容。</param>
+        [DebuggerStepThrough]
         public static void WriteConfig(string name, string value)
         {
             File.WriteAllText(Path.Combine(ConfigDirectory, name), value);
@@ -64,6 +67,7 @@ namespace HandSchool
         /// <summary>
         /// 在主线程上运行异步操作。
         /// </summary>
+        [DebuggerStepThrough]
         public static Task EnsureOnMainThread(Func<Task> task)
         {
             if (System.Threading.Thread.CurrentThread.ManagedThreadId != 1)
@@ -87,6 +91,7 @@ namespace HandSchool
         /// <summary>
         /// 在主线程上运行等待值返回的异步操作。
         /// </summary>
+        [DebuggerStepThrough]
         public static Task<T> EnsureOnMainThread<T>(Func<Task<T>> task)
         {
             if (System.Threading.Thread.CurrentThread.ManagedThreadId != 1)

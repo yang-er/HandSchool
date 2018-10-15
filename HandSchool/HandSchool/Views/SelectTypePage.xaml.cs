@@ -20,6 +20,7 @@ namespace HandSchool.Views
             var sch = MySchool.SelectedItem as ISchoolWrapper;
             Core.WriteConfig("hs.school.bin", sch.SchoolId);
 
+            Core.App.InjectService(sch);
             sch.PreLoad();
             sch.PostLoad();
 

@@ -64,7 +64,7 @@ namespace HandSchool.JLU
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
-                    await GradePointViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    await GradePointViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
                 else
@@ -80,10 +80,14 @@ namespace HandSchool.JLU
         
         public GradeEntrance()
         {
-            LastReportGPA = Core.ReadConfig(config_gpa);
-            if (LastReportGPA != "") ParseGPA();
-            LastReport = Core.ReadConfig(config_grade);
-            if (LastReport != "") Parse();
+            Task.Run(async () =>
+            {
+                await Task.Yield();
+                LastReportGPA = Core.ReadConfig(config_gpa);
+                if (LastReportGPA != "") ParseGPA();
+                LastReport = Core.ReadConfig(config_grade);
+                if (LastReport != "") Parse();
+            });
         }
 
         public void Parse()
@@ -115,7 +119,7 @@ namespace HandSchool.JLU
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
-                    await GradePointViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    await GradePointViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
                 else

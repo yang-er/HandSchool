@@ -1,8 +1,5 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
-using HandSchool.ViewModels;
+﻿using HandSchool.ViewModels;
 using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,6 +11,7 @@ namespace HandSchool.Views
         public OutlinePage()
 		{
 			InitializeComponent();
+            BindingContext = IndexViewModel.Instance;
             LayoutChanged += WSizeChanged;
         }
 
@@ -21,12 +19,6 @@ namespace HandSchool.Views
         {
             infoBar.HeightRequest = Width * 0.625;
             stackOfInfo.Margin = new Thickness(20, Width * 0.625 - 70, 0, 0);
-        }
-
-        public void UpdateSideBar()
-        {
-            currentMsg.Text = Core.App.Service.CurrentMessage;
-            welcomeMsg.Text = Core.App.Service.WelcomeMessage;
         }
     }
 }

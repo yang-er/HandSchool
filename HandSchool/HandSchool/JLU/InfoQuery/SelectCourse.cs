@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 
 namespace HandSchool.JLU.InfoQuery
 {

@@ -49,16 +49,17 @@ namespace HandSchool
             {
                 var current = Schools.Find((sw) => sw.SchoolId == type);
                 if (current is null) return false;
-                Profile(0, "学校加载");
+                App.InjectService(current);
                 current.PreLoad();
-                Profile(1, "学校预加载完成");
                 current.PostLoad();
-                Profile(1, "学校后加载完成");
-
-                Profile(2);
                 return true;
             }
         }
+
+        /// <summary>
+        /// 是否已经加载完成
+        /// </summary>
+        public static bool Initialized => !(App.Loader is null);
         
         private Core() { }
     }

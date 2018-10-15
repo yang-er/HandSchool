@@ -11,6 +11,7 @@ namespace HandSchool
         /// </summary>
         /// <param name="cond">条件</param>
         /// <param name="val">断言内容</param>
+        [DebuggerStepThrough]
         public static void Assert(bool cond, string val, [CallerLineNumber] int line = -1, [CallerFilePath] string file = "")
         {
 #if DEBUG
@@ -35,6 +36,7 @@ namespace HandSchool
         /// </summary>
         /// <param name="name">性能分析输出的注释。</param>
         /// <param name="type">性能分析的类型。0为启动，2为关闭，1为标记。</param>
+        [DebuggerStepThrough]
         public static void Profile(int type, string name = "")
         {
 #if DEBUG
@@ -68,6 +70,7 @@ namespace HandSchool
         /// 向调试器写入调试信息。
         /// </summary>
         /// <param name="output">输出的字符串内容。</param>
+        [DebuggerStepThrough]
         public static void Log(string output)
         {
             Debug.WriteLine(output);
@@ -77,6 +80,7 @@ namespace HandSchool
         /// 向调试器写入调试信息。
         /// </summary>
         /// <param name="output">产生的异常内容。</param>
+        [DebuggerStepThrough]
         public static void Log(Exception output)
         {
             Debug.WriteLine(output);
@@ -87,11 +91,13 @@ namespace HandSchool
         /// </summary>
         /// <param name="format">字符串的输出格式。</param>
         /// <param name="param">对应输出内容的参数。</param>
+        [DebuggerStepThrough]
         public static void Log(string format, params object[] param)
         {
             Debug.WriteLine(format, param);
         }
 
+        [DebuggerStepThrough]
         public static void NotifyInitialize([CallerFilePath] string name = "")
         {
             Log(name + " Initialized.");

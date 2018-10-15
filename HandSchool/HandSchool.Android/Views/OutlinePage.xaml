@@ -13,8 +13,8 @@
         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="185" x:Name="infoBar">
             <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
             <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="20,115,0,0" x:Name="stackOfInfo">
-                <Label Text="请登录" x:Name="welcomeMsg" TextColor="White" FontSize="Large" />
-                <Label Text="登录后可以查看更多内容。" x:Name="currentMsg" TextColor="White" />
+                <Label Text="{Binding WelcomeMessage}" TextColor="White" FontSize="Large" />
+                <Label Text="{Binding CurrentMessage}" TextColor="White" />
             </StackLayout>
         </AbsoluteLayout>
         <ListView x:Name="PrimaryListView"

@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
+using System;
 using System.Collections.Generic;
 
 namespace HandSchool
@@ -7,29 +8,49 @@ namespace HandSchool
     public sealed partial class Core
     {
         /// <summary>
+        /// 最终使用的加载器
+        /// </summary>
+        private ISchoolWrapper Loader { get; set; }
+
+        /// <summary>
+        /// 将加载器作为依赖服务注入。
+        /// </summary>
+        /// <param name="wrapper">加载器</param>
+        public void InjectService(ISchoolWrapper wrapper)
+        {
+            Loader = wrapper;
+            Loader.NoticeChange += (s, e) => LoginStateChanged?.Invoke(s, e);
+        }
+
+        /// <summary>
+        /// 登录状态发生改变
+        /// </summary>
+        public event EventHandler<LoginStateEventArgs> LoginStateChanged;
+
+        /// <summary>
         /// 学校的教务中心服务
         /// </summary>
-        public ISchoolSystem Service;
+        public ISchoolSystem Service => Loader.Service.Value;
 
         /// <summary>
         /// 获取绩点的入口点
         /// </summary>
-        public IGradeEntrance GradePoint;
+        public IGradeEntrance GradePoint => Loader.GradePoint.Value;
 
         /// <summary>
         /// 获取课程表的入口点
         /// </summary>
-        public IScheduleEntrance Schedule;
+        public IScheduleEntrance Schedule => Loader.Schedule.Value;
 
         /// <summary>
         /// 获取系统消息的入口点
         /// </summary>
-        public IMessageEntrance Message;
+        public IMessageEntrance Message => Loader.Message.Value;
 
         /// <summary>
         /// 获取消息更新的入口点
         /// </summary>
-        public IFeedEntrance Feed;
+        public IFeedEntrance Feed => Loader.Feed.Value;
 
         /// <summary>
         /// 每天有多少节标准课时

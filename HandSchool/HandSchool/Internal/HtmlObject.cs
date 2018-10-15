@@ -16,10 +16,10 @@ namespace HandSchool.Internal
         string Id { get; }
 
         /// <summary>
-        /// 转化为字符串
+        /// 将HTML对象转化为字符串。
         /// </summary>
-        /// <param name="sb">字符串缓冲区</param>
-        /// <param name="full">完整输出</param>
+        /// <param name="sb">输入的字符串缓冲区。</param>
+        /// <param name="full">是否选择完整输出。</param>
         void ToHtml(StringBuilder sb, bool full = true);
     }
 

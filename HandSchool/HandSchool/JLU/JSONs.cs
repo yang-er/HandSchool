@@ -539,13 +539,16 @@ namespace HandSchool.JLU.JsonObject
                 default: return "未知";
             }
         }
+        
+        static Lazy<List<CollegeOverview>> collegeLoader = new Lazy<List<CollegeOverview>>(LazyCollege);
+        static Lazy<List<BuildingOverview>> buildingLoader = new Lazy<List<BuildingOverview>>(LazyBuilding);
+        static Lazy<NameValueCollection> campusLoader = new Lazy<NameValueCollection>(LazyCampus);
+        static Lazy<NameValueCollection> divisionLoader = new Lazy<NameValueCollection>(LazyDivision);
 
-        public static bool Loaded { get; private set; } = false;
-
-        public static NameValueCollection Division { get; private set; }
-        public static NameValueCollection Campus { get; private set; }
-        public static List<BuildingOverview> Buildings { get; private set; }
-        public static List<CollegeOverview> Colleges { get; private set; }
+        public static NameValueCollection Division => divisionLoader.Value;
+        public static NameValueCollection Campus => campusLoader.Value;
+        public static List<BuildingOverview> Buildings => buildingLoader.Value;
+        public static List<CollegeOverview> Colleges => collegeLoader.Value;
 
         public struct BuildingOverview
         {
@@ -603,12 +606,9 @@ namespace HandSchool.JLU.JsonObject
             }
         }
 
-        public static void Initialize()
+        static List<CollegeOverview> LazyCollege()
         {
-            if (Loaded) return;
-            Loaded = true;
-
-            Colleges = new List<CollegeOverview>
+            return new List<CollegeOverview>
             {
                 new CollegeOverview("哲学社会学院", "1401", "1420", "174", "11"),
                 new CollegeOverview("文学院", "1401", "1420", "175", "12"),
@@ -710,8 +710,11 @@ namespace HandSchool.JLU.JsonObject
                 new CollegeOverview("莱姆顿学院", null, null, "179"),
                 new CollegeOverview("超硬材料国家重点实验室", "1401", null, "208")
             };
+        }
 
-            Buildings = new List<BuildingOverview>
+        static List<BuildingOverview> LazyBuilding()
+        {
+            return new List<BuildingOverview>
             {
                 new BuildingOverview("逸夫楼","96","1401"),
                 new BuildingOverview("第三教学楼","68","1401"),
@@ -779,8 +782,11 @@ namespace HandSchool.JLU.JsonObject
                 new BuildingOverview("科学讲堂","200","1406"),
                 new BuildingOverview("兽医实验楼","201","1406"),
             };
+        }
 
-            Campus = new NameValueCollection
+        static NameValueCollection LazyCampus()
+        {
+            return new NameValueCollection
             {
                 { "1401", "前卫校区" },
                 { "1402", "南岭校区" },
@@ -789,8 +795,11 @@ namespace HandSchool.JLU.JsonObject
                 { "1405", "南湖校区" },
                 { "1406", "和平校区" }
             };
+        }
 
-            Division = new NameValueCollection
+        static NameValueCollection LazyDivision()
+        {
+            return new NameValueCollection
             {
                 { "1420", "人文学部" },
                 { "1421", "社会科学学部" },

@@ -10,18 +10,19 @@ using System.Threading.Tasks;
 namespace HandSchool.JLU
 {
     [Entrance("课程表")]
-    class Schedule : ScheduleEntranceBase
+    class Schedule : IScheduleEntrance
     {
         internal const string config_kcb_orig = "jlu.kcb.json";
         internal const string config_kcb = "jlu.kcb2.json";
 
-        public override string ScriptFileUri => "service/res.do";
-        public override bool IsPost => true;
-        public override string StorageFile => config_kcb;
+        public string ScriptFileUri => "service/res.do";
+        public bool IsPost => true;
+        public string StorageFile => config_kcb;
+        public string LastReport { get; set; }
         public string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
-        public override string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
+        public string PostValue => "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
         
-        public override async Task Execute()
+        public async Task Execute()
         {
             try
             {
@@ -31,7 +32,7 @@ namespace HandSchool.JLU
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
-                    await ScheduleViewModel.Instance.View.ShowMessage("错误", "连接超时，请重试。");
+                    await ScheduleViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
                 else
@@ -42,13 +43,14 @@ namespace HandSchool.JLU
 
             Core.WriteConfig(config_kcb_orig, LastReport);
             Parse();
-            Save();
+            ScheduleViewModel.Instance.SaveToFile();
         }
         
-        public override void Parse()
+        public void Parse()
         {
             var table = LastReport.ParseJSON<RootObject<ScheduleValue>>();
-            Items.RemoveAll(obj => !obj.IsCustom);
+            ScheduleViewModel.Instance.RemoveAllItem(obj => !obj.IsCustom);
+
             foreach (var obj in table.value)
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
@@ -83,10 +85,9 @@ namespace HandSchool.JLU
                             item.DayEnd++;
                     }
 
-                    Items.Add(item);
+                    ScheduleViewModel.Instance.AddItem(item);
                 }
             }
-            ItemsSet = null;
         }
 
         /*
@@ -135,7 +136,7 @@ namespace HandSchool.JLU
         private NameValueCollection theater = new NameValueCollection();
         */
         
-        public override int ClassNext
+        public int ClassNext
         {
             get
             {
@@ -152,7 +153,5 @@ namespace HandSchool.JLU
                 return ret;
             }
         }
-
-        public Schedule() : base() { }
     }
 }

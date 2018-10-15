@@ -1,4 +1,5 @@
 ﻿using HandSchool.Models;
+using HandSchool.ViewModels;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -49,23 +50,24 @@ namespace HandSchool.Views
 
         private void Save(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.Save();
+            ScheduleViewModel.Instance.SaveToFile();
         }
 
         private void Remove(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.RemoveItem(Model);
-            Core.App.Schedule.Save();
+            ScheduleViewModel.Instance.RemoveItem(Model);
+            ScheduleViewModel.Instance.SaveToFile();
         }
 
         private void Create(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Core.App.Schedule.AddItem(Model);
-            Core.App.Schedule.Save();
+            ScheduleViewModel.Instance.AddItem(Model);
+            ScheduleViewModel.Instance.SaveToFile();
         }
 
         private void Cancel(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+
         }
     }
 

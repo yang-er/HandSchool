@@ -12,6 +12,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = IndexViewModel.Instance;
+            ShowIsBusyDialog = true;
 #if __IOS__
             var themer = new Style(typeof(Frame));
             themer.Setters.Add(Frame.HasShadowProperty, false);

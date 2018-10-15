@@ -13,9 +13,8 @@ namespace HandSchool.Views
 		public MainPage()
 		{
 			InitializeComponent();
-
-
-            if (Core.App.Service is null)
+            
+            if (!Core.Initialized)
             {
                 Detail = new SelectTypePage();
             }
@@ -34,9 +33,6 @@ namespace HandSchool.Views
 
             Outline.PrimaryListView.ItemSelected += MasterPageItemSelected;
             Outline.SecondaryListView.ItemSelected += MasterPageItemSelected;
-
-            Core.App.Service.LoginStateChanged += (sender, e) => { if (e.State == LoginState.Succeeded) Outline.UpdateSideBar(); };
-            Outline.UpdateSideBar();
         }
 
         public void FinishSettings()

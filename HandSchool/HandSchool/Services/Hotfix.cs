@@ -6,18 +6,17 @@ using System.Reflection;
 namespace HandSchool.Services
 {
     /// <summary>
-    /// 模块热更新
+    /// 模块热更新的标记数据。
     /// </summary>
+    /// <example>
+    /// 将热更新的内容保存在某个公开地址上。
+    ///   [1] 文件内容
+    ///     (ver)1;url=balabala...
+    ///   [2] 保存文件
+    /// </example>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class HotfixAttribute : Attribute
     {
-        /**
-         *  Hotfix Module
-         *  - Check File content:
-         *      (ver)1;url=balabala...
-         *  - Save file
-         */
-
         /// <summary>
         /// 更新源
         /// </summary>
@@ -29,10 +28,10 @@ namespace HandSchool.Services
         public string LocalStorage { get; }
 
         /// <summary>
-        /// 提供热更新的元数据
+        /// 提供热更新的元数据。
         /// </summary>
-        /// <param name="uri">更新源</param>
-        /// <param name="prefix">本地存储文件前缀</param>
+        /// <param name="uri">更新源。</param>
+        /// <param name="prefix">本地存储文件前缀。</param>
         public HotfixAttribute(string uri, string prefix)
         {
             UpdateSource = uri;
@@ -40,9 +39,9 @@ namespace HandSchool.Services
         }
 
         /// <summary>
-        /// 检查更新并存储结果
+        /// 检查更新并存储结果。
         /// </summary>
-        /// <param name="force">是否强制更新</param>
+        /// <param name="force">是否强制更新。</param>
         public async void CheckUpdate(bool force = false)
         {
             try
@@ -81,23 +80,23 @@ namespace HandSchool.Services
         }
 
         /// <summary>
-        /// 读取本地的数据
+        /// 读取本地的数据。
         /// </summary>
-        /// <returns>数据</returns>
+        /// <returns>本地储存的数据。</returns>
         public string ReadContent()
         {
             return Core.ReadConfig(LocalStorage);
         }
 
         /// <summary>
-        /// 读取本地的数据
+        /// 读取本地的数据。
         /// </summary>
-        /// <param name="obj">附加对象</param>
-        /// <returns>数据</returns>
+        /// <param name="obj">附加对象。</param>
+        /// <returns>本地储存的数据。</returns>
         public static string ReadContent(object obj)
         {
             var hf = obj.GetType().GetCustomAttribute(typeof(HotfixAttribute)) as HotfixAttribute;
-            System.Diagnostics.Debug.Assert(hf != null, "HotfixAttribute not attached.");
+            Core.Assert(hf != null, "HotfixAttribute not attached.");
             return hf.ReadContent();
         }
     }

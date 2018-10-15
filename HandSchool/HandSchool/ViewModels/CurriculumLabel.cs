@@ -9,6 +9,7 @@ namespace HandSchool.Models
         public CurriculumItemBase Context { get; }
         public int ColorId { get; private set; }
 
+        /*
         private void Layout_SizeChanged(object sender, EventArgs e)
         {
 
@@ -33,6 +34,7 @@ namespace HandSchool.Models
 #endif
             }
         }
+
         private double GetTotalHeight(double Width,double NowFontSize)
         {
             double TotalHeight = 0;
@@ -43,6 +45,7 @@ namespace HandSchool.Models
             TotalHeight += (Children.Count - 1 )* NowFontSize;
             return TotalHeight;
         }
+
         private double GetLabelHeight(Label label,double Width,double NowFontSize)
         {
             
@@ -57,6 +60,8 @@ namespace HandSchool.Models
             }
             return TotalHeight;
         }
+        */
+
         public CurriculumLabel(CurriculumItemBase value, int id)
         {
             Context = value;
@@ -68,7 +73,7 @@ namespace HandSchool.Models
 
             var formattedString = new FormattedString();
             var desc = value.ToDescription();
-            this.SizeChanged += Layout_SizeChanged;
+            //this.SizeChanged += Layout_SizeChanged;
             foreach (var item in desc)
             {
                 if (formattedString.Spans.Count > 0)

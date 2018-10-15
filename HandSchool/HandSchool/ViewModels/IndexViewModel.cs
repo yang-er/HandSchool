@@ -1,10 +1,10 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
+using HandSchool.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -13,7 +13,11 @@ namespace HandSchool.ViewModels
 {
     public class IndexViewModel : BaseViewModel
     {
-        private static IndexViewModel instance = null;
+        static IndexViewModel instance = null;
+
+        /// <summary>
+        /// 视图模型的实例
+        /// </summary>
         public static IndexViewModel Instance
         {
             get
@@ -24,12 +28,15 @@ namespace HandSchool.ViewModels
             }
         }
 
+        /// <summary>
+        /// 创建首页信息的视图模型，并更新数据。
+        /// </summary>
         private IndexViewModel()
         {
-            RefreshCommand = new Command(async () => await Refresh());
-            Core.App.Service.LoginStateChanged += (sender, args) => { if (args.State == LoginState.Succeeded) UpdateWelcome(); };
             Title = "掌上校园";
-            Task.Run(async () => await Refresh());
+            Core.App.LoginStateChanged += Global_LoginStateChanged;
+            RefreshCommand = new Command(async () => await Refresh());
+            RefreshCommand.Execute(null);
         }
 
         #region Weather
@@ -37,32 +44,44 @@ namespace HandSchool.ViewModels
         string weather;
         string weatherRange;
         string weatherTips = "愿你拥有比阳光明媚的心情";
-        string weatherJson;
         
+        /// <summary>
+        /// 天气形容词
+        /// </summary>
         public string Weather
         {
             get => weather;
             set => SetProperty(ref weather, value);
         }
 
+        /// <summary>
+        /// 气温范围
+        /// </summary>
         public string WeatherRange
         {
             get => weatherRange;
             set => SetProperty(ref weatherRange, value);
         }
 
+        /// <summary>
+        /// 天气小贴士
+        /// </summary>
         public string WeatherTips
         {
             get => weatherTips;
             set => SetProperty(ref weatherTips, value);
         }
         
+        /// <summary>
+        /// 从公共API更新天气数据。
+        /// </summary>
+        [ToFix("JObject无法读取数据")]
         public async Task UpdateWeather()
         {
             try
             {
                 var wc = new AwaredWebClient("https://www.sojson.com/open/api/weather/", Encoding.UTF8);
-                weatherJson = await wc.GetAsync("json.shtml?city=" + Core.App.Service.WeatherLocation);
+                var weatherJson = await wc.GetAsync("json.shtml?city=" + Core.App.Service.WeatherLocation);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(weatherJson);
                 if((int)(jo["status"])==304)
                 {
@@ -99,50 +118,102 @@ namespace HandSchool.ViewModels
         public bool NextHasClass => curriculum1 != null;
 
         void UpdateNextCurriculum()
-        { 
+        {
             int today = (int)DateTime.Now.DayOfWeek;
             if (today == 0) today = 7;
             int toweek = Core.App.Service.CurrentWeek;
             int tocor = Core.App.Schedule.ClassNext;
-            curriculum1 = Core.App.Schedule.FindItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
-            curriculum2 = Core.App.Schedule.FindLastItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
-            OnPropertyChanged("NextClass");
-            OnPropertyChanged("NextTeacher");
-            OnPropertyChanged("NextClassroom");
-            OnPropertyChanged("CurrentClass");
-            OnPropertyChanged("CurrentTeacher");
-            OnPropertyChanged("CurrentClassroom");
-            OnPropertyChanged("NextHasClass");
-            OnPropertyChanged("CurrentHasClass");
+            curriculum1 = ScheduleViewModel.Instance.FindItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
+            curriculum2 = ScheduleViewModel.Instance.FindLastItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                OnPropertyChanged("NextClass");
+                OnPropertyChanged("NextTeacher");
+                OnPropertyChanged("NextClassroom");
+                OnPropertyChanged("CurrentClass");
+                OnPropertyChanged("CurrentTeacher");
+                OnPropertyChanged("CurrentClassroom");
+                OnPropertyChanged("NextHasClass");
+                OnPropertyChanged("CurrentHasClass");
+            });
         }
 
         #endregion
 
-        #region Welcome
+        #region Welcome Messages
 
-        public string WelcomeMessage => Core.App.Service.WelcomeMessage;
-        public string CurrentMessage => Core.App.Service.CurrentMessage;
+        private string _welcomeMessage = "正在加载";
+        private string _currentMessage = "正在加载个人数据……";
 
-        void UpdateWelcome()
+        /// <summary>
+        /// 欢迎消息
+        /// </summary>
+        public string WelcomeMessage
         {
-            OnPropertyChanged("WelcomeMessage");
-            OnPropertyChanged("CurrentMessage");
+            get => _welcomeMessage;
+            private set => SetProperty(ref _welcomeMessage, value);
+        }
+
+        /// <summary>
+        /// 欢迎消息副标题
+        /// </summary>
+        public string CurrentMessage
+        {
+            get => _currentMessage;
+            private set => SetProperty(ref _currentMessage, value);
+        }
+        
+        /// <summary>
+        /// 更新欢迎消息为目前教务系统的实例。
+        /// </summary>
+        private void UpdateWelcome()
+        {
+            WelcomeMessage = Core.App.Service.WelcomeMessage;
+            CurrentMessage = Core.App.Service.CurrentMessage;
         }
         
         #endregion
 
         #region Refresh Command
 
+        /// <summary>
+        /// 当教务系统服务状态更改时，同步欢迎消息。
+        /// </summary>
+        /// <param name="sender">正在使用的教务系统。</param>
+        /// <param name="args">目前的登录状态。</param>
+        private void Global_LoginStateChanged(object sender, LoginStateEventArgs args)
+        {
+            if (args.State == LoginState.Succeeded) UpdateWelcome();
+        }
+
+        /// <summary>
+        /// 刷新视图模型数据的命令
+        /// </summary>
         public Command RefreshCommand { get; set; }
 
-        async Task Refresh()
+        /// <summary>
+        /// 与目前教务系统和课程表数据进行同步。
+        /// </summary>
+        private async Task Refresh()
         {
-            UpdateNextCurriculum();
+            if (IsBusy) return;
+            IsBusy = true;
+            
+            if (!ScheduleViewModel.Instance.ItemsLoader.IsValueCreated)
+            {
+                // This time, the main-cost service has not been created.
+                // So we can force this method to be asynchronized
+                // that won't block the enter of main page.
+                await Task.Yield();
+            }
+
             UpdateWelcome();
+            UpdateNextCurriculum();
+            IsBusy = false;
             await UpdateWeather();
         }
 
         #endregion
-
     }
 }
