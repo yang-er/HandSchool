@@ -1,14 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 登录表单
+    /// 基础的登录表单，提供了准备接口和登录接口。
     /// </summary>
     public interface ILoginField : INotifyPropertyChanged
     {
@@ -43,15 +41,15 @@ namespace HandSchool.Models
         string FormName { get; }
 
         /// <summary>
-        /// 登录函数
+        /// 登录操作，通过网络进行登录操作。
         /// </summary>
-        /// <returns>是否登录成功</returns>
+        /// <returns>是否登录成功。</returns>
         Task<bool> Login();
 
         /// <summary>
-        /// 登录之前的准备
+        /// 登录之前进行准备工作，例如加载验证码等内容。
         /// </summary>
-        /// <returns>是否准备成功</returns>
+        /// <returns>是否准备成功。</returns>
         Task<bool> PrepareLogin();
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace HandSchool.Models
     }
 
     /// <summary>
-    /// 登录状态改变的事件
+    /// 登录状态改变的事件参数。
     /// </summary>
     public class LoginStateEventArgs : EventArgs
     {
@@ -96,10 +94,10 @@ namespace HandSchool.Models
         public string InnerError { get; set; }
 
         /// <summary>
-        /// 登录状态改变事件
+        /// 创建登录状态改变事件的参数。
         /// </summary>
-        /// <param name="state">登录状态</param>
-        /// <param name="error">错误信息</param>
+        /// <param name="state">目前的登录状态。</param>
+        /// <param name="error">可能的错误信息。</param>
         public LoginStateEventArgs(LoginState state, string error = "")
         {
             State = state;
@@ -107,9 +105,9 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// 登录状态改变事件
+        /// 创建在异常中登录失败的事件参数。
         /// </summary>
-        /// <param name="ex">网络异常</param>
+        /// <param name="ex">发生的网络异常，用于提供错误信息。</param>
         public LoginStateEventArgs(WebException ex)
         {
             State = LoginState.Failed;
@@ -117,10 +115,10 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// 获得异常的消息
+        /// 获得网络异常对应的字符串消息。
         /// </summary>
-        /// <param name="e">网络异常信息</param>
-        /// <returns>表述字符串</returns>
+        /// <param name="e">网络异常信息。</param>
+        /// <returns>表述异常的字符串。</returns>
         public static string GetWebExceptionMessage(WebException e)
         {
             switch (e.Status)
@@ -151,7 +149,7 @@ namespace HandSchool.Models
     }
     
     /// <summary>
-    /// 登录状态
+    /// 表示目前登录状态的枚举。
     /// </summary>
     public enum LoginState
     {

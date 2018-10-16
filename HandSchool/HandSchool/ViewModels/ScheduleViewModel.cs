@@ -164,7 +164,12 @@ namespace HandSchool.ViewModels
 
         #region 数据源及操作
 
-        public Lazy<List<CurriculumItem>> ItemsLoader;
+        private Lazy<List<CurriculumItem>> ItemsLoader;
+
+        /// <summary>
+        /// 是否已经完成加载
+        /// </summary>
+        public bool ItemsLoaded => ItemsLoader.IsValueCreated;
 
         /// <summary>
         /// 所有的课程表内容
@@ -174,7 +179,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 课程表合并状态内容
         /// </summary>
-        private List<CurriculumItemSet2> ItemsSet { get; set; }
+        private IEnumerable<CurriculumSet> ItemsSet { get; set; }
 
         /// <summary>
         /// 从周的条件渲染课程表。
@@ -199,12 +204,11 @@ namespace HandSchool.ViewModels
         /// </summary>
         private void FetchItemsSet()
         {
-            ClassTableController Controller = new ClassTableController();
-
+            var controller = new CurriculumSet.MergeAlgorithm();
             var list = Items;
             foreach (var i in list)
-                Controller.AddClass(i);
-            ItemsSet = Controller.ToList();
+                controller.AddClass(i);
+            ItemsSet = controller.ToList();
         }
 
         /// <summary>

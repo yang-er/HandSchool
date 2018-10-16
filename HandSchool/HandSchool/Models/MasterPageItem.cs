@@ -6,41 +6,37 @@ using Xamarin.Forms;
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 系统导航项目
+    /// 用于抽象系统导航数据的项目。
     /// </summary>
     /// <remarks>Thanks to 张高兴</remarks>
     /// <see cref="https://www.cnblogs.com/zhanggaoxing/p/7436523.html" />
     public class MasterPageItem : NotifyPropertyChanged
     {
-        static Color active = Color.FromRgb(0, 120, 215);
-        static Color inactive = Color.Black;
-        
-        public MasterPageItem() { }
-
         /// <summary>
-        /// 系统导航项目
+        /// 创建一个系统导航项目，并提供页面延迟加载的功能。
         /// </summary>
-        /// <param name="title">名称</param>
-        /// <param name="dest">目标页面类型</param>
-        /// <param name="icon">Segoe MDL2 Assets 图标</param>
-        /// <param name="apple">苹果图标</param>
-        /// <param name="select">是否已选中</param>
+        /// <param name="title">导航项目的名称。</param>
+        /// <param name="dest">目标页面类型名。</param>
+        /// <param name="icon">Segoe MDL2 Assets 图标。</param>
+        /// <param name="select">是否已被选中。</param>
+        /// <param name="category">类的父命名空间。</param>
         public MasterPageItem(string title, string dest, string icon = "", bool select = false, string category = "")
         {
             this.title = title;
-            string destpg_type;
-            if (category != "") category += ".";
             Icon = icon;
 
-            destpg_type = $"HandSchool.{category}Views.{dest}";
+            if (category != "") category += ".";
+            var destpg_type = $"HandSchool.{category}Views.{dest}";
             DestinationPageType = Assembly.GetExecutingAssembly().GetType(destpg_type);
+            corePage = new Lazy<Page>(() => Activator.CreateInstance(DestinationPageType) as Page);
+            navPage = new Lazy<NavigationPage>(() => new NavigationPage(CorePage) { Title = title, Icon = AppleIcon });
 
             selected = select;
             color = select ? active : inactive;
         }
 
         /// <summary>
-        /// 图标
+        /// UWP显示的图标
         /// </summary>
         public string Icon { get; set; }
 
@@ -52,22 +48,12 @@ namespace HandSchool.Models
         /// <summary>
         /// 目标页面
         /// </summary>
-        public Page CorePage => _destpg2 ?? (_destpg2 = Activator.CreateInstance(DestinationPageType) as Page);
+        public Page CorePage => corePage.Value;
 
         /// <summary>
         /// 目标导航页面
         /// </summary>
-        public NavigationPage DestPage
-        {
-            get
-            {
-                return _destpg ?? (_destpg = new NavigationPage(CorePage)
-                {
-                    Title = title,
-                    Icon = AppleIcon
-                });
-            }
-        }
+        public NavigationPage DestPage => navPage.Value;
 
         /// <summary>
         /// 展示的标题
@@ -84,11 +70,7 @@ namespace HandSchool.Models
         public bool Selected
         {
             get => selected;
-            set
-            {
-                SetProperty(ref selected, value);
-                Color = value ? active : inactive;
-            }
+            set => SetProperty(ref selected, value, onChanged: () => Color = value ? active : inactive);
         }
 
         /// <summary>
@@ -101,15 +83,18 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// iOS的Tab Icon
+        /// iOS的选项卡图标
         /// </summary>
         public FileImageSource AppleIcon { get; set; }
 
-        private Color color = new Color();
+        private Color color;
         private bool selected = false;
         private string title;
-        private NavigationPage _destpg;
-        private Page _destpg2;
+        private readonly Lazy<Page> corePage;
+        private readonly Lazy<NavigationPage> navPage;
+
+        static Color active = Color.FromRgb(0, 120, 215);
+        static Color inactive = Color.Black;
 
         public override string ToString() => title;
     }

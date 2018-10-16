@@ -1,10 +1,11 @@
-﻿using HandSchool.Services;
+﻿using HandSchool.Internal;
+using HandSchool.Services;
 using System.Reflection;
 
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 设置类型
+    /// 设置中心的条目类型。
     /// </summary>
     public enum SettingTypes
     {
@@ -40,7 +41,7 @@ namespace HandSchool.Models
     }
     
     /// <summary>
-    /// 设置包装
+    /// 设置条目的包装，提供了调用和属性设置。
     /// </summary>
     public sealed class SettingWrapper
     {
@@ -94,14 +95,13 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// 设置包装
+        /// 设置的值内容修改包装。
         /// </summary>
-        /// <param name="pinfo">属性信息</param>
+        /// <param name="pinfo">属性的信息。</param>
         public SettingWrapper(PropertyInfo pinfo)
         {
             Infomation = pinfo;
-            AttributeData = pinfo.GetCustomAttribute(typeof(SettingsAttribute)) as SettingsAttribute;
-            System.Diagnostics.Debug.Assert(AttributeData != null, "Error setting here.");
+            AttributeData = pinfo.GetSettingsAttribute();
 
             if (AttributeData.RangeDown == -233)
                 Type = SettingTypes.Const;
@@ -116,15 +116,14 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// 设置入口点包装
+        /// 设置的点击入口点包装。
         /// </summary>
-        /// <param name="mInfo">方法信息</param>
+        /// <param name="mInfo">方法的信息。</param>
         public SettingWrapper(MethodInfo mInfo)
         {
             Infomation = typeof(SettingWrapper).GetProperty(nameof(ActionPlaceHolder));
             MethodInfo = mInfo;
-            AttributeData = mInfo.GetCustomAttribute(typeof(SettingsAttribute)) as SettingsAttribute;
-            System.Diagnostics.Debug.Assert(AttributeData != null, "Error setting here.");
+            AttributeData = mInfo.GetSettingsAttribute();
             Type = SettingTypes.Action;
         }
     }

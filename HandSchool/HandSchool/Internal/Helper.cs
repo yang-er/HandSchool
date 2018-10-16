@@ -1,9 +1,11 @@
 ﻿using HandSchool.Internal.HtmlObject;
+using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
@@ -186,6 +188,18 @@ namespace HandSchool.Internal
         public static FormGroup WrapFormGroup(this IHtmlObject obj)
         {
             return new FormGroup { Children = { obj } };
+        }
+
+        /// <summary>
+        /// 从类成员中反射获取设置属性。
+        /// </summary>
+        /// <param name="info">成员信息。</param>
+        /// <returns>设置的特性。</returns>
+        public static SettingsAttribute GetSettingsAttribute(this MemberInfo info)
+        {
+            var ret = info.GetCustomAttribute(typeof(SettingsAttribute)) as SettingsAttribute;
+            if (ret is null) throw new InvalidOperationException();
+            return ret;
         }
     }
 }

@@ -6,12 +6,28 @@ using System.ComponentModel;
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 单双周
+    /// 课程在单双周的表现枚举
     /// </summary>
-    public enum WeekOddEvenNone { Even, Odd, None }
+    public enum WeekOddEvenNone
+    {
+        /// <summary>
+        /// 双周
+        /// </summary>
+        Even,
+
+        /// <summary>
+        /// 单周
+        /// </summary>
+        Odd,
+
+        /// <summary>
+        /// 单双周
+        /// </summary>
+        None
+    }
 
     /// <summary>
-    /// 课程描述
+    /// 描述课程的具体信息，用于显示。
     /// </summary>
     public class CurriculumDescription
     {
@@ -21,18 +37,23 @@ namespace HandSchool.Models
             Description = desc;
         }
 
+        /// <summary>
+        /// 课程的标题。
+        /// </summary>
         public readonly string Title;
+
+        /// <summary>
+        /// 课程的描述，如操作地点和时间等。
+        /// </summary>
         public readonly string Description;
     }
 
     /// <summary>
-    /// 课程表项目
+    /// 实现了课程表内容的基类，可以表示课程在周中的时间。
     /// </summary>
     public abstract class CurriculumItemBase : NotifyPropertyChanged
     {
-        private int _dayBegin;
-        private int _dayEnd;
-        private int _weekDay;
+        private int _dayBegin, _dayEnd, _weekDay;
 
         /// <summary>
         /// 星期几
@@ -61,23 +82,24 @@ namespace HandSchool.Models
             set => SetProperty(ref _dayEnd, value);
         }
 
-        public abstract CurriculumDescription[] ToDescription();
+        /// <summary>
+        /// 创建描述课程的参数。
+        /// </summary>
+        /// <returns>描述课程的信息。</returns>
+        public abstract IEnumerable<CurriculumDescription> ToDescription();
     }
 
     /// <summary>
-    /// 单节课程表项目
+    /// 表示单节课程表项目的类。
     /// </summary>
     public class CurriculumItem : CurriculumItemBase
     {
-        private string _name;
-        private string _teacher;
-        private string _courseID;
-        private string _classroom;
-        private int _weekBegin;
-        private int _weekEnd;
+        private string _name, _teacher, _courseID, _classroom;
+        private int _weekBegin, _weekEnd;
         private WeekOddEvenNone _weekOen;
         private DateTime _selectDate;
         private bool _isCustom;
+        public static string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
 
         /// <summary>
         /// 课程名称
@@ -161,7 +183,7 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// 课程表项目
+        /// 创建一个课程表项目。
         /// </summary>
         public CurriculumItem()
         {
@@ -173,10 +195,10 @@ namespace HandSchool.Models
         }
 
         /// <summary>
-        /// 在某一周是否显示
+        /// 在某一周是否显示？
         /// </summary>
-        /// <param name="week">第x周</param>
-        /// <returns>是否显示</returns>
+        /// <param name="week">第x周。</param>
+        /// <returns>是否显示。</returns>
         public bool IfShow(int week)
         {
             bool show = ((int)_weekOen == 2) || ((int)_weekOen == week % 2);
@@ -184,121 +206,221 @@ namespace HandSchool.Models
             return show;
         }
 
-        public override CurriculumDescription[] ToDescription()
+        /// <summary>
+        /// 创建描述课程的参数。
+        /// </summary>
+        /// <returns>描述课程的信息。</returns>
+        public override IEnumerable<CurriculumDescription> ToDescription()
         {
-            return new CurriculumDescription[1]
-            {
-                new CurriculumDescription(Name, Classroom)
-            };
+            yield return new CurriculumDescription(Name, Classroom);
+        }
+
+        /// <summary>
+        /// 获取描述时间的字符串。
+        /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
+        public string DescribeTime => $"{WeekEvenOddToString[(int)WeekOen]}第{WeekBegin}-{WeekEnd}周";
+
+        /// <summary>
+        /// 比较是否为同一节课。
+        /// </summary>
+        /// <param name="that">另一节课。</param>
+        /// <returns>比较结果。</returns>
+        public bool CompareTo(CurriculumItem that)
+        {
+            if (this == that) return true;
+            return this.Name == that.Name
+                && this.DayBegin == that.DayBegin
+                && this.DayEnd == that.DayEnd
+                && this.Teacher == that.Teacher
+                && this.Classroom == that.Classroom
+                && this.WeekBegin == that.WeekBegin;
         }
     }
 
-    public class CurriculumItemSet2 : CurriculumItemBase
+    /// <summary>
+    /// 表示多节课程合并后的项目的类。
+    /// </summary>
+    public class CurriculumSet : CurriculumItemBase
     {
-
-
-        public static string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
-        public static bool CompareClass(CurriculumItem A, CurriculumItem B)
+        /// <summary>
+        /// 创建课程集合，方便输出。
+        /// </summary>
+        public CurriculumSet()
         {
-            if (A.Name != B.Name ||
-                        A.DayBegin != B.DayBegin ||
-                        A.DayEnd != B.DayEnd ||
-                        A.Teacher != B.Teacher ||
-                        A.Classroom != B.Classroom ||
-                        A.WeekBegin != B.WeekBegin
-                        )
+            InnerList = new List<CurriculumItem>();
+        }
+
+        /// <summary>
+        /// 内部课程列表
+        /// </summary>
+        public List<CurriculumItem> InnerList { get; set; }
+
+        /// <summary>
+        /// 添加课程项进入集合。
+        /// </summary>
+        /// <param name="item">将要被添加的课程项目。</param>
+        public void Add(CurriculumItem item)
+        {
+            InnerList.Add(item);
+        }
+
+        /// <summary>
+        /// 合并别的课程集合进入此集合。
+        /// </summary>
+        /// <param name="item">将要被合并的课程集合。</param>
+        public void Add(CurriculumSet set)
+        {
+            InnerList.AddRange(set.InnerList);
+        }
+
+        /// <summary>
+        /// 比较是否为同一节课。
+        /// </summary>
+        /// <param name="that">另一节课。</param>
+        /// <returns>比较结果。</returns>
+        public bool CompareTo(CurriculumSet that)
+        {
+            if (that is null || InnerList.Count != that.InnerList.Count)
                 return false;
-            else
-                return true;
+            for (int i = 0; i < InnerList.Count; i++)
+                if (!InnerList[i].CompareTo(that.InnerList[i]))
+                    return false;
+            return true;
         }
 
-        public static bool operator ==(CurriculumItemSet2 A, CurriculumItemSet2 B)
-        {
-            if (B is null || B.CurriculumItemList.Count != A.CurriculumItemList.Count)
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 0; i < A.CurriculumItemList.Count; i++)
-                    if (!CompareClass(A.CurriculumItemList[i], B.CurriculumItemList[i]))
-                        return false;
-                return true;
-            }
-        }
-
-        public static bool operator !=(CurriculumItemSet2 A, CurriculumItemSet2 B)
-        {
-            return !(A == B);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return this == obj as CurriculumItemSet2;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
+        /// <summary>
+        /// 处理内部的列表，进行合并。
+        /// </summary>
         public void MergeClasses()
         {
-            if(CurriculumItemList.Count == 0)
+            if (InnerList.Count == 0)
             {
                 DayEnd = 0;
                 return;
             }
+
             DayEnd = Core.App.DailyClassCount + 1;
-            for (int i = 0; i < CurriculumItemList.Count; i++)
+
+            for (int i = 0; i < InnerList.Count; i++)
             {
-                for (int j = i + 1; j < CurriculumItemList.Count; j++)
+                for (int j = i + 1; j < InnerList.Count; j++)
                 {
-                    if (CompareClass(CurriculumItemList[i], CurriculumItemList[j]))
-                        CurriculumItemList.RemoveAt(j);
+                    if (InnerList[i].CompareTo(InnerList[j]))
+                        InnerList.RemoveAt(j);
                 }
             }
-            CurriculumItemList.Sort((a, b) => { return a.WeekBegin.CompareTo(b.WeekBegin); });
-            foreach (var item in CurriculumItemList)
+
+            InnerList.Sort((a, b) => a.WeekBegin.CompareTo(b.WeekBegin));
+
+            foreach (var item in InnerList)
                 DayEnd = Math.Min(DayEnd, item.DayEnd);
-            WeekDay = CurriculumItemList[0].WeekDay;
+            WeekDay = InnerList[0].WeekDay;
         }
-        public static CurriculumItemSet2 operator +(CurriculumItemSet2 A, CurriculumItem B)
+        
+        /// <summary>
+        /// 表示多节课程合并后的项目的类。
+        /// </summary>
+        public override IEnumerable<CurriculumDescription> ToDescription()
         {
-            A.CurriculumItemList.Add(B);
-            return A;
-        }
+            InnerList.Sort((a, b) => a.Name.CompareTo(b.Name));
 
-        public static CurriculumItemSet2 operator +(CurriculumItemSet2 A, CurriculumItemSet2 B)
-        {
-            A.CurriculumItemList.AddRange(B.CurriculumItemList);
-            return A;
-        }
-        public List<CurriculumItem> CurriculumItemList = new List<CurriculumItem>();
-        public override CurriculumDescription[] ToDescription()
-        {
-
-            CurriculumDescription[] curriculumDescriptions = new CurriculumDescription[CurriculumItemList.Count];
-            var Temp = new List<CurriculumItem>(CurriculumItemList);
-            for (int i=0;i< Temp.Count;i++)
+            for (int i = 0; i < InnerList.Count; i++)
             {
-                string Title = Temp[i].Name;
-                string Desc = $"{WeekEvenOddToString[(int)Temp[i].WeekOen]}{Temp[i].WeekBegin}周-{Temp[i].WeekEnd}周";
-                for (int j=i+1;j<Temp.Count;j++)
-                    if(Temp[i].Name== Temp[j].Name)
-                    {
-                        Desc += $"\n{WeekEvenOddToString[(int)Temp[j].WeekOen]}{Temp[j].WeekBegin}周-{Temp[j].WeekEnd}周";
-                        Temp.RemoveAt(j);
-                    }
-               
-               curriculumDescriptions[i] = new CurriculumDescription(Title, Desc);
-            }
-            CurriculumDescription[] Result = new CurriculumDescription[Temp.Count];
-            for (int i = 0; i < Temp.Count; i++)
-                Result[i] = curriculumDescriptions[i];
+                string title = InnerList[i].Name;
+                string des = InnerList[i].DescribeTime;
 
-            return Result;
-            
+                for (; i < InnerList.Count - 1; i++)
+                {
+                    if (InnerList[i+1].Name != InnerList[i].Name) break;
+                    des += "\n" + InnerList[i+1].DescribeTime;
+                }
+                
+                yield return new CurriculumDescription(title, des);
+            }
+        }
+
+        /// <summary>
+        /// 合并课程表的算法。
+        /// </summary>
+        public class MergeAlgorithm
+        {
+            readonly List<CurriculumSet>[] ItemGrid;
+            readonly int cnt;
+            bool merged = false;
+
+            public MergeAlgorithm()
+            {
+                ItemGrid = new List<CurriculumSet>[8];
+                cnt = Core.App.DailyClassCount;
+
+                for (int i = 1; i <= 7; i++)
+                {
+                    ItemGrid[i] = new List<CurriculumSet>(cnt + 1);
+
+                    for (int j = 0; j <= cnt; j++)
+                    {
+                        ItemGrid[i].Add(new CurriculumSet());
+                    }
+                }
+            }
+
+            public void AddClass(CurriculumItem newItem)
+            {
+                if (newItem.WeekDay == 0 || newItem.DayBegin < 1 || newItem.DayEnd > cnt) return;
+                for (int i = newItem.DayBegin; i <= newItem.DayEnd; i++)
+                {
+                    ItemGrid[newItem.WeekDay][i].Add(newItem);
+                    ItemGrid[newItem.WeekDay][i].DayBegin = i;
+                }
+            }
+
+            public void MergeClassSet()
+            {
+                foreach (var dayList in ItemGrid)
+                {
+                    if (dayList is null) continue;
+
+                    foreach (var classSet in dayList)
+                    {
+                        classSet.MergeClasses();
+                    }
+
+                    dayList.RemoveAt(0);
+
+                    for (int i = 0; i < dayList.Count - 1; i++)
+                    {
+                        if (dayList[i].CompareTo(dayList[i + 1]) || dayList[i + 1].DayEnd == 0)
+                        {
+                            if (dayList[i + 1].DayBegin != 0)
+                                dayList[i].DayEnd = dayList[i + 1].DayBegin;
+                            dayList.RemoveAt(i + 1);
+                            i--;
+                        }
+                    }
+
+                    if (dayList[0].DayEnd == 0)
+                    {
+                        dayList.RemoveAt(0);
+                    }
+                }
+
+                merged = true;
+            }
+
+            public IEnumerable<CurriculumSet> ToList()
+            {
+                if (!merged) MergeClassSet();
+
+                foreach (var itemList in ItemGrid)
+                {
+                    if (itemList is null) continue;
+                    foreach (var item in itemList)
+                    {
+                        yield return item;
+                    }
+                }
+            }
         }
     }
 }

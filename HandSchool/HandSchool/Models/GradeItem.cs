@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 成绩信息
+    /// 实现成绩信息展示的储存类接口。
     /// </summary>
     public interface IGradeItem
     {
@@ -65,7 +65,7 @@ namespace HandSchool.Models
     }
 
     /// <summary>
-    /// GPA统计的项目
+    /// 保存字符串，用于展示GPA。
     /// </summary>
     public class GPAItem : IGradeItem
     {
@@ -83,6 +83,10 @@ namespace HandSchool.Models
         public DateTime Date { get; }
         public string Show { get; }
 
+        /// <summary>
+        /// 建立新的GPA项目。
+        /// </summary>
+        /// <param name="to_show">将被展示的内容。</param>
         public GPAItem(string to_show)
         {
             Show = to_show;

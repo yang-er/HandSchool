@@ -200,7 +200,7 @@ namespace HandSchool.ViewModels
             if (IsBusy) return;
             IsBusy = true;
             
-            if (!ScheduleViewModel.Instance.ItemsLoader.IsValueCreated)
+            if (!ScheduleViewModel.Instance.ItemsLoaded)
             {
                 // This time, the main-cost service has not been created.
                 // So we can force this method to be asynchronized

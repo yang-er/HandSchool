@@ -1,7 +1,7 @@
 ﻿namespace HandSchool.Models
 {
     /// <summary>
-    /// 信息项目
+    /// 校内通知Feed项目的储存类。
     /// </summary>
     public class FeedItem
     {

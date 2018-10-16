@@ -5,7 +5,7 @@ using Xamarin.Forms;
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 系统消息项
+    /// 站内消息Message项，提供了设置读状态和删除的接口。
     /// </summary>
     public interface IMessageItem : INotifyPropertyChanged
     {

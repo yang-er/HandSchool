@@ -28,24 +28,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\FeedItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\InfoEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SettingWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ClassTableController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ToFixAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\HotfixAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FeedEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GradeEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InfoEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MessageEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ScheduleEntrance.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SystemEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Hotfix.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
