@@ -47,7 +47,11 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 当前周
         /// </summary>
-        public int Week => week;
+        public int Week
+        {
+            get => week;
+            set => SetProperty(ref week, value, nameof(CurrentWeek));
+        }
 
         /// <summary>
         /// 当前周的文字描述

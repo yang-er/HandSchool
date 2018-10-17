@@ -1,7 +1,6 @@
 
 var splanId = "0";
 var lslId = 0;
-var studId2 = 0;
 
 function showDetail(id)
 {
@@ -94,12 +93,7 @@ function responseLsltId(resp) /* List all the course schedule */
 
 function te_callback(resp)
 {
-	if (resp.welcome == 'welcome')
-	{
-		studId2 = resp.userId;
-		invokeCSharpAction('post;service/res.do;{"type":"query","res":"query-splan-by-stud","params":{"studId":'+studId2+'}}');
-	}
-	else if (resp.resName == 'query-splan-by-stud')
+	if (resp.resName == 'query-splan-by-stud')
 	{
 		responseSplanId(resp);
 	}
@@ -123,5 +117,5 @@ function te_callback(resp)
 
 $(function(){
 	invokeCSharpAction('begin');
-	invokeCSharpAction('post;action/getCurrentUserInfo.do;{}');
+	invokeCSharpAction('post;service/res.do;{"type":"query","res":"query-splan-by-stud","params":{"studId":`studId`}}');
 });

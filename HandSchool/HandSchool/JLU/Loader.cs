@@ -32,7 +32,13 @@ namespace HandSchool.JLU
         public void PreLoad()
         {
             Core.App.DailyClassCount = 11;
-            Service = new Lazy<ISchoolSystem>(() => new UIMS(NoticeChange));
+            Service = new Lazy<ISchoolSystem>(() =>
+            {
+                var uims = new UIMS(NoticeChange);
+                NoticeChange?.Invoke(uims, new LoginStateEventArgs(LoginState.Succeeded));
+                return uims;
+            });
+
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
             Message = new Lazy<IMessageEntrance>(() => new MessageEntrance());

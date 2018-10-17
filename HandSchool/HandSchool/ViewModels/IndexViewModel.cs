@@ -4,13 +4,15 @@ using HandSchool.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
+    /// <summary>
+    /// 首页内容的视图模型，提供了天气、课时信息和标题信息。
+    /// </summary>
     public class IndexViewModel : BaseViewModel
     {
         static IndexViewModel instance = null;
@@ -34,8 +36,9 @@ namespace HandSchool.ViewModels
         private IndexViewModel()
         {
             Title = "掌上校园";
-            Core.App.LoginStateChanged += Global_LoginStateChanged;
+            Core.App.LoginStateChanged += UpdateWelcome;
             RefreshCommand = new Command(async () => await Refresh());
+            RequestLoginCommand = new Command(async () => await RequestLogin());
             RefreshCommand.Execute(null);
         }
 
@@ -106,37 +109,65 @@ namespace HandSchool.ViewModels
         #region Next Curriculum
 
         CurriculumItem curriculum2;
-        public string CurrentClass => curriculum2?.Name != default(string) ? curriculum2.Name : "无（现在没有课或未刷新）";
-        public string CurrentTeacher => curriculum2?.Teacher;
-        public string CurrentClassroom => curriculum2?.Classroom;
-        public bool CurrentHasClass => curriculum2 != null || curriculum1 is null;
-
         CurriculumItem curriculum1;
-        public string NextClass => curriculum1?.Name != default(string) ? curriculum1.Name : "无（接下来没有课或未刷新）";
-        public string NextTeacher => curriculum1?.Teacher;
-        public string NextClassroom => curriculum1?.Classroom;
+
+        /// <summary>
+        /// 接下来的课
+        /// </summary>
+        public CurriculumItem NextClass
+        {
+            get => curriculum1;
+            set => SetProperty(ref curriculum1, value, onChanged: UpdateHasClass);
+        }
+        
+        /// <summary>
+        /// 正在进行的课
+        /// </summary>
+        public CurriculumItem CurrentClass
+        {
+            get => curriculum2;
+            set => SetProperty(ref curriculum2, value, onChanged: UpdateHasClass);
+        }
+        
+        /// <summary>
+        /// 更新有无课的显示状态。
+        /// </summary>
+        private void UpdateHasClass()
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                OnPropertyChanged("NextHasClass");
+                OnPropertyChanged("CurrentHasClass");
+                OnPropertyChanged("NoClass");
+            });
+        }
+
+        /// <summary>
+        /// 当前是否有课
+        /// </summary>
+        public bool CurrentHasClass => curriculum2 != null;
+
+        /// <summary>
+        /// 接下来是否有课
+        /// </summary>
         public bool NextHasClass => curriculum1 != null;
 
-        void UpdateNextCurriculum()
+        /// <summary>
+        /// 当前是否没有课
+        /// </summary>
+        public bool NoClass => curriculum1 is null && curriculum2 is null;
+
+        /// <summary>
+        /// 更新当前时间对应的课程。
+        /// </summary>
+        private void UpdateNextCurriculum()
         {
             int today = (int)DateTime.Now.DayOfWeek;
             if (today == 0) today = 7;
             int toweek = Core.App.Service.CurrentWeek;
             int tocor = Core.App.Schedule.ClassNext;
-            curriculum1 = ScheduleViewModel.Instance.FindItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
-            curriculum2 = ScheduleViewModel.Instance.FindLastItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
-
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                OnPropertyChanged("NextClass");
-                OnPropertyChanged("NextTeacher");
-                OnPropertyChanged("NextClassroom");
-                OnPropertyChanged("CurrentClass");
-                OnPropertyChanged("CurrentTeacher");
-                OnPropertyChanged("CurrentClassroom");
-                OnPropertyChanged("NextHasClass");
-                OnPropertyChanged("CurrentHasClass");
-            });
+            NextClass = ScheduleViewModel.Instance.FindItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor);
+            CurrentClass = ScheduleViewModel.Instance.FindLastItem((obj) => obj.IfShow(toweek) && obj.WeekDay == today && obj.DayBegin > tocor - 3 && obj.DayEnd <= tocor);
         }
 
         #endregion
@@ -165,32 +196,43 @@ namespace HandSchool.ViewModels
         }
         
         /// <summary>
-        /// 更新欢迎消息为目前教务系统的实例。
+        /// 当教务系统服务状态更改时，同步欢迎消息。
         /// </summary>
-        private void UpdateWelcome()
+        /// <param name="sender">正在使用的教务系统。</param>
+        /// <param name="args">目前的登录状态。</param>
+        private void UpdateWelcome(object sender, LoginStateEventArgs args)
         {
-            WelcomeMessage = Core.App.Service.WelcomeMessage;
-            CurrentMessage = Core.App.Service.CurrentMessage;
+            if (args.State == LoginState.Succeeded)
+            {
+                var service = sender as ISchoolSystem;
+                WelcomeMessage = service.WelcomeMessage;
+                CurrentMessage = service.CurrentMessage;
+            }
         }
-        
+
         #endregion
 
         #region Refresh Command
 
         /// <summary>
-        /// 当教务系统服务状态更改时，同步欢迎消息。
-        /// </summary>
-        /// <param name="sender">正在使用的教务系统。</param>
-        /// <param name="args">目前的登录状态。</param>
-        private void Global_LoginStateChanged(object sender, LoginStateEventArgs args)
-        {
-            if (args.State == LoginState.Succeeded) UpdateWelcome();
-        }
-
-        /// <summary>
         /// 刷新视图模型数据的命令
         /// </summary>
         public Command RefreshCommand { get; set; }
+
+        /// <summary>
+        /// 请求登录的命令
+        /// </summary>
+        public Command RequestLoginCommand { get; set; }
+
+        /// <summary>
+        /// 请求登录，这样更优雅。（？？？）
+        /// </summary>
+        private async Task RequestLogin()
+        {
+            if (!Core.Initialized) return;
+            if (Core.App.Service.IsLogin) return;
+            await LoginViewModel.RequestAsync(Core.App.Service);
+        }
 
         /// <summary>
         /// 与目前教务系统和课程表数据进行同步。
@@ -208,7 +250,7 @@ namespace HandSchool.ViewModels
                 await Task.Yield();
             }
 
-            UpdateWelcome();
+            // UpdateWelcome();
             UpdateNextCurriculum();
             IsBusy = false;
             await UpdateWeather();

@@ -17,20 +17,27 @@
                         <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="White" />
                     </StackLayout>
                 </Frame>
-                <Frame BackgroundColor="#708090" IsVisible="{Binding CurrentHasClass}">
+                <Frame BackgroundColor="#708090" IsVisible="{Binding NoClass}">
                     <StackLayout>
                         <Label Text="现在" FontSize="Medium" TextColor="White" />
-                        <Label Text="{Binding CurrentClass}" FontSize="Medium" TextColor="White" />
-                        <Label Text="{Binding CurrentTeacher}" FontSize="Medium" TextColor="White" />
-                        <Label Text="{Binding CurrentClassroom}" FontSize="Medium" TextColor="White" />
+                        <Label Text="无（没有课或未刷新）" FontSize="Medium" TextColor="White" />
+                        <Label Text="享受美好的休息时光吧~" FontSize="Medium" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+                <Frame BackgroundColor="#708090" IsVisible="{Binding CurrentHasClass}">
+                    <StackLayout BindingContext="{Binding CurrentClass}">
+                        <Label Text="现在" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Name}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="White" />
                     </StackLayout>
                 </Frame>
                 <Frame BackgroundColor="#708090" IsVisible="{Binding NextHasClass}">
-                    <StackLayout>
+                    <StackLayout BindingContext="{Binding NextClass}">
                         <Label Text="接下来" FontSize="Medium" TextColor="White" />
-                        <Label Text="{Binding NextClass}" FontSize="Medium" TextColor="White" />
-                        <Label Text="{Binding NextTeacher}" FontSize="Medium" TextColor="White" />
-                        <Label Text="{Binding NextClassroom}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Name}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="White" />
+                        <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="White" />
                     </StackLayout>
                 </Frame>
                 <Frame BackgroundColor="#708090">

@@ -131,7 +131,7 @@ namespace HandSchool.Views
 
         class NavigationViewStateConverter : IValueConverter
         {
-            Thickness MinimalMargin { get; } = new Thickness(-72, 28, 0, -8);
+            Thickness MinimalMargin { get; } = new Thickness(-80, 28, 0, 0);
             Thickness OtherMargin { get; } = new Thickness(12, 28, 0, -8);
 
             public object Convert(object value, Type targetType, object parameter, string language)

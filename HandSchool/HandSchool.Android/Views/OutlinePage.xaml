@@ -11,6 +11,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="185" x:Name="infoBar">
+            <AbsoluteLayout.GestureRecognizers>
+                <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RequestLoginCommand}" />
+            </AbsoluteLayout.GestureRecognizers>
             <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
             <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="20,115,0,0" x:Name="stackOfInfo">
                 <Label Text="{Binding WelcomeMessage}" TextColor="White" FontSize="Large" />
