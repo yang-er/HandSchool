@@ -22,6 +22,12 @@ namespace HandSchool.Views
 #endif
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            IndexViewModel.Instance.RefreshCommand.Execute(null);
+        }
+
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             if (IsBusy) return;

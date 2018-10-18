@@ -36,10 +36,9 @@ namespace HandSchool.ViewModels
         private IndexViewModel()
         {
             Title = "掌上校园";
-            Core.App.LoginStateChanged += UpdateWelcome;
+            Core.LoginStateChanged += UpdateWelcome;
             RefreshCommand = new Command(async () => await Refresh());
             RequestLoginCommand = new Command(async () => await RequestLogin());
-            RefreshCommand.Execute(null);
         }
 
         #region Weather

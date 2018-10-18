@@ -19,13 +19,13 @@ namespace HandSchool
         public void InjectService(ISchoolWrapper wrapper)
         {
             Loader = wrapper;
-            Loader.NoticeChange += (s, e) => LoginStateChanged?.Invoke(s, e);
+            Loader.NoticeChange = (s, e) => LoginStateChanged?.Invoke(s, e);
         }
 
         /// <summary>
         /// 登录状态发生改变
         /// </summary>
-        public event EventHandler<LoginStateEventArgs> LoginStateChanged;
+        public static event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
         /// <summary>
         /// 学校的教务中心服务

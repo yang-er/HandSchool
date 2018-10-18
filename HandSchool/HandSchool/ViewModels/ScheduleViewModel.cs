@@ -36,7 +36,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         private ScheduleViewModel()
         {
-            Core.App.LoginStateChanged += SyncData;
+            Core.LoginStateChanged += SyncData;
             ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
             RefreshCommand = new Command(Refresh);
             AddCommand = new Command(Create);

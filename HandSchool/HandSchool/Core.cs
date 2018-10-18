@@ -41,7 +41,7 @@ namespace HandSchool
 
             var type = ReadConfig("hs.school.bin");
 
-            if (type == "")
+            if (type == "" || true)
             {
                 return false;
             }
