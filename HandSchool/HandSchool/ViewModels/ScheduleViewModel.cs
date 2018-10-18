@@ -293,7 +293,7 @@ namespace HandSchool.ViewModels
             }
             else
             {
-                return null;
+                return new List<CurriculumItem>();
             }
         }
 

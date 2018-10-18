@@ -30,11 +30,15 @@ namespace HandSchool
             // Handle when your app starts
         }
 
+        Page LastDetail;
+
 		protected override void OnSleep()
 		{
             // Handle when your app sleeps
 #if __ANDROID__
-            (MainPage as MainPage).Detail = new ContentPage();
+            var pg = MainPage as MainPage;
+            LastDetail = pg.Detail;
+            pg.Detail = new ContentPage();
 #endif
         }
 
@@ -42,7 +46,9 @@ namespace HandSchool
 		{
             // Handle when your app resumes
 #if __ANDROID__
-            (MainPage as MainPage).Detail = NavigationViewModel.Instance.GuessCurrentPage();
+            var pg = MainPage as MainPage;
+            Core.Assert(LastDetail != null, "Before resume is sleep");
+            pg.Detail = LastDetail;
 #endif
         }
     }

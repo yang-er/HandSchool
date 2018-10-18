@@ -91,7 +91,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 根据现有的预定义菜单内容添加入口点。
         /// </summary>
-        public void FetchOptions()
+        private void FetchOptions()
         {
             PrimaryItems.Clear();
             SecondaryItems.Clear();

@@ -13,7 +13,6 @@ namespace HandSchool.Views
 		public MainPage()
 		{
 			InitializeComponent();
-            
             if (!Core.Initialized)
             {
                 Detail = new SelectTypePage();
@@ -37,7 +36,6 @@ namespace HandSchool.Views
 
         public void FinishSettings()
         {
-            NavigationViewModel.Instance.FetchOptions();
             SetOutline();
             Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
             Core.App.Service.RequestLogin();

@@ -4,13 +4,13 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
                   x:Class="HandSchool.Views.IndexPage"
                   Title="{Binding Title}">
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="刷新" Command="{Binding RefreshCommand}" Order="Secondary" />
-    </ContentPage.ToolbarItems>-->
     <ContentPage.Content>
         <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
-            <StackLayout Padding="10" Spacing="20" >
+            <StackLayout Padding="10" Spacing="10" >
                 <Frame BackgroundColor="#708090">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RequestLoginCommand}" />
+                    </Frame.GestureRecognizers>
                     <StackLayout>
                         <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="White" />
                         <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="White" />
@@ -41,6 +41,9 @@
                     </StackLayout>
                 </Frame>
                 <Frame BackgroundColor="#708090">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RefreshCommand}" />
+                    </Frame.GestureRecognizers>
                     <StackLayout>
                         <Label Text="今日天气" FontSize="Medium" TextColor="White" />
                         <Label Text="{Binding Weather}" FontSize="Medium" TextColor="White" />
