@@ -12,7 +12,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = AboutViewModel.Instance;
-            myListView.HeightRequest = 51 * 4;
+            myListView.HeightRequest = Core.OnPlatform(55 * 5 + 1, 51 * 4, 0);
 #if __IOS__
             Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
 #endif
