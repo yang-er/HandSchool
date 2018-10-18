@@ -12,6 +12,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = AboutViewModel.Instance;
+            myListView.HeightRequest = 51 * 4;
 #if __IOS__
             Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
 #endif
@@ -38,6 +39,8 @@ namespace HandSchool.Views
             string visualState = Width > Height ? "Landscape" : "Portrait";
             VisualStateManager.GoToState(mainLayout, visualState);
             VisualStateManager.GoToState(aboutIcon, visualState);
+            VisualStateManager.GoToState(myListView, visualState);
+            VisualStateManager.GoToState(entranceLayout, visualState);
         }
     }
 }

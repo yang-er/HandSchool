@@ -26,7 +26,7 @@ namespace HandSchool.Views
         {
             Instance = this;
 
-            if (Core.App.Service is null)
+            if (!Core.Initialized)
             {
                 Children.Add(new SelectTypePage() { Title = "选择学校", Icon = "tab_feed.png" });
                 IsSelectPage = true;

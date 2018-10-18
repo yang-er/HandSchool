@@ -21,7 +21,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackLayout HorizontalOptions="FillAndExpand" />
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
         
         <StackLayout x:Name="logoLayout" Orientation="Vertical" WidthRequest="120" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
             <Image Source="abouticon.png" x:Name="aboutIcon" HorizontalOptions="CenterAndExpand">
@@ -44,8 +44,22 @@
             <Label Text="{Binding Version}" FontSize="Medium" HorizontalOptions="Center" />
         </StackLayout>
 
-        <StackLayout x:Name="entranceLayout" WidthRequest="260" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
-            <ListView x:Name="MyListView"
+        <StackLayout x:Name="entranceLayout" WidthRequest="260" HorizontalOptions="Center">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="OrientationStates">
+                    <VisualState Name="Portrait">
+                        <VisualState.Setters>
+                            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Landscape">
+                        <VisualState.Setters>
+                            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ListView x:Name="myListView"
                       ItemsSource="{Binding AboutEntrances}"
                       Margin="0,5"
                       VerticalOptions="Center"
@@ -68,6 +82,6 @@
             </ListView>
         </StackLayout>
 
-        <StackLayout HorizontalOptions="FillAndExpand" />
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
     </StackLayout>
 </w:PopContentPage>
