@@ -66,8 +66,8 @@ namespace HandSchool.Views
 
         private async void ShowActionList(object sender, EventArgs e)
         {
-            var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "没有地点的课", "修改当前周");
-
+            //var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "没有地点的课", "修改当前周");
+            var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "修改当前周");
             switch (result)
             {
                 case "刷新课表":
@@ -76,8 +76,9 @@ namespace HandSchool.Views
                 case "添加课程":
                     ViewModel.AddCommand.Execute(Navigation);
                     break;
-                case "没有地点的课":
-                    break;
+                //case "没有地点的课":
+
+                  //  break;
                 case "修改当前周":
                     ViewModel.ChangeWeekCommand.Execute(null);
                     break;

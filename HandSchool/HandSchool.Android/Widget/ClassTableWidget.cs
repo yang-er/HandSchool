@@ -11,7 +11,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using HandSchool.Models;
-
 namespace HandSchool.Droid
 {
     [BroadcastReceiver(Label = "课程表")]
@@ -69,7 +68,7 @@ namespace HandSchool.Droid
             //item = temp;
             for (int i = 0; i < 7; i++)
             {
-                List<CurriculumItem> list = null;// = temp.FindAll((item) => item.WeekDay == i + 1);
+                List<CurriculumItem> list  =  (temp as List<CurriculumItem>).FindAll((item) => item.WeekDay == i + 1);
                 int LastEnd = 0;
                 int Count = 0;
 
