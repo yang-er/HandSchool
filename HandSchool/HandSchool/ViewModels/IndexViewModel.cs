@@ -229,7 +229,7 @@ namespace HandSchool.ViewModels
         private async Task RequestLogin()
         {
             if (!Core.Initialized) return;
-            if (Core.App.Service.IsLogin) return;
+            if (!Core.App.Service.NeedLogin) return;
             await LoginViewModel.RequestAsync(Core.App.Service);
         }
 

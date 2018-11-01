@@ -142,7 +142,7 @@ namespace HandSchool.ViewModels
         {
             Device.BeginInvokeOnMainThread(() => Device.OpenUri(new Uri(Core.OnPlatform(
                 "https://www.coolapk.com/apk/com.x90yang.HandSchool",
-                "https://github.com/yang-er/HandSchool", // "itms://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8",
+                "itms://itunes.apple.com/cn/app/zhang-shang-ji-da/id1439771819?mt=8",
                 "ms-windows-store://review/?productid=9PD2FR9HHJQP"
             ))));
         }

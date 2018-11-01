@@ -330,6 +330,7 @@ namespace HandSchool.JLU
             Core.WriteConfig(config_password, "");
             Core.WriteConfig(config_usercache, "");
             Core.WriteConfig(config_username, "");
+            Core.WriteConfig(config_file, "");
             Core.WriteConfig(OA.config_oa, "");
             Core.WriteConfig(OA.config_oa_time, "");
             Core.WriteConfig(Schedule.config_kcb, "");
