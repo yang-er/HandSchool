@@ -35,7 +35,16 @@ namespace HandSchool
 #elif __MOCKS__
         public static T OnPlatform<T>(T android, T ios, T uwp) => android;
 #endif
-        
+
+        /// <summary>
+        /// 是否为平板设备。切换到其他的页面类型。
+        /// </summary>
+#if __IOS__
+        public static bool IsPad => Xamarin.Forms.Device.Idiom == Xamarin.Forms.TargetIdiom.Tablet;
+#else
+        public static bool IsPad => false;
+#endif
+
         /// <summary>
         /// 数据基础目录
         /// </summary>
