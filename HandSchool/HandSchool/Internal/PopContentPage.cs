@@ -28,6 +28,20 @@ namespace HandSchool.Views
         public bool ShowCancel { get; set; } = false;
 
         /// <summary>
+        /// 是否使用平板电脑的分割页面版本优化。
+        /// </summary>
+        public bool TabletEnabled { get; set; } = false;
+
+        /// <summary>
+        /// 如果使用平板电脑视图，使用的全局导航控制器。
+        /// </summary>
+        public new INavigation Navigation
+        {
+            get => subNavigationController ?? base.Navigation;
+            set => subNavigationController = value;
+        }
+
+        /// <summary>
         /// 正在销毁事件
         /// </summary>
         public event Action Destorying;
@@ -95,7 +109,17 @@ namespace HandSchool.Views
         /// </summary>
         public bool ShowIsBusyDialog { get; protected set; }
 
+        /// <summary>
+        /// 设置默认的平板视图页面。
+        /// </summary>
+        public virtual Page SetTabletDefaultPage()
+        {
+            return new PopContentPage { Title = this.Title };
+        }
+
         private NavigationPage _navpg;
+
+        private INavigation subNavigationController;
 
         private Task ContinueTask { get; } = new Task(() => { });
 

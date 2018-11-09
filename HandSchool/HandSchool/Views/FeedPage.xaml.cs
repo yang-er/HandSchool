@@ -14,17 +14,19 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = FeedViewModel.Instance;
+            TabletEnabled = true;
         }
+
+        object LastItem;
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item is null || IsPushing)
+            if (e.Item == null || e.Item == LastItem || IsPushing)
                 return;
+            if (Device.Idiom == TargetIdiom.Tablet)
+                LastItem = e.Item;
             IsPushing = true;
-            await (new MessageDetailPage(e.Item as FeedItem)).ShowAsync(Navigation);
-
-            // Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            await Navigation.PushAsync(new MessageDetailPage(e.Item as FeedItem));
             IsPushing = false;
         }
     }

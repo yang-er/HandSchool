@@ -107,8 +107,7 @@ namespace HandSchool.ViewModels
                 new TapEntranceWrapper("设置", "调整程序运行的参数。",
                     (nav) => nav.PushAsync(SecondaryItems[0].CorePage)),
                 new TapEntranceWrapper("关于", "程序的版本信息、开发人员、许可证和隐私声明等。",
-                    (nav) => new AboutPage().ShowAsync(nav)),
-                new TapEntranceWrapper("平板测试页面", "Test", (nav) => nav.PushModalAsync(new MyTabletPage("???") {Title="WTF"}))
+                    (nav) => nav.PushAsync(new AboutPage())),
             };
 #endif
 
@@ -139,17 +138,6 @@ namespace HandSchool.ViewModels
                 Core.App.InfoEntrances.Insert(0, InAppEntrance);
             Core.App.InfoEntrances.Add(settingList);
 #endif
-        }
-
-        /// <summary>
-        /// 通过浏览选项猜想当前页面，以供安卓挂起恢复时直接返回。
-        /// </summary>
-        public NavigationPage GuessCurrentPage()
-        {
-            var navitem = PrimaryItems.Find((item) => item.Selected);
-            if (navitem is null) navitem = SecondaryItems.Find((item) => item.Selected);
-            if (navitem is null) navitem = PrimaryItems[0];
-            return navitem.DestPage;
         }
     }
 }

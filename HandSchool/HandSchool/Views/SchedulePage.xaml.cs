@@ -108,7 +108,20 @@ namespace HandSchool.Views
 
         void SetTileSize(object sender, EventArgs e)
         {
-            if (Width > Height && (!IsWider || forceSize))
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                if (forceSize)
+                {
+                    forceSize = false;
+                    DefRow.Height = GridLength.Star;
+                    DefCol.Width = GridLength.Star;
+                    scroller.Orientation = ScrollOrientation.Vertical;
+#if __IOS__
+                    Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+#endif
+                }
+            }
+            else if (Width > Height && (!IsWider || forceSize))
             {
                 forceSize = false;
                 IsWider = true;
@@ -116,7 +129,7 @@ namespace HandSchool.Views
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
 #if __IOS__
-                scroller.Margin = new Thickness(0, 0, 0, 0);
+                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
 #endif
             }
             else if (Width < Height && (IsWider || forceSize))
@@ -127,7 +140,7 @@ namespace HandSchool.Views
                 DefCol.Width = ColWidth;
                 scroller.Orientation = ScrollOrientation.Horizontal;
 #if __IOS__
-                scroller.Margin = new Thickness(0, iOS.NavigationPageRenderer.NavigationBarHeight, 0, 0);
+                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, false);
 #endif
             }
         }

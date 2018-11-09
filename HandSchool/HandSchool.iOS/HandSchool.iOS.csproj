@@ -145,6 +145,7 @@
     <Compile Include="Views\NavigationRenderer.cs" />
     <Compile Include="Views\PickerCellRenderer.cs" />
     <Compile Include="Views\TabletPage.cs" />
+    <Compile Include="Views\SplitPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />

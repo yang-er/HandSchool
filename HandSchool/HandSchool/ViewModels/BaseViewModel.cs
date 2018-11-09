@@ -25,7 +25,7 @@ namespace HandSchool.ViewModels
             get => isBusy;
             set => SetProperty(ref isBusy, value, nameof(IsBusy), IsBusyChanged);
         }
-        
+
         /// <summary>
         /// 设置忙碌状态的函数。
         /// </summary>

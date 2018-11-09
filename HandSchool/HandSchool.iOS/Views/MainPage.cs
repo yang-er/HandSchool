@@ -33,13 +33,13 @@ namespace HandSchool.Views
             }
             else
             {
-                NavigationViewModel.Instance.AppleItems.ForEach((obj) => Children.Add(obj.DestPage));
+                NavigationViewModel.Instance.AppleItems.ForEach((obj) => Children.Add(obj.RealPage));
             }
         }
 
         public void FinishSettings()
         {
-            NavigationViewModel.Instance.AppleItems.ForEach((obj) => Children.Add(obj.DestPage));
+            NavigationViewModel.Instance.AppleItems.ForEach((obj) => Children.Add(obj.RealPage));
             Children.RemoveAt(0);
             IsSelectPage = false;
         }

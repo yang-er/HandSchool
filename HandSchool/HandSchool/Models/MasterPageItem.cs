@@ -12,6 +12,27 @@ namespace HandSchool.Models
     /// <see cref="https://www.cnblogs.com/zhanggaoxing/p/7436523.html" />
     public class MasterPageItem : NotifyPropertyChanged
     {
+        private Page CreatePage(Type fromType)
+        {
+            var ret = Activator.CreateInstance(fromType) as Page;
+#if __IOS__
+            if (ret is Views.PopContentPage popPg)
+            {
+                if (Device.Idiom == TargetIdiom.Tablet && popPg.TabletEnabled)
+                {
+                    TabletPage = new Views.TabletPageImpl(popPg)
+                    {
+                        Title = title,
+                        Icon = AppleIcon
+                    };
+
+                    ret = TabletPage;
+                }
+            }
+#endif
+            return ret;
+        }
+
         /// <summary>
         /// 创建一个系统导航项目，并提供页面延迟加载的功能。
         /// </summary>
@@ -28,7 +49,7 @@ namespace HandSchool.Models
             if (category != "") category += ".";
             var destpg_type = $"HandSchool.{category}Views.{dest}";
             DestinationPageType = Assembly.GetExecutingAssembly().GetType(destpg_type);
-            corePage = new Lazy<Page>(() => Activator.CreateInstance(DestinationPageType) as Page);
+            corePage = new Lazy<Page>(() => CreatePage(DestinationPageType));
             navPage = new Lazy<NavigationPage>(() => new NavigationPage(CorePage) { Title = title, Icon = AppleIcon });
 
             selected = select;
@@ -53,7 +74,24 @@ namespace HandSchool.Models
         /// <summary>
         /// 目标导航页面
         /// </summary>
-        public NavigationPage DestPage => navPage.Value;
+        private NavigationPage DestPage => navPage.Value;
+
+        /// <summary>
+        /// 目标平板模式页面
+        /// </summary>
+        private MasterDetailPage TabletPage { get; set; }
+
+        /// <summary>
+        /// 真实的页面
+        /// </summary>
+        public Page RealPage
+        {
+            get 
+            {
+                CorePage.GetHashCode();
+                return TabletPage ?? (Page)DestPage;
+            }
+        }
 
         /// <summary>
         /// 展示的标题

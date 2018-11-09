@@ -99,7 +99,7 @@ namespace HandSchool.JLU
         public async Task SetReadState(int id, bool read)
         {
             var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
-            MessageViewModel.Instance.SetIsBusy(true, "正在设置阅读状态……");
+            MessageViewModel.Instance.IsBusy = true;
 
             try
             {
@@ -110,19 +110,20 @@ namespace HandSchool.JLU
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
                     await MessageViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
-                    MessageViewModel.Instance.SetIsBusy(false);
                 }
                 else
                 {
                     throw ex;
                 }
             }
+
+            MessageViewModel.Instance.IsBusy = false;
         }
 
         public async Task Delete(int id)
         {
             var PostArgs = "{\"idList\":[\""+id.ToString()+"\"]}";
-            MessageViewModel.Instance.SetIsBusy(true, "正在删除……");
+            MessageViewModel.Instance.IsBusy = true;
 
             try
             {
@@ -133,13 +134,14 @@ namespace HandSchool.JLU
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
                     await MessageViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
-                    MessageViewModel.Instance.SetIsBusy(false);
                 }
                 else
                 {
                     throw ex;
                 }
             }
+
+            MessageViewModel.Instance.IsBusy = false;
         }
     }
 }

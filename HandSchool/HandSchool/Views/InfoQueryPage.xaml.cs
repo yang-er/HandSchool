@@ -11,22 +11,33 @@ namespace HandSchool.Views
 		{
 			InitializeComponent();
             MyListView.ItemsSource = Core.App.InfoEntrances;
+            TabletEnabled = true;
         }
+
+        object LastItem;
 
         async void ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
+            if (e.Item == null || e.Item == LastItem)
                 return;
+            if (Device.Idiom == TargetIdiom.Tablet)
+                LastItem = e.Item;
 
             if (e.Item is InfoEntranceWrapper iew)
             {
                 var webpg = new WebViewPage(iew.Load.Invoke());
-                await webpg.ShowAsync(Navigation);
+                await Navigation.PushAsync(webpg);
             }
             else if (e.Item is TapEntranceWrapper tew)
             {
                 await tew.Activate(Navigation);
             }
+        }
+
+        public override Page SetTabletDefaultPage()
+        {
+            LastItem = Core.App.InfoEntrances[2][1];
+            return new AboutPage();
         }
     }
 }

@@ -34,5 +34,7 @@
 	<string>1.6.13</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>MinimumOSVersion</key>
+	<string>11.0</string>
 </dict>
 </plist>

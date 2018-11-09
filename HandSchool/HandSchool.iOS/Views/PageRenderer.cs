@@ -1,6 +1,7 @@
 ﻿using CoreGraphics;
 using HandSchool.iOS;
 using HandSchool.Views;
+using System;
 using System.ComponentModel;
 using UIKit;
 using Xamarin.Forms;
@@ -12,7 +13,6 @@ namespace HandSchool.iOS
     class PopContentPageRenderer : PageRenderer
     {
         private UIActivityIndicatorView Spinner;
-        private PopContentPage ElementPage => Element as PopContentPage;
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
@@ -20,7 +20,7 @@ namespace HandSchool.iOS
 
             if (Spinner == null)
             {
-                Spinner = new UIActivityIndicatorView(new CGRect(0, 0, 100, 100))
+                Spinner = new UIActivityIndicatorView
                 {
                     ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge,
                     BackgroundColor = UIColor.Gray,
@@ -28,6 +28,20 @@ namespace HandSchool.iOS
 
                 Spinner.Layer.CornerRadius = 10;
                 NativeView.AddSubview(Spinner);
+
+                Spinner.TranslatesAutoresizingMaskIntoConstraints = false;
+                NativeView.AddConstraint(NSLayoutConstraint.Create(
+                    Spinner, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal,
+                    NativeView, NSLayoutAttribute.CenterX, (nfloat)1.0, (nfloat)0.0));
+                NativeView.AddConstraint(NSLayoutConstraint.Create(
+                    Spinner, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal,
+                    NativeView, NSLayoutAttribute.CenterY, (nfloat)1.0, (nfloat)0.0));
+                NativeView.AddConstraint(NSLayoutConstraint.Create(
+                    Spinner, NSLayoutAttribute.Width, NSLayoutRelation.Equal,
+                    (nfloat)1.0, (nfloat)100));
+                NativeView.AddConstraint(NSLayoutConstraint.Create(
+                    Spinner, NSLayoutAttribute.Height, NSLayoutRelation.Equal,
+                    (nfloat)1.0, (nfloat)100));
             }
 
             if (e.NewElement is PopContentPage page)
@@ -49,17 +63,14 @@ namespace HandSchool.iOS
 
         private void SetIsBusy()
         {
-            if (ElementPage.ShowIsBusyDialog)
+            if (Element is PopContentPage pg && pg.ShowIsBusyDialog && pg.IsBusy)
             {
-                if (ElementPage.IsBusy)
-                {
-                    Spinner.Center = NativeView.Center;
-                    Spinner.StartAnimating();
-                }
-                else
-                {
-                    Spinner.StopAnimating();
-                }
+                Spinner.StartAnimating();
+            }
+            else
+            {
+                Spinner.StopAnimating();
+                UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
             }
         }
     }

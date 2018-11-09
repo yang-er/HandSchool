@@ -69,7 +69,7 @@ namespace HandSchool.Models
             Padding = new Thickness(5);
             VerticalOptions = LayoutOptions.FillAndExpand;
             HorizontalOptions = LayoutOptions.FillAndExpand;
-            WidthRequest = 1000;
+            WidthRequest = 200;
 
             var formattedString = new FormattedString();
             var desc = value.ToDescription();
