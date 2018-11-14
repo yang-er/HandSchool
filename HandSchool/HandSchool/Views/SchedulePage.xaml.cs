@@ -129,7 +129,7 @@ namespace HandSchool.Views
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
 #if __IOS__
-                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
+                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, false);
 #endif
             }
             else if (Width < Height && (IsWider || forceSize))
@@ -140,7 +140,7 @@ namespace HandSchool.Views
                 DefCol.Width = ColWidth;
                 scroller.Orientation = ScrollOrientation.Horizontal;
 #if __IOS__
-                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, false);
+                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
 #endif
             }
         }

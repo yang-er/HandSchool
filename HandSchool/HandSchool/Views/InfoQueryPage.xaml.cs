@@ -36,7 +36,7 @@ namespace HandSchool.Views
 
         public override Page SetTabletDefaultPage()
         {
-            LastItem = Core.App.InfoEntrances[2][1];
+            LastItem = Core.App.InfoEntrances[Core.App.InfoEntrances.Count - 1][1];
             return new AboutPage();
         }
     }

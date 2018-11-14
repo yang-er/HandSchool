@@ -110,7 +110,7 @@
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.2.0.839982</Version>
+      <Version>3.3.0.967583</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +213,7 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small-40.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-Small-40%402x.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\hslogo.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iPad-icon%402x.png" />
   </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />

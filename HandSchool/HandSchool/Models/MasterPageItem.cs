@@ -12,27 +12,6 @@ namespace HandSchool.Models
     /// <see cref="https://www.cnblogs.com/zhanggaoxing/p/7436523.html" />
     public class MasterPageItem : NotifyPropertyChanged
     {
-        private Page CreatePage(Type fromType)
-        {
-            var ret = Activator.CreateInstance(fromType) as Page;
-#if __IOS__
-            if (ret is Views.PopContentPage popPg)
-            {
-                if (Device.Idiom == TargetIdiom.Tablet && popPg.TabletEnabled)
-                {
-                    TabletPage = new Views.TabletPageImpl(popPg)
-                    {
-                        Title = title,
-                        Icon = AppleIcon
-                    };
-
-                    ret = TabletPage;
-                }
-            }
-#endif
-            return ret;
-        }
-
         /// <summary>
         /// 创建一个系统导航项目，并提供页面延迟加载的功能。
         /// </summary>
@@ -47,11 +26,8 @@ namespace HandSchool.Models
             Icon = icon;
 
             if (category != "") category += ".";
-            var destpg_type = $"HandSchool.{category}Views.{dest}";
+            destpg_type = $"HandSchool.{category}Views.{dest}";
             DestinationPageType = Assembly.GetExecutingAssembly().GetType(destpg_type);
-            corePage = new Lazy<Page>(() => CreatePage(DestinationPageType));
-            navPage = new Lazy<NavigationPage>(() => new NavigationPage(CorePage) { Title = title, Icon = AppleIcon });
-
             selected = select;
             color = select ? active : inactive;
         }
@@ -69,17 +45,66 @@ namespace HandSchool.Models
         /// <summary>
         /// 目标页面
         /// </summary>
-        public Page CorePage => corePage.Value;
+        public Page CorePage
+        {
+            get
+            {
+                if (_corePage is null)
+                {
+                    _corePage = Activator.CreateInstance(DestinationPageType) as Page;
+                    if (_corePage is null) throw new InvalidOperationException("Error page requested: " + destpg_type);
+#if __IOS__
+                    if (_corePage is Views.PopContentPage popPg)
+                    {
+                        tableted = popPg.TabletEnabled && Device.Idiom == TargetIdiom.Tablet;
+                    }
+#endif
+                }
+
+                return _corePage;
+            }
+        }
 
         /// <summary>
         /// 目标导航页面
         /// </summary>
-        private NavigationPage DestPage => navPage.Value;
+        public NavigationPage DestPage
+        {
+            get
+            {
+                if (_navPage is null)
+                {
+                    _navPage = new NavigationPage(CorePage)
+                    {
+                        Title = title,
+                        Icon = AppleIcon
+                    };
+                }
+
+                return _navPage;
+            }
+        }
 
         /// <summary>
         /// 目标平板模式页面
         /// </summary>
-        private MasterDetailPage TabletPage { get; set; }
+        public MasterDetailPage TabletPage
+        {
+            get
+            {
+#if __IOS__
+                if (_tabletPage is null && tableted)
+                {
+                    _tabletPage = new Views.TabletPageImpl(_corePage as Views.PopContentPage)
+                    {
+                        Title = title,
+                        Icon = AppleIcon
+                    };
+                }
+#endif
+                return _tabletPage;
+            }
+        }
 
         /// <summary>
         /// 真实的页面
@@ -127,9 +152,12 @@ namespace HandSchool.Models
 
         private Color color;
         private bool selected = false;
+        private bool tableted = false;
         private string title;
-        private readonly Lazy<Page> corePage;
-        private readonly Lazy<NavigationPage> navPage;
+        private Page _corePage;
+        private MasterDetailPage _tabletPage;
+        private NavigationPage _navPage;
+        private readonly string destpg_type;
 
         static Color active = Color.FromRgb(0, 120, 215);
         static Color inactive = Color.Black;

@@ -16,7 +16,7 @@ namespace HandSchool
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Version => "1.6.13.0";
+        public static string Version => "1.6.15.0";
         
         /// <summary>
         /// 初始化核心程序
