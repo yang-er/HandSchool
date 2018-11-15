@@ -12,4 +12,13 @@
 		android:gravity="center"
         android:textSize="12dip"
         />
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:id="@+id/classgridframe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	>
+
+	</LinearLayout>
+
 </LinearLayout>

@@ -68,6 +68,7 @@ namespace HandSchool.Droid
             // Register click event for the Background
             var piBackground = PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             widgetView.SetOnClickPendingIntent(Resource.Id.lastrefreshtime, piBackground);
+            widgetView.SetOnClickPendingIntent(Resource.Id.ClassGrid, piBackground);
 
             // Register click event for the Announcement-icon
         }
@@ -175,10 +176,11 @@ namespace HandSchool.Droid
             remoteViews.SetRemoteAdapter(Resource.Id.ClassGrid, svcIntent);
             */
             RemoteViews Framework = new RemoteViews(context.PackageName, Resource.Layout.classtableframe);
+            Framework.RemoveAllViews(Resource.Id.classgridframe);
             System.DateTime currentTime = System.DateTime.Now;
             String[] WeekDays = new string[] { "星期天","星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
             Framework.SetTextViewText(Resource.Id.lastrefreshtime, $"{currentTime.ToString("m")} {WeekDays[(int)currentTime.DayOfWeek]} 第{Core.App.Service.CurrentWeek}周 点击刷新");
-            Framework.AddView(Resource.Id.classtableframe, remoteViews);
+            Framework.AddView(Resource.Id.classgridframe, remoteViews);
             return Framework;
         }
         
