@@ -19,7 +19,7 @@ namespace HandSchool.Views
             }
             else
             {
-                Detail = NavigationViewModel.Instance.GuessCurrentPage();
+                Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
                 SetOutline();
             }
         }
