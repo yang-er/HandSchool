@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Java.Lang;
 using Activity = Xamarin.Forms.Platform.Android.FormsAppCompatActivity;
 using XForms = Xamarin.Forms.Forms;
 
@@ -19,9 +20,7 @@ namespace HandSchool.Droid
             Instance = this;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            
             base.OnCreate(bundle);
-
             XForms.Init(this, bundle);
             ActivityContext = this;
             UpdateManager = new UpdateManager(this);

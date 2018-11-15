@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HandSchool.Droid
 {
@@ -53,7 +54,7 @@ namespace HandSchool.Droid
 
         private async Task<string> GetUpdateString()
         {
-            AwaredWebClient wc = new AwaredWebClient("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/", Encoding.UTF8);
+            AwaredWebClient wc = new AwaredWebClient("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/version.txt", Encoding.UTF8);
 
             try
             {
@@ -88,7 +89,10 @@ namespace HandSchool.Droid
 
         private void InstallApk()
         {
-            URL url = new URL(Arvgs[1]);
+            Uri uri = new Uri(Arvgs[1]);
+            Device.OpenUri(uri);
+            return;
+            /*
             int receivedBytes = 0;
             int totalBytes = 0;
             string dirPath = "/sdcard/Android/data/com.x90yang.com/files";
@@ -134,6 +138,7 @@ namespace HandSchool.Droid
             intent.SetFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
             Log.Debug("exception", "TargetInvocationException in update");
-        }
+    */    
+    }
     }
 }

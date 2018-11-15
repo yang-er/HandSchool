@@ -55,8 +55,21 @@ namespace HandSchool.Droid
             for (int i = 0; i < appWidgetIds.Length; i++)
             {
                 RemoteViews remoteViews = UpdateWidgetListView(context, appWidgetIds[i]);
+                RegisterClicks(context,appWidgetIds,remoteViews);
                 appWidgetManager.UpdateAppWidget(appWidgetIds[i], remoteViews);
             }
+        }
+        private void RegisterClicks(Context context, int[] appWidgetIds, RemoteViews widgetView)
+        {
+            var intent = new Intent(context, typeof(ClassTableWidget));
+            intent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
+            intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+
+            // Register click event for the Background
+            var piBackground = PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+            widgetView.SetOnClickPendingIntent(Resource.Id.lastrefreshtime, piBackground);
+
+            // Register click event for the Announcement-icon
         }
 
         private void RenderItems()
@@ -141,7 +154,7 @@ namespace HandSchool.Droid
                         RemoteViews AddView = new RemoteViews(context.PackageName, LayoutId);
                         AddView.SetTextViewText(ViewId, items[i, j].Name +"\n"+ items[i, j].Classroom);
                         Color color = ClassColors[items[i, j].Name[0] % 10];
-                        color.A = 95;
+                        //color.A = 95;
                         AlreadyFillBlanks += Period;
                         AddView.SetInt(ViewId, "setBackgroundColor", color);
                         SingleLine.AddView(Resource.Id.singleline, AddView);
@@ -151,7 +164,7 @@ namespace HandSchool.Droid
                 AlreadyFillBlanks = 0;
                 remoteViews.AddView(Resource.Id.ClassGrid, SingleLine);
             }
-                
+
             /*
             RemoteViews remoteViews = new RemoteViews(context.PackageName, Resource.Layout.classtablewidget);
             string PACKAGE_NAME = context.PackageName;
@@ -161,8 +174,12 @@ namespace HandSchool.Droid
             svcIntent.SetData(Android.Net.Uri.Parse(svcIntent.ToUri(Android.Content.IntentUriType.AndroidAppScheme)));
             remoteViews.SetRemoteAdapter(Resource.Id.ClassGrid, svcIntent);
             */
-
-            return remoteViews;
+            RemoteViews Framework = new RemoteViews(context.PackageName, Resource.Layout.classtableframe);
+            System.DateTime currentTime = System.DateTime.Now;
+            String[] WeekDays = new string[] { "星期天","星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+            Framework.SetTextViewText(Resource.Id.lastrefreshtime, $"{currentTime.ToString("m")} {WeekDays[(int)currentTime.DayOfWeek]} 第{Core.App.Service.CurrentWeek}周 点击刷新");
+            Framework.AddView(Resource.Id.classtableframe, remoteViews);
+            return Framework;
         }
         
     }

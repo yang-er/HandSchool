@@ -50,7 +50,7 @@ namespace HandSchool.Droid
                 {
                     if (Element.Uri.Contains("://"))
                     {
-                        Control.SetWebViewClient(new AWebViewClient(e.NewElement));
+                        Control.SetWebViewClient(new AwareWebClient(e.NewElement));
                         Control.LoadUrl(Element.Uri);
                     }
                     else
@@ -77,11 +77,11 @@ namespace HandSchool.Droid
         }
     }
     
-    public class AWebViewClient : WebViewClient
+    public class AwareWebClient : WebViewClient
     {
         WeakReference<HybridWebView> inner;
 
-        public AWebViewClient(HybridWebView view)
+        public AwareWebClient(HybridWebView view)
         {
             inner = new WeakReference<HybridWebView>(view);
         }

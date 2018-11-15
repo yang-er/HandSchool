@@ -5,4 +5,4 @@
     android:layout_width="fill_parent"
     android:id="@+id/ClassGrid"
     android:orientation="horizontal"
-    android:background="#33FFFFFF" />
+    android:background="#FFFFFF" />

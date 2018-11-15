@@ -7,6 +7,6 @@
         android:text="@+id/ClassView"
         android:layout_width="fill_parent"
         android:layout_height="49dip"
-        android:textSize="12dip"
+        android:textSize="14dip"
         android:background="@android:color/holo_blue_bright" />
 </RelativeLayout>
