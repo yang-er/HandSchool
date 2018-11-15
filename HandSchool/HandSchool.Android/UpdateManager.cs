@@ -53,11 +53,11 @@ namespace HandSchool.Droid
 
         private async Task<string> GetUpdateString()
         {
-            AwaredWebClient wc = new AwaredWebClient("https://raw.githubusercontent.com/miasakachenmo/store/master/", Encoding.UTF8);
+            AwaredWebClient wc = new AwaredWebClient("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/", Encoding.UTF8);
 
             try
             {
-                return await wc.DownloadStringTaskAsync("Update.txt");
+                return await wc.DownloadStringTaskAsync("version.txt");
             }
             catch (WebException)
             {
