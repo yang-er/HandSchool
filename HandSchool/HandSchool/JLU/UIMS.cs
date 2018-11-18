@@ -99,7 +99,7 @@ namespace HandSchool.JLU
         public AwaredWebClient WebClient { get; set; }
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => $"http{(use_https ? "s" : "")}://{proxy_server}/ntms/";
-        public string WeatherLocation => "长春";
+        public string WeatherLocation => "101060101";
         public LoginValue LoginInfo { get; set; }
         public int CurrentWeek { get; set; }
         public string CaptchaCode { get; set; } = "";

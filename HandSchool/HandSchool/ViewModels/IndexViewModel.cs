@@ -77,19 +77,20 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 从公共API更新天气数据。
         /// </summary>
-        [ToFix("JObject无法读取数据")]
         public async Task UpdateWeather()
         {
             try
             {
-                var wc = new AwaredWebClient("https://www.sojson.com/open/api/weather/", Encoding.UTF8);
-                var weatherJson = await wc.GetAsync("json.shtml?city=" + Core.App.Service.WeatherLocation);
+                var wc = new AwaredWebClient("http://t.weather.sojson.com/api/weather/city/", Encoding.UTF8);
+                var weatherJson = await wc.GetAsync(Core.App.Service.WeatherLocation);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(weatherJson);
-                if((int)(jo["status"])==304)
+
+                if((int)(jo["status"]) == 304)
                 {
                     Weather = "天气信息获取失败";
-                    return;
+                    throw new Exception("Status 304");
                 }
+
                 string high = jo["data"]["forecast"][0]["high"].ToString();
                 string low = jo["data"]["forecast"][0]["low"].ToString();
                 Weather = jo["data"]["forecast"][0]["type"].ToString();

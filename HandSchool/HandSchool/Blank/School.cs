@@ -18,7 +18,7 @@ namespace HandSchool.Blank
         const string config_file = "blank.config.json";
 
         private string feedUrl = "";
-        private string weatherLoc = "长春";
+        private string weatherLoc = "101060101";
         public string FormName => "";
 
         public BlankSchool()
@@ -63,7 +63,7 @@ namespace HandSchool.Blank
             set => SetProperty(ref feedUrl, value);
         }
 
-        [Settings("天气位置", "首页天气显示的位置。")]
+        [Settings("天气位置", "首页天气显示的位置，参考SOJSON的地址。")]
         public string WeatherLocation
         {
             get => weatherLoc;

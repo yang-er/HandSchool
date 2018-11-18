@@ -1,12 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Util;
 using HandSchool.Internal;
-using Java.Lang;
-using Java.Net;
 using System;
-using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,49 +12,40 @@ namespace HandSchool.Droid
 {
     public class UpdateManager
     {
+        const string UpdateSource = "https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/";
+
         public UpdateManager(MainActivity activity)
         {
             context = activity;
         }
 
         private MainActivity context;
-#pragma warning disable 0618
-        private ProgressDialog ProgressDialog;
-#pragma warning restore
         private string[] Arvgs;
-
-        private void OnClick(object sender, DialogClickEventArgs args)
-        {
-#pragma warning disable 0618
-            ProgressDialog = new ProgressDialog(context);
-#pragma warning restore
-            new Thread(InstallApk).Start();
-        }
-
+        
         public int GetVersionCode()
         {
-            PackageManager packageManager = context.PackageManager;
-            PackageInfo packageInfo;
             int versionCode = 999;
+
             try
             {
-                packageInfo = packageManager.GetPackageInfo(context.PackageName, 0);
-                versionCode = packageInfo.VersionCode;
+                versionCode = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionCode;
             }
             catch (PackageManager.NameNotFoundException e)
             {
                 e.PrintStackTrace();
             }
+
             return versionCode;
         }
 
         private async Task<string> GetUpdateString()
         {
-            AwaredWebClient wc = new AwaredWebClient("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/version.txt", Encoding.UTF8);
-
             try
             {
-                return await wc.DownloadStringTaskAsync("version.txt");
+                using (var wc = new AwaredWebClient(UpdateSource, Encoding.UTF8))
+                {
+                    return await wc.DownloadStringTaskAsync("version.txt");
+                }
             }
             catch (WebException)
             {
@@ -74,25 +61,21 @@ namespace HandSchool.Droid
 
             if (int.Parse(Arvgs[0]) > GetVersionCode())
             {
-                context.RunOnUiThread(() => {
+                context.RunOnUiThread(() =>
+                {
                     string Detail = Arvgs[2];
                     AlertDialog.Builder Alert = new AlertDialog.Builder(context);
                     Alert.SetTitle("应用更新");
                     Alert.SetMessage(Detail);
                     Alert.SetNegativeButton("取消", (IDialogInterfaceOnClickListener)null);
-                    Alert.SetPositiveButton("确认", OnClick);
+                    Alert.SetPositiveButton("确认", (s, e) => Device.OpenUri(new Uri(Arvgs[1])));
                     Alert.Show();
-                    return;
                 });
             }
         }
 
-        private void InstallApk()
+        /* private void InstallApk()
         {
-            Uri uri = new Uri(Arvgs[1]);
-            Device.OpenUri(uri);
-            return;
-            /*
             int receivedBytes = 0;
             int totalBytes = 0;
             string dirPath = "/sdcard/Android/data/com.x90yang.com/files";
@@ -138,7 +121,6 @@ namespace HandSchool.Droid
             intent.SetFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
             Log.Debug("exception", "TargetInvocationException in update");
-    */    
-    }
+        } */
     }
 }
