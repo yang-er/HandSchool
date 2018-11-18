@@ -141,6 +141,13 @@ namespace HandSchool.JLU
                 AutoLogin = false;
                 NeedLogin = true;
             }
+            catch (NullReferenceException)
+            {
+                Core.WriteConfig(config_usercache, "");
+                Core.WriteConfig(config_teachterm, "");
+                AutoLogin = false;
+                NeedLogin = true;
+            }
         }
 
         private void ParseLoginInfo(string resp)
@@ -318,7 +325,12 @@ namespace HandSchool.JLU
 
         public void SaveSettings()
         {
-            var save = new SettingsJSON { ProxyServer = proxy_server, UseHttps = use_https }.Serialize();
+            var save = new SettingsJSON
+            {
+                ProxyServer = proxy_server,
+                UseHttps = use_https
+            }.Serialize();
+
             Core.WriteConfig(config_file, save);
         }
 

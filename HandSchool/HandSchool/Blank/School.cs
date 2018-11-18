@@ -4,6 +4,7 @@ using HandSchool.Services;
 using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -18,7 +19,7 @@ namespace HandSchool.Blank
         const string config_file = "blank.config.json";
 
         private string feedUrl = "";
-        private string weatherLoc = "101060101";
+        private string weatherLoc;
         public string FormName => "";
 
         public BlankSchool()
@@ -29,7 +30,7 @@ namespace HandSchool.Blank
             else config = new SettingsJSON();
             DailyClassCount = config.DailyClassCount;
             FeedUrl = config.FeedUri;
-            WeatherLocation = config.WeatherLocation;
+            WeatherLocation2 = config.WeatherLocation;
         }
 
         public string ServerUri => "";
@@ -46,8 +47,8 @@ namespace HandSchool.Blank
 
         public bool AutoLogin { get; set; } = true;
         public bool SavePassword { get; set; } = true;
-        public string WelcomeMessage => "欢迎。";
-        public string CurrentMessage => "";
+        public string WelcomeMessage => "欢迎˜";
+        public string CurrentMessage => "新的一天依然朝气满满。";
 
         [Settings("每日课程数量", "每日有多少节课，配合课程表使用。", 1, 15)]
         public int DailyClassCount
@@ -63,11 +64,27 @@ namespace HandSchool.Blank
             set => SetProperty(ref feedUrl, value);
         }
 
-        [Settings("天气位置", "首页天气显示的位置，参考SOJSON的地址。")]
         public string WeatherLocation
         {
             get => weatherLoc;
             set => SetProperty(ref weatherLoc, value);
+        }
+
+        [Settings("天气位置", "首页天气显示的位置。")]
+        public string WeatherLocation2
+        {
+            get => Loader.Instance.WeatherLocations.FirstOrDefault((s) => s.Value == weatherLoc).Key;
+            set
+            {
+                try
+                {
+                    SetProperty(ref weatherLoc, Loader.Instance.WeatherLocations[value]);
+                }
+                catch
+                {
+                    SetProperty(ref weatherLoc, "0");
+                }
+            }
         }
 
         public AwaredWebClient WebClient { get; set; }
@@ -75,33 +92,29 @@ namespace HandSchool.Blank
 
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
-        public async Task<string> Get(string url)
+        public Task<string> Get(string url)
         {
             Core.Log("Blank->Get(url)");
-            await Task.Run(() => { });
-            return "";
+            return Task.FromResult("");
         }
 
-        public async Task<bool> Login()
+        public Task<bool> Login()
         {
             Core.Log("Blank->Login()");
-            await Task.Run(() => { });
             LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<string> Post(string url, string send)
+        public Task<string> Post(string url, string send)
         {
             Core.Log("Blank->Post(url, send)");
-            await Task.Run(() => { });
-            return "";
+            return Task.FromResult("");
         }
 
-        public async Task<bool> RequestLogin()
+        public Task<bool> RequestLogin()
         {
             Core.Log("Blank->RequestLogin()");
-            await Task.Run(() => { });
-            return false;
+            return Task.FromResult(false);
         }
 
         public void SaveSettings()
@@ -128,10 +141,9 @@ namespace HandSchool.Blank
             return args;
         }
 
-        public async Task<bool> PrepareLogin()
+        public Task<bool> PrepareLogin()
         {
-            await Task.Run(() => { });
-            return true;
+            return Task.FromResult(true);
         }
 
         [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
