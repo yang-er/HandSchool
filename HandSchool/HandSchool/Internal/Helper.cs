@@ -201,5 +201,18 @@ namespace HandSchool.Internal
             if (ret is null) throw new InvalidOperationException();
             return ret;
         }
+
+#if __ANDROID__
+        /// <summary>
+        /// 通过浏览选项猜想当前页面，以供安卓挂起恢复时直接返回。
+        /// </summary>
+        public static Xamarin.Forms.NavigationPage GuessCurrentPage(this ViewModels.NavigationViewModel vm)
+        {
+            var navitem = vm.PrimaryItems.Find((item) => item.Selected);
+            if (navitem is null) navitem = vm.SecondaryItems.Find((item) => item.Selected);
+            if (navitem is null) navitem = vm.PrimaryItems[0];
+            return navitem.DestPage;
+        }
+#endif
     }
 }

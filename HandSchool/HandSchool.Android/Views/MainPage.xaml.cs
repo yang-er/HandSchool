@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -13,17 +14,30 @@ namespace HandSchool.Views
 		public MainPage()
 		{
 			InitializeComponent();
+            Core.Log("New MainPage.");
             if (!Core.Initialized)
             {
                 Detail = new SelectTypePage();
             }
             else
             {
-                Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
+                Detail = NavigationViewModel.Instance.GuessCurrentPage();
                 SetOutline();
             }
         }
-        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Core.Log("MainPage appearing...");
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Core.Log("MainPage disappearing...");
+        }
+
         private void SetOutline()
         {
             Outline.PrimaryListView.ItemsSource = NavigationViewModel.Instance.PrimaryItems;

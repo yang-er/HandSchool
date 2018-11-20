@@ -85,7 +85,7 @@ namespace HandSchool.ViewModels
                 var weatherJson = await wc.GetAsync(Core.App.Service.WeatherLocation);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(weatherJson);
 
-                if((int)(jo["status"]) == 304)
+                if ((int)(jo["status"]) == 304)
                 {
                     Weather = "天气信息获取失败";
                     throw new Exception("Status 304");
@@ -249,9 +249,9 @@ namespace HandSchool.ViewModels
                 // that won't block the enter of main page.
                 await Task.Yield();
             }
-
-            // UpdateWelcome();
+            
             UpdateNextCurriculum();
+            Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
             await UpdateWeather();
         }

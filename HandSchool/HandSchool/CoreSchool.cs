@@ -10,7 +10,7 @@ namespace HandSchool
         /// <summary>
         /// 最终使用的加载器
         /// </summary>
-        private ISchoolWrapper Loader { get; set; }
+        public ISchoolWrapper Loader { get; set; }
 
         /// <summary>
         /// 将加载器作为依赖服务注入。

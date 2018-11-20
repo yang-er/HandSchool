@@ -26,13 +26,7 @@ namespace HandSchool.Blank
             Instance = this;
             lazyWeatherLoc = new Lazy<Dictionary<string, string>>(CreateWeatherDetail);
             var sch = new BlankSchool();
-
-            Service = new Lazy<ISchoolSystem>(() => 
-            {
-                NoticeChange?.Invoke(sch, new LoginStateEventArgs(LoginState.Succeeded));
-                return sch;
-            });
-
+            Service = new Lazy<ISchoolSystem>(() => sch);
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
             GradePoint = new Lazy<IGradeEntrance>(() => null);
             Message = new Lazy<IMessageEntrance>(() => null);
