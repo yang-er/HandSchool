@@ -3,6 +3,6 @@
 	android:minWidth="280dip"
 	android:minHeight="280dip"
 	android:resizeMode="horizontal|vertical"
-	android:initialLayout="@layout/classtablewidget"
+	android:initialLayout="@layout/appnotlivelayout"
 	android:previewImage="@drawable/previewImage"
 />

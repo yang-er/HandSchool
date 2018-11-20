@@ -114,12 +114,22 @@ namespace HandSchool.Droid
 
         private RemoteViews UpdateWidgetListView(Context context, int appWidgetId)
         {
-            RenderItems();
             RemoteViews ClassIndex = new RemoteViews(context.PackageName, Resource.Layout.classindex);
+            RemoteViews Framework = new RemoteViews(context.PackageName, Resource.Layout.classtableframe);
             RemoteViews remoteViews = new RemoteViews(context.PackageName, Resource.Layout.classtablewidget);
-            
             remoteViews.RemoveAllViews(Resource.Id.ClassGrid);
+            Framework.RemoveAllViews(Resource.Id.classgridframe);
             remoteViews.AddView(Resource.Id.ClassGrid, ClassIndex);
+            if (!Core.Initialized)
+            {
+                Framework.SetTextViewText(Resource.Id.lastrefreshtime, "请进入程序初次设置后点击刷新");
+                Framework.AddView(Resource.Id.classgridframe, remoteViews);
+                return Framework;
+
+            }
+            RenderItems();
+            
+            
 
             for (int i = 0; i < 7; i++)
             {
@@ -175,11 +185,10 @@ namespace HandSchool.Droid
             svcIntent.SetData(Android.Net.Uri.Parse(svcIntent.ToUri(Android.Content.IntentUriType.AndroidAppScheme)));
             remoteViews.SetRemoteAdapter(Resource.Id.ClassGrid, svcIntent);
             */
-            RemoteViews Framework = new RemoteViews(context.PackageName, Resource.Layout.classtableframe);
-            Framework.RemoveAllViews(Resource.Id.classgridframe);
             System.DateTime currentTime = System.DateTime.Now;
             String[] WeekDays = new string[] { "星期天","星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
             Framework.SetTextViewText(Resource.Id.lastrefreshtime, $"{currentTime.ToString("m")} {WeekDays[(int)currentTime.DayOfWeek]} 第{Core.App.Service.CurrentWeek}周 点击刷新");
+
             Framework.AddView(Resource.Id.classgridframe, remoteViews);
             return Framework;
         }

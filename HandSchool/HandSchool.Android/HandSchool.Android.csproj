@@ -241,6 +241,11 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\fillet.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\appnotlivelayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

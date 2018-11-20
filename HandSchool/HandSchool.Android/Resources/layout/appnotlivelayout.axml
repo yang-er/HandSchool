@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	 <TextView
+		
+		android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:textSize="20dip"
+		android:text="请先打开应用再加入小部件哦"
+		android:gravity="center"
+		android:background="@color/white"/>
+</LinearLayout>
