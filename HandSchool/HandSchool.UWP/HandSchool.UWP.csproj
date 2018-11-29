@@ -106,6 +106,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IndexPageDataAdapter.cs" />
     <Compile Include="JLU\YktPage.xaml.cs">
       <DependentUpon>YktPage.xaml</DependentUpon>
     </Compile>

@@ -204,8 +204,12 @@ namespace HandSchool.JLU
             string ToPrase = Regex.Match(ResultHtml, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)").Value;
             var enumer = RecordInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + ToPrase + "</table>" + "</div>" + "</Root>");
             YktViewModel.Instance.RecordInfo.Clear();
+
             foreach(var i in enumer)
+            {
+                if (DateTime.Parse(i.RecordTime).AddDays(16) < DateTime.Now) break;
                 YktViewModel.Instance.RecordInfo.Add(i);
+            }
         }
 
         public AwaredWebClient WebClient { get; } = new AwaredWebClient("http://ykt.jlu.edu.cn:8070", Encoding.UTF8);

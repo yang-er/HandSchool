@@ -11,63 +11,31 @@
     </local:ViewPage.PrimaryMenu>
     <local:ViewPage.Resources>
         <local:VisibilityConverter x:Key="visConv" />
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="Padding" Value="8" />
-        </Style>
     </local:ViewPage.Resources>
     <GridView
         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
         SelectionMode="None"
         Padding="16"
+        ItemsSource="{x:Bind Adapter.Collection}"
         HorizontalContentAlignment="Center">
-        <GridViewItem>
-            <local:CardView Icon="Emoji" Width="300" Height="300">
-                <local:CardView.Children>
-                    <TextBlock Text="{Binding WelcomeMessage}" />
-                    <TextBlock Text="{Binding CurrentMessage}" />
-                </local:CardView.Children>
-            </local:CardView>
-        </GridViewItem>
-        <GridViewItem Visibility="{Binding NoClass, Converter={StaticResource visConv}}">
-            <local:CardView Icon="Clock" Width="300" Height="300">
-                <local:CardView.Children>
-                    <TextBlock Text="现在" />
-                    <TextBlock Text="无（没有课或未刷新）" />
-                    <TextBlock Text="享受美好的休息时光吧~" />
-                </local:CardView.Children>
-            </local:CardView>
-        </GridViewItem>
-        <GridViewItem Visibility="{Binding CurrentHasClass, Converter={StaticResource visConv}}">
-            <local:CardView Icon="Clock" Width="300" Height="300" DataContext="{Binding CurrentClass}">
-                <local:CardView.Children>
-                    <TextBlock Text="现在" />
-                    <TextBlock Text="{Binding Name}" />
-                    <TextBlock Text="{Binding Teacher}" />
-                    <TextBlock Text="{Binding Classroom}" />
-                </local:CardView.Children>
-            </local:CardView>
-        </GridViewItem>
-        <GridViewItem Visibility="{Binding NextHasClass, Converter={StaticResource visConv}}" IsHitTestVisible="False">
-            <local:CardView Icon="Clock" Width="300" Height="300" DataContext="{Binding NextClass}">
-                <local:CardView.Children>
-                    <TextBlock Text="下一节课" />
-                    <TextBlock Text="{Binding Name}" />
-                    <TextBlock Text="{Binding Teacher}" />
-                    <TextBlock Text="{Binding Classroom}" />
-                </local:CardView.Children>
-            </local:CardView>
-        </GridViewItem>
-        <GridViewItem>
-            <local:CardView Icon="Send" Width="300" Height="300">
-                <local:CardView.Children>
-                    <TextBlock Text="今日天气" />
-                    <TextBlock Text="{Binding Weather}" />
-                    <TextBlock Text="{Binding WeatherRange}" />
-                    <TextBlock Text="{Binding WeatherTips}" />
-                </local:CardView.Children>
-            </local:CardView>
-        </GridViewItem>
+        <GridView.ItemTemplate>
+            <DataTemplate>
+                <local:CardView Icon="{Binding Icon}" Width="300" Height="300">
+                    <local:CardView.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="Padding" Value="8" />
+                        </Style>
+                    </local:CardView.Resources>
+                    <local:CardView.Children>
+                        <TextBlock Text="{Binding Line1, Mode=TwoWay}" />
+                        <TextBlock Text="{Binding Line2, Mode=TwoWay}" />
+                        <TextBlock Text="{Binding Line3, Mode=TwoWay}" />
+                        <TextBlock Text="{Binding Line4, Mode=TwoWay}" />
+                    </local:CardView.Children>
+                </local:CardView>
+            </DataTemplate>
+        </GridView.ItemTemplate>
     </GridView>
 </local:ViewPage>
