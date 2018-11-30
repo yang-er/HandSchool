@@ -1,5 +1,3 @@
-7 https://github.com/yang-er/HandSchool/releases/download/v1.5.11.0/HandSchool_v1.5.11.0.apk 添加选课功能
-添加图书馆功能
-bug修复
-ps1:网络卡的可以参考设置里的说明进行设置
-ps2:如果更新闪退的话,请打开本APP文件读写权限再进行尝试
+8 https://github.com/yang-er/HandSchool/releases/download/v1.6.15.0/HandSchool_v1.6.15.0.apk 完善桌面小部件
+提升启动速度
+修复若干bug
