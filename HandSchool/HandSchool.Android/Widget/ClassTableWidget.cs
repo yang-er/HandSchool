@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using HandSchool.Models;
+
 namespace HandSchool.Droid
 {
     [BroadcastReceiver(Label = "课程表")]
@@ -55,10 +56,11 @@ namespace HandSchool.Droid
             for (int i = 0; i < appWidgetIds.Length; i++)
             {
                 RemoteViews remoteViews = UpdateWidgetListView(context, appWidgetIds[i]);
-                RegisterClicks(context,appWidgetIds,remoteViews);
+                RegisterClicks(context, appWidgetIds, remoteViews);
                 appWidgetManager.UpdateAppWidget(appWidgetIds[i], remoteViews);
             }
         }
+
         private void RegisterClicks(Context context, int[] appWidgetIds, RemoteViews widgetView)
         {
             var intent = new Intent(context, typeof(ClassTableWidget));
@@ -120,17 +122,16 @@ namespace HandSchool.Droid
             remoteViews.RemoveAllViews(Resource.Id.ClassGrid);
             Framework.RemoveAllViews(Resource.Id.classgridframe);
             remoteViews.AddView(Resource.Id.ClassGrid, ClassIndex);
+
             if (!Core.Initialized)
             {
                 Framework.SetTextViewText(Resource.Id.lastrefreshtime, "请进入程序初次设置后点击刷新");
                 Framework.AddView(Resource.Id.classgridframe, remoteViews);
                 return Framework;
-
             }
+
             RenderItems();
             
-            
-
             for (int i = 0; i < 7; i++)
             {
                 RemoteViews SingleLine = new RemoteViews(context.PackageName, Resource.Layout.SingleLine);
@@ -175,23 +176,13 @@ namespace HandSchool.Droid
                 AlreadyFillBlanks = 0;
                 remoteViews.AddView(Resource.Id.ClassGrid, SingleLine);
             }
-
-            /*
-            RemoteViews remoteViews = new RemoteViews(context.PackageName, Resource.Layout.classtablewidget);
-            string PACKAGE_NAME = context.PackageName;
-            Intent svcIntent = new Intent(context, typeof(ClassTableRemoteService));
-            svcIntent.SetPackage(PACKAGE_NAME);
-            svcIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-            svcIntent.SetData(Android.Net.Uri.Parse(svcIntent.ToUri(Android.Content.IntentUriType.AndroidAppScheme)));
-            remoteViews.SetRemoteAdapter(Resource.Id.ClassGrid, svcIntent);
-            */
-            System.DateTime currentTime = System.DateTime.Now;
-            String[] WeekDays = new string[] { "星期天","星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
-            Framework.SetTextViewText(Resource.Id.lastrefreshtime, $"{currentTime.ToString("m")} {WeekDays[(int)currentTime.DayOfWeek]} 第{Core.App.Service.CurrentWeek}周 点击刷新");
-
+            
+            DateTime currentTime = DateTime.Now;
+            var WeekDays = new string[] { "星期天","星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+            var LastRefreshTime = $"{currentTime.ToString("m")} {WeekDays[(int)currentTime.DayOfWeek]} 第{Core.App.Service.CurrentWeek}周 点击刷新";
+            Framework.SetTextViewText(Resource.Id.lastrefreshtime, LastRefreshTime);
             Framework.AddView(Resource.Id.classgridframe, remoteViews);
             return Framework;
         }
-        
     }
 }
