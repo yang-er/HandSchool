@@ -14,6 +14,7 @@ namespace HandSchool.Views
 
             Detail = new NavigationPage(insidePage.SetTabletDefaultPage());
             Master = new NavigationPage(insidePage) { Title = insidePage.Title };
+            BackgroundColor = Color.DarkGray;
         }
 
         public INavigation SubNavigation => Detail.Navigation;
