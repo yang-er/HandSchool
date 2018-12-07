@@ -12,7 +12,7 @@ namespace HandSchool.ViewModels
     /// <summary>
     /// 课程表的视图模型，提供了增删改查功能。
     /// </summary>
-    public class ScheduleViewModel : BaseViewModel
+    public class ScheduleViewModel : ScheduleViewModelBase
     {
         private int week;
         static ScheduleViewModel instance = null;
@@ -45,9 +45,14 @@ namespace HandSchool.ViewModels
         }
 
         /// <summary>
+        /// 是否提供了增删改查功能。
+        /// </summary>
+        public override bool IsComposed => false;
+
+        /// <summary>
         /// 当前周
         /// </summary>
-        public int Week
+        public override int Week
         {
             get => week;
             set => SetProperty(ref week, value, nameof(CurrentWeek));
@@ -76,11 +81,6 @@ namespace HandSchool.ViewModels
         #region 增删改查命令
 
         /// <summary>
-        /// 刷新课程表的命令
-        /// </summary>
-        public Command RefreshCommand { get; set; }
-
-        /// <summary>
         /// 刷新课程表，修改当前周，并通知视图重新绘制。
         /// </summary>
         private async void Refresh()
@@ -91,11 +91,6 @@ namespace HandSchool.ViewModels
             RefreshComplete?.Invoke();
             IsBusy = false;
         }
-
-        /// <summary>
-        /// 修改当前周的命令
-        /// </summary>
-        public Command ChangeWeekCommand { get; }
 
         /// <summary>
         /// 修改当前周，并通知视图重新绘制。
@@ -123,11 +118,6 @@ namespace HandSchool.ViewModels
                 RefreshComplete?.Invoke();
             }
         }
-
-        /// <summary>
-        /// 添加课程的命令
-        /// </summary>
-        public Command AddCommand { get; set; }
 
 #if __UWP__
         /// <summary>
@@ -190,7 +180,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         /// <param name="week">第几周。</param>
         /// <param name="list">输出列表的迭代器。</param>
-        public void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
+        public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
         {
             if (week == 0)
             {
@@ -298,5 +288,43 @@ namespace HandSchool.ViewModels
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// 最简单的课程表的视图模型，未实现复杂功能。
+    /// </summary>
+    public abstract class ScheduleViewModelBase : BaseViewModel
+    {
+        /// <summary>
+        /// 是否提供了增删改查功能。
+        /// </summary>
+        public abstract bool IsComposed { get; }
+
+        /// <summary>
+        /// 从周的条件渲染课程表。
+        /// </summary>
+        /// <param name="week">第几周。</param>
+        /// <param name="list">输出列表的迭代器。</param>
+        public abstract void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list);
+
+        /// <summary>
+        /// 当前周
+        /// </summary>
+        public abstract int Week { get; set; }
+
+        /// <summary>
+        /// 添加课程的命令
+        /// </summary>
+        public Command AddCommand { get; set; }
+
+        /// <summary>
+        /// 刷新课程表的命令
+        /// </summary>
+        public Command RefreshCommand { get; set; }
+
+        /// <summary>
+        /// 修改当前周的命令
+        /// </summary>
+        public Command ChangeWeekCommand { get; set; }
     }
 }

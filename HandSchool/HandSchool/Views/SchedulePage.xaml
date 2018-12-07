@@ -5,9 +5,6 @@
                   xmlns:w="clr-namespace:HandSchool.Views"
                   Title="{Binding Title}"
                   IsBusy="{Binding IsBusy}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding CurrentWeek}" Clicked="ShowActionList" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView x:Name="scroller" Orientation="Horizontal">
             <Grid x:Name="grid"

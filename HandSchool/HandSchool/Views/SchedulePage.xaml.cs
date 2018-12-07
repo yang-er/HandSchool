@@ -14,13 +14,23 @@ namespace HandSchool.Views
         private ColumnDefinition DefCol;
         private GridLength RowHeight, ColWidth;
         public int Week = -1;
-        public new ScheduleViewModel ViewModel => base.ViewModel as ScheduleViewModel;
+        public new ScheduleViewModelBase ViewModel => base.ViewModel as ScheduleViewModelBase;
 
         private bool IsWider = false, forceSize = true;
 
-        public SchedulePage()
+        public SchedulePage() : this(ScheduleViewModel.Instance)
 		{
-			InitializeComponent();
+            ScheduleViewModel.Instance.RefreshComplete += LoadList;
+
+            var helpContext = new ToolbarItem();
+            helpContext.SetBinding(MenuItem.TextProperty, new Binding("CurrentWeek"));
+            helpContext.Clicked += ShowActionList;
+            ToolbarItems.Add(helpContext);
+        }
+
+        public SchedulePage(ScheduleViewModelBase vmInst)
+        {
+            InitializeComponent();
             ShowIsBusyDialog = true;
 
             RowHeight = new GridLength(60, GridUnitType.Absolute);
@@ -28,12 +38,11 @@ namespace HandSchool.Views
             DefCol = new ColumnDefinition { Width = ColWidth };
             DefRow = new RowDefinition { Height = GridLength.Star };
 
-            base.ViewModel = ScheduleViewModel.Instance;
-            ViewModel.RefreshComplete += LoadList;
+            base.ViewModel = vmInst;
 
             foreach (var view in grid.Children)
                 (view as Label).FontSize = FontSize;
-            
+
             for (int ij = 1; ij <= 7; ij++)
             {
                 grid.ColumnDefinitions.Add(DefCol);
@@ -56,7 +65,7 @@ namespace HandSchool.Views
             IsWider = false;
             forceSize = true;
         }
-        
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -95,7 +104,7 @@ namespace HandSchool.Views
             }
 
             // Render classes
-            ScheduleViewModel.Instance.RenderWeek(ViewModel.Week, out var list);
+            ViewModel.RenderWeek(ViewModel.Week, out var list);
 
             int count = 0;
             foreach (var item in list)
