@@ -82,6 +82,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\CollegeIntroduce.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\SelectCourse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\LibrarySearch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\AdviceSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\RecordInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />

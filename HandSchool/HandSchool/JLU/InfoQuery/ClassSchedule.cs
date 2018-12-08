@@ -49,6 +49,7 @@ namespace HandSchool.JLU.InfoQuery
             sb.Clear();
 
             sb.Append("<select class=\"form-control\" id=\"termId\">");
+            sb.Append("<option value=\"136\">2018-2019学年第2学期</option>");
             sb.Append("<option value=\"135\" selected>2018-2019学年第1学期</option>");
             sb.Append("<option value=\"134\">2017-2018学年第2学期</option>");
             sb.Append("<option value=\"133\">2017-2018学年第1学期</option>");

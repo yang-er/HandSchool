@@ -155,6 +155,8 @@ namespace HandSchool.JLU
             LoginInfo = resp.ParseJSON<LoginValue>();
             AttachInfomation.Add("studId", LoginInfo.userId.ToString());
             AttachInfomation.Add("studName", LoginInfo.nickName);
+            AttachInfomation.Add("adcId", LoginInfo.defRes.adcId.ToString());
+            AttachInfomation.Add("schoolId", LoginInfo.defRes.school.ToString());
             AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
         }
 

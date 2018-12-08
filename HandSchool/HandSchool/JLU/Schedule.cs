@@ -4,6 +4,7 @@ using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -35,23 +36,18 @@ namespace HandSchool.JLU
                     await ScheduleViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
-                else
-                {
-                    throw ex;
-                }
+
+                throw ex;
             }
 
             Core.WriteConfig(config_kcb_orig, LastReport);
             Parse();
             ScheduleViewModel.Instance.SaveToFile();
         }
-        
-        public void Parse()
-        {
-            var table = LastReport.ParseJSON<RootObject<ScheduleValue>>();
-            ScheduleViewModel.Instance.RemoveAllItem(obj => !obj.IsCustom);
 
-            foreach (var obj in table.value)
+        public static IEnumerable<CurriculumItem> ParseEnumer(IEnumerable<ScheduleValue> table_value)
+        {
+            foreach (var obj in table_value)
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
                 {
@@ -85,9 +81,18 @@ namespace HandSchool.JLU
                             item.DayEnd++;
                     }
 
-                    ScheduleViewModel.Instance.AddItem(item);
+                    yield return item;
                 }
             }
+        }
+
+        public void Parse()
+        {
+            var table = LastReport.ParseJSON<RootObject<ScheduleValue>>();
+            ScheduleViewModel.Instance.RemoveAllItem(obj => !obj.IsCustom);
+            var iter = ParseEnumer(table.value);
+            foreach (var item in iter)
+                ScheduleViewModel.Instance.AddItem(item);
         }
 
         /*
@@ -135,7 +140,7 @@ namespace HandSchool.JLU
         private NameValueCollection building = new NameValueCollection();
         private NameValueCollection theater = new NameValueCollection();
         */
-        
+
         public int ClassNext
         {
             get

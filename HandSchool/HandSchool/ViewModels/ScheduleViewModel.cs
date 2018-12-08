@@ -327,4 +327,28 @@ namespace HandSchool.ViewModels
         /// </summary>
         public Command ChangeWeekCommand { get; set; }
     }
+
+    public class TemplateScheduleViewModel : ScheduleViewModelBase
+    {
+        public override bool IsComposed => false;
+        public override int Week { get => 0; set => Core.Log("Error value: " + value); }
+        public TemplateScheduleViewModel(string tit) { Title = tit; }
+        public IEnumerable<CurriculumItem> Items { get; set; }
+        private IEnumerable<CurriculumSet> ItemsSet { get; set; }
+
+        private void FetchItemsSet()
+        {
+            var controller = new CurriculumSet.MergeAlgorithm();
+            var list = Items;
+            foreach (var i in list)
+                controller.AddClass(i);
+            ItemsSet = controller.ToList();
+        }
+
+        public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
+        {
+            if (ItemsSet is null) FetchItemsSet();
+            list = ItemsSet;
+        }
+    }
 }

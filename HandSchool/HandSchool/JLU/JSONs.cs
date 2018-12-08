@@ -96,6 +96,18 @@ namespace HandSchool.JLU.JsonObject
         public string selectType { get; set; }
     }
 
+    class AdminClassSchedule : ScheduleValue
+    {
+        public string school { get; set; }
+        public string tcmAdcId { get; set; }
+        public string adviceType { get; set; }
+        public string department { get; set; }
+        public AdminClass adminClass { get; set; }
+        public string gender { get; set; }
+        public string mtype { get; set; }
+        public string egrade { get; set; }
+    }
+
     class LessonSegment
     {
         public string classHour { get; set; }

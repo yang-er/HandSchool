@@ -67,10 +67,8 @@ namespace HandSchool.JLU
                     await GradePointViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
-                else
-                {
-                    throw ex;
-                }
+
+                throw ex;
             }
 
             Core.WriteConfig(config_grade, LastReport);
@@ -122,10 +120,8 @@ namespace HandSchool.JLU
                     await GradePointViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
                     return;
                 }
-                else
-                {
-                    throw ex;
-                }
+
+                throw ex;
             }
 
             Core.WriteConfig(config_gpa, LastReportGPA);
