@@ -15,7 +15,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="16">
-            <SymbolIcon Symbol="{x:Bind Icon}" Foreground="White" />
+            <SymbolIcon Symbol="{x:Bind Icon, Mode=OneWay}" Foreground="White" />
         </Border>
         <StackPanel x:Name="StackPanel" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="0,-2,0,0" BorderThickness="2" Padding="16" Grid.Row="1" />
     </Grid>

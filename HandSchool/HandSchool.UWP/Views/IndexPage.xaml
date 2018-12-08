@@ -20,7 +20,7 @@
         HorizontalContentAlignment="Center">
         <GridView.ItemTemplate>
             <DataTemplate>
-                <local:CardView Icon="{Binding Icon, Mode=OneWay}" Width="300" Height="300">
+                <local:CardView Icon="{Binding Icon}" Width="300" Height="300">
                     <local:CardView.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="FontSize" Value="15" />
@@ -29,10 +29,10 @@
                         </Style>
                     </local:CardView.Resources>
                     <local:CardView.Children>
-                        <TextBlock Text="{Binding Line1, Mode=OneWay}" />
-                        <TextBlock Text="{Binding Line2, Mode=OneWay}" />
-                        <TextBlock Text="{Binding Line3, Mode=OneWay}" />
-                        <TextBlock Text="{Binding Line4, Mode=OneWay}" />
+                        <TextBlock Text="{Binding Line1}" />
+                        <TextBlock Text="{Binding Line2}" />
+                        <TextBlock Text="{Binding Line3}" />
+                        <TextBlock Text="{Binding Line4}" />
                     </local:CardView.Children>
                 </local:CardView>
             </DataTemplate>

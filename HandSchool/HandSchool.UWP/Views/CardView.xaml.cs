@@ -8,6 +8,8 @@ namespace HandSchool.Views
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register(nameof(Icon), typeof(Symbol), typeof(CardView), new PropertyMetadata(Symbol.Emoji));
 
+        // Thanks for help from cnbluefire@github
+
         public Symbol Icon
         {
             get => (Symbol)GetValue(IconProperty);
