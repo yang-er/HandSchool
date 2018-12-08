@@ -196,18 +196,25 @@ namespace HandSchool.JLU
         public async Task QueryCost()
         {
             if (!await RequestLogin()) return;
-            string ResultHtml = await WebClient.GetAsync("SynCard/Manage/TrjnHistory");
+            string ResultHtml = await WebClient.GetAsync("SynCard/Manage/OneWeekTrjn");
             ResultHtml = ResultHtml.Replace("    ", "")
                                    .Replace("\r", "")
                                    .Replace("\n", "");
 
             string ToPrase = Regex.Match(ResultHtml, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)").Value;
-            var enumer = RecordInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + ToPrase + "</table>" + "</div>" + "</Root>");
+
+            string ResultHtml2 = await WebClient.GetAsync("SynCard/Manage/CurrentDayTrjn");
+            ResultHtml2 = ResultHtml2.Replace("    ", "")
+                                     .Replace("\r", "")
+                                     .Replace("\n", "");
+
+            string ToPrase2 = Regex.Match(ResultHtml2, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)").Value;
+            var enumer = RecordInfo.EnumerateFromHtml("<Root><div><table>" + ToPrase2 + ToPrase + "</table></div></Root>");
+
             YktViewModel.Instance.RecordInfo.Clear();
 
-            foreach(var i in enumer)
+            foreach (var i in enumer)
             {
-                if (DateTime.Parse(i.RecordTime).AddDays(16) < DateTime.Now) break;
                 YktViewModel.Instance.RecordInfo.Add(i);
             }
         }
