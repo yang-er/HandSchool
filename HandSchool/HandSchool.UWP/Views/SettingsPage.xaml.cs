@@ -11,12 +11,6 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = SettingViewModel.Instance;
-
-            AboutWebView.DataContext = AboutViewModel.Instance;
-            var sb = new StringBuilder();
-            AboutViewModel.Instance.HtmlDocument.ToHtml(sb);
-            AboutWebView.Html = sb.ToString();
-            AboutWebView.Register = AboutViewModel.Instance.Response;
         }
     }
 }

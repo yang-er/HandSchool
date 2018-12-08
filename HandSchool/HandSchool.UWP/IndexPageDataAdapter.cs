@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using System;
 using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -138,47 +139,42 @@ namespace HandSchool.UWP
         }
     }
 
-    class GridViewItemData : DependencyObject
+    class GridViewItemData : NotifyPropertyChanged
     {
-        public static readonly DependencyProperty IconProperty =
-            DependencyProperty.Register(nameof(Icon), typeof(Symbol), typeof(GridViewItemData), new PropertyMetadata(Symbol.Emoji));
-        public static readonly DependencyProperty Line1Property =
-            DependencyProperty.Register(nameof(Line1), typeof(string), typeof(GridViewItemData), new PropertyMetadata(""));
-        public static readonly DependencyProperty Line2Property =
-            DependencyProperty.Register(nameof(Line2), typeof(string), typeof(GridViewItemData), new PropertyMetadata(""));
-        public static readonly DependencyProperty Line3Property =
-            DependencyProperty.Register(nameof(Line3), typeof(string), typeof(GridViewItemData), new PropertyMetadata(""));
-        public static readonly DependencyProperty Line4Property =
-            DependencyProperty.Register(nameof(Line4), typeof(string), typeof(GridViewItemData), new PropertyMetadata(""));
+        private Symbol _icon = Symbol.Emoji;
+        private string _ln1 = "";
+        private string _ln2 = "";
+        private string _ln3 = "";
+        private string _ln4 = "";
 
         public Symbol Icon
         {
-            get => (Symbol)GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
+            get => _icon;
+            set => SetProperty(ref _icon, value);
         }
 
         public string Line1
         {
-            get => GetValue(Line1Property) as string;
-            set => SetValue(Line1Property, value);
+            get => _ln1;
+            set => SetProperty(ref _ln1, value);
         }
 
         public string Line2
         {
-            get => GetValue(Line2Property) as string;
-            set => SetValue(Line2Property, value);
+            get => _ln2;
+            set => SetProperty(ref _ln2, value);
         }
 
         public string Line3
         {
-            get => GetValue(Line3Property) as string;
-            set => SetValue(Line3Property, value);
+            get => _ln3;
+            set => SetProperty(ref _ln3, value);
         }
 
         public string Line4
         {
-            get => GetValue(Line4Property) as string;
-            set => SetValue(Line4Property, value);
+            get => _ln4;
+            set => SetProperty(ref _ln4, value);
         }
     }
 }
