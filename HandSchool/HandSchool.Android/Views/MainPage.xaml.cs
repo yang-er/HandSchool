@@ -52,7 +52,30 @@ namespace HandSchool.Views
         {
             SetOutline();
             Detail = NavigationViewModel.Instance.PrimaryItems[0].DestPage;
-            Core.App.Service.RequestLogin();
+            Core.App.Service.RequestLogin().ContinueWith((success) =>
+            {
+                if (success.Result)
+                {
+                    if (Core.App.Schedule != null)
+                    {
+                        ScheduleViewModel.Instance.RefreshCommand.Execute(null);
+                        if (Core.App.GradePoint != null)
+                        {
+                            ScheduleViewModel.Instance.RefreshComplete += ScheduleComplete;
+                        }
+                    }
+                    else if (Core.App.GradePoint != null)
+                    {
+                        GradePointViewModel.Instance.LoadItemsCommand.Execute(null);
+                    }
+                }
+            });
+        }
+
+        private void ScheduleComplete()
+        {
+            GradePointViewModel.Instance.LoadItemsCommand.Execute(null);
+            ScheduleViewModel.Instance.RefreshComplete -= ScheduleComplete;
         }
 
         private async void MasterPageItemSelected(object sender, SelectedItemChangedEventArgs e)

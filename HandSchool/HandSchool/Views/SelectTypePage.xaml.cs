@@ -15,6 +15,14 @@ namespace HandSchool.Views
             MySchool.SelectedIndex = 0;
         }
 
+        private void School_Tapped(object sender, EventArgs e)
+        {
+            var sl = sender as StackLayout;
+            sl.BackgroundColor = Color.FromRgb(238, 238, 238);
+            MySchool.SelectedItem = Core.Schools.Find((s) => s.SchoolId == "jlu");
+            NextButton.IsEnabled = true;
+        }
+
         private void Button_Clicked(object sender, EventArgs e)
         {
             var sch = MySchool.SelectedItem as ISchoolWrapper;
