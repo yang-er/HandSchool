@@ -17,17 +17,15 @@ namespace HandSchool.JLU.InfoQuery
         public Bootstrap HtmlDocument { get; set; }
 
         private string ScriptFileUri => "service/res.do";
-        private string PostValue => $"{{\"tag\":\"roomIdle@roomUsage\",\"branch\":\"default\",\"params\":{{\"termId\":{TermId},\"bid\":\"{Bid}\",\"rname\":\"\",\"dateActual\":{{}},\"cs\":{Cs},\"d_actual\":\"{Today}T00:00:00+08:00\"}}}}";
+        private string PostValue => $"{{\"tag\":\"roomIdle@roomUsage\",\"branch\":\"default\",\"params\":{{\"termId\":`term`,\"bid\":\"{Bid}\",\"rname\":\"\",\"dateActual\":{{}},\"cs\":{Cs},\"d_actual\":\"{Today}T00:00:00+08:00\"}}}}";
 
         private string Cs = "";
         private string Bid = "";
         private string Today = "";
-        private string TermId = "";
         private string LastReport { get; set; }
 
         public EmptyRoom()
         {
-            TermId = Core.App.Service.AttachInfomation["term"];
             var sb = new StringBuilder();
 
             // Campus list
@@ -122,7 +120,6 @@ namespace HandSchool.JLU.InfoQuery
                 {
                     if (ex.Status == WebExceptionStatus.Timeout)
                     {
-                        SetIsBusy(false);
                         await ShowMessage("错误", "连接超时，请重试。");
                     }
                     else
@@ -130,6 +127,8 @@ namespace HandSchool.JLU.InfoQuery
                         throw ex;
                     }
                 }
+
+                SetIsBusy(false);
             }
         }
     }

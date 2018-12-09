@@ -83,9 +83,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\SelectCourse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\LibrarySearch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\AdviceSchedule.cs" />
+    <None Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\selectcourse.js" />
+    <None Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\teacheval.js" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\RecordInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\InsideSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\OutsideSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SideSchoolStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\ViewModels\YktViewModel.cs" />
   </ItemGroup>
 </Project>

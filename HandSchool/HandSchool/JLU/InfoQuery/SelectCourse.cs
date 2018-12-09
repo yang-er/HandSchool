@@ -36,7 +36,6 @@ namespace HandSchool.JLU.InfoQuery
                 },
                 JavaScript =
                 {
-                    $"var studId = {Core.App.Service.AttachInfomation["studId"]}; ",
                     HotfixAttribute.ReadContent(this) ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
                 }
             };

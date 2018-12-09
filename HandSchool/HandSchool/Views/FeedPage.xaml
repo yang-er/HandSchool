@@ -20,7 +20,10 @@
                 <ViewCell>
                     <StackLayout Padding="15">
                         <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                        <Label Text="{Binding Category}" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                        <AbsoluteLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                            <Label Text="{Binding Category}" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                            <Label Text="{Binding PubDate}" TextColor="Gray" HorizontalOptions="End" Style="{DynamicResource ListItemDetailTextStyle}" AbsoluteLayout.LayoutBounds=".8,.0,.9,.9" AbsoluteLayout.LayoutFlags="All" FontSize="13" />
+                        </AbsoluteLayout>
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>

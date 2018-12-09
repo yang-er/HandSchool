@@ -18,20 +18,16 @@ namespace HandSchool.JLU.InfoQuery
     public class AdviceSchedule : BaseController, IInfoEntrance
     {
         private int teachTermId = -1;
-        private int admClassId = -1;
-
         private RootObject<TeachingTerm> termList;
         private RootObject<ScheduleValue> scheduleList;
         private string[] numList = new string[] { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一" };
 
         const string ScriptFileUri = "service/res.do";
         public string QueryTerms => "{\"tag\":\"search@teachingTerm\",\"branch\":\"default\",\"params\":{}}";
-        public string QuerySchedule => $"{{\"tag\":\"tcmAdcAdvice@dep_recommandT\",\"branch\":\"byAdc\",\"params\":{{\"termId\":{teachTermId},\"adcId\":{admClassId}}}}}";
+        public string QuerySchedule => $"{{\"tag\":\"tcmAdcAdvice@dep_recommandT\",\"branch\":\"byAdc\",\"params\":{{\"termId\":{teachTermId},\"adcId\":`adcId`}}}}";
 
         public AdviceSchedule()
         {
-            admClassId = int.Parse(Core.App.Service.AttachInfomation["adcId"]);
-
             var sb = new StringBuilder();
             sb.Append("<select class=\"form-control\" id=\"termId\">");
             sb.Append("<option value=\"-1\">加载中……</option>");
@@ -129,11 +125,12 @@ namespace HandSchool.JLU.InfoQuery
                 LastReport = LastReport.Replace("Date\":null", "Date2\":null");
                 termList = LastReport.ParseJSON<RootObject<TeachingTerm>>();
                 var sb = new StringBuilder();
-                var curTerm = Core.App.Service.AttachInfomation["term"];
+                bool selected = true;
 
                 foreach (var opt in termList.value)
                 {
-                    sb.Append($"<option value=\"{opt.termId}\"{(curTerm == opt.termId ? "selected" : "")}>{opt.termName}</option>");
+                    sb.Append($"<option value=\"{opt.termId}\"{(selected ? "selected" : "")}>{opt.termName}</option>");
+                    selected = false;
                 }
 
                 Evaluate?.Invoke($"$('#termId').html('{sb.ToString()}')");

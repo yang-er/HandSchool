@@ -34,7 +34,6 @@ namespace HandSchool.Droid
         };
 
         public CurriculumItem[,] items = new CurriculumItem[7, 11];
-        public List<CurriculumItem> item;
         public bool Updated = false;
 
         public override void OnReceive(Context context, Intent intent)
