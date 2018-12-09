@@ -54,6 +54,14 @@ namespace HandSchool.JLU
             set => SetProperty(ref use_https, value);
         }
 
+        private bool outside_school;
+        [Settings("不在学校", "目前无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询。")]
+        public bool OutsideSchool
+        {
+            get => outside_school;
+            set => SetProperty(ref outside_school, value);
+        }
+
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
         private bool is_login = false;
@@ -123,6 +131,7 @@ namespace HandSchool.JLU
             else config = new SettingsJSON();
             ProxyServer = config.ProxyServer;
             UseHttps = config.UseHttps;
+            OutsideSchool = config.OutsideSchool;
             
             IsLogin = false;
             NeedLogin = false;
@@ -330,7 +339,8 @@ namespace HandSchool.JLU
             var save = new SettingsJSON
             {
                 ProxyServer = proxy_server,
-                UseHttps = use_https
+                UseHttps = use_https,
+                OutsideSchool = outside_school
             }.Serialize();
 
             Core.WriteConfig(config_file, save);
@@ -367,8 +377,9 @@ namespace HandSchool.JLU
 
         class SettingsJSON
         {
-            public string ProxyServer { get; set; } = "uims.jlu.edu.cn";
+            public string ProxyServer { get; set; } = "10.60.65.8"; // uims.jlu.edu.cn
             public bool UseHttps { get; set; } = true;
+            public bool OutsideSchool { get; set; } = false;
         }
     }
 }

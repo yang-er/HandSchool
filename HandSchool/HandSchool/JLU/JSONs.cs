@@ -96,6 +96,21 @@ namespace HandSchool.JLU.JsonObject
         public string selectType { get; set; }
     }
 
+    class OutsideScoreValue
+    {
+        public string isReselect { get; set; }
+        public string xkkh { get; set; }
+        public string studName { get; set; }
+        public string xh { get; set; }
+        public string lsrId { get; set; }
+        public string cj { get; set; }
+        public string gpoint { get; set; }
+        public string zscj { get; set; }
+        public string credit { get; set; }
+        public string kcmc { get; set; }
+        public string termId { get; set; }
+    }
+
     class AdminClassSchedule : ScheduleValue
     {
         public string school { get; set; }

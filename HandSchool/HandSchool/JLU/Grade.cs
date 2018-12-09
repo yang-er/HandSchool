@@ -38,6 +38,36 @@ namespace HandSchool.JLU
         public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
     }
 
+    class OutsideGradeItem : IGradeItem
+    {
+        private OutsideScoreValue asv;
+
+        public OutsideGradeItem(OutsideScoreValue value)
+        {
+            asv = value;
+            Term = value.xkkh.Substring(1, 9) + "第" + value.xkkh.Substring(11, 1) + "学期";
+            Pass = double.Parse(value.gpoint) > 0.1;
+
+            Attach = new NameValueCollection
+            {
+                { "选课课号", asv.xkkh }
+            };
+        }
+
+        public string Name => asv.kcmc;
+        public string Score => asv.zscj;
+        public string Point => asv.gpoint;
+        public string Credit => asv.credit;
+        public bool ReSelect => asv.isReselect != "N";
+        public bool Pass { get; private set; }
+        public string Term { get; private set; }
+        public DateTime Date => DateTime.Now;
+        public NameValueCollection Attach { get; private set; }
+        public string Type => "未知";
+
+        public string Show => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
+    }
+
     [Entrance("成绩查询")]
     class GradeEntrance : IGradeEntrance
     {
