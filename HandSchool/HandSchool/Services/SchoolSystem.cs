@@ -23,6 +23,7 @@ namespace HandSchool.Services
         /// <summary>
         /// 附加信息
         /// </summary>
+        [System.Obsolete]
         NameValueCollection AttachInfomation { get; set; }
 
         /// <summary>

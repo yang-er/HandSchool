@@ -1,26 +1,22 @@
 ﻿using HandSchool.Internal;
-using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Specialized;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Xamarin.Forms;
-using JsonException = Newtonsoft.Json.JsonReaderException;
 
 namespace HandSchool.JLU
 {
-    class UIMS : NotifyPropertyChanged, ISchoolSystem
+    partial class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
         internal const string config_file = "jlu.config.json";
         internal const string config_username = "jlu.uims.username.txt";
         internal const string config_password = "jlu.uims.password.txt";
         internal const string config_usercache = "jlu.user.json";
         internal const string config_teachterm = "jlu.teachingterm.json";
+        private ISideSchoolStrategy UsingStrategy { get; set; }
 
         #region Login Information
 
@@ -55,7 +51,7 @@ namespace HandSchool.JLU
         }
 
         private bool outside_school;
-        [Settings("不在学校", "目前无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询。")]
+        [Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
         public bool OutsideSchool
         {
             get => outside_school;
@@ -99,8 +95,8 @@ namespace HandSchool.JLU
             }
         }
 
-        public string WelcomeMessage => NeedLogin ? "请登录" : $"欢迎，{AttachInfomation["studName"]}。";
-        public string CurrentMessage => NeedLogin ? "登录后可以查看更多内容" : $"{AttachInfomation["Nick"]}第{CurrentWeek}周";
+        public string WelcomeMessage => UsingStrategy.WelcomeMessage;
+        public string CurrentMessage => UsingStrategy.CurrentMessage;
 
         #endregion
         
@@ -108,7 +104,6 @@ namespace HandSchool.JLU
         public NameValueCollection AttachInfomation { get; set; }
         public string ServerUri => $"http{(use_https ? "s" : "")}://{proxy_server}/ntms/";
         public string WeatherLocation => "101060101";
-        public LoginValue LoginInfo { get; set; }
         public int CurrentWeek { get; set; }
         public string CaptchaCode { get; set; } = "";
         public byte[] CaptchaSource { get; set; } = null;
@@ -117,7 +112,6 @@ namespace HandSchool.JLU
         /// 建立访问UIMS的对象。
         /// </summary>
         /// <param name="injectedHandler">事件处理传递方法。</param>
-        [ToFix("存在性能问题，瓶颈在JSON的解析上")]
         public UIMS(EventHandler<LoginStateEventArgs> injectedHandler = null)
         {
             if (injectedHandler != null)
@@ -139,49 +133,10 @@ namespace HandSchool.JLU
             AttachInfomation = new NameValueCollection();
             if (Username != "") Password = Core.ReadConfig(config_password);
             if (Password == "") SavePassword = false;
-            
-            try
-            {
-                ParseLoginInfo(Core.ReadConfig(config_usercache));
-                ParseTermInfo(Core.ReadConfig(config_teachterm));
-            }
-            catch (JsonException)
-            {
-                AutoLogin = false;
-                NeedLogin = true;
-            }
-            catch (NullReferenceException)
-            {
-                Core.WriteConfig(config_usercache, "");
-                Core.WriteConfig(config_teachterm, "");
-                AutoLogin = false;
-                NeedLogin = true;
-            }
-        }
 
-        private void ParseLoginInfo(string resp)
-        {
-            LoginInfo = resp.ParseJSON<LoginValue>();
-            AttachInfomation.Add("studId", LoginInfo.userId.ToString());
-            AttachInfomation.Add("studName", LoginInfo.nickName);
-            AttachInfomation.Add("adcId", LoginInfo.defRes.adcId.ToString());
-            AttachInfomation.Add("schoolId", LoginInfo.defRes.school.ToString());
-            AttachInfomation.Add("term", LoginInfo.defRes.teachingTerm.ToString());
-        }
-
-        private void ParseTermInfo(string resp)
-        {
-            var ro = resp.ParseJSON<RootObject<TeachingTerm>>().value[0];
-            if (ro.vacationDate < DateTime.Now)
-            {
-                AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假"));
-                CurrentWeek = (int) Math.Ceiling((decimal) ((DateTime.Now - ro.vacationDate).Days + 1) / 7);
-            }
-            else
-            {
-                AttachInfomation.Add("Nick", ro.year + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期")));
-                CurrentWeek = (int)Math.Ceiling((decimal) ((DateTime.Now - ro.startDate).Days + 1) / 7);
-            }
+            if (OutsideSchool) UsingStrategy = new OutsideSchoolStrategy(this);
+            else UsingStrategy = new InsideSchoolStrategy(this);
+            UsingStrategy.OnLoad();
         }
 
         public async Task<bool> Login()
@@ -197,82 +152,12 @@ namespace HandSchool.JLU
                 Core.WriteConfig(config_password, SavePassword ? Password : "");
             }
 
-            if (WebClient != null) WebClient.Dispose();
-            WebClient = new AwaredWebClient(ServerUri, Encoding.UTF8);
-            var proxy_server_domain = proxy_server.Split(':')[0];
-            WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server_domain));
-            WebClient.Cookie.Add(new Cookie("alu", Username, "/ntms/", proxy_server_domain));
-            WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", proxy_server_domain));
-
-            // Access Main Page To Create a JSESSIONID
-            try
-            {
-                await WebClient.GetAsync("", "*/*");
-
-                // Set Login Session
-                var loginData = new NameValueCollection
-                {
-                    { "j_username", Username },
-                    { "j_password", $"UIMS{Username}{Password}".ToMD5(Encoding.UTF8) },
-                    { "mousePath", "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACKTIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMdSQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3dawG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghgHRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQHlhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwIDlvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL" }
-                };
-
-                WebClient.Headers.Set("Referer", ServerUri + "userLogin.jsp?reason=nologin");
-                await WebClient.PostAsync("j_spring_security_check", loginData);
-
-                if (WebClient.Location == "error/dispatch.jsp?reason=loginError")
-                {
-                    string result = await WebClient.GetAsync("userLogin.jsp?reason=loginError", "text/html");
-                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
-                    IsLogin = false;
-                    return false;
-                }
-                else if (WebClient.Location == "index.do")
-                {
-                    AttachInfomation.Clear();
-
-                    // Get User Info
-                    string resp = await WebClient.PostAsync("action/getCurrentUserInfo.do", "{}");
-                    if (resp.StartsWith("<!")) return false;
-                    Core.WriteConfig(config_usercache, AutoLogin ? resp : "");
-                    ParseLoginInfo(resp);
-                    
-                    // Get term info
-                    resp = await WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + AttachInfomation["term"] + "}}");
-                    if (resp.StartsWith("<!")) return false;
-                    Core.WriteConfig(config_teachterm, AutoLogin ? resp : "");
-                    ParseTermInfo(resp);
-                }
-                else
-                {
-                    throw new ContentAcceptException(WebClient.Location, null, null);
-                }
-            }
-            catch (WebException ex)
-            {
-                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
-                return false;
-            }
-            catch (ContentAcceptException ex)
-            {
-                var error = "UIMS服务器似乎出了点问题……";
-                if (ex.Current != "")
-                    error += "服务器未知响应：" + ex.Data + "，请联系开发者。";
-                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, error));
-                return false;
-            }
-
-            IsLogin = true;
-            NeedLogin = false;
-            LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-            return true;
+            return await UsingStrategy.LoginSide();
         }
         
         public string FormatArguments(string args)
         {
-            return args
-                .Replace("`term`", AttachInfomation["term"])
-                .Replace("`studId`", AttachInfomation["studId"]);
+            return UsingStrategy.FormatArguments(args);
         }
 
         public async Task<bool> RequestLogin()
@@ -293,7 +178,7 @@ namespace HandSchool.JLU
             {
                 var ret = await WebClient.PostAsync(url, FormatArguments(send));
 
-                if (WebClient.Location == "error/dispatch.jsp?reason=nologin")
+                if (WebClient.Location == UsingStrategy.TimeoutUrl)
                 {
                     throw new WebException("登录超时。", WebExceptionStatus.Timeout);
                 }
@@ -319,7 +204,7 @@ namespace HandSchool.JLU
             {
                 var ret = await WebClient.GetAsync(url);
 
-                if (WebClient.Location == "error/dispatch.jsp?reason=nologin")
+                if (WebClient.Location == UsingStrategy.TimeoutUrl)
                 {
                     throw new WebException("登录超时。", WebExceptionStatus.Timeout);
                 }
