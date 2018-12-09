@@ -24,15 +24,13 @@
                     </StackLayout>
                 </ViewCell>
                 <ViewCell>
-                    <StackLayout Padding="15">
-                        <Label Text="校园卡余额" FontSize="16" />
-                        <Label Text="{Binding Balance}" FontSize="13" />
-                    </StackLayout>
-                </ViewCell>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" Padding="15">
-                        <Entry x:Name="ChargeCreditBox" Text="0.00" WidthRequest="100" />
-                        <Button Text="充值" Margin="8,0,0,0" Clicked="ChargeRequested" />
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout Padding="15" HorizontalOptions="StartAndExpand">
+                            <Label Text="校园卡余额" FontSize="16" />
+                            <Label Text="{Binding Balance}" FontSize="13" />
+                        </StackLayout>
+                        <Entry x:Name="ChargeCreditBox" Text="0.00" WidthRequest="100" VerticalOptions="Center" />
+                        <Button Text="充值" Margin="8,0,15,0" Clicked="ChargeRequested" VerticalOptions="Center" HorizontalOptions="End" />
                     </StackLayout>
                 </ViewCell>
                 <ViewCell>
@@ -54,13 +52,12 @@
                     </StackLayout>
                 </ViewCell>
                 <ViewCell>
-                    <StackLayout Padding="15">
-                        <Label Text="挂失状态" FontSize="16" />
-                        <Label Text="{Binding LostState}" FontSize="13" />
-                        <!--<StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                <PasswordBox x:Name="LostPasswordBox" Width="150" PlaceholderText="校园卡查询密码" />
-                                <Button Content="挂失" Margin="8,0,0,0" />
-                            </StackPanel>-->
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout Padding="15" HorizontalOptions="StartAndExpand">
+                            <Label Text="挂失状态" FontSize="16" />
+                            <Label Text="{Binding LostState}" FontSize="13" />
+                        </StackLayout>
+                        <Button Text="挂失" Margin="0,0,15,0" Clicked="SetLostRequested" VerticalOptions="Center" HorizontalOptions="End" />
                     </StackLayout>
                 </ViewCell>
                 <ViewCell>

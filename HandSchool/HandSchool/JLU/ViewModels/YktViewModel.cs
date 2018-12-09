@@ -39,6 +39,7 @@ namespace HandSchool.JLU.ViewModels
             LoadPickCardInfoCommand = new Command(async() => await GetPickCardInfo());
             ChargeCreditCommand = new Command(async (obj) => await ProcessCharge(obj));
             RecordFindCommand = new Command(async () => await ProcessQuery());
+            SetUpLostStateCommand = new Command(async () => await ProcessSetLost());
         }
 
         /// <summary>
@@ -65,6 +66,11 @@ namespace HandSchool.JLU.ViewModels
         /// 充值校园卡的命令
         /// </summary>
         public Command ChargeCreditCommand { get; set; }
+
+        /// <summary>
+        /// 挂失校园卡的命令
+        /// </summary>
+        public Command SetUpLostStateCommand { get; set; }
 
         /// <summary>
         /// 加载消费记录的命令
@@ -179,6 +185,49 @@ namespace HandSchool.JLU.ViewModels
                     await ShowMessage("充值失败", last_error);
                 else
                     await ShowMessage("充值成功", "成功充值了" + money as string + "元。");
+            }
+        }
+
+        /// <summary>
+        /// 处理挂失命令。
+        /// </summary>
+        public async Task ProcessSetLost()
+        {
+            if (IsBusy) return;
+            if (!await ShowAskMessage("提示",
+                "挂失后，您的校园卡会暂时无法使用。" +
+                "如果需要接触挂失，可以登录xyk.jlu.edu.cn，或者前往校园卡服务中心。" +
+                "确认挂失吗？", "否", "是")) return;
+
+            IsBusy = true;
+            string last_error = null;
+
+            try
+            {
+                if (!await Loader.Ykt.SetLost())
+                {
+                    last_error = Loader.Ykt.LastReport;
+                }
+            }
+            catch (WebException)
+            {
+                last_error = "网络似乎出了点问题呢……";
+            }
+            catch (JsonException ex)
+            {
+                last_error = "服务器的响应未知，请检查。\n" + ex.Message;
+            }
+            catch (ContentAcceptException ex)
+            {
+                last_error = "服务器的响应未知，请检查。\n" + ex.Current;
+            }
+            finally
+            {
+                IsBusy = false;
+                if (last_error != null)
+                    await ShowMessage("挂失失败", last_error);
+                else
+                    await ShowMessage("挂失成功", "校园卡资金似乎暂时安全了呢（大雾");
             }
         }
     }

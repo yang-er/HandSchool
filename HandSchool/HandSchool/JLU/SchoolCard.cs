@@ -219,6 +219,38 @@ namespace HandSchool.JLU
             }
         }
 
+        public async Task<bool> SetLost()
+        {
+            if (!await RequestLogin()) return false;
+
+            // First, we should get our card number.
+            var value_got = await WebClient.GetAsync("http://ykt.jlu.edu.cn:8070/SynCard/Manage/CardLost", "*/*");
+            var card_no = Regex.Match(value_got, @"name=""selectCardnos""><option value=""(\S+)"">").Groups[1].Value;
+
+            // Then, go ahead.
+            var post_value = new NameValueCollection
+            {
+                { "CardNo", card_no },
+                { "Password", Password.ToBase64() },
+                { "selectCardnos", card_no },
+            };
+
+            WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/SynCard/Manage/CardLost";
+            LastReport = await WebClient.PostAsync("SynCard/Manage/CardLost", post_value);
+            var Result = LastReport.ParseJSON<YktResult>();
+
+            if (!Result.success)
+            {
+                LastReport = Result.msg;
+                if (LastReport == "Value cannot be null.\r\nParameter name: key") return true;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public AwaredWebClient WebClient { get; } = new AwaredWebClient("http://ykt.jlu.edu.cn:8070", Encoding.UTF8);
 
         public string LastReport { get; private set; }

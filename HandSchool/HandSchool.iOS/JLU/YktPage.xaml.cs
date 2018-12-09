@@ -23,6 +23,11 @@ namespace HandSchool.JLU.Views
             YktViewModel.Instance.ChargeCreditCommand.Execute(ChargeCreditBox.Text);
         }
 
+        private void SetLostRequested(object sender, EventArgs e)
+        {
+            YktViewModel.Instance.SetUpLostStateCommand.Execute(null);
+        }
+
         private async void TabbedPage_Appearing(object sender, EventArgs e)
         {
             if (!FirstOpen) return;
