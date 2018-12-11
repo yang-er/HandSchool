@@ -51,7 +51,24 @@ namespace HandSchool.Droid
                     if (Element.Uri.Contains("://"))
                     {
                         Control.SetWebViewClient(new AwareWebClient(e.NewElement));
-                        Control.LoadUrl(Element.Uri);
+                        
+                        if (Element.Cookie != null)
+                        {
+                            var cokMgr = CookieManager.Instance;
+                            cokMgr.SetAcceptCookie(true);
+                            cokMgr.RemoveSessionCookie();
+                            foreach (var cokVal in Element.Cookie)
+                                cokMgr.SetCookie(Element.Uri, cokVal);
+                        }
+
+                        if (Element.OpenWithPost == null)
+                        {
+                            Control.LoadUrl(Element.Uri);
+                        }
+                        else
+                        {
+                            Control.PostUrl(Element.Uri, Element.OpenWithPost);
+                        }
                     }
                     else
                     {
@@ -96,6 +113,8 @@ namespace HandSchool.Droid
 
         public override bool ShouldOverrideUrlLoading(AWebView view, IWebResourceRequest request)
         {
+            if (request.IsRedirect) return false;
+
             if (inner.TryGetTarget(out var target))
             {
                 target.RaiseSubUrlRequest(request.Url.ToString());

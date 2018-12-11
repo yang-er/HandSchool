@@ -250,6 +250,8 @@ namespace HandSchool.JLU
             Core.WriteConfig(MessageEntrance.config_msgbox, "");
             Core.WriteConfig(GradeEntrance.config_gpa, "");
             Core.WriteConfig(GradeEntrance.config_grade, "");
+            Core.WriteConfig(InfoQuery.LibraryRent.conf_username, "");
+            Core.WriteConfig(InfoQuery.LibraryRent.conf_password, "");
             Core.WriteConfig("hs.school.bin", "");
             await resp.ShowMessage("清除数据", "重置应用成功！重启应用后生效。");
         }

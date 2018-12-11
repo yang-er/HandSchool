@@ -50,6 +50,8 @@ namespace HandSchool.Views
         /// 请求子网页的事件
         /// </summary>
         public event Action<string> SubUrlRequested;
+
+        public event Action LoadCompleted;
         
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
@@ -71,6 +73,8 @@ namespace HandSchool.Views
                 // Inject JS script
                 await WebView.InvokeScriptAsync("eval", new[] { "function invokeCSharpAction(data){window.external.notify(data);}" });
             }
+
+            LoadCompleted?.Invoke();
         }
 
         private void OnWebViewScriptNotify(object sender, NotifyEventArgs e)

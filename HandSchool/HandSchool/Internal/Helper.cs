@@ -2,9 +2,11 @@
 using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -214,5 +216,27 @@ namespace HandSchool.Internal
             return navitem.DestPage;
         }
 #endif
+
+        /// <summary>
+        /// 获得 <see cref="CookieContainer"/> 内的所有 <see cref="Cookie"/>。
+        /// </summary>
+        /// <param name="cc">容纳器。</param>
+        /// <returns>所有Cookie组成的列表</returns>
+        public static List<Cookie> GetAll(this CookieContainer cc)
+        {
+            BindingFlags flag = BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance;
+            List<Cookie> lstCookies = new List<Cookie>();
+
+            Hashtable table = (Hashtable)cc.GetType().InvokeMember("m_domainTable", flag, null, cc, new object[] { });
+
+            foreach (object pathList in table.Values)
+            {
+                SortedList lstCookieCol = (SortedList)pathList.GetType().InvokeMember("m_list", flag, null, pathList, new object[] { });
+                foreach (CookieCollection colCookies in lstCookieCol.Values)
+                    foreach (Cookie c in colCookies) lstCookies.Add(c);
+            }
+
+            return lstCookies;
+        }
     }
 }

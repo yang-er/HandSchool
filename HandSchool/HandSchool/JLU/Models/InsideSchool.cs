@@ -129,7 +129,7 @@ namespace HandSchool.JLU
 
                 UIMS.IsLogin = true;
                 UIMS.NeedLogin = false;
-                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
+                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));                
                 return true;
             }
 

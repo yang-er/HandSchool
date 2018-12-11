@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -37,6 +38,15 @@ namespace HandSchool.Views
                 defaultValue: default(string));
 
         /// <summary>
+        /// OpenWithPost属性的内部储存
+        /// </summary>
+        public static readonly BindableProperty OpenWithPostProperty = 
+            BindableProperty.Create(propertyName: nameof(OpenWithPost),
+                returnType: typeof(byte[]),
+                declaringType: typeof(HybridWebView),
+                defaultValue: null);
+
+        /// <summary>
         /// 访问页面的地址
         /// </summary>
         public string Uri
@@ -53,6 +63,20 @@ namespace HandSchool.Views
             get { return (string)GetValue(HtmlProperty); }
             set { SetValue(HtmlProperty, value); }
         }
+
+        /// <summary>
+        /// 访问页面的OpenWithPost值
+        /// </summary>
+        public byte[] OpenWithPost
+        {
+            get { return (byte[])GetValue(OpenWithPostProperty); }
+            set { SetValue(OpenWithPostProperty, value); }
+        }
+
+        /// <summary>
+        /// 使用的默认cookie值
+        /// </summary>
+        public List<string> Cookie { get; set; }
 
         /// <summary>
         /// 请求执行JavaScript的事件

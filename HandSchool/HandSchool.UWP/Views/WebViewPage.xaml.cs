@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using System;
 using System.Reflection;
 using System.Text;
 using Windows.UI.Xaml.Controls;
@@ -28,22 +29,26 @@ namespace HandSchool.Views
             InfoEntrance = e.Parameter as BaseController;
 
             var meta = InfoEntrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
-            ViewModel = new BaseViewModel { Title = meta.Title };
+            ViewModel = e.Parameter as BaseController;
+            ViewModel.Title = meta.Title;
             InfoEntrance.Evaluate = WebView.InvokeScript;
             InfoEntrance.View = ViewResponse;
 
             WebView.Register = InfoEntrance.Receive;
             foreach (var key in InfoEntrance.Menu)
+            {
                 PrimaryMenu.Add(new AppBarButton
                 {
                     Label = key.Name,
                     Command = key.Command,
+                    CommandParameter = (Action<IWebEntrance>)OnEntranceRequested,
                     Icon = new FontIcon
                     {
                         FontFamily = new FontFamily("Segoe MDL2 Assets"),
                         Glyph = key.Icon
                     }
                 });
+            }
 
             if (InfoEntrance is IInfoEntrance info)
             {
@@ -55,6 +60,12 @@ namespace HandSchool.Views
             {
                 WebView.Url = urle.HtmlUrl;
                 WebView.SubUrlRequested += OnSubUrlRequested;
+
+                if (WebView.Url.Contains("://"))
+                {
+                    ViewModel.SetIsBusy(true);
+                    WebView.LoadCompleted += () => ViewModel.SetIsBusy(false);
+                }
             }
         }
 
@@ -62,8 +73,13 @@ namespace HandSchool.Views
         {
             if (InfoEntrance is IUrlEntrance iu)
             {
-                Frame.Navigate(typeof(WebViewPage), iu.SubUrlRequested(url));
+                OnEntranceRequested(iu.SubUrlRequested(url));
             }
+        }
+
+        private void OnEntranceRequested(IWebEntrance entrance)
+        {
+            Frame.Navigate(typeof(WebViewPage), entrance);
         }
     }
 }

@@ -73,6 +73,8 @@ namespace HandSchool.ViewModels
         {
             public string HtmlUrl { get; set; } = "privacy.html";
             public override Task Receive(string data) { return Task.Run(() => { }); }
+            public byte[] OpenWithPost => null;
+            public List<string> Cookie => null;
             public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
 
@@ -81,6 +83,8 @@ namespace HandSchool.ViewModels
         {
             public string HtmlUrl { get; set; } = "license.html";
             public override Task Receive(string data) { return Task.Run(() => { }); }
+            public byte[] OpenWithPost => null;
+            public List<string> Cookie => null;
             public IUrlEntrance SubUrlRequested(string sub) { throw new InvalidOperationException(); }
         }
     }

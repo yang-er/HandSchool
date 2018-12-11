@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using System;
 using System.Reflection;
 using System.Text;
 using Xamarin.Forms;
@@ -34,6 +35,8 @@ namespace HandSchool.Views
             else if (entrance is IUrlEntrance iu)
             {
                 WebView.Uri = iu.HtmlUrl;
+                WebView.Cookie = iu.Cookie;
+                WebView.OpenWithPost = iu.OpenWithPost;
                 WebView.SubUrlRequested += OnSubUrlRequested;
 
                 if (WebView.Uri.Contains("://"))
@@ -44,7 +47,15 @@ namespace HandSchool.Views
             }
 
             foreach (var key in InfoEntrance.Menu)
-                ToolbarItems.Add(new ToolbarItem { Text = key.Name, Command = key.Command });
+            {
+                ToolbarItems.Add(new ToolbarItem
+                {
+                    Text = key.Name,
+                    Command = key.Command,
+                    CommandParameter = (Action<IWebEntrance>)OnEntranceRequested
+                });
+            }
+
             entrance.Evaluate = WebView.JavaScript;
             WebView.RegisterAction(entrance.Receive);
         }
@@ -53,8 +64,13 @@ namespace HandSchool.Views
         {
             if (InfoEntrance is IUrlEntrance iu)
             {
-                new WebViewPage(iu.SubUrlRequested(req)).ShowAsync(Navigation);
+                OnEntranceRequested(iu.SubUrlRequested(req));
             }
+        }
+
+        protected virtual void OnEntranceRequested(IWebEntrance ent)
+        {
+            new WebViewPage(ent).ShowAsync(Navigation);
         }
     }
 }

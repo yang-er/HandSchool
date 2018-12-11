@@ -2,8 +2,10 @@
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -13,6 +15,9 @@ namespace HandSchool.JLU.InfoQuery
         const string OriginalUrl = "https://lib.cdn.90yang.com/sms/opac/search/showiphoneSearch.action";
 
         public string HtmlUrl { get; set; }
+
+        public byte[] OpenWithPost => null;
+        public List<string> Cookie => null;
 
         public IUrlEntrance SubUrlRequested(string sub)
         {
@@ -24,7 +29,30 @@ namespace HandSchool.JLU.InfoQuery
             await Task.Run(() => Core.Log(data));
         }
 
-        public LibrarySearch() : this(OriginalUrl) { }
+        public LibrarySearch() : this(OriginalUrl)
+        {
+#if !__UWP__
+            var cmd = new Command(async (o) => await RequestRentInfo(o));
+            Menu.Add(new InfoEntranceMenu("我的借阅", cmd, "\uE7BE"));
+#endif
+        }
+
+        private async Task RequestRentInfo(object o)
+        {
+            var rentInfo = new LibraryRent.LoginDispatcher();
+            if (await rentInfo.RequestLogin())
+            {
+                var ops = rentInfo.GetLibraryRent();
+                if (o is Action<IWebEntrance> entReq)
+                {
+                    entReq.Invoke(ops);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
 
         public LibrarySearch(string suburl)
         {
