@@ -84,6 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\LibrarySearch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\AdviceSchedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\LibraryRent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\LibraryZwyy.cs" />
     <None Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\selectcourse.js" />
     <None Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\teacheval.js" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
