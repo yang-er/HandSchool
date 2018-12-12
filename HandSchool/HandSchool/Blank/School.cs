@@ -110,13 +110,7 @@ namespace HandSchool.Blank
             Core.Log("Blank->Post(url, send)");
             return Task.FromResult("");
         }
-
-        public Task<bool> RequestLogin()
-        {
-            Core.Log("Blank->RequestLogin()");
-            return Task.FromResult(false);
-        }
-
+        
         public void SaveSettings()
         {
             var save = new SettingsJSON

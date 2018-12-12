@@ -159,17 +159,10 @@ namespace HandSchool.JLU
         {
             return UsingStrategy.FormatArguments(args);
         }
-
-        public async Task<bool> RequestLogin()
-        {
-            if (AutoLogin && !IsLogin) await Login();
-            if (!IsLogin) await LoginViewModel.RequestAsync(this);
-            return IsLogin;
-        }
-
+        
         public async Task<string> Post(string url, string send)
         {
-            if (await RequestLogin() == false)
+            if (await this.RequestLogin() == false)
             {
                 throw new WebException("登录超时。", WebExceptionStatus.Timeout);
             }
@@ -195,7 +188,7 @@ namespace HandSchool.JLU
 
         public async Task<string> Get(string url)
         {
-            if (await RequestLogin() == false)
+            if (await this.RequestLogin() == false)
             {
                 throw new WebException("登录超时。", WebExceptionStatus.Timeout);
             }

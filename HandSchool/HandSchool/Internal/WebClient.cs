@@ -48,7 +48,7 @@ namespace HandSchool.Internal
 
                 var ret = ResponseHeaders["Location"];
                 if (ret.StartsWith(BaseAddress))
-                    return ret.Replace(BaseAddress, string.Empty);
+                    return ret.Substring(BaseAddress.Length);
                 else return ret;
             }
         }

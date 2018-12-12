@@ -31,10 +31,8 @@ namespace HandSchool.JLU.InfoQuery
 
         public LibrarySearch() : this(OriginalUrl)
         {
-#if !__UWP__
             var cmd = new Command(async (o) => await RequestRentInfo(o));
             Menu.Add(new InfoEntranceMenu("我的借阅", cmd, "\uE7BE"));
-#endif
         }
 
         private async Task RequestRentInfo(object o)

@@ -62,13 +62,7 @@ namespace HandSchool.Services
         /// <returns>接收的数据</returns>
         /// <exception cref="System.Net.WebException" />
         Task<string> Get(string url);
-
-        /// <summary>
-        /// 请求登录
-        /// </summary>
-        /// <returns>是否登录成功</returns>
-        Task<bool> RequestLogin();
-
+        
         /// <summary>
         /// 保存设置
         /// </summary>

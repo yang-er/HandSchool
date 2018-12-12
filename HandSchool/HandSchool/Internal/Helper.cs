@@ -1,5 +1,7 @@
 ﻿using HandSchool.Internal.HtmlObject;
+using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -10,6 +12,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using FeedItem = HandSchool.Models.FeedItem;
 
@@ -237,6 +240,18 @@ namespace HandSchool.Internal
             }
 
             return lstCookies;
+        }
+        
+        /// <summary>
+        /// 对于表单请求登录。
+        /// </summary>
+        /// <param name="form">请求的表单。</param>
+        /// <returns>登录是否成功。</returns>
+        public static async Task<bool> RequestLogin(this ILoginField form)
+        {
+            if (form.AutoLogin && !form.IsLogin) await form.Login();
+            if (!form.IsLogin) await LoginViewModel.RequestAsync(form);
+            return form.IsLogin;
         }
     }
 }

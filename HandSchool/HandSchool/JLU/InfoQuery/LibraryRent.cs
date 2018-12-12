@@ -39,11 +39,6 @@ namespace HandSchool.JLU.InfoQuery
             await Task.Run(() => Core.Log(data));
         }
         
-        private LibraryRent(string url, List<Cookie> login) : this(url)
-        {
-            Cookie = (from cok in login select cok.ToString()).ToList();
-        }
-
         public LibraryRent(string suburl)
         {
             HtmlUrl = suburl;
@@ -108,17 +103,17 @@ namespace HandSchool.JLU.InfoQuery
                 }
 
                 if (WebClient != null) WebClient.Dispose();
-                WebClient = new AwaredWebClient("http://" + Domain + LoginPath, Encoding.UTF8);
-                WebClient.Cookie.Add(new Cookie("xc", "5", LoginPath, Domain));
-                WebClient.Cookie.Add(new Cookie("mgid", "274", LoginPath, Domain));
-                WebClient.Cookie.Add(new Cookie("maid", "920", LoginPath, Domain));
+                WebClient = new AwaredWebClient("http://" + Domain, Encoding.UTF8);
+                WebClient.Cookie.Add(new Cookie("xc", "5", "/", Domain));
+                WebClient.Cookie.Add(new Cookie("mgid", "274", "/", Domain));
+                WebClient.Cookie.Add(new Cookie("maid", "920", "/", Domain));
 
                 // Access Main Page To Create a JSESSIONID
                 try
                 {
                     var realPost = PostValueBegin.Replace("`uname`", Username)
                                                  .Replace("`pwd`", Password);
-                    var result = await WebClient.PostAsync("opacLogin.jspx", realPost, PostType, "*/*");
+                    var result = await WebClient.PostAsync(LoginPath + "opacLogin.jspx", realPost, PostType, "*/*");
 
                     if (result != "" && WebClient.Location == "")
                     {
@@ -128,8 +123,9 @@ namespace HandSchool.JLU.InfoQuery
                         IsLogin = false;
                         return false;
                     }
-
-                    RedirectUrl = WebClient.Location;
+                    
+                    await WebClient.GetAsync(WebClient.Location, "*/*");
+                    RedirectUrl = WebClient.Location.Replace("http://202.198.25.5:8080", "https://lib.cdn.90yang.com");
                 }
                 catch (WebException ex)
                 {
@@ -155,17 +151,10 @@ namespace HandSchool.JLU.InfoQuery
             {
                 return Task.FromResult(true);
             }
-
-            public async Task<bool> RequestLogin()
-            {
-                if (AutoLogin && !IsLogin) await Login();
-                if (!IsLogin) await LoginViewModel.RequestAsync(this);
-                return IsLogin;
-            }
-
+            
             public IUrlEntrance GetLibraryRent()
             {
-                return new LibraryRent(RedirectUrl, WebClient.Cookie.GetAll());
+                return new LibraryRent(RedirectUrl);
             }
         }
     }
