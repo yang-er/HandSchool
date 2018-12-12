@@ -13,6 +13,7 @@ namespace HandSchool.JLU.InfoQuery
         {
             if (ops[1] == "action/select/select-lesson.do")
                 ret = "{\"id\":\"selectlesson\",\"send\":" + ops[2] + ",\"value\":" + ret + "}";
+            if (ret == "") ret = "{\"error\":\"null\"}";
             base.HandlePostReturnValue(ops, ref ret);
         }
 

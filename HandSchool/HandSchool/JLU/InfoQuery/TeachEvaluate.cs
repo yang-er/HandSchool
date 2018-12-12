@@ -11,6 +11,12 @@ namespace HandSchool.JLU.InfoQuery
     [Hotfix("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool/JLU/InfoQuery/teacheval.js.ver", "jlu_teacheval.js")]
     class TeachEvaluate : HotfixController
     {
+        protected override void HandlePostReturnValue(string[] ops, ref string ret)
+        {
+            if (ret == "") ret = "{\"error\":\"null\"}";
+            base.HandlePostReturnValue(ops, ref ret);
+        }
+
         public TeachEvaluate()
         {
             HtmlDocument = new Bootstrap

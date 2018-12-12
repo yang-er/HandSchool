@@ -23,7 +23,7 @@
                     <!--<ColumnDefinition Width="Auto" />-->
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <StackLayout Orientation="Vertical" Grid.Column="1" Padding="10">
+                <StackLayout Orientation="Vertical" Grid.Column="1" Padding="15">
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="School_Tapped" />
                     </StackLayout.GestureRecognizers>

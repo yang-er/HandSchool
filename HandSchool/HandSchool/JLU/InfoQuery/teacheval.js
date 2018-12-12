@@ -20,7 +20,8 @@ function handle_one(resp)
 	if (resp.count !== 1)
 	{
 		$('#'+list[i]).removeClass('table-primary').addClass('table-warning');
-		invokeCSharpAction('msg;' + resp.msg);
+        invokeCSharpAction('msg;' + resp.msg);
+        invokeCSharpAction('finished');
 	}
 	else
 	{

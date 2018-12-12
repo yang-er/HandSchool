@@ -111,7 +111,8 @@ function te_callback(resp)
 	}
 	else
 	{
-		invokeCSharpAction('msg;出现错误：未知的响应。');
+        invokeCSharpAction('msg;出现错误：未知的响应。');
+        invokeCSharpAction('finished');
 	}
 }
 
