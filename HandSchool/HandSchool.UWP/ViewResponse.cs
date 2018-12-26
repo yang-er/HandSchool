@@ -41,9 +41,12 @@ namespace HandSchool.Internal
 
         public static async Task ShowMessageAsync(string title, string message, string button = "确认")
         {
-            var dialog = new MessageDialog(message, title);
-            dialog.Commands.Add(new UICommand(button));
-            await dialog.ShowAsync();
+            var dialog2 = new TextDialog(title, message, button);
+            await dialog2.ShowAsync();
+
+            //var dialog = new MessageDialog(message, title);
+            //dialog.Commands.Add(new UICommand(button));
+            //await dialog.ShowAsync();
         }
 
         static Flyout ActionSheetFlyout(ActionSheetArguments options)

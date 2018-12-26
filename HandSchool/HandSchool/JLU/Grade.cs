@@ -3,7 +3,9 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using Microcharts;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Threading.Tasks;
@@ -36,6 +38,36 @@ namespace HandSchool.JLU
         public string Type => AlreadyKnownThings.Type5Name(asv.type5);
 
         public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
+
+        static readonly string[] ChartShrooms = new[]
+        {
+            "#bf6913",
+            "#6913bf",
+            "#13bfbf",
+            "#69bf13",
+            "#bf1313",
+        };
+
+        public IEnumerable<Entry> GetGradeDistribute()
+        {
+            if (asv.distribute is null) yield break;
+
+            int color_id = 0;
+            foreach (var entitles in asv.distribute.items)
+            {
+                var valueLabel = (entitles.percent / 100).ToString("#.#%");
+                if (valueLabel == "%") valueLabel = "0.0%";
+                var skcolor = SkiaSharp.SKColor.Parse(ChartShrooms[color_id++ % 5]);
+
+                yield return new Entry(entitles.percent)
+                {
+                    Label = entitles.label.Split('(')[0],
+                    ValueLabel = valueLabel,
+                    Color = skcolor,
+                    TextColor = skcolor
+                };
+            }
+        }
     }
 
     class OutsideGradeItem : IGradeItem
@@ -66,6 +98,11 @@ namespace HandSchool.JLU
         public string Type => "未知";
 
         public string Show => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
+
+        public IEnumerable<Entry> GetGradeDistribute()
+        {
+            yield break;
+        }
     }
 
     [Entrance("成绩查询")]
@@ -73,6 +110,7 @@ namespace HandSchool.JLU
     {
         internal const string config_grade = "jlu.grade.json";
         internal const string config_gpa = "jlu.gpa.json";
+        internal const string grade_distribute = "score/course-score-stat.do";
 
         public int RowLimit { get; set; } = 25;
         
@@ -89,6 +127,25 @@ namespace HandSchool.JLU
             try
             {
                 LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+                var ro = LastReport.ParseJSON<RootObject<ArchiveScoreValue>>();
+
+                foreach (var asv in ro.value)
+                {
+                    var LastDetail = await Core.App.Service.Post(grade_distribute, $"{{\"asId\":\"{asv.asId}\"}}");
+                    //LastDetail = Encoding.UTF8.
+                    asv.distribute = LastDetail.ParseJSON<GradeDetails>();
+                }
+
+                Core.WriteConfig(config_grade, ro.Serialize());
+
+                LastReportGPA = await Core.App.Service.Post(ScriptFileUri, GPAPostValue);
+                Core.WriteConfig(config_gpa, LastReportGPA);
+                ParseGPA();
+
+                foreach (var asv in ro.value)
+                {
+                    GradePointViewModel.Instance.Items.Add(new GradeItem(asv));
+                }
             }
             catch (WebException ex)
             {
@@ -100,10 +157,6 @@ namespace HandSchool.JLU
 
                 throw ex;
             }
-
-            Core.WriteConfig(config_grade, LastReport);
-            await GatherGPA();
-            Parse();
         }
         
         public GradeEntrance()

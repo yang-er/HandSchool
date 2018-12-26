@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microcharts;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace HandSchool.Models
@@ -62,6 +64,11 @@ namespace HandSchool.Models
         /// 获得展示的字符串
         /// </summary>
         string Show { get; }
+
+        /// <summary>
+        /// 全班的成绩分布
+        /// </summary>
+        IEnumerable<Entry> GetGradeDistribute();
     }
 
     /// <summary>
@@ -91,6 +98,11 @@ namespace HandSchool.Models
         {
             Show = to_show;
             Date = DateTime.Now;
+        }
+
+        public IEnumerable<Entry> GetGradeDistribute()
+        {
+            yield break;
         }
     }
 }

@@ -94,6 +94,26 @@ namespace HandSchool.JLU.JsonObject
         public string credit { get; set; }
         public object notes { get; set; }
         public string selectType { get; set; }
+        public GradeDetails distribute { get; set; }
+    }
+
+    public class GradeDetails
+    {
+        public int count { get; set; }
+        public int errno { get; set; }
+        public string identifier { get; set; }
+        public GradeEntry[] items { get; set; }
+        public string label { get; set; }
+        public string msg { get; set; }
+        public int status { get; set; }
+
+        public class GradeEntry
+        {
+            public int count { get; set; }
+            public string label { get; set; }
+            public float percent { get; set; }
+            public int seq { get; set; }
+        }
     }
 
     class OutsideScoreValue
@@ -163,7 +183,7 @@ namespace HandSchool.JLU.JsonObject
         public string isPe { get; set; }
         public string isCore { get; set; }
     }
-    
+
     class LessonSchedule
     {
         public Classroom classroom { get; set; }
@@ -313,7 +333,7 @@ namespace HandSchool.JLU.JsonObject
         public string xscNo { get; set; }
         public string campus { get; set; }
     }
-    
+
     class SchoolInfo
     {
         public string englishName { get; set; }
@@ -524,7 +544,7 @@ namespace HandSchool.JLU.JsonObject
         public string introduction { get; set; }
         public object programMaster { get; set; }
     }
-    
+
     class CollegeCourse
     {
         public object examCovers { get; set; }
@@ -566,7 +586,7 @@ namespace HandSchool.JLU.JsonObject
                 default: return "未知";
             }
         }
-        
+
         static Lazy<List<CollegeOverview>> collegeLoader = new Lazy<List<CollegeOverview>>(LazyCollege);
         static Lazy<List<BuildingOverview>> buildingLoader = new Lazy<List<BuildingOverview>>(LazyBuilding);
         static Lazy<NameValueCollection> campusLoader = new Lazy<NameValueCollection>(LazyCampus);
