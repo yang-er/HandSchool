@@ -13,6 +13,11 @@ namespace HandSchool.Models
     public class MasterPageItem : NotifyPropertyChanged
     {
         /// <summary>
+        /// 一个判断是否被选中的谓词。
+        /// </summary>
+        public static Predicate<MasterPageItem> IsSelected = (item) => item.Selected;
+
+        /// <summary>
         /// 创建一个系统导航项目，并提供页面延迟加载的功能。
         /// </summary>
         /// <param name="title">导航项目的名称。</param>

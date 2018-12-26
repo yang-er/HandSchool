@@ -48,8 +48,8 @@ namespace HandSchool.Internal
 
                 var ret = ResponseHeaders["Location"];
                 if (ret.StartsWith(BaseAddress))
-                    return ret.Substring(BaseAddress.Length);
-                else return ret;
+                    ret = ret.Substring(BaseAddress.Length);
+                return ret;
             }
         }
 
@@ -240,53 +240,21 @@ namespace HandSchool.Internal
 
         const string json = "application/json";
 
-        WebHeaderCollection protocolErrorResponses;
+        private WebHeaderCollection protocolErrorResponses;
 
         protected override WebRequest GetWebRequest(Uri address)
         {
             protocolErrorResponses = null;
             var request = base.GetWebRequest(address);
+
             if (request is HttpWebRequest req)
             {
                 req.CookieContainer = Cookie;
                 req.AllowAutoRedirect = AllowAutoRedirect;
                 req.Timeout = Timeout;
             }
+
             return request;
-        }
-    }
-
-    /// <summary>
-    /// 内容类型不相容错误
-    /// </summary>
-    public class ContentAcceptException : Exception
-    {
-        /// <summary>
-        /// 返回的内容本身
-        /// </summary>
-        public string Result { get; }
-
-        /// <summary>
-        /// 目前的返回内容类型
-        /// </summary>
-        public string Current { get; }
-
-        /// <summary>
-        /// 本应接收的内容类型
-        /// </summary>
-        public string Accept { get; }
-
-        /// <summary>
-        /// 创建内容类型不相容错误。
-        /// </summary>
-        /// <param name="ret">返回的内容本身。</param>
-        /// <param name="cur">目前的返回内容类型。</param>
-        /// <param name="acc">本应接收的内容类型。</param>
-        public ContentAcceptException(string ret, string cur, string acc)
-        {
-            Result = ret;
-            Current = cur;
-            Accept = acc;
         }
     }
 }

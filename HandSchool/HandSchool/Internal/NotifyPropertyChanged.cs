@@ -15,7 +15,7 @@ namespace HandSchool.Internal
         /// 当属性改变时触发事件
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         /// <summary>
         /// 设置保存属性的值，并检查是否改变。
         /// </summary>
@@ -35,7 +35,7 @@ namespace HandSchool.Internal
             OnPropertyChanged(propertyName);
             return true;
         }
-
+        
         /// <summary>
         /// 属性改变时简化地触发事件。
         /// </summary>
