@@ -59,6 +59,9 @@
     <AndroidTlsProvider>legacy</AndroidTlsProvider>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microcharts.Forms">
+      <HintPath>..\..\Microcharts\Microcharts.Forms\bin\Release\netstandard2.0\Microcharts.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />

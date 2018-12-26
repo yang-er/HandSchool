@@ -303,7 +303,11 @@
   <ItemGroup>
     <None Include="HandSchool.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Microcharts.UWP">
+      <HintPath>..\..\Microcharts\Microcharts.UWP\bin\Release\Microcharts.UWP.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
