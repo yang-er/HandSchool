@@ -3,10 +3,12 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Microcharts;
+using SkiaSharp.Views.Android;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
 using XPage = Xamarin.Forms.Page;
+using HSResource = HandSchool.Droid.Resource;
 
 namespace HandSchool.Internal
 {
@@ -39,22 +41,18 @@ namespace HandSchool.Internal
             var dbtask = new DismissByTask();
             Context context = Droid.MainActivity.ActivityContext;
             var builder = new AlertDialog.Builder(context);
-            var chartView = new Microcharts.Forms.ChartView();
-            chartView.Chart = chart;
-            chartView.HeightRequest = 300;
 
-            LinearLayout layout = new LinearLayout(context);
-            int width = Droid.MainActivity.Dip2Px(370);
-            int height = Droid.MainActivity.Dip2Px(220);
-            int margin_left = Droid.MainActivity.Dip2Px(30 - Droid.MainActivity.Px2Dip((int)chartView.Chart.Margin));
-            int margin_top = Droid.MainActivity.Dip2Px(10 - Droid.MainActivity.Px2Dip((int)chartView.Chart.Margin));
-            var layoutParams = new LinearLayout.LayoutParams(width, height);
-            layout.LayoutParameters = layoutParams;
-            layout.SetPadding(margin_left, 0, margin_left, 0);
-            layout.AddView(Platform.CreateRendererWithContext(chartView, context) as View);
+            LayoutInflater layoutInflater = LayoutInflater.From(context);
+            var chartLayout = layoutInflater.Inflate(HSResource.Layout.SkiaChart, null);
+            builder.SetView(chartLayout);
 
+            var canvasView = chartLayout.FindViewById<SKCanvasView>(HSResource.Id.skia_chart_canvas);
+            canvasView.PaintSurface += (sender, args) =>
+            {
+                chart.Draw(args.Surface.Canvas, args.Info.Width, args.Info.Height);
+            };
+            
             builder.SetTitle(title);
-            builder.SetView(layout);
             builder.SetPositiveButton(close, (sender, args) => { });
             builder.SetOnDismissListener(dbtask);
             var dialog = builder.Create();

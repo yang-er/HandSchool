@@ -2530,6 +2530,12 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0800a4
 			public const int notification_top_pad_large_text = 2131230884;
 			
+			// aapt resource value: 0x7f0800a7
+			public const int skiasharp_chart_padding_left_right = 2131230887;
+			
+			// aapt resource value: 0x7f0800a8
+			public const int skiasharp_chart_padding_top_bottom = 2131230888;
+			
 			// aapt resource value: 0x7f080063
 			public const int tooltip_corner_radius = 2131230819;
 			
@@ -3567,8 +3573,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090046
 			public const int META = 2131296326;
 			
-			// aapt resource value: 0x7f0900e5
-			public const int NextClassPlaceString = 2131296485;
+			// aapt resource value: 0x7f0900e6
+			public const int NextClassPlaceString = 2131296486;
 			
 			// aapt resource value: 0x7f090047
 			public const int SHIFT = 2131296327;
@@ -3876,14 +3882,14 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090065
 			public const int list_item = 2131296357;
 			
-			// aapt resource value: 0x7f0900e7
-			public const int masked = 2131296487;
+			// aapt resource value: 0x7f0900e8
+			public const int masked = 2131296488;
 			
 			// aapt resource value: 0x7f0900c6
 			public const int media_actions = 2131296454;
 			
-			// aapt resource value: 0x7f0900e1
-			public const int message = 2131296481;
+			// aapt resource value: 0x7f0900e2
+			public const int message = 2131296482;
 			
 			// aapt resource value: 0x7f090042
 			public const int middle = 2131296322;
@@ -4096,7 +4102,10 @@ namespace HandSchool.Droid
 			public const int singleline = 2131296478;
 			
 			// aapt resource value: 0x7f0900df
-			public const int sliding_tabs = 2131296479;
+			public const int skia_chart_canvas = 2131296479;
+			
+			// aapt resource value: 0x7f0900e0
+			public const int sliding_tabs = 2131296480;
 			
 			// aapt resource value: 0x7f090098
 			public const int smallLabel = 2131296408;
@@ -4176,8 +4185,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090073
 			public const int title_template = 2131296371;
 			
-			// aapt resource value: 0x7f0900e0
-			public const int toolbar = 2131296480;
+			// aapt resource value: 0x7f0900e1
+			public const int toolbar = 2131296481;
 			
 			// aapt resource value: 0x7f09002e
 			public const int top = 2131296302;
@@ -4218,20 +4227,20 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090016
 			public const int view_offset_helper = 2131296278;
 			
-			// aapt resource value: 0x7f0900e6
-			public const int visible = 2131296486;
+			// aapt resource value: 0x7f0900e7
+			public const int visible = 2131296487;
 			
 			// aapt resource value: 0x7f0900b8
 			public const int volume_item_container = 2131296440;
 			
-			// aapt resource value: 0x7f0900e2
-			public const int widgetBackground = 2131296482;
+			// aapt resource value: 0x7f0900e3
+			public const int widgetBackground = 2131296483;
+			
+			// aapt resource value: 0x7f0900e5
+			public const int widgetMedium = 2131296485;
 			
 			// aapt resource value: 0x7f0900e4
-			public const int widgetMedium = 2131296484;
-			
-			// aapt resource value: 0x7f0900e3
-			public const int widgetSmall = 2131296483;
+			public const int widgetSmall = 2131296484;
 			
 			// aapt resource value: 0x7f09004d
 			public const int withText = 2131296333;
@@ -4576,19 +4585,22 @@ namespace HandSchool.Droid
 			public const int SingleLine = 2130903123;
 			
 			// aapt resource value: 0x7f030054
-			public const int support_simple_spinner_dropdown_item = 2130903124;
+			public const int SkiaChart = 2130903124;
 			
 			// aapt resource value: 0x7f030055
-			public const int Tabbar = 2130903125;
+			public const int support_simple_spinner_dropdown_item = 2130903125;
 			
 			// aapt resource value: 0x7f030056
-			public const int Toolbar = 2130903126;
+			public const int Tabbar = 2130903126;
 			
 			// aapt resource value: 0x7f030057
-			public const int tooltip = 2130903127;
+			public const int Toolbar = 2130903127;
 			
 			// aapt resource value: 0x7f030058
-			public const int Widget = 2130903128;
+			public const int tooltip = 2130903128;
+			
+			// aapt resource value: 0x7f030059
+			public const int Widget = 2130903129;
 			
 			static Layout()
 			{

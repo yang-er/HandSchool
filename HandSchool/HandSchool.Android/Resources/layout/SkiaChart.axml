@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:paddingLeft="@dimen/skiasharp_chart_padding_left_right"
+	android:paddingRight="@dimen/skiasharp_chart_padding_left_right"
+	android:paddingTop="@dimen/skiasharp_chart_padding_top_bottom"
+	android:paddingBottom="@dimen/skiasharp_chart_padding_top_bottom">
+	<SkiaSharp.Views.Android.SKCanvasView 
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/skia_chart_canvas" />
+</LinearLayout>
