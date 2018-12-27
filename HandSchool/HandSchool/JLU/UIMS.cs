@@ -91,7 +91,7 @@ namespace HandSchool.JLU
             set
             {
                 SetProperty(ref save_password, value);
-                if (!value) SetProperty(ref auto_login, true, nameof(AutoLogin));
+                if (!value) SetProperty(ref auto_login, false, nameof(AutoLogin));
             }
         }
 
