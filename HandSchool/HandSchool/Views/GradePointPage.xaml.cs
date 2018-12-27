@@ -1,6 +1,8 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,6 +35,13 @@ namespace HandSchool.Views
                     info += "\n" + key + "：" + iGi.Attach.Get((string)key);
 
                 await DisplayAlert("成绩详情", info, "确定");
+
+                var list = iGi.GetGradeDistribute().ToList();
+                if (list.Count > 0)
+                {
+                    var pie = new PieChart { Entries = list, Margin = 10 };
+                    await ViewResponse.ShowChartDialog(pie, "成绩分布");
+                }
             }
 
             // Deselect Item

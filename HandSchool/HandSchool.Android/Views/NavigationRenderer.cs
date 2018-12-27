@@ -79,7 +79,7 @@ namespace HandSchool.Droid
 
             if (ProgressBar != null)
             {
-                int height = (int)(Context.Resources.DisplayMetrics.Density * 8 + 0.5f);
+                int height = MainActivity.Dip2Px(8);
                 ProgressBar.BringToFront();
                 ProgressBar.Layout(0, Toolbar.Height - height, r, Toolbar.Height + height);
             }

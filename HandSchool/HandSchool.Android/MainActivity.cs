@@ -14,6 +14,7 @@ namespace HandSchool.Droid
         public static Context ActivityContext;
         public static MainActivity Instance;
         public static UpdateManager UpdateManager;
+        private static float scale = 1;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -25,9 +26,20 @@ namespace HandSchool.Droid
             ActivityContext = this;
             UpdateManager = new UpdateManager(this);
             UpdateManager.Update();
+            scale = Resources.DisplayMetrics.Density;
             // Intent it = new Intent(this, typeof(SampleService));
             // StartService(it);
             LoadApplication(new App() {});
+        }
+
+        public static int Dip2Px(float dpValue)
+        {
+            return (int)(dpValue * scale + 0.5f);
+        }
+
+        public static float Px2Dip(int pxValue)
+        {
+            return pxValue / scale;
         }
     }
 }
