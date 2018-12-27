@@ -24,7 +24,7 @@ namespace HandSchool.JLU.InfoQuery
         private int lessonId;
         
         const string ScriptFileUri = "service/res.do";
-        string PostValue => $"{{\"tag\":\"lesson@globalStore\",\"branch\":\"default\",\"params\":{{\"termId\":`term`,\"schId\":\"{schId}\"{(tcmType == -1 ? "" : ",\"tcmType\":\""+ tcmType +"\"")}}},\"orderBy\":\"courseInfo.courName, extLessonNo\"}}";
+        string PostValue => $"{{\"tag\":\"lesson@globalStore\",\"branch\":\"default\",\"params\":{{\"termId\":{termId},\"schId\":\"{schId}\"{(tcmType == -1 ? "" : ",\"tcmType\":\""+ tcmType +"\"")}}},\"orderBy\":\"courseInfo.courName, extLessonNo\"}}";
         string PostDetail => $"{{\"tag\":\"teachClassMaster@selectResultAdjust\",\"branch\":\"byLesson\",\"params\":{{\"lessonId\":\"{lessonId}\"}}}}";
 
         public ClassSchedule()
