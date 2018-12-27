@@ -12,7 +12,7 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("图书馆藏查询", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
     class LibrarySearch : BaseController, IUrlEntrance
     {
-        const string OriginalUrl = "https://lib.cdn.90yang.com/sms/opac/search/showiphoneSearch.action";
+        const string OriginalUrl = "https://lib.jlu.xylab.fun/sms/opac/search/showiphoneSearch.action";
 
         public string HtmlUrl { get; set; }
 

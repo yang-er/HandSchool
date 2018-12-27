@@ -125,7 +125,7 @@ namespace HandSchool.JLU.InfoQuery
                     }
                     
                     await WebClient.GetAsync(WebClient.Location, "*/*");
-                    RedirectUrl = WebClient.Location.Replace("http://202.198.25.5:8080", "https://lib.cdn.90yang.com");
+                    RedirectUrl = WebClient.Location.Replace("http://202.198.25.5:8080", "https://lib.jlu.xylab.fun");
                 }
                 catch (WebException ex)
                 {
