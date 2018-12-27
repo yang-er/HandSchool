@@ -101,7 +101,6 @@
     <Reference Include="Microcharts.Forms">
       <HintPath>..\..\Microcharts\Microcharts.Forms\bin\Release\netstandard2.0\Microcharts.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="netstandard" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />

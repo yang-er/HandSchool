@@ -7,6 +7,7 @@ using System.IO;
 using WebKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Regex = System.Text.RegularExpressions.Regex;
 
 [assembly: ExportRenderer(typeof(HybridWebView), typeof(HybridWebViewRenderer))]
 namespace HandSchool.iOS
@@ -14,7 +15,9 @@ namespace HandSchool.iOS
     public class HybridWebViewRenderer : ViewRenderer<HybridWebView, WKWebView>, IWKScriptMessageHandler
     {
         const string JavaScriptFunction = "function invokeCSharpAction(data){window.webkit.messageHandlers.invokeAction.postMessage(data);}";
+        const string DomainPattern = @"(http|https)://(?<domain>[^(:|/]*)";
         WKUserContentController userController;
+        WKHttpCookieStore cookieStore;
 
         protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)
         {
@@ -28,6 +31,7 @@ namespace HandSchool.iOS
                 userController.AddScriptMessageHandler(this, "invokeAction");
 
                 var config = new WKWebViewConfiguration { UserContentController = userController };
+                cookieStore = config.WebsiteDataStore.HttpCookieStore;
                 var webView = new WKWebView(Frame, config);
                 SetNativeControl(webView);
             }
@@ -48,7 +52,41 @@ namespace HandSchool.iOS
                     {
                         string fileName = Element.Uri;
                         Control.WeakNavigationDelegate = new NavigationDelegate(e.NewElement);
-                        Control.LoadRequest(new NSUrlRequest(new NSUrl(fileName)));
+                        var urlReq = new NSMutableUrlRequest(new NSUrl(fileName));
+
+                        if (Element.OpenWithPost != null)
+                        {
+                            urlReq.HttpMethod = "POST";
+                            urlReq.Body = NSData.FromArray(Element.OpenWithPost);
+                        }
+                        else
+                        {
+                            urlReq.HttpMethod = "GET";
+                        }
+
+                        if (Element.Cookie != null)
+                        {
+                            var domain = Regex.Match(Element.Uri, DomainPattern).Groups["domain"].Value;
+
+                            foreach (var cookieString in Element.Cookie)
+                            {
+                                var cookieSplit = cookieString.Split(new[] { '=' }, 2);
+                                var cookieObj = new NSHttpCookie(cookieSplit[0], cookieSplit[1], "/", domain);
+                                cookieStore.SetCookie(cookieObj, null);
+                            }
+
+                            cookieStore.GetAllCookies((obj) =>
+                            {
+                                foreach (var ob in obj)
+                                {
+                                    Core.Log(ob.ToString());
+                                }
+                            });
+
+                            urlReq.ShouldHandleCookies = true;
+                        }
+                        
+                        Control.LoadRequest(urlReq);
                     }
                     else
                     {
@@ -76,6 +114,15 @@ namespace HandSchool.iOS
         {
             WeakReference<HybridWebView> inner;
 
+            public override void DidFailProvisionalNavigation(WKWebView webView, WKNavigation navigation, NSError error)
+            {
+                if (inner.TryGetTarget(out var target))
+                {
+                    target.NotifyLoadComplete();
+                    Core.Log("Error: " + error.Description);
+                }
+            }
+
             public override void DidFinishNavigation(WKWebView webView, WKNavigation navigation)
             {
                 if (inner.TryGetTarget(out var target))
@@ -89,7 +136,7 @@ namespace HandSchool.iOS
                 if (inner.TryGetTarget(out var target))
                 {
                     target.NotifyLoadComplete();
-                    target.InvokeAction("document.write('error: " + error.Description + "')");
+                    Core.Log("Error: " + error.Description);
                 }
             }
 
@@ -103,7 +150,8 @@ namespace HandSchool.iOS
                 if (inner.TryGetTarget(out var target))
                 {
                     var nav2 = navigationAction.Request.Url.AbsoluteString;
-                    if (navigationAction.NavigationType == WKNavigationType.Other)
+                    Core.Log(nav2);
+                    if (navigationAction.NavigationType != WKNavigationType.LinkActivated)
                     {
                         decisionHandler(WKNavigationActionPolicy.Allow);
                     }
