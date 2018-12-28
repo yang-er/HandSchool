@@ -1,14 +1,12 @@
 ﻿using Android.Content;
 using Android.Support.V7.App;
 using Android.Views;
-using Android.Widget;
+using HandSchool.Droid;
 using Microcharts;
 using SkiaSharp.Views.Android;
-using System;
 using System.Threading.Tasks;
-using Xamarin.Forms.Platform.Android;
-using XPage = Xamarin.Forms.Page;
 using HSResource = HandSchool.Droid.Resource;
+using XPage = Xamarin.Forms.Page;
 
 namespace HandSchool.Internal
 {
@@ -39,9 +37,10 @@ namespace HandSchool.Internal
         public static Task ShowChartDialog(Chart chart, string title = "", string close = "关闭")
         {
             var dbtask = new DismissByTask();
-            Context context = Droid.MainActivity.ActivityContext;
+            Context context = MainActivity.ActivityContext;
             var builder = new AlertDialog.Builder(context);
 
+            chart.LabelTextSize = MainActivity.Dip2Px(12);
             LayoutInflater layoutInflater = LayoutInflater.From(context);
             var chartLayout = layoutInflater.Inflate(HSResource.Layout.SkiaChart, null);
             builder.SetView(chartLayout);
@@ -58,11 +57,11 @@ namespace HandSchool.Internal
             var dialog = builder.Create();
             dialog.Show();
             
-            IWindowManager manager = Droid.MainActivity.Instance.WindowManager;
+            IWindowManager manager = MainActivity.Instance.WindowManager;
             Display d = manager.DefaultDisplay;
             Window window = dialog.Window;
             WindowManagerLayoutParams param = window.Attributes;
-            param.Height = Droid.MainActivity.Dip2Px(340);
+            param.Height = MainActivity.Dip2Px(340);
             param.Gravity = GravityFlags.CenterHorizontal;
             dialog.Window.Attributes = param;
 
