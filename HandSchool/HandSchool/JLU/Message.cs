@@ -32,17 +32,20 @@ namespace HandSchool.JLU
             piece = p;
             _unread = piece.hasReaded == "N";
 
-            SetRead = new Command(async () => {
+            SetRead = new Command(async () =>
+            {
                 await Core.App.Message.SetReadState(Id, true);
                 Unread = false;
             });
 
-            SetUnread = new Command(async () => {
+            SetUnread = new Command(async () =>
+            {
                 await Core.App.Message.SetReadState(Id, false);
                 Unread = true;
             });
 
-            Delete = new Command(async () => {
+            Delete = new Command(async () =>
+            {
                 await Core.App.Message.Delete(Id);
                 MessageViewModel.Instance.Items.Remove(this);
             });
@@ -73,7 +76,6 @@ namespace HandSchool.JLU
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
                     await MessageViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
-                    MessageViewModel.Instance.SetIsBusy(false);
                     return;
                 }
                 else
@@ -99,7 +101,6 @@ namespace HandSchool.JLU
         public async Task SetReadState(int id, bool read)
         {
             var PostArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id.ToString() + "\"]}";
-            MessageViewModel.Instance.IsBusy = true;
 
             try
             {
@@ -116,14 +117,11 @@ namespace HandSchool.JLU
                     throw ex;
                 }
             }
-
-            MessageViewModel.Instance.IsBusy = false;
         }
 
         public async Task Delete(int id)
         {
             var PostArgs = "{\"idList\":[\""+id.ToString()+"\"]}";
-            MessageViewModel.Instance.IsBusy = true;
 
             try
             {
@@ -140,8 +138,6 @@ namespace HandSchool.JLU
                     throw ex;
                 }
             }
-
-            MessageViewModel.Instance.IsBusy = false;
         }
     }
 }

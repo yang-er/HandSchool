@@ -1,7 +1,9 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace HandSchool.Services
 {
@@ -44,10 +46,13 @@ namespace HandSchool.Services
         /// <param name="force">是否强制更新。</param>
         public async void CheckUpdate(bool force = false)
         {
+            await Task.Yield();
+
             try
             {
-                using (var wc = new WebClient())
+                using (var wc = new AwaredWebClient("", System.Text.Encoding.UTF8))
                 {
+                    wc.Timeout = 5000;
                     var new_meta = await wc.DownloadStringTaskAsync(UpdateSource);
                     var meta_exp = new_meta.Split(new char[] { ';' }, 2);
                     var local_meta = Core.ReadConfig(LocalStorage + ".ver");
@@ -67,8 +72,9 @@ namespace HandSchool.Services
                 
                     if (force)
                     {
-                        Core.WriteConfig(LocalStorage + ".ver", local_meta);
+                        Core.WriteConfig(LocalStorage + ".ver", new_meta);
                         await wc.DownloadFileTaskAsync(meta_exp[1], Path.Combine(Core.ConfigDirectory, LocalStorage));
+                        Core.Log("[Hotfix] Module successfully updated - " + LocalStorage);
                     }
                 }
             }
