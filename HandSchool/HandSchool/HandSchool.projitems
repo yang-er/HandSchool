@@ -14,6 +14,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)CoreLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreRuntime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\InsideGradeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\MessageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\OutsideGradeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\RegisteredServiceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\UseStorageAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
@@ -70,13 +75,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Loader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Message.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\OA.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Grade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\OA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\InsideGrade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\JSONs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Schedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\Schedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\UIMS.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\SchoolCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\SchoolCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\EmptyRoom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\TeachEvaluate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\InfoQuery\ClassSchedule.cs" />
@@ -92,9 +97,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\PickCardInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\RecordInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SchoolCardInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\InsideSchool.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\OutsideSchool.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\SideSchoolStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\InsideSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JLU\Services\OutsideSchool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\ViewModels\YktViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)JLU\Services\" />
   </ItemGroup>
 </Project>

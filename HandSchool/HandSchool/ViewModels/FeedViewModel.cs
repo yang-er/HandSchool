@@ -1,5 +1,7 @@
 ﻿using HandSchool.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -9,7 +11,7 @@ namespace HandSchool.ViewModels
     /// <summary>
     /// 学校通知的视图模型，提供了刷新和数据源的功能。
     /// </summary>
-    public class FeedViewModel : BaseViewModel
+    public class FeedViewModel : BaseViewModel, ICollection<FeedItem>
     {
         static FeedViewModel instance = null;
 
@@ -66,5 +68,25 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
         }
+        
+        #region ICollection<T> Implements
+
+        public int Count => Items.Count;
+        public void Add(FeedItem item) => Items.Add(item);
+        public void Clear() => Items.Clear();
+        public bool Remove(FeedItem item) => Items.Remove(item);
+
+        bool ICollection<FeedItem>.IsReadOnly => ((ICollection<FeedItem>)Items).IsReadOnly;
+        IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
+        IEnumerator<FeedItem> IEnumerable<FeedItem>.GetEnumerator() => Items.GetEnumerator();
+        bool ICollection<FeedItem>.Contains(FeedItem item) => Items.Contains(item);
+        void ICollection<FeedItem>.CopyTo(FeedItem[] array, int arrayIndex) => Items.CopyTo(array, arrayIndex);
+
+        public void AddRange(IEnumerable<FeedItem> toAdd)
+        {
+            foreach (var item in toAdd) Items.Add(item);
+        }
+
+        #endregion
     }
 }

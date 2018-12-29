@@ -1,5 +1,7 @@
 ﻿using HandSchool.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -9,9 +11,11 @@ namespace HandSchool.ViewModels
     /// <summary>
     /// 绩点成绩的视图模型，提供了加载绩点的命令和数据源。
     /// </summary>
-    public class GradePointViewModel : BaseViewModel
+    /// <inheritdoc cref="BaseViewModel" />
+    public class GradePointViewModel : BaseViewModel, ICollection<IGradeItem>
     {
-        static GradePointViewModel instance = null;
+        private static readonly Lazy<GradePointViewModel> Lazy =
+            new Lazy<GradePointViewModel>(() => new GradePointViewModel());
 
         /// <summary>
         /// 绩点成绩列表
@@ -26,15 +30,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 视图模型的实例
         /// </summary>
-        public static GradePointViewModel Instance
-        {
-            get
-            {
-                if (instance is null)
-                    instance = new GradePointViewModel();
-                return instance;
-            }
-        }
+        public static GradePointViewModel Instance => Lazy.Value;
 
         /// <summary>
         /// 建立绩点视图模型的数据源和刷新操作。
@@ -66,5 +62,25 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
         }
+
+        #region ICollection<T> Implements
+
+        public int Count => Items.Count;
+        public void Add(IGradeItem item) => Items.Add(item);
+        public void Clear() => Items.Clear();
+
+        bool ICollection<IGradeItem>.IsReadOnly => ((ICollection<IGradeItem>)Items).IsReadOnly;
+        IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
+        IEnumerator<IGradeItem> IEnumerable<IGradeItem>.GetEnumerator() => Items.GetEnumerator();
+        bool ICollection<IGradeItem>.Contains(IGradeItem item) => Items.Contains(item);
+        void ICollection<IGradeItem>.CopyTo(IGradeItem[] array, int arrayIndex) => Items.CopyTo(array, arrayIndex);
+        bool ICollection<IGradeItem>.Remove(IGradeItem item) => Items.Remove(item);
+        
+        public void AddRange(IEnumerable<IGradeItem> toAdd)
+        {
+            foreach (var item in toAdd) Items.Add(item);
+        }
+        
+        #endregion
     }
 }

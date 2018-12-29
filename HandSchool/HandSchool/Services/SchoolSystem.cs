@@ -50,10 +50,10 @@ namespace HandSchool.Services
         /// POST发送数据包
         /// </summary>
         /// <param name="url">地址</param>
-        /// <param name="send">发送的数据</param>
+        /// <param name="value">发送的数据</param>
         /// <returns>接收的数据</returns>
         /// <exception cref="System.Net.WebException" />
-        Task<string> Post(string url, string send);
+        Task<string> Post(string url, string value);
 
         /// <summary>
         /// GET发送数据包

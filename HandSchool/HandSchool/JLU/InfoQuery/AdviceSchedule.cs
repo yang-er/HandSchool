@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using HandSchool.JLU.Services;
 using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery

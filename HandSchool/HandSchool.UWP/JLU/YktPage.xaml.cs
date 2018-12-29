@@ -1,4 +1,5 @@
-﻿using HandSchool.JLU.ViewModels;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using Windows.UI.Xaml;
 

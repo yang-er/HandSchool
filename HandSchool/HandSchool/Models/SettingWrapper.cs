@@ -12,7 +12,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 未知类型
         /// </summary>
-        Unkown,
+        Unknown,
 
         /// <summary>
         /// 数字类型
@@ -46,52 +46,52 @@ namespace HandSchool.Models
     public sealed class SettingWrapper
     {
         /// <summary>
-        /// 绑定自己使用
+        /// 在 XAML 中提供，绑定自己使用。
         /// </summary>
         public SettingWrapper Self => this;
 
         /// <summary>
-        /// 在动作模式时占位
+        /// 在动作模式时占位的一个属性值。
         /// </summary>
         public static string ActionPlaceHolder { get; set; } = "";
 
         /// <summary>
-        /// 属性信息
+        /// 如果设置的类型为 Action，其对应的设置的运行时信息
         /// </summary>
-        public PropertyInfo Infomation { get; }
+        public PropertyInfo Information { get; }
 
         /// <summary>
-        /// 方法信息
+        /// 如果设置的类型为 Action，其调用的方法的运行时信息
         /// </summary>
         public MethodInfo MethodInfo { get; }
 
         /// <summary>
-        /// 设置元数据
+        /// 可用设置项的元数据，指示了设置项标题、描述与限制等
         /// </summary>
         public SettingsAttribute AttributeData { get; }
 
         /// <summary>
-        /// 设置项标题
+        /// 设置项的标题
         /// </summary>
         public string Title => AttributeData.Title;
 
         /// <summary>
-        /// 设置项描述
+        /// 设置项的描述
         /// </summary>
         public string Description => AttributeData.Description;
 
         /// <summary>
-        /// 设置项类型
+        /// 设置项的类型
         /// </summary>
         public SettingTypes Type { get; }
 
         /// <summary>
-        /// 设置项值
+        /// 设置项的值设置，通过反射进行获取和修改
         /// </summary>
         public object Value
         {
-            get => Infomation.GetValue(Core.App.Service);
-            set => Infomation.SetValue(Core.App.Service, value);
+            get => Information.GetValue(Core.App.Service);
+            set => Information.SetValue(Core.App.Service, value);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace HandSchool.Models
         /// <param name="pinfo">属性的信息。</param>
         public SettingWrapper(PropertyInfo pinfo)
         {
-            Infomation = pinfo;
+            Information = pinfo;
             AttributeData = pinfo.GetSettingsAttribute();
 
             if (AttributeData.RangeDown == -233)
@@ -112,7 +112,7 @@ namespace HandSchool.Models
             else if (pinfo.PropertyType == typeof(bool))
                 Type = SettingTypes.Boolean;
             else
-                Type = SettingTypes.Unkown;
+                Type = SettingTypes.Unknown;
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace HandSchool.Models
         /// <param name="mInfo">方法的信息。</param>
         public SettingWrapper(MethodInfo mInfo)
         {
-            Infomation = typeof(SettingWrapper).GetProperty(nameof(ActionPlaceHolder));
+            Information = typeof(SettingWrapper).GetProperty(nameof(ActionPlaceHolder));
             MethodInfo = mInfo;
             AttributeData = mInfo.GetSettingsAttribute();
             Type = SettingTypes.Action;

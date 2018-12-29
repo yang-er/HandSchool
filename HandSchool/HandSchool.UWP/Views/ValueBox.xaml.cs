@@ -20,7 +20,7 @@ namespace HandSchool.Views
         public static readonly DependencyProperty StringValueProperty =
             DependencyProperty.Register(nameof(StringValue), typeof(string), typeof(ValueBox), new PropertyMetadata("", (d, e) => d.SetValue(ValueProperty, e.NewValue)));
         public static readonly DependencyProperty TypeProperty = 
-            DependencyProperty.Register(nameof(Type), typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unkown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
+            DependencyProperty.Register(nameof(Type), typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unknown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
         public static readonly DependencyProperty AttributeProperty = 
             DependencyProperty.Register(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueBox), new PropertyMetadata(default(SettingsAttribute)));
         public static readonly DependencyProperty WrapperProperty =

@@ -99,13 +99,13 @@ namespace HandSchool.JLU
                         // Get User Info
                         string resp = await UIMS.WebClient.PostAsync("action/getCurrentUserInfo.do", "{}");
                         if (resp.StartsWith("<!")) return false;
-                        Core.WriteConfig(config_usercache, UIMS.AutoLogin ? resp : "");
+                        Core.WriteConfig(configUserCache, UIMS.AutoLogin ? resp : "");
                         ParseLoginInfo(resp);
 
                         // Get term info
                         resp = await UIMS.WebClient.PostAsync("service/res.do", "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":" + UIMS.AttachInfomation["term"] + "}}");
                         if (resp.StartsWith("<!")) return false;
-                        Core.WriteConfig(config_teachterm, UIMS.AutoLogin ? resp : "");
+                        Core.WriteConfig(configTeachTerm, UIMS.AutoLogin ? resp : "");
                         ParseTermInfo(resp);
                     }
                     else
@@ -138,8 +138,8 @@ namespace HandSchool.JLU
             {
                 try
                 {
-                    ParseLoginInfo(Core.ReadConfig(config_usercache));
-                    ParseTermInfo(Core.ReadConfig(config_teachterm));
+                    ParseLoginInfo(Core.ReadConfig(configUserCache));
+                    ParseTermInfo(Core.ReadConfig(configTeachTerm));
                 }
                 catch (JsonException)
                 {
@@ -148,8 +148,8 @@ namespace HandSchool.JLU
                 }
                 catch (NullReferenceException)
                 {
-                    Core.WriteConfig(config_usercache, "");
-                    Core.WriteConfig(config_teachterm, "");
+                    Core.WriteConfig(configUserCache, "");
+                    Core.WriteConfig(configTeachTerm, "");
                     UIMS.AutoLogin = false;
                     UIMS.NeedLogin = true;
                 }

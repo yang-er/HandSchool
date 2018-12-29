@@ -3,19 +3,24 @@ using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Threading.Tasks;
+using HandSchool.JLU;
+using HandSchool.JLU.Services;
 
+[assembly: RegisterService(typeof(UIMS))]
 namespace HandSchool.JLU
 {
+    [UseStorage("jlu", configUsername, configPassword, configUserCache, configTeachTerm)]
     partial class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
-        internal const string config_file = "jlu.config.json";
-        internal const string config_username = "jlu.uims.username.txt";
-        internal const string config_password = "jlu.uims.password.txt";
-        internal const string config_usercache = "jlu.user.json";
-        internal const string config_teachterm = "jlu.teachingterm.json";
+        internal const string configUsername = "jlu.uims.username.txt";
+        internal const string configPassword = "jlu.uims.password.txt";
+        internal const string configUserCache = "jlu.user.json";
+        internal const string configTeachTerm = "jlu.teachingterm.json";
+
         private ISideSchoolStrategy UsingStrategy { get; set; }
 
         #region Login Information
@@ -111,27 +116,24 @@ namespace HandSchool.JLU
         /// <summary>
         /// 建立访问UIMS的对象。
         /// </summary>
+        /// <param name="config">设置属性。</param>
         /// <param name="injectedHandler">事件处理传递方法。</param>
-        public UIMS(EventHandler<LoginStateEventArgs> injectedHandler = null)
+        public UIMS(Loader.SettingsJSON config, EventHandler<LoginStateEventArgs> injectedHandler = null)
         {
             if (injectedHandler != null)
             {
                 LoginStateChanged += injectedHandler;
             }
 
-            var lp = Core.ReadConfig(config_file);
-            SettingsJSON config;
-            if (lp != "") config = lp.ParseJSON<SettingsJSON>();
-            else config = new SettingsJSON();
             ProxyServer = config.ProxyServer;
             UseHttps = config.UseHttps;
             OutsideSchool = config.OutsideSchool;
             
             IsLogin = false;
             NeedLogin = false;
-            Username = Core.ReadConfig(config_username);
+            Username = Core.ReadConfig(configUsername);
             AttachInfomation = new NameValueCollection();
-            if (Username != "") Password = Core.ReadConfig(config_password);
+            if (Username != "") Password = Core.ReadConfig(configPassword);
             if (Password == "") SavePassword = false;
 
             if (OutsideSchool) UsingStrategy = new OutsideSchoolStrategy(this);
@@ -148,8 +150,8 @@ namespace HandSchool.JLU
             }
             else
             {
-                Core.WriteConfig(config_username, Username);
-                Core.WriteConfig(config_password, SavePassword ? Password : "");
+                Core.WriteConfig(configUsername, Username);
+                Core.WriteConfig(configPassword, SavePassword ? Password : "");
             }
 
             return await UsingStrategy.LoginSide();
@@ -212,54 +214,33 @@ namespace HandSchool.JLU
             }
         }
 
-        public void SaveSettings()
-        {
-            var save = new SettingsJSON
-            {
-                ProxyServer = proxy_server,
-                UseHttps = use_https,
-                OutsideSchool = outside_school
-            }.Serialize();
-
-            Core.WriteConfig(config_file, save);
-        }
+        public void SaveSettings() => Loader.SaveSettings(this);
 
         [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
         public async void ResetSettings(IViewResponse resp)
         {
             if (!await resp.ShowAskMessage("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
-            Core.WriteConfig(config_username, "");
-            Core.WriteConfig(config_password, "");
-            Core.WriteConfig(config_usercache, "");
-            Core.WriteConfig(config_username, "");
-            Core.WriteConfig(config_file, "");
-            Core.WriteConfig(OA.config_oa, "");
-            Core.WriteConfig(OA.config_oa_time, "");
-            Core.WriteConfig(Schedule.config_kcb, "");
-            Core.WriteConfig(Schedule.config_kcb_orig, "");
-            Core.WriteConfig(SchoolCard.config_username, "");
-            Core.WriteConfig(SchoolCard.config_password, "");
-            Core.WriteConfig(SchoolCard.config_school, "");
-            Core.WriteConfig(MessageEntrance.config_msgbox, "");
-            Core.WriteConfig(GradeEntrance.config_gpa, "");
-            Core.WriteConfig(GradeEntrance.config_grade, "");
-            Core.WriteConfig(InfoQuery.LibraryRent.conf_username, "");
-            Core.WriteConfig(InfoQuery.LibraryRent.conf_password, "");
-            Core.WriteConfig("hs.school.bin", "");
+
+            foreach (var fileName in Loader.RegisteredFiles)
+                Core.RemoveConfig(fileName);
+            Core.RemoveConfig("hs.school.bin");
+
             await resp.ShowMessage("清除数据", "重置应用成功！重启应用后生效。");
         }
 
-        public async Task<bool> PrepareLogin()
+        public Task<bool> PrepareLogin()
         {
-            await Task.Run(() => { });
-            return true;
+            return Task.FromResult(true);
         }
 
-        class SettingsJSON
+        interface ISideSchoolStrategy
         {
-            public string ProxyServer { get; set; } = "10.60.65.8"; // uims.jlu.edu.cn
-            public bool UseHttps { get; set; } = true;
-            public bool OutsideSchool { get; set; } = false;
+            string TimeoutUrl { get; }
+            Task<bool> LoginSide();
+            void OnLoad();
+            string FormatArguments(string input);
+            string WelcomeMessage { get; }
+            string CurrentMessage { get; }
         }
     }
 }

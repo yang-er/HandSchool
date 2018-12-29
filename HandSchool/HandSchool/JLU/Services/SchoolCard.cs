@@ -1,9 +1,10 @@
 ﻿using HandSchool.Internal;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
+using HandSchool.JLU.Services;
 using HandSchool.JLU.ViewModels;
 using HandSchool.Models;
-using HandSchool.ViewModels;
+using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Specialized;
@@ -12,39 +13,46 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace HandSchool.JLU
+[assembly: RegisterService(typeof(SchoolCard))]
+namespace HandSchool.JLU.Services
 {
-    class SchoolCard : NotifyPropertyChanged, ILoginField
+    [Entrance("校园卡", "提供校园卡的查询、充值、挂失等功能。")]
+    [UseStorage("jlu", configUsername, configPassword)]
+    internal sealed class SchoolCard : NotifyPropertyChanged, ILoginField
     {
-        internal const string config_username = "jlu.schoolcard.username.txt";
-        internal const string config_password = "jlu.schoolcard.password.txt";
-        internal const string config_school = "jlu.schoolcard.detail.json";
+        const string configUsername = "jlu.schoolcard.username.txt";
+        const string configPassword = "jlu.schoolcard.password.txt";
+
+        const string baseUrl = "http://ykt.jlu.edu.cn:8070";
+
+        const string parsePattern = @"(?<=<div class=\""tableDiv\""><table class=\""" +
+            @"mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)";
 
         #region Login Fields
 
-        bool _islogin = false;
-        bool _autologin = false;
-        bool _savepassword = false;
+        bool is_login = false;
+        bool auto_login = false;
+        bool save_password = false;
 
         public string Username { get; set; }
         public string Password { get; set; }
-        public string InnerError { get; private set; }
         public string CaptchaCode { get; set; }
         public byte[] CaptchaSource { get; set; }
 
         public string Tips => "校园卡查询密码默认为身份证最后六位数字。";
         public string FormName => "校园卡服务中心";
-        public bool NeedLogin => !_islogin;
-        public bool IsLogin { get => _islogin; private set => SetProperty(ref _islogin, value); }
-        public bool AutoLogin { get => _autologin; set => SetProperty(ref _autologin, value); }
-        public bool SavePassword { get => _savepassword; set => SetProperty(ref _savepassword, value); }
+        public bool NeedLogin => !is_login;
+        public bool IsLogin { get => is_login; private set => SetProperty(ref is_login, value); }
+        public bool AutoLogin { get => auto_login; set => SetProperty(ref auto_login, value); }
+        public bool SavePassword { get => save_password; set => SetProperty(ref save_password, value); }
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
         public async Task<bool> PrepareLogin()
         {
             try
             {
-                var prepare = await WebClient.GetAsync("", "*/*");
+                WebClient = new AwaredWebClient(baseUrl, Encoding.UTF8);
+                await WebClient.GetAsync("", "*/*");
                 var login_str = await WebClient.GetAsync("Account/Login", "*/*");
                 var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
                 CaptchaSource = await WebClient.GetAsync(captcha_url.Groups[1].Value, "image/jif", "jif");
@@ -64,8 +72,8 @@ namespace HandSchool.JLU
             }
             else
             {
-                Core.WriteConfig(config_username, Username);
-                Core.WriteConfig(config_password, SavePassword ? Password : "");
+                Core.WriteConfig(configUsername, Username);
+                Core.WriteConfig(configPassword, SavePassword ? Password : "");
             }
 
             var post_value = new NameValueCollection
@@ -115,44 +123,39 @@ namespace HandSchool.JLU
             LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
             return true;
         }
-
-        public async Task<bool> RequestLogin()
-        {
-            if (AutoLogin && !IsLogin) await Login();
-            if (!IsLogin) await LoginViewModel.RequestAsync(this);
-            return IsLogin;
-        }
-
-        #endregion
         
         public SchoolCard()
         {
             IsLogin = false;
-            Username = Core.ReadConfig(config_username);
-            if (Username != "") Password = Core.ReadConfig(config_password);
+            Username = Core.ReadConfig(configUsername);
+            if (Username != "") Password = Core.ReadConfig(configPassword);
             SavePassword = Password != "";
+        }
+
+        #endregion
+
+        static string RegularizeHtml(string input)
+        {
+            return input.Replace("    ", "").Replace("\r", "").Replace("\n", "");
         }
 
         public async Task BasicInfoAsync()
         {
-            LastReport = await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html");
-            YktViewModel.Instance.BasicInfo.ParseFromHtml(LastReport);
+            var resultBasicInfo = await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html");
+            YktViewModel.Instance.BasicInfo.ParseFromHtml(resultBasicInfo);
         }
 
         /// <exception cref="WebException" />
         /// <exception cref="ContentAcceptException" />
         public async Task GetPickCardInfo()
         {
-            if (!await RequestLogin()) return;
+            if (!await this.RequestLogin()) return;
             
-            string Html = await WebClient.GetAsync("InfoPub/CardNotice/NFixCardList", "*/*");
-            Html = Html.Replace("    ", "")
-                        .Replace("\r", "")
-                        .Replace("\n", "");
-            var PrasedHtml = Regex.Match(Html, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)");
-            var enumer = PickCardInfo.EnumerateFromHtml("<Root>" + "<div>" + "<table>" + PrasedHtml.Value + "</table>" + "</div>" + "</Root>");
+            var cardList = await WebClient.GetAsync("InfoPub/CardNotice/NFixCardList", "*/*");
+            var parsedHtml = Regex.Match(RegularizeHtml(cardList), parsePattern).Value;
+            var cardEnumer = PickCardInfo.EnumerateFromHtml("<Root><div><table>" + parsedHtml + "</table></div></Root>");
             YktViewModel.Instance.PickCardInfo.Clear();
-            foreach (var item in enumer)
+            foreach (var item in cardEnumer)
                 YktViewModel.Instance.PickCardInfo.Add(item);
         }
 
@@ -163,7 +166,7 @@ namespace HandSchool.JLU
         /// <exception cref="ContentAcceptException" />
         public async Task<bool> ChargeMoney(string money)
         {
-            if (!await RequestLogin()) return false;
+            if (!await this.RequestLogin()) return false;
             var true_money = double.Parse(money);
             if (true_money > 200 || true_money <= 0)
                 throw new OverflowException();
@@ -176,55 +179,41 @@ namespace HandSchool.JLU
                 { "Password", Password.ToBase64() }
             };
 
-            WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/SynCard/Manage/Transfer";
-            LastReport = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
-            var Result = LastReport.ParseJSON<YktResult>();
+            WebClient.Headers["Referer"] = baseUrl + "/SynCard/Manage/Transfer";
+            var transferReport = await WebClient.PostAsync("SynCard/Manage/TransferPost", post_value);
+            var result = transferReport.ParseJSON<YktResult>();
 
-            if (!Result.success)
-            {
-                LastReport = Result.msg;
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            LastReport = result.msg;
+            return result.success;
         }
         
         /// <exception cref="WebException" />
         /// <exception cref="ContentAcceptException" />
         public async Task QueryCost()
         {
-            if (!await RequestLogin()) return;
-            string ResultHtml = await WebClient.GetAsync("SynCard/Manage/OneWeekTrjn");
-            ResultHtml = ResultHtml.Replace("    ", "")
-                                   .Replace("\r", "")
-                                   .Replace("\n", "");
+            if (!await this.RequestLogin()) return;
 
-            string ToPrase = Regex.Match(ResultHtml, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)").Value;
+            var resultWeek = await WebClient.GetAsync("SynCard/Manage/OneWeekTrjn");
+            var parseWeek = Regex.Match(RegularizeHtml(resultWeek), parsePattern).Value;
+            var resultDay = await WebClient.GetAsync("SynCard/Manage/CurrentDayTrjn");
+            var parseToday = Regex.Match(RegularizeHtml(resultDay), parsePattern).Value;
 
-            string ResultHtml2 = await WebClient.GetAsync("SynCard/Manage/CurrentDayTrjn");
-            ResultHtml2 = ResultHtml2.Replace("    ", "")
-                                     .Replace("\r", "")
-                                     .Replace("\n", "");
-
-            string ToPrase2 = Regex.Match(ResultHtml2, @"(?<=<div class=\""tableDiv\""><table class=\""mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)").Value;
-            var enumer = RecordInfo.EnumerateFromHtml("<Root><div><table>" + ToPrase2 + ToPrase + "</table></div></Root>");
+            var enumHtml = RecordInfo.EnumerateFromHtml("<Root><div><table>" + parseToday + parseWeek + "</table></div></Root>");
 
             YktViewModel.Instance.RecordInfo.Clear();
 
-            foreach (var i in enumer)
-            {
-                YktViewModel.Instance.RecordInfo.Add(i);
-            }
+            foreach (var item in enumHtml)
+                YktViewModel.Instance.RecordInfo.Add(item);
         }
 
+        /// <exception cref="WebException" />
+        /// <exception cref="ContentAcceptException" />
         public async Task<bool> SetLost()
         {
-            if (!await RequestLogin()) return false;
+            if (!await this.RequestLogin()) return false;
 
             // First, we should get our card number.
-            var value_got = await WebClient.GetAsync("http://ykt.jlu.edu.cn:8070/SynCard/Manage/CardLost", "*/*");
+            var value_got = await WebClient.GetAsync("SynCard/Manage/CardLost", "*/*");
             var card_no = Regex.Match(value_got, @"name=""selectCardnos""><option value=""(\S+)"">").Groups[1].Value;
 
             // Then, go ahead.
@@ -235,24 +224,19 @@ namespace HandSchool.JLU
                 { "selectCardnos", card_no },
             };
 
-            WebClient.Headers["Referer"] = "http://ykt.jlu.edu.cn:8070/SynCard/Manage/CardLost";
-            LastReport = await WebClient.PostAsync("SynCard/Manage/CardLost", post_value);
-            var Result = LastReport.ParseJSON<YktResult>();
+            WebClient.Headers["Referer"] = baseUrl + "/SynCard/Manage/CardLost";
 
-            if (!Result.success)
-            {
-                LastReport = Result.msg;
-                if (LastReport == "Value cannot be null.\r\nParameter name: key") return true;
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            var cardLost = await WebClient.PostAsync("SynCard/Manage/CardLost", post_value);
+            var Result = cardLost.ParseJSON<YktResult>();
+            LastReport = Result.msg;
+            return Result.success || LastReport == "Value cannot be null.\r\nParameter name: key";
         }
 
-        public AwaredWebClient WebClient { get; } = new AwaredWebClient("http://ykt.jlu.edu.cn:8070", Encoding.UTF8);
+        public AwaredWebClient WebClient { get; private set; }
 
+        /// <summary>
+        /// 上一个返回的错误
+        /// </summary>
         public string LastReport { get; private set; }
     }
 }
