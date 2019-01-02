@@ -9,6 +9,7 @@
     <Import_RootNamespace>HandSchool</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\ExportSchoolAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreDebug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreLoader.cs" />
@@ -17,8 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\InsideGradeItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\MessageItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JLU\Models\OutsideGradeItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\RegisteredServiceAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\UseStorageAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\RegisteredServiceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\UseStorageAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject.cs" />
@@ -41,10 +42,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\EntranceAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\SettingsAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\ToFixAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\HotfixAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\EntranceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\SettingsAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\ToFixAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\HotfixAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FeedEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GradeEntrance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InfoEntrance.cs" />

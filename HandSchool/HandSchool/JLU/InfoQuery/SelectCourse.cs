@@ -1,11 +1,12 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
+using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("网上选课", "对您备选的选课列表进行操作。", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "网上选课", "对您备选的选课列表进行操作。", EntranceType.InfoEntrance)]
     [Hotfix("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool/JLU/InfoQuery/selectcourse.js.ver", "jlu_selectcourse.js")]
     class SelectCourse : HotfixController
     {

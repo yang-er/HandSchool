@@ -66,23 +66,6 @@ namespace HandSchool.Internal.HtmlObject
     }
         
 
-    /// <summary>
-    /// 表示数据表
-    /// </summary>
-    public class Table : IHtmlObject
-    {
-        public string Class { get; set; } = "table table-sm";
-        public List<string> Column { get; set; } = new List<string>();
-        public string Id => "";
-        public string BodyId { get; set; } = Guid.NewGuid().ToString("N").Substring(0, 6);
-
-        public void ToHtml(StringBuilder sb, bool full = true)
-        {
-            sb.Append($"<table class=\"{Class}\"><thead><tr>");
-            Column.ForEach((s) => sb.Append($"<th scope=\"col\">{s}</th>"));
-            sb.Append($"</tr></thead><tbody id=\"{BodyId}\"></tbody></table>");
-        }
-    }
         
 
     /// <summary>

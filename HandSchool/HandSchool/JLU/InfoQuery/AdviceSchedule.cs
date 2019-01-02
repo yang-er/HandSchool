@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("学生班级推荐课表", "可以来看看下学期的课表啦~", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "学生班级推荐课表", "可以来看看下学期的课表啦~", EntranceType.InfoEntrance)]
     public class AdviceSchedule : BaseController, IInfoEntrance
     {
         private int teachTermId = -1;

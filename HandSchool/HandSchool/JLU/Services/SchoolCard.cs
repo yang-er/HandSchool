@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 [assembly: RegisterService(typeof(SchoolCard))]
 namespace HandSchool.JLU.Services
 {
-    [Entrance("校园卡", "提供校园卡的查询、充值、挂失等功能。")]
+    [Entrance("jlu", "校园一卡通", "提供校园卡的查询、充值、挂失等功能。")]
     [UseStorage("jlu", configUsername, configPassword)]
     internal sealed class SchoolCard : NotifyPropertyChanged, ILoginField
     {

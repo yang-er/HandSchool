@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("一键教学评价", "一键教学评价，省去麻烦事。", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "一键教学评价", "一键教学评价，省去麻烦事。", EntranceType.InfoEntrance)]
     [Hotfix("https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool/JLU/InfoQuery/teacheval.js.ver", "jlu_teacheval.js")]
     class TeachEvaluate : HotfixController
     {

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("图书借阅管理", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
+    [Entrance("jlu", "图书借阅管理", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
     class LibraryRent : BaseController, IUrlEntrance
     {
         const string Domain = "mc.m.5read.com";

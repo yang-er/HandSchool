@@ -13,8 +13,9 @@ using HandSchool.JLU.Services;
 [assembly: RegisterService(typeof(UIMS))]
 namespace HandSchool.JLU
 {
+    [Entrance("jlu", "吉林大学", "提供了与UIMS交互的接口。", EntranceType.SchoolEntrance)]
     [UseStorage("jlu", configUsername, configPassword, configUserCache, configTeachTerm)]
-    partial class UIMS : NotifyPropertyChanged, ISchoolSystem
+    sealed partial class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
         internal const string configUsername = "jlu.uims.username.txt";
         internal const string configPassword = "jlu.uims.password.txt";

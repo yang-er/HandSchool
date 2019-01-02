@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using HandSchool.Blank;
 using Xamarin.Forms;
 
 namespace HandSchool.Blank
@@ -13,8 +14,8 @@ namespace HandSchool.Blank
     /// <summary>
     /// 默认的空白大学，提供了一些基本操作。
     /// </summary>
-    [Entrance("任意大学", type: EntranceType.SchoolEntrance)]
-    class BlankSchool : NotifyPropertyChanged, ISchoolSystem
+    [Entrance("blank", "任意大学", "提供了基本学校操作。", EntranceType.SchoolEntrance)]
+    public sealed class BlankSchool : NotifyPropertyChanged, ISchoolSystem
     {
         const string config_file = "blank.config.json";
 

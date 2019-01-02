@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 [assembly: RegisterService(typeof(MessageEntrance))]
 namespace HandSchool.JLU.Services
 {
-    [Entrance("系统收件箱", "提供了UIMS的收件箱功能，可以查看成绩发布通知等。")]
+    [Entrance("jlu", "系统收件箱", "提供了UIMS的收件箱功能，可以查看成绩发布通知等。")]
     [UseStorage("jlu", configMsgBox)]
     internal sealed class MessageEntrance : IMessageEntrance
     {

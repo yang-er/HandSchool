@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("学院介绍查询", "查询各个学院的详细信息。", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "学院介绍查询", "查询各个学院的详细信息。", EntranceType.InfoEntrance)]
     class CollegeIntroduce : BaseController, IInfoEntrance
     {
         private int schId = 101;

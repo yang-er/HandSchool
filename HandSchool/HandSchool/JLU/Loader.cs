@@ -11,7 +11,8 @@ using HandSchool.JLU.Services;
 using HandSchool.Internal;
 using HandSchool.JLU;
 
-[assembly:RegisterService(typeof(Loader))]
+[assembly: RegisterService(typeof(Loader))]
+[assembly: ExportSchool(typeof(Loader))]
 namespace HandSchool.JLU
 {
     [UseStorage("jlu", configFile)]

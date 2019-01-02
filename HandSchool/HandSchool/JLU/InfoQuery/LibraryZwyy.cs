@@ -2,10 +2,12 @@
 using HandSchool.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HandSchool.Internal;
+using HandSchool.Models;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("图书馆座位预约", "美好的一天从自习开始~", EntranceType.UrlEntrance)]
+    [Entrance("~jlu", "图书馆座位预约", "美好的一天从自习开始~", EntranceType.UrlEntrance)]
     class LibraryZwyy : BaseController, IUrlEntrance
     {
         const string LibZwyyJluEduCn = "http://libzwyy.jlu.edu.cn";

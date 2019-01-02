@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using HandSchool.Blank;
+using HandSchool.Internal;
 using HandSchool.Models;
 using HandSchool.Services;
 
+[assembly: ExportSchool(typeof(Loader))]
 namespace HandSchool.Blank
 {
     class Loader : ISchoolWrapper

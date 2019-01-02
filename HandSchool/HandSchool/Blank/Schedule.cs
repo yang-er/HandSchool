@@ -1,10 +1,11 @@
 ﻿using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Threading.Tasks;
+using HandSchool.Internal;
 
 namespace HandSchool.Blank
 {
-    [Entrance("课程表")]
+    [Entrance("blank", "课程表")]
     class Schedule : IScheduleEntrance
     {
         public int ClassNext => 0;

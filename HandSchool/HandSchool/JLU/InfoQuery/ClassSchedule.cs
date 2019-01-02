@@ -13,7 +13,7 @@ using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("学院开课情况查询", "看看可以去蹭哪些课吧~", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "学院开课情况查询", "看看可以去蹭哪些课吧~", EntranceType.InfoEntrance)]
     class ClassSchedule : BaseController, IInfoEntrance
     {
         public Bootstrap HtmlDocument { get; set; }

@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("查空教室", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "查空教室", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
     class EmptyRoom : BaseController, IInfoEntrance
     {
         public Bootstrap HtmlDocument { get; set; }

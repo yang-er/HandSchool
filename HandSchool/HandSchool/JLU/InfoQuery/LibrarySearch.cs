@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("图书馆藏查询", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
+    [Entrance("jlu", "图书馆藏查询", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
     class LibrarySearch : BaseController, IUrlEntrance
     {
         const string OriginalUrl = "https://lib.jlu.xylab.fun/sms/opac/search/showiphoneSearch.action";

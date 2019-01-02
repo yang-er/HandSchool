@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 [assembly: RegisterService(typeof(Schedule))]
 namespace HandSchool.JLU.Services
 {
-    [Entrance("课程表", "提供解析UIMS课程表的功能。")]
+    [Entrance("jlu", "课程表", "提供解析UIMS课程表的功能。")]
     [UseStorage("jlu", configKcb, configKcbOrig)]
     class Schedule : IScheduleEntrance
     {

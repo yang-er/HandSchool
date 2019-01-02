@@ -91,7 +91,8 @@ namespace HandSchool.Internal
         /// <returns>本地储存的数据。</returns>
         public string ReadContent()
         {
-            return Core.Configure.Read(LocalStorage);
+            var ans = Core.Configure.Read(LocalStorage);
+            return ans == "" ? null : ans;
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ using System.Xml;
 [assembly: RegisterService(typeof(OA))]
 namespace HandSchool.JLU.Services
 {
-    [Entrance("网上教务", "提供了吉林大学电子校务平台上的所有信息。")]
+    [Entrance("jlu", "网上教务", "提供了吉林大学电子校务平台上的所有信息。")]
     [UseStorage("jlu", configOa, configOaTime)]
     internal sealed class OA : IFeedEntrance
     {

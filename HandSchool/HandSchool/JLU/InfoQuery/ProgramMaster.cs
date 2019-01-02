@@ -14,7 +14,7 @@ using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {
-    [Entrance("专业培养计划", "看看我们要学什么，提前预习偷偷补课。", EntranceType.InfoEntrance)]
+    [Entrance("jlu", "专业培养计划", "看看我们要学什么，提前预习偷偷补课。", EntranceType.InfoEntrance)]
     class ProgramMaster : BaseController, IInfoEntrance
     {
         public Bootstrap HtmlDocument { get; set; }

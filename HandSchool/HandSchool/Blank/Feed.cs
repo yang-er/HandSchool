@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Blank
 {
-    [Entrance("RSS阅读器")]
+    [Entrance("blank", "RSS阅读器")]
     class FeedEntrance : IFeedEntrance
     {
         public string ScriptFileUri { get; }

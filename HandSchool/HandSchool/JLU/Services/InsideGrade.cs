@@ -17,7 +17,7 @@ namespace HandSchool.JLU.Services
     /// 吉林大学的内网成绩查询服务。
     /// </summary>
     /// <inheritdoc cref="IGradeEntrance" />
-    [Entrance("成绩查询", "提供内网的成绩查询和查看成绩分布功能。")]
+    [Entrance("jlu", "成绩查询", "提供内网的成绩查询和查看成绩分布功能。")]
     [UseStorage("jlu", configGpa, configGrade)]
     internal sealed class InsideGradeEntrance : IGradeEntrance
     {
