@@ -22,15 +22,12 @@ namespace HandSchool.Views
         public MainPage()
         {
             InitializeComponent();
-            Core.Log("[ISSUE] ##1");
             NavMenuItems = PlatformImpl.Instance.NavigationItems;
             NavMenuItems.ForEach((i) => NavigationView.MenuItems.Add(i.Value));
             new NavigateImpl(ContentFrame);
-            Core.Log("[ISSUE] ##2");
             ContentFrame.Navigate(typeof(IndexPage));
             IndexViewModel.Instance.RefreshCommand.Execute(null);
             Window.Current.SetTitleBar(titleBarBack);
-            Core.Log("[ISSUE] ##3");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

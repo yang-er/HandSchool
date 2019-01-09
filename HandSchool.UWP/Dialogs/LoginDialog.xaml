@@ -8,9 +8,10 @@
     mc:Ignorable="d"
     Title="{Binding Title, FallbackValue=登录}"
     PrimaryButtonText="登录"
-    CloseButtonText="取消"
+    SecondaryButtonText="取消"
     Closing="ContentDialog_Closing"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    IsSecondaryButtonEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}"
     IsPrimaryButtonEnabled="{x:Bind ViewModel.IsBusy, Converter={StaticResource cvtBool}, Mode=OneWay}">
     <ContentDialog.Resources>
         <local:BoolReverseConverter x:Key="cvtBool" />

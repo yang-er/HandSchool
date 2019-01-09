@@ -1,13 +1,10 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
 
 namespace HandSchool.Views
 {
@@ -30,7 +27,7 @@ namespace HandSchool.Views
         
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
-            if (args.Result != ContentDialogResult.None)
+            if (args.Result != ContentDialogResult.Secondary)
                 args.Cancel = !LoginViewModel.Form.IsLogin;
         }
         

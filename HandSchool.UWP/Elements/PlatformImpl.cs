@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using Xamarin.Forms;
 
 namespace HandSchool.Internal
 {
@@ -63,7 +62,6 @@ namespace HandSchool.Internal
         public static void Register()
         {
             Debug.Assert(Instance is null);
-            Core.Log("Hello, UWP");
             new PlatformImpl();
         }
 
@@ -112,7 +110,6 @@ namespace HandSchool.Internal
         public override void BeginMenu()
         {
             NavigationItems = new List<NavigationMenuItemUWP>();
-            Core.Log("Menu started to load.");
         }
 
         /// <summary>
@@ -131,9 +128,6 @@ namespace HandSchool.Internal
         /// <summary>
         /// 完成菜单的添加。
         /// </summary>
-        public override void FinalizeMenu()
-        {
-            Core.Log("Menu added successfully. No more add.");
-        }
+        public override void FinalizeMenu() { }
     }
 }
