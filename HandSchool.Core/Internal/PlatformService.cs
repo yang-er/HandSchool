@@ -23,11 +23,17 @@ namespace HandSchool.Internal
         public abstract ILoginPage CreateLoginPage(LoginViewModel viewModel);
 
         /// <summary>
+        /// 创建一个空白视图页面。
+        /// </summary>
+        /// <returns>视图页面的内容</returns>
+        public abstract IViewPage CreatePage();
+
+        /// <summary>
         /// 创建一个添加课程表的页面。
         /// </summary>
         /// <param name="item">课程表项</param>
         /// <param name="navigationContext">导航上下文</param>
-        public abstract Task<bool> ShowNewCurriculumPage(CurriculumItem item, INavigation navigationContext);
+        public abstract Task<bool> ShowNewCurriculumPage(CurriculumItem item, INavigate navigationContext);
 
         /// <summary>
         /// 开始菜单的添加，进行简单的初始化。
@@ -43,6 +49,23 @@ namespace HandSchool.Internal
         /// <param name="uwp">UWP 的图标。</param>
         /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
         public abstract void AddMenuEntry(string title, string dest, string category, string uwp, string ios);
+
+        /// <summary>
+        /// 打开网址页面。
+        /// </summary>
+        /// <param name="url">统一资源标识符</param>
+        public void OpenUrl(string url)
+        {
+            EnsureOnMainThread(() =>
+            {
+                Device.OpenUri(new Uri(url));
+            });
+        }
+
+        /// <summary>
+        /// 设备的种类
+        /// </summary>
+        public virtual TargetIdiom Idiom => Device.Idiom;
 
         /// <summary>
         /// 完成菜单的添加。
@@ -94,7 +117,7 @@ namespace HandSchool.Internal
         public void EnsureOnMainThread(Action action)
         {
             if (Thread.CurrentThread.ManagedThreadId == 1) action();
-            Device.BeginInvokeOnMainThread(action);
+            else Device.BeginInvokeOnMainThread(action);
         }
 
         /// <summary>

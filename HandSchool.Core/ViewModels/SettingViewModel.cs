@@ -55,7 +55,7 @@ namespace HandSchool.ViewModels
             SaveConfigures = new Command(async () =>
             {
                 Core.App.Loader.SaveSettings(Core.App.Service);
-                await ShowMessage("设置中心", "保存成功！");
+                await RequestMessageAsync("设置中心", "保存成功！", "好的");
             });
         }
     }

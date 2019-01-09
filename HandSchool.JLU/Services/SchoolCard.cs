@@ -108,8 +108,6 @@ namespace HandSchool.JLU.Services
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, result.msg));
                     return false;
                 }
-
-                await BasicInfoAsync();
             }
             catch (WebException ex)
             {
@@ -143,10 +141,13 @@ namespace HandSchool.JLU.Services
             return input.Replace("    ", "").Replace("\r", "").Replace("\n", "");
         }
 
+        /// <exception cref="WebException" />
+        /// <exception cref="ContentAcceptException" />
         public async Task BasicInfoAsync()
         {
+            if (!await this.RequestLogin()) return;
             var resultBasicInfo = await WebClient.GetAsync("SynCard/Manage/BasicInfo", "text/html");
-            YktViewModel.Instance.BasicInfo.ParseFromHtml(resultBasicInfo);
+            YktViewModel.Instance.ParseBasicInfo(resultBasicInfo);
         }
 
         /// <exception cref="WebException" />
@@ -170,7 +171,8 @@ namespace HandSchool.JLU.Services
         /// <exception cref="ContentAcceptException" />
         public async Task<bool> ChargeMoney(string money)
         {
-            if (!await this.RequestLogin()) return false;
+            if (!await this.RequestLogin())
+                throw new ContentAcceptException("", "用户取消了转账。", "");
             var true_money = double.Parse(money);
             if (true_money > 200 || true_money <= 0)
                 throw new OverflowException();
@@ -214,7 +216,8 @@ namespace HandSchool.JLU.Services
         /// <exception cref="ContentAcceptException" />
         public async Task<bool> SetLost()
         {
-            if (!await this.RequestLogin()) return false;
+            if (!await this.RequestLogin())
+                throw new ContentAcceptException("", "用户取消了挂失。", "");
 
             // First, we should get our card number.
             var value_got = await WebClient.GetAsync("SynCard/Manage/CardLost", "*/*");

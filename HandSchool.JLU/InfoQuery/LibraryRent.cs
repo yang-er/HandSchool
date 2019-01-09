@@ -19,6 +19,7 @@ namespace HandSchool.JLU.InfoQuery
     /// <inheritdoc cref="BaseController" />
     /// <inheritdoc cref="IUrlEntrance" />
     [UseStorage("JLU", configUsername, configPassword)]
+    [Entrance("JLU", "图书借阅管理", "来看看现在正在借阅中的书吧~", EntranceType.UrlEntrance)]
     internal class LibraryRent : BaseController, IUrlEntrance
     {
         const string Domain = "mc.m.5read.com";

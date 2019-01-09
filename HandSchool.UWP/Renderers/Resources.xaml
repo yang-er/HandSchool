@@ -1,0 +1,33 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HandSchool.UWP.Renderers">
+
+    <DataTemplate x:Key="XamarinTextCell">
+        <StackPanel Margin="8,16,8,16">
+            <TextBlock Text="{Binding Text}"
+                       FontWeight="SemiBold"
+                       TextWrapping="Wrap"
+                       FontSize="16"
+				       Visibility="{Binding Text,RelativeSource={RelativeSource Self}, Converter={StaticResource CollapseWhenEmpty}}"
+				       Foreground="{Binding TextColor, Converter={StaticResource ColorConverter}, ConverterParameter=DefaultTextForegroundThemeBrush}" />
+            <TextBlock Text="{Binding Detail}"
+                       Margin="0,4,0,0"
+                       FontSize="13"
+				       Visibility="{Binding Text,RelativeSource={RelativeSource Self}, Converter={StaticResource CollapseWhenEmpty}}"
+				       Foreground="{Binding DetailColor, Converter={StaticResource ColorConverter}, ConverterParameter=DefaultTextForegroundThemeBrush}"
+				       x:Name="detail"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="XamarinEntryCell">
+        <local:EntryCellTextBox IsEnabled="{Binding IsEnabled}" IsPassword="{Binding IsPassword}" Header="{Binding}" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="{Binding HorizontalTextAlignment,Converter={StaticResource HorizontalTextAlignmentConverter}}" PlaceholderText="{Binding Placeholder}"  InputScope="{Binding Keyboard,Converter={StaticResource KeyboardConverter}}" HorizontalAlignment="Stretch">
+            <local:EntryCellTextBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Label}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{Binding LabelColor, Converter={StaticResource ColorConverter}, ConverterParameter=DefaultTextForegroundThemeBrush}" />
+                </DataTemplate>
+            </local:EntryCellTextBox.HeaderTemplate>
+        </local:EntryCellTextBox>
+    </DataTemplate>
+
+</ResourceDictionary>

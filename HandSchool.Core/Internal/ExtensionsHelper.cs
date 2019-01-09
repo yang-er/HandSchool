@@ -245,7 +245,7 @@ namespace HandSchool.Internal
         /// <param name="baseVm">应该显示的视图模型。</param>
         public static Task ShowTimeoutMessage(this BaseViewModel baseVm)
         {
-            return baseVm.ShowMessage("错误", "连接超时，请重试。");
+            return baseVm.RequestMessageAsync("错误", "连接超时，请重试。", "知道了");
         }
     }
 }

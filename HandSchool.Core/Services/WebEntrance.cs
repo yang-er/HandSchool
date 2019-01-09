@@ -1,5 +1,5 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace HandSchool.Services
         /// <summary>
         /// 页面响应
         /// </summary>
-        IViewResponse View { get; set; }
+        IViewResponse View { get; }
 
         /// <summary>
         /// 执行JavaScript脚本的函数

@@ -109,7 +109,7 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
+                var LastReport = await Core.App.Service.Post(ScriptFileUrl, PostValue);
                 var lists = LastReport.ParseJSON<RootObject<CollegeCourse>>();
                 var sb = new StringBuilder();
 
@@ -132,7 +132,7 @@ namespace HandSchool.JLU.InfoQuery
             catch (JsonException)
             {
                 IsBusy = false;
-                await ShowMessage("提示", "加载课程列表失败。");
+                await RequestMessageAsync("提示", "加载课程列表失败。");
             }
             catch (WebException ex)
             {
@@ -173,7 +173,7 @@ namespace HandSchool.JLU.InfoQuery
             catch (JsonException)
             {
                 IsBusy = false;
-                await ShowMessage("提示", "加载教学班列表失败。");
+                await RequestMessageAsync("提示", "加载教学班列表失败。");
             }
             catch (WebException ex)
             {
@@ -204,7 +204,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await ShowMessage("错误", "未知响应：" + data);
+                await RequestMessageAsync("错误", "未知响应：" + data);
             }
         }
     }

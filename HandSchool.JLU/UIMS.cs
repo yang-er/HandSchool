@@ -2,6 +2,7 @@
 using HandSchool.JLU;
 using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.Views;
 using System;
 using System.Collections.Specialized;
 using System.Net;
@@ -217,13 +218,13 @@ namespace HandSchool.JLU
         [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
         public async void ResetSettings(IViewResponse resp)
         {
-            if (!await resp.ShowAskMessage("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
+            if (!await resp.RequestAnswerAsync("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
 
             foreach (var fileName in Loader.RegisteredFiles)
                 Core.Configure.Remove(fileName);
             Core.Configure.Remove("hs.school.bin");
 
-            await resp.ShowMessage("清除数据", "重置应用成功！重启应用后生效。");
+            await resp.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
         }
 
         public Task<bool> PrepareLogin()

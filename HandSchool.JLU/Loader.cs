@@ -38,7 +38,7 @@ namespace HandSchool.JLU
         public void PostLoad()
         {
             Ykt = new SchoolCard();
-            NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktPage", "\xE719", "JLU");
+            NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktViewPresenter", "JLU", "\xE719");
         }
 
         public void PreLoad()
@@ -49,7 +49,7 @@ namespace HandSchool.JLU
             {
                 if (register.RegisterType.GetCustomAttribute(typeof(UseStorageAttribute)) is UseStorageAttribute stg)
                 {
-                    if (stg.School == "jlu")
+                    if (stg.School == "JLU")
                     {
                         RegisteredFiles.AddRange(stg.Files);
                     }
@@ -60,10 +60,12 @@ namespace HandSchool.JLU
             SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
 
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
-            GradePoint = new Lazy<IGradeEntrance>(() => new InsideGradeEntrance());
+            GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
+            Task.Run(GradeEntrance.PreloadData);
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
             Message = new Lazy<IMessageEntrance>(() => new MessageEntrance());
             Feed = new Lazy<IFeedEntrance>(() => new OA());
+            Task.Run(OA.PreloadData);
             
             InfoList = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
             InfoList.Add(new InfoEntranceWrapper(typeof(EmptyRoom)));

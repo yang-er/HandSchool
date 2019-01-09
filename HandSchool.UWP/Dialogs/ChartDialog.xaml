@@ -1,0 +1,13 @@
+﻿<local:ViewDialog
+    x:Class="HandSchool.Views.ChartDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HandSchool.Views"
+    xmlns:skia="using:SkiaSharp.Views.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="查看图表"
+    mc:Ignorable="d"
+    CloseButtonText="确定">
+    <skia:SKXamlCanvas PaintSurface="Canvas_PaintSurface" Height="220" Width="310" />
+</local:ViewDialog>

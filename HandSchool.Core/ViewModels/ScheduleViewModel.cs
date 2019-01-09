@@ -91,7 +91,7 @@ namespace HandSchool.ViewModels
             for (int i = 1; i < 25; i++)
                 paramList[i] = $"第{i}周";
 
-            var ret = await DisplayActionSheet("显示周", "取消", null, paramList);
+            var ret = await RequestActionAsync("显示周", "取消", null, paramList);
             if (ret == "取消") return;
 
             for (int i = 0; i < 25; i++)
@@ -116,7 +116,7 @@ namespace HandSchool.ViewModels
                 CourseID = "CUSTOM-" + DateTime.Now.ToString("s")
             };
 
-            if (await Core.Platform.ShowNewCurriculumPage(item, param as INavigation))
+            if (await Core.Platform.ShowNewCurriculumPage(item, null))
                 RefreshComplete?.Invoke();
         }
 

@@ -94,7 +94,7 @@ namespace HandSchool.JLU.InfoQuery
             {
                 if (data == "schId=null")
                 {
-                    await ShowMessage("信息查询", "未指定查询学院。", "知道了");
+                    await RequestMessageAsync("信息查询", "未指定查询学院。", "知道了");
                     return;
                 }
 
@@ -103,8 +103,8 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await ShowMessage("信息查询", "未定义操作。", "知道了");
-                await ShowMessage("信息查询", "未知响应：" + data);
+                await RequestMessageAsync("信息查询", "未定义操作。", "知道了");
+                await RequestMessageAsync("信息查询", "未知响应：" + data);
             }
         }
         

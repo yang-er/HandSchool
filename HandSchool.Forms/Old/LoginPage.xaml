@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  x:Class="HandSchool.Views.LoginPage"
+                  xmlns:w="clr-namespace:HandSchool.Views"
+		          Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="登录" Command="{Binding LoginCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="1" BindingContext="{Binding Form}" Spacing="10">
+                    <Entry Margin="0,30,0,0" Text="{Binding Username}" Placeholder="用户名" />
+                    <Entry Text="{Binding Password}" Placeholder="密码" IsPassword="True" />
+                    <Grid x:Name="CaptchaBox">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Entry Grid.Column="0" Text="{Binding CaptchaCode}" Placeholder="验证码" />
+                        <Image x:Name="CaptchaImage" Grid.Column="1" HeightRequest="32" Aspect="AspectFit" />
+                    </Grid>
+                    <Label Margin="0,10" Text="{Binding Tips}" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="14" />
+                    <StackLayout Margin="0,5" Orientation="Horizontal">
+                        <Label Text="保存密码" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                        <Switch IsToggled="{Binding SavePassword}" HorizontalOptions="End" />
+                    </StackLayout>
+                    <StackLayout x:Name="AutoLoginBox" Margin="0,5" Orientation="Horizontal">
+                        <Label Text="自动登录" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                        <Switch IsToggled="{Binding AutoLogin}" HorizontalOptions="End" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+        <!--
+        <Grid WidthRequest="300">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Entry Grid.Row="0" Grid.ColumnSpan="2" Margin="15,15,15,10" Text="{Binding Username}" Placeholder="用户名" />
+            <Entry Grid.Row="1" Grid.ColumnSpan="2" Margin="15,0,15,10" Text="{Binding Password}" Placeholder="密码" IsPassword="True" />
+            <Entry Grid.Row="2" Grid.Column="0" Margin="15,0,15,10" x:Name="CaptchaBox" Text="{Binding CaptchaCode}" Placeholder="验证码" />
+            <Image Grid.Row="2" Grid.Column="1" Margin="15,0,15,10" x:Name="CaptchaImage" HeightRequest="32" Aspect="AspectFit" />
+            <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Tips}" Style="{DynamicResource ListItemDetailTextStyle}" Margin="15,0,15,10" FontSize="13" />
+            <Label Grid.Row="4" Grid.Column="0" Margin="15,0,15,10" Text="保存密码" />
+            <Switch Grid.Row="4" Grid.Column="1" Margin="15,0,15,10" IsToggled="{Binding SavePassword}" />
+            <Label Grid.Row="5" Grid.Column="0" Margin="15,0,15,10" x:Name="AutoLoginLabel" Text="自动登录" />
+            <Switch Grid.Row="5" Grid.Column="1" Margin="15,0,15,10" x:Name="AutoLoginBox" IsToggled="{Binding AutoLogin}" />
+        </Grid>-->
+        
+        <!--<StackLayout Padding="15">
+            <Entry Text="" Placeholder="用户名" />
+            <Entry Text="" Placeholder="密码" IsPassword="True" />
+
+            <Grid Margin="15,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Entry Grid.Column="0" Text="{Binding CaptchaCode}" Placeholder="验证码" />
+                <Image Grid.Column="1" x:Name="CaptchaImage" HeightRequest="32" Aspect="AspectFit" />
+            </Grid>
+            <Label Text="{Binding Tips}" Style="{DynamicResource ListItemDetailTextStyle}" Margin="15" FontSize="13" />
+            
+
+            <TableView Intent="Form" BindingContext="{Binding Form}" HasUnevenRows="True">
+                <TableSection Title="登录信息">
+                    <w:InputCell Text="{Binding Username}" Placeholder="用户名" />
+                    <w:InputCell Text="{Binding Password}" Placeholder="密码" IsPassword="True" />
+                    <ViewCell x:Name="CaptchaFullBox">
+                        <Grid Margin="15,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Column="0" Text="{Binding CaptchaCode}" Placeholder="验证码" />
+                            <Image Grid.Column="1" x:Name="CaptchaImage" HeightRequest="32" Aspect="AspectFit" />
+                        </Grid>
+                    </ViewCell>
+                    <ViewCell>
+                        <Label Text="{Binding Tips}" Style="{DynamicResource ListItemDetailTextStyle}" Margin="15" FontSize="13" />
+                    </ViewCell>
+                    <SwitchCell Text="保存密码" On="{Binding SavePassword}" />
+                    <SwitchCell x:Name="AutoLoginBox" Text="自动登录" On="{Binding AutoLogin}" />
+                </TableSection>
+            </TableView>
+        </StackLayout>-->
+    </ContentPage.Content>
+</w:PopContentPage>

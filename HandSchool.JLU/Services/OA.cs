@@ -19,18 +19,15 @@ namespace HandSchool.JLU.Services
         const string configOaTime = "jlu.oa.xml.time";
         const string feedUrl = "https://joj.chinacloudsites.cn/feed.xml";
         
-        public OA()
+        public static async Task PreloadData()
         {
-            Task.Run(async () =>
-            {
-                await Task.Yield();
-                var lu = Core.Configure.Read(configOaTime);
-                bool timedOut = !DateTime.TryParse(lu, out var lastUpdate);
-                if (!timedOut) timedOut = lastUpdate.AddHours(1) < DateTime.Now;
+            await Task.Yield();
+            var lu = Core.Configure.Read(configOaTime);
+            bool timedOut = !DateTime.TryParse(lu, out var lastUpdate);
+            if (!timedOut) timedOut = lastUpdate.AddHours(1) < DateTime.Now;
 
-                if (timedOut) await Execute();
-                else Parse(Core.Configure.Read(configOa));
-            });
+            if (timedOut) await Core.App.Feed.Execute();
+            else Parse(Core.Configure.Read(configOa));
         }
 
         public async Task Execute()

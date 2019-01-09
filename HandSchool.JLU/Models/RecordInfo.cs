@@ -7,7 +7,7 @@ namespace HandSchool.JLU.Models
     /// <summary>
     /// 校园卡消费记录的储存类。
     /// </summary>
-    internal class RecordInfo
+    internal class RecordInfo : SchoolCardInfoPiece
     {
         public string RecordTime { get; set; }
         public string RecordPlace { get; set; }
@@ -15,8 +15,8 @@ namespace HandSchool.JLU.Models
         public string RecordCost { get; set; }
         public string RemainMoney { get; set; }
 
-        public string Title => $"{RecordName} {(RecordCost.StartsWith("-") ? "" : "+")}{RecordCost}";
-        public string Description => 
+        public override string Title => $"{RecordName} {(RecordCost.StartsWith("-") ? "" : "+")}{RecordCost}";
+        public override string Description => 
             $"消费时间：{RecordTime}" + 
             (RecordPlace == "无" ? "" : $"\n商户名称：{RecordPlace}") +
             "\n卡余额：" + RemainMoney;

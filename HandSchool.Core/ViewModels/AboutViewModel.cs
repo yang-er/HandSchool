@@ -53,32 +53,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 打开本软件的开源项目页面。
         /// </summary>
-        private void OpenSource()
-        {
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                Device.OpenUri(new Uri("https://github.com/yang-er/HandSchool"));
-            });
-        }
+        private void OpenSource() => Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool");
 
         /// <summary>
         /// 在应用商店中打开本软件详情。
         /// </summary>
-        private void OpenMarket()
-        {
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                Device.OpenUri(new Uri(Core.Platform.StoreLink));
-            });
-        }
+        private void OpenMarket() => Core.Platform.OpenUrl(Core.Platform.StoreLink);
 
         /// <summary>
         /// 检查软件更新。
         /// </summary>
-        private void CheckUpdate()
-        {
-            Core.Platform.CheckUpdate();
-        }
+        private void CheckUpdate() => Core.Platform.CheckUpdate();
 
         [Entrance("*", "隐私政策", "提供关于本程序如何使用您的隐私的一些说明。", EntranceType.UrlEntrance)]
         public class PrivacyPolicy : BaseController, IUrlEntrance

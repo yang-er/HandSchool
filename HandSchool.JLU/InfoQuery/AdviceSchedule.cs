@@ -16,7 +16,7 @@ using Xamarin.Forms;
 namespace HandSchool.JLU.InfoQuery
 {
     [Entrance("JLU", "学生班级推荐课表", "可以来看看下学期的课表啦~", EntranceType.InfoEntrance)]
-    public class AdviceSchedule : BaseController, IInfoEntrance
+    internal class AdviceSchedule : BaseController, IInfoEntrance
     {
         private int teachTermId = -1;
         private RootObject<TeachingTerm> termList;
@@ -132,18 +132,18 @@ namespace HandSchool.JLU.InfoQuery
             catch (JsonException)
             {
                 SetIsBusy(false);
-                await ShowMessage("提示", "加载学期信息失败，解析数据出现错误。");
+                await RequestMessageAsync("提示", "加载学期信息失败，解析数据出现错误。");
             }
             catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
                     SetIsBusy(false);
-                    await ShowMessage("错误", "连接超时，请重试。");
+                    await RequestMessageAsync("错误", "连接超时，请重试。");
                     return;
                 }
 
-                await ShowMessage("错误", ex.ToString());
+                await RequestMessageAsync("错误", ex.ToString());
                 throw ex;
             }
         }
@@ -162,18 +162,18 @@ namespace HandSchool.JLU.InfoQuery
             catch (JsonException)
             {
                 SetIsBusy(false);
-                await ShowMessage("提示", "加载推荐课表失败。");
+                await RequestMessageAsync("提示", "加载推荐课表失败。");
             }
             catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.Timeout)
                 {
                     SetIsBusy(false);
-                    await ShowMessage("错误", "连接超时，请重试。");
+                    await RequestMessageAsync("错误", "连接超时，请重试。");
                     return;
                 }
 
-                await ShowMessage("错误", ex.ToString());
+                await RequestMessageAsync("错误", ex.ToString());
                 throw ex;
             }
         }
@@ -237,7 +237,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await ShowMessage("错误", "请报告开发者，参数未知：" + data);
+                await RequestMessageAsync("错误", "请报告开发者，参数未知：" + data);
             }
         }
     }

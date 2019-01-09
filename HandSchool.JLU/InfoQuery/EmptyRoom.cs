@@ -113,7 +113,7 @@ namespace HandSchool.JLU.InfoQuery
         {
             if(!data.StartsWith("time"))
             {
-                await ShowMessage("查空教室", "请选择合法数据！", "知道了");
+                await RequestMessageAsync("查空教室", "请选择合法数据！", "知道了");
             }
             else
             {

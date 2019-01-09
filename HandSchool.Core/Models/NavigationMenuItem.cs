@@ -25,7 +25,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 目标页面类型元数据
         /// </summary>
-        public Type PageType { get; }
+        public Type PageType { get; protected set; }
 
         /// <summary>
         /// 创建一个系统导航项目，并提供页面延迟加载的功能。
@@ -36,9 +36,16 @@ namespace HandSchool.Models
         public NavigationMenuItem(string title, string dest, string category = "")
         {
             this.title = title;
-            if (category != "") category += ".";
-            destType = $"HandSchool.{category}Views.{dest}";
-            PageType = Assembly.GetExecutingAssembly().GetType(destType);
+            if (category != "")
+            {
+                destType = $"HandSchool.{category}.Views.{dest}";
+                PageType = Core.App.Loader.GetType().Assembly.GetType(destType);
+            }
+            else
+            {
+                destType = $"HandSchool.Views.{dest}";
+                PageType = GetType().Assembly.GetType(destType);
+            }
         }
 
         public override string ToString() => title;

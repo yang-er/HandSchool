@@ -21,13 +21,7 @@ namespace HandSchool.Services
         /// 内部WebClient
         /// </summary>
         AwaredWebClient WebClient { get; set; }
-
-        /// <summary>
-        /// 附加信息
-        /// </summary>
-        [Obsolete]
-        NameValueCollection AttachInfomation { get; set; }
-
+        
         /// <summary>
         /// 当前周
         /// </summary>

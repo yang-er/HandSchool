@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,5 +17,6 @@ namespace HandSchool.ViewModels
         public Action<string> Evaluate { get; set; }
         public List<InfoEntranceMenu> Menu { get; } = new List<InfoEntranceMenu>();
         public abstract Task Receive(string data);
+        IViewResponse IWebEntrance.View => base.View;
     }
 }

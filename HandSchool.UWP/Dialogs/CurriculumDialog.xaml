@@ -1,0 +1,123 @@
+﻿<local:ViewDialog
+    x:Class="HandSchool.Views.CurriculumDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HandSchool.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="编辑课程"
+    PrimaryButtonText="保存"
+    SecondaryButtonText="删除">
+    <ContentDialog.Resources>
+        <local:OenConverter x:Key="cvtOen"/>
+    </ContentDialog.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="课程信息" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,0,4" />
+        <TextBlock Text="名称" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" />
+        <TextBox Text="{Binding Name, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,4,0,4" />
+        <TextBlock Text="老师" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" />
+        <TextBox Text="{Binding Teacher, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,4,0,4" />
+        <TextBlock Text="教室" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" />
+        <TextBox Text="{Binding Classroom, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,4,0,4" />
+        <TextBlock Text="课程号" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" />
+        <TextBlock Text="{Binding CourseID}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Margin="0,4,0,4" />
+        <TextBlock Text="时间设定" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,8,0,8" />
+        <TextBlock Text="起止周" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Margin="0,4,0,4" />
+        <ComboBox Grid.Column="1" Grid.Row="6" SelectedIndex="{Binding WeekBegin, Mode=TwoWay}">
+            <ComboBoxItem Content="请选择" />
+            <ComboBoxItem Content="第1周" />
+            <ComboBoxItem Content="第2周" />
+            <ComboBoxItem Content="第3周" />
+            <ComboBoxItem Content="第4周" />
+            <ComboBoxItem Content="第5周" />
+            <ComboBoxItem Content="第6周" />
+            <ComboBoxItem Content="第7周" />
+            <ComboBoxItem Content="第8周" />
+            <ComboBoxItem Content="第9周" />
+            <ComboBoxItem Content="第10周" />
+            <ComboBoxItem Content="第11周" />
+            <ComboBoxItem Content="第12周" />
+            <ComboBoxItem Content="第13周" />
+            <ComboBoxItem Content="第14周" />
+            <ComboBoxItem Content="第15周" />
+            <ComboBoxItem Content="第16周" />
+            <ComboBoxItem Content="第17周" />
+            <ComboBoxItem Content="第18周" />
+            <ComboBoxItem Content="第19周" />
+            <ComboBoxItem Content="第20周" />
+            <ComboBoxItem Content="第21周" />
+            <ComboBoxItem Content="第22周" />
+        </ComboBox>
+        <TextBlock Text="到" Grid.Column="2" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,4,0,4" />
+        <ComboBox Grid.Column="3" Grid.Row="6" SelectedIndex="{Binding WeekEnd, Mode=TwoWay}">
+            <ComboBoxItem Content="请选择" />
+            <ComboBoxItem Content="第1周" />
+            <ComboBoxItem Content="第2周" />
+            <ComboBoxItem Content="第3周" />
+            <ComboBoxItem Content="第4周" />
+            <ComboBoxItem Content="第5周" />
+            <ComboBoxItem Content="第6周" />
+            <ComboBoxItem Content="第7周" />
+            <ComboBoxItem Content="第8周" />
+            <ComboBoxItem Content="第9周" />
+            <ComboBoxItem Content="第10周" />
+            <ComboBoxItem Content="第11周" />
+            <ComboBoxItem Content="第12周" />
+            <ComboBoxItem Content="第13周" />
+            <ComboBoxItem Content="第14周" />
+            <ComboBoxItem Content="第15周" />
+            <ComboBoxItem Content="第16周" />
+            <ComboBoxItem Content="第17周" />
+            <ComboBoxItem Content="第18周" />
+            <ComboBoxItem Content="第19周" />
+            <ComboBoxItem Content="第20周" />
+            <ComboBoxItem Content="第21周" />
+            <ComboBoxItem Content="第22周" />
+        </ComboBox>
+        <TextBlock Text="每周" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" />
+        <ComboBox Grid.Column="1" Grid.Row="7" SelectedIndex="{Binding WeekOen, Mode=TwoWay, Converter={StaticResource cvtOen}}" Margin="0,4,0,4">
+            <ComboBoxItem Content="双周" />
+            <ComboBoxItem Content="单周" />
+            <ComboBoxItem Content="单双周" />
+        </ComboBox>
+        <TextBlock Text="的" Grid.Column="2" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <ComboBox Grid.Column="3" Grid.Row="7" SelectedIndex="{Binding WeekDay, Mode=TwoWay}" Margin="0,4,0,4">
+            <ComboBoxItem Content="请选择" />
+            <ComboBoxItem Content="星期一" />
+            <ComboBoxItem Content="星期二" />
+            <ComboBoxItem Content="星期三" />
+            <ComboBoxItem Content="星期四" />
+            <ComboBoxItem Content="星期五" />
+            <ComboBoxItem Content="星期六" />
+            <ComboBoxItem Content="星期日" />
+        </ComboBox>
+        <TextBlock Text="这天从" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" />
+        <ComboBox Grid.Column="1" Grid.Row="8" x:Name="beginDay" Margin="0,4,0,4">
+            <ComboBoxItem Content="请选择" />
+        </ComboBox>
+        <TextBlock Text="到" Grid.Column="2" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <ComboBox Grid.Column="3" Grid.Row="8" x:Name="endDay" Margin="0,4,0,4">
+            <ComboBoxItem Content="请选择" />
+        </ComboBox>
+    </Grid>
+</local:ViewDialog>

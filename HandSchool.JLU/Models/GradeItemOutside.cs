@@ -27,7 +27,7 @@ namespace HandSchool.JLU.Models
         public string Score => asv.zscj;
         public string Point => asv.gpoint;
         public string Credit => asv.credit;
-        public bool ReSelect => asv.isReselect != "N";
+        public bool ReSelect => asv.isReselect == "Y";
         public bool Pass { get; private set; }
         public string Term { get; private set; }
         public DateTime Date => DateTime.Now;

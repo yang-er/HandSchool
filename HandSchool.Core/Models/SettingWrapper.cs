@@ -66,7 +66,7 @@ namespace HandSchool.Models
             Information = pinfo;
             AttributeData = pinfo.GetSettingsAttribute();
 
-            if (AttributeData.RangeDown == -233)
+            if (!Information.CanWrite)
                 Type = SettingTypes.Const;
             else if (pinfo.PropertyType == typeof(int))
                 Type = SettingTypes.Integer;

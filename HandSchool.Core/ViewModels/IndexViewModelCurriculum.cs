@@ -32,7 +32,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         private void UpdateHasClass()
         {
-            Device.BeginInvokeOnMainThread(() =>
+            Core.Platform.EnsureOnMainThread(() =>
             {
                 OnPropertyChanged(nameof(NextHasClass));
                 OnPropertyChanged(nameof(CurrentHasClass));

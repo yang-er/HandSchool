@@ -78,13 +78,13 @@ namespace HandSchool.ViewModels
             {
                 var ops = data.Split(new char[] { ';' }, 2);
                 HandleMessageValue(ref ops[1]);
-                await ShowMessage("消息", ops[1]);
+                await RequestMessageAsync("消息", ops[1], "好的");
             }
             else if (data.StartsWith("ask;"))
             {
                 var ops = data.Split(new char[] { ';' }, 3);
                 HandleMessageValue(ref ops[1]);
-                if (await ShowAskMessage("消息", ops[1], "取消", "确定"))
+                if (await RequestAnswerAsync("消息", ops[1], "取消", "确定"))
                     Evaluate("te_callback(" + ops[2] + ")");
             }
             else

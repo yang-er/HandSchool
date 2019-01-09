@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace HandSchool.Internal
+namespace HandSchool.Views
 {
     /// <summary>
     /// 用于暴露部分 View 行为给 ViewModel 的响应。
@@ -13,7 +13,7 @@ namespace HandSchool.Internal
         /// <param name="title">对话框的标题。</param>
         /// <param name="message">弹出消息的正文。</param>
         /// <param name="button">确认按钮的文字。</param>
-        Task ShowMessage(string title, string message, string button = "确认");
+        Task RequestMessageAsync(string title, string message, string button);
 
         /// <summary>
         /// 弹出询问对话框，用作操作确认。
@@ -23,7 +23,7 @@ namespace HandSchool.Internal
         /// <param name="cancel">取消按钮的文字。</param>
         /// <param name="accept">确认按钮的文字。</param>
         /// <returns>按下的是否为确定。</returns>
-        Task<bool> ShowAskMessage(string title, string description, string cancel, string accept);
+        Task<bool> RequestAnswerAsync(string title, string description, string cancel, string accept);
 
         /// <summary>
         /// 弹出选择对话框，从中选择一个操作。
@@ -33,6 +33,16 @@ namespace HandSchool.Internal
         /// <param name="destruction">对话框的删除按钮文字。为 <see cref="null"/> 时不显示按钮。</param>
         /// <param name="buttons">可选的动作列表每一项的文字。</param>
         /// <returns>按下的按钮标签文字。</returns>
-        Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons);
+        Task<string> RequestActionAsync(string title, string cancel, string destruction, params string[] buttons);
+
+        /// <summary>
+        /// 弹出询问对话框，用作请求输入内容。
+        /// </summary>
+        /// <param name="title">对话框的标题。</param>
+        /// <param name="description">弹出消息的正文。</param>
+        /// <param name="cancel">取消按钮的文字。</param>
+        /// <param name="accept">确认按钮的文字。</param>
+        /// <returns>用户输入的内容，如果点击取消则为null。</returns>
+        Task<string> RequestInputAsync(string title, string description, string cancel, string accept);
     }
 }

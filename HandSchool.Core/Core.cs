@@ -3,6 +3,8 @@ using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace HandSchool
 {
@@ -62,8 +64,6 @@ namespace HandSchool
             if (App != null) return true;
             App = new SchoolApplication();
             
-            // TODO: Finish assembly reading
-            
             var type = Configure.Read("hs.school.bin");
             if (type == "") return false;
             var current = Schools.Find((sw) => sw.SchoolId == type);
@@ -72,6 +72,35 @@ namespace HandSchool
             current.PreLoad();
             current.PostLoad();
             return true;
+        }
+
+        /// <summary>
+        /// 获取所有的学校程序集并尝试载入。
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<string> GetAvaliableSchools()
+        {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            foreach (var file in Directory.EnumerateFiles(baseDir, "HandSchool.*.dll"))
+            {
+                var fileShort = file.Replace(baseDir, "");
+                // if (fileShort == "HandSchool.Core.dll") continue;
+                yield return fileShort.Replace(".dll", "");
+            }
+        }
+        
+        /// <summary>
+        /// 当程序集加载时，检查是否是学校对应的代码。
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="args">包含了程序集的参数</param>
+        public static void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
+        {
+            var assembly = args.LoadedAssembly;
+            var export = assembly.GetCustomAttribute<ExportSchoolAttribute>();
+            if (export is null) return;
+            var loader = Activator.CreateInstance(export.RegisterType) as ISchoolWrapper;
+            Schools.Add(loader);
         }
 
         /// <summary>

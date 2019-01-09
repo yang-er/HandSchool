@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 
@@ -49,21 +50,26 @@ namespace HandSchool.ViewModels
 
         #region IViewResponse 实现
         
-        public IViewResponse View { get; set; }
+        public IViewPage View { get; set; }
         
-        public Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
+        public Task<string> RequestActionAsync(string title, string cancel, string destruction, params string[] buttons)
         {
-            return Core.Platform.EnsureOnMainThread(() => View.DisplayActionSheet(title, cancel, destruction, buttons));
+            return Core.Platform.EnsureOnMainThread(() => View.RequestActionAsync(title, cancel, destruction, buttons));
         }
         
-        public Task<bool> ShowAskMessage(string title, string description, string cancel, string accept)
+        public Task<bool> RequestAnswerAsync(string title, string description, string cancel, string accept)
         {
-            return Core.Platform.EnsureOnMainThread(() => View.ShowAskMessage(title, description, cancel, accept));
+            return Core.Platform.EnsureOnMainThread(() => View.RequestAnswerAsync(title, description, cancel, accept));
         }
-        
-        public Task ShowMessage(string title, string message, string button = "确认")
+
+        public Task<string> RequestInputAsync(string title, string description, string cancel, string accept)
         {
-            return Core.Platform.EnsureOnMainThread(() => View.ShowMessage(title, message, button));
+            return Core.Platform.EnsureOnMainThread(() => View.RequestInputAsync(title, description, cancel, accept));
+        }
+
+        public Task RequestMessageAsync(string title, string message, string button = "知道了")
+        {
+            return Core.Platform.EnsureOnMainThread(() => View.RequestMessageAsync(title, message, button));
         }
 
         #endregion

@@ -124,7 +124,7 @@ namespace HandSchool.JLU.InfoQuery
             catch (JsonException)
             {
                 IsBusy = false;
-                await ShowMessage("提示", "加载教学方案失败。");
+                await RequestMessageAsync("提示", "加载教学方案失败。");
             }
             catch (WebException ex)
             {
@@ -140,7 +140,7 @@ namespace HandSchool.JLU.InfoQuery
 
             if (progId == -1)
             {
-                await ShowMessage("提示", "请选择一个培养计划！");
+                await RequestMessageAsync("提示", "请选择一个培养计划！");
                 Evaluate?.Invoke($"$('#progList').html('<tr><td colspan=\"9\">请先选择一个教学计划</td></tr>')");
                 return;
             }
@@ -177,13 +177,13 @@ namespace HandSchool.JLU.InfoQuery
             {
                 IsBusy = false;
                 Evaluate?.Invoke("$('#progList').html('<tr><td colspan=\"9\">加载失败</td></tr>')");
-                await ShowMessage("提示", "加载教学方案失败。");
+                await RequestMessageAsync("提示", "加载教学方案失败。");
             }
             catch (WebException ex)
             {
                 if (ex.Status != WebExceptionStatus.Timeout) throw;
                 IsBusy = false;
-                await ShowMessage("错误", "连接超时，请重试。");
+                await RequestMessageAsync("错误", "连接超时，请重试。");
             }
         }
 
@@ -205,7 +205,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await ShowMessage("错误", "未知响应：" + data);
+                await RequestMessageAsync("错误", "未知响应：" + data);
             }
         }
     }

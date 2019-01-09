@@ -97,7 +97,7 @@ namespace HandSchool.JLU.JsonObject
         public GradeDetails distribute { get; set; }
     }
 
-    public class GradeDetails
+    class GradeDetails
     {
         public int count { get; set; }
         public int errno { get; set; }

@@ -7,7 +7,7 @@ namespace HandSchool.JLU.Models
     /// <summary>
     /// 拾卡信息的储存类。
     /// </summary>
-    internal class PickCardInfo
+    internal class PickCardInfo : SchoolCardInfoPiece
     {
         public string CardNumber { get; set; }
         public string Picker { get; set; }
@@ -15,8 +15,11 @@ namespace HandSchool.JLU.Models
         public string Time { get; set; }
         public string Address { get; set; }
 
-        public string Title => CardNumber;
-        public string Description => "拾卡时间：" + Time + (Address == "无" ? "" : "\n地址：" + Address) + (Contact == "无" ? "" : "\n联系方式：" + Contact);
+        public override string Title => CardNumber;
+        public override string Description => 
+            "拾卡时间：" + Time +
+            (Address == "无" ? "" : "\n地址：" + Address) +
+            (Contact == "无" ? "" : "\n联系方式：" + Contact);
         
         public static IEnumerable<PickCardInfo> EnumerateFromHtml(string html)
         {

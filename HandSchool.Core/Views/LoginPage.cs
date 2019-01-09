@@ -1,17 +1,17 @@
 ﻿using HandSchool.Models;
-using System.Threading.Tasks;
+using HandSchool.ViewModels;
 
 namespace HandSchool.Views
 {
     /// <summary>
-    /// 登录页面的基类，提供了跨平台的函数要求。
+    /// 登录页面的接口类。
     /// </summary>
-    public interface ILoginPage
+    public interface ILoginPage : IViewPage
     {
         /// <summary>
-        /// 展示登录页面。
+        /// 登录的视图模型
         /// </summary>
-        Task ShowAsync();
+        LoginViewModel LoginViewModel { get; }
 
         /// <summary>
         /// 要求窗体对登录状态改变发出响应。
@@ -19,5 +19,10 @@ namespace HandSchool.Views
         /// <param name="sender">发出者</param>
         /// <param name="e">登陆状态改变事件参数</param>
         void Response(object sender, LoginStateEventArgs e);
+
+        /// <summary>
+        /// 更新验证码信息。
+        /// </summary>
+        void UpdateCaptchaInfomation();
     }
 }
