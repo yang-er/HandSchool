@@ -29,7 +29,7 @@ namespace HandSchool.JLU
         public string Score => asv.score;
         public string Point => asv.gpoint;
         public string Credit => asv.credit;
-        public bool ReSelect => asv.isReselect != "N";
+        public bool ReSelect => asv.isReselect == "Y";
         public bool Pass => asv.isPass == "Y";
         public string Term => asv.teachingTerm.termName;
         public DateTime Date => asv.dateScore;
@@ -90,7 +90,7 @@ namespace HandSchool.JLU
         public string Score => asv.zscj;
         public string Point => asv.gpoint;
         public string Credit => asv.credit;
-        public bool ReSelect => asv.isReselect != "N";
+        public bool ReSelect => asv.isReselect == "Y";
         public bool Pass { get; private set; }
         public string Term { get; private set; }
         public DateTime Date => DateTime.Now;
