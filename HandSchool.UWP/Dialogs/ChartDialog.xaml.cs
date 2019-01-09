@@ -32,6 +32,7 @@ namespace HandSchool.Views
         /// <param name="e">绘制表面的参数</param>
         private void Canvas_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
+            Chart.LabelTextSize = e.Info.Height / 220.0f * 14;
             Chart.Draw(e.Surface.Canvas, e.Info.Width, e.Info.Height);
         }
     }

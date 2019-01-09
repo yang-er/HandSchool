@@ -2,6 +2,7 @@
 using HandSchool.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -31,7 +32,7 @@ namespace HandSchool
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Version => "1.7.17.0";
+        public static string Version => "2.0.19.0";
 
         /// <summary>
         /// 可用学校列表
@@ -47,6 +48,7 @@ namespace HandSchool
         /// 初始化平台相关内容
         /// </summary>
         /// <param name="platform">平台实现</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static void InitPlatform(PlatformBase platform)
         {
             Debug.Assert(Platform == null);
@@ -84,23 +86,41 @@ namespace HandSchool
             foreach (var file in Directory.EnumerateFiles(baseDir, "HandSchool.*.dll"))
             {
                 var fileShort = file.Replace(baseDir, "");
-                // if (fileShort == "HandSchool.Core.dll") continue;
                 yield return fileShort.Replace(".dll", "");
             }
         }
-        
+
         /// <summary>
         /// 当程序集加载时，检查是否是学校对应的代码。
         /// </summary>
         /// <param name="sender">发送者</param>
         /// <param name="args">包含了程序集的参数</param>
-        public static void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
+        public static void AssemblyLoaded(object sender, AssemblyLoadEventArgs args) => LoadAssembly(args.LoadedAssembly);
+
+        /// <summary>
+        /// 检查程序集是否为保存了学校信息，如果是则加载。
+        /// </summary>
+        /// <param name="assembly">检查的程序集</param>
+        private static void LoadAssembly(Assembly assembly)
         {
-            var assembly = args.LoadedAssembly;
             var export = assembly.GetCustomAttribute<ExportSchoolAttribute>();
             if (export is null) return;
-            var loader = Activator.CreateInstance(export.RegisterType) as ISchoolWrapper;
+            var loader = CreateInstance<ISchoolWrapper>(export.RegisterType);
             Schools.Add(loader);
+        }
+
+        /// <summary>
+        /// 当环境已经加载完全部程序集时尝试读取。
+        /// </summary>
+        public static void AheadOfTimeAssembly()
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (assembly.FullName.StartsWith("HandSchool."))
+                {
+                    LoadAssembly(assembly);
+                }
+            }
         }
 
         /// <summary>
@@ -108,14 +128,14 @@ namespace HandSchool
         /// </summary>
         /// <param name="output">输出的字符串内容。</param>
         [DebuggerStepThrough]
-        public static void Log(string output) => Debug.WriteLine(output);
+        public static void Log(string output) => Trace.WriteLine(output);
 
         /// <summary>
         /// 向调试器写入调试信息。
         /// </summary>
         /// <param name="output">产生的异常内容。</param>
         [DebuggerStepThrough]
-        public static void Log(Exception output) => Debug.WriteLine(output);
+        public static void Log(Exception output) => Trace.WriteLine(output);
 
         /// <summary>
         /// 向调试器写入调试信息。
@@ -123,6 +143,19 @@ namespace HandSchool
         /// <param name="format">字符串的输出格式。</param>
         /// <param name="param">对应输出内容的参数。</param>
         [DebuggerStepThrough]
-        public static void Log(string format, params object[] param) => Debug.WriteLine(format, param);
+        public static void Log(string format, params object[] param) => Trace.WriteLine(string.Format(format, param));
+
+        /// <summary>
+        /// 创建一个对象的实例。
+        /// </summary>
+        /// <typeparam name="T">实例化类型</typeparam>
+        /// <param name="typeInfo">需要实例化的类型</param>
+        /// <returns>实例对象</returns>
+        public static T CreateInstance<T>(Type typeInfo) where T : class
+        {
+            Log("[CoreRTTI] " + typeInfo.FullName + " was requested to be activated.");
+            Debug.Assert(typeof(T).IsAssignableFrom(typeInfo));
+            return Activator.CreateInstance(typeInfo) as T;
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace HandSchool.Models
             
             if (typeof(IViewPresenter).IsAssignableFrom(PageType))
             {
-                var pre = System.Activator.CreateInstance(PageType) as IViewPresenter;
+                var pre = Core.CreateInstance<IViewPresenter>(PageType);
                 if (pre.PageCount == 1)
                 {
                     NavigationParameter = pre;

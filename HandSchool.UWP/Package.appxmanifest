@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="47910F1233D34.32138F620B3B4" Publisher="CN=AA8E4DCD-8F5F-41F9-8175-0BB0472DC7FF" Version="2.0.20.0" />
+  <Identity Name="47910F1233D34.32138F620B3B4" Publisher="CN=AA8E4DCD-8F5F-41F9-8175-0BB0472DC7FF" Version="2.0.19.0" />
   <mp:PhoneIdentity PhoneProductId="81bcd824-a69a-4ed0-bcd4-94c089fca06c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>掌上校园</DisplayName>

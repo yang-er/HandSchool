@@ -23,6 +23,11 @@ namespace HandSchool.ViewModels
         public static SettingViewModel Instance => Lazy.Value;
 
         /// <summary>
+        /// 关于应用的视图模型
+        /// </summary>
+        public AboutViewModel AboutViewModel => AboutViewModel.Instance;
+
+        /// <summary>
         /// 所有设置入口点的包装
         /// </summary>
         public List<SettingWrapper> Items { get; }

@@ -63,6 +63,7 @@ namespace HandSchool.Internal
         public static void Register()
         {
             Debug.Assert(Instance is null);
+            Core.Log("Hello, UWP");
             new PlatformImpl();
         }
 
@@ -111,6 +112,7 @@ namespace HandSchool.Internal
         public override void BeginMenu()
         {
             NavigationItems = new List<NavigationMenuItemUWP>();
+            Core.Log("Menu started to load.");
         }
 
         /// <summary>

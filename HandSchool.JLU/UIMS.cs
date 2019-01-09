@@ -55,7 +55,7 @@ namespace HandSchool.JLU
         }
 
         private bool outside_school;
-        [Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
+        //[Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
         public bool OutsideSchool
         {
             get => outside_school;

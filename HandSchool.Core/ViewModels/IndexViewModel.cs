@@ -65,10 +65,13 @@ namespace HandSchool.ViewModels
                 // that won't block the enter of main page.
                 await Task.Yield();
             }
-            
+
+            Core.Log("Index1");
             UpdateNextCurriculum();
+            Core.Log("Index2");
             Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
+            Core.Log("Index3");
             await UpdateWeather();
         }
     }

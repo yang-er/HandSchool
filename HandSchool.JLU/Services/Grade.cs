@@ -76,6 +76,8 @@ namespace HandSchool.JLU.Services
 
             var LastReport = Core.Configure.Read(configGrade);
             if (LastReport != "") GradePointViewModel.Instance.AddRange(ParseASV(LastReport));
+
+            Core.Log("OA Preload complete");
         }
 
         static IEnumerable<InsideGradeItem> ParseASV(string lastRead)

@@ -37,7 +37,7 @@ namespace HandSchool.Models
             Description = ent.Description;
             if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
                 hfattr.CheckUpdate(false);
-            Load = () => Activator.CreateInstance(type) as IWebEntrance;
+            Load = () => Core.CreateInstance<IWebEntrance>(type);
         }
     }
 }

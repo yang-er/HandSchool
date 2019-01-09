@@ -6,7 +6,6 @@ using HandSchool.ViewModels;
 using HandSchool.Views;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using INavigation = Xamarin.Forms.INavigation;
 
 namespace HandSchool.Internal
 {
@@ -49,7 +48,7 @@ namespace HandSchool.Internal
         /// <param name="uwp">UWP 的图标。</param>
         /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
         public abstract void AddMenuEntry(string title, string dest, string category, string uwp, string ios);
-
+        
         /// <summary>
         /// 打开网址页面。
         /// </summary>

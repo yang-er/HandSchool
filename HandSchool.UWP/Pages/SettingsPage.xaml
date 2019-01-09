@@ -34,6 +34,35 @@
                 </ListView>
             </PivotItem>
             <PivotItem Header="关于" Margin="0" Padding="0,8,0,0">
+                <ScrollViewer>
+                    <StackPanel Margin="24,8,24,24" DataContext="{Binding AboutViewModel}" Spacing="8">
+                        <TextBlock Text="掌上校园" FontSize="32" DoubleTapped="TextBlock_DoubleTapped" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="HandSchool.UWP" FontSize="20" />
+                            <TextBlock Text="{Binding Version, FallbackValue=2.0}" FontSize="20" />
+                        </StackPanel>
+                        <TextBlock Text="一个致力于将各个学校不同的教务系统整合成一个手机app的项目。" TextWrapping="Wrap" />
+                        <TextBlock Text="适配模式" Margin="0,8,0,0" FontSize="20" />
+                        <TextBlock Text="利用C#和Xamarin.Forms编写，可以运行在 UWP (1803+)、Andorid (5.0+)、iOS (11.0+) 上。" TextWrapping="Wrap" />
+                        <TextBlock Text="采用了 MVVM 的框架模式，支持多个学校共存。" TextWrapping="Wrap" />
+                        <TextBlock Text="有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView。" TextWrapping="Wrap" />
+                        <TextBlock Text="设计与适配" Margin="0,8,0,0" FontSize="20" />
+                        <TextBlock Text="- yang-er @ GitHub" TextWrapping="Wrap" />
+                        <TextBlock Text="- miasakachenmo @ GitHub" TextWrapping="Wrap" />
+                        <TextBlock Text="支持的学校" Margin="0,8,0,0" FontSize="20" />
+                        <TextBlock Text="- 吉林大学" TextWrapping="Wrap" />
+                        <TextBlock Text="- more coming soon !" TextWrapping="Wrap" />
+                        <TextBlock Text="开放源代码" Margin="0,8,0,0" FontSize="20" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="MIT协议，" TextWrapping="Wrap" />
+                            <HyperlinkButton Content="查看源代码" Margin="0" Padding="0" Click="HyperlinkButton_Click" />
+                            <TextBlock Text="，欢迎提供好玩的意见！" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <TextBlock Text="在线资源" Margin="0,8,0,0" FontSize="20" />
+                        <HyperlinkButton Content="隐私政策" Margin="0" Padding="0" Click="HyperlinkButton_Click2" />
+                        <HyperlinkButton Content="开放源代码许可" Margin="0" Padding="0" Click="HyperlinkButton_Click3" />
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
         </Pivot>
     </Grid>
