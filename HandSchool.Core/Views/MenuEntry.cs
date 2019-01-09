@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using HandSchool.Internal;
+using System;
 
 namespace HandSchool.Views
 {
@@ -10,7 +8,7 @@ namespace HandSchool.Views
         public Command Command { get; set; }
         public string Title { get; set; }
         public string UWPIcon { get; set; }
-        public ToolbarItemOrder Order { get; set; }
+        public Xamarin.Forms.ToolbarItemOrder Order { get; set; }
         public string CommandBinding { get; set; }
 
         public event EventHandler Execute

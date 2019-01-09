@@ -1,10 +1,8 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Command = Xamarin.Forms.Command;
-using Device = Xamarin.Forms.Device;
 
 namespace HandSchool.Views
 {
@@ -29,7 +27,14 @@ namespace HandSchool.Views
             if (e.Parameter is FeedItem feed)
             {
                 ViewModel.Title = "通知详情";
-                PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Flag), Label = "详情", Command = new Command(() => Device.OpenUri(new Uri(feed.Link))) });
+
+                PrimaryMenu.Add(new AppBarButton
+                {
+                    Icon = new SymbolIcon(Symbol.Flag),
+                    Label = "详情",
+                    Command = new Command(() => Core.Platform.OpenUrl(feed.Link))
+                });
+
                 Title = feed.Title;
                 Time = "时间：" + feed.PubDate;
                 Sender = "分类：" + feed.Category;
@@ -40,7 +45,14 @@ namespace HandSchool.Views
             else if (e.Parameter is IMessageItem msg)
             {
                 ViewModel.Title = "消息详情";
-                PrimaryMenu.Add(new AppBarButton { Icon = new SymbolIcon(Symbol.Delete), Label = "删除", Command = msg.Delete });
+
+                PrimaryMenu.Add(new AppBarButton
+                {
+                    Icon = new SymbolIcon(Symbol.Delete),
+                    Label = "删除",
+                    Command = msg.Delete
+                });
+
                 Title = msg.Title;
                 Time = "时间：" + msg.Time.ToString();
                 Sender = "发件人：" + msg.Sender;

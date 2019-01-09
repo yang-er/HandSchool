@@ -2,7 +2,6 @@
 using HandSchool.Internal.HtmlObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
-using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {

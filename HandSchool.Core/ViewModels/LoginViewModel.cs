@@ -1,7 +1,7 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Views;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
@@ -55,7 +55,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 执行登录操作，并设置状态。
         /// </summary>
-        private async void Login()
+        private async Task Login()
         {
             if (IsBusy)
             {

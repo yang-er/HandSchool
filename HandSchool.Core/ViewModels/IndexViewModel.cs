@@ -1,7 +1,7 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
@@ -26,8 +26,8 @@ namespace HandSchool.ViewModels
         {
             Title = "掌上校园";
             Core.App.LoginStateChanged += UpdateWelcome;
-            RefreshCommand = new Command(async () => await Refresh());
-            RequestLoginCommand = new Command(async () => await RequestLogin());
+            RefreshCommand = new Command(Refresh);
+            RequestLoginCommand = new Command(RequestLogin);
         }
         
         /// <summary>
@@ -65,13 +65,10 @@ namespace HandSchool.ViewModels
                 // that won't block the enter of main page.
                 await Task.Yield();
             }
-
-            Core.Log("Index1");
+            
             UpdateNextCurriculum();
-            Core.Log("Index2");
             Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
-            Core.Log("Index3");
             await UpdateWeather();
         }
     }

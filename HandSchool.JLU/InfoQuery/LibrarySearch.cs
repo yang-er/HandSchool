@@ -4,7 +4,6 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -35,7 +34,7 @@ namespace HandSchool.JLU.InfoQuery
 
         public LibrarySearch() : this(OriginalUrl)
         {
-            var cmd = new Command(async (o) => await LibraryRent.RequestRentInfo(o));
+            var cmd = new Command(LibraryRent.RequestRentInfo);
             Menu.Add(new InfoEntranceMenu("我的借阅", cmd, "\uE7BE"));
         }
 

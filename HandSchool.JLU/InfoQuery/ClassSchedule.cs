@@ -9,7 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Command = Xamarin.Forms.Command;
 using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
@@ -102,7 +101,7 @@ namespace HandSchool.JLU.InfoQuery
             Menu.Add(new InfoEntranceMenu("加载", new Command(SolveLessonList), "\uE721"));
         }
 
-        private async void SolveLessonList()
+        private async Task SolveLessonList()
         {
             if (IsBusy) return; IsBusy = true;
             Evaluate?.Invoke($"$('#lessonList').html('<tr><td colspan=\"4\">正在加载…</td></tr>');$('#lessonId').html('')");

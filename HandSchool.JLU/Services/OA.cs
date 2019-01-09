@@ -28,7 +28,6 @@ namespace HandSchool.JLU.Services
 
             if (timedOut) await Core.App.Feed.Execute();
             else Parse(Core.Configure.Read(configOa));
-            Core.Log("OA Preload complete");
         }
 
         public async Task Execute()

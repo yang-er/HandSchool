@@ -1,7 +1,6 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using System.Collections.Generic;
-using HandSchool.Internal;
-using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {

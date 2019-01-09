@@ -4,7 +4,7 @@ using HandSchool.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
 {
@@ -72,7 +72,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 刷新课程表，修改当前周，并通知视图重新绘制。
         /// </summary>
-        private async void Refresh()
+        private async Task Refresh()
         {
             if (IsBusy) return;
             IsBusy = true;
@@ -84,7 +84,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 修改当前周，并通知视图重新绘制。
         /// </summary>
-        private async void ChangeWeek()
+        private async Task ChangeWeek()
         {
             var paramList = new string[25];
             paramList[0] = "所有周";
@@ -108,7 +108,7 @@ namespace HandSchool.ViewModels
         /// 将添加课程的页面加载。
         /// </summary>
         /// <param name="param">系统的导航服务。</param>
-        private async void Create(object param)
+        private async Task Create(object param)
         {
             var item = new CurriculumItem
             {

@@ -1,6 +1,4 @@
-﻿using HandSchool.Internal;
-using HandSchool.ViewModels;
-using System.Text;
+﻿using HandSchool.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 

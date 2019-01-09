@@ -9,7 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Command = Xamarin.Forms.Command;
 using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
@@ -134,7 +133,7 @@ namespace HandSchool.JLU.InfoQuery
             }
         }
 
-        public async void SolveProgVal()
+        public async Task SolveProgVal()
         {
             if (IsBusy) return;
 

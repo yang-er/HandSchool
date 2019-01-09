@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+﻿using HandSchool.Internal;
 
 namespace HandSchool.Models
 {

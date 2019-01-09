@@ -1,17 +1,15 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Internal.HtmlObject;
 using HandSchool.JLU.JsonObject;
+using HandSchool.JLU.Services;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using Newtonsoft.Json;
-using System;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using HandSchool.JLU.Services;
-using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {

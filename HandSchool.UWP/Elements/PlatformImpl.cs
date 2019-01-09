@@ -33,7 +33,7 @@ namespace HandSchool.Internal
         /// <summary>
         /// 运行时名称
         /// </summary>
-        public override string RuntimeName => Device.UWP;
+        public override string RuntimeName => "UWP";
 
         /// <summary>
         /// 设置文件夹

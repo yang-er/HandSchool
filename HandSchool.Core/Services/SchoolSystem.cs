@@ -1,7 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
-using System;
-using System.Collections.Specialized;
+using HandSchool.Views;
 using System.Threading.Tasks;
 
 namespace HandSchool.Services
@@ -65,5 +64,11 @@ namespace HandSchool.Services
         /// <param name="args">元字符串</param>
         /// <returns>格式化后的字符串</returns>
         string FormatArguments(string args);
+
+        /// <summary>
+        /// 重置设置，将应用恢复为初始状态。
+        /// </summary>
+        /// <param name="resp">交互响应</param>
+        void ResetSettings(IViewResponse resp);
     }
 }

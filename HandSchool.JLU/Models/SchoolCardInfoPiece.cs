@@ -1,5 +1,4 @@
 ﻿using HandSchool.Internal;
-using Xamarin.Forms;
 
 namespace HandSchool.JLU.Models
 {

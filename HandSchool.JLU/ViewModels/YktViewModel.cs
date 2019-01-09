@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using JsonException = Newtonsoft.Json.JsonException;
 using WebException = System.Net.WebException;
 
@@ -34,11 +33,11 @@ namespace HandSchool.JLU.ViewModels
             Title = "校园一卡通";
             PickCardInfo = new ObservableCollection<PickCardInfo>();
             RecordInfo = new ObservableCollection<RecordInfo>();
-            LoadPickCardInfoCommand = new Command(async() => await GetPickCardInfo());
-            ChargeCreditCommand = new Command(async (obj) => await ProcessCharge());
-            RecordFindCommand = new Command(async () => await ProcessQuery());
-            SetUpLostStateCommand = new Command(async () => await ProcessSetLost());
-            LoadBasicInfoCommand = new Command(async () => await RefreshBasicInfoAsync());
+            LoadPickCardInfoCommand = new Command(GetPickCardInfo);
+            ChargeCreditCommand = new Command(ProcessCharge);
+            RecordFindCommand = new Command(ProcessQuery);
+            SetUpLostStateCommand = new Command(ProcessSetLost);
+            LoadBasicInfoCommand = new Command(RefreshBasicInfoAsync);
             IsFirstOpen = true;
 
             BasicInfo = new List<SchoolCardInfoPiece>

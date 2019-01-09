@@ -3,7 +3,7 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
-using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace HandSchool.JLU.Models
 {
@@ -32,24 +32,27 @@ namespace HandSchool.JLU.Models
         {
             piece = p;
             _unread = piece.hasReaded == "N";
+            SetRead = new Command(SetReadAsync);
+            SetUnread = new Command(SetUnreadAsync);
+            Delete = new Command(DeleteAsync);
+        }
 
-            SetRead = new Command(async () =>
-            {
-                await Core.App.Message.SetReadState(Id, true);
-                Unread = false;
-            });
+        private async Task SetReadAsync()
+        {
+            await Core.App.Message.SetReadState(Id, true);
+            Unread = false;
+        }
 
-            SetUnread = new Command(async () =>
-            {
-                await Core.App.Message.SetReadState(Id, false);
-                Unread = true;
-            });
+        private async Task SetUnreadAsync()
+        {
+            await Core.App.Message.SetReadState(Id, false);
+            Unread = true;
+        }
 
-            Delete = new Command(async () =>
-            {
-                await Core.App.Message.Delete(Id);
-                MessageViewModel.Instance.Remove(this);
-            });
+        private async Task DeleteAsync()
+        {
+            await Core.App.Message.Delete(Id);
+            MessageViewModel.Instance.Remove(this);
         }
     }
 }

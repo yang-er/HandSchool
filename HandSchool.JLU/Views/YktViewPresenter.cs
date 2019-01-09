@@ -3,6 +3,7 @@ using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using HCommand = HandSchool.Internal.Command;
 
 namespace HandSchool.JLU.Views
 {
@@ -97,14 +98,14 @@ namespace HandSchool.JLU.Views
                     new SchoolCardInfoPiece(
                         PickCardTitle,
                         PickCardMessage,
-                        new Command(PushPickCard)
+                        new HCommand((o) => PushPickCard(o))
                     ));
 
                 YktViewModel.Instance.BasicInfo.Add(
                     new SchoolCardInfoPiece(
                         HistoryTitle,
                         HistoryMessage,
-                        new Command(PushHistory)
+                        new HCommand((o) => PushHistory(o))
                     ));
             }
         }
