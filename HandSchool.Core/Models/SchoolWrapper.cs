@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using System;
+using System.Collections.Generic;
 
 namespace HandSchool.Services
 {
@@ -62,5 +63,10 @@ namespace HandSchool.Services
         /// 保存设置
         /// </summary>
         void SaveSettings(ISchoolSystem system);
+
+        /// <summary>
+        /// 使用的储存文件。将在重置时清除。
+        /// </summary>
+        List<string> RegisteredFiles { get; }
     }
 }

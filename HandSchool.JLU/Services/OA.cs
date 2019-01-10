@@ -42,14 +42,16 @@ namespace HandSchool.JLU.Services
                 }
 
                 if (lastReport == "") return;
+                var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 Core.Configure.Write(configOa, lastReport);
-                Core.Configure.Write(configOaTime, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+                Core.Configure.Write(configOaTime, dateString);
                 Parse(lastReport);
+                this.WriteLog("Feed updated at " + dateString);
             }
             catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.NameResolutionFailure)
-                    Core.Log("App not connected");
+                    this.WriteLog("App not connected to network. Stop feeding.");
                 else throw;
             }
         }
@@ -66,7 +68,7 @@ namespace HandSchool.JLU.Services
             }
             catch (XmlException ex)
             {
-                Core.Log(ex);
+                Core.Logger.WriteException(ex);
             }
         }
     }

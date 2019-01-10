@@ -56,7 +56,7 @@ namespace HandSchool.ViewModels
             }
             catch (Exception ex)
             {
-                Core.Log(ex);
+                this.WriteLog(ex);
             }
             finally
             {

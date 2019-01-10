@@ -28,7 +28,7 @@ namespace HandSchool.JLU.InfoQuery
 
         public override Task Receive(string data)
         {
-            Core.Log(data);
+            this.WriteLog("Accidently received message <<<EOF\n" + data + "\nEOF;");
             return Task.CompletedTask;
         }
 

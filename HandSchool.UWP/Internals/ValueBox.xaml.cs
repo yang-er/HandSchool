@@ -122,7 +122,7 @@ namespace HandSchool.Views
                 case SettingTypes.Action:
                     var btn = new Button();
                     btn.Content = "执行";
-                    btn.Tapped += (s, e) => Wrapper.MethodInfo.Invoke(Core.App.Service, new object[] { NavigateImpl.Impl.CurrentStackTopPage });
+                    btn.SetBinding(ButtonBase.CommandProperty, "ExcuteAction", Wrapper);
                     Grid.Children.Add(btn);
                     break;
 

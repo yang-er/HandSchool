@@ -1,11 +1,8 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Services;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 
 namespace HandSchool
 {
@@ -23,7 +20,17 @@ namespace HandSchool
         /// 配置管理
         /// </summary>
         public static ConfigurationManager Configure { get; private set; }
-        
+
+        /// <summary>
+        /// 反射处理
+        /// </summary>
+        public static ReflectionManager Reflection => ReflectionManager.Lazy.Value;
+
+        /// <summary>
+        /// 日志管理
+        /// </summary>
+        public static Logger Logger { get; private set; }
+
         /// <summary>
         /// 平台相关实现
         /// </summary>
@@ -51,10 +58,10 @@ namespace HandSchool
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void InitPlatform(PlatformBase platform)
         {
-            Debug.Assert(Platform == null);
-            Debug.Assert(platform != null);
+            Debug.Assert(Platform == null && platform != null);
             Platform = platform;
             Configure = new ConfigurationManager(Platform.ConfigureDirectory);
+            Logger = new Logger();
         }
 
         /// <summary>
@@ -74,88 +81,6 @@ namespace HandSchool
             current.PreLoad();
             current.PostLoad();
             return true;
-        }
-
-        /// <summary>
-        /// 获取所有的学校程序集并尝试载入。
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<string> GetAvaliableSchools()
-        {
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            foreach (var file in Directory.EnumerateFiles(baseDir, "HandSchool.*.dll"))
-            {
-                var fileShort = file.Replace(baseDir, "");
-                yield return fileShort.Replace(".dll", "");
-            }
-        }
-
-        /// <summary>
-        /// 当程序集加载时，检查是否是学校对应的代码。
-        /// </summary>
-        /// <param name="sender">发送者</param>
-        /// <param name="args">包含了程序集的参数</param>
-        public static void AssemblyLoaded(object sender, AssemblyLoadEventArgs args) => LoadAssembly(args.LoadedAssembly);
-
-        /// <summary>
-        /// 检查程序集是否为保存了学校信息，如果是则加载。
-        /// </summary>
-        /// <param name="assembly">检查的程序集</param>
-        private static void LoadAssembly(Assembly assembly)
-        {
-            var export = assembly.GetCustomAttribute<ExportSchoolAttribute>();
-            if (export is null) return;
-            var loader = CreateInstance<ISchoolWrapper>(export.RegisterType);
-            Schools.Add(loader);
-        }
-
-        /// <summary>
-        /// 当环境已经加载完全部程序集时尝试读取。
-        /// </summary>
-        public static void AheadOfTimeAssembly()
-        {
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (assembly.FullName.StartsWith("HandSchool."))
-                {
-                    LoadAssembly(assembly);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 向调试器写入调试信息。
-        /// </summary>
-        /// <param name="output">输出的字符串内容。</param>
-        [DebuggerStepThrough]
-        public static void Log(string output) => Trace.WriteLine(output);
-
-        /// <summary>
-        /// 向调试器写入调试信息。
-        /// </summary>
-        /// <param name="output">产生的异常内容。</param>
-        [DebuggerStepThrough]
-        public static void Log(Exception output) => Trace.WriteLine(output);
-
-        /// <summary>
-        /// 向调试器写入调试信息。
-        /// </summary>
-        /// <param name="format">字符串的输出格式。</param>
-        /// <param name="param">对应输出内容的参数。</param>
-        [DebuggerStepThrough]
-        public static void Log(string format, params object[] param) => Trace.WriteLine(string.Format(format, param));
-
-        /// <summary>
-        /// 创建一个对象的实例。
-        /// </summary>
-        /// <typeparam name="T">实例化类型</typeparam>
-        /// <param name="typeInfo">需要实例化的类型</param>
-        /// <returns>实例对象</returns>
-        public static T CreateInstance<T>(Type typeInfo) where T : class
-        {
-            Log("[CoreRTTI] " + typeInfo.FullName + " was requested to be activated.");
-            Debug.Assert(typeof(T).IsAssignableFrom(typeInfo));
-            return Activator.CreateInstance(typeInfo) as T;
         }
     }
 }

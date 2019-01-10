@@ -28,7 +28,7 @@ namespace HandSchool.JLU
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
         
-        [Settings("提示", "保存使设置永久生效，部分设置重启后生效。", -233)]
+        [Settings("提示", "保存使设置永久生效，部分设置重启后生效。")]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         
         public string FormName => "UIMS教务管理系统";
@@ -214,18 +214,8 @@ namespace HandSchool.JLU
         }
 
         public void SaveSettings() => Core.App.Loader.SaveSettings(this);
-
-        [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
-        public async void ResetSettings(IViewResponse resp)
-        {
-            if (!await resp.RequestAnswerAsync("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
-
-            foreach (var fileName in Loader.RegisteredFiles)
-                Core.Configure.Remove(fileName);
-            Core.Configure.Remove("hs.school.bin");
-
-            await resp.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
-        }
+        
+        public void ResetSettings() { }
 
         public Task<bool> PrepareLogin()
         {

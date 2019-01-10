@@ -71,7 +71,7 @@ namespace HandSchool.Views
         string IViewPage.Title
         {
             get => ViewModel.Title;
-            set => Core.Log("Title change requested but ignored");
+            set => this.WriteLog("Title change requested but ignored");
         }
 
         public event EventHandler Disappearing;

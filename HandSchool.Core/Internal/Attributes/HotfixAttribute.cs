@@ -74,13 +74,13 @@ namespace HandSchool.Internal
                     {
                         Core.Configure.Write(LocalStorage + ".ver", new_meta);
                         await wc.DownloadFileTaskAsync(meta_exp[1], Path.Combine(Core.Configure.Directory, LocalStorage));
-                        Core.Log("[Hotfix] Module successfully updated - " + LocalStorage);
+                        Core.Logger.WriteLine("Hotfix", "Module successfully updated - " + LocalStorage);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Core.Log(ex);
+                Core.Logger.WriteException(ex);
                 Core.Configure.Write(LocalStorage + ".ver", "");
             }
         }
@@ -102,9 +102,7 @@ namespace HandSchool.Internal
         /// <returns>本地储存的数据。</returns>
         public static string ReadContent(object obj)
         {
-            var hf = obj.GetType().GetCustomAttribute(typeof(HotfixAttribute)) as HotfixAttribute;
-            Debug.Assert(hf != null, "HotfixAttribute not attached.");
-            return hf.ReadContent();
+            return obj.GetType().Get<HotfixAttribute>().ReadContent();
         }
     }
 }

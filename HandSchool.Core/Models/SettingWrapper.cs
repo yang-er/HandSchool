@@ -58,21 +58,27 @@ namespace HandSchool.Models
         }
 
         /// <summary>
+        /// 是否为静态成员
+        /// </summary>
+        public bool IsStatic { get; }
+
+        /// <summary>
         /// 设置的值内容修改包装。
         /// </summary>
         /// <param name="pinfo">属性的信息。</param>
-        public SettingWrapper(PropertyInfo pinfo)
+        public SettingWrapper(PropertyInfo pInfo)
         {
-            Information = pinfo;
-            AttributeData = pinfo.GetSettingsAttribute();
+            Information = pInfo;
+            AttributeData = pInfo.Get<SettingsAttribute>();
+            IsStatic = pInfo.GetMethod.IsStatic;
 
             if (!Information.CanWrite)
                 Type = SettingTypes.Const;
-            else if (pinfo.PropertyType == typeof(int))
+            else if (pInfo.PropertyType == typeof(int))
                 Type = SettingTypes.Integer;
-            else if (pinfo.PropertyType == typeof(string))
+            else if (pInfo.PropertyType == typeof(string))
                 Type = SettingTypes.String;
-            else if (pinfo.PropertyType == typeof(bool))
+            else if (pInfo.PropertyType == typeof(bool))
                 Type = SettingTypes.Boolean;
             else
                 Type = SettingTypes.Unknown;
@@ -86,8 +92,16 @@ namespace HandSchool.Models
         {
             Information = typeof(SettingWrapper).GetProperty(nameof(ActionPlaceHolder));
             MethodInfo = mInfo;
-            AttributeData = mInfo.GetSettingsAttribute();
+            IsStatic = mInfo.IsStatic;
+            AttributeData = mInfo.Get<SettingsAttribute>();
             Type = SettingTypes.Action;
+
+            ExcuteAction = new Command(() =>
+            {
+                MethodInfo.Invoke(Core.App.Service, new object[] { });
+            });
         }
+
+        public Command ExcuteAction { get; }
     }
 }

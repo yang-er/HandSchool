@@ -68,7 +68,6 @@ namespace HandSchool.Services
         /// <summary>
         /// 重置设置，将应用恢复为初始状态。
         /// </summary>
-        /// <param name="resp">交互响应</param>
-        void ResetSettings(IViewResponse resp);
+        void ResetSettings();
     }
 }

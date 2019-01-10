@@ -1,8 +1,6 @@
-﻿using HandSchool.Services;
+﻿using HandSchool.Internal;
+using HandSchool.Services;
 using System;
-using System.Reflection;
-using EntAttr = HandSchool.Internal.EntranceAttribute;
-using HFAttr = HandSchool.Internal.HotfixAttribute;
 
 namespace HandSchool.Models
 {
@@ -32,12 +30,12 @@ namespace HandSchool.Models
         /// <param name="type">入口点的参数类型。</param>
         public InfoEntranceWrapper(Type type)
         {
-            var ent = type.GetCustomAttribute(typeof(EntAttr)) as EntAttr;
+            var ent = type.Get<EntranceAttribute>();
             Name = ent.Title;
             Description = ent.Description;
-            if (type.GetCustomAttribute(typeof(HFAttr)) is HFAttr hfattr)
-                hfattr.CheckUpdate(false);
-            Load = () => Core.CreateInstance<IWebEntrance>(type);
+            if (type.Has<HotfixAttribute>())
+                type.Get<HotfixAttribute>().CheckUpdate(false);
+            Load = () => Core.Reflection.CreateInstance<IWebEntrance>(type);
         }
     }
 }

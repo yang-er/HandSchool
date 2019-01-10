@@ -2,7 +2,6 @@
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -42,7 +41,7 @@ namespace HandSchool.Views
             }
             catch (Exception ex)
             {
-                Core.Log(ex);
+                this.WriteLog(ex);
             }
         }
 
@@ -139,7 +138,7 @@ namespace HandSchool.Views
             var baseController = e.Parameter as BaseController;
             InfoEntrance = baseController;
 
-            var meta = InfoEntrance.GetType().GetCustomAttribute<EntranceAttribute>();
+            var meta = InfoEntrance.GetType().Get<EntranceAttribute>();
             ViewModel = e.Parameter as BaseController;
             ViewModel.Title = meta.Title;
             InfoEntrance.Evaluate = InvokeScript;

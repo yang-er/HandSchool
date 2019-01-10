@@ -43,7 +43,7 @@ namespace HandSchool.JLU.InfoQuery
 
         public override Task Receive(string data)
         {
-            Core.Log(data);
+            this.WriteLog("Unexpected value received <<<EOF\n" + data + "\nEOF;");
             return Task.CompletedTask;
         }
         

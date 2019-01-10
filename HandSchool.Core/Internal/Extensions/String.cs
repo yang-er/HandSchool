@@ -1,26 +1,19 @@
-﻿using HandSchool.Internal.HtmlObject;
-using HandSchool.Models;
-using HandSchool.ViewModels;
+﻿using HandSchool.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using FeedItem = HandSchool.Models.FeedItem;
 
 namespace HandSchool.Internal
 {
     /// <summary>
-    /// 提供基础静态方法的帮助拓展类。
+    /// 字符串相关的拓展类，提供了转码、序列化等功能。
     /// </summary>
-    public static class ExtensionsHelper
+    public static class StringExtensions
     {
         /// <summary>
         /// 将字符串解析为RSS文档。
@@ -44,7 +37,7 @@ namespace HandSchool.Internal
                        Id = baseId++
                    };
         }
-        
+
         /// <summary>
         /// 对 <see cref="byte[]" /> 进行MD5运算。
         /// </summary>
@@ -57,7 +50,7 @@ namespace HandSchool.Internal
                 return MD5p.ComputeHash(source);
             }
         }
-        
+
         /// <summary>
         /// 对 <see cref="string" /> 进行MD5运算。
         /// </summary>
@@ -70,7 +63,7 @@ namespace HandSchool.Internal
                 encoding = Encoding.UTF8;
             return encoding.GetBytes(source).ToMD5().ToHexDigest(true);
         }
-        
+
         /// <summary>
         /// 将JSON字符串转化为 <see cref="T" /> 的对象。
         /// </summary>
@@ -84,7 +77,7 @@ namespace HandSchool.Internal
             if (jsonString == "") throw new JsonReaderException();
             return json.Deserialize<T>(new JsonTextReader(new StringReader(jsonString)));
         }
-        
+
         /// <summary>
         /// 将对象序列化为JSON文本。
         /// </summary>
@@ -97,7 +90,7 @@ namespace HandSchool.Internal
             json.Serialize(new JsonTextWriter(new StringWriter(sb)), value);
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// 将 <see cref="byte[]" /> 转化为对应的十六进制码字符串。
         /// </summary>
@@ -116,10 +109,10 @@ namespace HandSchool.Internal
                 bit = ch & 0x0f;
                 sb.Append(chars[bit]);
             }
-            
+
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// 解开Base64编码。
         /// </summary>
@@ -131,7 +124,7 @@ namespace HandSchool.Internal
             var bytes = Convert.FromBase64String(value);
             return Encoding.UTF8.GetString(bytes);
         }
-        
+
         /// <summary>
         /// 进行Base64编码。
         /// </summary>
@@ -143,7 +136,7 @@ namespace HandSchool.Internal
             var bytes = Encoding.UTF8.GetBytes(value);
             return Convert.ToBase64String(bytes);
         }
-        
+
         /// <summary>
         /// 将字符串数组转为application/x-form-urlencoded。
         /// </summary>
@@ -161,91 +154,6 @@ namespace HandSchool.Internal
             }
 
             return sb.ToString();
-        }
-        
-        /// <summary>
-        /// 将字符串转化为 RawHtml。
-        /// </summary>
-        /// <param name="value">原字符串。</param>
-        /// <returns>转化对象。</returns>
-        public static RawHtml ToRawHtml(this string value)
-        {
-            return new RawHtml { Raw = value };
-        }
-        
-        /// <summary>
-        /// 将字符串转化为 RawHtml。
-        /// </summary>
-        /// <param name="sb">原字符串。</param>
-        /// <returns>转化对象。</returns>
-        public static RawHtml ToRawHtml(this StringBuilder sb)
-        {
-            return new RawHtml { Raw = sb.ToString() };
-        }
-        
-        /// <summary>
-        /// 将对象外面嵌套FormGroup。
-        /// </summary>
-        /// <param name="obj">被嵌套内容。</param>
-        /// <returns>嵌套完对象。</returns>
-        public static FormGroup WrapFormGroup(this IHtmlObject obj)
-        {
-            return new FormGroup { Children = { obj } };
-        }
-        
-        /// <summary>
-        /// 从类成员中反射获取设置属性。
-        /// </summary>
-        /// <param name="info">成员信息。</param>
-        /// <returns>设置的特性。</returns>
-        public static SettingsAttribute GetSettingsAttribute(this MemberInfo info)
-        {
-            var ret = info.GetCustomAttribute(typeof(SettingsAttribute)) as SettingsAttribute;
-            if (ret is null) throw new InvalidOperationException();
-            return ret;
-        }
-        
-        /// <summary>
-        /// 获得 <see cref="CookieContainer"/> 内的所有 <see cref="Cookie"/>。
-        /// </summary>
-        /// <param name="cc">容纳器。</param>
-        /// <returns>所有Cookie组成的列表</returns>
-        public static List<Cookie> GetAll(this CookieContainer cc)
-        {
-            const BindingFlags flag = BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance;
-            var args = new object[] { };
-            var lstCookies = new List<Cookie>();
-
-            var table = (Hashtable)cc.GetType().InvokeMember("m_domainTable", flag, null, cc, args);
-
-            foreach (var pathList in table.Values)
-            {
-                var lstCookieCol = (SortedList)pathList.GetType().InvokeMember("m_list", flag, null, pathList, args);
-                lstCookies.AddRange(from CookieCollection col in lstCookieCol.Values from Cookie c in col select c);
-            }
-
-            return lstCookies;
-        }
-        
-        /// <summary>
-        /// 对于表单请求登录。
-        /// </summary>
-        /// <param name="form">请求的表单。</param>
-        /// <returns>登录是否成功。</returns>
-        public static async Task<bool> RequestLogin(this ILoginField form)
-        {
-            if (form.AutoLogin && !form.IsLogin) await form.Login();
-            if (!form.IsLogin) await LoginViewModel.RequestAsync(form);
-            return form.IsLogin;
-        }
-
-        /// <summary>
-        /// 通过弹出对话框，提示连接超时的信息。
-        /// </summary>
-        /// <param name="baseVm">应该显示的视图模型。</param>
-        public static Task ShowTimeoutMessage(this BaseViewModel baseVm)
-        {
-            return baseVm.RequestMessageAsync("错误", "连接超时，请重试。", "知道了");
         }
     }
 }

@@ -14,7 +14,7 @@ namespace HandSchool.ViewModels
     {
         bool isBusy = false;
         string title = string.Empty;
-
+        
         /// <summary>
         /// 忙碌状态更改的事件处理。
         /// </summary>

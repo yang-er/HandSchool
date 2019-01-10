@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
+using System.Reflection;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using SslPolicyErrors = System.Net.Security.SslPolicyErrors;
 using X509Cert = System.Security.Cryptography.X509Certificates.X509Certificate;
@@ -116,7 +120,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                Core.Log(ex);
+                Core.Logger.WriteException(ex);
                 return "";
             }
         }
@@ -156,7 +160,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                Core.Log(ex);
+                Core.Logger.WriteException(ex);
                 return null;
             }
         }
@@ -189,7 +193,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                Core.Log(ex);
+                Core.Logger.WriteException(ex);
                 return "";
             }
         }
@@ -233,7 +237,7 @@ namespace HandSchool.Internal
             }
             catch (NotSupportedException ex)
             {
-                Core.Log(ex);
+                Core.Logger.WriteException(ex);
                 return "";
             }
         }
@@ -255,6 +259,29 @@ namespace HandSchool.Internal
             }
 
             return request;
+        }
+
+        /// <summary>
+        /// 获得 <see cref="CookieContainer"/> 内的所有 <see cref="Cookie"/>。
+        /// </summary>
+        /// <param name="cc">容纳器。</param>
+        /// <returns>所有Cookie组成的列表</returns>
+        [Obsolete("This method is not stable.")]
+        public static List<Cookie> GetAllCookies(CookieContainer cc)
+        {
+            const BindingFlags flag = BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance;
+            var args = new object[] { };
+            var lstCookies = new List<Cookie>();
+
+            var table = (Hashtable)cc.GetType().InvokeMember("m_domainTable", flag, null, cc, args);
+
+            foreach (var pathList in table.Values)
+            {
+                var lstCookieCol = (SortedList)pathList.GetType().InvokeMember("m_list", flag, null, pathList, args);
+                lstCookies.AddRange(from CookieCollection col in lstCookieCol.Values from Cookie c in col select c);
+            }
+
+            return lstCookies;
         }
     }
 }

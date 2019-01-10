@@ -43,7 +43,7 @@ namespace HandSchool.Views
                 if (item.PageType != null && item.PageType != ContentFrame.CurrentSourcePageType)
                     ContentFrame.Navigate(item.PageType, item.NavigationParameter);
                 else
-                    Core.Log(item.Title + " is not finished");
+                    Core.Logger.WriteLine("UWP", item.Title + " is not finished");
             }
             else if (args.IsSettingsInvoked)
             {

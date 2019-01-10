@@ -17,15 +17,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="欢迎使用掌上校园" Grid.Row="1" FontSize="32" HorizontalTextAlignment="Center" Margin="0,0,0,24" />
-        <TextBlock Text="选择你的学校" Grid.Row="2" FontSize="16" HorizontalTextAlignment="Center" Margin="0,0,0,8" />
-        <ComboBox x:Name="MySchool" Grid.Row="3" Width="200" HorizontalAlignment="Center" Margin="0,0,0,16" RightTapped="MySchool_RightTapped">
+        <TextBlock Text="欢迎使用掌上校园" Grid.Row="1" FontSize="32" Width="300" HorizontalTextAlignment="Center" Margin="0,0,0,24" />
+        <TextBlock Text="选择你的学校" Grid.Row="2" FontSize="16" Width="200" HorizontalTextAlignment="Center" Margin="0,0,0,8" RightTapped="MySchool_RightTapped">
             <FlyoutBase.AttachedFlyout>
                 <MenuFlyout>
                     <MenuFlyoutItem Text="查看RTTI" Tapped="MenuFlyoutItem_Tapped" />
                 </MenuFlyout>
             </FlyoutBase.AttachedFlyout>
-        </ComboBox>
-        <Button Content="下一步" Grid.Row="4" HorizontalAlignment="Center" Click="Button_Click" />
+        </TextBlock>
+        <ComboBox x:Name="MySchool" Grid.Row="3" Width="200" HorizontalAlignment="Center" Margin="0,0,0,16" />
+        <Button Content="下一步" Grid.Row="4" Width="100" HorizontalAlignment="Center" Click="Button_Click" />
     </Grid>
 </Page>

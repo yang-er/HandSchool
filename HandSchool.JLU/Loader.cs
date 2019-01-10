@@ -1,15 +1,13 @@
-﻿using HandSchool.JLU.InfoQuery;
-using HandSchool.JLU.ViewModels;
+﻿using HandSchool.Internal;
+using HandSchool.JLU;
+using HandSchool.JLU.InfoQuery;
+using HandSchool.JLU.Services;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
-using HandSchool.JLU.Services;
-using HandSchool.Internal;
-using HandSchool.JLU;
 
 [assembly: RegisterService(typeof(Loader))]
 [assembly: ExportSchool(typeof(Loader))]
@@ -30,7 +28,7 @@ namespace HandSchool.JLU
         public Lazy<IFeedEntrance> Feed { get; set; }
         public EventHandler<LoginStateEventArgs> NoticeChange { get; set; }
 
-        public static List<string> RegisteredFiles { get; set; } = new List<string>();
+        public List<string> RegisteredFiles { get; private set; }
 
         internal static SchoolCard Ykt;
         public static InfoEntranceGroup InfoList;
@@ -44,18 +42,9 @@ namespace HandSchool.JLU
         public void PreLoad()
         {
             Core.App.DailyClassCount = 11;
+            RegisteredFiles = new List<string>();
+            Core.Reflection.RegisterFiles(GetType().Assembly, RegisteredFiles);
             
-            foreach (RegisterServiceAttribute register in GetType().Assembly.GetCustomAttributes(typeof(RegisterServiceAttribute), false))
-            {
-                if (register.RegisterType.GetCustomAttribute(typeof(UseStorageAttribute)) is UseStorageAttribute stg)
-                {
-                    if (stg.School == "JLU")
-                    {
-                        RegisteredFiles.AddRange(stg.Files);
-                    }
-                }
-            }
-
             var lp = Core.Configure.Read(configFile);
             SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
 

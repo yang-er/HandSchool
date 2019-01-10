@@ -9,12 +9,9 @@ namespace HandSchool.UWP
         {
             Internal.PlatformImpl.Register();
 #if DEBUG
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.AssemblyLoad += Core.AssemblyLoaded;
-            foreach (var sch in Core.GetAvaliableSchools())
-                currentDomain.Load(sch);
+            Core.Reflection.ForceLoad(true);
 #else
-            Core.AheadOfTimeAssembly();
+            Core.Reflection.ForceLoad(false);
 #endif
             Application.Start((p) => new App());
         }

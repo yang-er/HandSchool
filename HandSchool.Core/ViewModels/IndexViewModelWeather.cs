@@ -66,7 +66,7 @@ namespace HandSchool.ViewModels
             catch (Exception ex)
             {
                 Weather = "天气信息获取失败";
-                Core.Log(ex);
+                this.WriteLog(ex);
             }
         }
     }

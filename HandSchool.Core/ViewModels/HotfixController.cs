@@ -89,8 +89,8 @@ namespace HandSchool.ViewModels
             }
             else
             {
-                Core.Log("Unknown response: " + data);
-                Core.Log("You can rewrite Receive(string) as you needed.");
+                this.WriteLog("Unknown response: <<<EOF\n" + data + "\nEOF; " +
+                    "You can rewrite Receive(string) as you needed.");
             }
         }
 

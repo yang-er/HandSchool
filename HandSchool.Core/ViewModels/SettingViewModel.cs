@@ -3,7 +3,6 @@ using HandSchool.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace HandSchool.ViewModels
 {
@@ -48,19 +47,40 @@ namespace HandSchool.ViewModels
 
             Items = (
                 from prop in props
-                where prop.GetCustomAttribute(typeof(SettingsAttribute)) != null
+                where prop.Has<SettingsAttribute>()
                 select new SettingWrapper(prop)
             ).Union(
                 from @void in voids
-                where @void.GetCustomAttribute(typeof(SettingsAttribute)) != null
+                where @void.Has<SettingsAttribute>()
                 select new SettingWrapper(@void)
             ).ToList();
+
+            var Mtype = typeof(SettingViewModel);
+
+            Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
             
             SaveConfigures = new Command(async () =>
             {
                 Core.App.Loader.SaveSettings(Core.App.Service);
                 await RequestMessageAsync("设置中心", "保存成功！", "好的");
             });
+        }
+        
+        /// <summary>
+        /// 清除数据的功能
+        /// </summary>
+        /// <param name="resp"></param>
+        [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
+        public static async void ResetSettings()
+        {
+            if (!await Instance.RequestAnswerAsync("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
+
+            foreach (var fileName in Core.App.Loader.RegisteredFiles)
+                Core.Configure.Remove(fileName);
+            Core.Configure.Remove("hs.school.bin");
+            Core.App.Service.ResetSettings();
+
+            await Instance.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
         }
     }
 }

@@ -116,7 +116,7 @@ namespace HandSchool.JLU.Services
             }
             catch (JsonException)
             {
-                Core.Log(LastReport);
+                this.WriteLog("Unexpected value received <<<EOF\n" + LastReport + "\nEOF;");
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
                 return IsLogin = false;
             }
