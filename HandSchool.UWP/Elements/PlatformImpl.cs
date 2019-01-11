@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
@@ -7,7 +8,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace HandSchool.Internal
+namespace HandSchool.UWP
 {
     /// <summary>
     /// UWP平台相关代码的接口要求。
@@ -42,7 +43,7 @@ namespace HandSchool.Internal
         /// <summary>
         /// 系统导航内容
         /// </summary>
-        public List<NavigationMenuItemUWP> NavigationItems { get; private set; }
+        public List<NavigationMenuItemImpl> NavigationItems { get; private set; }
 
         /// <summary>
         /// 初始化平台相关的参数。
@@ -109,7 +110,7 @@ namespace HandSchool.Internal
         /// </summary>
         public override void BeginMenu()
         {
-            NavigationItems = new List<NavigationMenuItemUWP>();
+            NavigationItems = new List<NavigationMenuItemImpl>();
         }
 
         /// <summary>
@@ -122,7 +123,7 @@ namespace HandSchool.Internal
         /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
         public override void AddMenuEntry(string title, string dest, string category, string uwp, string ios)
         {
-            NavigationItems.Add(new NavigationMenuItemUWP(title, dest, category, uwp));
+            NavigationItems.Add(new NavigationMenuItemImpl(title, dest, category, uwp));
         }
 
         /// <summary>

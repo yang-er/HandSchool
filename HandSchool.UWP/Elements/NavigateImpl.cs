@@ -1,4 +1,5 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Internal;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
 using WFrame = Windows.UI.Xaml.Controls.Frame;
 
-namespace HandSchool.Internal
+namespace HandSchool.UWP
 {
     /// <summary>
     /// 针对 WFrame 实现的导航。

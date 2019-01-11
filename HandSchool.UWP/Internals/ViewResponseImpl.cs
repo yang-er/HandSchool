@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.UWP;
 
-namespace HandSchool.Internal
+namespace HandSchool.UWP
 {
     internal static class ViewResponseImpl
     {

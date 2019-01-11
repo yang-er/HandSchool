@@ -56,9 +56,6 @@
     <EnableProguard>true</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microcharts.Forms">
-      <HintPath>..\..\Microcharts\Microcharts.Forms\bin\Release\netstandard2.0\Microcharts.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />
@@ -264,7 +261,16 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <Import Project="..\HandSchool\HandSchool.projitems" Label="Shared" />
-  <Import Project="..\HandSchool\HandSchool.Views.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\HandSchool.Core\HandSchool.Core.csproj">
+      <Project>{dea278bf-b6bf-4331-96b7-cedc9a4e39c3}</Project>
+      <Name>HandSchool.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj">
+      <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
+      <Name>HandSchool.JLU</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

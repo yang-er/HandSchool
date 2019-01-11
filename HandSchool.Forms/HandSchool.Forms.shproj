@@ -7,7 +7,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
-  <Import Project="HandSchool.Views.projitems" Label="Shared" />
+  <Import Project="HandSchool.Forms.projitems" Label="Shared" />
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\CommonAssets\bootstrap.css">
       <Link>WebWrapper\bootstrap.css</Link>

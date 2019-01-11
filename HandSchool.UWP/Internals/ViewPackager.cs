@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.UWP;
+using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
+using HandSchool.UWP;
 using HandSchool.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace HandSchool.Views
         public Grid HeaderAreaGrid { get; set; }
         private bool _isSettingsInvoked = false;
         
-        private List<NavigationMenuItemUWP> NavMenuItems;
+        private List<NavigationMenuItemImpl> NavMenuItems;
         
         public MainPage()
         {
@@ -38,7 +39,7 @@ namespace HandSchool.Views
 
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem is NavigationMenuItemUWP item)
+            if (args.InvokedItem is NavigationMenuItemImpl item)
             {
                 if (item.PageType != null && item.PageType != ContentFrame.CurrentSourcePageType)
                     ContentFrame.Navigate(item.PageType, item.NavigationParameter);

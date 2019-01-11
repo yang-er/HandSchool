@@ -1,14 +1,15 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Models;
+using HandSchool.Views;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace HandSchool.Models
+namespace HandSchool.UWP
 {
     /// <summary>
     /// 实现Universal Windows Platform的导航项目。
     /// </summary>
-    internal class NavigationMenuItemUWP : NavigationMenuItem
+    internal class NavigationMenuItemImpl : NavigationMenuItem
     {
         /// <summary>
         /// UWP上的图标
@@ -22,7 +23,7 @@ namespace HandSchool.Models
         /// <param name="dest">目标页面类型名</param>
         /// <param name="category">类的父命名空间</param>
         /// <param name="icon">UWP上的图标</param>
-        public NavigationMenuItemUWP(string title, string dest, string category, string icon) : base(title, dest, category)
+        public NavigationMenuItemImpl(string title, string dest, string category, string icon) : base(title, dest, category)
         {
             Icon = new FontIcon
             {

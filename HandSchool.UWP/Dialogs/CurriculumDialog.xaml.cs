@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
+using HandSchool.UWP;
 using HandSchool.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

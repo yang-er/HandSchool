@@ -1,5 +1,4 @@
-﻿using System;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 
 namespace HandSchool.UWP
 {
@@ -7,7 +6,7 @@ namespace HandSchool.UWP
     {
         static void Main(string[] args)
         {
-            Internal.PlatformImpl.Register();
+            PlatformImpl.Register();
 #if DEBUG
             Core.Reflection.ForceLoad(true);
 #else
