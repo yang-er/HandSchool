@@ -47,16 +47,16 @@ namespace HandSchool.Models
         /// <summary>
         /// 设置为已读取
         /// </summary>
-        Command SetRead { get; }
+        CommandAction SetRead { get; }
 
         /// <summary>
         /// 设置为未读取
         /// </summary>
-        Command SetUnread { get; }
+        CommandAction SetUnread { get; }
 
         /// <summary>
         /// 删除消息
         /// </summary>
-        Command Delete { get; }
+        CommandAction Delete { get; }
     }
 }

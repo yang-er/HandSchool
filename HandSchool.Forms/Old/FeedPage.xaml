@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:w="clr-namespace:HandSchool.Views"
-                  x:Class="HandSchool.Views.FeedPage"
-                  Title="{Binding Title}">
-    <ListView x:Name="MyListView"
-              ItemsSource="{Binding Items}"
+<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:w="clr-namespace:HandSchool.Views"
+            x:Class="HandSchool.Views.FeedPage"
+            Title="{Binding Title}">
+    <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               IsPullToRefreshEnabled="true"
               SelectionMode="None"
@@ -29,4 +28,4 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-</w:PopContentPage>
+</w:ViewPage>

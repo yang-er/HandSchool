@@ -1,5 +1,7 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Forms;
+using HandSchool.Internal;
 using HandSchool.ViewModels;
+using Microcharts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ namespace HandSchool.Views
     public class ViewPage : ContentPage, IViewPage
     {
         public const string RequestInputSignalName = "HandSchool.AskInput";
+        public const string RequestChartSignalName = "HandSchool.ChartShow";
 
         /// <summary>
         /// 与此页面沟通的视图模型
@@ -28,17 +31,7 @@ namespace HandSchool.Views
                 SetBinding(IsBusyProperty, new Binding("IsBusy", BindingMode.OneWay));
             }
         }
-
-        /// <summary>
-        /// 是否显示正忙的弹窗
-        /// </summary>
-        public bool ShowIsBusyDialog { get; protected set; }
-
-        /// <summary>
-        /// 是否使用平板电脑的分割页面版本优化。
-        /// </summary>
-        public bool TabletEnabled { get; set; } = false;
-
+        
         /// <summary>
         /// 是否为模态框
         /// </summary>
@@ -98,6 +91,11 @@ namespace HandSchool.Views
                 await Navigation.PopAsync();
         }
 
+        public void RegisterNavigation(INavigate navigate)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 显示此视图页面。
         /// </summary>
@@ -124,8 +122,8 @@ namespace HandSchool.Views
                 else
                 {
                     Disappearing += Page_Disappearing;
-                    Core.Log("Not support this kind of access, may occured some errors.");
-                    Core.Log("Maybe double tapped but event is one tap.");
+                    this.WriteLog("Not support this kind of access, may occured some errors.");
+                    this.WriteLog("Maybe double tapped but event is one tap.");
                 }
             }
 
@@ -133,6 +131,11 @@ namespace HandSchool.Views
         }
 
         #endregion
+        
+        /*public new PlatformRegistry<T, ViewPage> On<T>() where T : IConfigPlatform
+        {
+            return new PlatformRegistry<T, ViewPage>(this);
+        }*/
 
         #region IViewResponse Impl
 
@@ -193,6 +196,19 @@ namespace HandSchool.Views
         public Task RequestMessageAsync(string title, string message, string button)
         {
             return DisplayAlert(title, message, button);
+        }
+
+        /// <summary>
+        /// 弹出图表对话框，用作展示图表。
+        /// </summary>
+        /// <param name="chart">图表对象</param>
+        /// <param name="title">对话框标题</param>
+        /// <param name="close">关闭按钮文字</param>
+        public Task RequestChartAsync(Chart chart, string title = "", string close = "关闭")
+        {
+            var args = new RequestChartArguments(chart, title, close);
+            MessagingCenter.Send(this, RequestChartSignalName, args);
+            return args.ReturnTask;
         }
 
         #endregion

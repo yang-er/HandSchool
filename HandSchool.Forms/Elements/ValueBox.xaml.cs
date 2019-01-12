@@ -34,7 +34,7 @@ namespace HandSchool.Views
                 declaringType: typeof(ValueCell),
                 defaultValue: 0,
                 defaultBindingMode: BindingMode.TwoWay,
-                propertyChanged: ((bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv));
+                propertyChanged: (bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv);
 
         /// <summary>
         /// 为 Type 做后部存储
@@ -44,8 +44,8 @@ namespace HandSchool.Views
                 propertyName: nameof(Type),
                 returnType: typeof(SettingTypes),
                 declaringType: typeof(ValueCell),
-                defaultValue: SettingTypes.Unkown,
-                propertyChanged: ((bind, old, newv) => (bind as ValueCell).SetControl((SettingTypes)newv)));
+                defaultValue: SettingTypes.Unknown,
+                propertyChanged: (bind, old, newv) => (bind as ValueCell).SetControl((SettingTypes)newv));
 
         /// <summary>
         /// 为 StringValue 做后部存储
@@ -57,7 +57,7 @@ namespace HandSchool.Views
                 declaringType: typeof(ValueCell),
                 defaultValue: "",
                 defaultBindingMode: BindingMode.TwoWay,
-                propertyChanged: ((bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv));
+                propertyChanged: (bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv);
 
         /// <summary>
         /// 为 BooleanValue 做后部存储
@@ -69,7 +69,7 @@ namespace HandSchool.Views
                 declaringType: typeof(ValueCell),
                 defaultValue: false,
                 defaultBindingMode: BindingMode.TwoWay,
-                propertyChanged: ((bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv));
+                propertyChanged: (bind, old, newv) => (bind as ValueCell).Wrapper.Value = newv);
 
         /// <summary>
         /// 为 Attribute 做后部存储
@@ -194,7 +194,9 @@ namespace HandSchool.Views
                     break;
 
                 case SettingTypes.Action:
-                    (Parent.Parent as ViewCell).Tapped += (s, e) => Wrapper.MethodInfo.Invoke(Core.App.Service, new object[] { new ViewResponse(NavigationViewModel.Instance.SecondaryItems[0].CorePage) });
+                    var gesture = new TapGestureRecognizer();
+                    gesture.SetBinding(TapGestureRecognizer.CommandProperty, new Binding { Source = Wrapper, Path = "ExcuteAction", Mode = BindingMode.OneTime });
+                    (Parent as StackLayout).GestureRecognizers.Add(gesture);
                     break;
 
                 default:

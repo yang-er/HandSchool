@@ -32,9 +32,9 @@ namespace HandSchool.ViewModels
         {
             Core.App.LoginStateChanged += SyncData;
             ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
-            RefreshCommand = new Command(Refresh);
-            AddCommand = new Command(Create);
-            ChangeWeekCommand = new Command(ChangeWeek);
+            RefreshCommand = new CommandAction(Refresh);
+            AddCommand = new CommandAction(Create);
+            ChangeWeekCommand = new CommandAction(ChangeWeek);
             Title = "课程表";
         }
         
@@ -107,8 +107,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 将添加课程的页面加载。
         /// </summary>
-        /// <param name="param">系统的导航服务。</param>
-        private async Task Create(object param)
+        private async Task Create()
         {
             var item = new CurriculumItem
             {
@@ -116,7 +115,7 @@ namespace HandSchool.ViewModels
                 CourseID = "CUSTOM-" + DateTime.Now.ToString("s")
             };
 
-            if (await Core.Platform.ShowNewCurriculumPage(item, null))
+            if (await Core.Platform.ShowNewCurriculumPageAsync(item, null))
                 RefreshComplete?.Invoke();
         }
 

@@ -5,7 +5,8 @@ using Android.OS;
 
 namespace HandSchool.Droid
 {
-    [Activity(Label = "掌上校园", Icon = "@drawable/icon", MainLauncher = true, NoHistory = true, Theme = "@style/Theme.Splash", ConfigurationChanges = ConfigChanges.ScreenSize)]
+    [Activity(Label = "掌上校园", Icon = "@drawable/icon", MainLauncher = true,
+        NoHistory = true, Theme = "@style/Theme.Splash", ConfigurationChanges = ConfigChanges.ScreenSize)]
     public class SplashScreen : Activity
     {
         protected override void OnCreate(Bundle bundle)

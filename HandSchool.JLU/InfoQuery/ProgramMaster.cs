@@ -97,7 +97,7 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("加载", new Command(SolveProgVal), "\uE721"));
+            Menu.Add(new InfoEntranceMenu("加载", new CommandAction(SolveProgVal), "\uE721"));
         }
 
         public async void SolveProgId()

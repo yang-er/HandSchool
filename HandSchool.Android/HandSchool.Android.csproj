@@ -68,7 +68,7 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.1</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views.Forms">
+    <PackageReference Include="SkiaSharp.Views">
       <Version>1.68.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.GridLayout">
@@ -82,6 +82,12 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Renderers\MessagePresenter.cs" />
+    <Compile Include="Renderers\NavMenuItemImpl.cs" />
+    <Compile Include="Renderers\PlatformImpl.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,32 +95,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UpdateManager.cs" />
-    <Compile Include="Views\EntryCellRenderer.cs" />
-    <Compile Include="Views\NavigationRenderer.cs" />
-    <Compile Include="Views\PageRenderer.cs" />
-    <Compile Include="Views\PickerCellRenderer.cs" />
+    <Compile Include="Renderers\EntryCellRenderer.cs" />
+    <Compile Include="Renderers\NavigationRenderer.cs" />
+    <Compile Include="Renderers\PageRenderer.cs" />
+    <Compile Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewResponse.cs" />
-    <Compile Include="Views\HybridWebViewRenderer.cs" />
-    <EmbeddedResource Include="Views\MainPage.xaml">
+    <Compile Include="Renderers\HybridWebViewRenderer.cs" />
+    <EmbeddedResource Include="MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <Compile Include="Views\MainPage.xaml.cs">
+    <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Views\OutlinePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <Compile Include="Views\OutlinePage.xaml.cs">
-      <DependentUpon>OutlinePage.xaml</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="JLU\YktPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <Compile Include="JLU\YktPage.xaml.cs">
-      <DependentUpon>YktPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +263,9 @@
       <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
       <Name>HandSchool.JLU</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App.xaml" />
   </ItemGroup>
   <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

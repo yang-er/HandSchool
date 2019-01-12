@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
 using Xamarin.Forms;
@@ -7,7 +8,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SchedulePage : PopContentPage
+	public partial class SchedulePage : ViewPage
 	{
         public double FontSize => 14;
         private RowDefinition DefRow;
@@ -31,7 +32,7 @@ namespace HandSchool.Views
         public SchedulePage(ScheduleViewModelBase vmInst)
         {
             InitializeComponent();
-            ShowIsBusyDialog = true;
+            this.On<Each, ViewPage>().ShowLoading();
 
             RowHeight = new GridLength(60, GridUnitType.Absolute);
             ColWidth = new GridLength(100, GridUnitType.Absolute);
@@ -70,24 +71,23 @@ namespace HandSchool.Views
         {
             base.OnAppearing();
             LoadList();
-            Core.Log("SchedulePage.OnAppearing. Redrawing.");
+            this.WriteLog("OnAppearing. Redrawing class table");
         }
 
         private async void ShowActionList(object sender, EventArgs e)
         {
-            //var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "没有地点的课", "修改当前周");
-            var result = await DisplayActionSheet("课程表", "取消", null, "刷新课表", "添加课程", "修改当前周");
+            var result = await DisplayActionSheet("课程表", "取消", null,
+                "刷新课表", "添加课程", /*"没有地点的课",*/ "修改当前周");
             switch (result)
             {
                 case "刷新课表":
                     ViewModel.RefreshCommand.Execute(null);
                     break;
                 case "添加课程":
-                    ViewModel.AddCommand.Execute(Navigation);
+                    ViewModel.AddCommand.Execute(null);
                     break;
-                //case "没有地点的课":
-
-                  //  break;
+                // case "没有地点的课":
+                    // break;
                 case "修改当前周":
                     ViewModel.ChangeWeekCommand.Execute(null);
                     break;
@@ -117,7 +117,7 @@ namespace HandSchool.Views
 
         void SetTileSize(object sender, EventArgs e)
         {
-            if (Device.Idiom == TargetIdiom.Tablet)
+            if (Core.Platform.Idiom == TargetIdiom.Tablet)
             {
                 if (forceSize)
                 {
@@ -125,9 +125,7 @@ namespace HandSchool.Views
                     DefRow.Height = GridLength.Star;
                     DefCol.Width = GridLength.Star;
                     scroller.Orientation = ScrollOrientation.Vertical;
-#if __IOS__
-                    Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
-#endif
+                    this.On<iOS, ViewPage>().UseSafeArea(true);
                 }
             }
             else if (Width > Height && (!IsWider || forceSize))
@@ -137,9 +135,7 @@ namespace HandSchool.Views
                 DefCol.Width = GridLength.Star;
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
-#if __IOS__
-                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, false);
-#endif
+                this.On<iOS, ViewPage>().UseSafeArea(false);
             }
             else if (Width < Height && (IsWider || forceSize))
             {
@@ -148,9 +144,7 @@ namespace HandSchool.Views
                 DefRow.Height = GridLength.Star;
                 DefCol.Width = ColWidth;
                 scroller.Orientation = ScrollOrientation.Horizontal;
-#if __IOS__
-                Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
-#endif
+                this.On<iOS, ViewPage>().UseSafeArea(true);
             }
         }
     }

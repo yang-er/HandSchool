@@ -32,13 +32,8 @@ namespace HandSchool.Internal
         /// </summary>
         /// <param name="item">课程表项</param>
         /// <param name="navigationContext">导航上下文</param>
-        public abstract Task<bool> ShowNewCurriculumPage(CurriculumItem item, INavigate navigationContext);
-
-        /// <summary>
-        /// 开始菜单的添加，进行简单的初始化。
-        /// </summary>
-        public abstract void BeginMenu();
-
+        public abstract Task<bool> ShowNewCurriculumPageAsync(CurriculumItem item, INavigate navigationContext);
+        
         /// <summary>
         /// 添加菜单入口点到主要页面中。
         /// </summary>
@@ -65,12 +60,7 @@ namespace HandSchool.Internal
         /// 设备的种类
         /// </summary>
         public virtual TargetIdiom Idiom => Device.Idiom;
-
-        /// <summary>
-        /// 完成菜单的添加。
-        /// </summary>
-        public abstract void FinalizeMenu();
-
+        
         /// <summary>
         /// 应用商店链接
         /// </summary>

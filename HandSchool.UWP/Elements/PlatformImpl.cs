@@ -55,6 +55,7 @@ namespace HandSchool.UWP
             ConfigureDirectory = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
 
             Core.InitPlatform(Instance = this);
+            NavigationItems = new List<NavigationMenuItemImpl>();
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace HandSchool.UWP
         /// </summary>
         /// <param name="item">课程表项</param>
         /// <param name="navigationContext">导航上下文</param>
-        public override async Task<bool> ShowNewCurriculumPage(CurriculumItem item, Views.INavigate navigationContext)
+        public override async Task<bool> ShowNewCurriculumPageAsync(CurriculumItem item, Views.INavigate navigationContext)
         {
             var dialog = new CurriculumDialog(item, true);
             var result = await dialog.ShowAsync();
@@ -104,15 +105,7 @@ namespace HandSchool.UWP
         {
             OpenUrl(UpdateSourceLink);
         }
-
-        /// <summary>
-        /// 开始菜单的添加，进行简单的初始化。
-        /// </summary>
-        public override void BeginMenu()
-        {
-            NavigationItems = new List<NavigationMenuItemImpl>();
-        }
-
+        
         /// <summary>
         /// 添加菜单入口点到主要页面中。
         /// </summary>
@@ -125,10 +118,5 @@ namespace HandSchool.UWP
         {
             NavigationItems.Add(new NavigationMenuItemImpl(title, dest, category, uwp));
         }
-
-        /// <summary>
-        /// 完成菜单的添加。
-        /// </summary>
-        public override void FinalizeMenu() { }
     }
 }

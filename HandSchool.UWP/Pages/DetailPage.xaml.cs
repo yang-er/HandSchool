@@ -32,7 +32,7 @@ namespace HandSchool.Views
                 {
                     Icon = new SymbolIcon(Symbol.Flag),
                     Label = "详情",
-                    Command = new Command(() => Core.Platform.OpenUrl(feed.Link))
+                    Command = new CommandAction(() => Core.Platform.OpenUrl(feed.Link))
                 });
 
                 Title = feed.Title;

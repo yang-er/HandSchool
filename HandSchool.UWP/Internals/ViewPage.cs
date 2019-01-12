@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.UWP;
+using Microcharts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -155,6 +156,11 @@ namespace HandSchool.Views
         public Task<string> RequestInputAsync(string title, string description, string cancel, string accept)
         {
             return ViewResponseImpl.ShowInputAsync1(title, description, cancel, accept);
+        }
+
+        public Task RequestChartAsync(Chart chart, string title = "", string close = "关闭")
+        {
+            return new ChartDialog(chart, title).ShowAsync().AsTask();
         }
 
         #endregion

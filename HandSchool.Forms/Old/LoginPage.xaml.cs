@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.IO;
 using Xamarin.Forms;
@@ -7,25 +8,26 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : PopContentPage
+    public partial class LoginPage : ViewPage, ILoginPage
     {
         MemoryStream image_mem;
         
         internal LoginPage(LoginViewModel viewModel)
         {
             InitializeComponent();
-            ShowIsBusyDialog = true;
-            ViewModel = viewModel;
-            ShowCancel = true;
-
-#if __IOS__
-            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
-#endif
-
+            LoginViewModel = viewModel;
+            this.On<iOS, ViewPage>().UseSafeArea().ShowLeftCancel();
+            this.On<Each, ViewPage>().ShowLoading();
             UpdateCaptchaInfomation();
         }
 
-        internal async void Response(object sender, LoginStateEventArgs e)
+        public LoginViewModel LoginViewModel
+        {
+            get => BindingContext as LoginViewModel;
+            set => ViewModel = value;
+        }
+
+        public async void Response(object sender, LoginStateEventArgs e)
         {
             switch (e.State)
             {
@@ -44,15 +46,14 @@ namespace HandSchool.Views
 
         public async void UpdateCaptchaInfomation()
         {
-            var viewModel = ViewModel as LoginViewModel;
-            viewModel.SetIsBusy(true, "正在加载资源……");
+            LoginViewModel.IsBusy = true;
 
-            if (!await viewModel.Form.PrepareLogin())
+            if (!await LoginViewModel.Form.PrepareLogin())
             {
                 await DisplayAlert("登录失败", "登录失败，出现了一些问题。", "知道了");
             }
 
-            if (viewModel.Form.CaptchaSource == null)
+            if (LoginViewModel.Form.CaptchaSource == null)
             {
                 CaptchaBox.IsVisible = false;
                 AutoLoginBox.IsVisible = true;
@@ -64,11 +65,11 @@ namespace HandSchool.Views
 
                 if (image_mem != null)
                     image_mem.Close();
-                image_mem = new MemoryStream(viewModel.Form.CaptchaSource, false);
+                image_mem = new MemoryStream(LoginViewModel.Form.CaptchaSource, false);
                 CaptchaImage.Source = ImageSource.FromStream(() => image_mem);
             }
 
-            viewModel.SetIsBusy(false);
+            LoginViewModel.IsBusy = false;
         }
     }
 }

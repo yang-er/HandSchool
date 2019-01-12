@@ -26,19 +26,19 @@ namespace HandSchool.ViewModels
         {
             Title = "掌上校园";
             Core.App.LoginStateChanged += UpdateWelcome;
-            RefreshCommand = new Command(Refresh);
-            RequestLoginCommand = new Command(RequestLogin);
+            RefreshCommand = new CommandAction(Refresh);
+            RequestLoginCommand = new CommandAction(RequestLogin);
         }
         
         /// <summary>
         /// 刷新视图模型数据的命令
         /// </summary>
-        public Command RefreshCommand { get; set; }
+        public CommandAction RefreshCommand { get; set; }
 
         /// <summary>
         /// 请求登录的命令
         /// </summary>
-        public Command RequestLoginCommand { get; set; }
+        public CommandAction RequestLoginCommand { get; set; }
 
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）

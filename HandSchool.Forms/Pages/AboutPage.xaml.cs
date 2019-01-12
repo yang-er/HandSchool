@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,22 +7,18 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AboutPage : PopContentPage
+	public partial class AboutPage : ViewPage
 	{
         public AboutPage()
         {
             InitializeComponent();
             ViewModel = AboutViewModel.Instance;
-            myListView.HeightRequest = Core.OnPlatform(55 * 5 + 1, 51 * 4, 0);
-#if __IOS__
-            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
-#endif
+            this.On<iOS, ViewPage>().UseSafeArea();
         }
 
-        async void ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
-                return;
+            if (e.Item == null) return;
 
             if (e.Item is InfoEntranceWrapper iew)
             {

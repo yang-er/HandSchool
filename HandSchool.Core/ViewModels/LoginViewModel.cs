@@ -14,7 +14,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 登录命令
         /// </summary>
-        public Command LoginCommand { get; set; }
+        public CommandAction LoginCommand { get; set; }
 
         /// <summary>
         /// 操作表单
@@ -45,7 +45,7 @@ namespace HandSchool.ViewModels
             return Core.Platform.EnsureOnMainThread(async () =>
             {
                 var viewModel = new LoginViewModel(form);
-                viewModel.LoginCommand = new Command(viewModel.Login);
+                viewModel.LoginCommand = new CommandAction(viewModel.Login);
                 viewModel.Page = Core.Platform.CreateLoginPage(viewModel);
                 await viewModel.Page.ShowAsync();
                 return form.IsLogin;

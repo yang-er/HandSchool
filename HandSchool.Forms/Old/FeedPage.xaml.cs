@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class FeedPage : PopContentPage
+	public partial class FeedPage : ViewPage
     {
         public bool IsPushing { get; set; } = false;
 
@@ -14,19 +15,18 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = FeedViewModel.Instance;
-            TabletEnabled = true;
+            this.On<iOS, ViewPage>().UseTabletMode();
         }
 
-        object LastItem;
+        FeedItem LastItem;
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null || e.Item == LastItem || IsPushing)
-                return;
-            if (Device.Idiom == TargetIdiom.Tablet)
-                LastItem = e.Item;
+            if (e.Item == null || e.Item == LastItem || IsPushing) return;
+            if (Device.Idiom == TargetIdiom.Tablet) LastItem = e.Item as FeedItem;
+
             IsPushing = true;
-            await Navigation.PushAsync(new MessageDetailPage(e.Item as FeedItem));
+            await Navigation.PushAsync(new MessageDetailPage(LastItem));
             IsPushing = false;
         }
     }

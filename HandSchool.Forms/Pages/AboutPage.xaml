@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:w="clr-namespace:HandSchool.Views"
-                  x:Class="HandSchool.Views.AboutPage"
-                  SizeChanged="PopContentPage_SizeChanged"
-                  Title="{Binding Title}">
+<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:w="clr-namespace:HandSchool.Views"
+            x:Class="HandSchool.Views.AboutPage"
+            SizeChanged="PopContentPage_SizeChanged"
+            
+            Title="{Binding Title}">
     <StackLayout x:Name="mainLayout">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="OrientationStates">
@@ -69,6 +70,9 @@
                       SelectionMode="None"
                       WidthRequest="240"
                       CachingStrategy="RecycleElement">
+                <ListView.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double" iOS="204" Android="276" /> <!--51*4, 55*5+1-->
+                </ListView.HeightRequest>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -84,4 +88,4 @@
 
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
     </StackLayout>
-</w:PopContentPage>
+</w:ViewPage>

@@ -96,12 +96,12 @@ namespace HandSchool.Models
             AttributeData = mInfo.Get<SettingsAttribute>();
             Type = SettingTypes.Action;
 
-            ExcuteAction = new Command(() =>
+            ExcuteAction = new CommandAction(() =>
             {
                 MethodInfo.Invoke(Core.App.Service, new object[] { });
             });
         }
 
-        public Command ExcuteAction { get; }
+        public CommandAction ExcuteAction { get; }
     }
 }

@@ -8,7 +8,7 @@ namespace HandSchool.JLU.Models
     internal class SchoolCardInfoPiece : NotifyPropertyChanged
     {
         string title, description;
-        Command command;
+        CommandAction command;
 
         /// <summary>
         /// 信息的标题
@@ -31,7 +31,7 @@ namespace HandSchool.JLU.Models
         /// <summary>
         /// 信息的操作
         /// </summary>
-        public Command Command
+        public CommandAction Command
         {
             get => command;
             set => SetProperty(ref command, value);
@@ -39,7 +39,7 @@ namespace HandSchool.JLU.Models
 
         protected SchoolCardInfoPiece() { }
 
-        public SchoolCardInfoPiece(string tit, string desc, Command cmd = null)
+        public SchoolCardInfoPiece(string tit, string desc, CommandAction cmd = null)
         {
             title = tit;
             description = desc;

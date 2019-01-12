@@ -24,17 +24,17 @@ namespace HandSchool.JLU.Models
         public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
         public string Date => piece.message.dateCreate.ToShortDateString();
         public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
-        public Command SetRead { get; }
-        public Command SetUnread { get; }
-        public Command Delete { get; }
+        public CommandAction SetRead { get; }
+        public CommandAction SetUnread { get; }
+        public CommandAction Delete { get; }
 
         public MessageItem(MessagePiece p)
         {
             piece = p;
             _unread = piece.hasReaded == "N";
-            SetRead = new Command(SetReadAsync);
-            SetUnread = new Command(SetUnreadAsync);
-            Delete = new Command(DeleteAsync);
+            SetRead = new CommandAction(SetReadAsync);
+            SetUnread = new CommandAction(SetUnreadAsync);
+            Delete = new CommandAction(DeleteAsync);
         }
 
         private async Task SetReadAsync()

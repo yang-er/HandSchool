@@ -17,6 +17,7 @@ namespace HandSchool.ViewModels
     {
         static readonly Lazy<MessageViewModel> Lazy = 
             new Lazy<MessageViewModel>(() => new MessageViewModel());
+        private bool IsFirstOpen { get; set; }
 
         /// <summary>
         /// 目前的所有站内消息
@@ -26,17 +27,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载消息的命令
         /// </summary>
-        public Command LoadItemsCommand { get; set; }
+        public CommandAction LoadItemsCommand { get; set; }
 
         /// <summary>
         /// 删除所有的命令
         /// </summary>
-        public Command DeleteAllCommand { get; set; }
+        public CommandAction DeleteAllCommand { get; set; }
 
         /// <summary>
         /// 全部设置已读的命令
         /// </summary>
-        public Command ReadAllCommand { get; set; }
+        public CommandAction ReadAllCommand { get; set; }
 
         /// <summary>
         /// 视图模型的实例
@@ -46,13 +47,14 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 将视图模型的操作加载。
         /// </summary>
-        public MessageViewModel()
+        private MessageViewModel()
         {
             Title = "站内消息";
             Items = new ObservableCollection<IMessageItem>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            DeleteAllCommand = new Command(async () => await ExecuteDeleteAllCommand());
-            ReadAllCommand = new Command(async () => await ExecuteReadAllCommand());
+            LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
+            DeleteAllCommand = new CommandAction(ExecuteDeleteAllCommand);
+            ReadAllCommand = new CommandAction(ExecuteReadAllCommand);
+            IsFirstOpen = true;
         }
 
         /// <summary>
@@ -98,6 +100,17 @@ namespace HandSchool.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        /// <summary>
+        /// 第一次启动时调用。
+        /// </summary>
+        public async void FirstOpen()
+        {
+            if (!IsFirstOpen) return;
+            IsFirstOpen = false;
+
+            await ExecuteLoadItemsCommand();
         }
 
         #region ICollection<T> Implements

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microcharts;
+using System.Threading.Tasks;
 
 namespace HandSchool.Views
 {
@@ -44,5 +45,13 @@ namespace HandSchool.Views
         /// <param name="accept">确认按钮的文字。</param>
         /// <returns>用户输入的内容，如果点击取消则为null。</returns>
         Task<string> RequestInputAsync(string title, string description, string cancel, string accept);
+
+        /// <summary>
+        /// 弹出图表对话框，用作展示图表。
+        /// </summary>
+        /// <param name="chart">图表对象</param>
+        /// <param name="title">对话框标题</param>
+        /// <param name="close">关闭按钮文字</param>
+        Task RequestChartAsync(Chart chart, string title = "", string close = "关闭");
     }
 }

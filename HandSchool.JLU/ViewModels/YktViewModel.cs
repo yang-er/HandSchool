@@ -33,11 +33,11 @@ namespace HandSchool.JLU.ViewModels
             Title = "校园一卡通";
             PickCardInfo = new ObservableCollection<PickCardInfo>();
             RecordInfo = new ObservableCollection<RecordInfo>();
-            LoadPickCardInfoCommand = new Command(GetPickCardInfo);
-            ChargeCreditCommand = new Command(ProcessCharge);
-            RecordFindCommand = new Command(ProcessQuery);
-            SetUpLostStateCommand = new Command(ProcessSetLost);
-            LoadBasicInfoCommand = new Command(RefreshBasicInfoAsync);
+            LoadPickCardInfoCommand = new CommandAction(GetPickCardInfo);
+            ChargeCreditCommand = new CommandAction(ProcessCharge);
+            RecordFindCommand = new CommandAction(ProcessQuery);
+            SetUpLostStateCommand = new CommandAction(ProcessSetLost);
+            LoadBasicInfoCommand = new CommandAction(RefreshBasicInfoAsync);
             IsFirstOpen = true;
 
             BasicInfo = new List<SchoolCardInfoPiece>
@@ -73,27 +73,27 @@ namespace HandSchool.JLU.ViewModels
         /// <summary>
         /// 加载拾卡信息的命令
         /// </summary>
-        public Command LoadPickCardInfoCommand { get; set; }
+        public CommandAction LoadPickCardInfoCommand { get; set; }
 
         /// <summary>
         /// 充值校园卡的命令
         /// </summary>
-        public Command ChargeCreditCommand { get; set; }
+        public CommandAction ChargeCreditCommand { get; set; }
 
         /// <summary>
         /// 挂失校园卡的命令
         /// </summary>
-        public Command SetUpLostStateCommand { get; set; }
+        public CommandAction SetUpLostStateCommand { get; set; }
 
         /// <summary>
         /// 加载消费记录的命令
         /// </summary>
-        public Command RecordFindCommand { get; set; }
+        public CommandAction RecordFindCommand { get; set; }
 
         /// <summary>
         /// 加载基本信息的命令
         /// </summary>
-        public Command LoadBasicInfoCommand { get; set; }
+        public CommandAction LoadBasicInfoCommand { get; set; }
 
         /// <summary>
         /// 加载校园卡基本信息。

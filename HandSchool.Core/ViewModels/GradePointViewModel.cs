@@ -1,9 +1,11 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Models;
+using Microcharts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -18,6 +20,8 @@ namespace HandSchool.ViewModels
         private static readonly Lazy<GradePointViewModel> Lazy =
             new Lazy<GradePointViewModel>(() => new GradePointViewModel());
 
+        private bool lockedView;
+
         /// <summary>
         /// 绩点成绩列表
         /// </summary>
@@ -26,7 +30,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载绩点的命令
         /// </summary>
-        public Command LoadItemsCommand { get; set; }
+        public CommandAction LoadItemsCommand { get; set; }
 
         /// <summary>
         /// 视图模型的实例
@@ -40,7 +44,7 @@ namespace HandSchool.ViewModels
         {
             Title = "学分成绩";
             Items = new ObservableCollection<IGradeItem>();
-            LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
+            LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
         }
 
         /// <summary>
@@ -62,6 +66,39 @@ namespace HandSchool.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        /// <summary>
+        /// 展示成绩详情。
+        /// </summary>
+        /// <param name="iGi">成绩项</param>
+        public async Task ShowGradeDetailAsync(IGradeItem iGi)
+        {
+            if (iGi is GPAItem) return;
+            if (lockedView) return;
+            lockedView = true;
+
+            var info = string.Format(
+                "名称：{0}\n类型：{1}\n学期：{2}\n发布日期：{3}\n" +
+                "学分：{4}\n分数：{5}\n绩点：{6}\n通过：{7}\n重修：{8}",
+                iGi.Name, iGi.Type, iGi.Term, iGi.Date.ToString(),
+                iGi.Credit, iGi.Score, iGi.Point, iGi.Pass ? "是" : "否", iGi.ReSelect ? "是" : "否");
+
+            foreach (var key in iGi.Attach.Keys)
+            {
+                info += "\n" + key + "：" + iGi.Attach.Get((string)key);
+            }
+
+            await RequestMessageAsync("成绩详情", info, "确定");
+
+            var list = iGi.GetGradeDistribute().ToList();
+            if (list.Count > 0)
+            {
+                var pie = new PieChart { Entries = list, Margin = 10 };
+                await RequestChartAsync(pie, "成绩分布");
+            }
+
+            lockedView = false;
         }
 
         #region ICollection<T> Implements

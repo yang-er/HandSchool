@@ -14,12 +14,13 @@ namespace HandSchool.Droid
     {
         const string UpdateSource = "https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/";
 
-        public UpdateManager(MainActivity activity)
+        public UpdateManager(Context activity)
         {
             context = activity;
         }
 
-        private MainActivity context;
+        private Context context;
+
         private string[] Arvgs;
         
         public int GetVersionCode()
@@ -61,7 +62,7 @@ namespace HandSchool.Droid
 
             if (int.Parse(Arvgs[0]) > GetVersionCode())
             {
-                context.RunOnUiThread(() =>
+                Core.Platform.EnsureOnMainThread(() =>
                 {
                     string Detail = Arvgs[2];
                     AlertDialog.Builder Alert = new AlertDialog.Builder(context);
@@ -73,54 +74,5 @@ namespace HandSchool.Droid
                 });
             }
         }
-
-        /* private void InstallApk()
-        {
-            int receivedBytes = 0;
-            int totalBytes = 0;
-            string dirPath = "/sdcard/Android/data/com.x90yang.com/files";
-            var filePath = Path.Combine(dirPath, $"com.x90yang.HandSchool_v{Arvgs[0]}.apk");
-            ProgressDialog.SetTitle("下载更新包");
-            ProgressDialog.SetProgressStyle(ProgressDialogStyle.Horizontal);
-            HttpURLConnection conn = (HttpURLConnection)url.OpenConnection();
-            conn.Connect();
-            Stream Ins = conn.InputStream;
-            totalBytes = conn.ContentLength;
-            ProgressDialog.SetMessage($"正在下载更新包，共 {(totalBytes / 1048576.0).ToString("F")} MB……");
-            ProgressDialog.Max = totalBytes / 1024;
-            context.RunOnUiThread(ProgressDialog.Show);
-
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-            else if (File.Exists(filePath))
-                File.Delete(filePath);
-
-            using (FileStream fos = new FileStream(filePath, FileMode.Create))
-            {
-                byte[] buf = new byte[65536];
-
-                do
-                {
-                    int numread = Ins.Read(buf, 0, 65536);
-                    receivedBytes += numread;
-                    if (numread <= 0)
-                    {
-                        break;
-                    }
-                    fos.Write(buf, 0, numread);
-
-                    Log.Debug("Received ", receivedBytes.ToString() + "bytes, together with " + totalBytes.ToString());
-                    ProgressDialog.Progress = receivedBytes / 1024;
-
-                } while (true);
-            }
-
-            context.RunOnUiThread(ProgressDialog.Dismiss);
-            Intent intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(Android.Net.Uri.Parse("file://" + filePath), "application/vnd.android.package-archive");
-            intent.SetFlags(ActivityFlags.NewTask);
-            context.StartActivity(intent);
-            Log.Debug("exception", "TargetInvocationException in update");
-        } */
     }
 }

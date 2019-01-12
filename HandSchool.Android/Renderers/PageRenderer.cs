@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using HandSchool.Droid;
+using HandSchool.Internal;
 using HandSchool.Views;
 using System.ComponentModel;
 using Xamarin.Forms;
@@ -7,22 +8,22 @@ using ElementChangedEventArgs = Xamarin.Forms.Platform.Android.ElementChangedEve
 using XPageRenderer = Xamarin.Forms.Platform.Android.PageRenderer;
 using XPlatform = Xamarin.Forms.Platform.Android.Platform;
 
-[assembly: ExportRenderer(typeof(PopContentPage), typeof(PageRenderer))]
+[assembly: ExportRenderer(typeof(ViewPage), typeof(PageRenderer))]
 namespace HandSchool.Droid
 {
     class PageRenderer : XPageRenderer
     {
         public PageRenderer(Context context) : base(context) { }
 
-        public new PopContentPage Element => base.Element as PopContentPage;
+        public new ViewPage Element => base.Element as ViewPage;
         
         protected override void OnElementChanged(ElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
             
-            if (e.NewElement is PopContentPage pg)
+            if (e.NewElement is ViewPage pg)
             {
-                if (pg.ShowCancel)
+                if ((bool)pg.GetValue(PlatformExtensions.ShowLeftCancelProperty))
                 {
                     pg.ToolbarItems.Add(new ToolbarItem("取消", null, async () => await pg.CloseAsync()));
                 }
@@ -33,7 +34,7 @@ namespace HandSchool.Droid
         
         private void SetIsBusy()
         {
-            if (Element.ShowIsBusyDialog && Element.Parent is NavigationPage navpg)
+            if ((bool)Element.GetValue(PlatformExtensions.ShowLoadingProperty) && Element.Parent is NavigationPage navpg)
             {
                 (XPlatform.GetRenderer(navpg) as NavigationRenderer).SetIsBusy(Element.IsBusy);
             }

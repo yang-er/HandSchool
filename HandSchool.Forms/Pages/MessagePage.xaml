@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  x:Class="HandSchool.Views.MessagePage"
-                  xmlns:w="clr-namespace:HandSchool.Views"
-                  Title="{Binding Title}">
+<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="HandSchool.Views.MessagePage"
+            xmlns:w="clr-namespace:HandSchool.Views"
+            Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="更多" Clicked="Handle_Clicked" />
     </ContentPage.ToolbarItems>
@@ -39,4 +39,4 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-</w:PopContentPage>
+</w:ViewPage>

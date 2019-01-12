@@ -61,7 +61,7 @@ namespace HandSchool.JLU.InfoQuery
                 Css = GetCss()
             };
 
-            var loadCommand = new Command(() => Evaluate?.Invoke("invokeCSharpAction('show='+$('#termId').val())"));
+            var loadCommand = new CommandAction(() => Evaluate?.Invoke("invokeCSharpAction('show='+$('#termId').val())"));
             Menu.Add(new InfoEntranceMenu("加载", loadCommand, "\uE72C"));
         }
 

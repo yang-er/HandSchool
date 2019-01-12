@@ -1,7 +1,6 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,27 +8,31 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CurriculumPage : PopContentPage
+	public partial class CurriculumPage : ViewPage
 	{
-        public bool IsSave;
+        public CurriculumItem Binding
+        {
+            get => BindingContext as CurriculumItem;
+            set => BindingContext = value;
+        }
 
         public CurriculumPage(CurriculumItem item, bool isCreate = false)
 		{
 			InitializeComponent();
-            BindingContext = item;
+            Binding = item;
 
             if (isCreate)
             {
-                saveButton.Command = new Command(async () => await CreateCommand());
-                removeButton.Command = new Command(async () => await CloseAsync());
+                saveButton.Command = new CommandAction(CreateCommand);
+                removeButton.Command = new CommandAction(CloseAsync);
                 saveButton.Text = "创建";
                 removeButton.Text = "取消";
                 Title = "添加自定义课程";
             }
             else
             {
-                saveButton.Command = new Command(async () => await SaveCommand());
-                removeButton.Command = new Command(async () => await RemoveCommand());
+                saveButton.Command = new CommandAction(SaveCommand);
+                removeButton.Command = new CommandAction(RemoveCommand);
                 saveButton.Text = "保存";
                 removeButton.Text = "删除";
                 Title = "编辑课程";
@@ -45,40 +48,24 @@ namespace HandSchool.Views
             endDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayEnd"));
         }
 
-        async Task SaveCommand()
+        private async Task SaveCommand()
         {
             ScheduleViewModel.Instance.SaveToFile();
             await CloseAsync();
         }
 
-        async Task RemoveCommand()
+        private async Task RemoveCommand()
         {
-            ScheduleViewModel.Instance.RemoveItem(BindingContext as CurriculumItem);
+            ScheduleViewModel.Instance.RemoveItem(Binding);
             ScheduleViewModel.Instance.SaveToFile();
             await CloseAsync();
         }
 
-        async Task CreateCommand()
+        private async Task CreateCommand()
         {
-            ScheduleViewModel.Instance.AddItem(BindingContext as CurriculumItem);
+            ScheduleViewModel.Instance.AddItem(Binding);
             ScheduleViewModel.Instance.SaveToFile();
             await CloseAsync();
-        }
-    }
-
-    /// <summary>
-    /// WeekOen与int互相转化
-    /// </summary>
-    public class OenConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo language)
-        {
-            return (int)value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo language)
-        {
-            return (WeekOddEvenNone)value;
         }
     }
 }

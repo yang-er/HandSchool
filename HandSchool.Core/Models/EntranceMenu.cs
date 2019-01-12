@@ -15,7 +15,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 菜单执行命令
         /// </summary>
-        public Command Command;
+        public CommandAction Command;
 
         /// <summary>
         /// 菜单图标
@@ -28,7 +28,7 @@ namespace HandSchool.Models
         /// <param name="name">菜单的名称。</param>
         /// <param name="cmd">菜单执行的命令。</param>
         /// <param name="ico">菜单在UWP上显示的图标。</param>
-        public InfoEntranceMenu(string name, Command cmd, string ico)
+        public InfoEntranceMenu(string name, CommandAction cmd, string ico)
         {
             Name = name;
             Command = cmd;

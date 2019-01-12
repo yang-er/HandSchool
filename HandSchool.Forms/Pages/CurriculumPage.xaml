@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:w="clr-namespace:HandSchool.Views"
-                x:Class="HandSchool.Views.CurriculumPage">
+<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:w="clr-namespace:HandSchool.Views"
+            x:Class="HandSchool.Views.CurriculumPage">
     <ContentPage.Resources>
         <ResourceDictionary>
             <w:OenConverter  x:Key="cvtOen" />
@@ -109,4 +109,4 @@
             </TableRoot>
         </TableView>
     </ContentPage.Content>
-</w:PopContentPage>
+</w:ViewPage>

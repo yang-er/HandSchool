@@ -14,14 +14,6 @@ namespace HandSchool
         public App()
         {
             InitializeComponent();
-#if __ANDROID__
-            var theme = new Style(typeof(NavigationPage));
-            Resources.TryGetValue("Primary", out var priColor);
-            theme.Setters.Add(NavigationPage.BarBackgroundColorProperty, priColor);
-            theme.Setters.Add(NavigationPage.BarTextColorProperty, Color.White);
-            Resources.Add(theme);
-#endif
-            Core.Initialize();
             MainPage = new MainPage();
         }
         
@@ -35,21 +27,18 @@ namespace HandSchool
 		protected override void OnSleep()
 		{
             // Handle when your app sleeps
-#if __ANDROID__
             var pg = MainPage as MainPage;
             LastDetail = pg.Detail;
             pg.Detail = new ContentPage();
-#endif
         }
 
 		protected override void OnResume()
 		{
             // Handle when your app resumes
-#if __ANDROID__
             var pg = MainPage as MainPage;
-            Core.Assert(LastDetail != null, "Before resume is sleep");
+            if (LastDetail is null)
+                throw new InvalidOperationException("Before resume is sleep");
             pg.Detail = LastDetail;
-#endif
         }
     }
 }

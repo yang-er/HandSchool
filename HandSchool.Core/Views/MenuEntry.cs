@@ -5,7 +5,7 @@ namespace HandSchool.Views
 {
     public class MenuEntry
     {
-        public Command Command { get; set; }
+        public CommandAction Command { get; set; }
         public string Title { get; set; }
         public string UWPIcon { get; set; }
         public Xamarin.Forms.ToolbarItemOrder Order { get; set; }
@@ -13,7 +13,7 @@ namespace HandSchool.Views
 
         public event EventHandler Execute
         {
-            add => Command = new Command(() => value(this, EventArgs.Empty));
+            add => Command = new CommandAction(() => value(this, EventArgs.Empty));
             remove => Command = null;
         }
     }

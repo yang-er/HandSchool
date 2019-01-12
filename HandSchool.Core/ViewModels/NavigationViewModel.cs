@@ -42,8 +42,6 @@ namespace HandSchool.ViewModels
         /// </summary>
         public void FetchOptions()
         {
-            Core.Platform.BeginMenu();
-
             AddMenuEntry("首页", "IndexPage", uwp: "\xE10F", ios: "tab_rec.png");
             AddMenuEntry("课程表", "SchedulePage", uwp: "\xECA5", ios: "tab_sched.png");
 
@@ -51,7 +49,7 @@ namespace HandSchool.ViewModels
                 Core.App.Loader.Feed != null &&
                 Core.App.Loader.Message != null)
             {
-                AddMenuEntry("消息通知", "MessageTabbedPage");
+                AddMenuEntry("消息通知", "MessagePresenter");
             }
             else
             {
@@ -65,8 +63,6 @@ namespace HandSchool.ViewModels
                 AddMenuEntry("学分成绩", "GradePointPage", uwp: "\xE82D");
             if (Core.App.InfoEntrances.Count > 0 || Core.Platform.RuntimeName == "iOS")
                 AddMenuEntry("信息查询", "InfoQueryPage", uwp: "\xE946", ios: "tab_about.png");
-
-            Core.Platform.FinalizeMenu();
         }
     }
 }

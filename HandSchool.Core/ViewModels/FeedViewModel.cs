@@ -26,7 +26,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载消息的命令
         /// </summary>
-        public Command LoadItemsCommand { get; set; }
+        public CommandAction LoadItemsCommand { get; set; }
 
         /// <summary>
         /// 视图模型的实例
@@ -40,7 +40,7 @@ namespace HandSchool.ViewModels
         {
             Title = "学校通知";
             Items = new ObservableCollection<FeedItem>();
-            LoadItemsCommand = new Command(ExecuteLoadItemsCommand);
+            LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
         }
 
         /// <summary>

@@ -98,7 +98,7 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("加载", new Command(SolveLessonList), "\uE721"));
+            Menu.Add(new InfoEntranceMenu("加载", new CommandAction(SolveLessonList), "\uE721"));
         }
 
         private async Task SolveLessonList()

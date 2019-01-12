@@ -33,7 +33,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 保存设置的命令
         /// </summary>
-        public Command SaveConfigures { get; }
+        public CommandAction SaveConfigures { get; }
 
         /// <summary>
         /// 通过反射从教务系统服务中读取所有的设置属性和方法。
@@ -59,7 +59,7 @@ namespace HandSchool.ViewModels
 
             Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
             
-            SaveConfigures = new Command(async () =>
+            SaveConfigures = new CommandAction(async () =>
             {
                 Core.App.Loader.SaveSettings(Core.App.Service);
                 await RequestMessageAsync("设置中心", "保存成功！", "好的");

@@ -6,20 +6,19 @@ using System.Reflection;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using EntAttr = HandSchool.Services.EntranceAttribute;
 
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class WebViewPage : PopContentPage
+	public partial class WebViewPage : ViewPage
 	{
         private IWebEntrance InfoEntrance { get; }
 
 		public WebViewPage(IWebEntrance entrance)
 		{
 			InitializeComponent();
-            ShowIsBusyDialog = true;
-            var meta = entrance.GetType().GetCustomAttribute(typeof(EntAttr)) as EntAttr;
+            this.On<Each, ViewPage>().ShowLoading();
+            var meta = entrance.GetType().Get<EntranceAttribute>();
             Title = meta.Title;
 
             InfoEntrance = entrance;
@@ -70,7 +69,7 @@ namespace HandSchool.Views
 
         protected virtual void OnEntranceRequested(IWebEntrance ent)
         {
-            new WebViewPage(ent).ShowAsync(Navigation);
+            Navigation.PushAsync(new WebViewPage(ent));
         }
     }
 }

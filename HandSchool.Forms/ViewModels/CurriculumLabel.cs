@@ -128,7 +128,7 @@ namespace HandSchool.Models
         private async void EditCurriculum()
         {
             var page = new CurriculumPage(Context as CurriculumItem);
-            await page.ShowAsync(Navigation);
+            await Navigation.PushAsync(page);
         }
 
         public Color GetColor()

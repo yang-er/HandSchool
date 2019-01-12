@@ -15,6 +15,12 @@ namespace HandSchool.UWP
     {
         public App()
         {
+            PlatformImpl.Register();
+#if DEBUG
+            Core.Reflection.ForceLoad(true);
+#else
+            Core.Reflection.ForceLoad(false);
+#endif
             InitializeComponent();
             Suspending += OnSuspending;
         }

@@ -38,7 +38,7 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("开始", new Command(() => Evaluate("solve()")), "\uE8B0"));
+            Menu.Add(new InfoEntranceMenu("开始", new CommandAction(() => Evaluate("solve()")), "\uE8B0"));
         }
     }
 }

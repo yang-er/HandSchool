@@ -87,7 +87,7 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getdata()")), "\uE721"));
+            Menu.Add(new InfoEntranceMenu("查询", new CommandAction(() => Evaluate("getdata()")), "\uE721"));
         }
 
         private async Task Execute()

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:w="clr-namespace:HandSchool.Views"
+            x:Class="HandSchool.Views.MainPage">
+    <MasterDetailPage.Master>
+        <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     SizeChanged="WSizeChanged" Title=" ">
+            <Grid Padding="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="Start" HeightRequest="185" x:Name="infoBar">
+                    <AbsoluteLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RequestLoginCommand}" />
+                    </AbsoluteLayout.GestureRecognizers>
+                    <Image Source="side_bg.jpg" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+                    <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Margin="20,115,0,0" x:Name="stackOfInfo">
+                        <Label Text="{Binding WelcomeMessage}" TextColor="White" FontSize="Large" />
+                        <Label Text="{Binding CurrentMessage}" TextColor="White" />
+                    </StackLayout>
+                </AbsoluteLayout>
+                <ListView x:Name="PrimaryListView" x:FieldModifier="Public"
+                          VerticalOptions="StartAndExpand" SeparatorVisibility="None"
+                          HasUnevenRows="True" Grid.Row="1">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" TextColor="{Binding Color}" FontSize="16" Margin="24,16" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <BoxView BackgroundColor="#e3e3e3" Grid.Row="2" HorizontalOptions="FillAndExpand" />
+                <ListView x:Name="SecondaryListView" x:FieldModifier="Public"
+                          Grid.Row="3" VerticalOptions="End" HasUnevenRows="True"
+                          SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" TextColor="{Binding Color}" FontSize="16" Margin="24,16" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>

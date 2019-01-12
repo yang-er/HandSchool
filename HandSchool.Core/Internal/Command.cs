@@ -7,32 +7,32 @@ namespace HandSchool.Internal
     /// <summary>
     /// 命令，可以设置触发按钮后的操作。
     /// </summary>
-    public class Command : ICommand
+    public class CommandAction : ICommand
     {
         readonly Action<object> action;
 
-        public Command(Action<object> command)
+        public CommandAction(Action<object> command)
         {
             if (command is null)
                 throw new ArgumentNullException();
             action = command;
         }
 
-        public Command(Action command)
+        public CommandAction(Action command)
         {
             if (command is null)
                 throw new ArgumentNullException();
             action = (o) => command();
         }
 
-        public Command(Func<Task> command)
+        public CommandAction(Func<Task> command)
         {
             if (command is null)
                 throw new ArgumentNullException();
             action = async (o) => await command();
         }
 
-        public Command(Func<object, Task> command)
+        public CommandAction(Func<object, Task> command)
         {
             if (command is null)
                 throw new ArgumentNullException();

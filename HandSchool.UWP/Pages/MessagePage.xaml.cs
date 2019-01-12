@@ -11,6 +11,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = MessageViewModel.Instance;
+            MessageViewModel.Instance.FirstOpen();
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -18,7 +19,7 @@ namespace HandSchool.Views
             if (e.ClickedItem is IMessageItem item)
             {
                 var a = e.ClickedItem as IMessageItem;
-                Task.Run(async () => { await Core.App.Message.SetReadState(a.Id, true); a.Unread = false; });
+                Task.Run(() => a.SetRead.Execute(null));
                 Frame.Navigate(typeof(MessageDetailPage), item);
             }
         }

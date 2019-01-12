@@ -30,17 +30,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 添加课程的命令
         /// </summary>
-        public Command AddCommand { get; set; }
+        public CommandAction AddCommand { get; set; }
 
         /// <summary>
         /// 刷新课程表的命令
         /// </summary>
-        public Command RefreshCommand { get; set; }
+        public CommandAction RefreshCommand { get; set; }
 
         /// <summary>
         /// 修改当前周的命令
         /// </summary>
-        public Command ChangeWeekCommand { get; set; }
+        public CommandAction ChangeWeekCommand { get; set; }
 
         /// <summary>
         /// 获取多节课的课程表列表。

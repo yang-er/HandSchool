@@ -1,10 +1,11 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using System;
 using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
-    public class MessageDetailPage : PopContentPage
+    public class MessageDetailPage : ViewPage
 	{
 		public MessageDetailPage(IMessageItem item)
 		{
@@ -26,12 +27,11 @@ namespace HandSchool.Views
                         new Label { Text = item.Body, FontSize = 16 }
                     }
                 },
+
                 Orientation = ScrollOrientation.Vertical
             };
 
-#if __IOS__
-            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
-#endif
+            this.On<iOS, ViewPage>().UseSafeArea();
         }
 
         public MessageDetailPage(FeedItem item)
@@ -56,12 +56,11 @@ namespace HandSchool.Views
                         new Label { Text = desc, FontSize = 16, HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand },
                     }
                 },
+
                 Orientation = ScrollOrientation.Vertical
             };
 
-#if __IOS__
-            Xamarin.Forms.PlatformConfiguration.iOSSpecific.Page.SetUseSafeArea(this, true);
-#endif
+            this.On<iOS, ViewPage>().UseSafeArea();
         }
 	}
 }

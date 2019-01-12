@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internal;
 using HandSchool.UWP;
 using HandSchool.ViewModels;
+using Microcharts;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
@@ -82,6 +83,11 @@ namespace HandSchool.Views
         public Task RequestMessageAsync(string title, string message, string button)
         {
             return ViewResponseImpl.ShowMessageAsync2(title, message, button);
+        }
+
+        public Task RequestChartAsync(Chart chart, string title = "", string close = "关闭")
+        {
+            throw new InvalidOperationException();
         }
 
         #endregion

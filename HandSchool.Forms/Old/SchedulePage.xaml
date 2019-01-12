@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:PopContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  x:Class="HandSchool.Views.SchedulePage"
-                  xmlns:w="clr-namespace:HandSchool.Views"
-                  Title="{Binding Title}"
-                  IsBusy="{Binding IsBusy}">
-    <ContentPage.Content>
-        <ScrollView x:Name="scroller" Orientation="Horizontal">
-            <Grid x:Name="grid"
-                  x:FieldModifier="public"
-                  VerticalOptions="FillAndExpand"
-                  RowSpacing="1"
-                  ColumnSpacing="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25" />
-                </Grid.ColumnDefinitions>
-                <Label Text="周一" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
-                <Label Text="周二" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="2" Grid.Row="0" />
-                <Label Text="周三" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="3" Grid.Row="0" />
-                <Label Text="周四" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="4" Grid.Row="0" />
-                <Label Text="周五" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="5" Grid.Row="0" />
-                <Label Text="周六" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="6" Grid.Row="0" />
-                <Label Text="周日" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="7" Grid.Row="0" />
-            </Grid>
-        </ScrollView>
-    </ContentPage.Content>
-</w:PopContentPage>
+<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="HandSchool.Views.SchedulePage"
+            xmlns:w="clr-namespace:HandSchool.Views"
+            Title="{Binding Title}"
+            IsBusy="{Binding IsBusy}">
+    <ScrollView x:Name="scroller" Orientation="Horizontal">
+        <Grid x:Name="grid" x:FieldModifier="public"
+              VerticalOptions="FillAndExpand"
+              RowSpacing="1" ColumnSpacing="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+            </Grid.ColumnDefinitions>
+            <Label Text="周一" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
+            <Label Text="周二" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="2" Grid.Row="0" />
+            <Label Text="周三" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="3" Grid.Row="0" />
+            <Label Text="周四" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="4" Grid.Row="0" />
+            <Label Text="周五" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="5" Grid.Row="0" />
+            <Label Text="周六" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="6" Grid.Row="0" />
+            <Label Text="周日" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="Gray" Grid.Column="7" Grid.Row="0" />
+        </Grid>
+    </ScrollView>
+</w:ViewPage>

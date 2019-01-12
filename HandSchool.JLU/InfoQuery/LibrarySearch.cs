@@ -34,7 +34,7 @@ namespace HandSchool.JLU.InfoQuery
 
         public LibrarySearch() : this(OriginalUrl)
         {
-            var cmd = new Command(LibraryRent.RequestRentInfo);
+            var cmd = new CommandAction(LibraryRent.RequestRentInfo);
             Menu.Add(new InfoEntranceMenu("我的借阅", cmd, "\uE7BE"));
         }
 

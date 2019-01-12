@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internal;
 using HandSchool.Views;
+using Microcharts;
 using System;
 using System.Threading.Tasks;
 
@@ -70,6 +71,11 @@ namespace HandSchool.ViewModels
         public Task RequestMessageAsync(string title, string message, string button = "知道了")
         {
             return Core.Platform.EnsureOnMainThread(() => View.RequestMessageAsync(title, message, button));
+        }
+
+        public Task RequestChartAsync(Chart chart, string title = "", string close = "关闭")
+        {
+            return Core.Platform.EnsureOnMainThread(() => View.RequestChartAsync(chart, title, close));
         }
 
         #endregion

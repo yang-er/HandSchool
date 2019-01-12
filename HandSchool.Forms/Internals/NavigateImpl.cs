@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using HandSchool.Views;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace HandSchool.Views.Basis
+namespace HandSchool.Forms
 {
     /// <summary>
     /// 基于Xamarin.Forms的导航实现类。
@@ -12,7 +13,26 @@ namespace HandSchool.Views.Basis
     /// <inheritdoc cref="IReadOnlyList{T}" />
     class NavigateImpl : INavigate, IReadOnlyList<IViewPage>
     {
-        public NavigateImpl(INavigation inner) => InnerNavigation = inner;
+        public NavigateImpl(NavigationPage navPage)
+        {
+            InnerNavigation = navPage.Navigation;
+            navPage.Pushed += NavigationOccured;
+        }
+
+        private void NavigationOccured(object sender, NavigationEventArgs args)
+        {
+            if (args.Page is TabbedPage tabbed)
+            {
+                foreach (IViewPage core in tabbed.Children)
+                {
+                    core.RegisterNavigation(this);
+                }
+            }
+            else if (args.Page is ViewPage core)
+            {
+                core.RegisterNavigation(this);
+            }
+        }
 
         private INavigation InnerNavigation { get; set; }
 

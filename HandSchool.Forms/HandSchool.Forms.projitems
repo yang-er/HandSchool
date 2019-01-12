@@ -9,20 +9,17 @@
     <Import_RootNamespace>HandSchool</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\OenConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\NavigateImpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internals\PlatformExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internals\PlatformFormsImpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internals\RequestChartArguments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\RequestInputArguments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\ViewPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\HybridWebView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\PopContentPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Old\MessageDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\PickerCell.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\PickerCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\LoginPage.xaml">
@@ -33,19 +30,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\SettingPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SettingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\SettingPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\GradePointPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\GradePointPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\GradePointPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GradePointPage.xaml.cs">
       <DependentUpon>GradePointPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -61,21 +58,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\MessagePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MessagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\MessagePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MessagePage.xaml.cs">
       <DependentUpon>MessagePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\CurriculumPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\CurriculumPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\CurriculumPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\CurriculumPage.xaml.cs">
       <DependentUpon>CurriculumPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -101,11 +98,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\IndexPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\IndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\IndexPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -121,43 +118,38 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Elements\ValueBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Internal\ValueCell.xaml.cs">
-      <DependentUpon>ValueCell.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\ValueBox.xaml.cs">
+      <DependentUpon>ValueBox.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\SelectTypePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)SelectTypePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\SelectTypePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)SelectTypePage.xaml.cs">
       <DependentUpon>SelectTypePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\MessageTabbedPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\MessageTabbedPage.xaml.cs">
-      <DependentUpon>MessageTabbedPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\AboutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Elements\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Platforms\" />
   </ItemGroup>
 </Project>

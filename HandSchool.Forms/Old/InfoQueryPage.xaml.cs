@@ -1,17 +1,18 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InfoQueryPage : PopContentPage
+	public partial class InfoQueryPage : ViewPage
 	{
 		public InfoQueryPage()
 		{
 			InitializeComponent();
             MyListView.ItemsSource = Core.App.InfoEntrances;
-            TabletEnabled = true;
+            this.On<iOS, ViewPage>().UseTabletMode();
         }
 
         object LastItem;
@@ -34,10 +35,10 @@ namespace HandSchool.Views
             }
         }
 
-        public override Page SetTabletDefaultPage()
+        /* public override Page SetTabletDefaultPage()
         {
             LastItem = Core.App.InfoEntrances[Core.App.InfoEntrances.Count - 1][1];
             return new AboutPage();
-        }
+        } */
     }
 }

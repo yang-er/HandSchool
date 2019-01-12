@@ -84,7 +84,7 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("查询", new Command(() => Evaluate("getSchId()")), "\uE721"));
+            Menu.Add(new InfoEntranceMenu("查询", new CommandAction(() => Evaluate("getSchId()")), "\uE721"));
         }
 
         public override async Task Receive(string data)

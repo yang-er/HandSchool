@@ -120,6 +120,9 @@
     <EmbeddedResource Include="JLU\YktHistoryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JLU\YktHistoryPage.xaml.cs">
       <DependentUpon>YktHistoryPage.xaml</DependentUpon>
     </Compile>
@@ -253,6 +256,9 @@
       <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
       <Name>HandSchool.JLU</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App.xaml" />
   </ItemGroup>
   <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

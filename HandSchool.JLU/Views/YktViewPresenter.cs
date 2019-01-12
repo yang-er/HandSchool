@@ -1,9 +1,9 @@
-﻿using HandSchool.JLU.Models;
+﻿using HandSchool.Internal;
+using HandSchool.JLU.Models;
 using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using HCommand = HandSchool.Internal.Command;
 
 namespace HandSchool.JLU.Views
 {
@@ -71,6 +71,8 @@ namespace HandSchool.JLU.Views
 
         public int PageCount => Core.Platform.RuntimeName == "iOS" ? 1 : 3;
 
+        public string Title => "校园一卡通";
+
         private void PushHistory(object obj)
         {
             if (obj is INavigation nav)
@@ -98,14 +100,14 @@ namespace HandSchool.JLU.Views
                     new SchoolCardInfoPiece(
                         PickCardTitle,
                         PickCardMessage,
-                        new HCommand((o) => PushPickCard(o))
+                        new CommandAction((o) => PushPickCard(o))
                     ));
 
                 YktViewModel.Instance.BasicInfo.Add(
                     new SchoolCardInfoPiece(
                         HistoryTitle,
                         HistoryMessage,
-                        new HCommand((o) => PushHistory(o))
+                        new CommandAction((o) => PushHistory(o))
                     ));
             }
         }

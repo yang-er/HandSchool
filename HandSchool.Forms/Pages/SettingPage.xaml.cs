@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.Internal;
+using HandSchool.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingPage : PopContentPage
+    public partial class SettingPage : ViewPage
     {
         public SettingPage()
         {
@@ -17,7 +18,7 @@ namespace HandSchool.Views
             ToolbarItems.Add(new ToolbarItem
             {
                 Text = "关于",
-                Command = new Command(async () => await (new AboutPage()).ShowAsync(Navigation))
+                Command = new CommandAction(async () => await (new AboutPage()).ShowAsync(Navigation))
             });
 #endif
         }
