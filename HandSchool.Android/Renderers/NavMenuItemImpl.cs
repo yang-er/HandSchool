@@ -13,7 +13,7 @@ namespace HandSchool.Droid
         private IViewPresenter Presenter { get; }
         private NavigateImpl Navigation { get; set; }
         static readonly Color active = Color.FromRgb(0, 120, 215);
-        static readonly Color inactive = Color.Black;
+        static readonly Color inactive = default(Color);
         private Color color;
         private bool selected = false;
 
@@ -41,6 +41,7 @@ namespace HandSchool.Droid
         {
             var navPage = new NavigationPage(LazyCorePage.Value);
             Navigation = new NavigateImpl(navPage);
+            Navigation.NavigationOccured(this, new NavigationEventArgs(LazyCorePage.Value));
             return navPage;
         }
 

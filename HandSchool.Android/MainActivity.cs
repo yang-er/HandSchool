@@ -20,8 +20,6 @@ namespace HandSchool.Droid
             base.OnCreate(bundle);
             XForms.Init(this, bundle);
             new PlatformImpl(this);
-            Core.Reflection.ForceLoad(false);
-            Core.Initialize();
             LoadApplication(new App() {});
         }
     }

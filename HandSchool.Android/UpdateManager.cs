@@ -54,7 +54,7 @@ namespace HandSchool.Droid
             }
         }
 
-        public async void Update()
+        public async void Update(bool displayNone = false)
         {
             string UpdateMsg = await GetUpdateString();
             if (UpdateMsg == "") return;
@@ -70,6 +70,17 @@ namespace HandSchool.Droid
                     Alert.SetMessage(Detail);
                     Alert.SetNegativeButton("取消", (IDialogInterfaceOnClickListener)null);
                     Alert.SetPositiveButton("确认", (s, e) => Device.OpenUri(new Uri(Arvgs[1])));
+                    Alert.Show();
+                });
+            }
+            else if (displayNone)
+            {
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    AlertDialog.Builder Alert = new AlertDialog.Builder(context);
+                    Alert.SetTitle("应用更新");
+                    Alert.SetMessage("您的应用已经是最新的啦！");
+                    Alert.SetNegativeButton("确认", (IDialogInterfaceOnClickListener)null);
                     Alert.Show();
                 });
             }

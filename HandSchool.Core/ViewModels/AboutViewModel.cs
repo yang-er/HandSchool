@@ -20,7 +20,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 信息入口点的列表
         /// </summary>
-        public List<InfoEntranceGroup> InfoEntrances { get; }
+        public InfoEntranceGroup AboutEntrances { get; }
 
         /// <summary>
         /// 目前程序的版本号
@@ -37,15 +37,14 @@ namespace HandSchool.ViewModels
         /// </summary>
         private AboutViewModel()
         {
-            var ent = new InfoEntranceGroup { GroupTitle = "关于" };
-            ent.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => OpenSource())));
+            AboutEntrances = new InfoEntranceGroup { GroupTitle = "关于" };
+            AboutEntrances.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => OpenSource())));
             if (Core.Platform.RuntimeName != "iOS")
-                ent.Add(new TapEntranceWrapper("检查更新", "", (nav) => Task.Run(() => CheckUpdate())));
-            ent.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
-            ent.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
-            ent.Add(new InfoEntranceWrapper(typeof(LicenseInfo)));
-
-            InfoEntrances = new List<InfoEntranceGroup> { ent };
+                AboutEntrances.Add(new TapEntranceWrapper("检查更新", "", (nav) => Task.Run(() => CheckUpdate())));
+            AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
+            AboutEntrances.Add(new InfoEntranceWrapper(typeof(LicenseInfo)));
+            
             Version = Core.Version;
             Title = "关于";
         }

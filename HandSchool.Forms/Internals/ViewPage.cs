@@ -56,7 +56,7 @@ namespace HandSchool.Views
         /// <summary>
         /// 视图导航控制器
         /// </summary>
-        public new INavigate Navigation => throw new NotImplementedException();
+        public new INavigate Navigation { get; private set; }
         
         #region INavigate Page Impl thanks to shanhongyue
 
@@ -93,7 +93,7 @@ namespace HandSchool.Views
 
         public void RegisterNavigation(INavigate navigate)
         {
-            throw new NotImplementedException();
+            Navigation = navigate;
         }
 
         /// <summary>

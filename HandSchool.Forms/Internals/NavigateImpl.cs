@@ -11,7 +11,7 @@ namespace HandSchool.Forms
     /// </summary>
     /// <inheritdoc cref="INavigate" />
     /// <inheritdoc cref="IReadOnlyList{T}" />
-    class NavigateImpl : INavigate, IReadOnlyList<IViewPage>
+    internal class NavigateImpl : INavigate, IReadOnlyList<IViewPage>
     {
         public NavigateImpl(NavigationPage navPage)
         {
@@ -19,7 +19,7 @@ namespace HandSchool.Forms
             navPage.Pushed += NavigationOccured;
         }
 
-        private void NavigationOccured(object sender, NavigationEventArgs args)
+        public void NavigationOccured(object sender, NavigationEventArgs args)
         {
             if (args.Page is TabbedPage tabbed)
             {

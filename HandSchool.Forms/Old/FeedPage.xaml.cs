@@ -23,11 +23,13 @@ namespace HandSchool.Views
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null || e.Item == LastItem || IsPushing) return;
-            if (Device.Idiom == TargetIdiom.Tablet) LastItem = e.Item as FeedItem;
+            LastItem = e.Item as FeedItem;
 
             IsPushing = true;
             await Navigation.PushAsync(new MessageDetailPage(LastItem));
             IsPushing = false;
+
+            if (Device.Idiom != TargetIdiom.Tablet) LastItem = null;
         }
     }
 }

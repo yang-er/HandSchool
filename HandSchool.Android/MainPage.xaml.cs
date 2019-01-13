@@ -45,6 +45,7 @@ namespace HandSchool.Views
         {
             SecondaryItems.Add(new NavMenuItemImpl("设置", "SettingPage", ""));
             PrimaryListView.ItemsSource = PrimaryItems;
+            PrimaryItems[0].Selected = true;
             SecondaryListView.ItemsSource = SecondaryItems;
             SecondaryListView.HeightRequest = 12 + 48 * SecondaryItems.Count;
 

@@ -1,17 +1,11 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Content;
 using HandSchool.Forms;
-using HandSchool.Views;
-using SkiaSharp.Views.Android;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Environment = System.Environment;
 
 namespace HandSchool.Droid
 {
-    internal sealed class PlatformImpl : PlatformFormsImpl
+    internal sealed partial class PlatformImpl : PlatformFormsImpl
     {
         /// <summary>
         /// 平台实现的实例。
@@ -85,71 +79,8 @@ namespace HandSchool.Droid
         /// <summary>
         /// 检查应用程序更新。
         /// </summary>
-        public override void CheckUpdate() => UpdateManager.Update();
-
-        /// <summary>
-        /// 输入文字请求的实现。
-        /// </summary>
-        /// <param name="sender">请求窗体</param>
-        /// <param name="args">请求参数</param>
-        public override void InputRequested(ViewPage sender, RequestInputArguments args)
-        {
-            var dismiss = new DismissByTaskSource(args.Result);
-            var builder = new AlertDialog.Builder(Context);
-            var textBox = new EditText(Context);
-            var headerLabel = new TextView(Context);
-            headerLabel.Text = args.Message;
-            var layout = new StackView(Context);
-            layout.AddView(headerLabel);
-            layout.AddView(textBox);
-
-            builder.SetTitle(args.Title);
-            builder.SetPositiveButton(args.Accept, delegate { dismiss.ResultCache = textBox.Text; });
-            builder.SetNegativeButton(args.Cancel, delegate { });
-            builder.SetOnDismissListener(dismiss);
-            builder.SetCancelable(false);
-            builder.SetView(layout);
-
-            var dialog = builder.Create();
-            dialog.Show();
-        }
-
-        /// <summary>
-        /// 展示图表请求的实现。
-        /// </summary>
-        /// <param name="sender">请求窗体</param>
-        /// <param name="args">请求参数</param>
-        public override void ChartRequested(ViewPage sender, RequestChartArguments args)
-        {
-            var dbtask = new DismissByTask(args.ReturnTask);
-            var builder = new AlertDialog.Builder(Context);
-
-            args.Chart.LabelTextSize = Dip2Px(12);
-            LayoutInflater layoutInflater = LayoutInflater.From(Context);
-            var chartLayout = layoutInflater.Inflate(Resource.Layout.SkiaChart, null);
-            builder.SetView(chartLayout);
-
-            var canvasView = chartLayout.FindViewById<SKCanvasView>(Resource.Id.skia_chart_canvas);
-            canvasView.PaintSurface += (s, e) =>
-            {
-                args.Chart.Draw(e.Surface.Canvas, e.Info.Width, e.Info.Height);
-            };
-
-            builder.SetTitle(args.Title);
-            builder.SetPositiveButton(args.Close, delegate { });
-            builder.SetOnDismissListener(dbtask);
-            var dialog = builder.Create();
-            dialog.Show();
-
-            IWindowManager manager = MainActivity.Instance.WindowManager;
-            Display d = manager.DefaultDisplay;
-            Window window = dialog.Window;
-            WindowManagerLayoutParams param = window.Attributes;
-            param.Height = Dip2Px(340);
-            param.Gravity = GravityFlags.CenterHorizontal;
-            dialog.Window.Attributes = param;
-        }
-
+        public override void CheckUpdate() => UpdateManager.Update(true);
+        
         /// <summary>
         /// 将dp值转换为px值
         /// </summary>
@@ -163,43 +94,5 @@ namespace HandSchool.Droid
         /// <param name="pxValue">px值</param>
         /// <returns>dp值</returns>
         public static float Px2Dip(int pxValue) => pxValue / Scale;
-
-        /// <summary>
-        /// 随着对话框消失的任务
-        /// </summary>
-        private class DismissByTask : Java.Lang.Object, IDialogInterfaceOnDismissListener
-        {
-            public Task EndTask { get; }
-            
-            public DismissByTask(Task taskToWait)
-            {
-                EndTask = taskToWait;
-            }
-
-            public void OnDismiss(IDialogInterface dialog)
-            {
-                EndTask.Start();
-            }
-        }
-
-        /// <summary>
-        /// 随着对话框消失的任务
-        /// </summary>
-        private class DismissByTaskSource : Java.Lang.Object, IDialogInterfaceOnDismissListener
-        {
-            public TaskCompletionSource<string> EndTask { get; }
-
-            public string ResultCache { get; set; }
-
-            public DismissByTaskSource(TaskCompletionSource<string> taskToWait)
-            {
-                EndTask = taskToWait;
-            }
-
-            public void OnDismiss(IDialogInterface dialog)
-            {
-                EndTask.TrySetResult(ResultCache);
-            }
-        }
     }
 }

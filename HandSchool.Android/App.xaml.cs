@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using HandSchool.Internal;
-using HandSchool.ViewModels;
-using HandSchool.Views;
+﻿using HandSchool.Views;
+using System;
 using Xamarin.Forms;
+using Adjust = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.WindowSoftInputModeAdjust;
+using Ext = Xamarin.Forms.PlatformConfiguration.AndroidSpecific.Application;
 
 namespace HandSchool
 {
@@ -13,8 +10,11 @@ namespace HandSchool
     {
         public App()
         {
+            Core.Reflection.ForceLoad(false);
+            Core.Initialize();
             InitializeComponent();
             MainPage = new MainPage();
+            Ext.SetWindowSoftInputModeAdjust(this, Adjust.Pan);
         }
         
         protected override void OnStart()

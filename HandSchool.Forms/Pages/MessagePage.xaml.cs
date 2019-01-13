@@ -21,12 +21,17 @@ namespace HandSchool.Views
             MessageViewModel.Instance.FirstOpen();
         }
 
+        bool IsPushing { get; set; }
+
         private async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null) return;
+            if (e.Item == null || IsPushing) return;
             var imi = e.Item as IMessageItem;
             imi.SetRead.Execute(null);
+
+            IsPushing = true;
             await Navigation.PushAsync(new MessageDetailPage(imi));
+            IsPushing = false;
 
             // Deselect Item
             ((ListView)sender).SelectedItem = null;
