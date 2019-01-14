@@ -13,6 +13,8 @@ namespace HandSchool
     {
         public App()
         {
+            Core.Reflection.ForceLoad(false);
+            Core.Initialize();
             InitializeComponent();
             Core.Initialize();
             MainPage = new MainPage();
@@ -22,9 +24,7 @@ namespace HandSchool
 		{
             // Handle when your app starts
         }
-
-        Page LastDetail;
-
+        
 		protected override void OnSleep()
 		{
             // Handle when your app sleeps

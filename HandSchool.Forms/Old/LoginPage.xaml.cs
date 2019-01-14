@@ -16,8 +16,8 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             LoginViewModel = viewModel;
-            this.On<iOS, ViewPage>().UseSafeArea().ShowLeftCancel();
-            this.On<Each, ViewPage>().ShowLoading();
+            On<_iOS_>().UseSafeArea().ShowLeftCancel();
+            On<_Each_>().ShowLoading();
             UpdateCaptchaInfomation();
         }
 

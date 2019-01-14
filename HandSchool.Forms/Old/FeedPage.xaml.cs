@@ -15,7 +15,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = FeedViewModel.Instance;
-            this.On<iOS, ViewPage>().UseTabletMode();
+            On<_iOS_>().UseTabletMode();
         }
 
         FeedItem LastItem;

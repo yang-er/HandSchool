@@ -31,7 +31,7 @@ namespace HandSchool.Views
                 Orientation = ScrollOrientation.Vertical
             };
 
-            this.On<iOS, ViewPage>().UseSafeArea();
+            On<_iOS_>().UseSafeArea();
         }
 
         public MessageDetailPage(FeedItem item)
@@ -60,7 +60,7 @@ namespace HandSchool.Views
                 Orientation = ScrollOrientation.Vertical
             };
 
-            this.On<iOS, ViewPage>().UseSafeArea();
+            On<_iOS_>().UseSafeArea();
         }
 	}
 }

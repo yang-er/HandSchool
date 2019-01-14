@@ -17,6 +17,11 @@ namespace HandSchool.Views
         public const string RequestInputSignalName = "HandSchool.AskInput";
         public const string RequestChartSignalName = "HandSchool.ChartShow";
 
+        public ViewPage()
+        {
+            On<_iOS_>().StatusTranslucent();
+        }
+
         /// <summary>
         /// 与此页面沟通的视图模型
         /// </summary>

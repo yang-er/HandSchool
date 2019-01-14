@@ -5,7 +5,7 @@ using Environment = System.Environment;
 
 namespace HandSchool.Droid
 {
-    internal sealed partial class PlatformImpl : PlatformFormsImpl
+    public sealed partial class PlatformImpl : PlatformFormsImpl
     {
         /// <summary>
         /// 平台实现的实例。

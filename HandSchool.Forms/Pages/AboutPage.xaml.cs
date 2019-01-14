@@ -13,7 +13,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = AboutViewModel.Instance;
-            this.On<iOS, ViewPage>().UseSafeArea();
+            On<_iOS_>().UseSafeArea();
         }
 
         private async void ItemTapped(object sender, ItemTappedEventArgs e)

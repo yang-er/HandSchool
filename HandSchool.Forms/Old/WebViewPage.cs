@@ -2,22 +2,21 @@
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
-using System.Reflection;
 using System.Text;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class WebViewPage : ViewPage
+    public class WebViewPage : ViewPage
 	{
         private IWebEntrance InfoEntrance { get; }
 
+        public HybridWebView WebView { get; }
+
 		public WebViewPage(IWebEntrance entrance)
 		{
-			InitializeComponent();
-            this.On<Each, ViewPage>().ShowLoading();
+            Content = WebView = new HybridWebView();
+            On<_Each_>().ShowLoading();
             var meta = entrance.GetType().Get<EntranceAttribute>();
             Title = meta.Title;
 
@@ -34,8 +33,6 @@ namespace HandSchool.Views
             else if (entrance is IUrlEntrance iu)
             {
                 WebView.Uri = iu.HtmlUrl;
-                WebView.Cookie = iu.Cookie;
-                WebView.OpenWithPost = iu.OpenWithPost;
                 WebView.SubUrlRequested += OnSubUrlRequested;
 
                 if (WebView.Uri.Contains("://"))

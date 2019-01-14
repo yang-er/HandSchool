@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internals\ViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Old\MessageDetailPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Old\WebViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\PickerCell.cs" />
   </ItemGroup>
@@ -84,16 +85,6 @@
     </EmbeddedResource>
     <Compile Include="$(MSBuildThisFileDirectory)Old\InfoQueryPage.xaml.cs">
       <DependentUpon>InfoQueryPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\WebViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\WebViewPage.xaml.cs">
-      <DependentUpon>WebViewPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

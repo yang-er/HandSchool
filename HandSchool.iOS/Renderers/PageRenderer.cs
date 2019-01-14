@@ -1,16 +1,14 @@
-﻿using CoreGraphics;
-using HandSchool.iOS;
+﻿using HandSchool.iOS;
 using HandSchool.Views;
 using System;
-using System.ComponentModel;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(PopContentPage), typeof(PopContentPageRenderer))]
+[assembly: ExportRenderer(typeof(ViewPage), typeof(ViewPageRenderer))]
 namespace HandSchool.iOS
 {
-    class PopContentPageRenderer : PageRenderer
+    public class ViewPageRenderer : PageRenderer
     {
         private UIActivityIndicatorView Spinner;
 
@@ -44,26 +42,17 @@ namespace HandSchool.iOS
                     (nfloat)1.0, (nfloat)100));
             }
 
-            if (e.NewElement is PopContentPage page)
-            {
-                page.PropertyChanged += IsBusyChanged;
-                SetIsBusy();
-            }
+            MessagingCenter.Unsubscribe<Page, bool>(this, Page.BusySetSignalName);
 
-            if (e.OldElement is PopContentPage page2)
+            if (e.NewElement is ViewPage page)
             {
-                page2.PropertyChanged -= IsBusyChanged;
+                MessagingCenter.Subscribe<Page, bool>(this, Page.BusySetSignalName, SetIsBusy, page);
             }
         }
-
-        private void IsBusyChanged(object sender, PropertyChangedEventArgs args)
+        
+        private void SetIsBusy(Page page, bool isBusy)
         {
-            if (args.PropertyName == "IsBusy") SetIsBusy();
-        }
-
-        private void SetIsBusy()
-        {
-            if (Element is PopContentPage pg && pg.ShowIsBusyDialog && pg.IsBusy)
+            if (Element is ViewPage pg && (bool)pg.GetValue(HandSchool.Internal.PlatformExtensions.ShowLoadingProperty) && isBusy)
             {
                 Spinner.StartAnimating();
             }

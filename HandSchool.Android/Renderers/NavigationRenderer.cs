@@ -2,6 +2,7 @@
 using Android.Content.Res;
 using Android.Views;
 using Android.Widget;
+using HandSchool.Droid;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms.Platform.Android.AppCompat;
@@ -9,10 +10,10 @@ using AProgressBar = Android.Widget.ProgressBar;
 using AToolbar = Android.Support.V7.Widget.Toolbar;
 using AView = Android.Views.View;
 
-[assembly: ExportRenderer(typeof(NavigationPage), typeof(HandSchool.Droid.NavigationRenderer))]
+[assembly: ExportRenderer(typeof(NavigationPage), typeof(NavigateRenderer))]
 namespace HandSchool.Droid
 {
-    public class NavigationRenderer : NavigationPageRenderer
+    public class NavigateRenderer : NavigationPageRenderer
     {
         const string sPageContainer = "Xamarin.Forms.Platform.Android.PageContainer";
 
@@ -27,7 +28,7 @@ namespace HandSchool.Droid
                 ProgressBar.Visibility = value ? ViewStates.Visible : ViewStates.Invisible;
         }
 
-        public NavigationRenderer(Context context) : base(context)
+        public NavigateRenderer(Context context) : base(context)
         {
             ProgressBar = new AProgressBar(Context, null, Android.Resource.Attribute.ProgressBarStyleHorizontal)
             {

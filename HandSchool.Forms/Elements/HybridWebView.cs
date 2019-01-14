@@ -32,7 +32,8 @@ namespace HandSchool.Views
         /// Html属性的内部储存
         /// </summary>
         public static readonly BindableProperty HtmlProperty = 
-            BindableProperty.Create(propertyName: nameof(Html), 
+            BindableProperty.Create(
+                propertyName: nameof(Html), 
                 returnType: typeof(string), 
                 declaringType: typeof(HybridWebView), 
                 defaultValue: default(string));
@@ -40,8 +41,10 @@ namespace HandSchool.Views
         /// <summary>
         /// OpenWithPost属性的内部储存
         /// </summary>
+        [Obsolete("This property does not support any more")]
         public static readonly BindableProperty OpenWithPostProperty = 
-            BindableProperty.Create(propertyName: nameof(OpenWithPost),
+            BindableProperty.Create(
+                propertyName: nameof(OpenWithPost),
                 returnType: typeof(byte[]),
                 declaringType: typeof(HybridWebView),
                 defaultValue: null);
@@ -67,6 +70,7 @@ namespace HandSchool.Views
         /// <summary>
         /// 访问页面的OpenWithPost值
         /// </summary>
+        [Obsolete("This property does not support any more")]
         public byte[] OpenWithPost
         {
             get { return (byte[])GetValue(OpenWithPostProperty); }
@@ -76,6 +80,7 @@ namespace HandSchool.Views
         /// <summary>
         /// 使用的默认cookie值
         /// </summary>
+        [Obsolete("This property does not support any more")]
         public List<string> Cookie { get; set; }
 
         /// <summary>

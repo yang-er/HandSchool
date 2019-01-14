@@ -11,7 +11,7 @@ using XView = Xamarin.Forms.Platform.Android.EntryCellView;
 [assembly: ExportRenderer(typeof(EntryCell), typeof(ARender))]
 namespace HandSchool.Droid
 {
-    class EntryCellRenderer : XRender
+    public class EntryCellRenderer : XRender
     {
         protected override AView GetCellCore(Cell item, AView convertView, ViewGroup parent, Context context)
         {

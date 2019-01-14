@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.Forms
 {
-    internal abstract class PlatformFormsImpl : PlatformBase
+    public abstract class PlatformFormsImpl : PlatformBase
     {
         /// <summary>
         /// 输入文字请求的实现。

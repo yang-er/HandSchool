@@ -2,49 +2,48 @@
 using HandSchool.Droid;
 using HandSchool.Internal;
 using HandSchool.Views;
-using System.ComponentModel;
 using Xamarin.Forms;
-using ElementChangedEventArgs = Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Xamarin.Forms.Page>;
-using XPageRenderer = Xamarin.Forms.Platform.Android.PageRenderer;
-using XPlatform = Xamarin.Forms.Platform.Android.Platform;
+using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(ViewPage), typeof(PageRenderer))]
+[assembly: ExportRenderer(typeof(ViewPage), typeof(ViewPageRenderer))]
 namespace HandSchool.Droid
 {
-    class PageRenderer : XPageRenderer
+    public class ViewPageRenderer : PageRenderer
     {
-        public PageRenderer(Context context) : base(context) { }
+        public ViewPageRenderer(Context context) : base(context) { }
 
         public new ViewPage Element => base.Element as ViewPage;
         
-        protected override void OnElementChanged(ElementChangedEventArgs e)
+        protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
             base.OnElementChanged(e);
-            
+
+            MessagingCenter.Unsubscribe<Page, bool>(this, Page.BusySetSignalName);
+
             if (e.NewElement is ViewPage pg)
             {
                 if ((bool)pg.GetValue(PlatformExtensions.ShowLeftCancelProperty))
                 {
                     pg.ToolbarItems.Add(new ToolbarItem("取消", null, async () => await pg.CloseAsync()));
                 }
-            }
 
-            SetIsBusy();
+                if ((bool)pg.GetValue(PlatformExtensions.ShowLoadingProperty))
+                {
+                    MessagingCenter.Subscribe<Page, bool>(this, Page.BusySetSignalName, SetIsBusy, pg);
+                }
+            }
         }
         
-        private void SetIsBusy()
+        private static void SetIsBusy(Page page, bool isBusy)
         {
-            if ((bool)Element.GetValue(PlatformExtensions.ShowLoadingProperty) && Element.Parent is NavigationPage navpg)
+            if (page.Parent is NavigationPage navpg)
             {
-                (XPlatform.GetRenderer(navpg) as NavigationRenderer).SetIsBusy(Element.IsBusy);
+                (Platform.GetRenderer(navpg) as NavigateRenderer).SetIsBusy(isBusy);
             }
-        }
-
-        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == Page.IsBusyProperty.PropertyName)
-                SetIsBusy();
+            else if (page.Parent is TabbedPage tabpg && tabpg.Parent is NavigationPage navpage)
+            {
+                (Platform.GetRenderer(navpage) as NavigateRenderer).SetIsBusy(isBusy);
+            }
         }
     }
 }

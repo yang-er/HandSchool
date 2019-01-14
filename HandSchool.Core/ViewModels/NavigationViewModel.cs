@@ -17,11 +17,17 @@ namespace HandSchool.ViewModels
         public static NavigationViewModel Instance => Lazy.Value;
 
         /// <summary>
+        /// 结束添加时执行
+        /// </summary>
+        public static event EventHandler FetchComplete;
+
+        /// <summary>
         /// 加载预定义的所有菜单内容。
         /// </summary>
         private NavigationViewModel()
         {
             FetchOptions();
+            FetchComplete?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

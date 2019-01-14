@@ -13,21 +13,20 @@ namespace HandSchool.Droid
 {
     public class HybridWebViewRenderer : ViewRenderer<HybridWebView, AWebView>
     {
+        [Obsolete("Has been put into Bootstrap's data")]
         const string JavaScriptFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
-        Context _context;
 
-        public HybridWebViewRenderer(Context context) : base(context)
-        {
-            _context = context;
-        }
+        const string baseUrl = "file:///android_asset/";
+
+        public HybridWebViewRenderer(Context context) : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)
         {
             base.OnElementChanged(e);
-
+            
             if (Control == null)
             {
-                var webView = new AWebView(_context);
+                var webView = new AWebView(Context);
                 webView.Settings.JavaScriptEnabled = true;
                 SetNativeControl(webView);
             }
@@ -42,37 +41,21 @@ namespace HandSchool.Droid
             if (e.NewElement != null)
             {
                 Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
-                if (Element.Html != string.Empty && Element.Html != null)
+
+                if (!string.IsNullOrEmpty(Element.Html))
                 {
-                    Control.LoadDataWithBaseURL("file:///android_asset/", Element.Html.Replace("{webview_base_url}", "file:///android_asset/"), "text/html", "utf-8", null);
+                    Control.LoadDataWithBaseURL(baseUrl, Element.Html.Replace("{webview_base_url}", baseUrl), "text/html", "utf-8", null);
                 }
                 else
                 {
                     if (Element.Uri.Contains("://"))
                     {
                         Control.SetWebViewClient(new AwareWebClient(e.NewElement));
-                        
-                        if (Element.Cookie != null)
-                        {
-                            var cokMgr = CookieManager.Instance;
-                            cokMgr.SetAcceptCookie(true);
-                            cokMgr.RemoveSessionCookie();
-                            foreach (var cokVal in Element.Cookie)
-                                cokMgr.SetCookie(Element.Uri, cokVal);
-                        }
-
-                        if (Element.OpenWithPost == null)
-                        {
-                            Control.LoadUrl(Element.Uri);
-                        }
-                        else
-                        {
-                            Control.PostUrl(Element.Uri, Element.OpenWithPost);
-                        }
+                        Control.LoadUrl(Element.Uri);
                     }
                     else
                     {
-                        Control.LoadUrl(string.Format("file:///android_asset/{0}", Element.Uri));
+                        Control.LoadUrl(string.Format(baseUrl + "{0}", Element.Uri));
                     }
                 }
                 

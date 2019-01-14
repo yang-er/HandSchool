@@ -32,7 +32,7 @@ namespace HandSchool.Views
         public SchedulePage(ScheduleViewModelBase vmInst)
         {
             InitializeComponent();
-            this.On<Each, ViewPage>().ShowLoading();
+            On<_Each_>().ShowLoading();
 
             RowHeight = new GridLength(60, GridUnitType.Absolute);
             ColWidth = new GridLength(100, GridUnitType.Absolute);
@@ -125,7 +125,7 @@ namespace HandSchool.Views
                     DefRow.Height = GridLength.Star;
                     DefCol.Width = GridLength.Star;
                     scroller.Orientation = ScrollOrientation.Vertical;
-                    this.On<iOS, ViewPage>().UseSafeArea(true);
+                    On<_iOS_>().UseSafeArea(true);
                 }
             }
             else if (Width > Height && (!IsWider || forceSize))
@@ -135,7 +135,7 @@ namespace HandSchool.Views
                 DefCol.Width = GridLength.Star;
                 DefRow.Height = RowHeight;
                 scroller.Orientation = ScrollOrientation.Vertical;
-                this.On<iOS, ViewPage>().UseSafeArea(false);
+                On<_iOS_>().UseSafeArea(false);
             }
             else if (Width < Height && (IsWider || forceSize))
             {
@@ -144,7 +144,7 @@ namespace HandSchool.Views
                 DefRow.Height = GridLength.Star;
                 DefCol.Width = ColWidth;
                 scroller.Orientation = ScrollOrientation.Horizontal;
-                this.On<iOS, ViewPage>().UseSafeArea(true);
+                On<_iOS_>().UseSafeArea(true);
             }
         }
     }

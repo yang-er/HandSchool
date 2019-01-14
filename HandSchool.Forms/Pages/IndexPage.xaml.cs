@@ -11,7 +11,7 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = IndexViewModel.Instance;
-            this.On<iOS, ViewPage>().UseSafeArea().HideFrameShadow();
+            On<_iOS_>().UseSafeArea().HideFrameShadow();
         }
 
         protected override void OnAppearing()

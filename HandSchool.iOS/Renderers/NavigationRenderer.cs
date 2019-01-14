@@ -1,37 +1,16 @@
-﻿using CoreGraphics;
+﻿using HandSchool.Internal;
 using HandSchool.iOS;
 using HandSchool.Views;
-using System;
-using System.ComponentModel;
 using System.Linq;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using static Xamarin.Forms.PlatformConfiguration.iOSSpecific.NavigationPage;
 
 [assembly: ExportRenderer(typeof(NavigationPage), typeof(NavigationPageRenderer))]
 namespace HandSchool.iOS
 {
-    class NavigationPageRenderer : NavigationRenderer
+    public class NavigationPageRenderer : NavigationRenderer
     {
-        public static double NavigationBarHeight = 64;
-
-        protected override void OnElementChanged(VisualElementChangedEventArgs e)
-        {
-            base.OnElementChanged(e);
-
-            if (e.NewElement is NavigationPage page)
-            {
-                page.OnThisPlatform().SetIsNavigationBarTranslucent(true);
-                page.SizeChanged += HeightReset;
-            }
-
-            if (e.OldElement is NavigationPage page2)
-            {
-                page2.SizeChanged -= HeightReset;
-            }
-        }
-
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -46,9 +25,9 @@ namespace HandSchool.iOS
         {
             if (Element is NavigationPage navpg)
             {
-                if (navpg.CurrentPage is PopContentPage pg)
+                if (navpg.CurrentPage is ViewPage pg)
                 {
-                    if (pg.ShowCancel)
+                    if ((bool)pg.GetValue(PlatformExtensions.ShowLeftCancelProperty))
                     {
                         var cancelBtn = new UIBarButtonItem
                         {
@@ -60,11 +39,6 @@ namespace HandSchool.iOS
                     }
                 }
             }
-        }
-
-        private void HeightReset(object sender, EventArgs args)
-        {
-            NavigationBarHeight = (double)(NavigationBar.Frame.Height + AppDelegate.SharedApplication.StatusBarFrame.Height);
         }
     }
 }

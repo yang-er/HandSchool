@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
+﻿using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using HandSchool.Models;
+using System;
+using System.Collections.Generic;
 
 namespace HandSchool.Droid
 {
     [BroadcastReceiver(Label = "课程表")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/classtablewidgetprovider")]
-    class ClassTableWidget: AppWidgetProvider
+    public class ClassTableWidget: AppWidgetProvider
     {
         public static readonly Color[] ClassColors = 
         {

@@ -9,7 +9,7 @@ using SkiaSharp.Views.Android;
 
 namespace HandSchool.Droid
 {
-    internal sealed partial class PlatformImpl : PlatformFormsImpl
+    public sealed partial class PlatformImpl : PlatformFormsImpl
     {
         /// <summary>
         /// 展示图表请求的实现。
@@ -85,6 +85,5 @@ namespace HandSchool.Droid
 
             dialog.Show();
         }
-
     }
 }
