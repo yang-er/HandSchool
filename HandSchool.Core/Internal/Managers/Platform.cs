@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
+using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -22,18 +22,12 @@ namespace HandSchool.Internal
         public abstract ILoginPage CreateLoginPage(LoginViewModel viewModel);
 
         /// <summary>
-        /// 创建一个空白视图页面。
-        /// </summary>
-        /// <returns>视图页面的内容</returns>
-        public abstract IViewPage CreatePage();
-
-        /// <summary>
         /// 创建一个添加课程表的页面。
         /// </summary>
         /// <param name="item">课程表项</param>
         /// <param name="navigationContext">导航上下文</param>
         public abstract Task<bool> ShowNewCurriculumPageAsync(CurriculumItem item, INavigate navigationContext);
-        
+
         /// <summary>
         /// 添加菜单入口点到主要页面中。
         /// </summary>
@@ -43,7 +37,7 @@ namespace HandSchool.Internal
         /// <param name="uwp">UWP 的图标。</param>
         /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
         public abstract void AddMenuEntry(string title, string dest, string category, string uwp, string ios);
-        
+
         /// <summary>
         /// 打开网址页面。
         /// </summary>
@@ -60,27 +54,32 @@ namespace HandSchool.Internal
         /// 设备的种类
         /// </summary>
         public virtual TargetIdiom Idiom => Device.Idiom;
-        
+
         /// <summary>
         /// 应用商店链接
         /// </summary>
-        public abstract string StoreLink { get; }
+        public string StoreLink { get; protected set; }
 
         /// <summary>
         /// 运行时名称
         /// </summary>
-        public abstract string RuntimeName { get; }
+        public string RuntimeName { get; protected set; }
 
         /// <summary>
         /// 设置文件夹
         /// </summary>
-        public abstract string ConfigureDirectory { get; }
+        public string ConfigureDirectory { get; protected set; }
 
         /// <summary>
         /// 检查应用程序更新。
         /// </summary>
         public abstract void CheckUpdate();
-        
+
+        /// <summary>
+        /// 视图响应的实现
+        /// </summary>
+        public IViewResponseImpl ViewResponseImpl { get; protected set; }
+
         /// <summary>
         /// 在主线程上运行异步操作。
         /// </summary>

@@ -2,6 +2,7 @@
 using HandSchool.JLU;
 using HandSchool.JLU.InfoQuery;
 using HandSchool.JLU.Services;
+using HandSchool.JLU.Views;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
@@ -36,7 +37,8 @@ namespace HandSchool.JLU
         public void PostLoad()
         {
             Ykt = new SchoolCard();
-            NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktViewPresenter", "JLU", "\xE719");
+            Core.Reflection.RegisterType<YktViewPresenter>();
+            NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktViewPresenter", "JLU", "\xE8C7");
         }
 
         public void PreLoad()
@@ -56,16 +58,19 @@ namespace HandSchool.JLU
             Feed = new Lazy<IFeedEntrance>(() => new OA());
             Task.Run(OA.PreloadData);
             
-            InfoList = new InfoEntranceGroup { GroupTitle = "公共信息查询" };
-            InfoList.Add(new InfoEntranceWrapper(typeof(EmptyRoom)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(TeachEvaluate)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(CollegeIntroduce)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(ProgramMaster)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(ClassSchedule)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(SelectCourse)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(LibrarySearch)));
-            // InfoList.Add(new InfoEntranceWrapper(typeof(LibraryZwyy)));
-            InfoList.Add(new InfoEntranceWrapper(typeof(AdviceSchedule)));
+            InfoList = new InfoEntranceGroup("公共信息查询")
+            {
+                InfoEntranceWrapper.From<EmptyRoom>(),
+                InfoEntranceWrapper.From<TeachEvaluate>(),
+                InfoEntranceWrapper.From<CollegeIntroduce>(),
+                InfoEntranceWrapper.From<ProgramMaster>(),
+                InfoEntranceWrapper.From<ClassSchedule>(),
+                InfoEntranceWrapper.From<SelectCourse>(),
+                InfoEntranceWrapper.From<LibrarySearch>(),
+                // InfoEntranceWrapper.From<LibraryZwyy>(),
+                InfoEntranceWrapper.From<AdviceSchedule>(),
+            };
+
             Core.App.InfoEntrances.Add(InfoList);
         }
 

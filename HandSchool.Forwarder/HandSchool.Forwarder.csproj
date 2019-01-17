@@ -6,10 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HandSchool.Core\HandSchool.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj" />
   </ItemGroup>
 
 </Project>

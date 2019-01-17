@@ -19,8 +19,7 @@ namespace HandSchool.Views
     {
         public ViewPage() : base()
         {
-            Loaded += (sender, e) => OnPageLoaded(e);
-            viewWrapper = new Lazy<XView>(() => new NativeViewWrapper(this));
+            Loaded += OnPageLoaded;
         }
 
         public BaseViewModel ViewModel
@@ -33,14 +32,12 @@ namespace HandSchool.Views
 
         public List<AppBarButton> SecondaryMenu { get; set; } = new List<AppBarButton>();
 
-        protected virtual void OnPageLoaded(RoutedEventArgs args)
+        private void OnPageLoaded(object sender, RoutedEventArgs args)
         {
-            if (Window.Current.Content is Frame frame)
+            if (Window.Current.Content is Frame frame && frame.Content is MainPage mainpg)
             {
-                if (frame.Content is MainPage mainpg)
-                {
-                    OnPageLoaded(args, mainpg);
-                }
+                if (ViewModel is null) return;
+                OnPageLoaded(args, mainpg);
             }
         }
 
@@ -48,7 +45,7 @@ namespace HandSchool.Views
         {
             mainPage.DataContext = DataContext;
             ViewModel.View = this;
-
+            
             if (mainPage.CommandBar != null)
             {
                 mainPage.CommandBar.SecondaryCommands.Clear();
@@ -61,20 +58,10 @@ namespace HandSchool.Views
         #region IViewPage Impl
 
         public bool IsModal => false;
+        
+        XView IViewPage.Content { get; set; }
 
-        readonly Lazy<XView> viewWrapper;
-
-        XView IViewPage.Content
-        {
-            get => viewWrapper.Value;
-            set => throw new InvalidOperationException();
-        }
-
-        string IViewPage.Title
-        {
-            get => ViewModel.Title;
-            set => this.WriteLog("Title change requested but ignored");
-        }
+        string IViewPage.Title { get; set; }
 
         public event EventHandler Disappearing;
 
@@ -82,6 +69,8 @@ namespace HandSchool.Views
 
         public void AddToolbarEntry(MenuEntry item)
         {
+            if (item.HiddenForPull) item.Title = "刷新";
+
             var btn = new AppBarButton
             {
                 Command = item.Command,
@@ -98,7 +87,7 @@ namespace HandSchool.Views
                 btn.SetBinding(AppBarButton.CommandProperty, item.CommandBinding);
             }
 
-            if (item.Order == Xamarin.Forms.ToolbarItemOrder.Primary)
+            if (item.Order == Xamarin.Forms.ToolbarItemOrder.Primary || item.HiddenForPull)
             {
                 PrimaryMenu.Add(btn);
             }
@@ -111,19 +100,27 @@ namespace HandSchool.Views
         #endregion
 
         #region INavigate Impl
+        
+        protected virtual void OnDisappearing()
+        {
+            Disappearing?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnAppearing()
+        {
+            Appearing?.Invoke(this, EventArgs.Empty);
+        }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if (e.NavigationMode == NavigationMode.Back)
-                Disappearing?.Invoke(this, EventArgs.Empty);
+            OnDisappearing();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.NavigationMode == NavigationMode.New)
-                Appearing?.Invoke(this, EventArgs.Empty);
+            OnAppearing();
         }
 
         public virtual void RegisterNavigation(INavigate navigate) => Navigation = navigate;

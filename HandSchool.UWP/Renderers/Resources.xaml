@@ -4,6 +4,23 @@
     xmlns:local="using:HandSchool.UWP.Renderers"
     xmlns:view="using:HandSchool.Views">
 
+    <DataTemplate x:Key="HandSchoolTextCell">
+        <Grid Padding="8,16,8,16" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding RightUp}" FontSize="13" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" Text="{Binding Detail}" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Text="{Binding RightDown}" Foreground="{Binding Path=RightDownColor, Converter={StaticResource ColorConverter}}" Visibility="{Binding RightDownShow}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right" />
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="XamarinTextCell">
         <StackPanel Margin="8,16,8,16">
             <TextBlock Text="{Binding Text}"
@@ -30,5 +47,18 @@
             </local:EntryCellTextBox.HeaderTemplate>
         </local:EntryCellTextBox>
     </DataTemplate>
+    
+    <Style TargetType="ListViewItem" x:Key="HSListViewItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
 
+    <GroupStyle HidesIfEmpty="True" x:Key="HSListViewGroupStyle">
+        <GroupStyle.HeaderTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding GroupTitle}" FontSize="20" Margin="8,0,8,0" />
+            </DataTemplate>
+        </GroupStyle.HeaderTemplate>
+    </GroupStyle>
+    
 </ResourceDictionary>

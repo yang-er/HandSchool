@@ -60,13 +60,13 @@ namespace HandSchool.ViewModels
             else
             {
                 if (Core.App.Loader.Feed != null)
-                    AddMenuEntry("学校通知", "FeedPage", uwp: "\xED0D", ios: "tab_feed.png");
+                    AddMenuEntry("学校通知", "FeedPage", uwp: "\xEB50", ios: "tab_feed.png");
                 if (Core.App.Loader.Message != null)
                     AddMenuEntry("站内消息", "MessagePage", uwp: "\xE715");
             }
 
             if (Core.App.Loader.GradePoint != null)
-                AddMenuEntry("学分成绩", "GradePointPage", uwp: "\xE82D");
+                AddMenuEntry("学分成绩", "GradePointPage", uwp: "\xE9D2");
             if (Core.App.InfoEntrances.Count > 0 || Core.Platform.RuntimeName == "iOS")
                 AddMenuEntry("信息查询", "InfoQueryPage", uwp: "\xE946", ios: "tab_about.png");
         }

@@ -13,6 +13,7 @@ namespace HandSchool.Views
 			InitializeComponent();
             MyListView.ItemsSource = Core.App.InfoEntrances;
             On<_iOS_>().UseTabletMode();
+            On<_Each_>().ShowLoading();
         }
 
         object LastItem;

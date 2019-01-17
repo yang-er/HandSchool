@@ -24,22 +24,7 @@ namespace HandSchool.UWP
         /// 应用商店检查更新链接
         /// </summary>
         public string UpdateSourceLink { get; }
-
-        /// <summary>
-        /// 应用商店链接
-        /// </summary>
-        public override string StoreLink { get; }
-
-        /// <summary>
-        /// 运行时名称
-        /// </summary>
-        public override string RuntimeName => "UWP";
-
-        /// <summary>
-        /// 设置文件夹
-        /// </summary>
-        public override string ConfigureDirectory { get; }
-
+        
         /// <summary>
         /// 系统导航内容
         /// </summary>
@@ -53,9 +38,11 @@ namespace HandSchool.UWP
             StoreLink = "ms-windows-store://review/?productid=9PD2FR9HHJQP";
             UpdateSourceLink = "ms-windows-store://pdp/?productid=9PD2FR9HHJQP";
             ConfigureDirectory = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            RuntimeName = "UWP";
 
             Core.InitPlatform(Instance = this);
             NavigationItems = new List<NavigationMenuItemImpl>();
+            ViewResponseImpl = new ViewResponseImpl();
         }
 
         /// <summary>
@@ -65,6 +52,10 @@ namespace HandSchool.UWP
         {
             Debug.Assert(Instance is null);
             new PlatformImpl();
+
+            Core.Reflection.RegisterType<MessageDetailPage>();
+            Core.Reflection.RegisterType<WebViewPage>();
+            Core.Reflection.RegisterType<InfoQueryPage, InfoQueryPageF>();
         }
 
         /// <summary>
@@ -76,16 +67,7 @@ namespace HandSchool.UWP
         {
             return new LoginDialog(viewModel);
         }
-
-        /// <summary>
-        /// 创建一个空白视图页面，作为包装器包含Xamarin的内容。
-        /// </summary>
-        /// <returns>视图页面的内容</returns>
-        public override IViewPage CreatePage()
-        {
-            return new ViewPackager();
-        }
-
+        
         /// <summary>
         /// 创建一个添加课程表的页面。
         /// </summary>

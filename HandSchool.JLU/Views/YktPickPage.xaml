@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              x:Class="HandSchool.JLU.Views.YktPickPage">
+    <ListView CachingStrategy="RecycleElement"
+              SelectionMode="None"
+              HasUnevenRows="True"
+              IsPullToRefreshEnabled="True"
+              IsRefreshing="{Binding IsBusy}"
+              ItemsSource="{Binding PickCardInfo}"
+              RefreshCommand="{Binding LoadPickCardInfoCommand}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <w:TextCell Title="{Binding Title}"
+                            Detail="{Binding Description}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</w:ViewObject>

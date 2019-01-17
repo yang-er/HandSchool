@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace HandSchool.Forms
+namespace HandSchool.Internal
 {
     /// <summary>
     /// 请求输入内容的参数列表。
@@ -15,6 +15,17 @@ namespace HandSchool.Forms
             Result = new TaskCompletionSource<string>();
         }
         
+        /// <summary>
+        /// 创建一个请求输入内容的实例，并初始化内容。
+        /// </summary>
+        public RequestInputArguments(string tit, string msg, string no, string ok) : this()
+        {
+            Title = tit;
+            Message = msg;
+            Cancel = no;
+            Accept = ok;
+        }
+
         /// <summary>
         /// 接受按钮
         /// </summary>

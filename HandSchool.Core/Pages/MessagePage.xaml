@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="HandSchool.Views.MessagePage"
+              xmlns:w="clr-namespace:HandSchool.Views"
+              UseCustomLoading="True"
+              Title="{Binding Title}">
+    <w:ViewObject.ToolbarMenu>
+        <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
+        <w:MenuEntry Command="{Binding ReadAllCommand}" Title="全部已读" UWPIcon="&#xE77A;" />
+        <w:MenuEntry Command="{Binding DeleteAllCommand}" Title="全部删除" UWPIcon="&#xE74D;" />
+    </w:ViewObject.ToolbarMenu>
+    <ListView ItemsSource="{Binding Items}"
+              ItemTapped="Handle_ItemTapped"
+              IsPullToRefreshEnabled="true"
+              RefreshCommand="{Binding LoadItemsCommand}"
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+              HasUnevenRows="true"
+              SelectionMode="None"
+              CachingStrategy="RecycleElement">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <w:TextCell Title="{Binding Title}"
+                            Detail="{Binding Body}"
+                            RightUp="{Binding Date}"
+                            RightDown="●"
+                            RightDownColor="Red"
+                            RightDownShow="{Binding Unread}">
+                    <Cell.ContextActions>
+                        <MenuItem Command="{Binding SetRead}" Text="已读" />
+                        <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />
+                    </Cell.ContextActions>
+                </w:TextCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</w:ViewObject>

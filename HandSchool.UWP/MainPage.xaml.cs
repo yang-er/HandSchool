@@ -41,10 +41,9 @@ namespace HandSchool.Views
         {
             if (args.InvokedItem is NavigationMenuItemImpl item)
             {
-                if (item.PageType != null && item.PageType != ContentFrame.CurrentSourcePageType)
+                if (item.PageType == null) Core.Logger.WriteLine("UWP", item.Title + " is not finished");
+                if (item.PageType != ContentFrame.CurrentSourcePageType || item.NavigationParameter != currentNavigationParameter)
                     ContentFrame.Navigate(item.PageType, item.NavigationParameter);
-                else
-                    Core.Logger.WriteLine("UWP", item.Title + " is not finished");
             }
             else if (args.IsSettingsInvoked)
             {
@@ -57,9 +56,12 @@ namespace HandSchool.Views
             }
         }
 
+        object currentNavigationParameter;
+
         private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
         {
             NavigationView.IsBackEnabled = ContentFrame.CanGoBack;
+            currentNavigationParameter = e.Parameter;
 
             object selected = null;
             
@@ -70,7 +72,7 @@ namespace HandSchool.Views
             else if (e.Content is WebViewPage)
             {
                 selected = NavMenuItems.Find((item) =>
-                    item.PageType == typeof(InfoQueryPage)
+                    item.PageType == typeof(InfoQueryPageF)
                 )?.Value;
             }
             else if (e.Content is MessageDetailPage)
@@ -85,7 +87,8 @@ namespace HandSchool.Views
                 )?.Value;
             }
 
-            NavigationView.SelectedItem = selected;
+            if (NavigationView.SelectedItem != selected)
+                NavigationView.SelectedItem = selected;
         }
         
         private void CommandBar_Loaded(object sender, RoutedEventArgs e)

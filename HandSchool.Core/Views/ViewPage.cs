@@ -11,17 +11,6 @@ namespace HandSchool.Views
     public interface IViewPage : IViewResponse
     {
         /// <summary>
-        /// 显示此视图页面。
-        /// </summary>
-        /// <param name="parent">浏览导航控制器。</param>
-        Task ShowAsync(INavigate parent = null);
-
-        /// <summary>
-        /// 关闭此视图页面。
-        /// </summary>
-        Task CloseAsync();
-
-        /// <summary>
         /// 与此页面沟通的视图模型
         /// </summary>
         BaseViewModel ViewModel { get; set; }

@@ -13,8 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internals\NavigateImpl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\PlatformExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\PlatformFormsImpl.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internals\RequestChartArguments.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Internals\RequestInputArguments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\ViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\HybridWebView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Old\MessageDetailPage.cs" />
@@ -139,7 +137,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
     <Folder Include="$(MSBuildThisFileDirectory)Elements\" />
     <Folder Include="$(MSBuildThisFileDirectory)Platforms\" />
   </ItemGroup>

@@ -15,7 +15,7 @@ namespace HandSchool.Views
             SizeChanged += FrameworkElement_SizeChanged;
         }
         
-        public ViewPackager Packager { get; private set; }
+        public ViewObject Packager { get; set; }
 
         public ContentPage InternalPage { get; set; }
 
@@ -29,7 +29,7 @@ namespace HandSchool.Views
             {
                 ViewModel = Packager.ViewModel;
                 Packager.RegisterNavigation(Navigation);
-                foreach (var entry in Packager.MenuEntries)
+                foreach (var entry in Packager.ToolbarMenu)
                     AddToolbarEntry(entry);
                 base.OnPageLoaded(args, mainPage);
                 Packager.Pushed.Start();
@@ -38,26 +38,45 @@ namespace HandSchool.Views
         
         protected override void OnNavigatedTo(WNavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
-            if (e.Parameter is ViewPackager packager)
-            {
-                Packager = packager;
-                ProcessPackager();
-            }
-            else if (e.Parameter is IViewPresenter presenter)
+            if (e.Parameter is IViewPresenter presenter)
             {
                 Debug.Assert(presenter.PageCount == 1);
-                Packager = (ViewPackager)presenter.GetAllPages()[0];
+                Packager = (ViewObject)presenter.GetAllPages()[0];
                 ProcessPackager();
             }
+            else if (e.Parameter is System.ValueTuple<System.Type, object> paramed)
+            {
+                Packager = Core.Reflection.CreateInstance<ViewObject>(paramed.Item1);
+                ProcessPackager();
+            }
+
+            base.OnNavigatedTo(e);
         }
-        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Packager.SendAppearing();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Packager.SendDisappearing();
+
+            // Do some basic cleaning.
+            (Content as Windows.UI.Xaml.Controls.Grid).Children.Clear();
+            Platform.GetRenderer(InternalPage).Dispose();
+            Platform.SetRenderer(InternalPage, null);
+            ViewModel.View = null;
+            ViewModel = null;
+            Packager.ViewModel = null;
+            Packager = null;
+            System.GC.Collect();
+        }
+
         private void ProcessPackager()
         {
-            Appearing += Packager.RaiseAppearing;
-            Disappearing += Packager.RaiseDisappearing;
-
             InternalPage = new ContentPage
             {
                 Content = Packager.Content,

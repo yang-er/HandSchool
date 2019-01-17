@@ -1,5 +1,5 @@
 ﻿<local:ViewPage
-    x:Class="HandSchool.Views.InfoQueryPage"
+    x:Class="HandSchool.Views.InfoQueryPageF"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:HandSchool.Views"
@@ -11,7 +11,10 @@
         <Grid.Resources>
             <CollectionViewSource x:Key="CollectionViewSource" IsSourceGrouped="True" x:Name="CollectionViewSource" />
         </Grid.Resources>
-        <ListView ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" SelectionMode="None" ShowsScrollingPlaceholders="True" IsItemClickEnabled="True" ItemClick="ListView_ItemClick">
+        <ListView ItemsSource="{Binding Source={StaticResource CollectionViewSource}}"
+                  SelectionMode="None" ShowsScrollingPlaceholders="True"
+                  IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
+                  ItemContainerStyle="{StaticResource HSListViewItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="8,16,8,16">
@@ -20,12 +23,6 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Margin" Value="0" />
-                </Style>
-            </ListView.ItemContainerStyle>
             <ListView.GroupStyle>
                 <GroupStyle HidesIfEmpty="True">
                     <GroupStyle.HeaderTemplate>

@@ -15,10 +15,10 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             InternalPages = new List<ContentPage>();
-            Packagers = new List<ViewPackager>();
+            Packagers = new List<ViewObject>();
         }
 
-        private List<ViewPackager> Packagers { get; }
+        private List<ViewObject> Packagers { get; }
 
         private List<ContentPage> InternalPages { get; }
 
@@ -35,7 +35,7 @@ namespace HandSchool.Views
                 foreach (var packager in Packagers)
                 {
                     packager.RegisterNavigation(Navigation);
-                    foreach (var entry in packager.MenuEntries)
+                    foreach (var entry in packager.ToolbarMenu)
                     {
                         AddToolbarEntry(entry);
                     }
@@ -47,24 +47,24 @@ namespace HandSchool.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
             if (e.Parameter is IViewPresenter presenter)
             {
                 var pages = presenter.GetAllPages();
 
-                foreach (ViewPackager page in pages)
+                foreach (ViewObject page in pages)
                 {
                     Packagers.Add(page);
                     ProcessPackager(page);
                 }
             }
+
+            base.OnNavigatedTo(e);
         }
 
-        private void ProcessPackager(ViewPackager Packager)
+        private void ProcessPackager(ViewObject Packager)
         {
-            Appearing += Packager.RaiseAppearing;
-            Disappearing += Packager.RaiseDisappearing;
+            Appearing += (s, e) => Packager.SendAppearing();
+            Disappearing += (s, e) => Packager.SendDisappearing();
 
             var InternalPage = new ContentPage
             {

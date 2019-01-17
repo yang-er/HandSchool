@@ -1,7 +1,7 @@
 ﻿using Microcharts;
 using System.Threading.Tasks;
 
-namespace HandSchool.Forms
+namespace HandSchool.Internal
 {
     /// <summary>
     /// 请求展示图表内容的参数列表。

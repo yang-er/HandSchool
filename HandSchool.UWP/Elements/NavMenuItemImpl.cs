@@ -30,7 +30,9 @@ namespace HandSchool.UWP
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
                 Glyph = icon
             };
-            
+
+            if (PageType is null) PageType = typeof(GradePointPage);
+
             if (typeof(IViewPresenter).IsAssignableFrom(PageType))
             {
                 var pre = Core.Reflection.CreateInstance<IViewPresenter>(PageType);
@@ -44,6 +46,12 @@ namespace HandSchool.UWP
                     NavigationParameter = pre;
                     PageType = typeof(TabbedPage);
                 }
+            }
+
+            else if (typeof(ViewObject).IsAssignableFrom(PageType))
+            {
+                NavigationParameter = new ValueTuple<Type, object>(PageType, null);
+                PageType = typeof(PackagedPage);
             }
 
             Lazy = new Lazy<NavigationViewItem>(Create);

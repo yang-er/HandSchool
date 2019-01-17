@@ -1,6 +1,7 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,7 +31,9 @@ namespace HandSchool.Views
             if (args.Result != ContentDialogResult.Secondary)
                 args.Cancel = !LoginViewModel.Form.IsLogin;
         }
-        
+
+        Task ILoginPage.ShowAsync() => ShowAsync().AsTask();
+
         public async void Response(object sender, LoginStateEventArgs e)
         {
             switch (e.State)

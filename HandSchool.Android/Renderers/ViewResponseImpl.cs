@@ -4,6 +4,7 @@ using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using HandSchool.Forms;
+using HandSchool.Internal;
 using HandSchool.Views;
 using SkiaSharp.Views.Android;
 

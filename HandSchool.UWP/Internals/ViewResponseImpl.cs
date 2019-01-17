@@ -1,4 +1,5 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Internal;
+using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -7,11 +8,85 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.UWP;
+using MessagingCenter = Xamarin.Forms.MessagingCenter;
 
 namespace HandSchool.UWP
 {
-    internal static class ViewResponseImpl
+    internal class ViewResponseImpl : IViewResponseImpl
     {
+        void IViewResponseImpl.ReqMsgAsync(IViewPage sender, AlertArguments args)
+        {
+            Core.Platform.EnsureOnMainThread(async () =>
+            {
+                if (sender.IsModal)
+                {
+                    var dialog = new MessageDialog(args.Message, args.Title);
+                    if (args.Accept != null) dialog.Commands.Add(new UICommand(args.Accept));
+                    dialog.Commands.Add(new UICommand(args.Cancel));
+                    var result = await dialog.ShowAsync();
+                    args.SetResult(result.Label == args.Accept);
+                }
+                else
+                {
+                    var dialog = new TextDialog(args.Title, args.Message, args.Accept ?? "", args.Cancel);
+                    var result = await dialog.ShowAsync();
+                    args.SetResult(result == ContentDialogResult.Primary);
+                }
+            });
+        }
+
+        void IViewResponseImpl.ReqActAsync(IViewPage sender, ActionSheetArguments args)
+        {
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                if (sender.IsModal)
+                {
+                    Core.Logger.WriteLine("ViewResponseImpl", "No way in Modals");
+                    args.SetResult(null);
+                }
+                else
+                {
+                    var flyout = ActionSheetFlyout(args);
+                    flyout.ShowAt(Window.Current.Content as FrameworkElement);
+                }
+            });
+        }
+
+        void IViewResponseImpl.ReqInpAsync(IViewPage sender, RequestInputArguments args)
+        {
+            Core.Platform.EnsureOnMainThread(async () =>
+            {
+                if (sender.IsModal)
+                {
+                    Core.Logger.WriteLine("ViewResponseImpl", "No way in Modals");
+                    args.SetResult(null);
+                }
+                else
+                {
+                    var dialog = new TextDialog(args.Title, args.Message, args.Accept, args.Cancel, "");
+                    var result = await dialog.ShowAsync();
+                    args.SetResult(result == ContentDialogResult.Primary ? dialog.TextBox.Text : null);
+                }
+            });
+        }
+
+        void IViewResponseImpl.ReqChtAsync(IViewPage sender, RequestChartArguments args)
+        {
+            Core.Platform.EnsureOnMainThread(async () =>
+            {
+                if (sender.IsModal)
+                {
+                    Core.Logger.WriteLine("ViewResponseImpl", "No way in Modals");
+                    args.ReturnTask?.Start();
+                }
+                else
+                {
+                    await new ChartDialog(args.Chart, args.Title).ShowAsync();
+                    args.ReturnTask?.Start();
+                }
+            });
+        }
+        
         public static Task<string> DisplayActionSheet(Frame frame, string title, string cancel, string destruction, params string[] buttons)
         {
             var options = new ActionSheetArguments(title, cancel, destruction, buttons);

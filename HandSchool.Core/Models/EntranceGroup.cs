@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace HandSchool.Models
 {
     /// <summary>
-    /// 实现了 <see cref="List{IEntranceWrapper}"/> 的带标题的入口点信息组。
+    /// 实现了 <see cref="ObservableCollection{IEntranceWrapper}"/> 的带标题的入口点信息组。
     /// </summary>
-    public class InfoEntranceGroup : List<IEntranceWrapper>
+    public class InfoEntranceGroup : ObservableCollection<IEntranceWrapper>
     {
         /// <summary>
         /// 创建一个带标题的入口点信息组。

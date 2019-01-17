@@ -3,8 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="HandSchool.Views.SchedulePage"
             xmlns:w="clr-namespace:HandSchool.Views"
-            Title="{Binding Title}"
-            IsBusy="{Binding IsBusy}">
+            Title="{Binding Title}">
     <ScrollView x:Name="scroller" Orientation="Horizontal">
         <Grid x:Name="grid" x:FieldModifier="public"
               VerticalOptions="FillAndExpand"

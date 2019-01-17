@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
+using System.Threading.Tasks;
 
 namespace HandSchool.Views
 {
@@ -24,5 +25,10 @@ namespace HandSchool.Views
         /// 更新验证码信息。
         /// </summary>
         void UpdateCaptchaInfomation();
+
+        /// <summary>
+        /// 显示登录对话框。
+        /// </summary>
+        Task ShowAsync();
     }
 }

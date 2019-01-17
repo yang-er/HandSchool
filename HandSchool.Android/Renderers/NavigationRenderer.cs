@@ -8,6 +8,7 @@ using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms.Platform.Android.AppCompat;
 using AProgressBar = Android.Widget.ProgressBar;
 using AToolbar = Android.Support.V7.Widget.Toolbar;
+using AToolbarLayout = Android.Support.Design.Widget.AppBarLayout;
 using AView = Android.Views.View;
 
 [assembly: ExportRenderer(typeof(NavigationPage), typeof(NavigateRenderer))]
@@ -18,9 +19,11 @@ namespace HandSchool.Droid
         const string sPageContainer = "Xamarin.Forms.Platform.Android.PageContainer";
 
         protected AToolbar Toolbar { get; set; }
+        protected AToolbarLayout ToolbarLayout { get; set; }
         protected ViewGroup PageContainer { get; set; }
         protected AProgressBar ProgressBar { get; set; }
         bool AddFlag { get; set; }
+        bool CurrentIsTab { get; set; }
 
         public void SetIsBusy(bool value)
         {
@@ -36,13 +39,42 @@ namespace HandSchool.Droid
                 Visibility = ViewStates.Invisible,
                 IndeterminateTintList = ColorStateList.ValueOf(Color.White.ToAndroid())
             };
+
+            MessagingCenter.Subscribe<TabbedRenderer>(this, TabbedRenderer.TabbarUsed, TabbedPageCalling);
+        }
+
+        protected virtual AToolbarLayout CreateToolbarLayout(AView toolbar)
+        {
+            var layoutInflater = LayoutInflater.From(Context);
+            var layout = layoutInflater.Inflate(Resource.Layout.AppBarLayout, null) as AToolbarLayout;
+            layout.AddView(toolbar);
+            return layout;
         }
         
+        private void TabbedPageCalling(TabbedRenderer renderer)
+        {
+            if (Toolbar != null) CurrentIsTab = true;
+        }
+
         public override void AddView(AView child, int index, LayoutParams @params)
         {
             if (index == -1 && AddFlag && child.GetType().ToString() == sPageContainer)
                 index = ChildCount - 1;
+
+            if (child is AToolbar toolbar)
+            {
+                toolbar.Elevation = PlatformImpl.Dip2Px(1);
+            }
+
+            if (CurrentIsTab)
+            {
+                Toolbar.Elevation = 0;
+                CurrentIsTab = false;
+            }
+
             base.AddView(child, index, @params);
+
+            Core.Logger.WriteLine("Renderer", child.GetType().ToString() + " was added into NavPageRender");
 
             if (child is AToolbar)
             {
@@ -63,6 +95,7 @@ namespace HandSchool.Droid
         public override void RemoveView(AView view)
         {
             base.RemoveView(view);
+            Core.Logger.WriteLine("Renderer", view.GetType().ToString() + " was removed from NavPageRender");
 
             if (view.GetType().ToString() == sPageContainer)
             {
@@ -71,6 +104,10 @@ namespace HandSchool.Droid
             else if (view is AProgressBar)
             {
                 AddFlag = false;
+            }
+            else if (view is AToolbar)
+            {
+                
             }
         }
 
@@ -82,7 +119,7 @@ namespace HandSchool.Droid
             {
                 int height = PlatformImpl.Dip2Px(8);
                 ProgressBar.BringToFront();
-                ProgressBar.Layout(0, Toolbar.Height - height, r, Toolbar.Height + height);
+                ProgressBar.Layout(0, Toolbar.Height - height - 8, r, Toolbar.Height + height);
             }
         }
     }

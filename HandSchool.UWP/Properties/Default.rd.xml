@@ -27,6 +27,6 @@
     <Namespace Name="HandSchool" Serialize="Required All" />
     <Type Name="System.Net.WebClient" Serialize="Required All" Dynamic="Required All" />
     <Type Name="Xamarin.Forms.Command" Serialize="Required All" Dynamic="Required All" />
-
+    <Type Name="Xamarin.Forms.MessagingCenter" Activate="Required All" DoNotOptimize="true" Serialize="Required All" Dynamic="Required All" />
   </Application>
 </Directives>

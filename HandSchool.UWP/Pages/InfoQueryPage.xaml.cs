@@ -1,17 +1,18 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace HandSchool.Views
 {
     // Thanks to arcsinW
-    public sealed partial class InfoQueryPage : ViewPage
+    public sealed partial class InfoQueryPageF : ViewPage
     {
-        public List<InfoEntranceGroup> DataSource => Core.App.InfoEntrances;
+        public ObservableCollection<InfoEntranceGroup> DataSource => Core.App.InfoEntrances;
 
-        public InfoQueryPage()
+        public InfoQueryPageF()
         {
             InitializeComponent();
             ViewModel = new BaseViewModel { Title = "信息查询" };

@@ -2,6 +2,7 @@
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -42,6 +43,11 @@ namespace HandSchool.Views
                     UpdateCaptchaInfomation();
                     break;
             }
+        }
+
+        public Task ShowAsync()
+        {
+            return (this as Page).Navigation.PushModalAsync(this);
         }
 
         public async void UpdateCaptchaInfomation()

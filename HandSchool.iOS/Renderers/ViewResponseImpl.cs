@@ -1,4 +1,5 @@
 ﻿using HandSchool.Forms;
+using HandSchool.Internal;
 using HandSchool.Views;
 using SkiaSharp.Views.iOS;
 using UIKit;

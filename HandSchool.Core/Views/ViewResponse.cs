@@ -1,5 +1,8 @@
-﻿using Microcharts;
+﻿using HandSchool.Internal;
+using Microcharts;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.Views
 {
@@ -53,5 +56,17 @@ namespace HandSchool.Views
         /// <param name="title">对话框标题</param>
         /// <param name="close">关闭按钮文字</param>
         Task RequestChartAsync(Chart chart, string title = "", string close = "关闭");
+    }
+
+    /// <summary>
+    /// 视图响应的实现基础接口。
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public interface IViewResponseImpl
+    {
+        void ReqMsgAsync(IViewPage sender, AlertArguments args);
+        void ReqActAsync(IViewPage sender, ActionSheetArguments args);
+        void ReqInpAsync(IViewPage sender, RequestInputArguments args);
+        void ReqChtAsync(IViewPage sender, RequestChartArguments args);
     }
 }

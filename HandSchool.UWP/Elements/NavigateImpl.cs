@@ -49,15 +49,7 @@ namespace HandSchool.UWP
         {
             Debug.Assert(args.SourcePageType.IsSubclassOf(typeof(ViewPage)));
             var currentPage = args.Content as IViewPage;
-
-            if (args.NavigationMode == NavigationMode.Back)
-            {
-                taskCompletionSource?.TrySetResult(CurrentStackTopPage);
-                taskCompletionSource = null;
-            }
-            
             currentPage.RegisterNavigation(this);
-            CurrentStackTopPage = currentPage;
         }
 
         /// <summary>
@@ -67,9 +59,8 @@ namespace HandSchool.UWP
         {
             if (InnerFrame.CanGoBack)
             {
-                taskCompletionSource = new TaskCompletionSource<IViewPage>();
                 InnerFrame.GoBack();
-                return taskCompletionSource.Task;
+                return Task.FromResult<IViewPage>(null);
             }
             else
             {
@@ -83,19 +74,41 @@ namespace HandSchool.UWP
         /// <param name="page">推入栈内的页面</param>
         public Task PushAsync(IViewPage page)
         {
-            if (page is ViewPackager packager)
+            if (page is ViewDialog dialog)
             {
-                InnerFrame.Navigate(typeof(PackagedPage), packager);
-                return packager.Pushed;
-            }
-            else if (page is ViewDialog dialog)
-            {
-                return page.ShowAsync(this);
+                return dialog.ShowAsync().AsTask();
             }
             else
             {
                 throw new InvalidOperationException();
             }
+        }
+
+        public Task PushAsync(string pageType, object param)
+        {
+            var type = Core.Reflection.TryGetType(pageType);
+
+            if (type is null)
+            {
+                Core.Logger.WriteLine("NavImpl", pageType + " not found.");
+                return Task.CompletedTask;
+            }
+            
+            return PushAsync(type, param);
+        }
+
+        public Task PushAsync(Type pageType, object param)
+        {
+            if (typeof(ViewPage).IsAssignableFrom(pageType))
+            {
+                InnerFrame.Navigate(pageType, param);
+            }
+            else if (typeof(ViewObject).IsAssignableFrom(pageType))
+            {
+                InnerFrame.Navigate(typeof(PackagedPage), new ValueTuple<Type, object>(pageType, param));
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

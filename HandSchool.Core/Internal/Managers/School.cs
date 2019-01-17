@@ -2,6 +2,8 @@
 using HandSchool.Models;
 using HandSchool.Services;
 using System.Collections.Generic;
+using HandSchool.Views;
+using System.Collections.ObjectModel;
 
 namespace HandSchool.Internal
 {
@@ -45,7 +47,7 @@ namespace HandSchool.Internal
         /// <summary>
         /// 信息查询入口点工厂类列表
         /// </summary>
-        public List<InfoEntranceGroup> InfoEntrances = new List<InfoEntranceGroup>();
+        public ObservableCollection<InfoEntranceGroup> InfoEntrances = new ObservableCollection<InfoEntranceGroup>();
         
         /// <summary>
         /// 登录状态发生改变
@@ -60,6 +62,11 @@ namespace HandSchool.Internal
         {
             Loader = wrapper;
             Loader.NoticeChange = (s, e) => LoginStateChanged?.Invoke(s, e);
+
+            Core.Reflection.RegisterType<GradePointPage>();
+            Core.Reflection.RegisterType<FeedPage>();
+            Core.Reflection.RegisterType<InfoQueryPage>();
+            Core.Reflection.RegisterType<MessagePage>();
         }
     }
 }

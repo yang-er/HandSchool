@@ -21,7 +21,7 @@
     <PackageCertificateThumbprint>5601B361B0A14AAABA8B9EC17B361A854963C073</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
@@ -95,6 +95,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <EnableGatekeeperAnalysis>false</EnableGatekeeperAnalysis>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -139,7 +140,6 @@
     <Compile Include="Internals\ViewPage.cs" />
     <Compile Include="Internals\ViewResponseImpl.cs" />
     <Compile Include="Internals\ViewDialog.cs" />
-    <Compile Include="Internals\ViewPackager.cs" />
     <Compile Include="Internals\PackagedPage.xaml.cs">
       <DependentUpon>PackagedPage.xaml</DependentUpon>
     </Compile>
@@ -177,12 +177,6 @@
     <Compile Include="Pages\InfoQueryPage.xaml.cs">
       <DependentUpon>InfoQueryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\FeedPage.xaml.cs">
-      <DependentUpon>FeedPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\GradePointPage.xaml.cs">
-      <DependentUpon>GradePointPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\SchedulePage.xaml.cs">
       <DependentUpon>SchedulePage.xaml</DependentUpon>
     </Compile>
@@ -194,9 +188,6 @@
     </Compile>
     <Compile Include="Pages\DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MessagePage.xaml.cs">
-      <DependentUpon>MessagePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -309,19 +300,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\FeedPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\GradePointPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\IndexPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\InfoQueryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -329,7 +308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MessagePage.xaml">
+    <Page Include="Pages\InfoQueryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -356,12 +335,11 @@
       <Project>{dea278bf-b6bf-4331-96b7-cedc9a4e39c3}</Project>
       <Name>HandSchool.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj">
-      <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
-      <Name>HandSchool.JLU</Name>
+    <ProjectReference Include="..\HandSchool.Forwarder\HandSchool.Forwarder.csproj">
+      <Project>{08d98a3f-9d96-417e-8691-9aba9db919db}</Project>
+      <Name>HandSchool.Forwarder</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

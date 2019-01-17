@@ -16,11 +16,7 @@ namespace HandSchool.UWP
         public App()
         {
             PlatformImpl.Register();
-#if DEBUG
-            Core.Reflection.ForceLoad(true);
-#else
-            Core.Reflection.ForceLoad(false);
-#endif
+            Forwarder.NormalWay.Begin();
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -70,6 +66,8 @@ namespace HandSchool.UWP
         {
             var formsListViewItem = (Style)Resources["FormsListViewItem"];
             formsListViewItem.Setters.Clear();
+            formsListViewItem.Setters.Add(new Setter(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Stretch));
+            formsListViewItem.Setters.Add(new Setter(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

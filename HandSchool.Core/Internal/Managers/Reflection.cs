@@ -34,61 +34,11 @@ namespace HandSchool.Internal
         private ReflectionManager()
         {
             Assemblies = new List<Assembly>();
-            AppDomain.CurrentDomain.AssemblyLoad += AssemblyLoaded;
+            Registar = new Dictionary<string, Type>();
+            ImplRegistar = new Dictionary<Guid, Type>();
+            CtorRegistar = new Dictionary<Guid, Func<object>>();
         }
-
-        /// <summary>
-        /// 当程序集加载时，检查是否是学校对应的代码。
-        /// </summary>
-        /// <param name="sender">发送者</param>
-        /// <param name="args">包含了程序集的参数</param>
-        public void AssemblyLoaded(object sender, AssemblyLoadEventArgs args)
-        {
-            if (args.LoadedAssembly.FullName.StartsWith(NameSpacePrefix))
-            {
-                Assemblies.Add(args.LoadedAssembly);
-                CheckForSchool(args.LoadedAssembly);
-            }
-        }
-
-        /// <summary>
-        /// 获取所有的程序集并尝试载入。
-        /// </summary>
-        public void ForceLoad(bool intended = false)
-        {
-            foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (item.FullName.StartsWith(NameSpacePrefix))
-                {
-                    Assemblies.Add(item);
-                    CheckForSchool(item);
-                }
-            }
-
-            if (intended)
-            {
-                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                foreach (var file in Directory.EnumerateFiles(baseDir, "HandSchool.*.dll"))
-                {
-                    var fileShort = file.Replace(baseDir, "");
-                    var assemblyName = fileShort.Replace(".dll", "");
-                    AppDomain.CurrentDomain.Load(new AssemblyName(assemblyName));
-                }
-            }
-        }
-
-        /// <summary>
-        /// 检查程序集是否为保存了学校信息，如果是则加载。
-        /// </summary>
-        /// <param name="assembly">检查的程序集</param>
-        private void CheckForSchool(Assembly assembly)
-        {
-            var export = assembly.GetCustomAttribute<ExportSchoolAttribute>();
-            if (export is null) return;
-            var loader = CreateInstance<ISchoolWrapper>(export.RegisterType);
-            Core.Schools.Add(loader);
-        }
-
+        
         /// <summary>
         /// 加载程序集注册的文件。
         /// </summary>
@@ -107,6 +57,69 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
+        /// 添加注册的类型信息
+        /// </summary>
+        private Dictionary<string, Type> Registar { get; }
+
+        /// <summary>
+        /// 各个实现的注册类
+        /// </summary>
+        private Dictionary<Guid, Type> ImplRegistar { get; }
+
+        /// <summary>
+        /// 各个实现的注册类
+        /// </summary>
+        private Dictionary<Guid, Func<object>> CtorRegistar { get; }
+
+        /// <summary>
+        /// 注册类型信息，以供反射使用。
+        /// </summary>
+        /// <typeparam name="T">实际对应的类型</typeparam>
+        public void RegisterType<T>() where T : new()
+        {
+            var typed = typeof(T);
+            if (Registar.ContainsKey(typed.FullName)) return;
+            Registar.Add(typed.FullName, typed);
+            Registar.Add(typed.Name, typed);
+            CtorRegistar.Add(typed.GUID, () => new T());
+        }
+
+        /// <summary>
+        /// 注册实现内容，以供反射使用。
+        /// </summary>
+        /// <typeparam name="TIn">抽象类型</typeparam>
+        /// <typeparam name="TOut">实现类型</typeparam>
+        public void RegisterImpl<TIn, TOut>()
+            where TOut : TIn, new()
+        {
+            ImplRegistar.Add(typeof(TIn).GUID, typeof(TOut));
+            CtorRegistar.Add(typeof(TOut).GUID, () => new TOut());
+        }
+        
+        /// <summary>
+        /// 注册替换实现内容，以供反射使用。
+        /// </summary>
+        /// <typeparam name="T1">抽象类型</typeparam>
+        /// <typeparam name="T2">实现类型</typeparam>
+        public void RegisterType<T1, T2>()
+        {
+            var typed = typeof(T1);
+            var typee = typeof(T2);
+            Registar[typed.FullName] = typee;
+            Registar[typed.Name] = typee;
+        }
+
+        /// <summary>
+        /// 尝试获得注册的类型信息。
+        /// </summary>
+        /// <param name="typeName">类型名称</param>
+        /// <returns>类型信息</returns>
+        public Type TryGetType(string typeName)
+        {
+            return Registar.ContainsKey(typeName) ? Registar[typeName] : null;
+        }
+
+        /// <summary>
         /// 创建一个对象的实例。
         /// </summary>
         /// <typeparam name="T">实例化类型</typeparam>
@@ -114,9 +127,29 @@ namespace HandSchool.Internal
         /// <returns>实例对象</returns>
         public T CreateInstance<T>(Type typeInfo) where T : class
         {
-            Core.Logger.WriteLine("CoreRTTI", typeInfo.FullName + " was requested to be activated.");
             Debug.Assert(typeof(T).IsAssignableFrom(typeInfo));
-            return Activator.CreateInstance(typeInfo) as T;
+
+            if (CtorRegistar.ContainsKey(typeInfo.GUID))
+            {
+                return CtorRegistar[typeInfo.GUID].Invoke() as T;
+            }
+            else
+            {
+                Core.Logger.WriteLine("CoreRTTI", typeInfo.FullName + " was requested to be activated.");
+                return Activator.CreateInstance(typeInfo) as T;
+            }
+        }
+
+        /// <summary>
+        /// 创建一个抽象类型的实现。
+        /// </summary>
+        /// <typeparam name="T">抽象类型</typeparam>
+        /// <returns>实现对象</returns>
+        public T CreateInstance<T>() where T : class
+        {
+            var guid = typeof(T).GUID;
+            Debug.Assert(ImplRegistar.ContainsKey(guid));
+            return CreateInstance<T>(ImplRegistar[guid]);
         }
     }
 }
