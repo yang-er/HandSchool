@@ -45,12 +45,12 @@ namespace HandSchool
         /// <summary>
         /// 获取系统消息的入口点
         /// </summary>
-        public IMessageEntrance Message => Loader.Message.Value;
+        public IMessageEntrance Message => Loader.Message?.Value;
 
         /// <summary>
         /// 获取消息更新的入口点
         /// </summary>
-        public IFeedEntrance Feed => Loader.Feed.Value;
+        public IFeedEntrance Feed => Loader.Feed?.Value;
 
         /// <summary>
         /// 每天有多少节标准课时

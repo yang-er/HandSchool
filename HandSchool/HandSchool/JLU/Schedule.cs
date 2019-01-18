@@ -25,6 +25,12 @@ namespace HandSchool.JLU
         
         public async Task Execute()
         {
+            if ((Core.App.Service as UIMS).OutsideSchool)
+            {
+                await ScheduleViewModel.Instance.ShowMessage("错误", "您在校外，暂时不能刷新课表。");
+                return;
+            }
+
             try
             {
                 LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);

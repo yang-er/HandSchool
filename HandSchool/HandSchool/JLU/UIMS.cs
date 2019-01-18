@@ -25,9 +25,9 @@ namespace HandSchool.JLU
         public bool NeedLogin { get; private set; }
         
         [Settings("提示", "保存使设置永久生效，部分设置重启后生效。", -233)]
-        public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
+        public string Tips { get; private set; } = "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
         
-        public string FormName => "UIMS教务管理系统";
+        public string FormName { get; private set; } = "UIMS教务管理系统";
 
         private string proxy_server;
         [Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。\n如果在JLU.NET等公用WiFi下访问，建议改为 10.60.65.8。")]

@@ -572,6 +572,80 @@ namespace HandSchool.JLU.JsonObject
         public object obj { get; set; }
     }
 
+    class TMWX
+    {
+        public string SUBJECT { get; set; }
+        public string result { get; set; }
+        public string COLLEGE { get; set; }
+        public string PAYCONTENT { get; set; }
+        public string PAYFLAG { get; set; }
+        public string PHONE { get; set; }
+        public string MAJOR { get; set; }
+        public string username { get; set; }
+        public string token { get; set; }
+        public string MAJOR_CODE { get; set; }
+        public string CLASSES { get; set; }
+        public string PAYID { get; set; }
+        public string SCHOOL { get; set; }
+        public string SEX { get; set; }
+        public string user_id { get; set; }
+        public string PASSWORD { get; set; }
+        public string COLLEGE_CODE { get; set; }
+        public string SCHOOL_CODE { get; set; }
+        public string student_ID { get; set; }
+        public string BALANCE { get; set; }
+        public string PAYDAY { get; set; }
+        public string NAME { get; set; }
+        public string SCHOOL_CONTENT { get; set; }
+        public string WXHEADIMAGEURL { get; set; }
+        public string OPENID { get; set; }
+        public string IDCARD { get; set; }
+        public string CLASSES_CODE { get; set; }
+        public string DIFF_BALANCE { get; set; }
+        public string message { get; set; }
+        public string status { get; set; }
+        public string WXNICK { get; set; }
+    }
+
+    class TMWXCJ
+    {
+        public int count { get; set; }
+        public int errno { get; set; }
+        public Item[] items { get; set; }
+        public string msg { get; set; }
+        public int status { get; set; }
+        public Xnyear[] xnYear { get; set; }
+
+        public class Item
+        {
+            public string courName { get; set; }
+            public string credit { get; set; }
+            public string englishName { get; set; }
+            public string extCourseNo { get; set; }
+            public string gpoint { get; set; }
+            public string isReselect { get; set; }
+            public int kcxz { get; set; }
+            public string score { get; set; }
+            public int scoreNum { get; set; }
+            public string studNo { get; set; }
+            public string xkkh { get; set; }
+            public string xn { get; set; }
+            public int xq { get; set; }
+            public int classHour { get; set; }
+        }
+
+        public class Xnyear
+        {
+            public string name { get; set; }
+            public Xq[] xq { get; set; }
+
+            public class Xq
+            {
+                public string xqname { get; set; }
+            }
+        }
+    }
+
     class AlreadyKnownThings
     {
         public static string Type5Name(string type5)

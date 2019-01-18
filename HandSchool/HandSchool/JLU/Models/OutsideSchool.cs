@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,16 @@ namespace HandSchool.JLU
         {
             UIMS UIMS { get; }
 
-            const string BaseUrl = "http://cjcx.jlu.edu.cn/score/";
-            const string ServiceRes = "action/service_res.php";
-            const string SecurityCheck = "action/security_check.php";
+            const string BaseUrl = "http://jwcjc.jlu.edu.cn/";
+            const string SecurityCheck = "textbookSystem/api/login/login";
 
-            public OutsideSchoolStrategy(UIMS handle) => UIMS = handle;
+            public OutsideSchoolStrategy(UIMS handle)
+            {
+                UIMS = handle;
+            }
 
             public string TimeoutUrl => "???";
-            public string WelcomeMessage => "欢迎你哦。";
+            public string WelcomeMessage => UIMS.NeedLogin ? "请登录" : $"欢迎，{UIMS.AttachInfomation["studName"]}。";
             public string CurrentMessage => "不在学校的第n天，想念暖气";
             public string FormatArguments(string input) => input;
 
@@ -30,21 +33,26 @@ namespace HandSchool.JLU
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
                 UIMS.WebClient = new AwaredWebClient(BaseUrl, Encoding.UTF8);
-                
+
                 try
                 {
-                    var loginData = new NameValueCollection
-                    {
-                        { "j_username", UIMS.Username },
-                        { "j_password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                    };
-                    
-                    await UIMS.WebClient.PostAsync(SecurityCheck, loginData);
+                    UIMS.WebClient.Headers["Referer"] = BaseUrl + "textbookWap/";
+                    UIMS.WebClient.Headers["authorization"] = "65644545454545454";
+                    var loginData = $"{{\"USERNAME\":\"{UIMS.Username}\",\"PASSWORD\":\"{UIMS.Password}\"}}";
+                    var ret = await UIMS.WebClient.PostAsync(SecurityCheck, loginData);
+                    var obj = ret.ParseJSON<TMWX>();
 
-                    if (UIMS.WebClient.Location != string.Empty)
+                    if (obj.status == "error")
                     {
+                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, obj.message ?? "未知错误"));
                         return false;
                     }
+
+                    UIMS.AttachInfomation.Add("studId", obj.username);
+                    UIMS.AttachInfomation.Add("studName", obj.NAME);
+                    UIMS.AttachInfomation.Add("adcId", obj.CLASSES);
+                    UIMS.AttachInfomation.Add("schoolId", "");
+                    UIMS.AttachInfomation.Add("term", "");
                 }
                 catch (WebException ex)
                 {
@@ -53,7 +61,7 @@ namespace HandSchool.JLU
                 }
                 catch (ContentAcceptException ex)
                 {
-                    var error = "CJCX服务器似乎出了点问题……";
+                    var error = "通脉微笑服务器似乎出了点问题……";
                     if (ex.Current != "")
                         error += "服务器未知响应：" + ex.Data + "，请联系开发者。";
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, error));
@@ -66,7 +74,32 @@ namespace HandSchool.JLU
                 return true;
             }
 
-            public void OnLoad() { }
+            public void OnLoad()
+            {
+                UIMS.Tips = "用户名为教学号，默认密码为000000。";
+                UIMS.FormName = "通脉微笑平台";
+                UIMS.NeedLogin = true;
+                Loader.Loader2.GradePoint = new Lazy<Services.IGradeEntrance>(() => new TMXWGrade());
+                Loader.Loader2.GradePoint.Value.ToString();
+                Loader.Loader2.Message = new Lazy<Services.IMessageEntrance>(() => new NullMsg());
+                Loader.InfoList.RemoveAll(t => !t.Name.Contains("图书"));
+            }
+
+            class NullMsg : Services.IMessageEntrance
+            {
+                public string ScriptFileUri => "";
+                public bool IsPost => false;
+                public string PostValue => "";
+                public string StorageFile => "";
+                public string LastReport => "";
+                public Task Delete(int id) => Task.CompletedTask;
+                public async Task Execute()
+                {
+                    await HandSchool.ViewModels.MessageViewModel.Instance.ShowMessage("错误", "您在校外，暂时不能刷新课表。");
+                }
+                public void Parse() { }
+                public Task SetReadState(int id, bool read) => Task.CompletedTask;
+            }
         }
     }
 }

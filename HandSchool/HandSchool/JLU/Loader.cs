@@ -22,11 +22,13 @@ namespace HandSchool.JLU
 
         public static SchoolCard Ykt;
         public static InfoEntranceGroup InfoList;
+        public static Loader Loader2;
 
         public void PostLoad()
         {
             Ykt = new SchoolCard();
             NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktPage", "\xE719", "JLU");
+            Loader2 = this;
         }
 
         public void PreLoad()

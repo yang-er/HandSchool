@@ -72,30 +72,32 @@ namespace HandSchool.JLU
 
     class OutsideGradeItem : IGradeItem
     {
-        private OutsideScoreValue asv;
+        private TMWXCJ.Item asv;
 
-        public OutsideGradeItem(OutsideScoreValue value)
+        public OutsideGradeItem(TMWXCJ.Item value)
         {
             asv = value;
-            Term = value.xkkh.Substring(1, 9) + "第" + value.xkkh.Substring(11, 1) + "学期";
+            Term = value.xn + "第" + value.xq + "学期";
             Pass = double.Parse(value.gpoint) > 0.1;
 
             Attach = new NameValueCollection
             {
                 { "选课课号", asv.xkkh }
             };
+
+            Type = AlreadyKnownThings.Type5Name(value.kcxz.ToString());
         }
 
-        public string Name => asv.kcmc;
-        public string Score => asv.zscj;
+        public string Name => asv.courName;
+        public string Score => asv.score;
         public string Point => asv.gpoint;
         public string Credit => asv.credit;
         public bool ReSelect => asv.isReselect == "Y";
-        public bool Pass { get; private set; }
-        public string Term { get; private set; }
+        public bool Pass { get; }
+        public string Term { get; }
         public DateTime Date => DateTime.Now;
-        public NameValueCollection Attach { get; private set; }
-        public string Type => "未知";
+        public NameValueCollection Attach { get; }
+        public string Type { get; }
 
         public string Show => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
 
@@ -103,6 +105,61 @@ namespace HandSchool.JLU
         {
             yield break;
         }
+    }
+
+    [Entrance("成绩查询")]
+    class TMXWGrade : IGradeEntrance
+    {
+        public string GPAPostValue => "";
+        public string LastReportGPA => "";
+        public string ScriptFileUri => "textbookSystem/api/student/score??";
+        public bool IsPost => false;
+        public string PostValue => "";
+        public string StorageFile => "jlu.grade2.json";
+        public string LastReport { get; set; }
+
+        public async Task Execute()
+        {
+            try
+            {
+                string url = "time=0000-00-00%2000:00:00&USERNAME=" + Core.App.Service.Username;
+                LastReport = await Core.App.Service.Get(ScriptFileUri + url);
+                Parse();
+                Core.WriteConfig(StorageFile, LastReport);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                {
+                    await GradePointViewModel.Instance.ShowMessage("错误", "连接超时，请重试。");
+                    return;
+                }
+
+                throw ex;
+            }
+        }
+
+        public void Parse()
+        {
+            var cjlb = LastReport.ParseJSON<TMWXCJ>();
+            GradePointViewModel.Instance.Items.Clear();
+            for (int i = cjlb.items.Length - 1; i >= 0; i--)
+                GradePointViewModel.Instance.Items.Add(new OutsideGradeItem(cjlb.items[i]));
+        }
+
+        public TMXWGrade()
+        {
+            Task.Run(async () =>
+            {
+                await Task.Yield();
+                LastReport = Core.ReadConfig(StorageFile);
+                if (LastReport != "") Parse();
+            });
+        }
+
+        public Task GatherGPA() => Task.CompletedTask;
+
+        public void ParseGPA() { }
     }
 
     [Entrance("成绩查询")]
