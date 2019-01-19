@@ -76,7 +76,7 @@ namespace HandSchool.JLU
 
             public void OnLoad()
             {
-                UIMS.Tips = "用户名为教学号，默认密码为000000。";
+                UIMS.Tips = "密码与UIMS无关，用户名为教学号，默认密码为身份证后六位。";
                 UIMS.FormName = "通脉微笑平台";
                 UIMS.NeedLogin = true;
                 Loader.Loader2.GradePoint = new Lazy<Services.IGradeEntrance>(() => new TMXWGrade());
@@ -95,7 +95,7 @@ namespace HandSchool.JLU
                 public Task Delete(int id) => Task.CompletedTask;
                 public async Task Execute()
                 {
-                    await HandSchool.ViewModels.MessageViewModel.Instance.ShowMessage("错误", "您在校外，暂时不能刷新课表。");
+                    await HandSchool.ViewModels.MessageViewModel.Instance.ShowMessage("错误", "您在校外，暂时不能查看收件箱。");
                 }
                 public void Parse() { }
                 public Task SetReadState(int id, bool read) => Task.CompletedTask;

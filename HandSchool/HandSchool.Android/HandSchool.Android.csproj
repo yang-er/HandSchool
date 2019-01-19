@@ -53,7 +53,7 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidTlsProvider>legacy</AndroidTlsProvider>
-    <EnableProguard>true</EnableProguard>
+    <EnableProguard>false</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microcharts.Forms">

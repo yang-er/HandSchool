@@ -1,3 +1,2 @@
-8 https://github.com/yang-er/HandSchool/releases/download/v1.6.15.0/HandSchool_v1.6.15.0.apk 完善桌面小部件
-提升启动速度
-修复若干bug
+10 https://www.coolapk.com/apk/com.x90yang.HandSchool 支持校外成绩查询，需要在设置中开启“我在校外”。
+支持图书馆的借阅信息查询，信息查询-图书馆藏查询-我的借阅
