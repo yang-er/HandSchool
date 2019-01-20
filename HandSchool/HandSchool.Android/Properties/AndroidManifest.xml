@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.x90yang.HandSchool" android:installLocation="auto" android:versionCode="10" android:versionName="1.7">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.x90yang.HandSchool" android:installLocation="auto" android:versionCode="11" android:versionName="1.7">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
 	<application android:label="掌上校园">
 		<meta-data android:screenOrientation="portrait" android:name="android.max_aspect" android:resizeableActivity="true" android:value="2.1" />

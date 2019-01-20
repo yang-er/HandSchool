@@ -12,8 +12,9 @@ namespace HandSchool.JLU
 {
     partial class UIMS
     {
-        class OutsideSchoolStrategy : ISideSchoolStrategy
+        public class OutsideSchoolStrategy : ISideSchoolStrategy
         {
+            public static string token;
             UIMS UIMS { get; }
 
             const string BaseUrl = "http://jwcjc.jlu.edu.cn/";
@@ -33,15 +34,17 @@ namespace HandSchool.JLU
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
                 UIMS.WebClient = new AwaredWebClient(BaseUrl, Encoding.UTF8);
+                UIMS.WebClient.Headers["authorization"] = "65644545454545454";
 
                 try
                 {
                     UIMS.WebClient.Headers["Referer"] = BaseUrl + "textbookWap/";
-                    UIMS.WebClient.Headers["authorization"] = "65644545454545454";
                     var loginData = $"{{\"USERNAME\":\"{UIMS.Username}\",\"PASSWORD\":\"{UIMS.Password}\"}}";
                     var ret = await UIMS.WebClient.PostAsync(SecurityCheck, loginData);
-                    var obj = ret.ParseJSON<TMWX>();
 
+                    var obj = ret.ParseJSON<TMWX>();
+                    token = obj.token;
+                    UIMS.WebClient.Headers["authorization"] = token;
                     if (obj.status == "error")
                     {
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, obj.message ?? "未知错误"));

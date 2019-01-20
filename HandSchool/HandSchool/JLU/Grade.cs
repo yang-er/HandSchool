@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU
@@ -122,7 +123,7 @@ namespace HandSchool.JLU
         {
             try
             {
-                string url = "time=0000-00-00%2000:00:00&USERNAME=" + Core.App.Service.Username;
+                string url = "time=0000-00-00%2000:00:00&USERNAME=" + Core.App.Service.Username + "&username=" + Core.App.Service.Username;
                 LastReport = await Core.App.Service.Get(ScriptFileUri + url);
                 Parse();
                 Core.WriteConfig(StorageFile, LastReport);
@@ -170,7 +171,7 @@ namespace HandSchool.JLU
         internal const string grade_distribute = "score/course-score-stat.do";
 
         public int RowLimit { get; set; } = 25;
-        
+
         public string ScriptFileUri => "service/res.do";
         public bool IsPost => true;
         public string PostValue => "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":" + RowLimit + "}";
@@ -188,6 +189,7 @@ namespace HandSchool.JLU
 
                 foreach (var asv in ro.value)
                 {
+
                     var LastDetail = await Core.App.Service.Post(grade_distribute, $"{{\"asId\":\"{asv.asId}\"}}");
                     //LastDetail = Encoding.UTF8.
                     asv.distribute = LastDetail.ParseJSON<GradeDetails>();
@@ -215,7 +217,7 @@ namespace HandSchool.JLU
                 throw ex;
             }
         }
-        
+
         public GradeEntrance()
         {
             Task.Run(async () =>
@@ -231,7 +233,7 @@ namespace HandSchool.JLU
         public void Parse()
         {
             var ro = LastReport.ParseJSON<RootObject<ArchiveScoreValue>>();
-            
+
             foreach (var asv in ro.value)
             {
                 GradePointViewModel.Instance.Items.Add(new GradeItem(asv));
