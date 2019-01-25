@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Internals\PlatformFormsImpl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Internals\ViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\HybridWebView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Old\MessageDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Old\WebViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CurriculumLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\PickerCell.cs" />
@@ -29,44 +28,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SettingPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingPage.xaml.cs">
-      <DependentUpon>SettingPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\GradePointPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\GradePointPage.xaml.cs">
-      <DependentUpon>GradePointPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\SchedulePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\SchedulePage.xaml.cs">
-      <DependentUpon>SchedulePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MessagePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\MessagePage.xaml.cs">
-      <DependentUpon>MessagePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\CurriculumPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -77,32 +38,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\InfoQueryPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\InfoQueryPage.xaml.cs">
-      <DependentUpon>InfoQueryPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\IndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Old\FeedPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <Compile Include="$(MSBuildThisFileDirectory)Old\FeedPage.xaml.cs">
-      <DependentUpon>FeedPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

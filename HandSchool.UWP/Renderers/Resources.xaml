@@ -16,7 +16,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Center" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding RightUp}" FontSize="13" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,0,0" Text="{Binding Detail}" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,4,0,0" Text="{Binding Detail}" TextWrapping="Wrap" FontSize="13" VerticalAlignment="Center" />
             <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Text="{Binding RightDown}" Foreground="{Binding Path=RightDownColor, Converter={StaticResource ColorConverter}}" Visibility="{Binding RightDownShow}" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right" />
         </Grid>
     </DataTemplate>
@@ -60,5 +60,12 @@
             </DataTemplate>
         </GroupStyle.HeaderTemplate>
     </GroupStyle>
-    
+
+    <DataTemplate x:Key="HSValueCell">
+        <StackPanel Padding="8,12">
+            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
+            <view:ValueBox Margin="0,8" Wrapper="{Binding Wrapper, Mode=OneTime}" />
+            <TextBlock Text="{Binding Description}" FontSize="13" />
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

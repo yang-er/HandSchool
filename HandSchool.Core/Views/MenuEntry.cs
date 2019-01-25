@@ -16,14 +16,8 @@ namespace HandSchool.Views
                 returnType: typeof(ICommand),
                 declaringType: typeof(MenuEntry));
 
-        public static readonly BindableProperty TitleProperty =
-            BindableProperty.Create(
-                propertyName: nameof(Title),
-                returnType: typeof(string),
-                declaringType: typeof(MenuEntry));
-
         /// <summary>
-        /// 菜单项承载运行的命令。
+        /// 菜单项承载运行的命令
         /// </summary>
         public ICommand Command
         {
@@ -31,8 +25,14 @@ namespace HandSchool.Views
             set => SetValue(CommandProperty, value);
         }
 
+        public static readonly BindableProperty TitleProperty =
+            BindableProperty.Create(
+                propertyName: nameof(Title),
+                returnType: typeof(string),
+                declaringType: typeof(MenuEntry));
+
         /// <summary>
-        /// 菜单项的标题。
+        /// 菜单项的标题
         /// </summary>
         public string Title
         {
@@ -40,12 +40,55 @@ namespace HandSchool.Views
             set => SetValue(TitleProperty, value);
         }
 
-        public bool HiddenForPull { get; set; }
+        public static readonly BindableProperty HiddenForPullProperty =
+            BindableProperty.Create(
+                propertyName: nameof(HiddenForPull),
+                returnType: typeof(bool),
+                declaringType: typeof(MenuEntry));
 
-        public string UWPIcon { get; set; }
-        public ToolbarItemOrder Order { get; set; }
-        public string CommandBinding { get; set; }
+        /// <summary>
+        /// 在支持下拉刷新的平台上隐藏
+        /// </summary>
+        public bool HiddenForPull
+        {
+            get => (bool)GetValue(HiddenForPullProperty);
+            set => SetValue(HiddenForPullProperty, value);
+        }
 
+        public static readonly BindableProperty UWPIconProperty =
+            BindableProperty.Create(
+                propertyName: nameof(UWPIcon),
+                returnType: typeof(string),
+                declaringType: typeof(MenuEntry));
+
+        /// <summary>
+        /// 在UWP上显示的图标Unicode
+        /// </summary>
+        public string UWPIcon
+        {
+            get => (string)GetValue(UWPIconProperty);
+            set => SetValue(UWPIconProperty, value);
+        }
+
+        public static readonly BindableProperty OrderProperty =
+            BindableProperty.Create(
+                propertyName: nameof(Order),
+                returnType: typeof(ToolbarItemOrder),
+                declaringType: typeof(MenuEntry),
+                defaultValue: ToolbarItemOrder.Default);
+
+        /// <summary>
+        /// 在工具栏里的位置
+        /// </summary>
+        public ToolbarItemOrder Order
+        {
+            get => (ToolbarItemOrder)GetValue(OrderProperty);
+            set => SetValue(OrderProperty, value);
+        }
+
+        /// <summary>
+        /// 当响应时执行时间。仅可绑定一条。
+        /// </summary>
         public event EventHandler Execute
         {
             add => Command = new CommandAction(() => value(this, EventArgs.Empty));

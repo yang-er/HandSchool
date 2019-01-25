@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="HandSchool.Views.SchedulePage"
+              xmlns:w="clr-namespace:HandSchool.Views"
+              Title="{Binding Title}">
+    <w:ViewObject.ToolbarMenu>
+        <w:MenuEntry Title="{Binding CurrentWeek}" Order="Default" UWPIcon="&#xE787;" />
+        <w:MenuEntry Title="刷新课表" Command="{Binding RefreshCommand}" Order="Secondary" UWPIcon="&#xE72C;" />
+        <w:MenuEntry Title="添加课程" Command="{Binding AddCommand}" Order="Secondary" UWPIcon="&#xE710;" />
+        <!--<w:MenuEntry Title="没有地点的课" />-->
+        <w:MenuEntry Title="修改当前周" Command="{Binding ChangeWeekCommand}" Order="Secondary" UWPIcon="&#xE7C4;" />
+    </w:ViewObject.ToolbarMenu>
+    <ScrollView Orientation="Horizontal" SizeChanged="SetTileSize">
+        <Grid VerticalOptions="FillAndExpand" RowSpacing="1" ColumnSpacing="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="HorizontalTextAlignment" Value="Center" />
+                    <Setter Property="VerticalTextAlignment" Value="Center" />
+                </Style>
+            </Grid.Resources>
+            <Label Text="周一" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
+            <Label Text="周二" TextColor="Gray" Grid.Column="2" Grid.Row="0" />
+            <Label Text="周三" TextColor="Gray" Grid.Column="3" Grid.Row="0" />
+            <Label Text="周四" TextColor="Gray" Grid.Column="4" Grid.Row="0" />
+            <Label Text="周五" TextColor="Gray" Grid.Column="5" Grid.Row="0" />
+            <Label Text="周六" TextColor="Gray" Grid.Column="6" Grid.Row="0" />
+            <Label Text="周日" TextColor="Gray" Grid.Column="7" Grid.Row="0" />
+        </Grid>
+    </ScrollView>
+</w:ViewObject>

@@ -120,6 +120,16 @@ namespace HandSchool.Internal
         }
 
         /// <summary>
+        /// 尝试获得注册的类型信息。
+        /// </summary>
+        /// <param name="typeName">类型名称</param>
+        /// <returns>类型信息</returns>
+        public Type TryGetType(Type type)
+        {
+            return Registar.ContainsKey(type.FullName) ? Registar[type.FullName] : type;
+        }
+
+        /// <summary>
         /// 创建一个对象的实例。
         /// </summary>
         /// <typeparam name="T">实例化类型</typeparam>

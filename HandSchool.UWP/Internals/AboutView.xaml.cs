@@ -1,15 +1,14 @@
-﻿using HandSchool.ViewModels;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace HandSchool.Views
 {
-    public sealed partial class SettingsPage : ViewPage
+    public sealed partial class AboutView : UserControl
     {
-        public SettingsPage()
+        public AboutView()
         {
             InitializeComponent();
-            ViewModel = SettingViewModel.Instance;
         }
 
         private void TextBlock_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

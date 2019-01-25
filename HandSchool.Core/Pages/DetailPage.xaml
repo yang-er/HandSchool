@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:w="clr-namespace:HandSchool.Views"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="HandSchool.Views.DetailPage"
+              Title="{Binding Title}">
+    <ScrollView Orientation="Vertical">
+        <StackLayout Spacing="10" Padding="20">
+            <Label Text="{Binding Name}" FontSize="24" TextColor="Black" />
+            <Label Text="{Binding Sender}" FontSize="14" />
+            <Label Text="{Binding Date}" FontSize="14" />
+            <BoxView Margin="0,5,0,5" Color="Gray" HeightRequest="1" />
+            <Label Text="{Binding Content}" FontSize="16"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand" />
+        </StackLayout>
+    </ScrollView>
+</w:ViewObject>

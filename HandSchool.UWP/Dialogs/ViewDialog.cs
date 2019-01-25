@@ -45,22 +45,12 @@ namespace HandSchool.Views
         {
             throw new InvalidOperationException();
         }
-
-        public Task CloseAsync()
-        {
-            throw new InvalidOperationException();
-        }
-
+        
         public void RegisterNavigation(INavigate navigate)
         {
             Navigation = navigate;
         }
-
-        public async Task ShowAsync(INavigate parent)
-        {
-            await ShowAsync();
-        }
-
+        
         #endregion
 
         #region IViewResponse Impl

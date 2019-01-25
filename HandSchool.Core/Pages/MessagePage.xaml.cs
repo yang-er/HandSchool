@@ -1,6 +1,5 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -29,7 +28,7 @@ namespace HandSchool.Views
             IsPushing = true;
             var imi = e.Item as IMessageItem;
             imi.SetRead.Execute(null);
-            await Navigation.PushAsync("MessageDetailPage", imi);
+            await Navigation.PushAsync(typeof(DetailPage), imi);
             IsPushing = false;
         }
     }

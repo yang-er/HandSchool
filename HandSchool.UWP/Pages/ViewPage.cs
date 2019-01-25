@@ -71,23 +71,21 @@ namespace HandSchool.Views
         {
             if (item.HiddenForPull) item.Title = "刷新";
 
-            var btn = new AppBarButton
+            var icon = new FontIcon
             {
-                Command = item.Command,
-                Label = item.Title,
-                Icon = new FontIcon
-                {
-                    FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                    Glyph = item.UWPIcon
-                },
+                FontFamily = new FontFamily("Segoe MDL2 Assets")
             };
 
-            if (item.Command is null && !string.IsNullOrEmpty(item.CommandBinding))
-            {
-                btn.SetBinding(AppBarButton.CommandProperty, item.CommandBinding);
-            }
+            icon.SetBinding(FontIcon.GlyphProperty, "UWPIcon",
+                item, Windows.UI.Xaml.Data.BindingMode.OneWay);
+            
+            var btn = new AppBarButton { Icon = icon };
+            btn.SetBinding(AppBarButton.CommandProperty, "Command",
+                item, Windows.UI.Xaml.Data.BindingMode.OneWay);
+            btn.SetBinding(AppBarButton.LabelProperty, "Title",
+                item, Windows.UI.Xaml.Data.BindingMode.OneWay);
 
-            if (item.Order == Xamarin.Forms.ToolbarItemOrder.Primary || item.HiddenForPull)
+            if (item.Order != Xamarin.Forms.ToolbarItemOrder.Secondary || item.HiddenForPull)
             {
                 PrimaryMenu.Add(btn);
             }

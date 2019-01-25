@@ -99,6 +99,8 @@ namespace HandSchool.UWP
 
         public Task PushAsync(Type pageType, object param)
         {
+            pageType = Core.Reflection.TryGetType(pageType);
+
             if (typeof(ViewPage).IsAssignableFrom(pageType))
             {
                 InnerFrame.Navigate(pageType, param);

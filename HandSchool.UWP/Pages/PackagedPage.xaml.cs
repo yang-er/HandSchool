@@ -47,6 +47,7 @@ namespace HandSchool.Views
             else if (e.Parameter is System.ValueTuple<System.Type, object> paramed)
             {
                 Packager = Core.Reflection.CreateInstance<ViewObject>(paramed.Item1);
+                Packager.SetNavigationArguments(paramed.Item2);
                 ProcessPackager();
             }
 
