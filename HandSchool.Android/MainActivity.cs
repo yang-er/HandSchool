@@ -7,6 +7,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using System;
+using SupportFragment = Android.Support.V4.App.Fragment;
 using Xamarin.Forms.Platform.Android;
 using XForms = Xamarin.Forms.Forms;
 
@@ -23,12 +24,22 @@ namespace HandSchool.Droid
             throw new System.NotImplementedException();
         }
 
+        private void TransactionToFragment(SupportFragment fragment)
+        {
+            var transition = SupportFragmentManager.BeginTransaction();
+            transition.Replace(Resource.Id.frameLayout1, fragment);
+            transition.Commit();
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
+            new PlatformImpl(this);
             SetContentView(Resource.Layout.activity_main);
-            SupportFragmentManager.BeginTransaction().Replace(Resource.Id.frameLayout1, new IndexFragment()).Commit();
+
+            TransactionToFragment(new Views.IndexPage().CreateSupportFragment(this));
+
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
