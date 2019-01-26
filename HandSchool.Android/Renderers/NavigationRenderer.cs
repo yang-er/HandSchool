@@ -42,14 +42,6 @@ namespace HandSchool.Droid
 
             MessagingCenter.Subscribe<TabbedRenderer>(this, TabbedRenderer.TabbarUsed, TabbedPageCalling);
         }
-
-        protected virtual AToolbarLayout CreateToolbarLayout(AView toolbar)
-        {
-            var layoutInflater = LayoutInflater.From(Context);
-            var layout = layoutInflater.Inflate(Resource.Layout.AppBarLayout, null) as AToolbarLayout;
-            layout.AddView(toolbar);
-            return layout;
-        }
         
         private void TabbedPageCalling(TabbedRenderer renderer)
         {

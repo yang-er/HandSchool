@@ -53,7 +53,7 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidTlsProvider>legacy</AndroidTlsProvider>
-    <EnableProguard>true</EnableProguard>
+    <EnableProguard>false</EnableProguard>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -101,6 +101,7 @@
     <Compile Include="Renderers\NavigationRenderer.cs" />
     <Compile Include="Renderers\PageRenderer.cs" />
     <Compile Include="Renderers\PickerCellRenderer.cs" />
+    <Compile Include="Views\IndexFragment.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -204,38 +205,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_1.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_2.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_3.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_4.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_5.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_6.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_7.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_8.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_9.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_10.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_11.axml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\singleclassitem_12.axml" />
   </ItemGroup>
   <ItemGroup>
@@ -261,9 +240,9 @@
       <Project>{dea278bf-b6bf-4331-96b7-cedc9a4e39c3}</Project>
       <Name>HandSchool.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj">
-      <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
-      <Name>HandSchool.JLU</Name>
+    <ProjectReference Include="..\HandSchool.Forwarder\HandSchool.Forwarder.csproj">
+      <Project>{08d98a3f-9d96-417e-8691-9aba9db919db}</Project>
+      <Name>HandSchool.Forwarder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -275,7 +254,22 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\AppBarLayout.axml">
+    <AndroidResource Include="Resources\layout\app_bar_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\nav_header_main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_main.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\IndexLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

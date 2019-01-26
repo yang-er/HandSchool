@@ -1,4 +1,5 @@
 ﻿using HandSchool.Views;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -64,5 +65,15 @@ namespace HandSchool.Forms
         public IEnumerator<IViewPage> GetEnumerator() => GetEnumerable().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerable().GetEnumerator();
+
+        public Task PushAsync(string pageType, object param)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PushAsync(Type pageType, object param)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
