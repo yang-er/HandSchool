@@ -36,6 +36,9 @@ namespace HandSchool.Droid
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
             new PlatformImpl(this);
+            Forwarder.NormalWay.Begin();
+            Core.Configure.Write("hs.school.bin", "jlu");
+            Core.Initialize();
             SetContentView(Resource.Layout.activity_main);
 
             TransactionToFragment(new Views.IndexPage().CreateSupportFragment(this));

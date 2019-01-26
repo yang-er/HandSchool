@@ -35,8 +35,8 @@ namespace HandSchool.Internal
         {
             Assemblies = new List<Assembly>();
             Registar = new Dictionary<string, Type>();
-            ImplRegistar = new Dictionary<Guid, Type>();
-            CtorRegistar = new Dictionary<Guid, Func<object>>();
+            ImplRegistar = new Dictionary<string, Type>();
+            CtorRegistar = new Dictionary<string, Func<object>>();
         }
         
         /// <summary>
@@ -64,12 +64,12 @@ namespace HandSchool.Internal
         /// <summary>
         /// 各个实现的注册类
         /// </summary>
-        private Dictionary<Guid, Type> ImplRegistar { get; }
+        private Dictionary<string, Type> ImplRegistar { get; }
 
         /// <summary>
         /// 各个实现的注册类
         /// </summary>
-        private Dictionary<Guid, Func<object>> CtorRegistar { get; }
+        private Dictionary<string, Func<object>> CtorRegistar { get; }
 
         /// <summary>
         /// 注册类型信息，以供反射使用。
@@ -81,7 +81,7 @@ namespace HandSchool.Internal
             if (Registar.ContainsKey(typed.FullName)) return;
             Registar.Add(typed.FullName, typed);
             Registar.Add(typed.Name, typed);
-            CtorRegistar.Add(typed.GUID, () => new T());
+            CtorRegistar.Add(typed.FullName, () => new T());
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace HandSchool.Internal
         public void RegisterImpl<TIn, TOut>()
             where TOut : TIn, new()
         {
-            ImplRegistar.Add(typeof(TIn).GUID, typeof(TOut));
-            CtorRegistar.Add(typeof(TOut).GUID, () => new TOut());
+            ImplRegistar.Add(typeof(TIn).FullName, typeof(TOut));
+            CtorRegistar.Add(typeof(TOut).FullName, () => new TOut());
         }
         
         /// <summary>
@@ -139,9 +139,9 @@ namespace HandSchool.Internal
         {
             Debug.Assert(typeof(T).IsAssignableFrom(typeInfo));
 
-            if (CtorRegistar.ContainsKey(typeInfo.GUID))
+            if (CtorRegistar.ContainsKey(typeInfo.FullName))
             {
-                return CtorRegistar[typeInfo.GUID].Invoke() as T;
+                return CtorRegistar[typeInfo.FullName].Invoke() as T;
             }
             else
             {
@@ -157,7 +157,7 @@ namespace HandSchool.Internal
         /// <returns>实现对象</returns>
         public T CreateInstance<T>() where T : class
         {
-            var guid = typeof(T).GUID;
+            var guid = typeof(T).FullName;
             Debug.Assert(ImplRegistar.ContainsKey(guid));
             return CreateInstance<T>(ImplRegistar[guid]);
         }
