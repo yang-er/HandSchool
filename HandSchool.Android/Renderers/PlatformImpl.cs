@@ -26,22 +26,7 @@ namespace HandSchool.Droid
         /// 更新管理器
         /// </summary>
         public UpdateManager UpdateManager { get; }
-
-        /// <summary>
-        /// 应用商店链接
-        /// </summary>
-        public override string StoreLink { get; }
-
-        /// <summary>
-        /// 运行时名称
-        /// </summary>
-        public override string RuntimeName => "Android";
-
-        /// <summary>
-        /// 设置文件夹
-        /// </summary>
-        public override string ConfigureDirectory { get; }
-
+        
         /// <summary>
         /// 系统导航内容
         /// </summary>
@@ -54,6 +39,7 @@ namespace HandSchool.Droid
         public PlatformImpl(Context context)
         {
             Context = context;
+            RuntimeName = "Android";
             Scale = context.Resources.DisplayMetrics.Density;
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
             ConfigureDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);

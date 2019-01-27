@@ -48,13 +48,9 @@ namespace HandSchool.Views
             {
                 Text = item.Title,
                 Order = item.Order,
+                Command = item.Command,
             };
-
-            if (item.CommandBinding is null)
-                tool.Command = item.Command;
-            else
-                tool.SetBinding(MenuItem.CommandProperty, item.CommandBinding, BindingMode.OneTime);
-
+            
             ToolbarItems.Add(tool);
         }
 

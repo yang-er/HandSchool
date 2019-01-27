@@ -55,7 +55,9 @@ namespace HandSchool.UWP
 
             Core.Reflection.RegisterType<MessageDetailPage>();
             Core.Reflection.RegisterType<WebViewPage>();
-            Core.Reflection.RegisterType<InfoQueryPage, InfoQueryPageF>();
+            // Core.Reflection.RegisterType<InfoQueryPage, InfoQueryPageF>();
+            Core.Reflection.RegisterType<DetailPage, MessageDetailPage>();
+            // Core.Reflection.RegisterType<SchedulePage, SchedulePageF>();
         }
 
         /// <summary>

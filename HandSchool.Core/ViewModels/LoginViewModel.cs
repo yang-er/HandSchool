@@ -25,7 +25,7 @@ namespace HandSchool.ViewModels
         /// 登录页面
         /// </summary>
         public ILoginPage Page { get; set; }
-        
+
         /// <summary>
         /// 创建登录视图模型，并绑定参数。
         /// </summary>
@@ -35,7 +35,9 @@ namespace HandSchool.ViewModels
             Form = form;
             Title = "登录" + form.FormName;
         }
-        
+
+        static Task CurrentTask { get; set; }
+
         /// <summary>
         /// 异步地请求登录表单内容。
         /// </summary>
@@ -47,7 +49,11 @@ namespace HandSchool.ViewModels
                 var viewModel = new LoginViewModel(form);
                 viewModel.LoginCommand = new CommandAction(viewModel.Login);
                 viewModel.Page = Core.Platform.CreateLoginPage(viewModel);
+
+                if (CurrentTask != null) await CurrentTask;
+                CurrentTask = new Task(() => { });
                 await viewModel.Page.ShowAsync();
+                CurrentTask.Start();
                 return form.IsLogin;
             });
         }

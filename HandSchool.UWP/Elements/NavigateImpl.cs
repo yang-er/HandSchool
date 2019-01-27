@@ -15,7 +15,6 @@ namespace HandSchool.UWP
     internal class NavigateImpl : INavigate
     {
         readonly List<IViewPage> stack = new List<IViewPage>();
-        TaskCompletionSource<IViewPage> taskCompletionSource;
         public IViewPage CurrentStackTopPage { get; set; }
         public static NavigateImpl Impl { get; private set; }
 
@@ -99,6 +98,8 @@ namespace HandSchool.UWP
 
         public Task PushAsync(Type pageType, object param)
         {
+            pageType = Core.Reflection.TryGetType(pageType);
+
             if (typeof(ViewPage).IsAssignableFrom(pageType))
             {
                 InnerFrame.Navigate(pageType, param);

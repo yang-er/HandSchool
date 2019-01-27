@@ -2,6 +2,7 @@
 using HandSchool.Models;
 using HandSchool.UWP;
 using HandSchool.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Core;
@@ -47,14 +48,24 @@ namespace HandSchool.Views
             }
             else if (args.IsSettingsInvoked)
             {
-                if (!_isSettingsInvoked && !(ContentFrame.Content is SettingsPage))
+                if (SettingItem is null)
+                {
+                    var wtf = NavigationView.SettingsItem as NavigationViewItem;
+                    SettingItem = NavigationMenuItemImpl.CreateSettingItem(wtf);
+                    wtf.Content = SettingItem;
+                    NavMenuItems.Add(SettingItem);
+                }
+                
+                if (!_isSettingsInvoked && currentNavigationParameter != SettingItem.NavigationParameter)
                 {
                     _isSettingsInvoked = true;
-                    ContentFrame.Navigate(typeof(SettingsPage));
+                    ContentFrame.Navigate(SettingItem.PageType, SettingItem.NavigationParameter);
                     Task.Delay(1000).ContinueWith((task) => _isSettingsInvoked = false);
                 }
             }
         }
+
+        NavigationMenuItemImpl SettingItem;
 
         object currentNavigationParameter;
 
@@ -65,14 +76,10 @@ namespace HandSchool.Views
 
             object selected = null;
             
-            if (e.Content is SettingsPage)
-            {
-                selected = NavigationView.SettingsItem;
-            }
-            else if (e.Content is WebViewPage)
+            if (e.Content is WebViewPage)
             {
                 selected = NavMenuItems.Find((item) =>
-                    item.PageType == typeof(InfoQueryPageF)
+                    item.Title == "信息查询"
                 )?.Value;
             }
             else if (e.Content is MessageDetailPage)

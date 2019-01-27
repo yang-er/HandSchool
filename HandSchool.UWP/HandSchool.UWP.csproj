@@ -104,13 +104,15 @@
     <AssemblyOriginatorKeyFile>HandSchool.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Pages\RuntimePage.xaml.cs">
-      <DependentUpon>RuntimePage.xaml</DependentUpon>
+    <Compile Include="Internals\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Internals\SettingPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Renderers\ValueCellRenderer.cs" />
     <Compile Include="SelectTypePage.xaml.cs">
       <DependentUpon>SelectTypePage.xaml</DependentUpon>
     </Compile>
@@ -137,23 +139,20 @@
     <Compile Include="Renderers\TextCellRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internals\ViewPage.cs" />
-    <Compile Include="Internals\ViewResponseImpl.cs" />
-    <Compile Include="Internals\ViewDialog.cs" />
-    <Compile Include="Internals\PackagedPage.xaml.cs">
+    <Compile Include="Pages\ViewPage.cs" />
+    <Compile Include="Elements\ViewResponseImpl.cs" />
+    <Compile Include="Dialogs\ViewDialog.cs" />
+    <Compile Include="Pages\PackagedPage.xaml.cs">
       <DependentUpon>PackagedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Internals\TabbedPage.xaml.cs">
+    <Compile Include="Pages\TabbedPage.xaml.cs">
       <DependentUpon>TabbedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Internals\WebViewPage.xaml.cs">
+    <Compile Include="Pages\WebViewPage.xaml.cs">
       <DependentUpon>WebViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Internals\ValueBox.xaml.cs">
       <DependentUpon>ValueBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Internals\CurriculumLabel.xaml.cs">
-      <DependentUpon>CurriculumLabel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Internals\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
@@ -174,15 +173,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages\InfoQueryPage.xaml.cs">
-      <DependentUpon>InfoQueryPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SchedulePage.xaml.cs">
-      <DependentUpon>SchedulePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
     </Compile>
@@ -244,11 +234,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Internals\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RuntimePage.xaml">
+    <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,7 +246,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Internals\PackagedPage.xaml">
+    <Page Include="Pages\PackagedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -264,11 +254,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Internals\CurriculumLabel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Internals\TabbedPage.xaml">
+    <Page Include="Pages\TabbedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,7 +262,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Internals\WebViewPage.xaml">
+    <Page Include="Pages\WebViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,18 +291,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DetailPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\InfoQueryPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SchedulePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

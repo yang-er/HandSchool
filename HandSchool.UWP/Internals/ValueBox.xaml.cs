@@ -1,93 +1,52 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.UWP;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 
 namespace HandSchool.Views
 {
     public sealed partial class ValueBox: UserControl
     {
-        public static readonly DependencyProperty ValueProperty = 
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(ValueBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty NumericValueProperty =
-            DependencyProperty.Register(nameof(NumericValue), typeof(int), typeof(ValueBox), new PropertyMetadata(0, (d, e) => d.SetValue(ValueProperty, e.NewValue)));
-        public static readonly DependencyProperty BooleanValueProperty =
-            DependencyProperty.Register(nameof(BooleanValue), typeof(bool), typeof(ValueBox), new PropertyMetadata(false, (d, e) => d.SetValue(ValueProperty, e.NewValue)));
-        public static readonly DependencyProperty StringValueProperty =
-            DependencyProperty.Register(nameof(StringValue), typeof(string), typeof(ValueBox), new PropertyMetadata("", (d, e) => d.SetValue(ValueProperty, e.NewValue)));
-        public static readonly DependencyProperty TypeProperty = 
-            DependencyProperty.Register(nameof(Type), typeof(SettingTypes), typeof(ValueBox), new PropertyMetadata(SettingTypes.Unknown, (d, e) => (d as ValueBox).SetControl((SettingTypes)e.NewValue)));
-        public static readonly DependencyProperty AttributeProperty = 
-            DependencyProperty.Register(nameof(Attribute), typeof(SettingsAttribute), typeof(ValueBox), new PropertyMetadata(default(SettingsAttribute)));
         public static readonly DependencyProperty WrapperProperty =
-            DependencyProperty.Register(nameof(Wrapper), typeof(SettingWrapper), typeof(ValueBox), new PropertyMetadata(default(SettingWrapper)));
+            DependencyProperty.Register(
+                name: nameof(Wrapper), 
+                propertyType: typeof(SettingWrapper),
+                ownerType: typeof(ValueBox),
+                typeMetadata: new PropertyMetadata(
+                    defaultValue: default(SettingWrapper),
+                    propertyChangedCallback: Callback));
+
+        static void Callback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            ((ValueBox)obj).SetControl((SettingWrapper)args.NewValue);
+        }
 
         public ValueBox()
         {
             InitializeComponent();
         }
         
-        public object Value
-        {
-            get => GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-
         public SettingWrapper Wrapper
         {
-            get => GetValue(WrapperProperty) as SettingWrapper;
+            get => (SettingWrapper)GetValue(WrapperProperty);
             set => SetValue(WrapperProperty, value);
         }
-
-        public SettingTypes Type
-        {
-            get => (SettingTypes)GetValue(TypeProperty);
-            set => SetValue(TypeProperty, value);
-        }
         
-        private int NumericValue
+        private void SetControl(SettingWrapper value)
         {
-            get => (int)GetValue(NumericValueProperty);
-            set => SetValue(NumericValueProperty, value);
-        }
-
-        private bool BooleanValue
-        {
-            get => (bool)GetValue(BooleanValueProperty);
-            set => SetValue(BooleanValueProperty, value);
-        }
-
-        private string StringValue
-        {
-            get => (string)GetValue(StringValueProperty);
-            set => SetValue(StringValueProperty, value);
-        }
-        
-        public SettingsAttribute Attribute
-        {
-            get => (SettingsAttribute)GetValue(AttributeProperty);
-            set => SetValue(AttributeProperty, value); 
-        }
-
-        private void SetControl(SettingTypes value)
-        {
-            switch (value)
+            switch (value.Type)
             {
                 case SettingTypes.Integer:
-                    NumericValue = (int)Value;
-
                     var nmr = new Slider
                     {
-                        Minimum = Attribute.RangeDown,
-                        Maximum = Attribute.RangeUp,
+                        Minimum = value.AttributeData.RangeDown,
+                        Maximum = value.AttributeData.RangeUp,
                         TickFrequency = 1,
                         TickPlacement = TickPlacement.Outside
                     };
 
-                    nmr.SetBinding(RangeBase.ValueProperty, nameof(NumericValue), this);
+                    nmr.SetBinding(RangeBase.ValueProperty, "NumericValue");
 
                     var ind = new TextBlock
                     {
@@ -96,28 +55,23 @@ namespace HandSchool.Views
                     };
 
                     Grid.SetColumn(ind, 1);
-                    ind.SetBinding(TextBlock.TextProperty, nameof(NumericValue), this, BindingMode.OneWay);
+                    ind.SetBinding(TextBlock.TextProperty, "NumericValue");
 
                     Grid.Children.Add(nmr);
                     Grid.Children.Add(ind);
                     break;
 
                 case SettingTypes.String:
-                    StringValue = (string)Value;
-                    var tb = new TextBox();
-                    tb.SetBinding(TextBox.TextProperty, nameof(StringValue), this);
-                    Grid.Children.Add(tb);
-                    break;
-
-                case SettingTypes.Const:
+                    var textBox = new TextBox();
+                    textBox.SetBinding(TextBox.TextProperty, "StringValue");
+                    Grid.Children.Add(textBox);
                     break;
 
                 case SettingTypes.Boolean:
-                    BooleanValue = (bool)Value;
-                    var sw = new ToggleSwitch();
-                    Grid.SetColumnSpan(sw, 2);
-                    sw.SetBinding(ToggleSwitch.IsOnProperty, nameof(BooleanValue), this);
-                    Grid.Children.Add(sw);
+                    var switcher = new ToggleSwitch();
+                    Grid.SetColumnSpan(switcher, 2);
+                    switcher.SetBinding(ToggleSwitch.IsOnProperty, "BooleanValue");
+                    Grid.Children.Add(switcher);
                     break;
 
                 case SettingTypes.Action:
@@ -125,6 +79,10 @@ namespace HandSchool.Views
                     btn.Content = "执行";
                     btn.SetBinding(ButtonBase.CommandProperty, "ExcuteAction", Wrapper);
                     Grid.Children.Add(btn);
+                    break;
+
+                case SettingTypes.Const:
+                    Margin = new Thickness(0, 4, 0, 4);
                     break;
 
                 default:

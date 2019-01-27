@@ -23,7 +23,7 @@ namespace HandSchool.Views
             IsPushing = true;
 
             LastItem = e.Item as FeedItem;
-            await Navigation.PushAsync("MessageDetailPage", LastItem);
+            await Navigation.PushAsync(typeof(DetailPage), LastItem);
 
             if (Device.Idiom != TargetIdiom.Tablet) LastItem = null;
             IsPushing = false;

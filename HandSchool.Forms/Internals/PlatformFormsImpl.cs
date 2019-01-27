@@ -29,13 +29,7 @@ namespace HandSchool.Forms
         /// <param name="viewModel">登录页面的视图模型。</param>
         /// <returns>登录页面</returns>
         public override ILoginPage CreateLoginPage(LoginViewModel viewModel) => new LoginPage(viewModel);
-
-        /// <summary>
-        /// 创建一个空白视图页面。
-        /// </summary>
-        /// <returns>视图页面的内容</returns>
-        public override IViewPage CreatePage() => new ViewPage();
-
+        
         /// <summary>
         /// 初始化平台相关的参数。
         /// </summary>

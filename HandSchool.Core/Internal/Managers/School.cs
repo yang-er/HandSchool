@@ -1,8 +1,7 @@
-﻿using System;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.Services;
-using System.Collections.Generic;
 using HandSchool.Views;
+using System;
 using System.Collections.ObjectModel;
 
 namespace HandSchool.Internal
@@ -67,6 +66,9 @@ namespace HandSchool.Internal
             Core.Reflection.RegisterType<FeedPage>();
             Core.Reflection.RegisterType<InfoQueryPage>();
             Core.Reflection.RegisterType<MessagePage>();
+            Core.Reflection.RegisterType<DetailPage>();
+            Core.Reflection.RegisterType<SchedulePage>();
+            Core.Reflection.RegisterType<SettingPage>();
         }
     }
 }

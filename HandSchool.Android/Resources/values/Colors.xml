@@ -440,4 +440,7 @@
   <color name="black">#000000</color>
   <!--黑色 -->
 
+  <color name="colorPrimary">#2196f3</color>
+  <color name="colorPrimaryDark">#1976d2</color>
+  <color name="colorAccent">#96d1ff</color>
 </resources>

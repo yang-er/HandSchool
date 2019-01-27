@@ -40,6 +40,14 @@ namespace HandSchool.Views
                 defaultValue: false,
                 defaultBindingMode: BindingMode.OneWay);
 
+        public static readonly BindableProperty UseSafeAreaProperty =
+            BindableProperty.Create(
+                propertyName: nameof(UseSafeArea),
+                returnType: typeof(bool),
+                declaringType: typeof(ViewObject),
+                defaultValue: false,
+                defaultBindingMode: BindingMode.OneWay);
+
         /// <summary>
         /// 是否自定义加载动画
         /// </summary>
@@ -56,6 +64,15 @@ namespace HandSchool.Views
         {
             get => (bool)GetValue(UseTabletModeProperty);
             protected set => SetValue(UseTabletModeProperty, value);
+        }
+
+        /// <summary>
+        /// 是否开启在iOS下的边界安全
+        /// </summary>
+        public bool UseSafeArea
+        {
+            get => (bool)GetValue(UseSafeAreaProperty);
+            protected set => SetValue(UseSafeAreaProperty, value);
         }
 
         /// <summary>
@@ -116,6 +133,12 @@ namespace HandSchool.Views
                 SetInheritedBindingContext(menu, BindingContext);
         }
 
+        /// <summary>
+        /// 处理导航的参数，在页面显示之前调用。
+        /// </summary>
+        /// <param name="param">导航的参数内容</param>
+        public virtual void SetNavigationArguments(object param) { }
+
         #region 页面的生命周期：出现与消失
 
         /// <summary>
@@ -127,7 +150,7 @@ namespace HandSchool.Views
         /// 页面显示时调用。
         /// </summary>
         public event EventHandler Appearing;
-
+        
         public bool IsModal { get; set; }
 
         protected virtual void OnAppearing()
@@ -139,17 +162,17 @@ namespace HandSchool.Views
         {
             Disappearing?.Invoke(this, EventArgs.Empty);
         }
-
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void SendAppearing() => OnAppearing();
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void SendDisappearing() => OnDisappearing();
-
+        
         #endregion
-        
+
         #region 页面的导航：平台相关实现
-        
+
         public INavigate Navigation { get; private set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

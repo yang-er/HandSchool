@@ -10,7 +10,7 @@ namespace HandSchool
     {
         public App()
         {
-            Core.Reflection.ForceLoad(false);
+            Forwarder.NormalWay.Begin();
             Core.Initialize();
             InitializeComponent();
             MainPage = new MainPage();
