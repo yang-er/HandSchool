@@ -24,6 +24,12 @@ namespace HandSchool.Droid
             throw new System.NotImplementedException();
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            // menu.
+            return base.OnCreateOptionsMenu(menu);
+        }
+
         private void TransactionToFragment(SupportFragment fragment)
         {
             var transition = SupportFragmentManager.BeginTransaction();
@@ -55,6 +61,7 @@ namespace HandSchool.Droid
             toggle.SyncState();
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            
             navigationView.SetNavigationItemSelectedListener(this);
             
         }

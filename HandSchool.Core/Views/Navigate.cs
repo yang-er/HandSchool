@@ -10,22 +10,6 @@ namespace HandSchool.Views
     public interface INavigate
     {
         /// <summary>
-        /// 导航视图栈
-        /// </summary>
-        IReadOnlyList<IViewPage> NavigationStack { get; }
-        
-        /// <summary>
-        /// 弹出最上层页面。
-        /// </summary>
-        Task<IViewPage> PopAsync();
-        
-        /// <summary>
-        /// 在导航栈内推入页面。
-        /// </summary>
-        /// <param name="page">推入栈内的页面</param>
-        Task PushAsync(IViewPage page);
-
-        /// <summary>
         /// 在导航栈内推入页面，但是数据与页面创建分离。
         /// </summary>
         /// <param name="pageType">页面类型</param>

@@ -3859,7 +3859,7 @@ namespace HandSchool.Droid
 			public const int forever = 2131296348;
 			
 			// aapt resource value: 0x7f090091
-			public const int frameLayout1 = 2131296401;
+			public const int frame_layout = 2131296401;
 			
 			// aapt resource value: 0x7f09000a
 			public const int ghost_view = 2131296266;

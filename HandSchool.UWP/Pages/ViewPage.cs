@@ -127,7 +127,7 @@ namespace HandSchool.Views
 
         public virtual Task ShowAsync(INavigate parent = null) => throw new InvalidOperationException();
 
-        public virtual Task CloseAsync() => Navigation.PopAsync();
+        public virtual Task CloseAsync() => throw new InvalidOperationException();
 
         #endregion
 

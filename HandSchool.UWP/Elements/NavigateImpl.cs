@@ -14,20 +14,13 @@ namespace HandSchool.UWP
     /// </summary>
     internal class NavigateImpl : INavigate
     {
-        readonly List<IViewPage> stack = new List<IViewPage>();
-        public IViewPage CurrentStackTopPage { get; set; }
         public static NavigateImpl Impl { get; private set; }
 
         /// <summary>
         /// 程序导航使用的Frame
         /// </summary>
         public WFrame InnerFrame { get; }
-
-        /// <summary>
-        /// 导航视图栈
-        /// </summary>
-        public IReadOnlyList<IViewPage> NavigationStack => stack;
-
+        
         /// <summary>
         /// 为导航页面使用
         /// </summary>
@@ -49,22 +42,6 @@ namespace HandSchool.UWP
             Debug.Assert(args.SourcePageType.IsSubclassOf(typeof(ViewPage)));
             var currentPage = args.Content as IViewPage;
             currentPage.RegisterNavigation(this);
-        }
-
-        /// <summary>
-        /// 弹出最上层页面。
-        /// </summary>
-        public Task<IViewPage> PopAsync()
-        {
-            if (InnerFrame.CanGoBack)
-            {
-                InnerFrame.GoBack();
-                return Task.FromResult<IViewPage>(null);
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
         }
 
         /// <summary>

@@ -85,7 +85,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Renderers\BaseActivity.cs" />
     <Compile Include="Renderers\MessagePresenter.cs" />
+    <Compile Include="Renderers\NavigateImpl.cs" />
     <Compile Include="Renderers\NavMenuItemImpl.cs" />
     <Compile Include="Renderers\PlatformImpl.cs" />
     <Compile Include="MainActivity.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Renderers\NavigationRenderer.cs" />
     <Compile Include="Renderers\PageRenderer.cs" />
     <Compile Include="Renderers\PickerCellRenderer.cs" />
+    <Compile Include="Views\BaseFragment.cs" />
     <Compile Include="Views\IndexFragment.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
