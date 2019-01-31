@@ -14,42 +14,68 @@ namespace HandSchool.Droid
 {
     [Activity(Label = "掌上校园", Icon = "@drawable/icon", Theme = "@style/AppTheme.NoActionBar",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : BaseActivity, NavigationView.IOnNavigationItemSelectedListener
+    public class MainActivity : BaseActivity
     {
         public static MainActivity Instance;
 
-        public bool OnNavigationItemSelected(IMenuItem menuItem)
+        internal NavigationView NavigationView { get; private set; }
+        internal DrawerLayout DrawerLayout { get; private set; }
+        int lastItemId = 0;
+
+        public bool NavigationItemSelected(NavMenuItemV2 menuItem, IMenuItem menuItem2)
         {
-            throw new System.NotImplementedException();
+            NavigationView.Menu.GetItem(lastItemId).SetChecked(false);
+            menuItem2.SetChecked(true);
+            lastItemId = menuItem2.ItemId;
+            
+            if (menuItem.IsFragment)
+            {
+                Transaction(menuItem.CreateFragment());
+            }
+            else if (menuItem.IsTabbedPage)
+            {
+                return false;
+            }
+            else
+            {
+                Transaction(menuItem.CreateObject());
+            }
+
+            return false;
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            return base.OnCreateOptionsMenu(menu);
+            menu.Add(6, 6, 6, "666");
+            return true;
         }
         
         protected override void OnCreate(Bundle bundle)
         {
             ContentViewResource = Resource.Layout.activity_main;
-            base.OnCreate(bundle);
             XForms.Init(this, bundle);
-            new PlatformImpl(this);
+            new PlatformImplV2(this);
+            base.OnCreate(bundle);
+            PlatformImplV2.Instance.UpdateManager.Update();
             Forwarder.NormalWay.Begin();
             Core.Configure.Write("hs.school.bin", "jlu");
             Core.Initialize();
 
             Transaction(new Views.IndexPage().CreateSupportFragment(this));
-            
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-            drawer.AddDrawerListener(toggle);
+
+            DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+            DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
 
             var fib = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fib.Click += FabOnClick;
 
-            NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            navigationView.SetNavigationItemSelectedListener(this);
+            NavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            var listHandler = new NavMenuListHandler();
+            listHandler.NavigationItemSelected += NavigationItemSelected;
+            listHandler.InflateMenus(NavigationView.Menu);
+            NavigationView.SetNavigationItemSelectedListener(listHandler);
         }
 
         public override void OnBackPressed()

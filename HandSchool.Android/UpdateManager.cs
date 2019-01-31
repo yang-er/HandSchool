@@ -6,20 +6,23 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.Droid
 {
+    /// <summary>
+    /// 更新管理器，提供更新通知的服务。
+    /// </summary>
     public class UpdateManager
     {
-        const string UpdateSource = "https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool.Android/";
+        const string UpdateSource = "https://raw.githubusercontent.com/" +
+            "yang-er/HandSchool/master/HandSchool/HandSchool.Android/";
 
-        public UpdateManager(Context activity)
+        public UpdateManager(Context context)
         {
-            context = activity;
+            Context = context;
         }
 
-        private Context context;
+        public Context Context { get; set; }
 
         private string[] Arvgs;
         
@@ -29,7 +32,9 @@ namespace HandSchool.Droid
 
             try
             {
-                versionCode = context.PackageManager.GetPackageInfo(context.PackageName, 0).VersionCode;
+                versionCode = Context.PackageManager
+                    .GetPackageInfo(Context.PackageName, 0)
+                    .VersionCode;
             }
             catch (PackageManager.NameNotFoundException e)
             {
@@ -45,6 +50,7 @@ namespace HandSchool.Droid
             {
                 using (var wc = new AwaredWebClient(UpdateSource, Encoding.UTF8))
                 {
+                    wc.Timeout = 3000;
                     return await wc.DownloadStringTaskAsync("version.txt");
                 }
             }
@@ -54,34 +60,35 @@ namespace HandSchool.Droid
             }
         }
 
-        public async void Update(bool displayNone = false)
+        public async void Update(bool displayNone = false, Context context = null)
         {
+            context = context ?? Context;
             string UpdateMsg = await GetUpdateString();
             if (UpdateMsg == "") return;
-            Arvgs = UpdateMsg.Split(new char[] { ' ' }, 3, StringSplitOptions.None);
+            Arvgs = UpdateMsg.Split(new[] { ' ' }, 3, StringSplitOptions.None);
 
             if (int.Parse(Arvgs[0]) > GetVersionCode())
             {
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     string Detail = Arvgs[2];
-                    AlertDialog.Builder Alert = new AlertDialog.Builder(context);
-                    Alert.SetTitle("应用更新");
-                    Alert.SetMessage(Detail);
-                    Alert.SetNegativeButton("取消", (IDialogInterfaceOnClickListener)null);
-                    Alert.SetPositiveButton("确认", (s, e) => Device.OpenUri(new Uri(Arvgs[1])));
-                    Alert.Show();
+                    new AlertDialog.Builder(context)
+                        .SetTitle("应用更新")
+                        .SetMessage(Detail)
+                        .SetNegativeButton("取消", (IDialogInterfaceOnClickListener)null)
+                        .SetPositiveButton("确认", (s, e) => Core.Platform.OpenUrl(Arvgs[1]))
+                        .Show();
                 });
             }
             else if (displayNone)
             {
                 Core.Platform.EnsureOnMainThread(() =>
                 {
-                    AlertDialog.Builder Alert = new AlertDialog.Builder(context);
-                    Alert.SetTitle("应用更新");
-                    Alert.SetMessage("您的应用已经是最新的啦！");
-                    Alert.SetNegativeButton("确认", (IDialogInterfaceOnClickListener)null);
-                    Alert.Show();
+                    new AlertDialog.Builder(context)
+                        .SetTitle("应用更新")
+                        .SetMessage("您的应用已经是最新的啦！")
+                        .SetNegativeButton("确认", (IDialogInterfaceOnClickListener)null)
+                        .Show();
                 });
             }
         }

@@ -88,7 +88,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Renderers\AboutMenuItemClick.cs" />
+    <Compile Include="Elements\AboutMenuItemClick.cs" />
+    <Compile Include="Elements\DroidExtensions.cs" />
+    <Compile Include="Elements\NavMenuItem.cs" />
+    <Compile Include="Elements\NavMenuList.cs" />
+    <Compile Include="Elements\ViewResponseImpl.cs" />
+    <Compile Include="Renderers\PlatformImplV2.cs" />
+    <Compile Include="Renderers\TextCellRenderer.cs" />
     <Compile Include="Views\BaseActivity.cs" />
     <Compile Include="Renderers\MessagePresenter.cs" />
     <Compile Include="Renderers\NavigateImpl.cs" />

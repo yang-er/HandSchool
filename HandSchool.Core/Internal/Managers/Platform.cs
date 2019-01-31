@@ -78,7 +78,7 @@ namespace HandSchool.Internal
         /// <summary>
         /// 视图响应的实现
         /// </summary>
-        public IViewResponseImpl ViewResponseImpl { get; protected set; }
+        public virtual IViewResponseImpl ViewResponseImpl { get; protected set; }
 
         /// <summary>
         /// 在主线程上运行异步操作。

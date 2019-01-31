@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
 using SupportFragment = Android.Support.V4.App.Fragment;
 using AToolbar = Android.Support.V7.Widget.Toolbar;
+using Android.Widget;
 
 namespace HandSchool.Droid
 {
@@ -22,7 +23,24 @@ namespace HandSchool.Droid
 
         public AToolbar Toolbar { get; private set; }
 
-        public BaseViewModel ViewModel { get; set; }
+        public ProgressBar ProgressBar { get; private set; }
+
+        public BaseViewModel ViewModel
+        {
+            get => _viewModel;
+            set => SetViewModel(value);
+        }
+
+        private void SetViewModel(BaseViewModel value)
+        {
+            if (_viewModel != null)
+            {
+                //_viewModel.IsBusyChanged -= s;
+                // _viewModel.
+            }
+
+            _viewModel = value;
+        }
 
         protected int ContentViewResource { get; set; }
         
@@ -85,7 +103,9 @@ namespace HandSchool.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(ContentViewResource);
             Toolbar = FindViewById<AToolbar>(Resource.Id.toolbar);
+            ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
             SetSupportActionBar(Toolbar);
+            PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
         }
 
         private void RemoveViewObject()
@@ -104,6 +124,7 @@ namespace HandSchool.Droid
         {
             base.OnDestroy();
             RemoveViewObject();
+            PlatformImplV2.Instance.SetViewResponseImpl(null);
         }
         
         Task INavigate.PushAsync(string pageType, object param)

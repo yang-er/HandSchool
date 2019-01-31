@@ -20,7 +20,8 @@
 		<ProgressBar
 			android:id="@+id/main_progress_bar"
 			style="?android:attr/progressBarStyleHorizontal"
-			android:visibility="visible"
+			android:visibility="invisible"
+			tools:visibility="visible"
 			android:indeterminate="true"
 			android:layout_width="match_parent"
 			android:layout_marginTop="-8.0dip"

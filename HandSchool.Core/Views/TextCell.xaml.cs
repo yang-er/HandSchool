@@ -1,9 +1,32 @@
 ﻿using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-    public class TextCell : Cell
-    {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class TextCell : ViewCell
+	{
+		public TextCell()
+		{
+			InitializeComponent();
+            Bind(TitleLabel, Label.TextProperty, nameof(Title));
+            Bind(DescriptionLabel, Label.TextProperty, nameof(Detail));
+            Bind(RightUpLabel, Label.TextProperty, nameof(RightUp));
+            Bind(RightDownLabel, Label.TextProperty, nameof(RightDown));
+            Bind(RightDownLabel, Label.TextColorProperty, nameof(RightDownColor));
+            Bind(RightDownLabel, VisualElement.IsVisibleProperty, nameof(RightDownShow));
+        }
+
+        void Bind(BindableObject obj, BindableProperty prop, string path)
+        {
+            obj.SetBinding(prop, new Binding
+            {
+                Path = path,
+                Source = this,
+                Mode = BindingMode.OneWay
+            });
+        }
+
         public static readonly BindableProperty TitleProperty =
             BindableProperty.Create(
                 propertyName: nameof(Title),
