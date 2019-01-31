@@ -117,6 +117,7 @@
     <Compile Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Views\BaseFragment.cs" />
     <Compile Include="Views\IndexFragment.cs" />
+    <Compile Include="Views\WebViewPage.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +338,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\aboutpage_feedbackicon.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\browser_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -10,21 +10,13 @@ using Xamarin.Forms.Platform.Android;
 using SupportFragment = Android.Support.V4.App.Fragment;
 using AToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Widget;
+using Android.Content;
+using Android.Views;
 
 namespace HandSchool.Droid
 {
     public class BaseActivity : AppCompatActivity, INavigate
     {
-        private static readonly Dictionary<Guid, ViewObject>
-            TransactionSource = new Dictionary<Guid, ViewObject>();
-
-        private BaseViewModel _viewModel;
-        private Guid? ViewObjectIdentity;
-
-        public AToolbar Toolbar { get; private set; }
-
-        public ProgressBar ProgressBar { get; private set; }
-
         public BaseViewModel ViewModel
         {
             get => _viewModel;
@@ -42,8 +34,21 @@ namespace HandSchool.Droid
             _viewModel = value;
         }
 
+        private BaseViewModel _viewModel;
+
+        public AToolbar Toolbar { get; private set; }
+
+        public ProgressBar ProgressBar { get; private set; }
+
         protected int ContentViewResource { get; set; }
-        
+
+        #region Fragment Transaction
+
+        private Guid? ViewObjectIdentity;
+
+        private static readonly Dictionary<Guid, ViewObject>
+            TransactionSource = new Dictionary<Guid, ViewObject>();
+
         protected void Transaction(SupportFragment fragment)
         {
             RemoveViewObject();
@@ -84,43 +89,6 @@ namespace HandSchool.Droid
             ViewObjectIdentity = currentIdentity;
         }
 
-        /*
-        void ViewPropChanged(object sender, PropertyChangedEventArgs args)
-        {
-            var objectSender = (ViewObject)sender;
-
-            switch (args.PropertyName)
-            {
-                case "Title":
-                    SupportActionBar.Title = objectSender.Title;
-                    break;
-            }
-        }
-        */
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            SetContentView(ContentViewResource);
-            Toolbar = FindViewById<AToolbar>(Resource.Id.toolbar);
-            ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
-            SetSupportActionBar(Toolbar);
-            Toolbar.NavigationClick += OnToolbarBackClicked;
-            PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
-        }
-
-        protected virtual void OnToolbarBackClicked(object sender, AToolbar.NavigationClickEventArgs args)
-        {
-            if (SupportFragmentManager.BackStackEntryCount > 0)
-            {
-                SupportFragmentManager.PopBackStack();
-            }
-            else
-            {
-                Finish();
-            }
-        }
-
         private void RemoveViewObject()
         {
             // If the activity is using a viewObject...
@@ -133,13 +101,17 @@ namespace HandSchool.Droid
             }
         }
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            RemoveViewObject();
-            PlatformImplV2.Instance.SetViewResponseImpl(null);
-        }
-        
+        #endregion
+
+        #region Activity Transaction
+
+        const string BroadcastedArgument = "PARAMGUID";
+
+        private static readonly Dictionary<Guid, object>
+            ArgumentBroadcastSource = new Dictionary<Guid, object>();
+
+        protected virtual void OnNavigatedParameter(object obj) { }
+
         Task INavigate.PushAsync(string pageType, object param)
         {
             var type = Core.Reflection.TryGetType(pageType);
@@ -152,11 +124,82 @@ namespace HandSchool.Droid
 
             return (this as INavigate).PushAsync(type, param);
         }
-
+        
         Task INavigate.PushAsync(Type pageType, object param)
         {
-            var type = NavMenuItemV2.Judge(pageType);
-            throw new NotImplementedException();
+            if (typeof(AppCompatActivity).IsAssignableFrom(pageType))
+            {
+                // When the page type is aimed at an activity.
+                var intent = new Intent(this, pageType);
+                var guid = Guid.NewGuid();
+                ArgumentBroadcastSource.Add(guid, param);
+                intent.PutExtra(BroadcastedArgument, guid.ToByteArray());
+                StartActivity(intent);
+            }
+            else
+            {
+                // When the page type is aimed at an fragment.
+                var intent = new Intent(this, typeof(SecondActivity));
+                var guid = Guid.NewGuid();
+                var param2 = (pageType, param);
+                ArgumentBroadcastSource.Add(guid, param2);
+                intent.PutExtra(BroadcastedArgument, guid.ToByteArray());
+                StartActivity(intent);
+            }
+
+            Core.Logger.WriteLine("activity!", "666");
+            return Task.CompletedTask;
+        }
+
+        #endregion
+        
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            SetContentView(ContentViewResource);
+            Toolbar = FindViewById<AToolbar>(Resource.Id.toolbar);
+            ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
+            SetSupportActionBar(Toolbar);
+            Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
+            PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
+
+            if (Intent.HasExtra(BroadcastedArgument))
+            {
+                // notice that this activity conveys an argument.
+                var guid = new Guid(Intent.GetByteArrayExtra(BroadcastedArgument));
+                OnNavigatedParameter(ArgumentBroadcastSource[guid]);
+            }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            RemoveViewObject();
+            PlatformImplV2.Instance.SetViewResponseImpl(null);
+        }
+
+        private class ToolbarBackListener : Java.Lang.Object, View.IOnClickListener
+        {
+            public WeakReference<BaseActivity> Activity { get; }
+
+            public ToolbarBackListener(BaseActivity activity)
+            {
+                Activity = new WeakReference<BaseActivity>(activity);
+            }
+
+            public void OnClick(View v)
+            {
+                if (!Activity.TryGetTarget(out var activity)) return;
+
+                if (activity.SupportFragmentManager.BackStackEntryCount > 0)
+                {
+                    activity.SupportFragmentManager.PopBackStack();
+                }
+                else
+                {
+                    activity.Finish();
+                }
+            }
         }
     }
 }

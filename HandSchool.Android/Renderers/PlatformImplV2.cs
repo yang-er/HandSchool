@@ -61,6 +61,7 @@ namespace HandSchool.Droid
             ConfigureDirectory = SysEnv.GetFolderPath(SysEnv.SpecialFolder.Personal);
             Core.InitPlatform(Instance = this);
             Core.Reflection.RegisterType<AboutPage>();
+            Core.Reflection.RegisterType<WebViewPage>();
             ImplStack = new Stack<ViewResponseImpl>();
             UpdateManager = new UpdateManager(context);
         }

@@ -44,6 +44,8 @@ namespace HandSchool.Views
         {
             return inflater.Inflate(FragmentViewResource, container, false);
         }
+        
+        public virtual void SetNavigationArguments(object param) { }
 
         #region 页面生命周期
 

@@ -7,13 +7,13 @@ using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
-    public class WebViewPage : ViewPage
+    public class WebViewPage2 : ViewPage
 	{
         private IWebEntrance InfoEntrance { get; }
 
         public HybridWebView WebView { get; }
 
-		public WebViewPage(IWebEntrance entrance)
+		public WebViewPage2(IWebEntrance entrance)
 		{
             Content = WebView = new HybridWebView();
             On<_Each_>().ShowLoading();

@@ -128,7 +128,7 @@ namespace HandSchool.Droid
         {
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (s) => StartActivity(new Android.Content.Intent(this, typeof(SecondActivity)))).Show();
+                .SetAction("Action", (s) => (this as Views.INavigate).PushAsync(typeof(IndexFragment), null)).Show();
         }
     }
 }
