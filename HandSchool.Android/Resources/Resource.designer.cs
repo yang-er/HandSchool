@@ -26,6 +26,1892 @@ namespace HandSchool.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_fade_in = global::HandSchool.Droid.Resource.Animation.abc_fade_in;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_fade_out = global::HandSchool.Droid.Resource.Animation.abc_fade_out;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_grow_fade_in_from_bottom = global::HandSchool.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_popup_enter = global::HandSchool.Droid.Resource.Animation.abc_popup_enter;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_popup_exit = global::HandSchool.Droid.Resource.Animation.abc_popup_exit;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_shrink_fade_out_from_bottom = global::HandSchool.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_slide_in_bottom = global::HandSchool.Droid.Resource.Animation.abc_slide_in_bottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_slide_in_top = global::HandSchool.Droid.Resource.Animation.abc_slide_in_top;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_slide_out_bottom = global::HandSchool.Droid.Resource.Animation.abc_slide_out_bottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.abc_slide_out_top = global::HandSchool.Droid.Resource.Animation.abc_slide_out_top;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.design_bottom_sheet_slide_in = global::HandSchool.Droid.Resource.Animation.design_bottom_sheet_slide_in;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.design_bottom_sheet_slide_out = global::HandSchool.Droid.Resource.Animation.design_bottom_sheet_slide_out;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.design_snackbar_in = global::HandSchool.Droid.Resource.Animation.design_snackbar_in;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animation.design_snackbar_out = global::HandSchool.Droid.Resource.Animation.design_snackbar_out;
+			global::DanielStone.MaterialAboutLibrary.Resource.Animator.design_appbar_state_list_animator = global::HandSchool.Droid.Resource.Animator.design_appbar_state_list_animator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarDivider = global::HandSchool.Droid.Resource.Attribute.actionBarDivider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarItemBackground = global::HandSchool.Droid.Resource.Attribute.actionBarItemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarPopupTheme = global::HandSchool.Droid.Resource.Attribute.actionBarPopupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarSize = global::HandSchool.Droid.Resource.Attribute.actionBarSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarSplitStyle = global::HandSchool.Droid.Resource.Attribute.actionBarSplitStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarStyle = global::HandSchool.Droid.Resource.Attribute.actionBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarTabBarStyle = global::HandSchool.Droid.Resource.Attribute.actionBarTabBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarTabStyle = global::HandSchool.Droid.Resource.Attribute.actionBarTabStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarTabTextStyle = global::HandSchool.Droid.Resource.Attribute.actionBarTabTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarTheme = global::HandSchool.Droid.Resource.Attribute.actionBarTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionBarWidgetTheme = global::HandSchool.Droid.Resource.Attribute.actionBarWidgetTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionButtonStyle = global::HandSchool.Droid.Resource.Attribute.actionButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionDropDownStyle = global::HandSchool.Droid.Resource.Attribute.actionDropDownStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionLayout = global::HandSchool.Droid.Resource.Attribute.actionLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionMenuTextAppearance = global::HandSchool.Droid.Resource.Attribute.actionMenuTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionMenuTextColor = global::HandSchool.Droid.Resource.Attribute.actionMenuTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeBackground = global::HandSchool.Droid.Resource.Attribute.actionModeBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeCloseButtonStyle = global::HandSchool.Droid.Resource.Attribute.actionModeCloseButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeCloseDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeCloseDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeCopyDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeCopyDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeCutDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeCutDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeFindDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeFindDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModePasteDrawable = global::HandSchool.Droid.Resource.Attribute.actionModePasteDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModePopupWindowStyle = global::HandSchool.Droid.Resource.Attribute.actionModePopupWindowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeSelectAllDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeSelectAllDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeShareDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeShareDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeSplitBackground = global::HandSchool.Droid.Resource.Attribute.actionModeSplitBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeStyle = global::HandSchool.Droid.Resource.Attribute.actionModeStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionModeWebSearchDrawable = global::HandSchool.Droid.Resource.Attribute.actionModeWebSearchDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionOverflowButtonStyle = global::HandSchool.Droid.Resource.Attribute.actionOverflowButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionOverflowMenuStyle = global::HandSchool.Droid.Resource.Attribute.actionOverflowMenuStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionProviderClass = global::HandSchool.Droid.Resource.Attribute.actionProviderClass;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.actionViewClass = global::HandSchool.Droid.Resource.Attribute.actionViewClass;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.activityChooserViewStyle = global::HandSchool.Droid.Resource.Attribute.activityChooserViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.alertDialogButtonGroupStyle = global::HandSchool.Droid.Resource.Attribute.alertDialogButtonGroupStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.alertDialogCenterButtons = global::HandSchool.Droid.Resource.Attribute.alertDialogCenterButtons;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.alertDialogStyle = global::HandSchool.Droid.Resource.Attribute.alertDialogStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.alertDialogTheme = global::HandSchool.Droid.Resource.Attribute.alertDialogTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.allowStacking = global::HandSchool.Droid.Resource.Attribute.allowStacking;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.alpha = global::HandSchool.Droid.Resource.Attribute.alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.arrowHeadLength = global::HandSchool.Droid.Resource.Attribute.arrowHeadLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.arrowShaftLength = global::HandSchool.Droid.Resource.Attribute.arrowShaftLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.autoCompleteTextViewStyle = global::HandSchool.Droid.Resource.Attribute.autoCompleteTextViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.background = global::HandSchool.Droid.Resource.Attribute.background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.backgroundSplit = global::HandSchool.Droid.Resource.Attribute.backgroundSplit;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.backgroundStacked = global::HandSchool.Droid.Resource.Attribute.backgroundStacked;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.backgroundTint = global::HandSchool.Droid.Resource.Attribute.backgroundTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.backgroundTintMode = global::HandSchool.Droid.Resource.Attribute.backgroundTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.barLength = global::HandSchool.Droid.Resource.Attribute.barLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.behavior_autoHide = global::HandSchool.Droid.Resource.Attribute.behavior_autoHide;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.behavior_hideable = global::HandSchool.Droid.Resource.Attribute.behavior_hideable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.behavior_overlapTop = global::HandSchool.Droid.Resource.Attribute.behavior_overlapTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.behavior_peekHeight = global::HandSchool.Droid.Resource.Attribute.behavior_peekHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.behavior_skipCollapsed = global::HandSchool.Droid.Resource.Attribute.behavior_skipCollapsed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.borderWidth = global::HandSchool.Droid.Resource.Attribute.borderWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.borderlessButtonStyle = global::HandSchool.Droid.Resource.Attribute.borderlessButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.bottomSheetDialogTheme = global::HandSchool.Droid.Resource.Attribute.bottomSheetDialogTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.bottomSheetStyle = global::HandSchool.Droid.Resource.Attribute.bottomSheetStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonBarButtonStyle = global::HandSchool.Droid.Resource.Attribute.buttonBarButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonBarNegativeButtonStyle = global::HandSchool.Droid.Resource.Attribute.buttonBarNegativeButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonBarNeutralButtonStyle = global::HandSchool.Droid.Resource.Attribute.buttonBarNeutralButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonBarPositiveButtonStyle = global::HandSchool.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonBarStyle = global::HandSchool.Droid.Resource.Attribute.buttonBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonGravity = global::HandSchool.Droid.Resource.Attribute.buttonGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonPanelSideLayout = global::HandSchool.Droid.Resource.Attribute.buttonPanelSideLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonStyle = global::HandSchool.Droid.Resource.Attribute.buttonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonStyleSmall = global::HandSchool.Droid.Resource.Attribute.buttonStyleSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonTint = global::HandSchool.Droid.Resource.Attribute.buttonTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.buttonTintMode = global::HandSchool.Droid.Resource.Attribute.buttonTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.cardBackgroundColor = global::HandSchool.Droid.Resource.Attribute.cardBackgroundColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.cardCornerRadius = global::HandSchool.Droid.Resource.Attribute.cardCornerRadius;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.cardElevation = global::HandSchool.Droid.Resource.Attribute.cardElevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.cardMaxElevation = global::HandSchool.Droid.Resource.Attribute.cardMaxElevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.cardPreventCornerOverlap = global::HandSchool.Droid.Resource.Attribute.cardPreventCornerOverlap;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.cardUseCompatPadding = global::HandSchool.Droid.Resource.Attribute.cardUseCompatPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.checkboxStyle = global::HandSchool.Droid.Resource.Attribute.checkboxStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.checkedTextViewStyle = global::HandSchool.Droid.Resource.Attribute.checkedTextViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.closeIcon = global::HandSchool.Droid.Resource.Attribute.closeIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.closeItemLayout = global::HandSchool.Droid.Resource.Attribute.closeItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.collapseContentDescription = global::HandSchool.Droid.Resource.Attribute.collapseContentDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.collapseIcon = global::HandSchool.Droid.Resource.Attribute.collapseIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.collapsedTitleGravity = global::HandSchool.Droid.Resource.Attribute.collapsedTitleGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.collapsedTitleTextAppearance = global::HandSchool.Droid.Resource.Attribute.collapsedTitleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.color = global::HandSchool.Droid.Resource.Attribute.color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorAccent = global::HandSchool.Droid.Resource.Attribute.colorAccent;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorBackgroundFloating = global::HandSchool.Droid.Resource.Attribute.colorBackgroundFloating;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorButtonNormal = global::HandSchool.Droid.Resource.Attribute.colorButtonNormal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorControlActivated = global::HandSchool.Droid.Resource.Attribute.colorControlActivated;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorControlHighlight = global::HandSchool.Droid.Resource.Attribute.colorControlHighlight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorControlNormal = global::HandSchool.Droid.Resource.Attribute.colorControlNormal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorPrimary = global::HandSchool.Droid.Resource.Attribute.colorPrimary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorPrimaryDark = global::HandSchool.Droid.Resource.Attribute.colorPrimaryDark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.colorSwitchThumbNormal = global::HandSchool.Droid.Resource.Attribute.colorSwitchThumbNormal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.commitIcon = global::HandSchool.Droid.Resource.Attribute.commitIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentInsetEnd = global::HandSchool.Droid.Resource.Attribute.contentInsetEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentInsetEndWithActions = global::HandSchool.Droid.Resource.Attribute.contentInsetEndWithActions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentInsetLeft = global::HandSchool.Droid.Resource.Attribute.contentInsetLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentInsetRight = global::HandSchool.Droid.Resource.Attribute.contentInsetRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentInsetStart = global::HandSchool.Droid.Resource.Attribute.contentInsetStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentInsetStartWithNavigation = global::HandSchool.Droid.Resource.Attribute.contentInsetStartWithNavigation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentPadding = global::HandSchool.Droid.Resource.Attribute.contentPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentPaddingBottom = global::HandSchool.Droid.Resource.Attribute.contentPaddingBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentPaddingLeft = global::HandSchool.Droid.Resource.Attribute.contentPaddingLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentPaddingRight = global::HandSchool.Droid.Resource.Attribute.contentPaddingRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentPaddingTop = global::HandSchool.Droid.Resource.Attribute.contentPaddingTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.contentScrim = global::HandSchool.Droid.Resource.Attribute.contentScrim;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.controlBackground = global::HandSchool.Droid.Resource.Attribute.controlBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.counterEnabled = global::HandSchool.Droid.Resource.Attribute.counterEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.counterMaxLength = global::HandSchool.Droid.Resource.Attribute.counterMaxLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.counterOverflowTextAppearance = global::HandSchool.Droid.Resource.Attribute.counterOverflowTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.counterTextAppearance = global::HandSchool.Droid.Resource.Attribute.counterTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.customNavigationLayout = global::HandSchool.Droid.Resource.Attribute.customNavigationLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.defaultQueryHint = global::HandSchool.Droid.Resource.Attribute.defaultQueryHint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dialogPreferredPadding = global::HandSchool.Droid.Resource.Attribute.dialogPreferredPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dialogTheme = global::HandSchool.Droid.Resource.Attribute.dialogTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.displayOptions = global::HandSchool.Droid.Resource.Attribute.displayOptions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.divider = global::HandSchool.Droid.Resource.Attribute.divider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dividerHorizontal = global::HandSchool.Droid.Resource.Attribute.dividerHorizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dividerPadding = global::HandSchool.Droid.Resource.Attribute.dividerPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dividerVertical = global::HandSchool.Droid.Resource.Attribute.dividerVertical;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.drawableSize = global::HandSchool.Droid.Resource.Attribute.drawableSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.drawerArrowStyle = global::HandSchool.Droid.Resource.Attribute.drawerArrowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dropDownListViewStyle = global::HandSchool.Droid.Resource.Attribute.dropDownListViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.dropdownListPreferredItemHeight = global::HandSchool.Droid.Resource.Attribute.dropdownListPreferredItemHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.editTextBackground = global::HandSchool.Droid.Resource.Attribute.editTextBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.editTextColor = global::HandSchool.Droid.Resource.Attribute.editTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.editTextStyle = global::HandSchool.Droid.Resource.Attribute.editTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.elevation = global::HandSchool.Droid.Resource.Attribute.elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.errorEnabled = global::HandSchool.Droid.Resource.Attribute.errorEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.errorTextAppearance = global::HandSchool.Droid.Resource.Attribute.errorTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandActivityOverflowButtonDrawable = global::HandSchool.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expanded = global::HandSchool.Droid.Resource.Attribute.expanded;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleGravity = global::HandSchool.Droid.Resource.Attribute.expandedTitleGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleMargin = global::HandSchool.Droid.Resource.Attribute.expandedTitleMargin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleMarginBottom = global::HandSchool.Droid.Resource.Attribute.expandedTitleMarginBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleMarginEnd = global::HandSchool.Droid.Resource.Attribute.expandedTitleMarginEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleMarginStart = global::HandSchool.Droid.Resource.Attribute.expandedTitleMarginStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleMarginTop = global::HandSchool.Droid.Resource.Attribute.expandedTitleMarginTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.expandedTitleTextAppearance = global::HandSchool.Droid.Resource.Attribute.expandedTitleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.fabSize = global::HandSchool.Droid.Resource.Attribute.fabSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.foregroundInsidePadding = global::HandSchool.Droid.Resource.Attribute.foregroundInsidePadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.gapBetweenBars = global::HandSchool.Droid.Resource.Attribute.gapBetweenBars;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.goIcon = global::HandSchool.Droid.Resource.Attribute.goIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.headerLayout = global::HandSchool.Droid.Resource.Attribute.headerLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.height = global::HandSchool.Droid.Resource.Attribute.height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.hideOnContentScroll = global::HandSchool.Droid.Resource.Attribute.hideOnContentScroll;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.hintAnimationEnabled = global::HandSchool.Droid.Resource.Attribute.hintAnimationEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.hintEnabled = global::HandSchool.Droid.Resource.Attribute.hintEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.hintTextAppearance = global::HandSchool.Droid.Resource.Attribute.hintTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.homeAsUpIndicator = global::HandSchool.Droid.Resource.Attribute.homeAsUpIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.homeLayout = global::HandSchool.Droid.Resource.Attribute.homeLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.icon = global::HandSchool.Droid.Resource.Attribute.icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.iconifiedByDefault = global::HandSchool.Droid.Resource.Attribute.iconifiedByDefault;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.imageButtonStyle = global::HandSchool.Droid.Resource.Attribute.imageButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.indeterminateProgressStyle = global::HandSchool.Droid.Resource.Attribute.indeterminateProgressStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.initialActivityCount = global::HandSchool.Droid.Resource.Attribute.initialActivityCount;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.insetForeground = global::HandSchool.Droid.Resource.Attribute.insetForeground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.isLightTheme = global::HandSchool.Droid.Resource.Attribute.isLightTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.itemBackground = global::HandSchool.Droid.Resource.Attribute.itemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.itemIconTint = global::HandSchool.Droid.Resource.Attribute.itemIconTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.itemPadding = global::HandSchool.Droid.Resource.Attribute.itemPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.itemTextAppearance = global::HandSchool.Droid.Resource.Attribute.itemTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.itemTextColor = global::HandSchool.Droid.Resource.Attribute.itemTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.keylines = global::HandSchool.Droid.Resource.Attribute.keylines;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout = global::HandSchool.Droid.Resource.Attribute.layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layoutManager = global::HandSchool.Droid.Resource.Attribute.layoutManager;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_anchor = global::HandSchool.Droid.Resource.Attribute.layout_anchor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_anchorGravity = global::HandSchool.Droid.Resource.Attribute.layout_anchorGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_behavior = global::HandSchool.Droid.Resource.Attribute.layout_behavior;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_collapseMode = global::HandSchool.Droid.Resource.Attribute.layout_collapseMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_collapseParallaxMultiplier = global::HandSchool.Droid.Resource.Attribute.layout_collapseParallaxMultiplier;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_dodgeInsetEdges = global::HandSchool.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_insetEdge = global::HandSchool.Droid.Resource.Attribute.layout_insetEdge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_keyline = global::HandSchool.Droid.Resource.Attribute.layout_keyline;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_scrollFlags = global::HandSchool.Droid.Resource.Attribute.layout_scrollFlags;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.layout_scrollInterpolator = global::HandSchool.Droid.Resource.Attribute.layout_scrollInterpolator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listChoiceBackgroundIndicator = global::HandSchool.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listDividerAlertDialog = global::HandSchool.Droid.Resource.Attribute.listDividerAlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listItemLayout = global::HandSchool.Droid.Resource.Attribute.listItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listLayout = global::HandSchool.Droid.Resource.Attribute.listLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listMenuViewStyle = global::HandSchool.Droid.Resource.Attribute.listMenuViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listPopupWindowStyle = global::HandSchool.Droid.Resource.Attribute.listPopupWindowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listPreferredItemHeight = global::HandSchool.Droid.Resource.Attribute.listPreferredItemHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listPreferredItemHeightLarge = global::HandSchool.Droid.Resource.Attribute.listPreferredItemHeightLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listPreferredItemHeightSmall = global::HandSchool.Droid.Resource.Attribute.listPreferredItemHeightSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listPreferredItemPaddingLeft = global::HandSchool.Droid.Resource.Attribute.listPreferredItemPaddingLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.listPreferredItemPaddingRight = global::HandSchool.Droid.Resource.Attribute.listPreferredItemPaddingRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.logo = global::HandSchool.Droid.Resource.Attribute.logo;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.logoDescription = global::HandSchool.Droid.Resource.Attribute.logoDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.mal_card_background = global::HandSchool.Droid.Resource.Attribute.mal_card_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.mal_color_primary = global::HandSchool.Droid.Resource.Attribute.mal_color_primary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.mal_color_secondary = global::HandSchool.Droid.Resource.Attribute.mal_color_secondary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.mal_toolbarPopupTheme = global::HandSchool.Droid.Resource.Attribute.mal_toolbarPopupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.mal_toolbarTheme = global::HandSchool.Droid.Resource.Attribute.mal_toolbarTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.maxActionInlineWidth = global::HandSchool.Droid.Resource.Attribute.maxActionInlineWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.maxButtonHeight = global::HandSchool.Droid.Resource.Attribute.maxButtonHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.measureWithLargestChild = global::HandSchool.Droid.Resource.Attribute.measureWithLargestChild;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.menu = global::HandSchool.Droid.Resource.Attribute.menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.multiChoiceItemLayout = global::HandSchool.Droid.Resource.Attribute.multiChoiceItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.navigationContentDescription = global::HandSchool.Droid.Resource.Attribute.navigationContentDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.navigationIcon = global::HandSchool.Droid.Resource.Attribute.navigationIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.navigationMode = global::HandSchool.Droid.Resource.Attribute.navigationMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.overlapAnchor = global::HandSchool.Droid.Resource.Attribute.overlapAnchor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.paddingBottomNoButtons = global::HandSchool.Droid.Resource.Attribute.paddingBottomNoButtons;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.paddingEnd = global::HandSchool.Droid.Resource.Attribute.paddingEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.paddingStart = global::HandSchool.Droid.Resource.Attribute.paddingStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.paddingTopNoTitle = global::HandSchool.Droid.Resource.Attribute.paddingTopNoTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.panelBackground = global::HandSchool.Droid.Resource.Attribute.panelBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.panelMenuListTheme = global::HandSchool.Droid.Resource.Attribute.panelMenuListTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.panelMenuListWidth = global::HandSchool.Droid.Resource.Attribute.panelMenuListWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.passwordToggleContentDescription = global::HandSchool.Droid.Resource.Attribute.passwordToggleContentDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.passwordToggleDrawable = global::HandSchool.Droid.Resource.Attribute.passwordToggleDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.passwordToggleEnabled = global::HandSchool.Droid.Resource.Attribute.passwordToggleEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.passwordToggleTint = global::HandSchool.Droid.Resource.Attribute.passwordToggleTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.passwordToggleTintMode = global::HandSchool.Droid.Resource.Attribute.passwordToggleTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.popupMenuStyle = global::HandSchool.Droid.Resource.Attribute.popupMenuStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.popupTheme = global::HandSchool.Droid.Resource.Attribute.popupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.popupWindowStyle = global::HandSchool.Droid.Resource.Attribute.popupWindowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.preserveIconSpacing = global::HandSchool.Droid.Resource.Attribute.preserveIconSpacing;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.pressedTranslationZ = global::HandSchool.Droid.Resource.Attribute.pressedTranslationZ;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.progressBarPadding = global::HandSchool.Droid.Resource.Attribute.progressBarPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.progressBarStyle = global::HandSchool.Droid.Resource.Attribute.progressBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.queryBackground = global::HandSchool.Droid.Resource.Attribute.queryBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.queryHint = global::HandSchool.Droid.Resource.Attribute.queryHint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.radioButtonStyle = global::HandSchool.Droid.Resource.Attribute.radioButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.ratingBarStyle = global::HandSchool.Droid.Resource.Attribute.ratingBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.ratingBarStyleIndicator = global::HandSchool.Droid.Resource.Attribute.ratingBarStyleIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.ratingBarStyleSmall = global::HandSchool.Droid.Resource.Attribute.ratingBarStyleSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.reverseLayout = global::HandSchool.Droid.Resource.Attribute.reverseLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.rippleColor = global::HandSchool.Droid.Resource.Attribute.rippleColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.scrimAnimationDuration = global::HandSchool.Droid.Resource.Attribute.scrimAnimationDuration;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.scrimVisibleHeightTrigger = global::HandSchool.Droid.Resource.Attribute.scrimVisibleHeightTrigger;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.searchHintIcon = global::HandSchool.Droid.Resource.Attribute.searchHintIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.searchIcon = global::HandSchool.Droid.Resource.Attribute.searchIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.searchViewStyle = global::HandSchool.Droid.Resource.Attribute.searchViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.seekBarStyle = global::HandSchool.Droid.Resource.Attribute.seekBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.selectableItemBackground = global::HandSchool.Droid.Resource.Attribute.selectableItemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.selectableItemBackgroundBorderless = global::HandSchool.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.showAsAction = global::HandSchool.Droid.Resource.Attribute.showAsAction;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.showDividers = global::HandSchool.Droid.Resource.Attribute.showDividers;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.showText = global::HandSchool.Droid.Resource.Attribute.showText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.showTitle = global::HandSchool.Droid.Resource.Attribute.showTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.singleChoiceItemLayout = global::HandSchool.Droid.Resource.Attribute.singleChoiceItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.spanCount = global::HandSchool.Droid.Resource.Attribute.spanCount;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.spinBars = global::HandSchool.Droid.Resource.Attribute.spinBars;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.spinnerDropDownItemStyle = global::HandSchool.Droid.Resource.Attribute.spinnerDropDownItemStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.spinnerStyle = global::HandSchool.Droid.Resource.Attribute.spinnerStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.splitTrack = global::HandSchool.Droid.Resource.Attribute.splitTrack;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.srcCompat = global::HandSchool.Droid.Resource.Attribute.srcCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.stackFromEnd = global::HandSchool.Droid.Resource.Attribute.stackFromEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.state_above_anchor = global::HandSchool.Droid.Resource.Attribute.state_above_anchor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.state_collapsed = global::HandSchool.Droid.Resource.Attribute.state_collapsed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.state_collapsible = global::HandSchool.Droid.Resource.Attribute.state_collapsible;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.statusBarBackground = global::HandSchool.Droid.Resource.Attribute.statusBarBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.statusBarScrim = global::HandSchool.Droid.Resource.Attribute.statusBarScrim;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.subMenuArrow = global::HandSchool.Droid.Resource.Attribute.subMenuArrow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.submitBackground = global::HandSchool.Droid.Resource.Attribute.submitBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.subtitle = global::HandSchool.Droid.Resource.Attribute.subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.subtitleTextAppearance = global::HandSchool.Droid.Resource.Attribute.subtitleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.subtitleTextColor = global::HandSchool.Droid.Resource.Attribute.subtitleTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.subtitleTextStyle = global::HandSchool.Droid.Resource.Attribute.subtitleTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.suggestionRowLayout = global::HandSchool.Droid.Resource.Attribute.suggestionRowLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.switchMinWidth = global::HandSchool.Droid.Resource.Attribute.switchMinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.switchPadding = global::HandSchool.Droid.Resource.Attribute.switchPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.switchStyle = global::HandSchool.Droid.Resource.Attribute.switchStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.switchTextAppearance = global::HandSchool.Droid.Resource.Attribute.switchTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabBackground = global::HandSchool.Droid.Resource.Attribute.tabBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabContentStart = global::HandSchool.Droid.Resource.Attribute.tabContentStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabGravity = global::HandSchool.Droid.Resource.Attribute.tabGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabIndicatorColor = global::HandSchool.Droid.Resource.Attribute.tabIndicatorColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabIndicatorHeight = global::HandSchool.Droid.Resource.Attribute.tabIndicatorHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabMaxWidth = global::HandSchool.Droid.Resource.Attribute.tabMaxWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabMinWidth = global::HandSchool.Droid.Resource.Attribute.tabMinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabMode = global::HandSchool.Droid.Resource.Attribute.tabMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabPadding = global::HandSchool.Droid.Resource.Attribute.tabPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabPaddingBottom = global::HandSchool.Droid.Resource.Attribute.tabPaddingBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabPaddingEnd = global::HandSchool.Droid.Resource.Attribute.tabPaddingEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabPaddingStart = global::HandSchool.Droid.Resource.Attribute.tabPaddingStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabPaddingTop = global::HandSchool.Droid.Resource.Attribute.tabPaddingTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabSelectedTextColor = global::HandSchool.Droid.Resource.Attribute.tabSelectedTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabTextAppearance = global::HandSchool.Droid.Resource.Attribute.tabTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tabTextColor = global::HandSchool.Droid.Resource.Attribute.tabTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAllCaps = global::HandSchool.Droid.Resource.Attribute.textAllCaps;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceLargePopupMenu = global::HandSchool.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceListItem = global::HandSchool.Droid.Resource.Attribute.textAppearanceListItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceListItemSecondary = global::HandSchool.Droid.Resource.Attribute.textAppearanceListItemSecondary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceListItemSmall = global::HandSchool.Droid.Resource.Attribute.textAppearanceListItemSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearancePopupMenuHeader = global::HandSchool.Droid.Resource.Attribute.textAppearancePopupMenuHeader;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceSearchResultSubtitle = global::HandSchool.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceSearchResultTitle = global::HandSchool.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textAppearanceSmallPopupMenu = global::HandSchool.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textColorAlertDialogListItem = global::HandSchool.Droid.Resource.Attribute.textColorAlertDialogListItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textColorError = global::HandSchool.Droid.Resource.Attribute.textColorError;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.textColorSearchUrl = global::HandSchool.Droid.Resource.Attribute.textColorSearchUrl;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.theme = global::HandSchool.Droid.Resource.Attribute.theme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.thickness = global::HandSchool.Droid.Resource.Attribute.thickness;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.thumbTextPadding = global::HandSchool.Droid.Resource.Attribute.thumbTextPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.thumbTint = global::HandSchool.Droid.Resource.Attribute.thumbTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.thumbTintMode = global::HandSchool.Droid.Resource.Attribute.thumbTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tickMark = global::HandSchool.Droid.Resource.Attribute.tickMark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tickMarkTint = global::HandSchool.Droid.Resource.Attribute.tickMarkTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tickMarkTintMode = global::HandSchool.Droid.Resource.Attribute.tickMarkTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tint = global::HandSchool.Droid.Resource.Attribute.tint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.tintMode = global::HandSchool.Droid.Resource.Attribute.tintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.title = global::HandSchool.Droid.Resource.Attribute.title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleEnabled = global::HandSchool.Droid.Resource.Attribute.titleEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleMargin = global::HandSchool.Droid.Resource.Attribute.titleMargin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleMarginBottom = global::HandSchool.Droid.Resource.Attribute.titleMarginBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleMarginEnd = global::HandSchool.Droid.Resource.Attribute.titleMarginEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleMarginStart = global::HandSchool.Droid.Resource.Attribute.titleMarginStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleMarginTop = global::HandSchool.Droid.Resource.Attribute.titleMarginTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleMargins = global::HandSchool.Droid.Resource.Attribute.titleMargins;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleTextAppearance = global::HandSchool.Droid.Resource.Attribute.titleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleTextColor = global::HandSchool.Droid.Resource.Attribute.titleTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.titleTextStyle = global::HandSchool.Droid.Resource.Attribute.titleTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.toolbarId = global::HandSchool.Droid.Resource.Attribute.toolbarId;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.toolbarNavigationButtonStyle = global::HandSchool.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.toolbarStyle = global::HandSchool.Droid.Resource.Attribute.toolbarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.track = global::HandSchool.Droid.Resource.Attribute.track;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.trackTint = global::HandSchool.Droid.Resource.Attribute.trackTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.trackTintMode = global::HandSchool.Droid.Resource.Attribute.trackTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.useCompatPadding = global::HandSchool.Droid.Resource.Attribute.useCompatPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.voiceIcon = global::HandSchool.Droid.Resource.Attribute.voiceIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowActionBar = global::HandSchool.Droid.Resource.Attribute.windowActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowActionBarOverlay = global::HandSchool.Droid.Resource.Attribute.windowActionBarOverlay;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowActionModeOverlay = global::HandSchool.Droid.Resource.Attribute.windowActionModeOverlay;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowFixedHeightMajor = global::HandSchool.Droid.Resource.Attribute.windowFixedHeightMajor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowFixedHeightMinor = global::HandSchool.Droid.Resource.Attribute.windowFixedHeightMinor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowFixedWidthMajor = global::HandSchool.Droid.Resource.Attribute.windowFixedWidthMajor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowFixedWidthMinor = global::HandSchool.Droid.Resource.Attribute.windowFixedWidthMinor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowMinWidthMajor = global::HandSchool.Droid.Resource.Attribute.windowMinWidthMajor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowMinWidthMinor = global::HandSchool.Droid.Resource.Attribute.windowMinWidthMinor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Attribute.windowNoTitle = global::HandSchool.Droid.Resource.Attribute.windowNoTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Boolean.abc_action_bar_embed_tabs = global::HandSchool.Droid.Resource.Boolean.abc_action_bar_embed_tabs;
+			global::DanielStone.MaterialAboutLibrary.Resource.Boolean.abc_allow_stacked_button_bar = global::HandSchool.Droid.Resource.Boolean.abc_allow_stacked_button_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::HandSchool.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps;
+			global::DanielStone.MaterialAboutLibrary.Resource.Boolean.abc_config_closeDialogWhenTouchOutside = global::HandSchool.Droid.Resource.Boolean.abc_config_closeDialogWhenTouchOutside;
+			global::DanielStone.MaterialAboutLibrary.Resource.Boolean.abc_config_showMenuShortcutsWhenKeyboardPresent = global::HandSchool.Droid.Resource.Boolean.abc_config_showMenuShortcutsWhenKeyboardPresent;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_background_cache_hint_selector_material_dark = global::HandSchool.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_background_cache_hint_selector_material_light = global::HandSchool.Droid.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_btn_colored_borderless_text_material = global::HandSchool.Droid.Resource.Color.abc_btn_colored_borderless_text_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_btn_colored_text_material = global::HandSchool.Droid.Resource.Color.abc_btn_colored_text_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_color_highlight_material = global::HandSchool.Droid.Resource.Color.abc_color_highlight_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_hint_foreground_material_dark = global::HandSchool.Droid.Resource.Color.abc_hint_foreground_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_hint_foreground_material_light = global::HandSchool.Droid.Resource.Color.abc_hint_foreground_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_input_method_navigation_guard = global::HandSchool.Droid.Resource.Color.abc_input_method_navigation_guard;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_primary_text_disable_only_material_dark = global::HandSchool.Droid.Resource.Color.abc_primary_text_disable_only_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_primary_text_disable_only_material_light = global::HandSchool.Droid.Resource.Color.abc_primary_text_disable_only_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_primary_text_material_dark = global::HandSchool.Droid.Resource.Color.abc_primary_text_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_primary_text_material_light = global::HandSchool.Droid.Resource.Color.abc_primary_text_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_search_url_text = global::HandSchool.Droid.Resource.Color.abc_search_url_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_search_url_text_normal = global::HandSchool.Droid.Resource.Color.abc_search_url_text_normal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_search_url_text_pressed = global::HandSchool.Droid.Resource.Color.abc_search_url_text_pressed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_search_url_text_selected = global::HandSchool.Droid.Resource.Color.abc_search_url_text_selected;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_secondary_text_material_dark = global::HandSchool.Droid.Resource.Color.abc_secondary_text_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_secondary_text_material_light = global::HandSchool.Droid.Resource.Color.abc_secondary_text_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_tint_btn_checkable = global::HandSchool.Droid.Resource.Color.abc_tint_btn_checkable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_tint_default = global::HandSchool.Droid.Resource.Color.abc_tint_default;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_tint_edittext = global::HandSchool.Droid.Resource.Color.abc_tint_edittext;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_tint_seek_thumb = global::HandSchool.Droid.Resource.Color.abc_tint_seek_thumb;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_tint_spinner = global::HandSchool.Droid.Resource.Color.abc_tint_spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.abc_tint_switch_track = global::HandSchool.Droid.Resource.Color.abc_tint_switch_track;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.accent_material_dark = global::HandSchool.Droid.Resource.Color.accent_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.accent_material_light = global::HandSchool.Droid.Resource.Color.accent_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.background_floating_material_dark = global::HandSchool.Droid.Resource.Color.background_floating_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.background_floating_material_light = global::HandSchool.Droid.Resource.Color.background_floating_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.background_material_dark = global::HandSchool.Droid.Resource.Color.background_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.background_material_light = global::HandSchool.Droid.Resource.Color.background_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.bright_foreground_disabled_material_dark = global::HandSchool.Droid.Resource.Color.bright_foreground_disabled_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.bright_foreground_disabled_material_light = global::HandSchool.Droid.Resource.Color.bright_foreground_disabled_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.bright_foreground_inverse_material_dark = global::HandSchool.Droid.Resource.Color.bright_foreground_inverse_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.bright_foreground_inverse_material_light = global::HandSchool.Droid.Resource.Color.bright_foreground_inverse_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.bright_foreground_material_dark = global::HandSchool.Droid.Resource.Color.bright_foreground_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.bright_foreground_material_light = global::HandSchool.Droid.Resource.Color.bright_foreground_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.button_material_dark = global::HandSchool.Droid.Resource.Color.button_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.button_material_light = global::HandSchool.Droid.Resource.Color.button_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.cardview_dark_background = global::HandSchool.Droid.Resource.Color.cardview_dark_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.cardview_light_background = global::HandSchool.Droid.Resource.Color.cardview_light_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.cardview_shadow_end_color = global::HandSchool.Droid.Resource.Color.cardview_shadow_end_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.cardview_shadow_start_color = global::HandSchool.Droid.Resource.Color.cardview_shadow_start_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_bottom_navigation_shadow_color = global::HandSchool.Droid.Resource.Color.design_bottom_navigation_shadow_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_error = global::HandSchool.Droid.Resource.Color.design_error;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_shadow_end_color = global::HandSchool.Droid.Resource.Color.design_fab_shadow_end_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_shadow_mid_color = global::HandSchool.Droid.Resource.Color.design_fab_shadow_mid_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_shadow_start_color = global::HandSchool.Droid.Resource.Color.design_fab_shadow_start_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_stroke_end_inner_color = global::HandSchool.Droid.Resource.Color.design_fab_stroke_end_inner_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_stroke_end_outer_color = global::HandSchool.Droid.Resource.Color.design_fab_stroke_end_outer_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_stroke_top_inner_color = global::HandSchool.Droid.Resource.Color.design_fab_stroke_top_inner_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_fab_stroke_top_outer_color = global::HandSchool.Droid.Resource.Color.design_fab_stroke_top_outer_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_snackbar_background_color = global::HandSchool.Droid.Resource.Color.design_snackbar_background_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.design_tint_password_toggle = global::HandSchool.Droid.Resource.Color.design_tint_password_toggle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.dim_foreground_disabled_material_dark = global::HandSchool.Droid.Resource.Color.dim_foreground_disabled_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.dim_foreground_disabled_material_light = global::HandSchool.Droid.Resource.Color.dim_foreground_disabled_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.dim_foreground_material_dark = global::HandSchool.Droid.Resource.Color.dim_foreground_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.dim_foreground_material_light = global::HandSchool.Droid.Resource.Color.dim_foreground_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.foreground_material_dark = global::HandSchool.Droid.Resource.Color.foreground_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.foreground_material_light = global::HandSchool.Droid.Resource.Color.foreground_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.highlighted_text_material_dark = global::HandSchool.Droid.Resource.Color.highlighted_text_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.highlighted_text_material_light = global::HandSchool.Droid.Resource.Color.highlighted_text_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.mal_color_icon_dark_theme = global::HandSchool.Droid.Resource.Color.mal_color_icon_dark_theme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.mal_color_icon_light_theme = global::HandSchool.Droid.Resource.Color.mal_color_icon_light_theme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.mal_text_primary = global::HandSchool.Droid.Resource.Color.mal_text_primary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.mal_text_primary_dark = global::HandSchool.Droid.Resource.Color.mal_text_primary_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.mal_text_secondary = global::HandSchool.Droid.Resource.Color.mal_text_secondary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.mal_text_secondary_dark = global::HandSchool.Droid.Resource.Color.mal_text_secondary_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_blue_grey_800 = global::HandSchool.Droid.Resource.Color.material_blue_grey_800;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_blue_grey_900 = global::HandSchool.Droid.Resource.Color.material_blue_grey_900;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_blue_grey_950 = global::HandSchool.Droid.Resource.Color.material_blue_grey_950;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_deep_teal_200 = global::HandSchool.Droid.Resource.Color.material_deep_teal_200;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_deep_teal_500 = global::HandSchool.Droid.Resource.Color.material_deep_teal_500;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_100 = global::HandSchool.Droid.Resource.Color.material_grey_100;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_300 = global::HandSchool.Droid.Resource.Color.material_grey_300;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_50 = global::HandSchool.Droid.Resource.Color.material_grey_50;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_600 = global::HandSchool.Droid.Resource.Color.material_grey_600;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_800 = global::HandSchool.Droid.Resource.Color.material_grey_800;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_850 = global::HandSchool.Droid.Resource.Color.material_grey_850;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.material_grey_900 = global::HandSchool.Droid.Resource.Color.material_grey_900;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.notification_action_color_filter = global::HandSchool.Droid.Resource.Color.notification_action_color_filter;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.notification_icon_bg_color = global::HandSchool.Droid.Resource.Color.notification_icon_bg_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.notification_material_background_media_default_color = global::HandSchool.Droid.Resource.Color.notification_material_background_media_default_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_dark_material_dark = global::HandSchool.Droid.Resource.Color.primary_dark_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_dark_material_light = global::HandSchool.Droid.Resource.Color.primary_dark_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_material_dark = global::HandSchool.Droid.Resource.Color.primary_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_material_light = global::HandSchool.Droid.Resource.Color.primary_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_text_default_material_dark = global::HandSchool.Droid.Resource.Color.primary_text_default_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_text_default_material_light = global::HandSchool.Droid.Resource.Color.primary_text_default_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_text_disabled_material_dark = global::HandSchool.Droid.Resource.Color.primary_text_disabled_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.primary_text_disabled_material_light = global::HandSchool.Droid.Resource.Color.primary_text_disabled_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.ripple_material_dark = global::HandSchool.Droid.Resource.Color.ripple_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.ripple_material_light = global::HandSchool.Droid.Resource.Color.ripple_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.secondary_text_default_material_dark = global::HandSchool.Droid.Resource.Color.secondary_text_default_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.secondary_text_default_material_light = global::HandSchool.Droid.Resource.Color.secondary_text_default_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.secondary_text_disabled_material_dark = global::HandSchool.Droid.Resource.Color.secondary_text_disabled_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.secondary_text_disabled_material_light = global::HandSchool.Droid.Resource.Color.secondary_text_disabled_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.switch_thumb_disabled_material_dark = global::HandSchool.Droid.Resource.Color.switch_thumb_disabled_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.switch_thumb_disabled_material_light = global::HandSchool.Droid.Resource.Color.switch_thumb_disabled_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.switch_thumb_material_dark = global::HandSchool.Droid.Resource.Color.switch_thumb_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.switch_thumb_material_light = global::HandSchool.Droid.Resource.Color.switch_thumb_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.switch_thumb_normal_material_dark = global::HandSchool.Droid.Resource.Color.switch_thumb_normal_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Color.switch_thumb_normal_material_light = global::HandSchool.Droid.Resource.Color.switch_thumb_normal_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_content_inset_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_content_inset_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_content_inset_with_nav = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_content_inset_with_nav;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_default_height_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_default_height_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_default_padding_end_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_default_padding_start_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_elevation_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_elevation_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_progress_bar_size = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_progress_bar_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_stacked_max_height = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_stacked_max_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::HandSchool.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_button_min_height_material = global::HandSchool.Droid.Resource.Dimension.abc_action_button_min_height_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_button_min_width_material = global::HandSchool.Droid.Resource.Dimension.abc_action_button_min_width_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_action_button_min_width_overflow_material = global::HandSchool.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_alert_dialog_button_bar_height = global::HandSchool.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_button_inset_horizontal_material = global::HandSchool.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_button_inset_vertical_material = global::HandSchool.Droid.Resource.Dimension.abc_button_inset_vertical_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_button_padding_horizontal_material = global::HandSchool.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_button_padding_vertical_material = global::HandSchool.Droid.Resource.Dimension.abc_button_padding_vertical_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_cascading_menus_min_smallest_width = global::HandSchool.Droid.Resource.Dimension.abc_cascading_menus_min_smallest_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_config_prefDialogWidth = global::HandSchool.Droid.Resource.Dimension.abc_config_prefDialogWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_control_corner_material = global::HandSchool.Droid.Resource.Dimension.abc_control_corner_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_control_inset_material = global::HandSchool.Droid.Resource.Dimension.abc_control_inset_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_control_padding_material = global::HandSchool.Droid.Resource.Dimension.abc_control_padding_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_fixed_height_major = global::HandSchool.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_fixed_height_minor = global::HandSchool.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_fixed_width_major = global::HandSchool.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_fixed_width_minor = global::HandSchool.Droid.Resource.Dimension.abc_dialog_fixed_width_minor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons = global::HandSchool.Droid.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_list_padding_top_no_title = global::HandSchool.Droid.Resource.Dimension.abc_dialog_list_padding_top_no_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_min_width_major = global::HandSchool.Droid.Resource.Dimension.abc_dialog_min_width_major;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_min_width_minor = global::HandSchool.Droid.Resource.Dimension.abc_dialog_min_width_minor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_padding_material = global::HandSchool.Droid.Resource.Dimension.abc_dialog_padding_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_padding_top_material = global::HandSchool.Droid.Resource.Dimension.abc_dialog_padding_top_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dialog_title_divider_material = global::HandSchool.Droid.Resource.Dimension.abc_dialog_title_divider_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_disabled_alpha_material_dark = global::HandSchool.Droid.Resource.Dimension.abc_disabled_alpha_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_disabled_alpha_material_light = global::HandSchool.Droid.Resource.Dimension.abc_disabled_alpha_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dropdownitem_icon_width = global::HandSchool.Droid.Resource.Dimension.abc_dropdownitem_icon_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dropdownitem_text_padding_left = global::HandSchool.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_dropdownitem_text_padding_right = global::HandSchool.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_edit_text_inset_bottom_material = global::HandSchool.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::HandSchool.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_edit_text_inset_top_material = global::HandSchool.Droid.Resource.Dimension.abc_edit_text_inset_top_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_floating_window_z = global::HandSchool.Droid.Resource.Dimension.abc_floating_window_z;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_list_item_padding_horizontal_material = global::HandSchool.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_panel_menu_list_width = global::HandSchool.Droid.Resource.Dimension.abc_panel_menu_list_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_progress_bar_height_material = global::HandSchool.Droid.Resource.Dimension.abc_progress_bar_height_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_search_view_preferred_height = global::HandSchool.Droid.Resource.Dimension.abc_search_view_preferred_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_search_view_preferred_width = global::HandSchool.Droid.Resource.Dimension.abc_search_view_preferred_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_seekbar_track_background_height_material = global::HandSchool.Droid.Resource.Dimension.abc_seekbar_track_background_height_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_seekbar_track_progress_height_material = global::HandSchool.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_select_dialog_padding_start_material = global::HandSchool.Droid.Resource.Dimension.abc_select_dialog_padding_start_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_switch_padding = global::HandSchool.Droid.Resource.Dimension.abc_switch_padding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_body_1_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_body_1_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_body_2_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_body_2_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_button_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_button_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_caption_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_caption_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_display_1_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_display_1_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_display_2_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_display_2_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_display_3_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_display_3_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_display_4_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_display_4_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_headline_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_headline_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_large_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_large_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_medium_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_medium_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_menu_header_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_menu_header_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_menu_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_menu_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_small_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_small_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_subhead_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_subhead_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::HandSchool.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_title_material = global::HandSchool.Droid.Resource.Dimension.abc_text_size_title_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.abc_text_size_title_material_toolbar = global::HandSchool.Droid.Resource.Dimension.abc_text_size_title_material_toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.cardview_compat_inset_shadow = global::HandSchool.Droid.Resource.Dimension.cardview_compat_inset_shadow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.cardview_default_elevation = global::HandSchool.Droid.Resource.Dimension.cardview_default_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.cardview_default_radius = global::HandSchool.Droid.Resource.Dimension.cardview_default_radius;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_appbar_elevation = global::HandSchool.Droid.Resource.Dimension.design_appbar_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_active_item_max_width = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_active_item_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_active_text_size = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_active_text_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_elevation = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_height = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_item_max_width = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_item_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_item_min_width = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_item_min_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_margin = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_margin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_shadow_height = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_shadow_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_navigation_text_size = global::HandSchool.Droid.Resource.Dimension.design_bottom_navigation_text_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_sheet_modal_elevation = global::HandSchool.Droid.Resource.Dimension.design_bottom_sheet_modal_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_bottom_sheet_peek_height_min = global::HandSchool.Droid.Resource.Dimension.design_bottom_sheet_peek_height_min;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_fab_border_width = global::HandSchool.Droid.Resource.Dimension.design_fab_border_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_fab_elevation = global::HandSchool.Droid.Resource.Dimension.design_fab_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_fab_image_size = global::HandSchool.Droid.Resource.Dimension.design_fab_image_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_fab_size_mini = global::HandSchool.Droid.Resource.Dimension.design_fab_size_mini;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_fab_size_normal = global::HandSchool.Droid.Resource.Dimension.design_fab_size_normal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_fab_translation_z_pressed = global::HandSchool.Droid.Resource.Dimension.design_fab_translation_z_pressed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_navigation_elevation = global::HandSchool.Droid.Resource.Dimension.design_navigation_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_navigation_icon_padding = global::HandSchool.Droid.Resource.Dimension.design_navigation_icon_padding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_navigation_icon_size = global::HandSchool.Droid.Resource.Dimension.design_navigation_icon_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_navigation_max_width = global::HandSchool.Droid.Resource.Dimension.design_navigation_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_navigation_padding_bottom = global::HandSchool.Droid.Resource.Dimension.design_navigation_padding_bottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_navigation_separator_vertical_padding = global::HandSchool.Droid.Resource.Dimension.design_navigation_separator_vertical_padding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_action_inline_max_width = global::HandSchool.Droid.Resource.Dimension.design_snackbar_action_inline_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_background_corner_radius = global::HandSchool.Droid.Resource.Dimension.design_snackbar_background_corner_radius;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_elevation = global::HandSchool.Droid.Resource.Dimension.design_snackbar_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_extra_spacing_horizontal = global::HandSchool.Droid.Resource.Dimension.design_snackbar_extra_spacing_horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_max_width = global::HandSchool.Droid.Resource.Dimension.design_snackbar_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_min_width = global::HandSchool.Droid.Resource.Dimension.design_snackbar_min_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_padding_horizontal = global::HandSchool.Droid.Resource.Dimension.design_snackbar_padding_horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_padding_vertical = global::HandSchool.Droid.Resource.Dimension.design_snackbar_padding_vertical;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_padding_vertical_2lines = global::HandSchool.Droid.Resource.Dimension.design_snackbar_padding_vertical_2lines;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_snackbar_text_size = global::HandSchool.Droid.Resource.Dimension.design_snackbar_text_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_tab_max_width = global::HandSchool.Droid.Resource.Dimension.design_tab_max_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_tab_scrollable_min_width = global::HandSchool.Droid.Resource.Dimension.design_tab_scrollable_min_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_tab_text_size = global::HandSchool.Droid.Resource.Dimension.design_tab_text_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.design_tab_text_size_2line = global::HandSchool.Droid.Resource.Dimension.design_tab_text_size_2line;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.disabled_alpha_material_dark = global::HandSchool.Droid.Resource.Dimension.disabled_alpha_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.disabled_alpha_material_light = global::HandSchool.Droid.Resource.Dimension.disabled_alpha_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.highlight_alpha_material_colored = global::HandSchool.Droid.Resource.Dimension.highlight_alpha_material_colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.highlight_alpha_material_dark = global::HandSchool.Droid.Resource.Dimension.highlight_alpha_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.highlight_alpha_material_light = global::HandSchool.Droid.Resource.Dimension.highlight_alpha_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.hint_alpha_material_dark = global::HandSchool.Droid.Resource.Dimension.hint_alpha_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.hint_alpha_material_light = global::HandSchool.Droid.Resource.Dimension.hint_alpha_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.hint_pressed_alpha_material_dark = global::HandSchool.Droid.Resource.Dimension.hint_pressed_alpha_material_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.hint_pressed_alpha_material_light = global::HandSchool.Droid.Resource.Dimension.hint_pressed_alpha_material_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame = global::HandSchool.Droid.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.item_touch_helper_swipe_escape_max_velocity = global::HandSchool.Droid.Resource.Dimension.item_touch_helper_swipe_escape_max_velocity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.item_touch_helper_swipe_escape_velocity = global::HandSchool.Droid.Resource.Dimension.item_touch_helper_swipe_escape_velocity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_action_action_item_image_height = global::HandSchool.Droid.Resource.Dimension.mal_action_action_item_image_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_action_item_image_width = global::HandSchool.Droid.Resource.Dimension.mal_action_item_image_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_baseline = global::HandSchool.Droid.Resource.Dimension.mal_baseline;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_baseline_half = global::HandSchool.Droid.Resource.Dimension.mal_baseline_half;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_baseline_quarter = global::HandSchool.Droid.Resource.Dimension.mal_baseline_quarter;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_card_elevation = global::HandSchool.Droid.Resource.Dimension.mal_card_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_card_radius = global::HandSchool.Droid.Resource.Dimension.mal_card_radius;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.mal_title_item_image_size = global::HandSchool.Droid.Resource.Dimension.mal_title_item_image_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_action_icon_size = global::HandSchool.Droid.Resource.Dimension.notification_action_icon_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_action_text_size = global::HandSchool.Droid.Resource.Dimension.notification_action_text_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_big_circle_margin = global::HandSchool.Droid.Resource.Dimension.notification_big_circle_margin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_content_margin_start = global::HandSchool.Droid.Resource.Dimension.notification_content_margin_start;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_large_icon_height = global::HandSchool.Droid.Resource.Dimension.notification_large_icon_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_large_icon_width = global::HandSchool.Droid.Resource.Dimension.notification_large_icon_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_main_column_padding_top = global::HandSchool.Droid.Resource.Dimension.notification_main_column_padding_top;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_media_narrow_margin = global::HandSchool.Droid.Resource.Dimension.notification_media_narrow_margin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_right_icon_size = global::HandSchool.Droid.Resource.Dimension.notification_right_icon_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_right_side_padding_top = global::HandSchool.Droid.Resource.Dimension.notification_right_side_padding_top;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_small_icon_background_padding = global::HandSchool.Droid.Resource.Dimension.notification_small_icon_background_padding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_small_icon_size_as_large = global::HandSchool.Droid.Resource.Dimension.notification_small_icon_size_as_large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_subtext_size = global::HandSchool.Droid.Resource.Dimension.notification_subtext_size;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_top_pad = global::HandSchool.Droid.Resource.Dimension.notification_top_pad;
+			global::DanielStone.MaterialAboutLibrary.Resource.Dimension.notification_top_pad_large_text = global::HandSchool.Droid.Resource.Dimension.notification_top_pad_large_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_action_bar_item_background_material = global::HandSchool.Droid.Resource.Drawable.abc_action_bar_item_background_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_borderless_material = global::HandSchool.Droid.Resource.Drawable.abc_btn_borderless_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_check_material = global::HandSchool.Droid.Resource.Drawable.abc_btn_check_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::HandSchool.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::HandSchool.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_colored_material = global::HandSchool.Droid.Resource.Drawable.abc_btn_colored_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_default_mtrl_shape = global::HandSchool.Droid.Resource.Drawable.abc_btn_default_mtrl_shape;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_radio_material = global::HandSchool.Droid.Resource.Drawable.abc_btn_radio_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::HandSchool.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::HandSchool.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::HandSchool.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::HandSchool.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_cab_background_internal_bg = global::HandSchool.Droid.Resource.Drawable.abc_cab_background_internal_bg;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_cab_background_top_material = global::HandSchool.Droid.Resource.Drawable.abc_cab_background_top_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_control_background_material = global::HandSchool.Droid.Resource.Drawable.abc_control_background_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_dialog_material_background = global::HandSchool.Droid.Resource.Drawable.abc_dialog_material_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_edit_text_material = global::HandSchool.Droid.Resource.Drawable.abc_edit_text_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_ab_back_material = global::HandSchool.Droid.Resource.Drawable.abc_ic_ab_back_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_clear_material = global::HandSchool.Droid.Resource.Drawable.abc_ic_clear_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_go_search_api_material = global::HandSchool.Droid.Resource.Drawable.abc_ic_go_search_api_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_menu_overflow_material = global::HandSchool.Droid.Resource.Drawable.abc_ic_menu_overflow_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_search_api_material = global::HandSchool.Droid.Resource.Drawable.abc_ic_search_api_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_star_black_16dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_star_black_16dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_star_black_36dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_star_black_36dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_star_black_48dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_star_black_48dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_star_half_black_16dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_star_half_black_16dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_star_half_black_36dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_star_half_black_36dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_star_half_black_48dp = global::HandSchool.Droid.Resource.Drawable.abc_ic_star_half_black_48dp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ic_voice_search_api_material = global::HandSchool.Droid.Resource.Drawable.abc_ic_voice_search_api_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_item_background_holo_dark = global::HandSchool.Droid.Resource.Drawable.abc_item_background_holo_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_item_background_holo_light = global::HandSchool.Droid.Resource.Drawable.abc_item_background_holo_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_divider_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_focused_holo = global::HandSchool.Droid.Resource.Drawable.abc_list_focused_holo;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_longpressed_holo = global::HandSchool.Droid.Resource.Drawable.abc_list_longpressed_holo;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_pressed_holo_dark = global::HandSchool.Droid.Resource.Drawable.abc_list_pressed_holo_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_pressed_holo_light = global::HandSchool.Droid.Resource.Drawable.abc_list_pressed_holo_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::HandSchool.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::HandSchool.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::HandSchool.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_selector_disabled_holo_light = global::HandSchool.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_selector_holo_dark = global::HandSchool.Droid.Resource.Drawable.abc_list_selector_holo_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_list_selector_holo_light = global::HandSchool.Droid.Resource.Drawable.abc_list_selector_holo_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::HandSchool.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_popup_background_mtrl_mult = global::HandSchool.Droid.Resource.Drawable.abc_popup_background_mtrl_mult;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ratingbar_indicator_material = global::HandSchool.Droid.Resource.Drawable.abc_ratingbar_indicator_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ratingbar_material = global::HandSchool.Droid.Resource.Drawable.abc_ratingbar_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_ratingbar_small_material = global::HandSchool.Droid.Resource.Drawable.abc_ratingbar_small_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::HandSchool.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::HandSchool.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_seekbar_thumb_material = global::HandSchool.Droid.Resource.Drawable.abc_seekbar_thumb_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_seekbar_tick_mark_material = global::HandSchool.Droid.Resource.Drawable.abc_seekbar_tick_mark_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_seekbar_track_material = global::HandSchool.Droid.Resource.Drawable.abc_seekbar_track_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::HandSchool.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_spinner_textfield_background_material = global::HandSchool.Droid.Resource.Drawable.abc_spinner_textfield_background_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_switch_thumb_material = global::HandSchool.Droid.Resource.Drawable.abc_switch_thumb_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_switch_track_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_tab_indicator_material = global::HandSchool.Droid.Resource.Drawable.abc_tab_indicator_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_cursor_material = global::HandSchool.Droid.Resource.Drawable.abc_text_cursor_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_select_handle_left_mtrl_dark = global::HandSchool.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_select_handle_left_mtrl_light = global::HandSchool.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark = global::HandSchool.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_select_handle_middle_mtrl_light = global::HandSchool.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_select_handle_right_mtrl_dark = global::HandSchool.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_text_select_handle_right_mtrl_light = global::HandSchool.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::HandSchool.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_textfield_search_material = global::HandSchool.Droid.Resource.Drawable.abc_textfield_search_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.abc_vector_test = global::HandSchool.Droid.Resource.Drawable.abc_vector_test;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_hide_password = global::HandSchool.Droid.Resource.Drawable.avd_hide_password;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_hide_password_1 = global::HandSchool.Droid.Resource.Drawable.avd_hide_password_1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_hide_password_2 = global::HandSchool.Droid.Resource.Drawable.avd_hide_password_2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_hide_password_3 = global::HandSchool.Droid.Resource.Drawable.avd_hide_password_3;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_show_password = global::HandSchool.Droid.Resource.Drawable.avd_show_password;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_show_password_1 = global::HandSchool.Droid.Resource.Drawable.avd_show_password_1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_show_password_2 = global::HandSchool.Droid.Resource.Drawable.avd_show_password_2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.avd_show_password_3 = global::HandSchool.Droid.Resource.Drawable.avd_show_password_3;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.design_bottom_navigation_item_background = global::HandSchool.Droid.Resource.Drawable.design_bottom_navigation_item_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.design_fab_background = global::HandSchool.Droid.Resource.Drawable.design_fab_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.design_ic_visibility = global::HandSchool.Droid.Resource.Drawable.design_ic_visibility;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.design_ic_visibility_off = global::HandSchool.Droid.Resource.Drawable.design_ic_visibility_off;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.design_password_eye = global::HandSchool.Droid.Resource.Drawable.design_password_eye;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.design_snackbar_background = global::HandSchool.Droid.Resource.Drawable.design_snackbar_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.navigation_empty_icon = global::HandSchool.Droid.Resource.Drawable.navigation_empty_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_action_background = global::HandSchool.Droid.Resource.Drawable.notification_action_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_bg = global::HandSchool.Droid.Resource.Drawable.notification_bg;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_bg_low = global::HandSchool.Droid.Resource.Drawable.notification_bg_low;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_bg_low_normal = global::HandSchool.Droid.Resource.Drawable.notification_bg_low_normal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_bg_low_pressed = global::HandSchool.Droid.Resource.Drawable.notification_bg_low_pressed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_bg_normal = global::HandSchool.Droid.Resource.Drawable.notification_bg_normal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_bg_normal_pressed = global::HandSchool.Droid.Resource.Drawable.notification_bg_normal_pressed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_icon_background = global::HandSchool.Droid.Resource.Drawable.notification_icon_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_template_icon_bg = global::HandSchool.Droid.Resource.Drawable.notification_template_icon_bg;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_template_icon_low_bg = global::HandSchool.Droid.Resource.Drawable.notification_template_icon_low_bg;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notification_tile_bg = global::HandSchool.Droid.Resource.Drawable.notification_tile_bg;
+			global::DanielStone.MaterialAboutLibrary.Resource.Drawable.notify_panel_notification_icon_bg = global::HandSchool.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action0 = global::HandSchool.Droid.Resource.Id.action0;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar = global::HandSchool.Droid.Resource.Id.action_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar_activity_content = global::HandSchool.Droid.Resource.Id.action_bar_activity_content;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar_container = global::HandSchool.Droid.Resource.Id.action_bar_container;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar_root = global::HandSchool.Droid.Resource.Id.action_bar_root;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar_spinner = global::HandSchool.Droid.Resource.Id.action_bar_spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar_subtitle = global::HandSchool.Droid.Resource.Id.action_bar_subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_bar_title = global::HandSchool.Droid.Resource.Id.action_bar_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_container = global::HandSchool.Droid.Resource.Id.action_container;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_context_bar = global::HandSchool.Droid.Resource.Id.action_context_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_divider = global::HandSchool.Droid.Resource.Id.action_divider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_image = global::HandSchool.Droid.Resource.Id.action_image;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_menu_divider = global::HandSchool.Droid.Resource.Id.action_menu_divider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_menu_presenter = global::HandSchool.Droid.Resource.Id.action_menu_presenter;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_mode_bar = global::HandSchool.Droid.Resource.Id.action_mode_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_mode_bar_stub = global::HandSchool.Droid.Resource.Id.action_mode_bar_stub;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_mode_close_button = global::HandSchool.Droid.Resource.Id.action_mode_close_button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.action_text = global::HandSchool.Droid.Resource.Id.action_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.actions = global::HandSchool.Droid.Resource.Id.actions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.activity_chooser_view_content = global::HandSchool.Droid.Resource.Id.activity_chooser_view_content;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.add = global::HandSchool.Droid.Resource.Id.add;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.alertTitle = global::HandSchool.Droid.Resource.Id.alertTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.all = global::HandSchool.Droid.Resource.Id.all;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.always = global::HandSchool.Droid.Resource.Id.always;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.auto = global::HandSchool.Droid.Resource.Id.auto;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.beginning = global::HandSchool.Droid.Resource.Id.beginning;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.bottom = global::HandSchool.Droid.Resource.Id.bottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.buttonPanel = global::HandSchool.Droid.Resource.Id.buttonPanel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.cancel_action = global::HandSchool.Droid.Resource.Id.cancel_action;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.center = global::HandSchool.Droid.Resource.Id.center;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.center_horizontal = global::HandSchool.Droid.Resource.Id.center_horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.center_vertical = global::HandSchool.Droid.Resource.Id.center_vertical;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.checkbox = global::HandSchool.Droid.Resource.Id.checkbox;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.chronometer = global::HandSchool.Droid.Resource.Id.chronometer;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.clip_horizontal = global::HandSchool.Droid.Resource.Id.clip_horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.clip_vertical = global::HandSchool.Droid.Resource.Id.clip_vertical;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.collapseActionView = global::HandSchool.Droid.Resource.Id.collapseActionView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.container = global::HandSchool.Droid.Resource.Id.container;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.contentPanel = global::HandSchool.Droid.Resource.Id.contentPanel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.coordinator = global::HandSchool.Droid.Resource.Id.coordinator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.custom = global::HandSchool.Droid.Resource.Id.custom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.customPanel = global::HandSchool.Droid.Resource.Id.customPanel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.decor_content_parent = global::HandSchool.Droid.Resource.Id.decor_content_parent;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.default_activity_button = global::HandSchool.Droid.Resource.Id.default_activity_button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.design_bottom_sheet = global::HandSchool.Droid.Resource.Id.design_bottom_sheet;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.design_menu_item_action_area = global::HandSchool.Droid.Resource.Id.design_menu_item_action_area;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.design_menu_item_action_area_stub = global::HandSchool.Droid.Resource.Id.design_menu_item_action_area_stub;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.design_menu_item_text = global::HandSchool.Droid.Resource.Id.design_menu_item_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.design_navigation_view = global::HandSchool.Droid.Resource.Id.design_navigation_view;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.disableHome = global::HandSchool.Droid.Resource.Id.disableHome;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.edit_query = global::HandSchool.Droid.Resource.Id.edit_query;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.end = global::HandSchool.Droid.Resource.Id.end;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.end_padder = global::HandSchool.Droid.Resource.Id.end_padder;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.enterAlways = global::HandSchool.Droid.Resource.Id.enterAlways;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.enterAlwaysCollapsed = global::HandSchool.Droid.Resource.Id.enterAlwaysCollapsed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.exitUntilCollapsed = global::HandSchool.Droid.Resource.Id.exitUntilCollapsed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.expand_activities_button = global::HandSchool.Droid.Resource.Id.expand_activities_button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.expanded_menu = global::HandSchool.Droid.Resource.Id.expanded_menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.fill = global::HandSchool.Droid.Resource.Id.fill;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.fill_horizontal = global::HandSchool.Droid.Resource.Id.fill_horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.fill_vertical = global::HandSchool.Droid.Resource.Id.fill_vertical;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.@fixed = global::HandSchool.Droid.Resource.Id.@fixed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.home = global::HandSchool.Droid.Resource.Id.home;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.homeAsUp = global::HandSchool.Droid.Resource.Id.homeAsUp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.icon = global::HandSchool.Droid.Resource.Id.icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.icon_group = global::HandSchool.Droid.Resource.Id.icon_group;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.ifRoom = global::HandSchool.Droid.Resource.Id.ifRoom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.image = global::HandSchool.Droid.Resource.Id.image;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.info = global::HandSchool.Droid.Resource.Id.info;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.item_touch_helper_previous_elevation = global::HandSchool.Droid.Resource.Id.item_touch_helper_previous_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.largeLabel = global::HandSchool.Droid.Resource.Id.largeLabel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.left = global::HandSchool.Droid.Resource.Id.left;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.line1 = global::HandSchool.Droid.Resource.Id.line1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.line3 = global::HandSchool.Droid.Resource.Id.line3;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.listMode = global::HandSchool.Droid.Resource.Id.listMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.list_item = global::HandSchool.Droid.Resource.Id.list_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_action_item_subtext = global::HandSchool.Droid.Resource.Id.mal_action_item_subtext;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_appbarlayout = global::HandSchool.Droid.Resource.Id.mal_appbarlayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_card_recyclerview = global::HandSchool.Droid.Resource.Id.mal_card_recyclerview;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_item_desc = global::HandSchool.Droid.Resource.Id.mal_item_desc;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_item_image = global::HandSchool.Droid.Resource.Id.mal_item_image;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_item_text = global::HandSchool.Droid.Resource.Id.mal_item_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_list_card_title = global::HandSchool.Droid.Resource.Id.mal_list_card_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_material_about_activity_coordinator_layout = global::HandSchool.Droid.Resource.Id.mal_material_about_activity_coordinator_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_recyclerview = global::HandSchool.Droid.Resource.Id.mal_recyclerview;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mal_toolbar = global::HandSchool.Droid.Resource.Id.mal_toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.masked = global::HandSchool.Droid.Resource.Id.masked;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.media_actions = global::HandSchool.Droid.Resource.Id.media_actions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.middle = global::HandSchool.Droid.Resource.Id.middle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.mini = global::HandSchool.Droid.Resource.Id.mini;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.multiply = global::HandSchool.Droid.Resource.Id.multiply;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.navigation_header_container = global::HandSchool.Droid.Resource.Id.navigation_header_container;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.never = global::HandSchool.Droid.Resource.Id.never;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.none = global::HandSchool.Droid.Resource.Id.none;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.normal = global::HandSchool.Droid.Resource.Id.normal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.notification_background = global::HandSchool.Droid.Resource.Id.notification_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.notification_main_column = global::HandSchool.Droid.Resource.Id.notification_main_column;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.notification_main_column_container = global::HandSchool.Droid.Resource.Id.notification_main_column_container;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.parallax = global::HandSchool.Droid.Resource.Id.parallax;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.parentPanel = global::HandSchool.Droid.Resource.Id.parentPanel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.pin = global::HandSchool.Droid.Resource.Id.pin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.progress_circular = global::HandSchool.Droid.Resource.Id.progress_circular;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.progress_horizontal = global::HandSchool.Droid.Resource.Id.progress_horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.radio = global::HandSchool.Droid.Resource.Id.radio;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.right = global::HandSchool.Droid.Resource.Id.right;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.right_icon = global::HandSchool.Droid.Resource.Id.right_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.right_side = global::HandSchool.Droid.Resource.Id.right_side;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.screen = global::HandSchool.Droid.Resource.Id.screen;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.scroll = global::HandSchool.Droid.Resource.Id.scroll;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.scrollIndicatorDown = global::HandSchool.Droid.Resource.Id.scrollIndicatorDown;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.scrollIndicatorUp = global::HandSchool.Droid.Resource.Id.scrollIndicatorUp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.scrollView = global::HandSchool.Droid.Resource.Id.scrollView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.scrollable = global::HandSchool.Droid.Resource.Id.scrollable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_badge = global::HandSchool.Droid.Resource.Id.search_badge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_bar = global::HandSchool.Droid.Resource.Id.search_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_button = global::HandSchool.Droid.Resource.Id.search_button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_close_btn = global::HandSchool.Droid.Resource.Id.search_close_btn;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_edit_frame = global::HandSchool.Droid.Resource.Id.search_edit_frame;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_go_btn = global::HandSchool.Droid.Resource.Id.search_go_btn;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_mag_icon = global::HandSchool.Droid.Resource.Id.search_mag_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_plate = global::HandSchool.Droid.Resource.Id.search_plate;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_src_text = global::HandSchool.Droid.Resource.Id.search_src_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.search_voice_btn = global::HandSchool.Droid.Resource.Id.search_voice_btn;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.select_dialog_listview = global::HandSchool.Droid.Resource.Id.select_dialog_listview;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.shortcut = global::HandSchool.Droid.Resource.Id.shortcut;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.showCustom = global::HandSchool.Droid.Resource.Id.showCustom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.showHome = global::HandSchool.Droid.Resource.Id.showHome;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.showTitle = global::HandSchool.Droid.Resource.Id.showTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.smallLabel = global::HandSchool.Droid.Resource.Id.smallLabel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.snackbar_action = global::HandSchool.Droid.Resource.Id.snackbar_action;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.snackbar_text = global::HandSchool.Droid.Resource.Id.snackbar_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.snap = global::HandSchool.Droid.Resource.Id.snap;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.spacer = global::HandSchool.Droid.Resource.Id.spacer;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.split_action_bar = global::HandSchool.Droid.Resource.Id.split_action_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.src_atop = global::HandSchool.Droid.Resource.Id.src_atop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.src_in = global::HandSchool.Droid.Resource.Id.src_in;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.src_over = global::HandSchool.Droid.Resource.Id.src_over;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.start = global::HandSchool.Droid.Resource.Id.start;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.status_bar_latest_event_content = global::HandSchool.Droid.Resource.Id.status_bar_latest_event_content;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.submenuarrow = global::HandSchool.Droid.Resource.Id.submenuarrow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.submit_area = global::HandSchool.Droid.Resource.Id.submit_area;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.tabMode = global::HandSchool.Droid.Resource.Id.tabMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.text = global::HandSchool.Droid.Resource.Id.text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.text2 = global::HandSchool.Droid.Resource.Id.text2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.textSpacerNoButtons = global::HandSchool.Droid.Resource.Id.textSpacerNoButtons;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.textSpacerNoTitle = global::HandSchool.Droid.Resource.Id.textSpacerNoTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.text_input_password_toggle = global::HandSchool.Droid.Resource.Id.text_input_password_toggle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.textinput_counter = global::HandSchool.Droid.Resource.Id.textinput_counter;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.textinput_error = global::HandSchool.Droid.Resource.Id.textinput_error;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.time = global::HandSchool.Droid.Resource.Id.time;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.title = global::HandSchool.Droid.Resource.Id.title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.titleDividerNoCustom = global::HandSchool.Droid.Resource.Id.titleDividerNoCustom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.title_template = global::HandSchool.Droid.Resource.Id.title_template;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.top = global::HandSchool.Droid.Resource.Id.top;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.topPanel = global::HandSchool.Droid.Resource.Id.topPanel;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.touch_outside = global::HandSchool.Droid.Resource.Id.touch_outside;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.transition_current_scene = global::HandSchool.Droid.Resource.Id.transition_current_scene;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.transition_scene_layoutid_cache = global::HandSchool.Droid.Resource.Id.transition_scene_layoutid_cache;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.up = global::HandSchool.Droid.Resource.Id.up;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.useLogo = global::HandSchool.Droid.Resource.Id.useLogo;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.view_offset_helper = global::HandSchool.Droid.Resource.Id.view_offset_helper;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.visible = global::HandSchool.Droid.Resource.Id.visible;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.withText = global::HandSchool.Droid.Resource.Id.withText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Id.wrap_content = global::HandSchool.Droid.Resource.Id.wrap_content;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.abc_config_activityDefaultDur = global::HandSchool.Droid.Resource.Integer.abc_config_activityDefaultDur;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.abc_config_activityShortDur = global::HandSchool.Droid.Resource.Integer.abc_config_activityShortDur;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.app_bar_elevation_anim_duration = global::HandSchool.Droid.Resource.Integer.app_bar_elevation_anim_duration;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.bottom_sheet_slide_duration = global::HandSchool.Droid.Resource.Integer.bottom_sheet_slide_duration;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.cancel_button_image_alpha = global::HandSchool.Droid.Resource.Integer.cancel_button_image_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.design_snackbar_text_max_lines = global::HandSchool.Droid.Resource.Integer.design_snackbar_text_max_lines;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.hide_password_duration = global::HandSchool.Droid.Resource.Integer.hide_password_duration;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.show_password_duration = global::HandSchool.Droid.Resource.Integer.show_password_duration;
+			global::DanielStone.MaterialAboutLibrary.Resource.Integer.status_bar_notification_info_maxnum = global::HandSchool.Droid.Resource.Integer.status_bar_notification_info_maxnum;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_action_bar_title_item = global::HandSchool.Droid.Resource.Layout.abc_action_bar_title_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_action_bar_up_container = global::HandSchool.Droid.Resource.Layout.abc_action_bar_up_container;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_action_menu_item_layout = global::HandSchool.Droid.Resource.Layout.abc_action_menu_item_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_action_menu_layout = global::HandSchool.Droid.Resource.Layout.abc_action_menu_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_action_mode_bar = global::HandSchool.Droid.Resource.Layout.abc_action_mode_bar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_action_mode_close_item_material = global::HandSchool.Droid.Resource.Layout.abc_action_mode_close_item_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_activity_chooser_view = global::HandSchool.Droid.Resource.Layout.abc_activity_chooser_view;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_activity_chooser_view_list_item = global::HandSchool.Droid.Resource.Layout.abc_activity_chooser_view_list_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_alert_dialog_button_bar_material = global::HandSchool.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_alert_dialog_material = global::HandSchool.Droid.Resource.Layout.abc_alert_dialog_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_alert_dialog_title_material = global::HandSchool.Droid.Resource.Layout.abc_alert_dialog_title_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_dialog_title_material = global::HandSchool.Droid.Resource.Layout.abc_dialog_title_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_expanded_menu_layout = global::HandSchool.Droid.Resource.Layout.abc_expanded_menu_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_list_menu_item_checkbox = global::HandSchool.Droid.Resource.Layout.abc_list_menu_item_checkbox;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_list_menu_item_icon = global::HandSchool.Droid.Resource.Layout.abc_list_menu_item_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_list_menu_item_layout = global::HandSchool.Droid.Resource.Layout.abc_list_menu_item_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_list_menu_item_radio = global::HandSchool.Droid.Resource.Layout.abc_list_menu_item_radio;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_popup_menu_header_item_layout = global::HandSchool.Droid.Resource.Layout.abc_popup_menu_header_item_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_popup_menu_item_layout = global::HandSchool.Droid.Resource.Layout.abc_popup_menu_item_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_screen_content_include = global::HandSchool.Droid.Resource.Layout.abc_screen_content_include;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_screen_simple = global::HandSchool.Droid.Resource.Layout.abc_screen_simple;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_screen_simple_overlay_action_mode = global::HandSchool.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_screen_toolbar = global::HandSchool.Droid.Resource.Layout.abc_screen_toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_search_dropdown_item_icons_2line = global::HandSchool.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_search_view = global::HandSchool.Droid.Resource.Layout.abc_search_view;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.abc_select_dialog_material = global::HandSchool.Droid.Resource.Layout.abc_select_dialog_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_bottom_navigation_item = global::HandSchool.Droid.Resource.Layout.design_bottom_navigation_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_bottom_sheet_dialog = global::HandSchool.Droid.Resource.Layout.design_bottom_sheet_dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_layout_snackbar = global::HandSchool.Droid.Resource.Layout.design_layout_snackbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_layout_snackbar_include = global::HandSchool.Droid.Resource.Layout.design_layout_snackbar_include;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_layout_tab_icon = global::HandSchool.Droid.Resource.Layout.design_layout_tab_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_layout_tab_text = global::HandSchool.Droid.Resource.Layout.design_layout_tab_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_menu_item_action_area = global::HandSchool.Droid.Resource.Layout.design_menu_item_action_area;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_navigation_item = global::HandSchool.Droid.Resource.Layout.design_navigation_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_navigation_item_header = global::HandSchool.Droid.Resource.Layout.design_navigation_item_header;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_navigation_item_separator = global::HandSchool.Droid.Resource.Layout.design_navigation_item_separator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_navigation_item_subheader = global::HandSchool.Droid.Resource.Layout.design_navigation_item_subheader;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_navigation_menu = global::HandSchool.Droid.Resource.Layout.design_navigation_menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_navigation_menu_item = global::HandSchool.Droid.Resource.Layout.design_navigation_menu_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.design_text_input_password_icon = global::HandSchool.Droid.Resource.Layout.design_text_input_password_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.mal_material_about_action_item = global::HandSchool.Droid.Resource.Layout.mal_material_about_action_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.mal_material_about_activity = global::HandSchool.Droid.Resource.Layout.mal_material_about_activity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.mal_material_about_fragment = global::HandSchool.Droid.Resource.Layout.mal_material_about_fragment;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.mal_material_about_list_card = global::HandSchool.Droid.Resource.Layout.mal_material_about_list_card;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.mal_material_about_title_item = global::HandSchool.Droid.Resource.Layout.mal_material_about_title_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_action = global::HandSchool.Droid.Resource.Layout.notification_action;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_action_tombstone = global::HandSchool.Droid.Resource.Layout.notification_action_tombstone;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_media_action = global::HandSchool.Droid.Resource.Layout.notification_media_action;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_media_cancel_action = global::HandSchool.Droid.Resource.Layout.notification_media_cancel_action;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_big_media = global::HandSchool.Droid.Resource.Layout.notification_template_big_media;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_big_media_custom = global::HandSchool.Droid.Resource.Layout.notification_template_big_media_custom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_big_media_narrow = global::HandSchool.Droid.Resource.Layout.notification_template_big_media_narrow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_big_media_narrow_custom = global::HandSchool.Droid.Resource.Layout.notification_template_big_media_narrow_custom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_custom_big = global::HandSchool.Droid.Resource.Layout.notification_template_custom_big;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_icon_group = global::HandSchool.Droid.Resource.Layout.notification_template_icon_group;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_lines_media = global::HandSchool.Droid.Resource.Layout.notification_template_lines_media;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_media = global::HandSchool.Droid.Resource.Layout.notification_template_media;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_media_custom = global::HandSchool.Droid.Resource.Layout.notification_template_media_custom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_part_chronometer = global::HandSchool.Droid.Resource.Layout.notification_template_part_chronometer;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.notification_template_part_time = global::HandSchool.Droid.Resource.Layout.notification_template_part_time;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.select_dialog_item_material = global::HandSchool.Droid.Resource.Layout.select_dialog_item_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.select_dialog_multichoice_material = global::HandSchool.Droid.Resource.Layout.select_dialog_multichoice_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.select_dialog_singlechoice_material = global::HandSchool.Droid.Resource.Layout.select_dialog_singlechoice_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.Layout.support_simple_spinner_dropdown_item = global::HandSchool.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_action_bar_home_description = global::HandSchool.Droid.Resource.String.abc_action_bar_home_description;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_action_bar_up_description = global::HandSchool.Droid.Resource.String.abc_action_bar_up_description;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_action_menu_overflow_description = global::HandSchool.Droid.Resource.String.abc_action_menu_overflow_description;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_action_mode_done = global::HandSchool.Droid.Resource.String.abc_action_mode_done;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_activity_chooser_view_see_all = global::HandSchool.Droid.Resource.String.abc_activity_chooser_view_see_all;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_activitychooserview_choose_application = global::HandSchool.Droid.Resource.String.abc_activitychooserview_choose_application;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_capital_off = global::HandSchool.Droid.Resource.String.abc_capital_off;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_capital_on = global::HandSchool.Droid.Resource.String.abc_capital_on;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_body_1_material = global::HandSchool.Droid.Resource.String.abc_font_family_body_1_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_body_2_material = global::HandSchool.Droid.Resource.String.abc_font_family_body_2_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_button_material = global::HandSchool.Droid.Resource.String.abc_font_family_button_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_caption_material = global::HandSchool.Droid.Resource.String.abc_font_family_caption_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_display_1_material = global::HandSchool.Droid.Resource.String.abc_font_family_display_1_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_display_2_material = global::HandSchool.Droid.Resource.String.abc_font_family_display_2_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_display_3_material = global::HandSchool.Droid.Resource.String.abc_font_family_display_3_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_display_4_material = global::HandSchool.Droid.Resource.String.abc_font_family_display_4_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_headline_material = global::HandSchool.Droid.Resource.String.abc_font_family_headline_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_menu_material = global::HandSchool.Droid.Resource.String.abc_font_family_menu_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_subhead_material = global::HandSchool.Droid.Resource.String.abc_font_family_subhead_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_font_family_title_material = global::HandSchool.Droid.Resource.String.abc_font_family_title_material;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_search_hint = global::HandSchool.Droid.Resource.String.abc_search_hint;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_searchview_description_clear = global::HandSchool.Droid.Resource.String.abc_searchview_description_clear;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_searchview_description_query = global::HandSchool.Droid.Resource.String.abc_searchview_description_query;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_searchview_description_search = global::HandSchool.Droid.Resource.String.abc_searchview_description_search;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_searchview_description_submit = global::HandSchool.Droid.Resource.String.abc_searchview_description_submit;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_searchview_description_voice = global::HandSchool.Droid.Resource.String.abc_searchview_description_voice;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_shareactionprovider_share_with = global::HandSchool.Droid.Resource.String.abc_shareactionprovider_share_with;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_shareactionprovider_share_with_application = global::HandSchool.Droid.Resource.String.abc_shareactionprovider_share_with_application;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.abc_toolbar_collapse_description = global::HandSchool.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.app_name = global::HandSchool.Droid.Resource.String.app_name;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.appbar_scrolling_view_behavior = global::HandSchool.Droid.Resource.String.appbar_scrolling_view_behavior;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.bottom_sheet_behavior = global::HandSchool.Droid.Resource.String.bottom_sheet_behavior;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.character_counter_pattern = global::HandSchool.Droid.Resource.String.character_counter_pattern;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.license_apache2 = global::HandSchool.Droid.Resource.String.license_apache2;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.license_bsd = global::HandSchool.Droid.Resource.String.license_bsd;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.license_gpl = global::HandSchool.Droid.Resource.String.license_gpl;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.license_mit = global::HandSchool.Droid.Resource.String.license_mit;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.mal_activity_exception = global::HandSchool.Droid.Resource.String.mal_activity_exception;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.mal_close = global::HandSchool.Droid.Resource.String.mal_close;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.mal_send_email = global::HandSchool.Droid.Resource.String.mal_send_email;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.mal_title_about = global::HandSchool.Droid.Resource.String.mal_title_about;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.mal_title_licenses = global::HandSchool.Droid.Resource.String.mal_title_licenses;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.password_toggle_content_description = global::HandSchool.Droid.Resource.String.password_toggle_content_description;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.path_password_eye = global::HandSchool.Droid.Resource.String.path_password_eye;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.path_password_eye_mask_strike_through = global::HandSchool.Droid.Resource.String.path_password_eye_mask_strike_through;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.path_password_eye_mask_visible = global::HandSchool.Droid.Resource.String.path_password_eye_mask_visible;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.path_password_strike_through = global::HandSchool.Droid.Resource.String.path_password_strike_through;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.search_menu_title = global::HandSchool.Droid.Resource.String.search_menu_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.String.status_bar_notification_info_overflow = global::HandSchool.Droid.Resource.String.status_bar_notification_info_overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.AlertDialog_AppCompat = global::HandSchool.Droid.Resource.Style.AlertDialog_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.AlertDialog_AppCompat_Light = global::HandSchool.Droid.Resource.Style.AlertDialog_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Animation_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Animation_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Animation_AppCompat_DropDownUp = global::HandSchool.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Animation_Design_BottomSheetDialog = global::HandSchool.Droid.Resource.Style.Animation_Design_BottomSheetDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_AlertDialog_AppCompat = global::HandSchool.Droid.Resource.Style.Base_AlertDialog_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_AlertDialog_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Animation_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::HandSchool.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_CardView = global::HandSchool.Droid.Resource.Style.Base_CardView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_DialogWindowTitle_AppCompat = global::HandSchool.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::HandSchool.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Button = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Large = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Small = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Title = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::HandSchool.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::HandSchool.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V11_Theme_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_V11_Theme_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V11_Theme_AppCompat_Light_Dialog = global::HandSchool.Droid.Resource.Style.Base_V11_Theme_AppCompat_Light_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V11_ThemeOverlay_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_V11_ThemeOverlay_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V12_Widget_AppCompat_AutoCompleteTextView = global::HandSchool.Droid.Resource.Style.Base_V12_Widget_AppCompat_AutoCompleteTextView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V12_Widget_AppCompat_EditText = global::HandSchool.Droid.Resource.Style.Base_V12_Widget_AppCompat_EditText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V21_Theme_AppCompat = global::HandSchool.Droid.Resource.Style.Base_V21_Theme_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V21_Theme_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::HandSchool.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V22_Theme_AppCompat = global::HandSchool.Droid.Resource.Style.Base_V22_Theme_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V22_Theme_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V23_Theme_AppCompat = global::HandSchool.Droid.Resource.Style.Base_V23_Theme_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V23_Theme_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_Theme_AppCompat = global::HandSchool.Droid.Resource.Style.Base_V7_Theme_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_Theme_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::HandSchool.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::HandSchool.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::HandSchool.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionButton = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActionMode = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Button = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Button_Small = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_EditText = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_EditText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ImageButton = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ListMenuView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ListMenuView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ListView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ListView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_RatingBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_RatingBar_Small = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_SearchView = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_SearchView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_SeekBar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Spinner = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Toolbar = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::HandSchool.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_Design_AppBarLayout = global::HandSchool.Droid.Resource.Style.Base_Widget_Design_AppBarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Base_Widget_Design_TabLayout = global::HandSchool.Droid.Resource.Style.Base_Widget_Design_TabLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.CardView = global::HandSchool.Droid.Resource.Style.CardView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.CardView_Dark = global::HandSchool.Droid.Resource.Style.CardView_Dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.CardView_Light = global::HandSchool.Droid.Resource.Style.CardView_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_AppCompat = global::HandSchool.Droid.Resource.Style.Platform_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Platform_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_ThemeOverlay_AppCompat = global::HandSchool.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::HandSchool.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V11_AppCompat = global::HandSchool.Droid.Resource.Style.Platform_V11_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V11_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Platform_V11_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V14_AppCompat = global::HandSchool.Droid.Resource.Style.Platform_V14_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V14_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Platform_V14_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V21_AppCompat = global::HandSchool.Droid.Resource.Style.Platform_V21_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V21_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Platform_V21_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V25_AppCompat = global::HandSchool.Droid.Resource.Style.Platform_V25_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_V25_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Platform_V25_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Platform_Widget_AppCompat_Spinner = global::HandSchool.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::HandSchool.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::HandSchool.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::HandSchool.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::HandSchool.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Body1 = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Body2 = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Button = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Caption = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Caption;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Display1 = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Display1;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Display2 = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Display2;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Display3 = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Display3;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Display4 = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Display4;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Headline = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Headline;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Large = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Medium = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Medium;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Menu = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Small = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Subhead = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Subhead;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Title = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::HandSchool.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_Counter = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_Counter;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_Counter_Overflow = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_Counter_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_Error = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_Error;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_Hint = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_Hint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_Snackbar_Message = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_Snackbar_Message;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Design_Tab = global::HandSchool.Droid.Resource.Style.TextAppearance_Design_Tab;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::HandSchool.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::HandSchool.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::HandSchool.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat = global::HandSchool.Droid.Resource.Style.Theme_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_CompactMenu = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_CompactMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight_Dialog = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DayNight_NoActionBar = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DayNight_NoActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Dialog_Alert = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light_Dialog = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_AppCompat_NoActionBar = global::HandSchool.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Design = global::HandSchool.Droid.Resource.Style.Theme_Design;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Design_BottomSheetDialog = global::HandSchool.Droid.Resource.Style.Theme_Design_BottomSheetDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Design_Light = global::HandSchool.Droid.Resource.Style.Theme_Design_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Design_Light_BottomSheetDialog = global::HandSchool.Droid.Resource.Style.Theme_Design_Light_BottomSheetDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Design_Light_NoActionBar = global::HandSchool.Droid.Resource.Style.Theme_Design_Light_NoActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Design_NoActionBar = global::HandSchool.Droid.Resource.Style.Theme_Design_NoActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Mal_Dark = global::HandSchool.Droid.Resource.Style.Theme_Mal_Dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Mal_Dark_LightActionBar = global::HandSchool.Droid.Resource.Style.Theme_Mal_Dark_LightActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Mal_Light = global::HandSchool.Droid.Resource.Style.Theme_Mal_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Mal_Light_DarkActionBar = global::HandSchool.Droid.Resource.Style.Theme_Mal_Light_DarkActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Mal_Toolbar_Dark = global::HandSchool.Droid.Resource.Style.Theme_Mal_Toolbar_Dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Theme_Mal_Toolbar_Light = global::HandSchool.Droid.Resource.Style.Theme_Mal_Toolbar_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat_Dark = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat_Dialog = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.ThemeOverlay_AppCompat_Light = global::HandSchool.Droid.Resource.Style.ThemeOverlay_AppCompat_Light;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionButton = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActionMode = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActionMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ActivityChooserView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Button = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Button_Borderless = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Button_Borderless;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Button_Colored = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Button_Colored;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Button_Small = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Button_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ButtonBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ButtonBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_EditText = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_EditText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ImageButton = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ImageButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionButton = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_SearchView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_SearchView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ListMenuView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ListMenuView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ListPopupWindow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ListView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ListView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ListView_DropDown = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ListView_Menu = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ListView_Menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_PopupMenu = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_PopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_PopupWindow = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_PopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ProgressBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ProgressBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_RatingBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_RatingBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_RatingBar_Indicator = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_RatingBar_Indicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_RatingBar_Small = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_RatingBar_Small;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_SearchView = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_SearchView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_SeekBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_SeekBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_SeekBar_Discrete = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_SeekBar_Discrete;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Spinner = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Toolbar = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::HandSchool.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_AppBarLayout = global::HandSchool.Droid.Resource.Style.Widget_Design_AppBarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_BottomNavigationView = global::HandSchool.Droid.Resource.Style.Widget_Design_BottomNavigationView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_BottomSheet_Modal = global::HandSchool.Droid.Resource.Style.Widget_Design_BottomSheet_Modal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_CollapsingToolbar = global::HandSchool.Droid.Resource.Style.Widget_Design_CollapsingToolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_CoordinatorLayout = global::HandSchool.Droid.Resource.Style.Widget_Design_CoordinatorLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_FloatingActionButton = global::HandSchool.Droid.Resource.Style.Widget_Design_FloatingActionButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_NavigationView = global::HandSchool.Droid.Resource.Style.Widget_Design_NavigationView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_ScrimInsetsFrameLayout = global::HandSchool.Droid.Resource.Style.Widget_Design_ScrimInsetsFrameLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_Snackbar = global::HandSchool.Droid.Resource.Style.Widget_Design_Snackbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_TabLayout = global::HandSchool.Droid.Resource.Style.Widget_Design_TabLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Style.Widget_Design_TextInputLayout = global::HandSchool.Droid.Resource.Style.Widget_Design_TextInputLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar = global::HandSchool.Droid.Resource.Styleable.ActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_background = global::HandSchool.Droid.Resource.Styleable.ActionBar_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_backgroundSplit = global::HandSchool.Droid.Resource.Styleable.ActionBar_backgroundSplit;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_backgroundStacked = global::HandSchool.Droid.Resource.Styleable.ActionBar_backgroundStacked;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_contentInsetEnd = global::HandSchool.Droid.Resource.Styleable.ActionBar_contentInsetEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_contentInsetEndWithActions = global::HandSchool.Droid.Resource.Styleable.ActionBar_contentInsetEndWithActions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_contentInsetLeft = global::HandSchool.Droid.Resource.Styleable.ActionBar_contentInsetLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_contentInsetRight = global::HandSchool.Droid.Resource.Styleable.ActionBar_contentInsetRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_contentInsetStart = global::HandSchool.Droid.Resource.Styleable.ActionBar_contentInsetStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_contentInsetStartWithNavigation = global::HandSchool.Droid.Resource.Styleable.ActionBar_contentInsetStartWithNavigation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_customNavigationLayout = global::HandSchool.Droid.Resource.Styleable.ActionBar_customNavigationLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_displayOptions = global::HandSchool.Droid.Resource.Styleable.ActionBar_displayOptions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_divider = global::HandSchool.Droid.Resource.Styleable.ActionBar_divider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_elevation = global::HandSchool.Droid.Resource.Styleable.ActionBar_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_height = global::HandSchool.Droid.Resource.Styleable.ActionBar_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_hideOnContentScroll = global::HandSchool.Droid.Resource.Styleable.ActionBar_hideOnContentScroll;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_homeAsUpIndicator = global::HandSchool.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_homeLayout = global::HandSchool.Droid.Resource.Styleable.ActionBar_homeLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_icon = global::HandSchool.Droid.Resource.Styleable.ActionBar_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::HandSchool.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_itemPadding = global::HandSchool.Droid.Resource.Styleable.ActionBar_itemPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_logo = global::HandSchool.Droid.Resource.Styleable.ActionBar_logo;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_navigationMode = global::HandSchool.Droid.Resource.Styleable.ActionBar_navigationMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_popupTheme = global::HandSchool.Droid.Resource.Styleable.ActionBar_popupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_progressBarPadding = global::HandSchool.Droid.Resource.Styleable.ActionBar_progressBarPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_progressBarStyle = global::HandSchool.Droid.Resource.Styleable.ActionBar_progressBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_subtitle = global::HandSchool.Droid.Resource.Styleable.ActionBar_subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_subtitleTextStyle = global::HandSchool.Droid.Resource.Styleable.ActionBar_subtitleTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_title = global::HandSchool.Droid.Resource.Styleable.ActionBar_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBar_titleTextStyle = global::HandSchool.Droid.Resource.Styleable.ActionBar_titleTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBarLayout = global::HandSchool.Droid.Resource.Styleable.ActionBarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::HandSchool.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMenuItemView = global::HandSchool.Droid.Resource.Styleable.ActionMenuItemView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMenuItemView_android_minWidth = global::HandSchool.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMenuView = global::HandSchool.Droid.Resource.Styleable.ActionMenuView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode = global::HandSchool.Droid.Resource.Styleable.ActionMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode_background = global::HandSchool.Droid.Resource.Styleable.ActionMode_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode_backgroundSplit = global::HandSchool.Droid.Resource.Styleable.ActionMode_backgroundSplit;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode_closeItemLayout = global::HandSchool.Droid.Resource.Styleable.ActionMode_closeItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode_height = global::HandSchool.Droid.Resource.Styleable.ActionMode_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode_subtitleTextStyle = global::HandSchool.Droid.Resource.Styleable.ActionMode_subtitleTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActionMode_titleTextStyle = global::HandSchool.Droid.Resource.Styleable.ActionMode_titleTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActivityChooserView = global::HandSchool.Droid.Resource.Styleable.ActivityChooserView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::HandSchool.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ActivityChooserView_initialActivityCount = global::HandSchool.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog = global::HandSchool.Droid.Resource.Styleable.AlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_android_layout = global::HandSchool.Droid.Resource.Styleable.AlertDialog_android_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::HandSchool.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_listItemLayout = global::HandSchool.Droid.Resource.Styleable.AlertDialog_listItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_listLayout = global::HandSchool.Droid.Resource.Styleable.AlertDialog_listLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::HandSchool.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_showTitle = global::HandSchool.Droid.Resource.Styleable.AlertDialog_showTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::HandSchool.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout = global::HandSchool.Droid.Resource.Styleable.AppBarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout_android_background = global::HandSchool.Droid.Resource.Styleable.AppBarLayout_android_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout_elevation = global::HandSchool.Droid.Resource.Styleable.AppBarLayout_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout_expanded = global::HandSchool.Droid.Resource.Styleable.AppBarLayout_expanded;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayoutStates = global::HandSchool.Droid.Resource.Styleable.AppBarLayoutStates;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayoutStates_state_collapsed = global::HandSchool.Droid.Resource.Styleable.AppBarLayoutStates_state_collapsed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayoutStates_state_collapsible = global::HandSchool.Droid.Resource.Styleable.AppBarLayoutStates_state_collapsible;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout_Layout = global::HandSchool.Droid.Resource.Styleable.AppBarLayout_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout_Layout_layout_scrollFlags = global::HandSchool.Droid.Resource.Styleable.AppBarLayout_Layout_layout_scrollFlags;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppBarLayout_Layout_layout_scrollInterpolator = global::HandSchool.Droid.Resource.Styleable.AppBarLayout_Layout_layout_scrollInterpolator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatImageView = global::HandSchool.Droid.Resource.Styleable.AppCompatImageView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatImageView_android_src = global::HandSchool.Droid.Resource.Styleable.AppCompatImageView_android_src;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatImageView_srcCompat = global::HandSchool.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatImageView_tint = global::HandSchool.Droid.Resource.Styleable.AppCompatImageView_tint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatImageView_tintMode = global::HandSchool.Droid.Resource.Styleable.AppCompatImageView_tintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatSeekBar = global::HandSchool.Droid.Resource.Styleable.AppCompatSeekBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatSeekBar_android_thumb = global::HandSchool.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatSeekBar_tickMark = global::HandSchool.Droid.Resource.Styleable.AppCompatSeekBar_tickMark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatSeekBar_tickMarkTint = global::HandSchool.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode = global::HandSchool.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_drawableBottom = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_drawableEnd = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_drawableLeft = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_drawableRight = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_drawableStart = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_drawableTop = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextHelper_android_textAppearance = global::HandSchool.Droid.Resource.Styleable.AppCompatTextHelper_android_textAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextView = global::HandSchool.Droid.Resource.Styleable.AppCompatTextView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextView_android_textAppearance = global::HandSchool.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTextView_textAllCaps = global::HandSchool.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarDivider = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarItemBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarItemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarPopupTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarPopupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarSize = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarSplitStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarSplitStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarTabStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarTabStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionDropDownStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionDropDownStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionMenuTextColor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeCutDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeCutDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeFindDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeFindDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModePasteDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModePasteDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeShareDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeShareDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeSplitBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeSplitBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_activityChooserViewStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_activityChooserViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_alertDialogStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_alertDialogStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_alertDialogTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_alertDialogTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_android_windowIsFloating = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_android_windowIsFloating;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_borderlessButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_borderlessButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonBarStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_buttonStyleSmall = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_buttonStyleSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_checkboxStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_checkboxStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_checkedTextViewStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_checkedTextViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorAccent = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorAccent;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorBackgroundFloating = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorBackgroundFloating;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorButtonNormal = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorButtonNormal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorControlActivated = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorControlActivated;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorControlHighlight = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorControlHighlight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorControlNormal = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorControlNormal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorPrimary = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorPrimary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_controlBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_controlBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_dialogTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_dialogTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_dividerVertical = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_dividerVertical;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_dropDownListViewStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_dropDownListViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_editTextBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_editTextBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_editTextColor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_editTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_editTextStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_editTextStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_homeAsUpIndicator = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_homeAsUpIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_imageButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_imageButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listDividerAlertDialog = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listDividerAlertDialog;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listMenuViewStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listMenuViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listPopupWindowStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listPopupWindowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listPreferredItemHeight = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_panelBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_panelBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_panelMenuListTheme = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_panelMenuListTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_panelMenuListWidth = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_panelMenuListWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_popupMenuStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_popupMenuStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_popupWindowStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_popupWindowStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_radioButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_radioButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_ratingBarStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_searchViewStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_searchViewStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_seekBarStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_seekBarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_selectableItemBackground = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_spinnerStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_spinnerStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_switchStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_switchStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_textColorSearchUrl = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_textColorSearchUrl;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_toolbarStyle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowActionBar = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowActionBar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.AppCompatTheme_windowNoTitle = global::HandSchool.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomNavigationView = global::HandSchool.Droid.Resource.Styleable.BottomNavigationView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomNavigationView_elevation = global::HandSchool.Droid.Resource.Styleable.BottomNavigationView_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomNavigationView_itemBackground = global::HandSchool.Droid.Resource.Styleable.BottomNavigationView_itemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomNavigationView_itemIconTint = global::HandSchool.Droid.Resource.Styleable.BottomNavigationView_itemIconTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomNavigationView_itemTextColor = global::HandSchool.Droid.Resource.Styleable.BottomNavigationView_itemTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomNavigationView_menu = global::HandSchool.Droid.Resource.Styleable.BottomNavigationView_menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomSheetBehavior_Layout = global::HandSchool.Droid.Resource.Styleable.BottomSheetBehavior_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomSheetBehavior_Layout_behavior_hideable = global::HandSchool.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_hideable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomSheetBehavior_Layout_behavior_peekHeight = global::HandSchool.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_peekHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed = global::HandSchool.Droid.Resource.Styleable.BottomSheetBehavior_Layout_behavior_skipCollapsed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ButtonBarLayout = global::HandSchool.Droid.Resource.Styleable.ButtonBarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ButtonBarLayout_allowStacking = global::HandSchool.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView = global::HandSchool.Droid.Resource.Styleable.CardView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_android_minHeight = global::HandSchool.Droid.Resource.Styleable.CardView_android_minHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_android_minWidth = global::HandSchool.Droid.Resource.Styleable.CardView_android_minWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_cardBackgroundColor = global::HandSchool.Droid.Resource.Styleable.CardView_cardBackgroundColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_cardCornerRadius = global::HandSchool.Droid.Resource.Styleable.CardView_cardCornerRadius;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_cardElevation = global::HandSchool.Droid.Resource.Styleable.CardView_cardElevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_cardMaxElevation = global::HandSchool.Droid.Resource.Styleable.CardView_cardMaxElevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_cardPreventCornerOverlap = global::HandSchool.Droid.Resource.Styleable.CardView_cardPreventCornerOverlap;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_cardUseCompatPadding = global::HandSchool.Droid.Resource.Styleable.CardView_cardUseCompatPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_contentPadding = global::HandSchool.Droid.Resource.Styleable.CardView_contentPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_contentPaddingBottom = global::HandSchool.Droid.Resource.Styleable.CardView_contentPaddingBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_contentPaddingLeft = global::HandSchool.Droid.Resource.Styleable.CardView_contentPaddingLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_contentPaddingRight = global::HandSchool.Droid.Resource.Styleable.CardView_contentPaddingRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CardView_contentPaddingTop = global::HandSchool.Droid.Resource.Styleable.CardView_contentPaddingTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_contentScrim = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_contentScrim;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_scrimAnimationDuration = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_scrimAnimationDuration;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_scrimVisibleHeightTrigger;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_title = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_titleEnabled = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_titleEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_toolbarId = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_toolbarId;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_Layout = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseMode = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier = global::HandSchool.Droid.Resource.Styleable.CollapsingToolbarLayout_Layout_layout_collapseParallaxMultiplier;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ColorStateListItem = global::HandSchool.Droid.Resource.Styleable.ColorStateListItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ColorStateListItem_alpha = global::HandSchool.Droid.Resource.Styleable.ColorStateListItem_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ColorStateListItem_android_alpha = global::HandSchool.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ColorStateListItem_android_color = global::HandSchool.Droid.Resource.Styleable.ColorStateListItem_android_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CompoundButton = global::HandSchool.Droid.Resource.Styleable.CompoundButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CompoundButton_android_button = global::HandSchool.Droid.Resource.Styleable.CompoundButton_android_button;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CompoundButton_buttonTint = global::HandSchool.Droid.Resource.Styleable.CompoundButton_buttonTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CompoundButton_buttonTintMode = global::HandSchool.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_keylines = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::HandSchool.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DesignTheme = global::HandSchool.Droid.Resource.Styleable.DesignTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DesignTheme_bottomSheetDialogTheme = global::HandSchool.Droid.Resource.Styleable.DesignTheme_bottomSheetDialogTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DesignTheme_bottomSheetStyle = global::HandSchool.Droid.Resource.Styleable.DesignTheme_bottomSheetStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DesignTheme_textColorError = global::HandSchool.Droid.Resource.Styleable.DesignTheme_textColorError;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_barLength = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_barLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_color = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_color;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_drawableSize = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_spinBars = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.DrawerArrowToggle_thickness = global::HandSchool.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_backgroundTint = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_backgroundTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_backgroundTintMode = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_backgroundTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_borderWidth = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_borderWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_elevation = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_fabSize = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_fabSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_pressedTranslationZ = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_pressedTranslationZ;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_rippleColor = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_rippleColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_useCompatPadding = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_useCompatPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_Behavior_Layout = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_Behavior_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.FloatingActionButton_Behavior_Layout_behavior_autoHide = global::HandSchool.Droid.Resource.Styleable.FloatingActionButton_Behavior_Layout_behavior_autoHide;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ForegroundLinearLayout = global::HandSchool.Droid.Resource.Styleable.ForegroundLinearLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ForegroundLinearLayout_android_foreground = global::HandSchool.Droid.Resource.Styleable.ForegroundLinearLayout_android_foreground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity = global::HandSchool.Droid.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding = global::HandSchool.Droid.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_android_gravity = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_android_orientation = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_divider = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_divider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_showDividers = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_showDividers;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_Layout = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::HandSchool.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ListPopupWindow = global::HandSchool.Droid.Resource.Styleable.ListPopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::HandSchool.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::HandSchool.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup = global::HandSchool.Droid.Resource.Styleable.MenuGroup;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup_android_checkableBehavior = global::HandSchool.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup_android_enabled = global::HandSchool.Droid.Resource.Styleable.MenuGroup_android_enabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup_android_id = global::HandSchool.Droid.Resource.Styleable.MenuGroup_android_id;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup_android_menuCategory = global::HandSchool.Droid.Resource.Styleable.MenuGroup_android_menuCategory;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup_android_orderInCategory = global::HandSchool.Droid.Resource.Styleable.MenuGroup_android_orderInCategory;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuGroup_android_visible = global::HandSchool.Droid.Resource.Styleable.MenuGroup_android_visible;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem = global::HandSchool.Droid.Resource.Styleable.MenuItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_actionLayout = global::HandSchool.Droid.Resource.Styleable.MenuItem_actionLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_actionProviderClass = global::HandSchool.Droid.Resource.Styleable.MenuItem_actionProviderClass;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_actionViewClass = global::HandSchool.Droid.Resource.Styleable.MenuItem_actionViewClass;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_checkable = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_checkable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_checked = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_checked;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_enabled = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_enabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_icon = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_id = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_id;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_menuCategory = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_menuCategory;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_numericShortcut = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_numericShortcut;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_onClick = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_onClick;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_orderInCategory = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_orderInCategory;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_title = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_titleCondensed = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_titleCondensed;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_android_visible = global::HandSchool.Droid.Resource.Styleable.MenuItem_android_visible;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuItem_showAsAction = global::HandSchool.Droid.Resource.Styleable.MenuItem_showAsAction;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView = global::HandSchool.Droid.Resource.Styleable.MenuView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_headerBackground = global::HandSchool.Droid.Resource.Styleable.MenuView_android_headerBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_horizontalDivider = global::HandSchool.Droid.Resource.Styleable.MenuView_android_horizontalDivider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_itemBackground = global::HandSchool.Droid.Resource.Styleable.MenuView_android_itemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::HandSchool.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_itemTextAppearance = global::HandSchool.Droid.Resource.Styleable.MenuView_android_itemTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_verticalDivider = global::HandSchool.Droid.Resource.Styleable.MenuView_android_verticalDivider;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_android_windowAnimationStyle = global::HandSchool.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_preserveIconSpacing = global::HandSchool.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.MenuView_subMenuArrow = global::HandSchool.Droid.Resource.Styleable.MenuView_subMenuArrow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView = global::HandSchool.Droid.Resource.Styleable.NavigationView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_android_background = global::HandSchool.Droid.Resource.Styleable.NavigationView_android_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_android_fitsSystemWindows = global::HandSchool.Droid.Resource.Styleable.NavigationView_android_fitsSystemWindows;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_android_maxWidth = global::HandSchool.Droid.Resource.Styleable.NavigationView_android_maxWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_elevation = global::HandSchool.Droid.Resource.Styleable.NavigationView_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_headerLayout = global::HandSchool.Droid.Resource.Styleable.NavigationView_headerLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_itemBackground = global::HandSchool.Droid.Resource.Styleable.NavigationView_itemBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_itemIconTint = global::HandSchool.Droid.Resource.Styleable.NavigationView_itemIconTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_itemTextAppearance = global::HandSchool.Droid.Resource.Styleable.NavigationView_itemTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_itemTextColor = global::HandSchool.Droid.Resource.Styleable.NavigationView_itemTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.NavigationView_menu = global::HandSchool.Droid.Resource.Styleable.NavigationView_menu;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.PopupWindow = global::HandSchool.Droid.Resource.Styleable.PopupWindow;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::HandSchool.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.PopupWindow_android_popupBackground = global::HandSchool.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.PopupWindow_overlapAnchor = global::HandSchool.Droid.Resource.Styleable.PopupWindow_overlapAnchor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.PopupWindowBackgroundState = global::HandSchool.Droid.Resource.Styleable.PopupWindowBackgroundState;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::HandSchool.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecycleListView = global::HandSchool.Droid.Resource.Styleable.RecycleListView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::HandSchool.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::HandSchool.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView = global::HandSchool.Droid.Resource.Styleable.RecyclerView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView_android_descendantFocusability = global::HandSchool.Droid.Resource.Styleable.RecyclerView_android_descendantFocusability;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView_android_orientation = global::HandSchool.Droid.Resource.Styleable.RecyclerView_android_orientation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView_layoutManager = global::HandSchool.Droid.Resource.Styleable.RecyclerView_layoutManager;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView_reverseLayout = global::HandSchool.Droid.Resource.Styleable.RecyclerView_reverseLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView_spanCount = global::HandSchool.Droid.Resource.Styleable.RecyclerView_spanCount;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.RecyclerView_stackFromEnd = global::HandSchool.Droid.Resource.Styleable.RecyclerView_stackFromEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ScrimInsetsFrameLayout = global::HandSchool.Droid.Resource.Styleable.ScrimInsetsFrameLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::HandSchool.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ScrollingViewBehavior_Layout = global::HandSchool.Droid.Resource.Styleable.ScrollingViewBehavior_Layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop = global::HandSchool.Droid.Resource.Styleable.ScrollingViewBehavior_Layout_behavior_overlapTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView = global::HandSchool.Droid.Resource.Styleable.SearchView;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_android_focusable = global::HandSchool.Droid.Resource.Styleable.SearchView_android_focusable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_android_imeOptions = global::HandSchool.Droid.Resource.Styleable.SearchView_android_imeOptions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_android_inputType = global::HandSchool.Droid.Resource.Styleable.SearchView_android_inputType;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_android_maxWidth = global::HandSchool.Droid.Resource.Styleable.SearchView_android_maxWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_closeIcon = global::HandSchool.Droid.Resource.Styleable.SearchView_closeIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_commitIcon = global::HandSchool.Droid.Resource.Styleable.SearchView_commitIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_defaultQueryHint = global::HandSchool.Droid.Resource.Styleable.SearchView_defaultQueryHint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_goIcon = global::HandSchool.Droid.Resource.Styleable.SearchView_goIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_iconifiedByDefault = global::HandSchool.Droid.Resource.Styleable.SearchView_iconifiedByDefault;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_layout = global::HandSchool.Droid.Resource.Styleable.SearchView_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_queryBackground = global::HandSchool.Droid.Resource.Styleable.SearchView_queryBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_queryHint = global::HandSchool.Droid.Resource.Styleable.SearchView_queryHint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_searchHintIcon = global::HandSchool.Droid.Resource.Styleable.SearchView_searchHintIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_searchIcon = global::HandSchool.Droid.Resource.Styleable.SearchView_searchIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_submitBackground = global::HandSchool.Droid.Resource.Styleable.SearchView_submitBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_suggestionRowLayout = global::HandSchool.Droid.Resource.Styleable.SearchView_suggestionRowLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SearchView_voiceIcon = global::HandSchool.Droid.Resource.Styleable.SearchView_voiceIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SnackbarLayout = global::HandSchool.Droid.Resource.Styleable.SnackbarLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SnackbarLayout_android_maxWidth = global::HandSchool.Droid.Resource.Styleable.SnackbarLayout_android_maxWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SnackbarLayout_elevation = global::HandSchool.Droid.Resource.Styleable.SnackbarLayout_elevation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SnackbarLayout_maxActionInlineWidth = global::HandSchool.Droid.Resource.Styleable.SnackbarLayout_maxActionInlineWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Spinner = global::HandSchool.Droid.Resource.Styleable.Spinner;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Spinner_android_dropDownWidth = global::HandSchool.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Spinner_android_entries = global::HandSchool.Droid.Resource.Styleable.Spinner_android_entries;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Spinner_android_popupBackground = global::HandSchool.Droid.Resource.Styleable.Spinner_android_popupBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Spinner_android_prompt = global::HandSchool.Droid.Resource.Styleable.Spinner_android_prompt;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Spinner_popupTheme = global::HandSchool.Droid.Resource.Styleable.Spinner_popupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat = global::HandSchool.Droid.Resource.Styleable.SwitchCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_android_textOff = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_android_textOff;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_android_textOn = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_android_textOn;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_android_thumb = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_android_thumb;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_showText = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_showText;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_splitTrack = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_splitTrack;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_switchMinWidth = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_switchMinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_switchPadding = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_switchPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_switchTextAppearance = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_thumbTextPadding = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_thumbTint = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_thumbTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_thumbTintMode = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_thumbTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_track = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_track;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_trackTint = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_trackTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.SwitchCompat_trackTintMode = global::HandSchool.Droid.Resource.Styleable.SwitchCompat_trackTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabItem = global::HandSchool.Droid.Resource.Styleable.TabItem;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabItem_android_icon = global::HandSchool.Droid.Resource.Styleable.TabItem_android_icon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabItem_android_layout = global::HandSchool.Droid.Resource.Styleable.TabItem_android_layout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabItem_android_text = global::HandSchool.Droid.Resource.Styleable.TabItem_android_text;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout = global::HandSchool.Droid.Resource.Styleable.TabLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabBackground = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabBackground;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabContentStart = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabContentStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabGravity = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabIndicatorColor = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabIndicatorColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabIndicatorHeight = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabIndicatorHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabMaxWidth = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabMaxWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabMinWidth = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabMinWidth;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabMode = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabPadding = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabPadding;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabPaddingBottom = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabPaddingBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabPaddingEnd = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabPaddingEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabPaddingStart = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabPaddingStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabPaddingTop = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabPaddingTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabSelectedTextColor = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabSelectedTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabTextAppearance = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TabLayout_tabTextColor = global::HandSchool.Droid.Resource.Styleable.TabLayout_tabTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance = global::HandSchool.Droid.Resource.Styleable.TextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_shadowColor = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_shadowDx = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_shadowDx;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_shadowDy = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_shadowDy;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_shadowRadius = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_shadowRadius;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_textColor = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_textColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_textColorHint = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_textColorHint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_textSize = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_textSize;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_textStyle = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_textStyle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_android_typeface = global::HandSchool.Droid.Resource.Styleable.TextAppearance_android_typeface;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextAppearance_textAllCaps = global::HandSchool.Droid.Resource.Styleable.TextAppearance_textAllCaps;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout = global::HandSchool.Droid.Resource.Styleable.TextInputLayout;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_android_hint = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_android_hint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_android_textColorHint = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_android_textColorHint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_counterEnabled = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_counterEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_counterMaxLength = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_counterMaxLength;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_counterTextAppearance = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_counterTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_errorEnabled = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_errorEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_errorTextAppearance = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_errorTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_hintAnimationEnabled = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_hintAnimationEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_hintEnabled = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_hintEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_hintTextAppearance = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_hintTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_passwordToggleContentDescription = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_passwordToggleContentDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_passwordToggleDrawable = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_passwordToggleDrawable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_passwordToggleEnabled = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_passwordToggleEnabled;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_passwordToggleTint = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_passwordToggleTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.TextInputLayout_passwordToggleTintMode = global::HandSchool.Droid.Resource.Styleable.TextInputLayout_passwordToggleTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar = global::HandSchool.Droid.Resource.Styleable.Toolbar;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_android_gravity = global::HandSchool.Droid.Resource.Styleable.Toolbar_android_gravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_android_minHeight = global::HandSchool.Droid.Resource.Styleable.Toolbar_android_minHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_buttonGravity = global::HandSchool.Droid.Resource.Styleable.Toolbar_buttonGravity;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_collapseContentDescription = global::HandSchool.Droid.Resource.Styleable.Toolbar_collapseContentDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_collapseIcon = global::HandSchool.Droid.Resource.Styleable.Toolbar_collapseIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_contentInsetEnd = global::HandSchool.Droid.Resource.Styleable.Toolbar_contentInsetEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_contentInsetEndWithActions = global::HandSchool.Droid.Resource.Styleable.Toolbar_contentInsetEndWithActions;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_contentInsetLeft = global::HandSchool.Droid.Resource.Styleable.Toolbar_contentInsetLeft;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_contentInsetRight = global::HandSchool.Droid.Resource.Styleable.Toolbar_contentInsetRight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_contentInsetStart = global::HandSchool.Droid.Resource.Styleable.Toolbar_contentInsetStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_contentInsetStartWithNavigation = global::HandSchool.Droid.Resource.Styleable.Toolbar_contentInsetStartWithNavigation;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_logo = global::HandSchool.Droid.Resource.Styleable.Toolbar_logo;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_logoDescription = global::HandSchool.Droid.Resource.Styleable.Toolbar_logoDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_maxButtonHeight = global::HandSchool.Droid.Resource.Styleable.Toolbar_maxButtonHeight;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_navigationContentDescription = global::HandSchool.Droid.Resource.Styleable.Toolbar_navigationContentDescription;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_navigationIcon = global::HandSchool.Droid.Resource.Styleable.Toolbar_navigationIcon;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_popupTheme = global::HandSchool.Droid.Resource.Styleable.Toolbar_popupTheme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_subtitle = global::HandSchool.Droid.Resource.Styleable.Toolbar_subtitle;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_subtitleTextAppearance = global::HandSchool.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_subtitleTextColor = global::HandSchool.Droid.Resource.Styleable.Toolbar_subtitleTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_title = global::HandSchool.Droid.Resource.Styleable.Toolbar_title;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleMargin = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleMargin;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleMarginBottom = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleMarginBottom;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleMarginEnd = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleMarginEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleMarginStart = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleMarginStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleMarginTop = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleMarginTop;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleMargins = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleMargins;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleTextAppearance = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleTextAppearance;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.Toolbar_titleTextColor = global::HandSchool.Droid.Resource.Styleable.Toolbar_titleTextColor;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.View = global::HandSchool.Droid.Resource.Styleable.View;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.View_android_focusable = global::HandSchool.Droid.Resource.Styleable.View_android_focusable;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.View_android_theme = global::HandSchool.Droid.Resource.Styleable.View_android_theme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.View_paddingEnd = global::HandSchool.Droid.Resource.Styleable.View_paddingEnd;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.View_paddingStart = global::HandSchool.Droid.Resource.Styleable.View_paddingStart;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.View_theme = global::HandSchool.Droid.Resource.Styleable.View_theme;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewBackgroundHelper = global::HandSchool.Droid.Resource.Styleable.ViewBackgroundHelper;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewBackgroundHelper_android_background = global::HandSchool.Droid.Resource.Styleable.ViewBackgroundHelper_android_background;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::HandSchool.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::HandSchool.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewStubCompat = global::HandSchool.Droid.Resource.Styleable.ViewStubCompat;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewStubCompat_android_id = global::HandSchool.Droid.Resource.Styleable.ViewStubCompat_android_id;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewStubCompat_android_inflatedId = global::HandSchool.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
+			global::DanielStone.MaterialAboutLibrary.Resource.Styleable.ViewStubCompat_android_layout = global::HandSchool.Droid.Resource.Styleable.ViewStubCompat_android_layout;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::HandSchool.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -784,6 +2670,21 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f01011e
 			public const int logoDescription = 2130772254;
 			
+			// aapt resource value: 0x7f010185
+			public const int mal_card_background = 2130772357;
+			
+			// aapt resource value: 0x7f010183
+			public const int mal_color_primary = 2130772355;
+			
+			// aapt resource value: 0x7f010184
+			public const int mal_color_secondary = 2130772356;
+			
+			// aapt resource value: 0x7f010182
+			public const int mal_toolbarPopupTheme = 2130772354;
+			
+			// aapt resource value: 0x7f010181
+			public const int mal_toolbarTheme = 2130772353;
+			
 			// aapt resource value: 0x7f010159
 			public const int maxActionInlineWidth = 2130772313;
 			
@@ -1305,44 +3206,44 @@ namespace HandSchool.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0d00e0
-			public const int abc_background_cache_hint_selector_material_dark = 2131558624;
-			
-			// aapt resource value: 0x7f0d00e1
-			public const int abc_background_cache_hint_selector_material_light = 2131558625;
-			
-			// aapt resource value: 0x7f0d00e2
-			public const int abc_btn_colored_borderless_text_material = 2131558626;
-			
-			// aapt resource value: 0x7f0d00e3
-			public const int abc_btn_colored_text_material = 2131558627;
-			
-			// aapt resource value: 0x7f0d00e4
-			public const int abc_color_highlight_material = 2131558628;
-			
-			// aapt resource value: 0x7f0d00e5
-			public const int abc_hint_foreground_material_dark = 2131558629;
-			
 			// aapt resource value: 0x7f0d00e6
-			public const int abc_hint_foreground_material_light = 2131558630;
+			public const int abc_background_cache_hint_selector_material_dark = 2131558630;
+			
+			// aapt resource value: 0x7f0d00e7
+			public const int abc_background_cache_hint_selector_material_light = 2131558631;
+			
+			// aapt resource value: 0x7f0d00e8
+			public const int abc_btn_colored_borderless_text_material = 2131558632;
+			
+			// aapt resource value: 0x7f0d00e9
+			public const int abc_btn_colored_text_material = 2131558633;
+			
+			// aapt resource value: 0x7f0d00ea
+			public const int abc_color_highlight_material = 2131558634;
+			
+			// aapt resource value: 0x7f0d00eb
+			public const int abc_hint_foreground_material_dark = 2131558635;
+			
+			// aapt resource value: 0x7f0d00ec
+			public const int abc_hint_foreground_material_light = 2131558636;
 			
 			// aapt resource value: 0x7f0d0004
 			public const int abc_input_method_navigation_guard = 2131558404;
 			
-			// aapt resource value: 0x7f0d00e7
-			public const int abc_primary_text_disable_only_material_dark = 2131558631;
+			// aapt resource value: 0x7f0d00ed
+			public const int abc_primary_text_disable_only_material_dark = 2131558637;
 			
-			// aapt resource value: 0x7f0d00e8
-			public const int abc_primary_text_disable_only_material_light = 2131558632;
+			// aapt resource value: 0x7f0d00ee
+			public const int abc_primary_text_disable_only_material_light = 2131558638;
 			
-			// aapt resource value: 0x7f0d00e9
-			public const int abc_primary_text_material_dark = 2131558633;
+			// aapt resource value: 0x7f0d00ef
+			public const int abc_primary_text_material_dark = 2131558639;
 			
-			// aapt resource value: 0x7f0d00ea
-			public const int abc_primary_text_material_light = 2131558634;
+			// aapt resource value: 0x7f0d00f0
+			public const int abc_primary_text_material_light = 2131558640;
 			
-			// aapt resource value: 0x7f0d00eb
-			public const int abc_search_url_text = 2131558635;
+			// aapt resource value: 0x7f0d00f1
+			public const int abc_search_url_text = 2131558641;
 			
 			// aapt resource value: 0x7f0d0005
 			public const int abc_search_url_text_normal = 2131558405;
@@ -1353,29 +3254,29 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0007
 			public const int abc_search_url_text_selected = 2131558407;
 			
-			// aapt resource value: 0x7f0d00ec
-			public const int abc_secondary_text_material_dark = 2131558636;
-			
-			// aapt resource value: 0x7f0d00ed
-			public const int abc_secondary_text_material_light = 2131558637;
-			
-			// aapt resource value: 0x7f0d00ee
-			public const int abc_tint_btn_checkable = 2131558638;
-			
-			// aapt resource value: 0x7f0d00ef
-			public const int abc_tint_default = 2131558639;
-			
-			// aapt resource value: 0x7f0d00f0
-			public const int abc_tint_edittext = 2131558640;
-			
-			// aapt resource value: 0x7f0d00f1
-			public const int abc_tint_seek_thumb = 2131558641;
-			
 			// aapt resource value: 0x7f0d00f2
-			public const int abc_tint_spinner = 2131558642;
+			public const int abc_secondary_text_material_dark = 2131558642;
 			
 			// aapt resource value: 0x7f0d00f3
-			public const int abc_tint_switch_track = 2131558643;
+			public const int abc_secondary_text_material_light = 2131558643;
+			
+			// aapt resource value: 0x7f0d00f4
+			public const int abc_tint_btn_checkable = 2131558644;
+			
+			// aapt resource value: 0x7f0d00f5
+			public const int abc_tint_default = 2131558645;
+			
+			// aapt resource value: 0x7f0d00f6
+			public const int abc_tint_edittext = 2131558646;
+			
+			// aapt resource value: 0x7f0d00f7
+			public const int abc_tint_seek_thumb = 2131558647;
+			
+			// aapt resource value: 0x7f0d00f8
+			public const int abc_tint_spinner = 2131558648;
+			
+			// aapt resource value: 0x7f0d00f9
+			public const int abc_tint_switch_track = 2131558649;
 			
 			// aapt resource value: 0x7f0d0008
 			public const int accent_material_dark = 2131558408;
@@ -1383,20 +3284,20 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0009
 			public const int accent_material_light = 2131558409;
 			
-			// aapt resource value: 0x7f0d0077
-			public const int aliceblue = 2131558519;
+			// aapt resource value: 0x7f0d007d
+			public const int aliceblue = 2131558525;
 			
-			// aapt resource value: 0x7f0d006d
-			public const int antiquewhite = 2131558509;
+			// aapt resource value: 0x7f0d0073
+			public const int antiquewhite = 2131558515;
 			
-			// aapt resource value: 0x7f0d00cd
-			public const int aqua = 2131558605;
+			// aapt resource value: 0x7f0d00d3
+			public const int aqua = 2131558611;
 			
-			// aapt resource value: 0x7f0d00ae
-			public const int aquamarine = 2131558574;
+			// aapt resource value: 0x7f0d00b4
+			public const int aquamarine = 2131558580;
 			
-			// aapt resource value: 0x7f0d0075
-			public const int azure = 2131558517;
+			// aapt resource value: 0x7f0d007b
+			public const int azure = 2131558523;
 			
 			// aapt resource value: 0x7f0d000a
 			public const int background_floating_material_dark = 2131558410;
@@ -1410,23 +3311,23 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d000d
 			public const int background_material_light = 2131558413;
 			
-			// aapt resource value: 0x7f0d0072
-			public const int beige = 2131558514;
+			// aapt resource value: 0x7f0d0078
+			public const int beige = 2131558520;
 			
-			// aapt resource value: 0x7f0d0058
-			public const int bisque = 2131558488;
+			// aapt resource value: 0x7f0d005e
+			public const int bisque = 2131558494;
 			
-			// aapt resource value: 0x7f0d00dc
-			public const int black = 2131558620;
+			// aapt resource value: 0x7f0d00e2
+			public const int black = 2131558626;
 			
-			// aapt resource value: 0x7f0d0056
-			public const int blanchedalmond = 2131558486;
+			// aapt resource value: 0x7f0d005c
+			public const int blanchedalmond = 2131558492;
 			
-			// aapt resource value: 0x7f0d00d8
-			public const int blue = 2131558616;
+			// aapt resource value: 0x7f0d00de
+			public const int blue = 2131558622;
 			
-			// aapt resource value: 0x7f0d00a6
-			public const int blueviolet = 2131558566;
+			// aapt resource value: 0x7f0d00ac
+			public const int blueviolet = 2131558572;
 			
 			// aapt resource value: 0x7f0d000e
 			public const int bright_foreground_disabled_material_dark = 2131558414;
@@ -1446,11 +3347,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0013
 			public const int bright_foreground_material_light = 2131558419;
 			
-			// aapt resource value: 0x7f0d009b
-			public const int brown = 2131558555;
+			// aapt resource value: 0x7f0d00a1
+			public const int brown = 2131558561;
 			
-			// aapt resource value: 0x7f0d007f
-			public const int burlywood = 2131558527;
+			// aapt resource value: 0x7f0d0085
+			public const int burlywood = 2131558533;
 			
 			// aapt resource value: 0x7f0d0014
 			public const int button_material_dark = 2131558420;
@@ -1458,8 +3359,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0015
 			public const int button_material_light = 2131558421;
 			
-			// aapt resource value: 0x7f0d00bc
-			public const int cadetblue = 2131558588;
+			// aapt resource value: 0x7f0d00c2
+			public const int cadetblue = 2131558594;
 			
 			// aapt resource value: 0x7f0d0000
 			public const int cardview_dark_background = 2131558400;
@@ -1473,104 +3374,104 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0003
 			public const int cardview_shadow_start_color = 2131558403;
 			
-			// aapt resource value: 0x7f0d00af
-			public const int chartreuse = 2131558575;
+			// aapt resource value: 0x7f0d00b5
+			public const int chartreuse = 2131558581;
 			
-			// aapt resource value: 0x7f0d008a
-			public const int chocolate = 2131558538;
+			// aapt resource value: 0x7f0d0090
+			public const int chocolate = 2131558544;
 			
-			// aapt resource value: 0x7f0d00df
-			public const int colorAccent = 2131558623;
+			// aapt resource value: 0x7f0d00e5
+			public const int colorAccent = 2131558629;
 			
-			// aapt resource value: 0x7f0d00dd
-			public const int colorPrimary = 2131558621;
+			// aapt resource value: 0x7f0d00e3
+			public const int colorPrimary = 2131558627;
 			
-			// aapt resource value: 0x7f0d00de
-			public const int colorPrimaryDark = 2131558622;
+			// aapt resource value: 0x7f0d00e4
+			public const int colorPrimaryDark = 2131558628;
 			
-			// aapt resource value: 0x7f0d0062
-			public const int coral = 2131558498;
+			// aapt resource value: 0x7f0d0068
+			public const int coral = 2131558504;
 			
-			// aapt resource value: 0x7f0d00bb
-			public const int cornflowerblue = 2131558587;
+			// aapt resource value: 0x7f0d00c1
+			public const int cornflowerblue = 2131558593;
 			
-			// aapt resource value: 0x7f0d0052
-			public const int cornsilk = 2131558482;
+			// aapt resource value: 0x7f0d0058
+			public const int cornsilk = 2131558488;
 			
-			// aapt resource value: 0x7f0d0082
-			public const int crimson = 2131558530;
-			
-			// aapt resource value: 0x7f0d00ce
-			public const int cyan = 2131558606;
-			
-			// aapt resource value: 0x7f0d00da
-			public const int darkblue = 2131558618;
+			// aapt resource value: 0x7f0d0088
+			public const int crimson = 2131558536;
 			
 			// aapt resource value: 0x7f0d00d4
-			public const int darkcyan = 2131558612;
+			public const int cyan = 2131558612;
 			
-			// aapt resource value: 0x7f0d0092
-			public const int darkgoldenrod = 2131558546;
+			// aapt resource value: 0x7f0d00e0
+			public const int darkblue = 2131558624;
 			
-			// aapt resource value: 0x7f0d0099
-			public const int darkgray = 2131558553;
+			// aapt resource value: 0x7f0d00da
+			public const int darkcyan = 2131558618;
 			
-			// aapt resource value: 0x7f0d00d7
-			public const int darkgreen = 2131558615;
-			
-			// aapt resource value: 0x7f0d009a
-			public const int darkgrey = 2131558554;
-			
-			// aapt resource value: 0x7f0d008f
-			public const int darkkhaki = 2131558543;
-			
-			// aapt resource value: 0x7f0d00a4
-			public const int darkmagenta = 2131558564;
-			
-			// aapt resource value: 0x7f0d00bd
-			public const int darkolivegreen = 2131558589;
-			
-			// aapt resource value: 0x7f0d0061
-			public const int darkorange = 2131558497;
-			
-			// aapt resource value: 0x7f0d009d
-			public const int darkorchid = 2131558557;
-			
-			// aapt resource value: 0x7f0d00a5
-			public const int darkred = 2131558565;
-			
-			// aapt resource value: 0x7f0d007c
-			public const int darksalmon = 2131558524;
-			
-			// aapt resource value: 0x7f0d00a2
-			public const int darkseagreen = 2131558562;
-			
-			// aapt resource value: 0x7f0d00c0
-			public const int darkslateblue = 2131558592;
-			
-			// aapt resource value: 0x7f0d00c6
-			public const int darkslategray = 2131558598;
-			
-			// aapt resource value: 0x7f0d00c7
-			public const int darkslategrey = 2131558599;
-			
-			// aapt resource value: 0x7f0d00d2
-			public const int darkturquoise = 2131558610;
+			// aapt resource value: 0x7f0d0098
+			public const int darkgoldenrod = 2131558552;
 			
 			// aapt resource value: 0x7f0d009f
-			public const int darkviolet = 2131558559;
+			public const int darkgray = 2131558559;
 			
-			// aapt resource value: 0x7f0d0066
-			public const int deeppink = 2131558502;
+			// aapt resource value: 0x7f0d00dd
+			public const int darkgreen = 2131558621;
 			
-			// aapt resource value: 0x7f0d00d3
-			public const int deepskyblue = 2131558611;
+			// aapt resource value: 0x7f0d00a0
+			public const int darkgrey = 2131558560;
+			
+			// aapt resource value: 0x7f0d0095
+			public const int darkkhaki = 2131558549;
+			
+			// aapt resource value: 0x7f0d00aa
+			public const int darkmagenta = 2131558570;
+			
+			// aapt resource value: 0x7f0d00c3
+			public const int darkolivegreen = 2131558595;
+			
+			// aapt resource value: 0x7f0d0067
+			public const int darkorange = 2131558503;
+			
+			// aapt resource value: 0x7f0d00a3
+			public const int darkorchid = 2131558563;
+			
+			// aapt resource value: 0x7f0d00ab
+			public const int darkred = 2131558571;
+			
+			// aapt resource value: 0x7f0d0082
+			public const int darksalmon = 2131558530;
+			
+			// aapt resource value: 0x7f0d00a8
+			public const int darkseagreen = 2131558568;
+			
+			// aapt resource value: 0x7f0d00c6
+			public const int darkslateblue = 2131558598;
+			
+			// aapt resource value: 0x7f0d00cc
+			public const int darkslategray = 2131558604;
+			
+			// aapt resource value: 0x7f0d00cd
+			public const int darkslategrey = 2131558605;
+			
+			// aapt resource value: 0x7f0d00d8
+			public const int darkturquoise = 2131558616;
+			
+			// aapt resource value: 0x7f0d00a5
+			public const int darkviolet = 2131558565;
+			
+			// aapt resource value: 0x7f0d006c
+			public const int deeppink = 2131558508;
+			
+			// aapt resource value: 0x7f0d00d9
+			public const int deepskyblue = 2131558617;
 			
 			// aapt resource value: 0x7f0d0040
 			public const int design_bottom_navigation_shadow_color = 2131558464;
 			
-			// aapt resource value: 0x7f0d00f4
-			public const int design_error = 2131558644;
+			// aapt resource value: 0x7f0d00fa
+			public const int design_error = 2131558650;
 			
 			// aapt resource value: 0x7f0d0041
 			public const int design_fab_shadow_end_color = 2131558465;
@@ -1596,8 +3497,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0048
 			public const int design_snackbar_background_color = 2131558472;
 			
-			// aapt resource value: 0x7f0d00f5
-			public const int design_tint_password_toggle = 2131558645;
+			// aapt resource value: 0x7f0d00fb
+			public const int design_tint_password_toggle = 2131558651;
 			
 			// aapt resource value: 0x7f0d0016
 			public const int dim_foreground_disabled_material_dark = 2131558422;
@@ -1611,23 +3512,23 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0019
 			public const int dim_foreground_material_light = 2131558425;
 			
-			// aapt resource value: 0x7f0d00b8
-			public const int dimgray = 2131558584;
+			// aapt resource value: 0x7f0d00be
+			public const int dimgray = 2131558590;
 			
-			// aapt resource value: 0x7f0d00b9
-			public const int dimgrey = 2131558585;
+			// aapt resource value: 0x7f0d00bf
+			public const int dimgrey = 2131558591;
 			
-			// aapt resource value: 0x7f0d00cb
-			public const int dodgerblue = 2131558603;
+			// aapt resource value: 0x7f0d00d1
+			public const int dodgerblue = 2131558609;
 			
 			// aapt resource value: 0x7f0d001a
 			public const int error_color_material = 2131558426;
 			
-			// aapt resource value: 0x7f0d0093
-			public const int firebrick = 2131558547;
+			// aapt resource value: 0x7f0d0099
+			public const int firebrick = 2131558553;
 			
-			// aapt resource value: 0x7f0d0050
-			public const int floralwhite = 2131558480;
+			// aapt resource value: 0x7f0d0056
+			public const int floralwhite = 2131558486;
 			
 			// aapt resource value: 0x7f0d001b
 			public const int foreground_material_dark = 2131558427;
@@ -1635,35 +3536,35 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d001c
 			public const int foreground_material_light = 2131558428;
 			
-			// aapt resource value: 0x7f0d00c9
-			public const int forestgreen = 2131558601;
+			// aapt resource value: 0x7f0d00cf
+			public const int forestgreen = 2131558607;
 			
-			// aapt resource value: 0x7f0d0067
-			public const int fuchsia = 2131558503;
+			// aapt resource value: 0x7f0d006d
+			public const int fuchsia = 2131558509;
 			
-			// aapt resource value: 0x7f0d0081
-			public const int gainsboro = 2131558529;
+			// aapt resource value: 0x7f0d0087
+			public const int gainsboro = 2131558535;
 			
-			// aapt resource value: 0x7f0d006f
-			public const int ghostwhite = 2131558511;
+			// aapt resource value: 0x7f0d0075
+			public const int ghostwhite = 2131558517;
 			
-			// aapt resource value: 0x7f0d005c
-			public const int gold = 2131558492;
+			// aapt resource value: 0x7f0d0062
+			public const int gold = 2131558498;
 			
-			// aapt resource value: 0x7f0d0084
-			public const int goldenrod = 2131558532;
+			// aapt resource value: 0x7f0d008a
+			public const int goldenrod = 2131558538;
 			
-			// aapt resource value: 0x7f0d00a9
-			public const int gray = 2131558569;
+			// aapt resource value: 0x7f0d00af
+			public const int gray = 2131558575;
 			
-			// aapt resource value: 0x7f0d00d6
-			public const int green = 2131558614;
+			// aapt resource value: 0x7f0d00dc
+			public const int green = 2131558620;
 			
-			// aapt resource value: 0x7f0d0097
-			public const int greenyellow = 2131558551;
+			// aapt resource value: 0x7f0d009d
+			public const int greenyellow = 2131558557;
 			
-			// aapt resource value: 0x7f0d00aa
-			public const int grey = 2131558570;
+			// aapt resource value: 0x7f0d00b0
+			public const int grey = 2131558576;
 			
 			// aapt resource value: 0x7f0d001d
 			public const int highlighted_text_material_dark = 2131558429;
@@ -1671,95 +3572,113 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d001e
 			public const int highlighted_text_material_light = 2131558430;
 			
-			// aapt resource value: 0x7f0d0076
-			public const int honeydew = 2131558518;
+			// aapt resource value: 0x7f0d007c
+			public const int honeydew = 2131558524;
 			
-			// aapt resource value: 0x7f0d0063
-			public const int hotpink = 2131558499;
+			// aapt resource value: 0x7f0d0069
+			public const int hotpink = 2131558505;
 			
-			// aapt resource value: 0x7f0d008c
-			public const int indianred = 2131558540;
+			// aapt resource value: 0x7f0d0092
+			public const int indianred = 2131558546;
 			
-			// aapt resource value: 0x7f0d00be
-			public const int indigo = 2131558590;
+			// aapt resource value: 0x7f0d00c4
+			public const int indigo = 2131558596;
 			
-			// aapt resource value: 0x7f0d004c
-			public const int ivory = 2131558476;
-			
-			// aapt resource value: 0x7f0d0078
-			public const int khaki = 2131558520;
-			
-			// aapt resource value: 0x7f0d007d
-			public const int lavender = 2131558525;
-			
-			// aapt resource value: 0x7f0d0054
-			public const int lavenderblush = 2131558484;
-			
-			// aapt resource value: 0x7f0d00b0
-			public const int lawngreen = 2131558576;
-			
-			// aapt resource value: 0x7f0d0051
-			public const int lemonchiffon = 2131558481;
-			
-			// aapt resource value: 0x7f0d0098
-			public const int lightblue = 2131558552;
-			
-			// aapt resource value: 0x7f0d0079
-			public const int lightcoral = 2131558521;
+			// aapt resource value: 0x7f0d0052
+			public const int ivory = 2131558482;
 			
 			// aapt resource value: 0x7f0d007e
-			public const int lightcyan = 2131558526;
+			public const int khaki = 2131558526;
 			
-			// aapt resource value: 0x7f0d006b
-			public const int lightgoldenrodyellow = 2131558507;
+			// aapt resource value: 0x7f0d0083
+			public const int lavender = 2131558531;
 			
-			// aapt resource value: 0x7f0d0087
-			public const int lightgray = 2131558535;
+			// aapt resource value: 0x7f0d005a
+			public const int lavenderblush = 2131558490;
 			
-			// aapt resource value: 0x7f0d00a1
-			public const int lightgreen = 2131558561;
+			// aapt resource value: 0x7f0d00b6
+			public const int lawngreen = 2131558582;
 			
-			// aapt resource value: 0x7f0d0088
-			public const int lightgrey = 2131558536;
+			// aapt resource value: 0x7f0d0057
+			public const int lemonchiffon = 2131558487;
 			
-			// aapt resource value: 0x7f0d005e
-			public const int lightpink = 2131558494;
+			// aapt resource value: 0x7f0d009e
+			public const int lightblue = 2131558558;
 			
-			// aapt resource value: 0x7f0d0060
-			public const int lightsalmon = 2131558496;
+			// aapt resource value: 0x7f0d007f
+			public const int lightcoral = 2131558527;
 			
-			// aapt resource value: 0x7f0d00ca
-			public const int lightseagreen = 2131558602;
+			// aapt resource value: 0x7f0d0084
+			public const int lightcyan = 2131558532;
+			
+			// aapt resource value: 0x7f0d0071
+			public const int lightgoldenrodyellow = 2131558513;
+			
+			// aapt resource value: 0x7f0d008d
+			public const int lightgray = 2131558541;
 			
 			// aapt resource value: 0x7f0d00a7
-			public const int lightskyblue = 2131558567;
+			public const int lightgreen = 2131558567;
 			
-			// aapt resource value: 0x7f0d00b2
-			public const int lightslategray = 2131558578;
+			// aapt resource value: 0x7f0d008e
+			public const int lightgrey = 2131558542;
 			
-			// aapt resource value: 0x7f0d00b3
-			public const int lightslategrey = 2131558579;
+			// aapt resource value: 0x7f0d0064
+			public const int lightpink = 2131558500;
 			
-			// aapt resource value: 0x7f0d0095
-			public const int lightsteelblue = 2131558549;
-			
-			// aapt resource value: 0x7f0d004d
-			public const int lightyellow = 2131558477;
+			// aapt resource value: 0x7f0d0066
+			public const int lightsalmon = 2131558502;
 			
 			// aapt resource value: 0x7f0d00d0
-			public const int lime = 2131558608;
-			
-			// aapt resource value: 0x7f0d00c5
-			public const int limegreen = 2131558597;
-			
-			// aapt resource value: 0x7f0d006c
-			public const int linen = 2131558508;
-			
-			// aapt resource value: 0x7f0d0068
-			public const int magenta = 2131558504;
+			public const int lightseagreen = 2131558608;
 			
 			// aapt resource value: 0x7f0d00ad
-			public const int maroon = 2131558573;
+			public const int lightskyblue = 2131558573;
+			
+			// aapt resource value: 0x7f0d00b8
+			public const int lightslategray = 2131558584;
+			
+			// aapt resource value: 0x7f0d00b9
+			public const int lightslategrey = 2131558585;
+			
+			// aapt resource value: 0x7f0d009b
+			public const int lightsteelblue = 2131558555;
+			
+			// aapt resource value: 0x7f0d0053
+			public const int lightyellow = 2131558483;
+			
+			// aapt resource value: 0x7f0d00d6
+			public const int lime = 2131558614;
+			
+			// aapt resource value: 0x7f0d00cb
+			public const int limegreen = 2131558603;
+			
+			// aapt resource value: 0x7f0d0072
+			public const int linen = 2131558514;
+			
+			// aapt resource value: 0x7f0d006e
+			public const int magenta = 2131558510;
+			
+			// aapt resource value: 0x7f0d0050
+			public const int mal_color_icon_dark_theme = 2131558480;
+			
+			// aapt resource value: 0x7f0d004f
+			public const int mal_color_icon_light_theme = 2131558479;
+			
+			// aapt resource value: 0x7f0d004b
+			public const int mal_text_primary = 2131558475;
+			
+			// aapt resource value: 0x7f0d004d
+			public const int mal_text_primary_dark = 2131558477;
+			
+			// aapt resource value: 0x7f0d004c
+			public const int mal_text_secondary = 2131558476;
+			
+			// aapt resource value: 0x7f0d004e
+			public const int mal_text_secondary_dark = 2131558478;
+			
+			// aapt resource value: 0x7f0d00b3
+			public const int maroon = 2131558579;
 			
 			// aapt resource value: 0x7f0d001f
 			public const int material_blue_grey_800 = 2131558431;
@@ -1797,50 +3716,50 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d002a
 			public const int material_grey_900 = 2131558442;
 			
-			// aapt resource value: 0x7f0d00ba
-			public const int mediumaquamarine = 2131558586;
+			// aapt resource value: 0x7f0d00c0
+			public const int mediumaquamarine = 2131558592;
 			
-			// aapt resource value: 0x7f0d00d9
-			public const int mediumblue = 2131558617;
+			// aapt resource value: 0x7f0d00df
+			public const int mediumblue = 2131558623;
 			
-			// aapt resource value: 0x7f0d0091
-			public const int mediumorchid = 2131558545;
+			// aapt resource value: 0x7f0d0097
+			public const int mediumorchid = 2131558551;
 			
-			// aapt resource value: 0x7f0d00a0
-			public const int mediumpurple = 2131558560;
+			// aapt resource value: 0x7f0d00a6
+			public const int mediumpurple = 2131558566;
 			
-			// aapt resource value: 0x7f0d00c4
-			public const int mediumseagreen = 2131558596;
+			// aapt resource value: 0x7f0d00ca
+			public const int mediumseagreen = 2131558602;
 			
-			// aapt resource value: 0x7f0d00b1
-			public const int mediumslateblue = 2131558577;
+			// aapt resource value: 0x7f0d00b7
+			public const int mediumslateblue = 2131558583;
 			
-			// aapt resource value: 0x7f0d00d1
-			public const int mediumspringgreen = 2131558609;
+			// aapt resource value: 0x7f0d00d7
+			public const int mediumspringgreen = 2131558615;
 			
-			// aapt resource value: 0x7f0d00bf
-			public const int mediumturquoise = 2131558591;
+			// aapt resource value: 0x7f0d00c5
+			public const int mediumturquoise = 2131558597;
 			
-			// aapt resource value: 0x7f0d008d
-			public const int mediumvioletred = 2131558541;
+			// aapt resource value: 0x7f0d0093
+			public const int mediumvioletred = 2131558547;
 			
-			// aapt resource value: 0x7f0d00cc
-			public const int midnightblue = 2131558604;
+			// aapt resource value: 0x7f0d00d2
+			public const int midnightblue = 2131558610;
 			
-			// aapt resource value: 0x7f0d0070
-			public const int mintcream = 2131558512;
+			// aapt resource value: 0x7f0d0076
+			public const int mintcream = 2131558518;
 			
-			// aapt resource value: 0x7f0d0057
-			public const int mistyrose = 2131558487;
+			// aapt resource value: 0x7f0d005d
+			public const int mistyrose = 2131558493;
 			
-			// aapt resource value: 0x7f0d0059
-			public const int moccasin = 2131558489;
+			// aapt resource value: 0x7f0d005f
+			public const int moccasin = 2131558495;
 			
-			// aapt resource value: 0x7f0d005a
-			public const int navajowhite = 2131558490;
+			// aapt resource value: 0x7f0d0060
+			public const int navajowhite = 2131558496;
 			
-			// aapt resource value: 0x7f0d00db
-			public const int navy = 2131558619;
+			// aapt resource value: 0x7f0d00e1
+			public const int navy = 2131558625;
 			
 			// aapt resource value: 0x7f0d0049
 			public const int notification_action_color_filter = 2131558473;
@@ -1851,53 +3770,53 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d003f
 			public const int notification_material_background_media_default_color = 2131558463;
 			
-			// aapt resource value: 0x7f0d006a
-			public const int oldlace = 2131558506;
+			// aapt resource value: 0x7f0d0070
+			public const int oldlace = 2131558512;
 			
-			// aapt resource value: 0x7f0d00ab
-			public const int olive = 2131558571;
+			// aapt resource value: 0x7f0d00b1
+			public const int olive = 2131558577;
 			
-			// aapt resource value: 0x7f0d00b6
-			public const int olivedrab = 2131558582;
-			
-			// aapt resource value: 0x7f0d005f
-			public const int orange = 2131558495;
+			// aapt resource value: 0x7f0d00bc
+			public const int olivedrab = 2131558588;
 			
 			// aapt resource value: 0x7f0d0065
-			public const int orangered = 2131558501;
+			public const int orange = 2131558501;
 			
-			// aapt resource value: 0x7f0d0085
-			public const int orchid = 2131558533;
-			
-			// aapt resource value: 0x7f0d007a
-			public const int palegoldenrod = 2131558522;
-			
-			// aapt resource value: 0x7f0d009e
-			public const int palegreen = 2131558558;
-			
-			// aapt resource value: 0x7f0d0096
-			public const int paleturquoise = 2131558550;
-			
-			// aapt resource value: 0x7f0d0083
-			public const int palevioletred = 2131558531;
-			
-			// aapt resource value: 0x7f0d0055
-			public const int papayawhip = 2131558485;
-			
-			// aapt resource value: 0x7f0d005b
-			public const int peachpuff = 2131558491;
+			// aapt resource value: 0x7f0d006b
+			public const int orangered = 2131558507;
 			
 			// aapt resource value: 0x7f0d008b
-			public const int peru = 2131558539;
-			
-			// aapt resource value: 0x7f0d005d
-			public const int pink = 2131558493;
+			public const int orchid = 2131558539;
 			
 			// aapt resource value: 0x7f0d0080
-			public const int plum = 2131558528;
+			public const int palegoldenrod = 2131558528;
 			
-			// aapt resource value: 0x7f0d0094
-			public const int powderblue = 2131558548;
+			// aapt resource value: 0x7f0d00a4
+			public const int palegreen = 2131558564;
+			
+			// aapt resource value: 0x7f0d009c
+			public const int paleturquoise = 2131558556;
+			
+			// aapt resource value: 0x7f0d0089
+			public const int palevioletred = 2131558537;
+			
+			// aapt resource value: 0x7f0d005b
+			public const int papayawhip = 2131558491;
+			
+			// aapt resource value: 0x7f0d0061
+			public const int peachpuff = 2131558497;
+			
+			// aapt resource value: 0x7f0d0091
+			public const int peru = 2131558545;
+			
+			// aapt resource value: 0x7f0d0063
+			public const int pink = 2131558499;
+			
+			// aapt resource value: 0x7f0d0086
+			public const int plum = 2131558534;
+			
+			// aapt resource value: 0x7f0d009a
+			public const int powderblue = 2131558554;
 			
 			// aapt resource value: 0x7f0d002b
 			public const int primary_dark_material_dark = 2131558443;
@@ -1923,11 +3842,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0032
 			public const int primary_text_disabled_material_light = 2131558450;
 			
-			// aapt resource value: 0x7f0d00ac
-			public const int purple = 2131558572;
+			// aapt resource value: 0x7f0d00b2
+			public const int purple = 2131558578;
 			
-			// aapt resource value: 0x7f0d0069
-			public const int red = 2131558505;
+			// aapt resource value: 0x7f0d006f
+			public const int red = 2131558511;
 			
 			// aapt resource value: 0x7f0d0033
 			public const int ripple_material_dark = 2131558451;
@@ -1935,26 +3854,26 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0034
 			public const int ripple_material_light = 2131558452;
 			
-			// aapt resource value: 0x7f0d0090
-			public const int rosybrown = 2131558544;
-			
-			// aapt resource value: 0x7f0d00c2
-			public const int royalblue = 2131558594;
-			
-			// aapt resource value: 0x7f0d00a3
-			public const int saddlebrown = 2131558563;
-			
-			// aapt resource value: 0x7f0d006e
-			public const int salmon = 2131558510;
-			
-			// aapt resource value: 0x7f0d0074
-			public const int sandybrown = 2131558516;
+			// aapt resource value: 0x7f0d0096
+			public const int rosybrown = 2131558550;
 			
 			// aapt resource value: 0x7f0d00c8
-			public const int seagreen = 2131558600;
+			public const int royalblue = 2131558600;
 			
-			// aapt resource value: 0x7f0d0053
-			public const int seashell = 2131558483;
+			// aapt resource value: 0x7f0d00a9
+			public const int saddlebrown = 2131558569;
+			
+			// aapt resource value: 0x7f0d0074
+			public const int salmon = 2131558516;
+			
+			// aapt resource value: 0x7f0d007a
+			public const int sandybrown = 2131558522;
+			
+			// aapt resource value: 0x7f0d00ce
+			public const int seagreen = 2131558606;
+			
+			// aapt resource value: 0x7f0d0059
+			public const int seashell = 2131558489;
 			
 			// aapt resource value: 0x7f0d0035
 			public const int secondary_text_default_material_dark = 2131558453;
@@ -1968,32 +3887,32 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d0038
 			public const int secondary_text_disabled_material_light = 2131558456;
 			
-			// aapt resource value: 0x7f0d009c
-			public const int sienna = 2131558556;
+			// aapt resource value: 0x7f0d00a2
+			public const int sienna = 2131558562;
 			
-			// aapt resource value: 0x7f0d008e
-			public const int silver = 2131558542;
+			// aapt resource value: 0x7f0d0094
+			public const int silver = 2131558548;
 			
-			// aapt resource value: 0x7f0d00a8
-			public const int skyblue = 2131558568;
+			// aapt resource value: 0x7f0d00ae
+			public const int skyblue = 2131558574;
 			
-			// aapt resource value: 0x7f0d00b7
-			public const int slateblue = 2131558583;
+			// aapt resource value: 0x7f0d00bd
+			public const int slateblue = 2131558589;
 			
-			// aapt resource value: 0x7f0d00b4
-			public const int slategray = 2131558580;
+			// aapt resource value: 0x7f0d00ba
+			public const int slategray = 2131558586;
 			
-			// aapt resource value: 0x7f0d00b5
-			public const int slategrey = 2131558581;
+			// aapt resource value: 0x7f0d00bb
+			public const int slategrey = 2131558587;
 			
-			// aapt resource value: 0x7f0d004f
-			public const int snow = 2131558479;
+			// aapt resource value: 0x7f0d0055
+			public const int snow = 2131558485;
 			
-			// aapt resource value: 0x7f0d00cf
-			public const int springgreen = 2131558607;
+			// aapt resource value: 0x7f0d00d5
+			public const int springgreen = 2131558613;
 			
-			// aapt resource value: 0x7f0d00c1
-			public const int steelblue = 2131558593;
+			// aapt resource value: 0x7f0d00c7
+			public const int steelblue = 2131558599;
 			
 			// aapt resource value: 0x7f0d0039
 			public const int switch_thumb_disabled_material_dark = 2131558457;
@@ -2001,11 +3920,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d003a
 			public const int switch_thumb_disabled_material_light = 2131558458;
 			
-			// aapt resource value: 0x7f0d00f6
-			public const int switch_thumb_material_dark = 2131558646;
+			// aapt resource value: 0x7f0d00fc
+			public const int switch_thumb_material_dark = 2131558652;
 			
-			// aapt resource value: 0x7f0d00f7
-			public const int switch_thumb_material_light = 2131558647;
+			// aapt resource value: 0x7f0d00fd
+			public const int switch_thumb_material_light = 2131558653;
 			
 			// aapt resource value: 0x7f0d003b
 			public const int switch_thumb_normal_material_dark = 2131558459;
@@ -2013,17 +3932,17 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d003c
 			public const int switch_thumb_normal_material_light = 2131558460;
 			
-			// aapt resource value: 0x7f0d0089
-			public const int tan = 2131558537;
+			// aapt resource value: 0x7f0d008f
+			public const int tan = 2131558543;
 			
-			// aapt resource value: 0x7f0d00d5
-			public const int teal = 2131558613;
+			// aapt resource value: 0x7f0d00db
+			public const int teal = 2131558619;
 			
-			// aapt resource value: 0x7f0d0086
-			public const int thistle = 2131558534;
+			// aapt resource value: 0x7f0d008c
+			public const int thistle = 2131558540;
 			
-			// aapt resource value: 0x7f0d0064
-			public const int tomato = 2131558500;
+			// aapt resource value: 0x7f0d006a
+			public const int tomato = 2131558506;
 			
 			// aapt resource value: 0x7f0d003d
 			public const int tooltip_background_dark = 2131558461;
@@ -2031,23 +3950,23 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0d003e
 			public const int tooltip_background_light = 2131558462;
 			
-			// aapt resource value: 0x7f0d00c3
-			public const int turquoise = 2131558595;
+			// aapt resource value: 0x7f0d00c9
+			public const int turquoise = 2131558601;
 			
-			// aapt resource value: 0x7f0d007b
-			public const int violet = 2131558523;
+			// aapt resource value: 0x7f0d0081
+			public const int violet = 2131558529;
 			
-			// aapt resource value: 0x7f0d0073
-			public const int wheat = 2131558515;
+			// aapt resource value: 0x7f0d0079
+			public const int wheat = 2131558521;
 			
-			// aapt resource value: 0x7f0d004b
-			public const int white = 2131558475;
+			// aapt resource value: 0x7f0d0051
+			public const int white = 2131558481;
 			
-			// aapt resource value: 0x7f0d0071
-			public const int whitesmoke = 2131558513;
+			// aapt resource value: 0x7f0d0077
+			public const int whitesmoke = 2131558519;
 			
-			// aapt resource value: 0x7f0d004e
-			public const int yellow = 2131558478;
+			// aapt resource value: 0x7f0d0054
+			public const int yellow = 2131558484;
 			
 			static Color()
 			{
@@ -2284,17 +4203,17 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f080014
 			public const int abc_text_size_title_material_toolbar = 2131230740;
 			
-			// aapt resource value: 0x7f0800ac
-			public const int action_bar_default_height_material_overlay = 2131230892;
+			// aapt resource value: 0x7f0800b4
+			public const int action_bar_default_height_material_overlay = 2131230900;
 			
-			// aapt resource value: 0x7f0800ad
-			public const int action_mode_default_height_material_overlay = 2131230893;
+			// aapt resource value: 0x7f0800b5
+			public const int action_mode_default_height_material_overlay = 2131230901;
 			
-			// aapt resource value: 0x7f0800a7
-			public const int activity_horizontal_margin = 2131230887;
+			// aapt resource value: 0x7f0800af
+			public const int activity_horizontal_margin = 2131230895;
 			
-			// aapt resource value: 0x7f0800a8
-			public const int activity_vertical_margin = 2131230888;
+			// aapt resource value: 0x7f0800b0
+			public const int activity_vertical_margin = 2131230896;
 			
 			// aapt resource value: 0x7f08000d
 			public const int cardview_compat_inset_shadow = 2131230733;
@@ -2443,8 +4362,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f08005b
 			public const int disabled_alpha_material_light = 2131230811;
 			
-			// aapt resource value: 0x7f0800ab
-			public const int fab_margin = 2131230891;
+			// aapt resource value: 0x7f0800b3
+			public const int fab_margin = 2131230899;
 			
 			// aapt resource value: 0x7f080000
 			public const int fastscroll_default_thickness = 2131230720;
@@ -2485,6 +4404,30 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f080005
 			public const int item_touch_helper_swipe_escape_velocity = 2131230725;
 			
+			// aapt resource value: 0x7f0800a9
+			public const int mal_action_action_item_image_height = 2131230889;
+			
+			// aapt resource value: 0x7f0800a8
+			public const int mal_action_item_image_width = 2131230888;
+			
+			// aapt resource value: 0x7f0800a5
+			public const int mal_baseline = 2131230885;
+			
+			// aapt resource value: 0x7f0800a6
+			public const int mal_baseline_half = 2131230886;
+			
+			// aapt resource value: 0x7f0800a7
+			public const int mal_baseline_quarter = 2131230887;
+			
+			// aapt resource value: 0x7f0800ac
+			public const int mal_card_elevation = 2131230892;
+			
+			// aapt resource value: 0x7f0800ab
+			public const int mal_card_radius = 2131230891;
+			
+			// aapt resource value: 0x7f0800aa
+			public const int mal_title_item_image_size = 2131230890;
+			
 			// aapt resource value: 0x7f080006
 			public const int mr_controller_volume_group_list_item_height = 2131230726;
 			
@@ -2503,11 +4446,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f08000a
 			public const int mr_dialog_fixed_width_minor = 2131230730;
 			
-			// aapt resource value: 0x7f0800aa
-			public const int nav_header_height = 2131230890;
+			// aapt resource value: 0x7f0800b2
+			public const int nav_header_height = 2131230898;
 			
-			// aapt resource value: 0x7f0800a9
-			public const int nav_header_vertical_spacing = 2131230889;
+			// aapt resource value: 0x7f0800b1
+			public const int nav_header_vertical_spacing = 2131230897;
 			
 			// aapt resource value: 0x7f08009a
 			public const int notification_action_icon_size = 2131230874;
@@ -2554,11 +4497,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0800a4
 			public const int notification_top_pad_large_text = 2131230884;
 			
-			// aapt resource value: 0x7f0800a5
-			public const int skiasharp_chart_padding_left_right = 2131230885;
+			// aapt resource value: 0x7f0800ad
+			public const int skiasharp_chart_padding_left_right = 2131230893;
 			
-			// aapt resource value: 0x7f0800a6
-			public const int skiasharp_chart_padding_top_bottom = 2131230886;
+			// aapt resource value: 0x7f0800ae
+			public const int skiasharp_chart_padding_top_bottom = 2131230894;
 			
 			// aapt resource value: 0x7f080063
 			public const int tooltip_corner_radius = 2131230819;
@@ -2858,26 +4801,26 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f020056
 			public const int avd_hide_password = 2130837590;
 			
-			// aapt resource value: 0x7f02013b
-			public const int avd_hide_password_1 = 2130837819;
-			
 			// aapt resource value: 0x7f02013c
-			public const int avd_hide_password_2 = 2130837820;
+			public const int avd_hide_password_1 = 2130837820;
 			
 			// aapt resource value: 0x7f02013d
-			public const int avd_hide_password_3 = 2130837821;
+			public const int avd_hide_password_2 = 2130837821;
+			
+			// aapt resource value: 0x7f02013e
+			public const int avd_hide_password_3 = 2130837822;
 			
 			// aapt resource value: 0x7f020057
 			public const int avd_show_password = 2130837591;
 			
-			// aapt resource value: 0x7f02013e
-			public const int avd_show_password_1 = 2130837822;
-			
 			// aapt resource value: 0x7f02013f
-			public const int avd_show_password_2 = 2130837823;
+			public const int avd_show_password_1 = 2130837823;
 			
 			// aapt resource value: 0x7f020140
-			public const int avd_show_password_3 = 2130837824;
+			public const int avd_show_password_2 = 2130837824;
+			
+			// aapt resource value: 0x7f020141
+			public const int avd_show_password_3 = 2130837825;
 			
 			// aapt resource value: 0x7f020058
 			public const int design_bottom_navigation_item_background = 2130837592;
@@ -3030,535 +4973,538 @@ namespace HandSchool.Droid
 			public const int ic_media_stop_light = 2130837641;
 			
 			// aapt resource value: 0x7f02008a
-			public const int ic_mr_button_connected_00_dark = 2130837642;
+			public const int ic_menu_about = 2130837642;
 			
 			// aapt resource value: 0x7f02008b
-			public const int ic_mr_button_connected_00_light = 2130837643;
+			public const int ic_mr_button_connected_00_dark = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int ic_mr_button_connected_01_dark = 2130837644;
+			public const int ic_mr_button_connected_00_light = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int ic_mr_button_connected_01_light = 2130837645;
+			public const int ic_mr_button_connected_01_dark = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int ic_mr_button_connected_02_dark = 2130837646;
+			public const int ic_mr_button_connected_01_light = 2130837646;
 			
 			// aapt resource value: 0x7f02008f
-			public const int ic_mr_button_connected_02_light = 2130837647;
+			public const int ic_mr_button_connected_02_dark = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int ic_mr_button_connected_03_dark = 2130837648;
+			public const int ic_mr_button_connected_02_light = 2130837648;
 			
 			// aapt resource value: 0x7f020091
-			public const int ic_mr_button_connected_03_light = 2130837649;
+			public const int ic_mr_button_connected_03_dark = 2130837649;
 			
 			// aapt resource value: 0x7f020092
-			public const int ic_mr_button_connected_04_dark = 2130837650;
+			public const int ic_mr_button_connected_03_light = 2130837650;
 			
 			// aapt resource value: 0x7f020093
-			public const int ic_mr_button_connected_04_light = 2130837651;
+			public const int ic_mr_button_connected_04_dark = 2130837651;
 			
 			// aapt resource value: 0x7f020094
-			public const int ic_mr_button_connected_05_dark = 2130837652;
+			public const int ic_mr_button_connected_04_light = 2130837652;
 			
 			// aapt resource value: 0x7f020095
-			public const int ic_mr_button_connected_05_light = 2130837653;
+			public const int ic_mr_button_connected_05_dark = 2130837653;
 			
 			// aapt resource value: 0x7f020096
-			public const int ic_mr_button_connected_06_dark = 2130837654;
+			public const int ic_mr_button_connected_05_light = 2130837654;
 			
 			// aapt resource value: 0x7f020097
-			public const int ic_mr_button_connected_06_light = 2130837655;
+			public const int ic_mr_button_connected_06_dark = 2130837655;
 			
 			// aapt resource value: 0x7f020098
-			public const int ic_mr_button_connected_07_dark = 2130837656;
+			public const int ic_mr_button_connected_06_light = 2130837656;
 			
 			// aapt resource value: 0x7f020099
-			public const int ic_mr_button_connected_07_light = 2130837657;
+			public const int ic_mr_button_connected_07_dark = 2130837657;
 			
 			// aapt resource value: 0x7f02009a
-			public const int ic_mr_button_connected_08_dark = 2130837658;
+			public const int ic_mr_button_connected_07_light = 2130837658;
 			
 			// aapt resource value: 0x7f02009b
-			public const int ic_mr_button_connected_08_light = 2130837659;
+			public const int ic_mr_button_connected_08_dark = 2130837659;
 			
 			// aapt resource value: 0x7f02009c
-			public const int ic_mr_button_connected_09_dark = 2130837660;
+			public const int ic_mr_button_connected_08_light = 2130837660;
 			
 			// aapt resource value: 0x7f02009d
-			public const int ic_mr_button_connected_09_light = 2130837661;
+			public const int ic_mr_button_connected_09_dark = 2130837661;
 			
 			// aapt resource value: 0x7f02009e
-			public const int ic_mr_button_connected_10_dark = 2130837662;
+			public const int ic_mr_button_connected_09_light = 2130837662;
 			
 			// aapt resource value: 0x7f02009f
-			public const int ic_mr_button_connected_10_light = 2130837663;
+			public const int ic_mr_button_connected_10_dark = 2130837663;
 			
 			// aapt resource value: 0x7f0200a0
-			public const int ic_mr_button_connected_11_dark = 2130837664;
+			public const int ic_mr_button_connected_10_light = 2130837664;
 			
 			// aapt resource value: 0x7f0200a1
-			public const int ic_mr_button_connected_11_light = 2130837665;
+			public const int ic_mr_button_connected_11_dark = 2130837665;
 			
 			// aapt resource value: 0x7f0200a2
-			public const int ic_mr_button_connected_12_dark = 2130837666;
+			public const int ic_mr_button_connected_11_light = 2130837666;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int ic_mr_button_connected_12_light = 2130837667;
+			public const int ic_mr_button_connected_12_dark = 2130837667;
 			
 			// aapt resource value: 0x7f0200a4
-			public const int ic_mr_button_connected_13_dark = 2130837668;
+			public const int ic_mr_button_connected_12_light = 2130837668;
 			
 			// aapt resource value: 0x7f0200a5
-			public const int ic_mr_button_connected_13_light = 2130837669;
+			public const int ic_mr_button_connected_13_dark = 2130837669;
 			
 			// aapt resource value: 0x7f0200a6
-			public const int ic_mr_button_connected_14_dark = 2130837670;
+			public const int ic_mr_button_connected_13_light = 2130837670;
 			
 			// aapt resource value: 0x7f0200a7
-			public const int ic_mr_button_connected_14_light = 2130837671;
+			public const int ic_mr_button_connected_14_dark = 2130837671;
 			
 			// aapt resource value: 0x7f0200a8
-			public const int ic_mr_button_connected_15_dark = 2130837672;
+			public const int ic_mr_button_connected_14_light = 2130837672;
 			
 			// aapt resource value: 0x7f0200a9
-			public const int ic_mr_button_connected_15_light = 2130837673;
+			public const int ic_mr_button_connected_15_dark = 2130837673;
 			
 			// aapt resource value: 0x7f0200aa
-			public const int ic_mr_button_connected_16_dark = 2130837674;
+			public const int ic_mr_button_connected_15_light = 2130837674;
 			
 			// aapt resource value: 0x7f0200ab
-			public const int ic_mr_button_connected_16_light = 2130837675;
+			public const int ic_mr_button_connected_16_dark = 2130837675;
 			
 			// aapt resource value: 0x7f0200ac
-			public const int ic_mr_button_connected_17_dark = 2130837676;
+			public const int ic_mr_button_connected_16_light = 2130837676;
 			
 			// aapt resource value: 0x7f0200ad
-			public const int ic_mr_button_connected_17_light = 2130837677;
+			public const int ic_mr_button_connected_17_dark = 2130837677;
 			
 			// aapt resource value: 0x7f0200ae
-			public const int ic_mr_button_connected_18_dark = 2130837678;
+			public const int ic_mr_button_connected_17_light = 2130837678;
 			
 			// aapt resource value: 0x7f0200af
-			public const int ic_mr_button_connected_18_light = 2130837679;
+			public const int ic_mr_button_connected_18_dark = 2130837679;
 			
 			// aapt resource value: 0x7f0200b0
-			public const int ic_mr_button_connected_19_dark = 2130837680;
+			public const int ic_mr_button_connected_18_light = 2130837680;
 			
 			// aapt resource value: 0x7f0200b1
-			public const int ic_mr_button_connected_19_light = 2130837681;
+			public const int ic_mr_button_connected_19_dark = 2130837681;
 			
 			// aapt resource value: 0x7f0200b2
-			public const int ic_mr_button_connected_20_dark = 2130837682;
+			public const int ic_mr_button_connected_19_light = 2130837682;
 			
 			// aapt resource value: 0x7f0200b3
-			public const int ic_mr_button_connected_20_light = 2130837683;
+			public const int ic_mr_button_connected_20_dark = 2130837683;
 			
 			// aapt resource value: 0x7f0200b4
-			public const int ic_mr_button_connected_21_dark = 2130837684;
+			public const int ic_mr_button_connected_20_light = 2130837684;
 			
 			// aapt resource value: 0x7f0200b5
-			public const int ic_mr_button_connected_21_light = 2130837685;
+			public const int ic_mr_button_connected_21_dark = 2130837685;
 			
 			// aapt resource value: 0x7f0200b6
-			public const int ic_mr_button_connected_22_dark = 2130837686;
+			public const int ic_mr_button_connected_21_light = 2130837686;
 			
 			// aapt resource value: 0x7f0200b7
-			public const int ic_mr_button_connected_22_light = 2130837687;
+			public const int ic_mr_button_connected_22_dark = 2130837687;
 			
 			// aapt resource value: 0x7f0200b8
-			public const int ic_mr_button_connected_23_dark = 2130837688;
+			public const int ic_mr_button_connected_22_light = 2130837688;
 			
 			// aapt resource value: 0x7f0200b9
-			public const int ic_mr_button_connected_23_light = 2130837689;
+			public const int ic_mr_button_connected_23_dark = 2130837689;
 			
 			// aapt resource value: 0x7f0200ba
-			public const int ic_mr_button_connected_24_dark = 2130837690;
+			public const int ic_mr_button_connected_23_light = 2130837690;
 			
 			// aapt resource value: 0x7f0200bb
-			public const int ic_mr_button_connected_24_light = 2130837691;
+			public const int ic_mr_button_connected_24_dark = 2130837691;
 			
 			// aapt resource value: 0x7f0200bc
-			public const int ic_mr_button_connected_25_dark = 2130837692;
+			public const int ic_mr_button_connected_24_light = 2130837692;
 			
 			// aapt resource value: 0x7f0200bd
-			public const int ic_mr_button_connected_25_light = 2130837693;
+			public const int ic_mr_button_connected_25_dark = 2130837693;
 			
 			// aapt resource value: 0x7f0200be
-			public const int ic_mr_button_connected_26_dark = 2130837694;
+			public const int ic_mr_button_connected_25_light = 2130837694;
 			
 			// aapt resource value: 0x7f0200bf
-			public const int ic_mr_button_connected_26_light = 2130837695;
+			public const int ic_mr_button_connected_26_dark = 2130837695;
 			
 			// aapt resource value: 0x7f0200c0
-			public const int ic_mr_button_connected_27_dark = 2130837696;
+			public const int ic_mr_button_connected_26_light = 2130837696;
 			
 			// aapt resource value: 0x7f0200c1
-			public const int ic_mr_button_connected_27_light = 2130837697;
+			public const int ic_mr_button_connected_27_dark = 2130837697;
 			
 			// aapt resource value: 0x7f0200c2
-			public const int ic_mr_button_connected_28_dark = 2130837698;
+			public const int ic_mr_button_connected_27_light = 2130837698;
 			
 			// aapt resource value: 0x7f0200c3
-			public const int ic_mr_button_connected_28_light = 2130837699;
+			public const int ic_mr_button_connected_28_dark = 2130837699;
 			
 			// aapt resource value: 0x7f0200c4
-			public const int ic_mr_button_connected_29_dark = 2130837700;
+			public const int ic_mr_button_connected_28_light = 2130837700;
 			
 			// aapt resource value: 0x7f0200c5
-			public const int ic_mr_button_connected_29_light = 2130837701;
+			public const int ic_mr_button_connected_29_dark = 2130837701;
 			
 			// aapt resource value: 0x7f0200c6
-			public const int ic_mr_button_connected_30_dark = 2130837702;
+			public const int ic_mr_button_connected_29_light = 2130837702;
 			
 			// aapt resource value: 0x7f0200c7
-			public const int ic_mr_button_connected_30_light = 2130837703;
+			public const int ic_mr_button_connected_30_dark = 2130837703;
 			
 			// aapt resource value: 0x7f0200c8
-			public const int ic_mr_button_connecting_00_dark = 2130837704;
+			public const int ic_mr_button_connected_30_light = 2130837704;
 			
 			// aapt resource value: 0x7f0200c9
-			public const int ic_mr_button_connecting_00_light = 2130837705;
+			public const int ic_mr_button_connecting_00_dark = 2130837705;
 			
 			// aapt resource value: 0x7f0200ca
-			public const int ic_mr_button_connecting_01_dark = 2130837706;
+			public const int ic_mr_button_connecting_00_light = 2130837706;
 			
 			// aapt resource value: 0x7f0200cb
-			public const int ic_mr_button_connecting_01_light = 2130837707;
+			public const int ic_mr_button_connecting_01_dark = 2130837707;
 			
 			// aapt resource value: 0x7f0200cc
-			public const int ic_mr_button_connecting_02_dark = 2130837708;
+			public const int ic_mr_button_connecting_01_light = 2130837708;
 			
 			// aapt resource value: 0x7f0200cd
-			public const int ic_mr_button_connecting_02_light = 2130837709;
+			public const int ic_mr_button_connecting_02_dark = 2130837709;
 			
 			// aapt resource value: 0x7f0200ce
-			public const int ic_mr_button_connecting_03_dark = 2130837710;
+			public const int ic_mr_button_connecting_02_light = 2130837710;
 			
 			// aapt resource value: 0x7f0200cf
-			public const int ic_mr_button_connecting_03_light = 2130837711;
+			public const int ic_mr_button_connecting_03_dark = 2130837711;
 			
 			// aapt resource value: 0x7f0200d0
-			public const int ic_mr_button_connecting_04_dark = 2130837712;
+			public const int ic_mr_button_connecting_03_light = 2130837712;
 			
 			// aapt resource value: 0x7f0200d1
-			public const int ic_mr_button_connecting_04_light = 2130837713;
+			public const int ic_mr_button_connecting_04_dark = 2130837713;
 			
 			// aapt resource value: 0x7f0200d2
-			public const int ic_mr_button_connecting_05_dark = 2130837714;
+			public const int ic_mr_button_connecting_04_light = 2130837714;
 			
 			// aapt resource value: 0x7f0200d3
-			public const int ic_mr_button_connecting_05_light = 2130837715;
+			public const int ic_mr_button_connecting_05_dark = 2130837715;
 			
 			// aapt resource value: 0x7f0200d4
-			public const int ic_mr_button_connecting_06_dark = 2130837716;
+			public const int ic_mr_button_connecting_05_light = 2130837716;
 			
 			// aapt resource value: 0x7f0200d5
-			public const int ic_mr_button_connecting_06_light = 2130837717;
+			public const int ic_mr_button_connecting_06_dark = 2130837717;
 			
 			// aapt resource value: 0x7f0200d6
-			public const int ic_mr_button_connecting_07_dark = 2130837718;
+			public const int ic_mr_button_connecting_06_light = 2130837718;
 			
 			// aapt resource value: 0x7f0200d7
-			public const int ic_mr_button_connecting_07_light = 2130837719;
+			public const int ic_mr_button_connecting_07_dark = 2130837719;
 			
 			// aapt resource value: 0x7f0200d8
-			public const int ic_mr_button_connecting_08_dark = 2130837720;
+			public const int ic_mr_button_connecting_07_light = 2130837720;
 			
 			// aapt resource value: 0x7f0200d9
-			public const int ic_mr_button_connecting_08_light = 2130837721;
+			public const int ic_mr_button_connecting_08_dark = 2130837721;
 			
 			// aapt resource value: 0x7f0200da
-			public const int ic_mr_button_connecting_09_dark = 2130837722;
+			public const int ic_mr_button_connecting_08_light = 2130837722;
 			
 			// aapt resource value: 0x7f0200db
-			public const int ic_mr_button_connecting_09_light = 2130837723;
+			public const int ic_mr_button_connecting_09_dark = 2130837723;
 			
 			// aapt resource value: 0x7f0200dc
-			public const int ic_mr_button_connecting_10_dark = 2130837724;
+			public const int ic_mr_button_connecting_09_light = 2130837724;
 			
 			// aapt resource value: 0x7f0200dd
-			public const int ic_mr_button_connecting_10_light = 2130837725;
+			public const int ic_mr_button_connecting_10_dark = 2130837725;
 			
 			// aapt resource value: 0x7f0200de
-			public const int ic_mr_button_connecting_11_dark = 2130837726;
+			public const int ic_mr_button_connecting_10_light = 2130837726;
 			
 			// aapt resource value: 0x7f0200df
-			public const int ic_mr_button_connecting_11_light = 2130837727;
+			public const int ic_mr_button_connecting_11_dark = 2130837727;
 			
 			// aapt resource value: 0x7f0200e0
-			public const int ic_mr_button_connecting_12_dark = 2130837728;
+			public const int ic_mr_button_connecting_11_light = 2130837728;
 			
 			// aapt resource value: 0x7f0200e1
-			public const int ic_mr_button_connecting_12_light = 2130837729;
+			public const int ic_mr_button_connecting_12_dark = 2130837729;
 			
 			// aapt resource value: 0x7f0200e2
-			public const int ic_mr_button_connecting_13_dark = 2130837730;
+			public const int ic_mr_button_connecting_12_light = 2130837730;
 			
 			// aapt resource value: 0x7f0200e3
-			public const int ic_mr_button_connecting_13_light = 2130837731;
+			public const int ic_mr_button_connecting_13_dark = 2130837731;
 			
 			// aapt resource value: 0x7f0200e4
-			public const int ic_mr_button_connecting_14_dark = 2130837732;
+			public const int ic_mr_button_connecting_13_light = 2130837732;
 			
 			// aapt resource value: 0x7f0200e5
-			public const int ic_mr_button_connecting_14_light = 2130837733;
+			public const int ic_mr_button_connecting_14_dark = 2130837733;
 			
 			// aapt resource value: 0x7f0200e6
-			public const int ic_mr_button_connecting_15_dark = 2130837734;
+			public const int ic_mr_button_connecting_14_light = 2130837734;
 			
 			// aapt resource value: 0x7f0200e7
-			public const int ic_mr_button_connecting_15_light = 2130837735;
+			public const int ic_mr_button_connecting_15_dark = 2130837735;
 			
 			// aapt resource value: 0x7f0200e8
-			public const int ic_mr_button_connecting_16_dark = 2130837736;
+			public const int ic_mr_button_connecting_15_light = 2130837736;
 			
 			// aapt resource value: 0x7f0200e9
-			public const int ic_mr_button_connecting_16_light = 2130837737;
+			public const int ic_mr_button_connecting_16_dark = 2130837737;
 			
 			// aapt resource value: 0x7f0200ea
-			public const int ic_mr_button_connecting_17_dark = 2130837738;
+			public const int ic_mr_button_connecting_16_light = 2130837738;
 			
 			// aapt resource value: 0x7f0200eb
-			public const int ic_mr_button_connecting_17_light = 2130837739;
+			public const int ic_mr_button_connecting_17_dark = 2130837739;
 			
 			// aapt resource value: 0x7f0200ec
-			public const int ic_mr_button_connecting_18_dark = 2130837740;
+			public const int ic_mr_button_connecting_17_light = 2130837740;
 			
 			// aapt resource value: 0x7f0200ed
-			public const int ic_mr_button_connecting_18_light = 2130837741;
+			public const int ic_mr_button_connecting_18_dark = 2130837741;
 			
 			// aapt resource value: 0x7f0200ee
-			public const int ic_mr_button_connecting_19_dark = 2130837742;
+			public const int ic_mr_button_connecting_18_light = 2130837742;
 			
 			// aapt resource value: 0x7f0200ef
-			public const int ic_mr_button_connecting_19_light = 2130837743;
+			public const int ic_mr_button_connecting_19_dark = 2130837743;
 			
 			// aapt resource value: 0x7f0200f0
-			public const int ic_mr_button_connecting_20_dark = 2130837744;
+			public const int ic_mr_button_connecting_19_light = 2130837744;
 			
 			// aapt resource value: 0x7f0200f1
-			public const int ic_mr_button_connecting_20_light = 2130837745;
+			public const int ic_mr_button_connecting_20_dark = 2130837745;
 			
 			// aapt resource value: 0x7f0200f2
-			public const int ic_mr_button_connecting_21_dark = 2130837746;
+			public const int ic_mr_button_connecting_20_light = 2130837746;
 			
 			// aapt resource value: 0x7f0200f3
-			public const int ic_mr_button_connecting_21_light = 2130837747;
+			public const int ic_mr_button_connecting_21_dark = 2130837747;
 			
 			// aapt resource value: 0x7f0200f4
-			public const int ic_mr_button_connecting_22_dark = 2130837748;
+			public const int ic_mr_button_connecting_21_light = 2130837748;
 			
 			// aapt resource value: 0x7f0200f5
-			public const int ic_mr_button_connecting_22_light = 2130837749;
+			public const int ic_mr_button_connecting_22_dark = 2130837749;
 			
 			// aapt resource value: 0x7f0200f6
-			public const int ic_mr_button_connecting_23_dark = 2130837750;
+			public const int ic_mr_button_connecting_22_light = 2130837750;
 			
 			// aapt resource value: 0x7f0200f7
-			public const int ic_mr_button_connecting_23_light = 2130837751;
+			public const int ic_mr_button_connecting_23_dark = 2130837751;
 			
 			// aapt resource value: 0x7f0200f8
-			public const int ic_mr_button_connecting_24_dark = 2130837752;
+			public const int ic_mr_button_connecting_23_light = 2130837752;
 			
 			// aapt resource value: 0x7f0200f9
-			public const int ic_mr_button_connecting_24_light = 2130837753;
+			public const int ic_mr_button_connecting_24_dark = 2130837753;
 			
 			// aapt resource value: 0x7f0200fa
-			public const int ic_mr_button_connecting_25_dark = 2130837754;
+			public const int ic_mr_button_connecting_24_light = 2130837754;
 			
 			// aapt resource value: 0x7f0200fb
-			public const int ic_mr_button_connecting_25_light = 2130837755;
+			public const int ic_mr_button_connecting_25_dark = 2130837755;
 			
 			// aapt resource value: 0x7f0200fc
-			public const int ic_mr_button_connecting_26_dark = 2130837756;
+			public const int ic_mr_button_connecting_25_light = 2130837756;
 			
 			// aapt resource value: 0x7f0200fd
-			public const int ic_mr_button_connecting_26_light = 2130837757;
+			public const int ic_mr_button_connecting_26_dark = 2130837757;
 			
 			// aapt resource value: 0x7f0200fe
-			public const int ic_mr_button_connecting_27_dark = 2130837758;
+			public const int ic_mr_button_connecting_26_light = 2130837758;
 			
 			// aapt resource value: 0x7f0200ff
-			public const int ic_mr_button_connecting_27_light = 2130837759;
+			public const int ic_mr_button_connecting_27_dark = 2130837759;
 			
 			// aapt resource value: 0x7f020100
-			public const int ic_mr_button_connecting_28_dark = 2130837760;
+			public const int ic_mr_button_connecting_27_light = 2130837760;
 			
 			// aapt resource value: 0x7f020101
-			public const int ic_mr_button_connecting_28_light = 2130837761;
+			public const int ic_mr_button_connecting_28_dark = 2130837761;
 			
 			// aapt resource value: 0x7f020102
-			public const int ic_mr_button_connecting_29_dark = 2130837762;
+			public const int ic_mr_button_connecting_28_light = 2130837762;
 			
 			// aapt resource value: 0x7f020103
-			public const int ic_mr_button_connecting_29_light = 2130837763;
+			public const int ic_mr_button_connecting_29_dark = 2130837763;
 			
 			// aapt resource value: 0x7f020104
-			public const int ic_mr_button_connecting_30_dark = 2130837764;
+			public const int ic_mr_button_connecting_29_light = 2130837764;
 			
 			// aapt resource value: 0x7f020105
-			public const int ic_mr_button_connecting_30_light = 2130837765;
+			public const int ic_mr_button_connecting_30_dark = 2130837765;
 			
 			// aapt resource value: 0x7f020106
-			public const int ic_mr_button_disabled_dark = 2130837766;
+			public const int ic_mr_button_connecting_30_light = 2130837766;
 			
 			// aapt resource value: 0x7f020107
-			public const int ic_mr_button_disabled_light = 2130837767;
+			public const int ic_mr_button_disabled_dark = 2130837767;
 			
 			// aapt resource value: 0x7f020108
-			public const int ic_mr_button_disconnected_dark = 2130837768;
+			public const int ic_mr_button_disabled_light = 2130837768;
 			
 			// aapt resource value: 0x7f020109
-			public const int ic_mr_button_disconnected_light = 2130837769;
+			public const int ic_mr_button_disconnected_dark = 2130837769;
 			
 			// aapt resource value: 0x7f02010a
-			public const int ic_mr_button_grey = 2130837770;
+			public const int ic_mr_button_disconnected_light = 2130837770;
 			
 			// aapt resource value: 0x7f02010b
-			public const int ic_vol_type_speaker_dark = 2130837771;
+			public const int ic_mr_button_grey = 2130837771;
 			
 			// aapt resource value: 0x7f02010c
-			public const int ic_vol_type_speaker_group_dark = 2130837772;
+			public const int ic_vol_type_speaker_dark = 2130837772;
 			
 			// aapt resource value: 0x7f02010d
-			public const int ic_vol_type_speaker_group_light = 2130837773;
+			public const int ic_vol_type_speaker_group_dark = 2130837773;
 			
 			// aapt resource value: 0x7f02010e
-			public const int ic_vol_type_speaker_light = 2130837774;
+			public const int ic_vol_type_speaker_group_light = 2130837774;
 			
 			// aapt resource value: 0x7f02010f
-			public const int ic_vol_type_tv_dark = 2130837775;
+			public const int ic_vol_type_speaker_light = 2130837775;
 			
 			// aapt resource value: 0x7f020110
-			public const int ic_vol_type_tv_light = 2130837776;
+			public const int ic_vol_type_tv_dark = 2130837776;
 			
 			// aapt resource value: 0x7f020111
-			public const int icon = 2130837777;
+			public const int ic_vol_type_tv_light = 2130837777;
 			
 			// aapt resource value: 0x7f020112
-			public const int JLU = 2130837778;
+			public const int icon = 2130837778;
 			
 			// aapt resource value: 0x7f020113
-			public const int mr_button_connected_dark = 2130837779;
+			public const int JLU = 2130837779;
 			
 			// aapt resource value: 0x7f020114
-			public const int mr_button_connected_light = 2130837780;
+			public const int mr_button_connected_dark = 2130837780;
 			
 			// aapt resource value: 0x7f020115
-			public const int mr_button_connecting_dark = 2130837781;
+			public const int mr_button_connected_light = 2130837781;
 			
 			// aapt resource value: 0x7f020116
-			public const int mr_button_connecting_light = 2130837782;
+			public const int mr_button_connecting_dark = 2130837782;
 			
 			// aapt resource value: 0x7f020117
-			public const int mr_button_dark = 2130837783;
+			public const int mr_button_connecting_light = 2130837783;
 			
 			// aapt resource value: 0x7f020118
-			public const int mr_button_light = 2130837784;
+			public const int mr_button_dark = 2130837784;
 			
 			// aapt resource value: 0x7f020119
-			public const int mr_dialog_close_dark = 2130837785;
+			public const int mr_button_light = 2130837785;
 			
 			// aapt resource value: 0x7f02011a
-			public const int mr_dialog_close_light = 2130837786;
+			public const int mr_dialog_close_dark = 2130837786;
 			
 			// aapt resource value: 0x7f02011b
-			public const int mr_dialog_material_background_dark = 2130837787;
+			public const int mr_dialog_close_light = 2130837787;
 			
 			// aapt resource value: 0x7f02011c
-			public const int mr_dialog_material_background_light = 2130837788;
+			public const int mr_dialog_material_background_dark = 2130837788;
 			
 			// aapt resource value: 0x7f02011d
-			public const int mr_group_collapse = 2130837789;
+			public const int mr_dialog_material_background_light = 2130837789;
 			
 			// aapt resource value: 0x7f02011e
-			public const int mr_group_expand = 2130837790;
+			public const int mr_group_collapse = 2130837790;
 			
 			// aapt resource value: 0x7f02011f
-			public const int mr_media_pause_dark = 2130837791;
+			public const int mr_group_expand = 2130837791;
 			
 			// aapt resource value: 0x7f020120
-			public const int mr_media_pause_light = 2130837792;
+			public const int mr_media_pause_dark = 2130837792;
 			
 			// aapt resource value: 0x7f020121
-			public const int mr_media_play_dark = 2130837793;
+			public const int mr_media_pause_light = 2130837793;
 			
 			// aapt resource value: 0x7f020122
-			public const int mr_media_play_light = 2130837794;
+			public const int mr_media_play_dark = 2130837794;
 			
 			// aapt resource value: 0x7f020123
-			public const int mr_media_stop_dark = 2130837795;
+			public const int mr_media_play_light = 2130837795;
 			
 			// aapt resource value: 0x7f020124
-			public const int mr_media_stop_light = 2130837796;
+			public const int mr_media_stop_dark = 2130837796;
 			
 			// aapt resource value: 0x7f020125
-			public const int mr_vol_type_audiotrack_dark = 2130837797;
+			public const int mr_media_stop_light = 2130837797;
 			
 			// aapt resource value: 0x7f020126
-			public const int mr_vol_type_audiotrack_light = 2130837798;
+			public const int mr_vol_type_audiotrack_dark = 2130837798;
 			
 			// aapt resource value: 0x7f020127
-			public const int navigation_empty_icon = 2130837799;
+			public const int mr_vol_type_audiotrack_light = 2130837799;
 			
 			// aapt resource value: 0x7f020128
-			public const int notification_action_background = 2130837800;
+			public const int navigation_empty_icon = 2130837800;
 			
 			// aapt resource value: 0x7f020129
-			public const int notification_bg = 2130837801;
+			public const int notification_action_background = 2130837801;
 			
 			// aapt resource value: 0x7f02012a
-			public const int notification_bg_low = 2130837802;
+			public const int notification_bg = 2130837802;
 			
 			// aapt resource value: 0x7f02012b
-			public const int notification_bg_low_normal = 2130837803;
+			public const int notification_bg_low = 2130837803;
 			
 			// aapt resource value: 0x7f02012c
-			public const int notification_bg_low_pressed = 2130837804;
+			public const int notification_bg_low_normal = 2130837804;
 			
 			// aapt resource value: 0x7f02012d
-			public const int notification_bg_normal = 2130837805;
+			public const int notification_bg_low_pressed = 2130837805;
 			
 			// aapt resource value: 0x7f02012e
-			public const int notification_bg_normal_pressed = 2130837806;
+			public const int notification_bg_normal = 2130837806;
 			
 			// aapt resource value: 0x7f02012f
-			public const int notification_icon_background = 2130837807;
-			
-			// aapt resource value: 0x7f020139
-			public const int notification_template_icon_bg = 2130837817;
-			
-			// aapt resource value: 0x7f02013a
-			public const int notification_template_icon_low_bg = 2130837818;
+			public const int notification_bg_normal_pressed = 2130837807;
 			
 			// aapt resource value: 0x7f020130
-			public const int notification_tile_bg = 2130837808;
+			public const int notification_icon_background = 2130837808;
+			
+			// aapt resource value: 0x7f02013a
+			public const int notification_template_icon_bg = 2130837818;
+			
+			// aapt resource value: 0x7f02013b
+			public const int notification_template_icon_low_bg = 2130837819;
 			
 			// aapt resource value: 0x7f020131
-			public const int notify_panel_notification_icon_bg = 2130837809;
+			public const int notification_tile_bg = 2130837809;
 			
 			// aapt resource value: 0x7f020132
-			public const int previewImage = 2130837810;
+			public const int notify_panel_notification_icon_bg = 2130837810;
 			
 			// aapt resource value: 0x7f020133
-			public const int side_bg = 2130837811;
+			public const int previewImage = 2130837811;
 			
 			// aapt resource value: 0x7f020134
-			public const int splash = 2130837812;
+			public const int side_bg = 2130837812;
 			
 			// aapt resource value: 0x7f020135
-			public const int splash_screen = 2130837813;
+			public const int splash = 2130837813;
 			
 			// aapt resource value: 0x7f020136
-			public const int tooltip_frame_dark = 2130837814;
+			public const int splash_screen = 2130837814;
 			
 			// aapt resource value: 0x7f020137
-			public const int tooltip_frame_light = 2130837815;
+			public const int tooltip_frame_dark = 2130837815;
 			
 			// aapt resource value: 0x7f020138
-			public const int xamarin_logo = 2130837816;
+			public const int tooltip_frame_light = 2130837816;
+			
+			// aapt resource value: 0x7f020139
+			public const int xamarin_logo = 2130837817;
 			
 			static Drawable()
 			{
@@ -3597,8 +5543,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090046
 			public const int META = 2131296326;
 			
-			// aapt resource value: 0x7f0900ee
-			public const int NextClassPlaceString = 2131296494;
+			// aapt resource value: 0x7f0900f8
+			public const int NextClassPlaceString = 2131296504;
 			
 			// aapt resource value: 0x7f090047
 			public const int SHIFT = 2131296327;
@@ -3606,8 +5552,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090048
 			public const int SYM = 2131296328;
 			
-			// aapt resource value: 0x7f0900cc
-			public const int action0 = 2131296460;
+			// aapt resource value: 0x7f0900d6
+			public const int action0 = 2131296470;
 			
 			// aapt resource value: 0x7f090080
 			public const int action_bar = 2131296384;
@@ -3630,17 +5576,17 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09005e
 			public const int action_bar_title = 2131296350;
 			
-			// aapt resource value: 0x7f0900c9
-			public const int action_container = 2131296457;
+			// aapt resource value: 0x7f0900d3
+			public const int action_container = 2131296467;
 			
 			// aapt resource value: 0x7f090081
 			public const int action_context_bar = 2131296385;
 			
-			// aapt resource value: 0x7f0900d0
-			public const int action_divider = 2131296464;
+			// aapt resource value: 0x7f0900da
+			public const int action_divider = 2131296474;
 			
-			// aapt resource value: 0x7f0900ca
-			public const int action_image = 2131296458;
+			// aapt resource value: 0x7f0900d4
+			public const int action_image = 2131296468;
 			
 			// aapt resource value: 0x7f090003
 			public const int action_menu_divider = 2131296259;
@@ -3657,11 +5603,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090060
 			public const int action_mode_close_button = 2131296352;
 			
-			// aapt resource value: 0x7f0900cb
-			public const int action_text = 2131296459;
+			// aapt resource value: 0x7f0900d5
+			public const int action_text = 2131296469;
 			
-			// aapt resource value: 0x7f0900d9
-			public const int actions = 2131296473;
+			// aapt resource value: 0x7f0900e3
+			public const int actions = 2131296483;
 			
 			// aapt resource value: 0x7f090061
 			public const int activity_chooser_view_content = 2131296353;
@@ -3702,8 +5648,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090067
 			public const int buttonPanel = 2131296359;
 			
-			// aapt resource value: 0x7f0900cd
-			public const int cancel_action = 2131296461;
+			// aapt resource value: 0x7f0900d7
+			public const int cancel_action = 2131296471;
 			
 			// aapt resource value: 0x7f090022
 			public const int center = 2131296290;
@@ -3717,44 +5663,44 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090077
 			public const int checkbox = 2131296375;
 			
-			// aapt resource value: 0x7f0900d5
-			public const int chronometer = 2131296469;
+			// aapt resource value: 0x7f0900df
+			public const int chronometer = 2131296479;
 			
 			// aapt resource value: 0x7f090095
 			public const int class1 = 2131296405;
 			
-			// aapt resource value: 0x7f0900dc
-			public const int class10 = 2131296476;
-			
-			// aapt resource value: 0x7f0900dd
-			public const int class11 = 2131296477;
-			
-			// aapt resource value: 0x7f0900de
-			public const int class12 = 2131296478;
-			
-			// aapt resource value: 0x7f0900df
-			public const int class2 = 2131296479;
-			
-			// aapt resource value: 0x7f0900e0
-			public const int class3 = 2131296480;
-			
-			// aapt resource value: 0x7f0900e1
-			public const int class4 = 2131296481;
-			
-			// aapt resource value: 0x7f0900e2
-			public const int class5 = 2131296482;
-			
-			// aapt resource value: 0x7f0900e3
-			public const int class6 = 2131296483;
-			
-			// aapt resource value: 0x7f0900e4
-			public const int class7 = 2131296484;
-			
-			// aapt resource value: 0x7f0900e5
-			public const int class8 = 2131296485;
-			
 			// aapt resource value: 0x7f0900e6
-			public const int class9 = 2131296486;
+			public const int class10 = 2131296486;
+			
+			// aapt resource value: 0x7f0900e7
+			public const int class11 = 2131296487;
+			
+			// aapt resource value: 0x7f0900e8
+			public const int class12 = 2131296488;
+			
+			// aapt resource value: 0x7f0900e9
+			public const int class2 = 2131296489;
+			
+			// aapt resource value: 0x7f0900ea
+			public const int class3 = 2131296490;
+			
+			// aapt resource value: 0x7f0900eb
+			public const int class4 = 2131296491;
+			
+			// aapt resource value: 0x7f0900ec
+			public const int class5 = 2131296492;
+			
+			// aapt resource value: 0x7f0900ed
+			public const int class6 = 2131296493;
+			
+			// aapt resource value: 0x7f0900ee
+			public const int class7 = 2131296494;
+			
+			// aapt resource value: 0x7f0900ef
+			public const int class8 = 2131296495;
+			
+			// aapt resource value: 0x7f0900f0
+			public const int class9 = 2131296496;
 			
 			// aapt resource value: 0x7f09009a
 			public const int classgridframe = 2131296410;
@@ -3822,8 +5768,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090027
 			public const int end = 2131296295;
 			
-			// aapt resource value: 0x7f0900db
-			public const int end_padder = 2131296475;
+			// aapt resource value: 0x7f0900e5
+			public const int end_padder = 2131296485;
 			
 			// aapt resource value: 0x7f09004e
 			public const int enterAlways = 2131296334;
@@ -3858,8 +5804,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09005c
 			public const int forever = 2131296348;
 			
-			// aapt resource value: 0x7f090091
-			public const int frame_layout = 2131296401;
+			// aapt resource value: 0x7f090093
+			public const int frame_layout = 2131296403;
 			
 			// aapt resource value: 0x7f09000a
 			public const int ghost_view = 2131296266;
@@ -3876,8 +5822,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090066
 			public const int icon = 2131296358;
 			
-			// aapt resource value: 0x7f0900da
-			public const int icon_group = 2131296474;
+			// aapt resource value: 0x7f0900e4
+			public const int icon_group = 2131296484;
 			
 			// aapt resource value: 0x7f09004b
 			public const int ifRoom = 2131296331;
@@ -3885,8 +5831,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090063
 			public const int image = 2131296355;
 			
-			// aapt resource value: 0x7f0900d6
-			public const int info = 2131296470;
+			// aapt resource value: 0x7f0900e0
+			public const int info = 2131296480;
 			
 			// aapt resource value: 0x7f0900ad
 			public const int input_layout_edittext = 2131296429;
@@ -3921,17 +5867,47 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090065
 			public const int list_item = 2131296357;
 			
-			// aapt resource value: 0x7f090093
-			public const int main_progress_bar = 2131296403;
+			// aapt resource value: 0x7f090092
+			public const int main_progress_bar = 2131296402;
 			
-			// aapt resource value: 0x7f0900f0
-			public const int masked = 2131296496;
+			// aapt resource value: 0x7f0900b0
+			public const int mal_action_item_subtext = 2131296432;
 			
-			// aapt resource value: 0x7f0900cf
-			public const int media_actions = 2131296463;
+			// aapt resource value: 0x7f0900b2
+			public const int mal_appbarlayout = 2131296434;
 			
-			// aapt resource value: 0x7f0900ea
-			public const int message = 2131296490;
+			// aapt resource value: 0x7f0900b6
+			public const int mal_card_recyclerview = 2131296438;
+			
+			// aapt resource value: 0x7f0900b7
+			public const int mal_item_desc = 2131296439;
+			
+			// aapt resource value: 0x7f0900ae
+			public const int mal_item_image = 2131296430;
+			
+			// aapt resource value: 0x7f0900af
+			public const int mal_item_text = 2131296431;
+			
+			// aapt resource value: 0x7f0900b5
+			public const int mal_list_card_title = 2131296437;
+			
+			// aapt resource value: 0x7f0900b1
+			public const int mal_material_about_activity_coordinator_layout = 2131296433;
+			
+			// aapt resource value: 0x7f0900b4
+			public const int mal_recyclerview = 2131296436;
+			
+			// aapt resource value: 0x7f0900b3
+			public const int mal_toolbar = 2131296435;
+			
+			// aapt resource value: 0x7f0900fa
+			public const int masked = 2131296506;
+			
+			// aapt resource value: 0x7f0900d9
+			public const int media_actions = 2131296473;
+			
+			// aapt resource value: 0x7f0900f4
+			public const int message = 2131296500;
 			
 			// aapt resource value: 0x7f090042
 			public const int middle = 2131296322;
@@ -3939,80 +5915,80 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090057
 			public const int mini = 2131296343;
 			
-			// aapt resource value: 0x7f0900ba
-			public const int mr_art = 2131296442;
-			
-			// aapt resource value: 0x7f0900af
-			public const int mr_chooser_list = 2131296431;
-			
-			// aapt resource value: 0x7f0900b2
-			public const int mr_chooser_route_desc = 2131296434;
-			
-			// aapt resource value: 0x7f0900b0
-			public const int mr_chooser_route_icon = 2131296432;
-			
-			// aapt resource value: 0x7f0900b1
-			public const int mr_chooser_route_name = 2131296433;
-			
-			// aapt resource value: 0x7f0900ae
-			public const int mr_chooser_title = 2131296430;
-			
-			// aapt resource value: 0x7f0900b7
-			public const int mr_close = 2131296439;
-			
-			// aapt resource value: 0x7f0900bd
-			public const int mr_control_divider = 2131296445;
-			
-			// aapt resource value: 0x7f0900c3
-			public const int mr_control_playback_ctrl = 2131296451;
-			
-			// aapt resource value: 0x7f0900c6
-			public const int mr_control_subtitle = 2131296454;
-			
-			// aapt resource value: 0x7f0900c5
-			public const int mr_control_title = 2131296453;
-			
 			// aapt resource value: 0x7f0900c4
-			public const int mr_control_title_container = 2131296452;
-			
-			// aapt resource value: 0x7f0900b8
-			public const int mr_custom_control = 2131296440;
+			public const int mr_art = 2131296452;
 			
 			// aapt resource value: 0x7f0900b9
-			public const int mr_default_control = 2131296441;
-			
-			// aapt resource value: 0x7f0900b4
-			public const int mr_dialog_area = 2131296436;
-			
-			// aapt resource value: 0x7f0900b3
-			public const int mr_expandable_area = 2131296435;
-			
-			// aapt resource value: 0x7f0900c7
-			public const int mr_group_expand_collapse = 2131296455;
-			
-			// aapt resource value: 0x7f0900bb
-			public const int mr_media_main_control = 2131296443;
-			
-			// aapt resource value: 0x7f0900b6
-			public const int mr_name = 2131296438;
+			public const int mr_chooser_list = 2131296441;
 			
 			// aapt resource value: 0x7f0900bc
-			public const int mr_playback_control = 2131296444;
+			public const int mr_chooser_route_desc = 2131296444;
 			
-			// aapt resource value: 0x7f0900b5
-			public const int mr_title_bar = 2131296437;
+			// aapt resource value: 0x7f0900ba
+			public const int mr_chooser_route_icon = 2131296442;
 			
-			// aapt resource value: 0x7f0900be
-			public const int mr_volume_control = 2131296446;
+			// aapt resource value: 0x7f0900bb
+			public const int mr_chooser_route_name = 2131296443;
 			
-			// aapt resource value: 0x7f0900bf
-			public const int mr_volume_group_list = 2131296447;
+			// aapt resource value: 0x7f0900b8
+			public const int mr_chooser_title = 2131296440;
 			
 			// aapt resource value: 0x7f0900c1
-			public const int mr_volume_item_icon = 2131296449;
+			public const int mr_close = 2131296449;
+			
+			// aapt resource value: 0x7f0900c7
+			public const int mr_control_divider = 2131296455;
+			
+			// aapt resource value: 0x7f0900cd
+			public const int mr_control_playback_ctrl = 2131296461;
+			
+			// aapt resource value: 0x7f0900d0
+			public const int mr_control_subtitle = 2131296464;
+			
+			// aapt resource value: 0x7f0900cf
+			public const int mr_control_title = 2131296463;
+			
+			// aapt resource value: 0x7f0900ce
+			public const int mr_control_title_container = 2131296462;
 			
 			// aapt resource value: 0x7f0900c2
-			public const int mr_volume_slider = 2131296450;
+			public const int mr_custom_control = 2131296450;
+			
+			// aapt resource value: 0x7f0900c3
+			public const int mr_default_control = 2131296451;
+			
+			// aapt resource value: 0x7f0900be
+			public const int mr_dialog_area = 2131296446;
+			
+			// aapt resource value: 0x7f0900bd
+			public const int mr_expandable_area = 2131296445;
+			
+			// aapt resource value: 0x7f0900d1
+			public const int mr_group_expand_collapse = 2131296465;
+			
+			// aapt resource value: 0x7f0900c5
+			public const int mr_media_main_control = 2131296453;
+			
+			// aapt resource value: 0x7f0900c0
+			public const int mr_name = 2131296448;
+			
+			// aapt resource value: 0x7f0900c6
+			public const int mr_playback_control = 2131296454;
+			
+			// aapt resource value: 0x7f0900bf
+			public const int mr_title_bar = 2131296447;
+			
+			// aapt resource value: 0x7f0900c8
+			public const int mr_volume_control = 2131296456;
+			
+			// aapt resource value: 0x7f0900c9
+			public const int mr_volume_group_list = 2131296457;
+			
+			// aapt resource value: 0x7f0900cb
+			public const int mr_volume_item_icon = 2131296459;
+			
+			// aapt resource value: 0x7f0900cc
+			public const int mr_volume_slider = 2131296460;
 			
 			// aapt resource value: 0x7f09003a
 			public const int multiply = 2131296314;
@@ -4032,14 +6008,14 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090030
 			public const int normal = 2131296304;
 			
-			// aapt resource value: 0x7f0900d8
-			public const int notification_background = 2131296472;
+			// aapt resource value: 0x7f0900e2
+			public const int notification_background = 2131296482;
 			
-			// aapt resource value: 0x7f0900d2
-			public const int notification_main_column = 2131296466;
+			// aapt resource value: 0x7f0900dc
+			public const int notification_main_column = 2131296476;
 			
-			// aapt resource value: 0x7f0900d1
-			public const int notification_main_column_container = 2131296465;
+			// aapt resource value: 0x7f0900db
+			public const int notification_main_column_container = 2131296475;
 			
 			// aapt resource value: 0x7f090054
 			public const int parallax = 2131296340;
@@ -4065,11 +6041,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09002c
 			public const int right = 2131296300;
 			
-			// aapt resource value: 0x7f0900d7
-			public const int right_icon = 2131296471;
+			// aapt resource value: 0x7f0900e1
+			public const int right_icon = 2131296481;
 			
-			// aapt resource value: 0x7f0900d3
-			public const int right_side = 2131296467;
+			// aapt resource value: 0x7f0900dd
+			public const int right_side = 2131296477;
 			
 			// aapt resource value: 0x7f09000c
 			public const int save_image_matrix = 2131296268;
@@ -4143,14 +6119,14 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090037
 			public const int showTitle = 2131296311;
 			
-			// aapt resource value: 0x7f0900e7
-			public const int singleline = 2131296487;
+			// aapt resource value: 0x7f0900f1
+			public const int singleline = 2131296497;
 			
-			// aapt resource value: 0x7f0900e8
-			public const int skia_chart_canvas = 2131296488;
+			// aapt resource value: 0x7f0900f2
+			public const int skia_chart_canvas = 2131296498;
 			
-			// aapt resource value: 0x7f0900e9
-			public const int sliding_tabs = 2131296489;
+			// aapt resource value: 0x7f0900f3
+			public const int sliding_tabs = 2131296499;
 			
 			// aapt resource value: 0x7f09009e
 			public const int smallLabel = 2131296414;
@@ -4182,8 +6158,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09002d
 			public const int start = 2131296301;
 			
-			// aapt resource value: 0x7f0900ce
-			public const int status_bar_latest_event_content = 2131296462;
+			// aapt resource value: 0x7f0900d8
+			public const int status_bar_latest_event_content = 2131296472;
 			
 			// aapt resource value: 0x7f09007a
 			public const int submenuarrow = 2131296378;
@@ -4209,8 +6185,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09006d
 			public const int textSpacerNoTitle = 2131296365;
 			
-			// aapt resource value: 0x7f0900c8
-			public const int textView = 2131296456;
+			// aapt resource value: 0x7f0900d2
+			public const int textView = 2131296466;
 			
 			// aapt resource value: 0x7f0900ab
 			public const int text_input_password_toggle = 2131296427;
@@ -4221,8 +6197,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090015
 			public const int textinput_error = 2131296277;
 			
-			// aapt resource value: 0x7f0900d4
-			public const int time = 2131296468;
+			// aapt resource value: 0x7f0900de
+			public const int time = 2131296478;
 			
 			// aapt resource value: 0x7f09001c
 			public const int title = 2131296284;
@@ -4233,8 +6209,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090073
 			public const int title_template = 2131296371;
 			
-			// aapt resource value: 0x7f090092
-			public const int toolbar = 2131296402;
+			// aapt resource value: 0x7f090091
+			public const int toolbar = 2131296401;
 			
 			// aapt resource value: 0x7f09002e
 			public const int top = 2131296302;
@@ -4275,20 +6251,20 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090016
 			public const int view_offset_helper = 2131296278;
 			
-			// aapt resource value: 0x7f0900ef
-			public const int visible = 2131296495;
+			// aapt resource value: 0x7f0900f9
+			public const int visible = 2131296505;
 			
-			// aapt resource value: 0x7f0900c0
-			public const int volume_item_container = 2131296448;
+			// aapt resource value: 0x7f0900ca
+			public const int volume_item_container = 2131296458;
 			
-			// aapt resource value: 0x7f0900eb
-			public const int widgetBackground = 2131296491;
+			// aapt resource value: 0x7f0900f5
+			public const int widgetBackground = 2131296501;
 			
-			// aapt resource value: 0x7f0900ed
-			public const int widgetMedium = 2131296493;
+			// aapt resource value: 0x7f0900f7
+			public const int widgetMedium = 2131296503;
 			
-			// aapt resource value: 0x7f0900ec
-			public const int widgetSmall = 2131296492;
+			// aapt resource value: 0x7f0900f6
+			public const int widgetSmall = 2131296502;
 			
 			// aapt resource value: 0x7f09004d
 			public const int withText = 2131296333;
@@ -4537,136 +6513,151 @@ namespace HandSchool.Droid
 			public const int InputLayout = 2130903091;
 			
 			// aapt resource value: 0x7f030034
-			public const int mr_chooser_dialog = 2130903092;
+			public const int mal_material_about_action_item = 2130903092;
 			
 			// aapt resource value: 0x7f030035
-			public const int mr_chooser_list_item = 2130903093;
+			public const int mal_material_about_activity = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int mr_controller_material_dialog_b = 2130903094;
+			public const int mal_material_about_fragment = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int mr_controller_volume_item = 2130903095;
+			public const int mal_material_about_list_card = 2130903095;
 			
 			// aapt resource value: 0x7f030038
-			public const int mr_playback_control = 2130903096;
+			public const int mal_material_about_title_item = 2130903096;
 			
 			// aapt resource value: 0x7f030039
-			public const int mr_volume_control = 2130903097;
+			public const int mr_chooser_dialog = 2130903097;
 			
 			// aapt resource value: 0x7f03003a
-			public const int nav_header_main = 2130903098;
+			public const int mr_chooser_list_item = 2130903098;
 			
 			// aapt resource value: 0x7f03003b
-			public const int notification_action = 2130903099;
+			public const int mr_controller_material_dialog_b = 2130903099;
 			
 			// aapt resource value: 0x7f03003c
-			public const int notification_action_tombstone = 2130903100;
+			public const int mr_controller_volume_item = 2130903100;
 			
 			// aapt resource value: 0x7f03003d
-			public const int notification_media_action = 2130903101;
+			public const int mr_playback_control = 2130903101;
 			
 			// aapt resource value: 0x7f03003e
-			public const int notification_media_cancel_action = 2130903102;
+			public const int mr_volume_control = 2130903102;
 			
 			// aapt resource value: 0x7f03003f
-			public const int notification_template_big_media = 2130903103;
+			public const int nav_header_main = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int notification_template_big_media_custom = 2130903104;
+			public const int notification_action = 2130903104;
 			
 			// aapt resource value: 0x7f030041
-			public const int notification_template_big_media_narrow = 2130903105;
+			public const int notification_action_tombstone = 2130903105;
 			
 			// aapt resource value: 0x7f030042
-			public const int notification_template_big_media_narrow_custom = 2130903106;
+			public const int notification_media_action = 2130903106;
 			
 			// aapt resource value: 0x7f030043
-			public const int notification_template_custom_big = 2130903107;
+			public const int notification_media_cancel_action = 2130903107;
 			
 			// aapt resource value: 0x7f030044
-			public const int notification_template_icon_group = 2130903108;
+			public const int notification_template_big_media = 2130903108;
 			
 			// aapt resource value: 0x7f030045
-			public const int notification_template_lines_media = 2130903109;
+			public const int notification_template_big_media_custom = 2130903109;
 			
 			// aapt resource value: 0x7f030046
-			public const int notification_template_media = 2130903110;
+			public const int notification_template_big_media_narrow = 2130903110;
 			
 			// aapt resource value: 0x7f030047
-			public const int notification_template_media_custom = 2130903111;
+			public const int notification_template_big_media_narrow_custom = 2130903111;
 			
 			// aapt resource value: 0x7f030048
-			public const int notification_template_part_chronometer = 2130903112;
+			public const int notification_template_custom_big = 2130903112;
 			
 			// aapt resource value: 0x7f030049
-			public const int notification_template_part_time = 2130903113;
+			public const int notification_template_icon_group = 2130903113;
 			
 			// aapt resource value: 0x7f03004a
-			public const int select_dialog_item_material = 2130903114;
+			public const int notification_template_lines_media = 2130903114;
 			
 			// aapt resource value: 0x7f03004b
-			public const int select_dialog_multichoice_material = 2130903115;
+			public const int notification_template_media = 2130903115;
 			
 			// aapt resource value: 0x7f03004c
-			public const int select_dialog_singlechoice_material = 2130903116;
+			public const int notification_template_media_custom = 2130903116;
 			
 			// aapt resource value: 0x7f03004d
-			public const int singleclassitem_1 = 2130903117;
+			public const int notification_template_part_chronometer = 2130903117;
 			
 			// aapt resource value: 0x7f03004e
-			public const int singleclassitem_10 = 2130903118;
+			public const int notification_template_part_time = 2130903118;
 			
 			// aapt resource value: 0x7f03004f
-			public const int singleclassitem_11 = 2130903119;
+			public const int select_dialog_item_material = 2130903119;
 			
 			// aapt resource value: 0x7f030050
-			public const int singleclassitem_12 = 2130903120;
+			public const int select_dialog_multichoice_material = 2130903120;
 			
 			// aapt resource value: 0x7f030051
-			public const int singleclassitem_2 = 2130903121;
+			public const int select_dialog_singlechoice_material = 2130903121;
 			
 			// aapt resource value: 0x7f030052
-			public const int singleclassitem_3 = 2130903122;
+			public const int singleclassitem_1 = 2130903122;
 			
 			// aapt resource value: 0x7f030053
-			public const int singleclassitem_4 = 2130903123;
+			public const int singleclassitem_10 = 2130903123;
 			
 			// aapt resource value: 0x7f030054
-			public const int singleclassitem_5 = 2130903124;
+			public const int singleclassitem_11 = 2130903124;
 			
 			// aapt resource value: 0x7f030055
-			public const int singleclassitem_6 = 2130903125;
+			public const int singleclassitem_12 = 2130903125;
 			
 			// aapt resource value: 0x7f030056
-			public const int singleclassitem_7 = 2130903126;
+			public const int singleclassitem_2 = 2130903126;
 			
 			// aapt resource value: 0x7f030057
-			public const int singleclassitem_8 = 2130903127;
+			public const int singleclassitem_3 = 2130903127;
 			
 			// aapt resource value: 0x7f030058
-			public const int singleclassitem_9 = 2130903128;
+			public const int singleclassitem_4 = 2130903128;
 			
 			// aapt resource value: 0x7f030059
-			public const int SingleLine = 2130903129;
+			public const int singleclassitem_5 = 2130903129;
 			
 			// aapt resource value: 0x7f03005a
-			public const int SkiaChart = 2130903130;
+			public const int singleclassitem_6 = 2130903130;
 			
 			// aapt resource value: 0x7f03005b
-			public const int support_simple_spinner_dropdown_item = 2130903131;
+			public const int singleclassitem_7 = 2130903131;
 			
 			// aapt resource value: 0x7f03005c
-			public const int Tabbar = 2130903132;
+			public const int singleclassitem_8 = 2130903132;
 			
 			// aapt resource value: 0x7f03005d
-			public const int Toolbar = 2130903133;
+			public const int singleclassitem_9 = 2130903133;
 			
 			// aapt resource value: 0x7f03005e
-			public const int tooltip = 2130903134;
+			public const int SingleLine = 2130903134;
 			
 			// aapt resource value: 0x7f03005f
-			public const int Widget = 2130903135;
+			public const int SkiaChart = 2130903135;
+			
+			// aapt resource value: 0x7f030060
+			public const int support_simple_spinner_dropdown_item = 2130903136;
+			
+			// aapt resource value: 0x7f030061
+			public const int Tabbar = 2130903137;
+			
+			// aapt resource value: 0x7f030062
+			public const int Toolbar = 2130903138;
+			
+			// aapt resource value: 0x7f030063
+			public const int tooltip = 2130903139;
+			
+			// aapt resource value: 0x7f030064
+			public const int Widget = 2130903140;
 			
 			static Layout()
 			{
@@ -4768,8 +6759,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0a0025
 			public const int abc_toolbar_collapse_description = 2131361829;
 			
-			// aapt resource value: 0x7f0a003d
-			public const int app_name = 2131361853;
+			// aapt resource value: 0x7f0a003c
+			public const int app_name = 2131361852;
 			
 			// aapt resource value: 0x7f0a0033
 			public const int appbar_scrolling_view_behavior = 2131361843;
@@ -4780,8 +6771,35 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0a0035
 			public const int character_counter_pattern = 2131361845;
 			
-			// aapt resource value: 0x7f0a003c
-			public const int hello = 2131361852;
+			// aapt resource value: 0x7f0a0046
+			public const int hello = 2131361862;
+			
+			// aapt resource value: 0x7f0a0042
+			public const int license_apache2 = 2131361858;
+			
+			// aapt resource value: 0x7f0a0045
+			public const int license_bsd = 2131361861;
+			
+			// aapt resource value: 0x7f0a0044
+			public const int license_gpl = 2131361860;
+			
+			// aapt resource value: 0x7f0a0043
+			public const int license_mit = 2131361859;
+			
+			// aapt resource value: 0x7f0a0041
+			public const int mal_activity_exception = 2131361857;
+			
+			// aapt resource value: 0x7f0a003f
+			public const int mal_close = 2131361855;
+			
+			// aapt resource value: 0x7f0a0040
+			public const int mal_send_email = 2131361856;
+			
+			// aapt resource value: 0x7f0a003d
+			public const int mal_title_about = 2131361853;
+			
+			// aapt resource value: 0x7f0a003e
+			public const int mal_title_licenses = 2131361854;
 			
 			// aapt resource value: 0x7f0a0000
 			public const int mr_button_content_description = 2131361792;
@@ -4846,11 +6864,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0a0014
 			public const int mr_user_route_category_name = 2131361812;
 			
-			// aapt resource value: 0x7f0a003f
-			public const int navigation_drawer_close = 2131361855;
+			// aapt resource value: 0x7f0a0048
+			public const int navigation_drawer_close = 2131361864;
 			
-			// aapt resource value: 0x7f0a003e
-			public const int navigation_drawer_open = 2131361854;
+			// aapt resource value: 0x7f0a0047
+			public const int navigation_drawer_open = 2131361863;
 			
 			// aapt resource value: 0x7f0a0036
 			public const int password_toggle_content_description = 2131361846;
@@ -4904,20 +6922,20 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0c016e
 			public const int Animation_Design_BottomSheetDialog = 2131493230;
 			
+			// aapt resource value: 0x7f0c019c
+			public const int AppCompatDialogStyle = 2131493276;
+			
+			// aapt resource value: 0x7f0c0195
+			public const int AppTheme = 2131493269;
+			
+			// aapt resource value: 0x7f0c0197
+			public const int AppTheme_AppBarOverlay = 2131493271;
+			
 			// aapt resource value: 0x7f0c0196
-			public const int AppCompatDialogStyle = 2131493270;
+			public const int AppTheme_NoActionBar = 2131493270;
 			
-			// aapt resource value: 0x7f0c018f
-			public const int AppTheme = 2131493263;
-			
-			// aapt resource value: 0x7f0c0191
-			public const int AppTheme_AppBarOverlay = 2131493265;
-			
-			// aapt resource value: 0x7f0c0190
-			public const int AppTheme_NoActionBar = 2131493264;
-			
-			// aapt resource value: 0x7f0c0192
-			public const int AppTheme_PopupOverlay = 2131493266;
+			// aapt resource value: 0x7f0c0198
+			public const int AppTheme_PopupOverlay = 2131493272;
 			
 			// aapt resource value: 0x7f0c00a9
 			public const int Base_AlertDialog_AppCompat = 2131493033;
@@ -5420,14 +7438,14 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0c000e
 			public const int CardView_Light = 2131492878;
 			
-			// aapt resource value: 0x7f0c0194
-			public const int MainTheme = 2131493268;
+			// aapt resource value: 0x7f0c019a
+			public const int MainTheme = 2131493274;
 			
-			// aapt resource value: 0x7f0c0193
-			public const int MainTheme_ActionMode = 2131493267;
+			// aapt resource value: 0x7f0c0199
+			public const int MainTheme_ActionMode = 2131493273;
 			
-			// aapt resource value: 0x7f0c0195
-			public const int MainTheme_Base = 2131493269;
+			// aapt resource value: 0x7f0c019b
+			public const int MainTheme_Base = 2131493275;
 			
 			// aapt resource value: 0x7f0c002d
 			public const int Platform_AppCompat = 2131492909;
@@ -5807,6 +7825,24 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0c017d
 			public const int Theme_Design_NoActionBar = 2131493245;
 			
+			// aapt resource value: 0x7f0c0190
+			public const int Theme_Mal_Dark = 2131493264;
+			
+			// aapt resource value: 0x7f0c0191
+			public const int Theme_Mal_Dark_LightActionBar = 2131493265;
+			
+			// aapt resource value: 0x7f0c018f
+			public const int Theme_Mal_Light = 2131493263;
+			
+			// aapt resource value: 0x7f0c0192
+			public const int Theme_Mal_Light_DarkActionBar = 2131493266;
+			
+			// aapt resource value: 0x7f0c0194
+			public const int Theme_Mal_Toolbar_Dark = 2131493268;
+			
+			// aapt resource value: 0x7f0c0193
+			public const int Theme_Mal_Toolbar_Light = 2131493267;
+			
 			// aapt resource value: 0x7f0c0003
 			public const int Theme_MediaRouter = 2131492867;
 			
@@ -5819,8 +7855,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0c0006
 			public const int Theme_MediaRouter_LightControlPanel = 2131492870;
 			
-			// aapt resource value: 0x7f0c0197
-			public const int Theme_Splash = 2131493271;
+			// aapt resource value: 0x7f0c019d
+			public const int Theme_Splash = 2131493277;
 			
 			// aapt resource value: 0x7f0c0116
 			public const int ThemeOverlay_AppCompat = 2131493142;

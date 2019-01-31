@@ -66,7 +66,7 @@ namespace HandSchool.Views
 
         protected virtual void OnEntranceRequested(IWebEntrance ent)
         {
-            Navigation.PushAsync(new WebViewPage(ent));
+            //Navigation.PushAsync(new WebViewPage(ent));
         }
     }
 }

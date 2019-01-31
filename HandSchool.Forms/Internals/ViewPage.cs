@@ -89,7 +89,7 @@ namespace HandSchool.Views
             if (IsModal)
                 await base.Navigation.PopModalAsync();
             else
-                await Navigation.PopAsync();
+                await Task.CompletedTask;//Navigation.PopAsync();
         }
 
         public void RegisterNavigation(INavigate navigate)
@@ -114,7 +114,7 @@ namespace HandSchool.Views
             }
             else
             {
-                await parent.PushAsync(this);
+                // await parent.PushAsync(this);
 
                 if (Parent is NavigationPage navigationPage)
                 {

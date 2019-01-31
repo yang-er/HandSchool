@@ -1,31 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
 <resources>
 
   <color name="white">#FFFFFF</color>
-  <!--白色 -->
-
   <color name="ivory">#FFFFF0</color>
-  <!--象牙色 -->
-
   <color name="lightyellow">#FFFFE0</color>
-  <!--亮黄色-->
-
   <color name="yellow">#FFFF00</color>
-  <!--黄色 -->
-
   <color name="snow">#FFFAFA</color>
-  <!--雪白色 -->
-
   <color name="floralwhite">#FFFAF0</color>
-  <!--花白色 -->
-
   <color name="lemonchiffon">#FFFACD</color>
-  <!--柠檬绸色 -->
-
   <color name="cornsilk">#FFF8DC</color>
-  <!--米绸色 -->
-
   <color name="seashell">#FFF5EE</color>
   <!--海贝色 -->
 
@@ -442,5 +425,5 @@
 
   <color name="colorPrimary">#2196f3</color>
   <color name="colorPrimaryDark">#1976d2</color>
-  <color name="colorAccent">#96d1ff</color>
+  <color name="colorAccent">#1756e1</color>
 </resources>

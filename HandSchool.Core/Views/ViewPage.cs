@@ -1,20 +1,13 @@
-﻿using HandSchool.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel;
 
 namespace HandSchool.Views
 {
     /// <summary>
     /// 基础的视图页面。
     /// </summary>
-    public interface IViewPage : IViewResponse
+    public interface IViewPage : IViewResponse, IViewCore
     {
-        /// <summary>
-        /// 与此页面沟通的视图模型
-        /// </summary>
-        BaseViewModel ViewModel { get; set; }
-
         /// <summary>
         /// 视图导航控制器
         /// </summary>
@@ -29,12 +22,7 @@ namespace HandSchool.Views
         /// 页面显示的主要内容
         /// </summary>
         Xamarin.Forms.View Content { get; set; }
-
-        /// <summary>
-        /// 页面的标题
-        /// </summary>
-        string Title { get; set; }
-
+        
         /// <summary>
         /// 工具栏的入口点
         /// </summary>
@@ -54,6 +42,7 @@ namespace HandSchool.Views
         /// 注册当前的导航实现。仅供内部使用。
         /// </summary>
         /// <param name="navigate">导航工具</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         void RegisterNavigation(INavigate navigate);
     }
 }

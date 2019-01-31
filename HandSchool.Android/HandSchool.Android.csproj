@@ -65,6 +65,9 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Karamunting.Android.MaterialAboutLibrary">
+      <Version>2.2.3</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.1</Version>
     </PackageReference>
@@ -85,7 +88,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Renderers\BaseActivity.cs" />
+    <Compile Include="Renderers\AboutMenuItemClick.cs" />
+    <Compile Include="Views\BaseActivity.cs" />
     <Compile Include="Renderers\MessagePresenter.cs" />
     <Compile Include="Renderers\NavigateImpl.cs" />
     <Compile Include="Renderers\NavMenuItemImpl.cs" />
@@ -95,7 +99,7 @@
     <Compile Include="Renderers\ViewResponseImpl.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecondActivity.cs" />
+    <Compile Include="Views\SecondActivity.cs" />
     <Compile Include="SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +285,9 @@
     <AndroidResource Include="Resources\layout\activity_popup.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_menu_about.xml" />
   </ItemGroup>
   <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

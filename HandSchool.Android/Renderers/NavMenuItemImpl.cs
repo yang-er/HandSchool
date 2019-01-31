@@ -11,7 +11,7 @@ namespace HandSchool.Droid
         private Lazy<Page> LazyCorePage { get; }
         private Lazy<NavigationPage> LazyNavPage { get; }
         private IViewPresenter Presenter { get; }
-        private NavigateImpl Navigation { get; set; }
+        private Forms.NavigateImpl Navigation { get; set; }
         static readonly Color active = Color.FromRgb(0, 120, 215);
         static readonly Color inactive = default(Color);
         private Color color;
@@ -40,7 +40,7 @@ namespace HandSchool.Droid
         private NavigationPage CreateNavigationPage()
         {
             var navPage = new NavigationPage(LazyCorePage.Value);
-            Navigation = new NavigateImpl(navPage);
+            Navigation = new Forms.NavigateImpl(navPage);
             Navigation.NavigationOccured(this, new NavigationEventArgs(LazyCorePage.Value));
             return navPage;
         }

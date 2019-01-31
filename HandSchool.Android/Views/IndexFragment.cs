@@ -1,34 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.Support.Compat;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
-using Android.Widget;
-using Android.Support.V4.App;
+﻿using Android.Content;
+using DanielStone.MaterialAboutLibrary;
+using DanielStone.MaterialAboutLibrary.Items;
+using DanielStone.MaterialAboutLibrary.Models;
+using HandSchool.ViewModels;
+using HandSchool.Views;
 
 namespace HandSchool.Droid
 {
-    public class IndexFragment : Fragment
+    public class IndexFragment : MaterialAboutFragment, IViewCore
     {
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
+        public string Title { get; set; }
 
-            // Create your fragment here
+        public BaseViewModel ViewModel { get; set; }
+
+        public IndexFragment()
+        {
+            Title = "关于";
+            ViewModel = AboutViewModel.Instance;
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        protected override MaterialAboutList GetMaterialAboutList(Context context)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+            var builderApp = new MaterialAboutCard.Builder();
+            BuildApp(builderApp, context);
+            return new MaterialAboutList(builderApp.Build());
+        }
 
-            return inflater.Inflate(Resource.Layout.IndexLayout, container, false);
+        private void BuildApp(MaterialAboutCard.Builder builder, Context context)
+        {
+            builder.AddItem(new MaterialAboutTitleItem.Builder()
+                .Text("掌上校园")
+                .Desc("描述述")
+                .Icon(Resource.Drawable.abouticon)
+                .Build());
+            builder.AddItem(new MaterialAboutActionItem.Builder()
+                .Text("版本")
+                .SubText(Core.Version)
+                .Icon(Resource.Drawable.ic_menu_about)
+                .SetOnClickAction(new AboutMenuItemClick(Core.Platform.CheckUpdate))
+                .Build());
         }
     }
 }
