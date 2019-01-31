@@ -28,7 +28,16 @@ namespace HandSchool.Droid
 
         private Stack<ViewResponseImpl> ImplStack { get; }
 
-        public List<NavMenuItemV2> NavigationItems { get; }
+        public static List<NavMenuItemV2> NavigationItems { get; } = new List<NavMenuItemV2>();
+
+        private static readonly Lazy<List<NavMenuItemV2>> LazySec =
+            new Lazy<List<NavMenuItemV2>>(() => new List<NavMenuItemV2>
+            {
+                new NavMenuItemV2("设置", "SettingPage", ""),
+                new NavMenuItemV2("关于", "AboutPage", "")
+            });
+
+        public static List<NavMenuItemV2> NavigationItemsSec => LazySec.Value;
 
         public override IViewResponseImpl ViewResponseImpl
         {
@@ -51,11 +60,11 @@ namespace HandSchool.Droid
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
             ConfigureDirectory = SysEnv.GetFolderPath(SysEnv.SpecialFolder.Personal);
             Core.InitPlatform(Instance = this);
+            Core.Reflection.RegisterType<AboutPage>();
             ImplStack = new Stack<ViewResponseImpl>();
-            NavigationItems = new List<NavMenuItemV2>();
             UpdateManager = new UpdateManager(context);
         }
-
+        
         public override void AddMenuEntry(string title, string dest, string category, string uwp, string ios)
         {
             NavigationItems.Add(new NavMenuItemV2(title, dest, category));

@@ -58,7 +58,7 @@ namespace HandSchool
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static void InitPlatform(PlatformBase platform)
         {
-            Debug.Assert(Platform == null && platform != null);
+            if (platform == null) return;
             Platform = platform;
             Configure = new ConfigurationManager(Platform.ConfigureDirectory);
             Logger = new Logger();

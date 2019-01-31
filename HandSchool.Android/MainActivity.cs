@@ -24,30 +24,45 @@ namespace HandSchool.Droid
 
         public bool NavigationItemSelected(NavMenuItemV2 menuItem, IMenuItem menuItem2)
         {
-            NavigationView.Menu.GetItem(lastItemId).SetChecked(false);
-            menuItem2.SetChecked(true);
-            lastItemId = menuItem2.ItemId;
-            
-            if (menuItem.IsFragment)
+            try
             {
-                Transaction(menuItem.CreateFragment());
-            }
-            else if (menuItem.IsTabbedPage)
-            {
-                return false;
-            }
-            else
-            {
-                Transaction(menuItem.CreateObject());
-            }
+                if (lastItemId == menuItem2.Order) return false;
+                NavigationView.Menu.GetItem(lastItemId).SetChecked(false);
+                menuItem2.SetChecked(true);
+                lastItemId = menuItem2.Order;
 
-            return false;
-        }
+                switch (menuItem.Type)
+                {
+                    case NavMenuItemType.FragmentCore:
+                        Transaction(menuItem.CreateFragmentCore());
+                        return true;
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            menu.Add(6, 6, 6, "666");
-            return true;
+                    case NavMenuItemType.Fragment:
+                        Transaction(menuItem.CreateFragment());
+                        return true;
+
+                    case NavMenuItemType.Activity:
+                        StartActivity(menuItem.PageType);
+                        return true;
+
+                    case NavMenuItemType.Object:
+                        var obj = menuItem.CreateObject();
+                        obj.SetNavigationArguments(null);
+                        Transaction(obj);
+                        return true;
+
+                    case NavMenuItemType.Presenter:
+                    default:
+                        return false;
+                }
+            }
+            finally
+            {
+                System.Threading.Tasks.Task.Delay(100).ContinueWith(t => 
+                {
+                    Core.Platform.EnsureOnMainThread(() => DrawerLayout.CloseDrawer(GravityCompat.Start));
+                });
+            }
         }
         
         protected override void OnCreate(Bundle bundle)
@@ -76,14 +91,32 @@ namespace HandSchool.Droid
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);
             NavigationView.SetNavigationItemSelectedListener(listHandler);
+            NavigationView.Menu.GetItem(0).SetChecked(true);
+
+            var firstLabel = NavigationView.GetHeaderView(0)
+                .FindViewById<Android.Widget.TextView>(Resource.Id.nav_header_first);
+            firstLabel.SetBinding("Text", new Xamarin.Forms.Binding
+            {
+                Path = "WelcomeMessage",
+                Source = ViewModels.IndexViewModel.Instance,
+                Mode = Xamarin.Forms.BindingMode.OneWay
+            });
+
+            var secondLabel = NavigationView.GetHeaderView(0)
+                .FindViewById<Android.Widget.TextView>(Resource.Id.nav_header_second);
+            secondLabel.SetBinding("Text", new Xamarin.Forms.Binding
+            {
+                Path = "CurrentMessage",
+                Source = ViewModels.IndexViewModel.Instance,
+                Mode = Xamarin.Forms.BindingMode.OneWay
+            });
         }
 
         public override void OnBackPressed()
         {
-            var drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if (drawer.IsDrawerOpen(GravityCompat.Start))
+            if (DrawerLayout.IsDrawerOpen(GravityCompat.Start))
             {
-                drawer.CloseDrawer(GravityCompat.Start);
+                DrawerLayout.CloseDrawer(GravityCompat.Start);
             }
             else
             {

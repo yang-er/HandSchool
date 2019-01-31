@@ -2,19 +2,19 @@
 using DanielStone.MaterialAboutLibrary;
 using DanielStone.MaterialAboutLibrary.Items;
 using DanielStone.MaterialAboutLibrary.Models;
+using HandSchool.Droid;
 using HandSchool.ViewModels;
-using HandSchool.Views;
-using Xamarin.Forms;
+using Resource = HandSchool.Droid.Resource;
 
-namespace HandSchool.Droid
+namespace HandSchool.Views
 {
-    public class IndexFragment : MaterialAboutFragment, IViewCore
+    public class AboutPage : MaterialAboutFragment, IViewCore
     {
         public string Title { get; set; }
 
         public BaseViewModel ViewModel { get; set; }
 
-        public IndexFragment()
+        public AboutPage()
         {
             Title = "关于";
             ViewModel = AboutViewModel.Instance;
@@ -28,7 +28,7 @@ namespace HandSchool.Droid
             BuildDesc(builderApp, context);
             return builderApp.Build();
         }
-        
+
         private void BuildApp(MaterialAboutList.Builder builder, Context context)
         {
             var title = new MaterialAboutTitleItem.Builder()
@@ -103,7 +103,7 @@ namespace HandSchool.Droid
                 .Icon(Resource.Drawable.aboutpage_feedbackicon)
                 .SetOnClickAction(null)
                 .Build();
-            
+
             var card = new MaterialAboutCard.Builder()
                 .Title("分享 & 反馈")
                 .AddItem(share)

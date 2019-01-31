@@ -105,7 +105,20 @@ namespace HandSchool.Droid
             Toolbar = FindViewById<AToolbar>(Resource.Id.toolbar);
             ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
             SetSupportActionBar(Toolbar);
+            Toolbar.NavigationClick += OnToolbarBackClicked;
             PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
+        }
+
+        protected virtual void OnToolbarBackClicked(object sender, AToolbar.NavigationClickEventArgs args)
+        {
+            if (SupportFragmentManager.BackStackEntryCount > 0)
+            {
+                SupportFragmentManager.PopBackStack();
+            }
+            else
+            {
+                Finish();
+            }
         }
 
         private void RemoveViewObject()
@@ -129,11 +142,20 @@ namespace HandSchool.Droid
         
         Task INavigate.PushAsync(string pageType, object param)
         {
-            throw new NotImplementedException();
+            var type = Core.Reflection.TryGetType(pageType);
+
+            if (type is null)
+            {
+                Core.Logger.WriteLine("NavImpl", pageType + " not found.");
+                return Task.CompletedTask;
+            }
+
+            return (this as INavigate).PushAsync(type, param);
         }
 
         Task INavigate.PushAsync(Type pageType, object param)
         {
+            var type = NavMenuItemV2.Judge(pageType);
             throw new NotImplementedException();
         }
     }

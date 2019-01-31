@@ -95,6 +95,7 @@
     <Compile Include="Elements\ViewResponseImpl.cs" />
     <Compile Include="Renderers\PlatformImplV2.cs" />
     <Compile Include="Renderers\TextCellRenderer.cs" />
+    <Compile Include="Views\AboutPage.cs" />
     <Compile Include="Views\BaseActivity.cs" />
     <Compile Include="Renderers\MessagePresenter.cs" />
     <Compile Include="Renderers\NavigateImpl.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Views\BaseFragment.cs" />
     <Compile Include="Views\IndexFragment.cs" />
-    <Compile Include="Views\WebViewFragment.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +331,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\toggle_messageicon.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\aboutpage_privacyicon.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\aboutpage_feedbackicon.xml" />
   </ItemGroup>
   <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
