@@ -1,7 +1,9 @@
 ﻿using Android.Content;
-using DanielStone.MaterialAboutLibrary;
-using DanielStone.MaterialAboutLibrary.Items;
-using DanielStone.MaterialAboutLibrary.Models;
+using Android.OS;
+using Android.Views;
+using DanielStone.MaterialAbout;
+using DanielStone.MaterialAbout.Items;
+using DanielStone.MaterialAbout.Models;
 using HandSchool.Droid;
 using HandSchool.ViewModels;
 using Resource = HandSchool.Droid.Resource;
@@ -18,6 +20,12 @@ namespace HandSchool.Views
         {
             Title = "关于";
             ViewModel = AboutViewModel.Instance;
+        }
+
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+            view.SetBackgroundColor(Android.Graphics.Color.Argb(255, 244, 244, 244));
         }
 
         protected override MaterialAboutList GetMaterialAboutList(Context context)

@@ -8,6 +8,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+		android:id="@+id/appbar_layout"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -29,10 +30,17 @@
 			android:indeterminateTint="@color/white"
 			android:layout_height="16.0dip" />
 
+		<android.support.design.widget.TabLayout
+			android:id="@+id/sliding_tabs"
+			android:background="?attr/colorPrimary"
+			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+			app:tabIndicatorColor="@android:color/white"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"/>
+
     </android.support.design.widget.AppBarLayout>
 	
 	<FrameLayout android:id="@+id/frame_layout"
-		android:background="#F4F4F4"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent" />

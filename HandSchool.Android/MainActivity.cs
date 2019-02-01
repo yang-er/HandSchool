@@ -52,6 +52,10 @@ namespace HandSchool.Droid
                         return true;
 
                     case NavMenuItemType.Presenter:
+                        var vp = menuItem.CreatePresenter();
+                        Transaction(new TabbedFragment(vp));
+                        return true;
+
                     default:
                         return false;
                 }

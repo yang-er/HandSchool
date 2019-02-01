@@ -30,6 +30,10 @@ namespace HandSchool.Droid
                     vo.SetNavigationArguments(param2.Item2);
                     Transaction(vo);
                     break;
+                case NavMenuItemType.Presenter:
+                    var vp = Core.Reflection.CreateInstance<IViewPresenter>(param2.Item1);
+                    Transaction(new TabbedFragment(vp));
+                    break;
                 default:
                     break;
             }

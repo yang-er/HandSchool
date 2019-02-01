@@ -12,6 +12,7 @@ using AToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Widget;
 using Android.Content;
 using Android.Views;
+using Android.Support.Design.Widget;
 
 namespace HandSchool.Droid
 {
@@ -40,6 +41,10 @@ namespace HandSchool.Droid
 
         public ProgressBar ProgressBar { get; private set; }
 
+        public AppBarLayout AppBarLayout { get; private set; }
+
+        public TabLayout Tabbar { get; private set; }
+
         protected int ContentViewResource { get; set; }
 
         #region Fragment Transaction
@@ -59,9 +64,19 @@ namespace HandSchool.Droid
                 ViewModel = core.ViewModel;
             }
 
+            if (fragment is TabbedFragment tabbed)
+            {
+                tabbed.Tabbar = Tabbar;
+            }
+
             var transition = SupportFragmentManager.BeginTransaction();
             transition.Replace(Resource.Id.frame_layout, fragment);
             transition.Commit();
+
+            if (!(fragment is TabbedFragment))
+            {
+                Tabbar.Visibility = ViewStates.Gone;
+            }
         }
 
         protected void Transaction(ViewFragment fragment)
@@ -146,8 +161,7 @@ namespace HandSchool.Droid
                 intent.PutExtra(BroadcastedArgument, guid.ToByteArray());
                 StartActivity(intent);
             }
-
-            Core.Logger.WriteLine("activity!", "666");
+            
             return Task.CompletedTask;
         }
 
@@ -159,6 +173,8 @@ namespace HandSchool.Droid
             SetContentView(ContentViewResource);
             Toolbar = FindViewById<AToolbar>(Resource.Id.toolbar);
             ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
+            AppBarLayout = FindViewById<AppBarLayout>(Resource.Id.appbar_layout);
+            Tabbar = FindViewById<TabLayout>(Resource.Id.sliding_tabs);
             SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
             PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
@@ -170,7 +186,7 @@ namespace HandSchool.Droid
                 OnNavigatedParameter(ArgumentBroadcastSource[guid]);
             }
         }
-
+        
         protected override void OnDestroy()
         {
             base.OnDestroy();

@@ -1,7 +1,7 @@
 ﻿using Android.Content;
-using DanielStone.MaterialAboutLibrary;
-using DanielStone.MaterialAboutLibrary.Items;
-using DanielStone.MaterialAboutLibrary.Models;
+using DanielStone.MaterialAbout;
+using DanielStone.MaterialAbout.Items;
+using DanielStone.MaterialAbout.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using Xamarin.Forms;

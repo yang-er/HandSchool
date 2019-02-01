@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HandSchool.Droid</RootNamespace>
     <AssemblyName>HandSchool.Android</AssemblyName>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -34,6 +34,7 @@
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis />
     <AndroidTlsProvider>legacy</AndroidTlsProvider>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -65,8 +66,8 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Karamunting.Android.MaterialAboutLibrary">
-      <Version>2.2.3</Version>
+    <PackageReference Include="DanielStone.MaterialAboutLibrary.Xamarin">
+      <Version>2.4.2.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.1</Version>
@@ -75,14 +76,14 @@
       <Version>1.68.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.GridLayout">
-      <Version>27.0.2.1</Version>
+      <Version>28.0.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-    <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1029999" />
+    <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v4" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -92,6 +93,7 @@
     <Compile Include="Elements\DroidExtensions.cs" />
     <Compile Include="Elements\NavMenuItem.cs" />
     <Compile Include="Elements\NavMenuList.cs" />
+    <Compile Include="Elements\TabbedPagerAdapter.cs" />
     <Compile Include="Elements\ViewResponseImpl.cs" />
     <Compile Include="Renderers\PlatformImplV2.cs" />
     <Compile Include="Renderers\TextCellRenderer.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Views\BaseFragment.cs" />
     <Compile Include="Views\IndexFragment.cs" />
+    <Compile Include="Views\TabbedFragment.cs" />
     <Compile Include="Views\WebViewPage.cs" />
     <Compile Include="Widget\ClassTableWidget.cs" />
   </ItemGroup>
@@ -136,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
+    <AndroidEnvironment Include="Environment.txt" />
     <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
@@ -341,6 +345,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\browser_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\tabbed_layout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

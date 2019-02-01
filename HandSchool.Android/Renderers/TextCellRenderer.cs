@@ -17,6 +17,7 @@ namespace HandSchool.Droid.Renderers
         {
             if (item is ACell cell && cell.PreferedCardView)
             {
+                return base.GetCellCore(item, convertView, parent, context);
                 throw new NotImplementedException();
             }
             else
