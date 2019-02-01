@@ -4,6 +4,7 @@ using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
+using HandSchool.Internal;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
@@ -37,13 +38,17 @@ namespace HandSchool.Droid
 
         private BaseViewModel _viewModel;
 
-        public AToolbar Toolbar { get; private set; }
+        [BindView(Resource.Id.toolbar)]
+        public AToolbar Toolbar { get; set; }
 
-        public ProgressBar ProgressBar { get; private set; }
+        [BindView(Resource.Id.main_progress_bar)]
+        public ProgressBar ProgressBar { get; set; }
 
-        public AppBarLayout AppBarLayout { get; private set; }
+        [BindView(Resource.Id.appbar_layout)]
+        public AppBarLayout AppBarLayout { get; set; }
 
-        public TabLayout Tabbar { get; private set; }
+        [BindView(Resource.Id.sliding_tabs)]
+        public TabLayout Tabbar { get; set; }
 
         protected int ContentViewResource { get; set; }
 
@@ -173,10 +178,16 @@ namespace HandSchool.Droid
         {
             base.OnCreate(savedInstanceState);
             SetContentView(ContentViewResource);
-            Toolbar = FindViewById<AToolbar>(Resource.Id.toolbar);
-            ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
-            AppBarLayout = FindViewById<AppBarLayout>(Resource.Id.appbar_layout);
-            Tabbar = FindViewById<TabLayout>(Resource.Id.sliding_tabs);
+
+            foreach (var prop in GetType().GetProperties())
+            {
+                if (prop.Has<BindViewAttribute>())
+                {
+                    var attr = prop.Get<BindViewAttribute>();
+                    prop.SetValue(this, FindViewById(attr.ResourceId));
+                }
+            }
+            
             if (!(Toolbar.Parent is CollapsingToolbarLayout))
                 SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));

@@ -18,8 +18,15 @@ namespace HandSchool.Droid
     {
         public static MainActivity Instance;
 
-        internal NavigationView NavigationView { get; private set; }
-        internal DrawerLayout DrawerLayout { get; private set; }
+        [BindView(Resource.Id.nav_view)]
+        public NavigationView NavigationView { get; set; }
+
+        [BindView(Resource.Id.drawer_layout)]
+        public DrawerLayout DrawerLayout { get; set; }
+
+        [BindView(Resource.Id.fab)]
+        public FloatingActionButton FloatingButton { get; set; }
+
         int lastItemId = 0;
 
         public bool NavigationItemSelected(NavMenuItemV2 menuItem, IMenuItem menuItem2)
@@ -81,16 +88,13 @@ namespace HandSchool.Droid
             Core.Initialize();
 
             Transaction(new Views.IndexPage().CreateSupportFragment(this));
-
-            DrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
-
-            var fib = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fib.Click += FabOnClick;
-
-            NavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            
+            FloatingButton.Click += FabOnClick;
+            
             var listHandler = new NavMenuListHandler();
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);

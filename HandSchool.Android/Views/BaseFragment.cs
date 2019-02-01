@@ -1,6 +1,7 @@
 ﻿using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
+using HandSchool.Droid;
 using HandSchool.Internal;
 using HandSchool.ViewModels;
 using Microcharts;
@@ -44,7 +45,21 @@ namespace HandSchool.Views
         {
             return inflater.Inflate(FragmentViewResource, container, false);
         }
-        
+
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            foreach (var prop in GetType().GetProperties())
+            {
+                if (prop.Has<BindViewAttribute>())
+                {
+                    var attr = prop.Get<BindViewAttribute>();
+                    prop.SetValue(this, view.FindViewById(attr.ResourceId));
+                }
+            }
+        }
+
         public virtual void SetNavigationArguments(object param) { }
 
         #region 页面生命周期

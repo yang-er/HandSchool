@@ -90,6 +90,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\AboutMenuItemClick.cs" />
+    <Compile Include="Elements\BindViewAttribute.cs" />
     <Compile Include="Elements\DroidExtensions.cs" />
     <Compile Include="Elements\NavMenuItem.cs" />
     <Compile Include="Elements\NavMenuList.cs" />

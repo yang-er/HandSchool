@@ -19,6 +19,8 @@ namespace HandSchool.Droid
     public class TabbedFragment : ViewFragment
     {
         public TabLayout Tabbar { get; set; }
+
+        [BindView(Resource.Id.viewPager)]
         public ViewPager ViewPager { get; set; }
         public TabbedPagerAdapter Adapter { get; set; }
         public IViewPresenter Presenter { get; }
@@ -33,7 +35,6 @@ namespace HandSchool.Droid
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            ViewPager = view.FindViewById<ViewPager>(Resource.Id.viewPager);
 
             Adapter = new TabbedPagerAdapter(view.Context, Navigation, ChildFragmentManager, Presenter);
             ViewPager.Adapter = Adapter;

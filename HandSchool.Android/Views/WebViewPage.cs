@@ -19,7 +19,9 @@ namespace HandSchool.Views
             FragmentViewResource = Resource.Layout.browser_layout;
         }
 
-        private WebView WebView { get; set; }
+        [BindView(Resource.Id.web_view)]
+        public WebView WebView { get; set; }
+
         private Func<string, Task> Callback { get; set; }
         public string Uri { get; set; }
         public string Html { get; set; }
@@ -87,7 +89,6 @@ namespace HandSchool.Views
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            WebView = view.FindViewById<WebView>(Resource.Id.web_view);
             WebView.Settings.JavaScriptEnabled = true;
             WebView.AddJavascriptInterface(this, "jsBridge");
 
