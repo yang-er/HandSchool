@@ -63,6 +63,7 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterType<AboutPage>();
             Core.Reflection.RegisterType<WebViewPage>();
             Core.Reflection.RegisterType<MessagePresenter>();
+            Core.Reflection.RegisterType<DetailPage, DetailActivity>();
             ImplStack = new Stack<ViewResponseImpl>();
             UpdateManager = new UpdateManager(context);
         }

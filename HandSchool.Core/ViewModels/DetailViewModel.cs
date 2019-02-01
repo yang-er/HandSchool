@@ -103,5 +103,17 @@ namespace HandSchool.ViewModels
                 UWPIcon = "\uE7C1",
             };
         }
+
+        /// <summary>
+        /// 从某个项创建。
+        /// </summary>
+        /// <param name="item">某个项</param>
+        /// <returns>视图模型</returns>
+        public static DetailViewModel From(object item)
+        {
+            if (item is FeedItem feed) return From(feed);
+            else if (item is IMessageItem msg) return From(msg);
+            else throw new System.InvalidOperationException();
+        }
     }
 }

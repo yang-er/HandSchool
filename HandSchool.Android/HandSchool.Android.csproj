@@ -108,6 +108,7 @@
     <Compile Include="Renderers\ViewResponseImpl.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\DetailActivity.cs" />
     <Compile Include="Views\SecondActivity.cs" />
     <Compile Include="SplashScreen.cs" />
   </ItemGroup>
@@ -350,6 +351,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\tabbed_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_detail.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

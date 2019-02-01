@@ -142,6 +142,8 @@ namespace HandSchool.Droid
         
         Task INavigate.PushAsync(Type pageType, object param)
         {
+            pageType = Core.Reflection.TryGetType(pageType);
+
             if (typeof(AppCompatActivity).IsAssignableFrom(pageType))
             {
                 // When the page type is aimed at an activity.
@@ -175,7 +177,8 @@ namespace HandSchool.Droid
             ProgressBar = FindViewById<ProgressBar>(Resource.Id.main_progress_bar);
             AppBarLayout = FindViewById<AppBarLayout>(Resource.Id.appbar_layout);
             Tabbar = FindViewById<TabLayout>(Resource.Id.sliding_tabs);
-            SetSupportActionBar(Toolbar);
+            if (!(Toolbar.Parent is CollapsingToolbarLayout))
+                SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
             PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
 
