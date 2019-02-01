@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.Internal;
+using System;
 
 namespace HandSchool.ViewModels
 {
@@ -36,11 +37,10 @@ namespace HandSchool.ViewModels
         /// <param name="title">入口点菜单的标题。</param>
         /// <param name="dest">目标页面的类名称，将通过反射创建实例。</param>
         /// <param name="category">学校命名空间，如果为空默认为全局类。</param>
-        /// <param name="uwp">UWP 的图标。</param>
-        /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
-        public void AddMenuEntry(string title, string dest, string category = "", string uwp = "", string ios = "")
+        /// <param name="icon">菜单的图标。</param>
+        public void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
-            Core.Platform.AddMenuEntry(title, dest, category ?? "", uwp, ios);
+            Core.Platform.AddMenuEntry(title, dest, category ?? "", icon);
         }
         
         /// <summary>
@@ -48,27 +48,27 @@ namespace HandSchool.ViewModels
         /// </summary>
         public void FetchOptions()
         {
-            AddMenuEntry("首页", "IndexPage", uwp: "\xE10F", ios: "tab_rec.png");
-            AddMenuEntry("课程表", "SchedulePage", uwp: "\xECA5", ios: "tab_sched.png");
+            AddMenuEntry("首页", "IndexPage", null, MenuIcon.Index);
+            AddMenuEntry("课程表", "SchedulePage", null, MenuIcon.Schedule);
 
             if (Core.Platform.RuntimeName == "Android" &&
                 Core.App.Loader.Feed != null &&
                 Core.App.Loader.Message != null)
             {
-                AddMenuEntry("消息通知", "MessagePresenter");
+                AddMenuEntry("消息通知", "MessagePresenter", null, MenuIcon.Feed);
             }
             else
             {
                 if (Core.App.Loader.Feed != null)
-                    AddMenuEntry("学校通知", "FeedPage", uwp: "\xEB50", ios: "tab_feed.png");
+                    AddMenuEntry("学校通知", "FeedPage", null, MenuIcon.Feed);
                 if (Core.App.Loader.Message != null)
-                    AddMenuEntry("站内消息", "MessagePage", uwp: "\xE715");
+                    AddMenuEntry("站内消息", "MessagePage", null, MenuIcon.Message);
             }
 
             if (Core.App.Loader.GradePoint != null)
-                AddMenuEntry("学分成绩", "GradePointPage", uwp: "\xE9D2");
+                AddMenuEntry("学分成绩", "GradePointPage", null, MenuIcon.GradeChart);
             if (Core.App.InfoEntrances.Count > 0 || Core.Platform.RuntimeName == "iOS")
-                AddMenuEntry("信息查询", "InfoQueryPage", uwp: "\xE946", ios: "tab_about.png");
+                AddMenuEntry("信息查询", "InfoQueryPage", null, MenuIcon.InfoQuery);
         }
     }
 }

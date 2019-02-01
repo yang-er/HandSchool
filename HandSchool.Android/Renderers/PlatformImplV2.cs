@@ -33,8 +33,8 @@ namespace HandSchool.Droid
         private static readonly Lazy<List<NavMenuItemV2>> LazySec =
             new Lazy<List<NavMenuItemV2>>(() => new List<NavMenuItemV2>
             {
-                new NavMenuItemV2("设置", "SettingPage", ""),
-                new NavMenuItemV2("关于", "AboutPage", "")
+                new NavMenuItemV2("设置", "SettingPage", "", MenuIcon.Settings),
+                new NavMenuItemV2("关于", "AboutPage", "", MenuIcon.AboutUs)
             });
 
         public static List<NavMenuItemV2> NavigationItemsSec => LazySec.Value;
@@ -68,9 +68,9 @@ namespace HandSchool.Droid
             UpdateManager = new UpdateManager(context);
         }
         
-        public override void AddMenuEntry(string title, string dest, string category, string uwp, string ios)
+        public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
-            NavigationItems.Add(new NavMenuItemV2(title, dest, category));
+            NavigationItems.Add(new NavMenuItemV2(title, dest, category, icon));
         }
 
         public override void CheckUpdate()

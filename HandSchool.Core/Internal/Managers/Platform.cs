@@ -34,9 +34,8 @@ namespace HandSchool.Internal
         /// <param name="title">入口点菜单的标题。</param>
         /// <param name="dest">目标页面的类名称，将通过反射创建实例。</param>
         /// <param name="category">学校命名空间，如果为空默认为全局类。</param>
-        /// <param name="uwp">UWP 的图标。</param>
-        /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
-        public abstract void AddMenuEntry(string title, string dest, string category, string uwp, string ios);
+        /// <param name="icon">菜单的图标。</param>
+        public abstract void AddMenuEntry(string title, string dest, string category, MenuIcon icon);
 
         /// <summary>
         /// 打开网址页面。

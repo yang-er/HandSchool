@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using HandSchool.Forms;
+using HandSchool.Internal;
 using System.Collections.Generic;
 using Environment = System.Environment;
 
@@ -57,7 +58,7 @@ namespace HandSchool.Droid
         /// <param name="category">学校命名空间，如果为空默认为全局类。</param>
         /// <param name="uwp">UWP 的图标。</param>
         /// <param name="ios">iOS 系统展示的图标。为空时收起到信息查询中。</param>
-        public override void AddMenuEntry(string title, string dest, string category, string uwp, string ios)
+        public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
             NavigationItems.Add(new NavMenuItemImpl(title, dest, category));
         }

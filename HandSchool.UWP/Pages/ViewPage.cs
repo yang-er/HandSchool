@@ -61,7 +61,7 @@ namespace HandSchool.Views
         
         XView IViewPage.Content { get; set; }
 
-        string IViewPage.Title { get; set; }
+        string IViewCore.Title { get; set; }
 
         public event EventHandler Disappearing;
 

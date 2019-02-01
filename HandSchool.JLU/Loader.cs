@@ -38,7 +38,7 @@ namespace HandSchool.JLU
         {
             Ykt = new SchoolCard();
             Core.Reflection.RegisterType<YktViewPresenter>();
-            NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktViewPresenter", "JLU", "\xE8C7");
+            NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktViewPresenter", "JLU", MenuIcon.CreditCard);
         }
 
         public void PreLoad()

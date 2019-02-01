@@ -21,7 +21,7 @@ namespace HandSchool.Views
 
         View IViewPage.Content { get; set; }
 
-        string IViewPage.Title
+        string IViewCore.Title
         {
             get => (string)Title;
             set => Title = value;

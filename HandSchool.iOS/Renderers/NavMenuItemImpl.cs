@@ -9,6 +9,19 @@ namespace HandSchool.iOS
 {
     public class NavMenuItemImpl : NavigationMenuItem
     {
+        public static readonly string[] IconList = new[]
+        {
+            "tab_rec.png",
+            "tab_sched.png",
+            "tab_feed.png",
+            "tab_about.png",
+            null,
+            null,
+            null,
+            null,
+            null,
+        };
+
         public FileImageSource Icon { get; }
         private IViewPresenter Presenter { get; }
         private readonly Lazy<TapEntranceWrapper> Wrapper;
@@ -19,8 +32,9 @@ namespace HandSchool.iOS
 
         public Page Page => LazyFullPage.Value;
 
-        public NavMenuItemImpl(string title, string dest, string category, string icon = "") : base(title, dest, category)
+        public NavMenuItemImpl(string title, string dest, string category, MenuIcon icon2) : base(title, dest, category)
         {
+            var icon = IconList[(int)icon2];
             if (!string.IsNullOrEmpty(icon)) Icon = new FileImageSource { File = icon };
             Wrapper = new Lazy<TapEntranceWrapper>(() => CreateEntrance());
             

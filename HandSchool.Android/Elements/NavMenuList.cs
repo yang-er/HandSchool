@@ -10,9 +10,11 @@ namespace HandSchool.Droid
     {
         public NavMenuListHandler()
         {
-            MenuItems = new List<List<NavMenuItemV2>>();
-            MenuItems.Add(PlatformImplV2.NavigationItems);
-            MenuItems.Add(PlatformImplV2.NavigationItemsSec);
+            MenuItems = new List<List<NavMenuItemV2>>
+            {
+                PlatformImplV2.NavigationItems,
+                PlatformImplV2.NavigationItemsSec
+            };
         }
 
         public List<List<NavMenuItemV2>> MenuItems { get; }
@@ -21,8 +23,9 @@ namespace HandSchool.Droid
         
         public bool OnNavigationItemSelected(IMenuItem menuItem)
         {
-            if (NavigationItemSelected is null) return false;
-            return NavigationItemSelected(MenuItems[menuItem.GroupId][menuItem.ItemId % 100], menuItem);
+            return NavigationItemSelected?.Invoke(
+                MenuItems[menuItem.GroupId][menuItem.ItemId % 100],
+                menuItem) ?? false;
         }
 
         public void InflateMenus(IMenu menu)
@@ -34,8 +37,8 @@ namespace HandSchool.Droid
                 for (int j = 0; j < MenuItems[i].Count; j++)
                 {
                     var item = menu.Add(i, i * 100 + j, itemId++, MenuItems[i][j].Title);
-
-                    // item.SetIcon()
+                    item.SetIcon(MenuItems[i][j].DrawableId);
+                    item.SetCheckable(true);
                 }
             }
         }

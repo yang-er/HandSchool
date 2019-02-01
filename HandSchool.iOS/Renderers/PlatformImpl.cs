@@ -6,6 +6,7 @@ using System.Text;
 
 using Foundation;
 using HandSchool.Forms;
+using HandSchool.Internal;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -54,10 +55,11 @@ namespace HandSchool.iOS
                 Core.App.InfoEntrances.Insert(0, InfoQueryMenu);
         }
 
-        public override void AddMenuEntry(string title, string dest, string category, string uwp, string ios)
+        public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
-            if (ios == "") InfoQueryMenu.Add(new NavMenuItemImpl(title, dest, category).AsEntrance());
-            else NavigationMenu.Add(new NavMenuItemImpl(title, dest, category, ios));
+            string ios = NavMenuItemImpl.IconList[(int)icon];
+            if (ios is null) InfoQueryMenu.Add(new NavMenuItemImpl(title, dest, category, icon).AsEntrance());
+            else NavigationMenu.Add(new NavMenuItemImpl(title, dest, category, icon));
         }
     }
 }

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="欢迎使用"
-		android:textColor="@color/white"
+		android:textColor="#eeffffff"
 		android:textSize="25dip" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:paddingTop="5dip"
-		android:textColor="@color/white"
+		android:textColor="#eeffffff"
 		android:textSize="16dip"
         android:text="欢迎使用掌上校园~" />
 

@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Views;
 using System;
 using Windows.UI.Xaml.Controls;
@@ -11,6 +12,19 @@ namespace HandSchool.UWP
     /// </summary>
     internal class NavigationMenuItemImpl : NavigationMenuItem
     {
+        public static readonly string[] IconList = new[]
+        {
+            "\xE10F",
+            "\xECA5",
+            "\xEB50",
+            "\xE946",
+            "\xE715",
+            "\xE9D2",
+            "\xE8C7",
+            "?",
+            "?",
+        };
+
         /// <summary>
         /// UWP上的图标
         /// </summary>
@@ -23,13 +37,13 @@ namespace HandSchool.UWP
         /// <param name="dest">目标页面类型名</param>
         /// <param name="category">类的父命名空间</param>
         /// <param name="icon">UWP上的图标</param>
-        public NavigationMenuItemImpl(string title, string dest, string category, string icon)
+        public NavigationMenuItemImpl(string title, string dest, string category, MenuIcon icon)
             : this(title, dest, category)
         {
             Icon = new FontIcon
             {
                 FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                Glyph = icon
+                Glyph = IconList[(int)icon]
             };
 
             Lazy = new Lazy<NavigationViewItem>(Create);

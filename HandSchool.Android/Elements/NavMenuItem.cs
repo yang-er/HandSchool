@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using HandSchool.Internal;
+using HandSchool.Models;
 using HandSchool.Views;
 using System;
 using SupportFragment = Android.Support.V4.App.Fragment;
@@ -18,6 +19,21 @@ namespace HandSchool.Droid
     public class NavMenuItemV2 : NavigationMenuItem
     {
         public NavMenuItemType Type { get; }
+
+        public int DrawableId { get; }
+
+        public static readonly int[] IconList = new[]
+        {
+            Resource.Drawable.ic_nav_home,
+            Resource.Drawable.ic_nav_sched,
+            Resource.Drawable.ic_nav_feed,
+            Resource.Drawable.ic_nav_info,
+            Resource.Drawable.ic_nav_feed,
+            Resource.Drawable.ic_nav_grade,
+            Resource.Drawable.ic_nav_card,
+            Resource.Drawable.ic_nav_settings,
+            Resource.Drawable.ic_nav_about,
+        };
 
         public IViewPresenter CreatePresenter()
         {
@@ -65,9 +81,10 @@ namespace HandSchool.Droid
                 return NavMenuItemType.Others;
         }
 
-        public NavMenuItemV2(string title, string dest, string category) : base(title, dest, category)
+        public NavMenuItemV2(string title, string dest, string category, MenuIcon icon) : base(title, dest, category)
         {
             Type = Judge(PageType);
+            DrawableId = IconList[(int)icon];
         }
     }
 }
