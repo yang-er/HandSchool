@@ -86,53 +86,35 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Elements\AboutMenuItemClick.cs" />
-    <Compile Include="Elements\BindViewAttribute.cs" />
-    <Compile Include="Elements\DroidExtensions.cs" />
-    <Compile Include="Elements\NavMenuItem.cs" />
-    <Compile Include="Elements\NavMenuList.cs" />
-    <Compile Include="Elements\TabbedPagerAdapter.cs" />
-    <Compile Include="Elements\ViewResponseImpl.cs" />
-    <Compile Include="Renderers\PlatformImplV2.cs" />
+    <Compile Include="Internals\CodeStore.cs" />
+    <Compile Include="Adapters\AboutMenuItemClick.cs" />
+    <Compile Include="Internals\BindViewAttribute.cs" />
+    <Compile Include="Internals\DroidExtensions.cs" />
+    <Compile Include="Internals\NavMenuItem.cs" />
+    <Compile Include="Adapters\NavMenuList.cs" />
+    <Compile Include="Adapters\TabbedPagerAdapter.cs" />
+    <Compile Include="Internals\ViewResponseImpl.cs" />
+    <Compile Include="Internals\PlatformImpl.cs" />
     <Compile Include="Renderers\TextCellRenderer.cs" />
-    <Compile Include="Views\AboutPage.cs" />
-    <Compile Include="Views\BaseActivity.cs" />
+    <Compile Include="Fragments\AboutPage.cs" />
+    <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Renderers\MessagePresenter.cs" />
-    <Compile Include="Renderers\NavigateImpl.cs" />
-    <Compile Include="Renderers\NavMenuItemImpl.cs" />
-    <Compile Include="Renderers\PlatformImpl.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="Renderers\TabbedRenderer.cs" />
-    <Compile Include="Renderers\ViewResponseImpl.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\DetailActivity.cs" />
-    <Compile Include="Views\SecondActivity.cs" />
-    <Compile Include="SplashScreen.cs" />
+    <Compile Include="Activities\DetailActivity.cs" />
+    <Compile Include="Activities\SecondActivity.cs" />
+    <Compile Include="Activities\SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UpdateManager.cs" />
+    <Compile Include="Adapters\UpdateManager.cs" />
     <Compile Include="Renderers\EntryCellRenderer.cs" />
-    <Compile Include="Renderers\NavigationRenderer.cs" />
-    <Compile Include="Renderers\PageRenderer.cs" />
     <Compile Include="Renderers\PickerCellRenderer.cs" />
-    <Compile Include="Views\BaseFragment.cs" />
-    <Compile Include="Views\IndexFragment.cs" />
-    <Compile Include="Views\TabbedFragment.cs" />
-    <Compile Include="Views\WebViewPage.cs" />
-    <Compile Include="Widget\ClassTableWidget.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Renderers\HybridWebViewRenderer.cs" />
-    <EmbeddedResource Include="MainPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Fragments\BaseFragment.cs" />
+    <Compile Include="Fragments\IndexFragment.cs" />
+    <Compile Include="Fragments\TabbedFragment.cs" />
+    <Compile Include="Fragments\WebViewPage.cs" />
+    <Compile Include="Widgets\ClassTableWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
@@ -266,9 +248,6 @@
       <Project>{08d98a3f-9d96-417e-8691-9aba9db919db}</Project>
       <Name>HandSchool.Forwarder</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\InputLayout.axml">
