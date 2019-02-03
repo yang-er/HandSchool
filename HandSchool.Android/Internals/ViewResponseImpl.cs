@@ -47,7 +47,7 @@ namespace HandSchool.Droid.Elements
             // Create and assign layout
             var builder = new AlertDialog.Builder(Context);
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
-            var chartLayout = layoutInflater.Inflate(Resource.Layout.SkiaChart, null);
+            var chartLayout = layoutInflater.Inflate(Resource.Layout.dialog_input, null);
             builder.SetView(chartLayout);
             builder.SetTitle(args.Title);
             builder.SetPositiveButton(args.Close, (IDialogInterfaceOnClickListener)null);
@@ -79,7 +79,7 @@ namespace HandSchool.Droid.Elements
             string answer = null;
 
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
-            var inputLayout = layoutInflater.Inflate(Resource.Layout.InputLayout, null);
+            var inputLayout = layoutInflater.Inflate(Resource.Layout.dialog_input, null);
             builder.SetView(inputLayout);
 
             var textBox = inputLayout.FindViewById<EditText>(Resource.Id.input_layout_edittext);

@@ -14,6 +14,7 @@ using Android.Widget;
 using Android.Content;
 using Android.Views;
 using Android.Support.Design.Widget;
+using System.Collections.ObjectModel;
 
 namespace HandSchool.Droid
 {
@@ -54,6 +55,8 @@ namespace HandSchool.Droid
 
         #region Fragment Transaction
 
+        private ToolbarMenuTracker MenuTracker { get; set; }
+
         private Guid? ViewObjectIdentity;
 
         private static readonly Dictionary<Guid, ViewObject>
@@ -82,12 +85,16 @@ namespace HandSchool.Droid
             {
                 Tabbar.Visibility = ViewStates.Gone;
             }
+
+            ReloadToolbarMenu(this, EventArgs.Empty);
         }
 
         protected void Transaction(ViewFragment fragment)
         {
             fragment.RegisterNavigation(this);
             Transaction(fragment as SupportFragment);
+            MenuTracker = fragment.ToolbarMenu;
+            MenuTracker.Changed += ReloadToolbarMenu;
         }
 
         protected void Transaction(ViewObject viewPage)
@@ -104,6 +111,8 @@ namespace HandSchool.Droid
             ViewModel = viewPage.ViewModel;
 
             Transaction(internalPage.CreateSupportFragment(this));
+            MenuTracker = viewPage.ToolbarTracker;
+            MenuTracker.Changed += ReloadToolbarMenu;
             var currentIdentity = Guid.NewGuid();
             TransactionSource.Add(currentIdentity, viewPage);
             ViewObjectIdentity = currentIdentity;
@@ -119,6 +128,36 @@ namespace HandSchool.Droid
                 TransactionSource.Remove(ViewObjectIdentity.Value);
                 ViewObjectIdentity = null;
             }
+
+            if (MenuTracker != null)
+            {
+                MenuTracker.Changed -= ReloadToolbarMenu;
+                MenuTracker = null;
+            }
+        }
+
+        private void ReloadToolbarMenu(object sender, EventArgs args)
+        {
+            InvalidateOptionsMenu();
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            if (MenuTracker != null)
+            {
+                foreach (var entry in MenuTracker.List)
+                {
+                    if (entry.HiddenForPull) continue;
+
+                    var menuItem = menu.Add(entry.Title);
+                    
+                    if (entry.Order != Xamarin.Forms.ToolbarItemOrder.Secondary)
+                        menuItem.SetShowAsAction(ShowAsAction.Always);
+                    menuItem.SetOnMenuItemClickListener(new MenuEntryClickedListener(entry));
+                }
+            }
+
+            return base.OnCreateOptionsMenu(menu);
         }
 
         #endregion
@@ -228,6 +267,29 @@ namespace HandSchool.Droid
                 else
                 {
                     activity.Finish();
+                }
+            }
+        }
+
+        private class MenuEntryClickedListener : Java.Lang.Object, IMenuItemOnMenuItemClickListener
+        {
+            public MenuEntryClickedListener(MenuEntry item)
+            {
+                Reference = new WeakReference<MenuEntry>(item);
+            }
+
+            public WeakReference<MenuEntry> Reference { get; }
+
+            public bool OnMenuItemClick(IMenuItem item)
+            {
+                if (Reference.TryGetTarget(out var target))
+                {
+                    target.Command?.Execute(null);
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }

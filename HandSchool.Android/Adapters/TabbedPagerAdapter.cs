@@ -1,6 +1,9 @@
 ﻿using Android.Content;
 using Android.Support.V4.App;
+using Android.Views;
+using HandSchool.Internal;
 using HandSchool.Views;
+using Java.Lang;
 using Xamarin.Forms.Platform.Android;
 
 namespace HandSchool.Droid
@@ -11,21 +14,23 @@ namespace HandSchool.Droid
         public INavigate Navigate { get; }
         public IViewPage[] AllPages { get; }
         public Fragment[] Fragments { get; }
+        public ToolbarMenuTracker Tracker { get; }
         public Xamarin.Forms.ContentPage[] ContentPages { get; }
 
         public Context Context { get; }
 
         public override int Count => Presenter?.PageCount ?? 0;
 
-        public TabbedPagerAdapter(Context context, INavigate navigate,
-            FragmentManager fm, IViewPresenter presenter) : base(fm)
+        public TabbedPagerAdapter(Context context, TabbedFragment fm)
+            : base(fm.ChildFragmentManager)
         {
             Context = context;
-            Navigate = navigate;
-            Presenter = presenter;
+            Navigate = fm.Navigation;
+            Presenter = fm.Presenter;
             AllPages = Presenter.GetAllPages();
-            Fragments = new Fragment[presenter.PageCount];
-            ContentPages = new Xamarin.Forms.ContentPage[presenter.PageCount];
+            Fragments = new Fragment[Presenter.PageCount];
+            Tracker = fm.ToolbarMenu;
+            ContentPages = new Xamarin.Forms.ContentPage[Presenter.PageCount];
         }
 
         public override Fragment GetItem(int i)
@@ -46,9 +51,15 @@ namespace HandSchool.Droid
             return Fragments[i];
         }
 
-        public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
+        public override void SetPrimaryItem(ViewGroup container, int position, Object @object)
         {
-            return new Java.Lang.String(AllPages[position].Title);
+            base.SetPrimaryItem(container, position, @object);
+            Tracker.List = ((ViewObject)AllPages[position]).ToolbarTracker.List;
+        }
+
+        public override ICharSequence GetPageTitleFormatted(int position)
+        {
+            return new String(AllPages[position].Title);
         }
     }
 }

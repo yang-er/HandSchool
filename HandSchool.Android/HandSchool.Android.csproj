@@ -86,6 +86,7 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fragments\IndexPage.cs" />
     <Compile Include="Internals\CodeStore.cs" />
     <Compile Include="Adapters\AboutMenuItemClick.cs" />
     <Compile Include="Internals\BindViewAttribute.cs" />
@@ -109,7 +110,7 @@
   <ItemGroup>
     <Compile Include="Adapters\UpdateManager.cs" />
     <Compile Include="Renderers\EntryCellRenderer.cs" />
-    <Compile Include="Renderers\PickerCellRenderer.cs" />
+    <None Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\IndexFragment.cs" />
     <Compile Include="Fragments\TabbedFragment.cs" />
@@ -235,7 +236,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\SkiaChart.axml">
+    <AndroidResource Include="Resources\layout\dialog_chart.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -250,7 +251,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\InputLayout.axml">
+    <AndroidResource Include="Resources\layout\dialog_input.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -266,11 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_main.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\IndexLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -325,12 +321,12 @@
     <AndroidResource Include="Resources\drawable\aboutpage_feedbackicon.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\browser_layout.axml">
+    <AndroidResource Include="Resources\layout\layout_webview.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\tabbed_layout.axml">
+    <AndroidResource Include="Resources\layout\layout_tabbed.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -363,6 +359,10 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_nav_settings.xml" />
   </ItemGroup>
-  <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout_index.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

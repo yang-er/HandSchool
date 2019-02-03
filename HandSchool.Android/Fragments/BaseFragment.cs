@@ -6,6 +6,8 @@ using HandSchool.Internal;
 using HandSchool.ViewModels;
 using Microcharts;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 
@@ -13,6 +15,14 @@ namespace HandSchool.Views
 {
     public class ViewFragment : Fragment, IViewPage
     {
+        public ViewFragment()
+        {
+            ToolbarMenu = new ToolbarMenuTracker
+            {
+                List = new ObservableCollection<MenuEntry>()
+            };
+        }
+
         /// <summary>
         /// 显示为Fragment的试图资源xml
         /// </summary>
@@ -28,6 +38,11 @@ namespace HandSchool.Views
         /// </summary>
         public BaseViewModel ViewModel { get; set; }
 
+        /// <summary>
+        /// 工具栏的菜单
+        /// </summary>
+        public ToolbarMenuTracker ToolbarMenu { get; }
+
         bool IViewPage.IsModal => false;
 
         Xamarin.Forms.View IViewPage.Content
@@ -38,7 +53,7 @@ namespace HandSchool.Views
 
         public void AddToolbarEntry(MenuEntry item)
         {
-            throw new NotImplementedException();
+            ToolbarMenu.List.Add(item);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

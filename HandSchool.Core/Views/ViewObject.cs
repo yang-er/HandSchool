@@ -3,6 +3,7 @@ using HandSchool.ViewModels;
 using Microcharts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -106,7 +107,13 @@ namespace HandSchool.Views
         /// <summary>
         /// 工具栏的菜单
         /// </summary>
-        public List<MenuEntry> ToolbarMenu { get; }
+        public IList<MenuEntry> ToolbarMenu { get; }
+
+        /// <summary>
+        /// For internal use only
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ToolbarMenuTracker ToolbarTracker { get; }
 
         /// <summary>
         /// 添加工具栏菜单。
@@ -121,7 +128,9 @@ namespace HandSchool.Views
         {
             Pushed = new Task(() => { });
 
-            ToolbarMenu = new List<MenuEntry>();
+            ToolbarTracker = new ToolbarMenuTracker();
+            ToolbarTracker.List = new ObservableCollection<MenuEntry>();
+            ToolbarMenu = ToolbarTracker.List;
         }
 
         protected override void OnBindingContextChanged()

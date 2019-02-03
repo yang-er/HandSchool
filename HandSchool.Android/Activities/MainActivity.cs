@@ -87,7 +87,7 @@ namespace HandSchool.Droid
             Core.Configure.Write("hs.school.bin", "jlu");
             Core.Initialize();
 
-            Transaction(new Views.IndexPage().CreateSupportFragment(this));
+            Transaction(new Views.IndexPage());
             
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);

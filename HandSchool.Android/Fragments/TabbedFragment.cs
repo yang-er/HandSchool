@@ -22,12 +22,13 @@ namespace HandSchool.Droid
 
         [BindView(Resource.Id.viewPager)]
         public ViewPager ViewPager { get; set; }
+
         public TabbedPagerAdapter Adapter { get; set; }
         public IViewPresenter Presenter { get; }
 
         public TabbedFragment(IViewPresenter presenter)
         {
-            FragmentViewResource = Resource.Layout.tabbed_layout;
+            FragmentViewResource = Resource.Layout.layout_tabbed;
             Presenter = presenter;
             Title = presenter.Title;
         }
@@ -36,7 +37,7 @@ namespace HandSchool.Droid
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            Adapter = new TabbedPagerAdapter(view.Context, Navigation, ChildFragmentManager, Presenter);
+            Adapter = new TabbedPagerAdapter(view.Context, this);
             ViewPager.Adapter = Adapter;
             Tabbar.SetupWithViewPager(ViewPager);
             Tabbar.Visibility = ViewStates.Visible;

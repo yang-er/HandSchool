@@ -16,7 +16,7 @@ namespace HandSchool.Views
     {
         public WebViewPage()
         {
-            FragmentViewResource = Resource.Layout.browser_layout;
+            FragmentViewResource = Resource.Layout.layout_webview;
         }
 
         [BindView(Resource.Id.web_view)]
