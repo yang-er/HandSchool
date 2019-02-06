@@ -1,5 +1,6 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -49,7 +50,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 消息命令
         /// </summary>
-        public CommandAction Command { get; set; }
+        public ICommand Command { get; set; }
 
         /// <summary>
         /// 操作名称

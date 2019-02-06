@@ -15,6 +15,12 @@ namespace HandSchool.Views
         LoginViewModel LoginViewModel { get; }
 
         /// <summary>
+        /// 设置导航参数，保存使用的类型。
+        /// </summary>
+        /// <param name="lvm">视图模型</param>
+        void SetNavigationArguments(LoginViewModel lvm);
+
+        /// <summary>
         /// 要求窗体对登录状态改变发出响应。
         /// </summary>
         /// <param name="sender">发出者</param>

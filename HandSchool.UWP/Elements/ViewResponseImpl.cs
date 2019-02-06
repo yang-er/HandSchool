@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +8,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.UWP;
-using MessagingCenter = Xamarin.Forms.MessagingCenter;
 
 namespace HandSchool.UWP
 {

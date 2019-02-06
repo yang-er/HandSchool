@@ -1,7 +1,8 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -33,12 +34,12 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 刷新视图模型数据的命令
         /// </summary>
-        public CommandAction RefreshCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
         /// <summary>
         /// 请求登录的命令
         /// </summary>
-        public CommandAction RequestLoginCommand { get; set; }
+        public ICommand RequestLoginCommand { get; set; }
 
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）

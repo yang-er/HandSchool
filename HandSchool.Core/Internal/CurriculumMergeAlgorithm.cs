@@ -1,11 +1,12 @@
 ﻿using HandSchool.Models;
 using System.Collections.Generic;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 合并课程表的算法。
     /// </summary>
+    /// <author>miasakachenmo</author>
     internal sealed class CurriculumMergeAlgorithm
     {
         readonly List<CurriculumSet>[] ItemGrid;

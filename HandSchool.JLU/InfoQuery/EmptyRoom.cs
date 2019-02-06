@@ -1,10 +1,10 @@
-﻿using HandSchool.Internal;
-using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
-using System.Net;
+using HandSchool.Views;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -87,7 +87,12 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("查询", new CommandAction(() => Evaluate("getdata()")), "\uE721"));
+            Menu.Add(new MenuEntry
+            {
+                Title = "查询",
+                UWPIcon = "\uE721",
+                Command = new CommandAction(() => Evaluate("getdata()"))
+            });
         }
 
         private async Task Execute()
@@ -99,10 +104,9 @@ namespace HandSchool.JLU.InfoQuery
                 var LastReport = await Core.App.Service.Post(serviceResourceUrl, PostValue);
                 Evaluate($"callback({LastReport})");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
-                await this.ShowTimeoutMessage();
+                await RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
 
             IsBusy = false;

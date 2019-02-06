@@ -1,6 +1,7 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Services;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -115,7 +116,9 @@ namespace HandSchool.ViewModels
                 CourseID = "CUSTOM-" + DateTime.Now.ToString("s")
             };
 
-            if (await Core.Platform.ShowNewCurriculumPageAsync(item, null))
+            var page = Core.New<ICurriculumPage>();
+            page.SetNavigationArguments(item, true);
+            if (await page.ShowAsync())
                 RefreshComplete?.Invoke();
         }
 

@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
@@ -14,12 +14,14 @@ namespace HandSchool.JLU
         class OutsideSchoolStrategy : ISideSchoolStrategy
         {
             UIMS UIMS { get; }
+            public OutsideSchoolStrategy(UIMS handle) => UIMS = handle;
+
+            /*
 
             const string BaseUrl = "http://cjcx.jlu.edu.cn/score/";
             const string ServiceRes = "action/service_res.php";
             const string SecurityCheck = "action/security_check.php";
 
-            public OutsideSchoolStrategy(UIMS handle) => UIMS = handle;
 
             public string TimeoutUrl => "???";
             public string WelcomeMessage => "欢迎你哦。";
@@ -66,7 +68,27 @@ namespace HandSchool.JLU
                 return true;
             }
 
-            public void OnLoad() { }
+            public void OnLoad() { }*/
+            public string TimeoutUrl => throw new NotImplementedException();
+
+            public string WelcomeMessage => throw new NotImplementedException();
+
+            public string CurrentMessage => throw new NotImplementedException();
+
+            public string FormatArguments(string input)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<bool> LoginSide()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OnLoad()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

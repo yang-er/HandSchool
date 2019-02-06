@@ -19,11 +19,9 @@ namespace HandSchool.Views
             private set => ViewModel = value;
         }
 
-        public LoginDialog(LoginViewModel vm) : base()
+        public LoginDialog()
         {
             InitializeComponent();
-            LoginViewModel = vm;
-            UpdateCaptchaInfomation();
         }
         
         private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
@@ -96,6 +94,12 @@ namespace HandSchool.Views
             }
 
             ViewModel.IsBusy = false;
+        }
+
+        public void SetNavigationArguments(LoginViewModel lvm)
+        {
+            LoginViewModel = lvm;
+            UpdateCaptchaInfomation();
         }
     }
 }

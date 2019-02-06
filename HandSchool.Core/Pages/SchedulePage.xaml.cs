@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.ViewModels;
 using System;
 using Xamarin.Forms;

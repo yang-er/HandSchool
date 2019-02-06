@@ -1,10 +1,11 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -27,17 +28,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载消息的命令
         /// </summary>
-        public CommandAction LoadItemsCommand { get; set; }
+        public ICommand LoadItemsCommand { get; set; }
 
         /// <summary>
         /// 删除所有的命令
         /// </summary>
-        public CommandAction DeleteAllCommand { get; set; }
+        public ICommand DeleteAllCommand { get; set; }
 
         /// <summary>
         /// 全部设置已读的命令
         /// </summary>
-        public CommandAction ReadAllCommand { get; set; }
+        public ICommand ReadAllCommand { get; set; }
 
         /// <summary>
         /// 视图模型的实例

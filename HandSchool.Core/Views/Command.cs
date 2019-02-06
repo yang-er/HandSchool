@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 命令，可以设置触发按钮后的操作。

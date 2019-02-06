@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.UWP;
 using Microcharts;
 using System;
@@ -11,11 +11,10 @@ using Windows.UI.Xaml.Navigation;
 using Xamarin.Forms.Platform.UWP;
 using BaseViewModel = HandSchool.ViewModels.BaseViewModel;
 using WPage = Windows.UI.Xaml.Controls.Page;
-using XView = Xamarin.Forms.View;
 
 namespace HandSchool.Views
 {
-    public class ViewPage : WPage, IViewPage
+    public class ViewPage : WPage, IViewPage, IViewLifecycle
     {
         public ViewPage() : base()
         {
@@ -59,8 +58,6 @@ namespace HandSchool.Views
 
         public bool IsModal => false;
         
-        XView IViewPage.Content { get; set; }
-
         string IViewCore.Title { get; set; }
 
         public event EventHandler Disappearing;
@@ -121,14 +118,27 @@ namespace HandSchool.Views
             OnAppearing();
         }
 
-        public virtual void RegisterNavigation(INavigate navigate) => Navigation = navigate;
+        public virtual void RegisterNavigation(INavigate navigate)
+        {
+            Navigation = navigate;
+        }
 
         public INavigate Navigation { get; private set; }
 
-        public virtual Task ShowAsync(INavigate parent = null) => throw new InvalidOperationException();
+        public bool IsBusy
+        {
+            get => ViewModel.IsBusy;
+            set => ViewModel.IsBusy = value;
+        }
 
-        public virtual Task CloseAsync() => throw new InvalidOperationException();
+        public ToolbarMenuTracker ToolbarTracker => null;
 
+        void IViewLifecycle.SendAppearing() => OnAppearing();
+
+        void IViewLifecycle.SendDisappearing() => OnDisappearing();
+
+        public virtual void SetNavigationArguments(object param) { }
+        
         #endregion
 
         #region IViewResponse Impl

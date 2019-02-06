@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using Windows.UI.Xaml.Controls;
 
 namespace HandSchool.UWP

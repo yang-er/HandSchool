@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Services;
 using HandSchool.Models;
@@ -6,7 +6,6 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 [assembly: RegisterService(typeof(Schedule))]
@@ -41,9 +40,9 @@ namespace HandSchool.JLU.Services
                     ScheduleViewModel.Instance.AddItem(item);
                 ScheduleViewModel.Instance.SaveToFile();
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 await ScheduleViewModel.Instance.ShowTimeoutMessage();
             }
         }

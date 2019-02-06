@@ -1,7 +1,6 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Views;
 using Microcharts;
-using System;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -17,29 +16,14 @@ namespace HandSchool.ViewModels
         string title = string.Empty;
         
         /// <summary>
-        /// 忙碌状态更改的事件处理。
-        /// </summary>
-        public event Action IsBusyChanged;
-
-        /// <summary>
         /// 视图模型是否处于忙碌状态。
         /// </summary>
         public bool IsBusy
         {
             get => isBusy;
-            set => SetProperty(ref isBusy, value, nameof(IsBusy), IsBusyChanged);
+            set => SetProperty(ref isBusy, value, nameof(IsBusy));
         }
-
-        /// <summary>
-        /// 设置忙碌状态的函数。
-        /// </summary>
-        /// <param name="value">目前的忙碌状态。</param>
-        /// <param name="tips">忙碌状态对话框里的消息提示，表示目前正在进行什么。</param>
-        public void SetIsBusy(bool value, string tips = "")
-        {
-            SetProperty(ref isBusy, value, nameof(IsBusy), IsBusyChanged);
-        }
-
+        
         /// <summary>
         /// 视图显示的窗口标题。
         /// </summary>
@@ -51,7 +35,7 @@ namespace HandSchool.ViewModels
 
         #region IViewResponse 实现
         
-        public IViewPage View { get; set; }
+        public IViewResponse View { get; set; }
         
         public Task<string> RequestActionAsync(string title, string cancel, string destruction, params string[] buttons)
         {

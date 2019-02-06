@@ -1,6 +1,7 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -30,17 +31,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 添加课程的命令
         /// </summary>
-        public CommandAction AddCommand { get; set; }
+        public ICommand AddCommand { get; set; }
 
         /// <summary>
         /// 刷新课程表的命令
         /// </summary>
-        public CommandAction RefreshCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
         /// <summary>
         /// 修改当前周的命令
         /// </summary>
-        public CommandAction ChangeWeekCommand { get; set; }
+        public ICommand ChangeWeekCommand { get; set; }
 
         /// <summary>
         /// 获取多节课的课程表列表。

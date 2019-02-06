@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandSchool.Internals;
+using System;
 using System.Net;
 
 namespace HandSchool.Models
@@ -33,10 +34,21 @@ namespace HandSchool.Models
         /// 创建在异常中登录失败的事件参数。
         /// </summary>
         /// <param name="ex">发生的网络异常，用于提供错误信息。</param>
+        [Obsolete]
         public LoginStateEventArgs(WebException ex)
         {
             State = LoginState.Failed;
             InnerError = GetWebExceptionMessage(ex);
+        }
+
+        /// <summary>
+        /// 创建在异常中登录失败的事件参数。
+        /// </summary>
+        /// <param name="ex">发生的网络异常，用于提供错误信息。</param>
+        public LoginStateEventArgs(WebsException ex, string more = null)
+        {
+            State = LoginState.Failed;
+            InnerError = more ?? ex.Message;
         }
 
         /// <summary>

@@ -3,7 +3,6 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.MessagePage"
               xmlns:w="clr-namespace:HandSchool.Views"
-              UseCustomLoading="True"
               Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" Order="Default" HiddenForPull="True" UWPIcon="&#xE72C;" />

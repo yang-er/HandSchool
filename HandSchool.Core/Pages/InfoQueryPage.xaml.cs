@@ -28,7 +28,7 @@ namespace HandSchool.Views
 
             if (e.Item is InfoEntranceWrapper iew)
             {
-                await Navigation.PushAsync("WebViewPage", iew.Load.Invoke());
+                await Navigation.PushAsync(typeof(IWebViewPage), iew.Load.Invoke());
             }
             else if (e.Item is TapEntranceWrapper tew)
             {

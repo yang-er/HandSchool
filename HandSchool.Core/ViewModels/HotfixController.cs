@@ -1,8 +1,8 @@
-﻿using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.Services;
 using System.Net;
 using System.Threading.Tasks;
-using HandSchool.Internal;
 
 namespace HandSchool.ViewModels
 {
@@ -36,6 +36,7 @@ namespace HandSchool.ViewModels
         /// JavaScript 发送的内容的接收函数。
         /// </summary>
         /// <param name="data">发送的数据内容。</param>
+        [ToFix("WebException Changes")]
         public override async Task Receive(string data)
         {
             if (data == "finished")
@@ -57,7 +58,7 @@ namespace HandSchool.ViewModels
                 {
                     ret = await Core.App.Service.Post(ops[1], ops[2]);
                 }
-                catch (WebException ex)
+                catch (System.Net.WebException ex)
                 {
                     if (ex.Status == WebExceptionStatus.Timeout)
                     {

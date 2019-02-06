@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
@@ -7,7 +7,6 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 [assembly: RegisterService(typeof(GradeEntrance))]
@@ -34,6 +33,7 @@ namespace HandSchool.JLU.Services
         /// </summary>
         public int RowLimit { get; set; } = 25;
         
+        [ToFix("将获取GPA成绩改为并发逻辑")]
         public async Task Execute()
         {
             try
@@ -59,9 +59,9 @@ namespace HandSchool.JLU.Services
                 Core.Configure.Write(configGrade, ro.Serialize());
                 GradePointViewModel.Instance.AddRange(ParseASV(ro));
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 await GradePointViewModel.Instance.ShowTimeoutMessage();
             }
         }

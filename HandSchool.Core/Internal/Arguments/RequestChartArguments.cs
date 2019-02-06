@@ -1,11 +1,13 @@
 ﻿using Microcharts;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 请求展示图表内容的参数列表。
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class RequestChartArguments
     {
         /// <summary>

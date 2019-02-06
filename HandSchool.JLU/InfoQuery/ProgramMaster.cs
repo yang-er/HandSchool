@@ -1,12 +1,11 @@
-﻿using HandSchool.Internal;
-using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using JsonException = Newtonsoft.Json.JsonException;
@@ -97,7 +96,12 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("加载", new CommandAction(SolveProgVal), "\uE721"));
+            Menu.Add(new HandSchool.Views.MenuEntry
+            {
+                Title = "加载",
+                UWPIcon = "\uE721",
+                Command = new CommandAction(SolveProgVal)
+            });
         }
 
         public async void SolveProgId()
@@ -125,11 +129,10 @@ namespace HandSchool.JLU.InfoQuery
                 IsBusy = false;
                 await RequestMessageAsync("提示", "加载教学方案失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                await RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
                 IsBusy = false;
-                await this.ShowTimeoutMessage();
             }
         }
 
@@ -178,11 +181,10 @@ namespace HandSchool.JLU.InfoQuery
                 Evaluate?.Invoke("$('#progList').html('<tr><td colspan=\"9\">加载失败</td></tr>')");
                 await RequestMessageAsync("提示", "加载教学方案失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
                 IsBusy = false;
-                await RequestMessageAsync("错误", "连接超时，请重试。");
+                await RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
         }
 

@@ -1,5 +1,5 @@
-﻿using HandSchool.Internal;
-using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Services;
 using HandSchool.Models;
@@ -7,7 +7,6 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using Newtonsoft.Json;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,8 +60,12 @@ namespace HandSchool.JLU.InfoQuery
                 Css = GetCss()
             };
 
-            var loadCommand = new CommandAction(() => Evaluate?.Invoke("invokeCSharpAction('show='+$('#termId').val())"));
-            Menu.Add(new InfoEntranceMenu("加载", loadCommand, "\uE72C"));
+            Menu.Add(new HandSchool.Views.MenuEntry
+            {
+                Title = "加载",
+                UWPIcon = "\uE72C",
+                Command = new CommandAction(() => Evaluate?.Invoke("invokeCSharpAction('show='+$('#termId').val())"))
+            });
         }
 
         public Bootstrap HtmlDocument { get; set; }
@@ -107,7 +110,7 @@ namespace HandSchool.JLU.InfoQuery
         private async Task SolveTermId()
         {
             if (IsBusy) return;
-            SetIsBusy(true, "正在加载学期信息……");
+            IsBusy = true;
 
             try
             {
@@ -125,55 +128,38 @@ namespace HandSchool.JLU.InfoQuery
 
                 Evaluate?.Invoke($"$('#termId').html('{sb}')");
                 sb.Clear();
-                SetIsBusy(false);
             }
             catch (JsonException)
             {
-                SetIsBusy(false);
                 await RequestMessageAsync("提示", "加载学期信息失败，解析数据出现错误。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status == WebExceptionStatus.Timeout)
-                {
-                    SetIsBusy(false);
-                    await RequestMessageAsync("错误", "连接超时，请重试。");
-                    return;
-                }
-
-                await RequestMessageAsync("错误", ex.ToString());
-                throw ex;
+                await RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
+
+            IsBusy = false;
         }
 
         private async Task SolveClassDetail()
         {
-            if (IsBusy) return;
-            SetIsBusy(true, "正在加载推荐课表……");
+            if (IsBusy) return; IsBusy = true;
 
             try
             {
                 var LastReport = await Core.App.Service.Post(ScriptFileUri, QuerySchedule);
                 scheduleList = LastReport.ParseJSON<RootObject<ScheduleValue>>();
-                SetIsBusy(false);
             }
             catch (JsonException)
             {
-                SetIsBusy(false);
                 await RequestMessageAsync("提示", "加载推荐课表失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status == WebExceptionStatus.Timeout)
-                {
-                    SetIsBusy(false);
-                    await RequestMessageAsync("错误", "连接超时，请重试。");
-                    return;
-                }
-
-                await RequestMessageAsync("错误", ex.ToString());
-                throw ex;
+                await RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
+
+            IsBusy = false;
         }
 
         private async Task ProduceClassDetail()

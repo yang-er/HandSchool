@@ -1,4 +1,5 @@
-﻿using HandSchool.ViewModels;
+﻿using HandSchool.Internals;
+using HandSchool.ViewModels;
 
 namespace HandSchool.Views
 {
@@ -16,5 +17,15 @@ namespace HandSchool.Views
         /// 与此页面沟通的视图模型
         /// </summary>
         BaseViewModel ViewModel { get; set; }
+        
+        /// <summary>
+        /// 页面是否正忙
+        /// </summary>
+        bool IsBusy { get; set; }
+
+        /// <summary>
+        /// 工具菜单内容
+        /// </summary>
+        ToolbarMenuTracker ToolbarTracker { get; }
     }
 }

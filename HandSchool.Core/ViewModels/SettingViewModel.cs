@@ -1,8 +1,9 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -33,7 +34,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 保存设置的命令
         /// </summary>
-        public CommandAction SaveConfigures { get; }
+        public ICommand SaveConfigures { get; }
 
         /// <summary>
         /// 通过反射从教务系统服务中读取所有的设置属性和方法。
@@ -69,7 +70,6 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 清除数据的功能
         /// </summary>
-        /// <param name="resp"></param>
         [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
         public static async void ResetSettings()
         {

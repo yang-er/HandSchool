@@ -3,6 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.SchedulePage"
               xmlns:w="clr-namespace:HandSchool.Views"
+              IsBusy="{Binding IsBusy}"
               Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="{Binding CurrentWeek}" Order="Default" UWPIcon="&#xE787;" />

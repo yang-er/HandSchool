@@ -1,7 +1,8 @@
-﻿using HandSchool.Internal;
-using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
+using HandSchool.Views;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -38,7 +39,12 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("开始", new CommandAction(() => Evaluate("solve()")), "\uE8B0"));
+            Menu.Add(new MenuEntry
+            {
+                Title = "开始",
+                UWPIcon = "\uE8B0",
+                Command = new CommandAction(() => Evaluate("solve()")),
+            });
         }
     }
 }

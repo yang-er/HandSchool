@@ -1,5 +1,5 @@
-﻿using HandSchool.Internal;
-using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
@@ -84,7 +84,12 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("查询", new CommandAction(() => Evaluate("getSchId()")), "\uE721"));
+            Menu.Add(new HandSchool.Views.MenuEntry
+            {
+                Title = "查询",
+                UWPIcon = "\uE721",
+                Command = new CommandAction(() => Evaluate("getSchId()"))
+            });
         }
 
         public override async Task Receive(string data)

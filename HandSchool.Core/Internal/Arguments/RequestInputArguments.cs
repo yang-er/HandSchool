@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 请求输入内容的参数列表。
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class RequestInputArguments
     {
         /// <summary>

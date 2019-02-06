@@ -1,11 +1,9 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.Views;
 using System;
-using System.Collections.Specialized;
-using System.Net;
 using System.Threading.Tasks;
 
 [assembly: RegisterService(typeof(UIMS))]
@@ -104,8 +102,7 @@ namespace HandSchool.JLU
 
         #endregion
         
-        public AwaredWebClient WebClient { get; set; }
-        public NameValueCollection AttachInfomation { get; set; }
+        public IWebClient WebClient { get; set; }
         public string ServerUri => $"http{(use_https ? "s" : "")}://{proxy_server}/ntms/";
         public string WeatherLocation => "101060101";
         public int CurrentWeek { get; set; }
@@ -131,7 +128,6 @@ namespace HandSchool.JLU
             IsLogin = false;
             NeedLogin = false;
             Username = Core.Configure.Read(configUsername);
-            AttachInfomation = new NameValueCollection();
             if (Username != "") Password = Core.Configure.Read(configPassword);
             if (Password == "") SavePassword = false;
 
@@ -165,23 +161,24 @@ namespace HandSchool.JLU
         {
             if (await this.RequestLogin() == false)
             {
-                throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+                throw new WebsException("登录超时。", WebStatus.Timeout);
             }
 
             try
             {
-                var ret = await WebClient.PostAsync(url, FormatArguments(send));
+                var reqMeta = new WebRequestMeta(url, WebRequestMeta.Json);
+                var response = await WebClient.PostAsync(reqMeta, FormatArguments(send), WebRequestMeta.Json);
 
-                if (WebClient.Location == UsingStrategy.TimeoutUrl)
+                if (response.Location == UsingStrategy.TimeoutUrl)
                 {
-                    throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+                    throw new WebsException("登录超时。", WebStatus.Timeout);
                 }
 
-                return ret;
+                return await response.ReadAsStringAsync();
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status == WebExceptionStatus.Timeout)
+                if (ex.Status == WebStatus.Timeout)
                     is_login = false;
                 throw ex;
             }
@@ -191,23 +188,23 @@ namespace HandSchool.JLU
         {
             if (await this.RequestLogin() == false)
             {
-                throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+                throw new WebsException("登录超时。", WebStatus.Timeout);
             }
 
             try
             {
-                var ret = await WebClient.GetAsync(url);
+                var ret = await WebClient.GetAsync(url, WebRequestMeta.Json);
 
-                if (WebClient.Location == UsingStrategy.TimeoutUrl)
+                if (ret.Location == UsingStrategy.TimeoutUrl)
                 {
-                    throw new WebException("登录超时。", WebExceptionStatus.Timeout);
+                    throw new WebsException("登录超时。", WebStatus.Timeout);
                 }
 
-                return ret;
+                return await ret.ReadAsStringAsync();
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status == WebExceptionStatus.Timeout)
+                if (ex.Status == WebStatus.Timeout)
                     is_login = false;
                 throw ex;
             }

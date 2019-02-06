@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace HandSchool.Internal.HtmlObject
+namespace HandSchool.Internals.HtmlObject
 {
     /// <summary>
     /// 网页第一个段落元素。

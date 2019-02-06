@@ -1,6 +1,5 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
-using HandSchool.Views;
 using System.Threading.Tasks;
 
 namespace HandSchool.Services
@@ -19,7 +18,7 @@ namespace HandSchool.Services
         /// <summary>
         /// 内部WebClient
         /// </summary>
-        AwaredWebClient WebClient { get; set; }
+        IWebClient WebClient { get; set; }
         
         /// <summary>
         /// 当前周
@@ -47,7 +46,7 @@ namespace HandSchool.Services
         /// <param name="url">地址</param>
         /// <param name="value">发送的数据</param>
         /// <returns>接收的数据</returns>
-        /// <exception cref="System.Net.WebException" />
+        /// <exception cref="WebsException" />
         Task<string> Post(string url, string value);
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace HandSchool.Services
         /// </summary>
         /// <param name="url">地址</param>
         /// <returns>接收的数据</returns>
-        /// <exception cref="System.Net.WebException" />
+        /// <exception cref="WebsException" />
         Task<string> Get(string url);
         
         /// <summary>

@@ -30,6 +30,6 @@ namespace HandSchool.Services
         /// <summary>
         /// 可用菜单
         /// </summary>
-        List<InfoEntranceMenu> Menu { get; }
+        List<MenuEntry> Menu { get; }
     }
 }

@@ -1,9 +1,10 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HandSchool.JLU.Models
 {
@@ -24,9 +25,9 @@ namespace HandSchool.JLU.Models
         public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
         public string Date => piece.message.dateCreate.ToShortDateString();
         public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
-        public CommandAction SetRead { get; }
-        public CommandAction SetUnread { get; }
-        public CommandAction Delete { get; }
+        public ICommand SetRead { get; }
+        public ICommand SetUnread { get; }
+        public ICommand Delete { get; }
 
         public MessageItem(MessagePiece p)
         {

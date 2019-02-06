@@ -1,8 +1,7 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 
 namespace HandSchool
 {
@@ -81,6 +80,16 @@ namespace HandSchool
             current.PreLoad();
             current.PostLoad();
             return true;
+        }
+
+        /// <summary>
+        /// 创建一个抽象类型的实现。
+        /// </summary>
+        /// <typeparam name="T">抽象类型</typeparam>
+        /// <returns>抽象类型的实现</returns>
+        public static T New<T>() where T : class
+        {
+            return Reflection.CreateInstance<T>();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using KVP = System.Collections.Generic.KeyValuePair<string, string>;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     public class KeyValueDict : NameValueCollection, IDictionary<string, string>
     {

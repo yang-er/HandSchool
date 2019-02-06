@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HandSchool.Internal.HtmlObject
+namespace HandSchool.Internals.HtmlObject
 {
     /// <summary>
     /// ComboBox选择

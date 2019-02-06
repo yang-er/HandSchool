@@ -4,7 +4,7 @@ using HandSchool.Views;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 提供日志的记录拓展方法。

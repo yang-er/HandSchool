@@ -1,6 +1,5 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using System;
-using System.Reflection;
 
 namespace HandSchool.Models
 {
@@ -36,6 +35,7 @@ namespace HandSchool.Models
         public NavigationMenuItem(string title, string dest, string category = "")
         {
             this.title = title;
+
             if (category != "")
             {
                 destType = $"HandSchool.{category}.Views.{dest}";

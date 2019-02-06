@@ -1,5 +1,4 @@
-﻿using HandSchool.Models;
-using HandSchool.Services;
+﻿using HandSchool.Services;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
@@ -14,9 +13,20 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="IWebEntrance" />
     public abstract class BaseController : BaseViewModel, IWebEntrance
     {
+        /// <summary>
+        /// 执行JavaScript操作的函数
+        /// </summary>
         public Action<string> Evaluate { get; set; }
-        public List<InfoEntranceMenu> Menu { get; } = new List<InfoEntranceMenu>();
+
+        /// <summary>
+        /// 显示的菜单
+        /// </summary>
+        public List<MenuEntry> Menu { get; } = new List<MenuEntry>();
+
+        /// <summary>
+        /// 收到JavaScript消息
+        /// </summary>
+        /// <param name="data">消息</param>
         public abstract Task Receive(string data);
-        IViewResponse IWebEntrance.View => base.View;
     }
 }

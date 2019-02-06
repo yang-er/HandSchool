@@ -1,11 +1,10 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.UWP;
 using HandSchool.ViewModels;
 using Microcharts;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
@@ -19,7 +18,7 @@ namespace HandSchool.Views
 
         public bool IsModal => true;
 
-        View IViewPage.Content { get; set; }
+        #region IViewCore Impl
 
         string IViewCore.Title
         {
@@ -27,8 +26,18 @@ namespace HandSchool.Views
             set => Title = value;
         }
 
+        bool IViewCore.IsBusy
+        {
+            get => ViewModel.IsBusy;
+            set => ViewModel.IsBusy = value;
+        }
+
+        ToolbarMenuTracker IViewCore.ToolbarTracker => null;
+
+        #endregion
+
         #region INavigate Impl
-        
+
         public ViewDialog()
         {
             Closed += (sender, args) => Disappearing?.Invoke(sender, EventArgs.Empty);

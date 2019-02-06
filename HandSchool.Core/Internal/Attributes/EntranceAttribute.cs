@@ -1,7 +1,7 @@
 ﻿using System;
 using HandSchool.Models;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 入口点信息特性

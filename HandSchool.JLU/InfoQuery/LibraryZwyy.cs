@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Collections.Generic;

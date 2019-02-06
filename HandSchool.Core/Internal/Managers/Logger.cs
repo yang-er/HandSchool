@@ -2,13 +2,23 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 提供简单的日志写入。
     /// </summary>
     public class Logger
     {
+        /// <summary>
+        /// 写入消息内容。
+        /// </summary>
+        /// <param name="content">消息</param>
+        [DebuggerStepThrough]
+        private void WriteLine(string content)
+        {
+            Trace.WriteLine(content);
+        }
+
         /// <summary>
         /// 写一行日志，表示消息。
         /// </summary>
@@ -17,7 +27,7 @@ namespace HandSchool.Internal
         [DebuggerStepThrough]
         public void WriteLine(string type, string content)
         {
-            Trace.WriteLine($"[{type}] {content}");
+            WriteLine($"[{type}] {content}");
         }
 
         /// <summary>
@@ -33,7 +43,7 @@ namespace HandSchool.Internal
             [CallerLineNumber] int line = 0)
         {
             string type = ex.GetType().Name;
-            Debug.WriteLine($"[Warning] {type} caught in " +
+            WriteLine($"[Warning] {type} caught in " +
                 $"Path {path} Line {line}\n" +
                 ex.ToString());
         }

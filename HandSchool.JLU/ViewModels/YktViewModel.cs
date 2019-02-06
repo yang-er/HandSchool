@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU.Models;
 using HandSchool.ViewModels;
 using System;
@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using JsonException = Newtonsoft.Json.JsonException;
-using WebException = System.Net.WebException;
 
 namespace HandSchool.JLU.ViewModels
 {
@@ -39,7 +39,7 @@ namespace HandSchool.JLU.ViewModels
             SetUpLostStateCommand = new CommandAction(ProcessSetLost);
             LoadBasicInfoCommand = new CommandAction(RefreshBasicInfoAsync);
             IsFirstOpen = true;
-
+            
             BasicInfo = new List<SchoolCardInfoPiece>
             {
                 new SchoolCardInfoPiece("姓名", "未知"),
@@ -73,47 +73,47 @@ namespace HandSchool.JLU.ViewModels
         /// <summary>
         /// 加载拾卡信息的命令
         /// </summary>
-        public CommandAction LoadPickCardInfoCommand { get; set; }
+        public ICommand LoadPickCardInfoCommand { get; set; }
 
         /// <summary>
         /// 充值校园卡的命令
         /// </summary>
-        public CommandAction ChargeCreditCommand { get; set; }
+        public ICommand ChargeCreditCommand { get; set; }
 
         /// <summary>
         /// 挂失校园卡的命令
         /// </summary>
-        public CommandAction SetUpLostStateCommand { get; set; }
+        public ICommand SetUpLostStateCommand { get; set; }
 
         /// <summary>
         /// 加载消费记录的命令
         /// </summary>
-        public CommandAction RecordFindCommand { get; set; }
+        public ICommand RecordFindCommand { get; set; }
 
         /// <summary>
         /// 加载基本信息的命令
         /// </summary>
-        public CommandAction LoadBasicInfoCommand { get; set; }
+        public ICommand LoadBasicInfoCommand { get; set; }
 
         /// <summary>
         /// 加载校园卡基本信息。
         /// </summary>
         public async Task RefreshBasicInfoAsync()
         {
-            if (IsBusy) return; IsBusy = true;
+            if (IsBusy) return;
+            IsBusy = true;
             string last_error = null;
 
             try
             {
                 await Loader.Ykt.BasicInfoAsync();
             }
-            catch (WebException)
+            catch (WebsException ex)
             {
-                last_error = "网络似乎出了点问题呢……";
-            }
-            catch (ContentAcceptException ex)
-            {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Current;
+                if (ex.Status == WebStatus.MimeNotMatch)
+                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                else
+                    last_error = "网络似乎出了点问题呢……";
             }
             finally
             {
@@ -136,17 +136,16 @@ namespace HandSchool.JLU.ViewModels
             {
                 await Loader.Ykt.QueryCost();
             }
-            catch (WebException)
+            catch (WebsException ex)
             {
-                last_error = "网络似乎出了点问题呢……";
+                if (ex.Status == WebStatus.MimeNotMatch)
+                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                else
+                    last_error = "网络似乎出了点问题呢……";
             }
             catch (JsonException ex)
             {
                 last_error = "服务器的响应未知，请检查。\n" + ex.Message;
-            }
-            catch (ContentAcceptException ex)
-            {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Current;
             }
             finally
             {
@@ -168,13 +167,12 @@ namespace HandSchool.JLU.ViewModels
             {
                 await Loader.Ykt.GetPickCardInfo();
             }
-            catch (WebException)
+            catch (WebsException ex)
             {
-                await RequestMessageAsync("拾卡信息", "拾卡信息加载失败，请检查网络连接。");
-            }
-            catch (ContentAcceptException)
-            {
-                await RequestMessageAsync("拾卡信息", "拾卡信息加载失败，可能是软件过老。");
+                if (ex.Status == WebStatus.MimeNotMatch)
+                    await RequestMessageAsync("拾卡信息", "拾卡信息加载失败，可能是软件过老。");
+                else
+                    await RequestMessageAsync("拾卡信息", "拾卡信息加载失败，请检查网络连接。");
             }
             finally
             {
@@ -206,9 +204,12 @@ namespace HandSchool.JLU.ViewModels
                     last_error = Loader.Ykt.LastReport;
                 }
             }
-            catch (WebException)
+            catch (WebsException ex)
             {
-                last_error = "网络似乎出了点问题呢……";
+                if (ex.Status == WebStatus.MimeNotMatch)
+                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                else
+                    last_error = "网络似乎出了点问题呢……";
             }
             catch (OverflowException)
             {
@@ -221,10 +222,6 @@ namespace HandSchool.JLU.ViewModels
             catch (JsonException ex)
             {
                 last_error = "服务器的响应未知，请检查。\n" + ex.Message;
-            }
-            catch (ContentAcceptException ex)
-            {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Current;
             }
             finally
             {
@@ -257,17 +254,16 @@ namespace HandSchool.JLU.ViewModels
                     last_error = Loader.Ykt.LastReport;
                 }
             }
-            catch (WebException)
+            catch (WebsException ex)
             {
-                last_error = "网络似乎出了点问题呢……";
+                if (ex.Status == WebStatus.MimeNotMatch)
+                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                else
+                    last_error = "网络似乎出了点问题呢……";
             }
             catch (JsonException ex)
             {
                 last_error = "服务器的响应未知，请检查。\n" + ex.Message;
-            }
-            catch (ContentAcceptException ex)
-            {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Current;
             }
             finally
             {

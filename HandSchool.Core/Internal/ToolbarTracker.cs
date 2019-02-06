@@ -3,14 +3,20 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
+    /// <summary>
+    /// 用于跟踪任务栏菜单改变。
+    /// </summary>
     public class ToolbarMenuTracker
     {
         ObservableCollection<MenuEntry> _inner;
         NotifyCollectionChangedEventHandler _handler;
         EventHandler _todo;
 
+        /// <summary>
+        /// 保存的列表
+        /// </summary>
         public ObservableCollection<MenuEntry> List
         {
             get
@@ -36,6 +42,9 @@ namespace HandSchool.Internal
             }
         }
 
+        /// <summary>
+        /// 菜单改变时发生。
+        /// </summary>
         public event EventHandler Changed
         {
             add

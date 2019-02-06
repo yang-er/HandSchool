@@ -1,4 +1,5 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
+using System.Windows.Input;
 
 namespace HandSchool.JLU.Models
 {
@@ -8,7 +9,7 @@ namespace HandSchool.JLU.Models
     internal class SchoolCardInfoPiece : NotifyPropertyChanged
     {
         string title, description;
-        CommandAction command;
+        ICommand command;
 
         /// <summary>
         /// 信息的标题
@@ -31,7 +32,7 @@ namespace HandSchool.JLU.Models
         /// <summary>
         /// 信息的操作
         /// </summary>
-        public CommandAction Command
+        public ICommand Command
         {
             get => command;
             set => SetProperty(ref command, value);
@@ -39,7 +40,7 @@ namespace HandSchool.JLU.Models
 
         protected SchoolCardInfoPiece() { }
 
-        public SchoolCardInfoPiece(string tit, string desc, CommandAction cmd = null)
+        public SchoolCardInfoPiece(string tit, string desc, ICommand cmd = null)
         {
             title = tit;
             description = desc;

@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -52,35 +52,19 @@ namespace HandSchool.UWP
         {
             Debug.Assert(Instance is null);
             new PlatformImpl();
-
-            Core.Reflection.RegisterType<MessageDetailPage>();
-            Core.Reflection.RegisterType<WebViewPage>();
+            
+            Core.Reflection.RegisterCtor<SettingPresenter>();
+            Core.Reflection.RegisterCtor<LoginDialog>();
+            Core.Reflection.RegisterCtor<CurriculumDialog>();
+            Core.Reflection.RegisterCtor<AwaredWebClientImpl>();
+            Core.Reflection.RegisterCtor<HttpClientImpl>();
             Core.Reflection.RegisterType<DetailPage, MessageDetailPage>();
-            Core.Reflection.RegisterType<SettingPresenter>();
-        }
-
-        /// <summary>
-        /// 创建一个登录页面。
-        /// </summary>
-        /// <param name="viewModel">登录页面的视图模型。</param>
-        /// <returns>登录页面</returns>
-        public override ILoginPage CreateLoginPage(LoginViewModel viewModel)
-        {
-            return new LoginDialog(viewModel);
+            Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
+            Core.Reflection.RegisterType<ILoginPage, LoginDialog>();
+            Core.Reflection.RegisterType<ICurriculumPage, CurriculumDialog>();
+            Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
         }
         
-        /// <summary>
-        /// 创建一个添加课程表的页面。
-        /// </summary>
-        /// <param name="item">课程表项</param>
-        /// <param name="navigationContext">导航上下文</param>
-        public override async Task<bool> ShowNewCurriculumPageAsync(CurriculumItem item, Views.INavigate navigationContext)
-        {
-            var dialog = new CurriculumDialog(item, true);
-            var result = await dialog.ShowAsync();
-            return result == ContentDialogResult.Primary;
-        }
-
         /// <summary>
         /// 检查应用程序更新。
         /// </summary>

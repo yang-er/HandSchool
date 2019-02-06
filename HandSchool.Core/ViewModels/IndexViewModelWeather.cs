@@ -1,8 +1,7 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -41,14 +40,24 @@ namespace HandSchool.ViewModels
         }
 
         /// <summary>
+        /// 网络客户端
+        /// </summary>
+        private static IWebClient WebClient { get; set; }
+
+        /// <summary>
         /// 从公共API更新天气数据。
         /// </summary>
         public async Task UpdateWeather()
         {
             try
             {
-                var wc = new AwaredWebClient("http://t.weather.sojson.com/api/weather/city/", Encoding.UTF8);
-                var weatherJson = await wc.GetAsync(Core.App.Service.WeatherLocation);
+                if (WebClient is null)
+                {
+                    WebClient = Core.New<IWebClient>();
+                    WebClient.BaseAddress = "http://t.weather.sojson.com/api/weather/city/";
+                }
+                
+                var weatherJson = await WebClient.GetStringAsync(Core.App.Service.WeatherLocation);
                 var jo = JsonConvert.DeserializeObject(weatherJson) as JObject;
 
                 if ((int)jo["status"] == 304)

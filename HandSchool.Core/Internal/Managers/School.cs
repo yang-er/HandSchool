@@ -1,10 +1,9 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.Views;
 using System;
 using System.Collections.ObjectModel;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     public class SchoolApplication
     {
@@ -61,14 +60,7 @@ namespace HandSchool.Internal
         {
             Loader = wrapper;
             Loader.NoticeChange = (s, e) => LoginStateChanged?.Invoke(s, e);
-
-            Core.Reflection.RegisterType<GradePointPage>();
-            Core.Reflection.RegisterType<FeedPage>();
-            Core.Reflection.RegisterType<InfoQueryPage>();
-            Core.Reflection.RegisterType<MessagePage>();
-            Core.Reflection.RegisterType<DetailPage>();
-            Core.Reflection.RegisterType<SchedulePage>();
-            Core.Reflection.RegisterType<SettingPage>();
+            Registry.RegisterTypes();
         }
     }
 }

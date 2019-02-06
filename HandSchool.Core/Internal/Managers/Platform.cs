@@ -1,5 +1,4 @@
 ﻿using HandSchool.Models;
-using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Diagnostics;
@@ -7,27 +6,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 平台相关代码的接口要求。
     /// </summary>
     public abstract class PlatformBase
     {
-        /// <summary>
-        /// 创建一个登录页面。
-        /// </summary>
-        /// <param name="viewModel">登录页面的视图模型。</param>
-        /// <returns>登录页面</returns>
-        public abstract ILoginPage CreateLoginPage(LoginViewModel viewModel);
-
-        /// <summary>
-        /// 创建一个添加课程表的页面。
-        /// </summary>
-        /// <param name="item">课程表项</param>
-        /// <param name="navigationContext">导航上下文</param>
-        public abstract Task<bool> ShowNewCurriculumPageAsync(CurriculumItem item, INavigate navigationContext);
-
         /// <summary>
         /// 添加菜单入口点到主要页面中。
         /// </summary>

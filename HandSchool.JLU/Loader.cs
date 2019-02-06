@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU;
 using HandSchool.JLU.InfoQuery;
 using HandSchool.JLU.Services;
@@ -6,6 +6,7 @@ using HandSchool.JLU.Views;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace HandSchool.JLU
         public void PostLoad()
         {
             Ykt = new SchoolCard();
-            Core.Reflection.RegisterType<YktViewPresenter>();
+            Core.Reflection.RegisterCtor<YktViewPresenter>();
             NavigationViewModel.Instance.AddMenuEntry("一卡通", "YktViewPresenter", "JLU", MenuIcon.CreditCard);
         }
 

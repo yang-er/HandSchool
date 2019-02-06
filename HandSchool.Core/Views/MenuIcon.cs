@@ -1,4 +1,4 @@
-﻿namespace HandSchool.Internal
+﻿namespace HandSchool.Views
 {
     /// <summary>
     /// 提供给导航视图模型的图标

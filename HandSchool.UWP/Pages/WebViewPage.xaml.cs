@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
@@ -14,12 +14,12 @@ namespace HandSchool.Views
     /// <summary>
     /// 提供信息查询页面
     /// </summary>
-    public sealed partial class WebViewPage : ViewPage
+    public sealed partial class WebViewPage : ViewPage, IWebViewPage
     {
         /// <summary>
         /// 信息入口点
         /// </summary>
-        private IWebEntrance InfoEntrance { get; set; }
+        public BaseController Controller { get; set; }
 
         /// <summary>
         /// 加载网页视图。
@@ -135,45 +135,44 @@ namespace HandSchool.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             System.Diagnostics.Debug.Assert(e.Parameter is BaseController, "Error leading");
-            var baseController = e.Parameter as BaseController;
-            InfoEntrance = baseController;
+            Controller = e.Parameter as BaseController;
 
-            var meta = InfoEntrance.GetType().Get<EntranceAttribute>();
-            ViewModel = e.Parameter as BaseController;
+            var meta = Controller.GetType().Get<EntranceAttribute>();
+            ViewModel = Controller;
             ViewModel.Title = meta.Title;
-            InfoEntrance.Evaluate = InvokeScript;
+            Controller.Evaluate = InvokeScript;
 
-            Register = InfoEntrance.Receive;
-            foreach (var key in InfoEntrance.Menu)
+            Register = Controller.Receive;
+            foreach (var key in Controller.Menu)
             {
                 PrimaryMenu.Add(new AppBarButton
                 {
-                    Label = key.Name,
+                    Label = key.Title,
                     Command = key.Command,
                     CommandParameter = (Action<IWebEntrance>)OnEntranceRequested,
                     Icon = new FontIcon
                     {
                         FontFamily = new FontFamily("Segoe MDL2 Assets"),
-                        Glyph = key.Icon
+                        Glyph = key.UWPIcon
                     }
                 });
             }
 
-            if (InfoEntrance is IInfoEntrance info)
+            if (Controller is IInfoEntrance info)
             {
                 var sb = new StringBuilder();
                 info.HtmlDocument.ToHtml(sb);
                 Html = sb.ToString();
             }
-            else if (InfoEntrance is IUrlEntrance urle)
+            else if (Controller is IUrlEntrance urle)
             {
                 Url = urle.HtmlUrl;
                 SubUrlRequested += OnSubUrlRequested;
 
                 if (Url.Contains("://"))
                 {
-                    ViewModel.SetIsBusy(true);
-                    LoadCompleted += () => ViewModel.SetIsBusy(false);
+                    ViewModel.IsBusy = true;
+                    LoadCompleted += () => ViewModel.IsBusy = false;
                 }
             }
         }
@@ -184,7 +183,7 @@ namespace HandSchool.Views
         /// <param name="url">子链接</param>
         private void OnSubUrlRequested(string url)
         {
-            if (InfoEntrance is IUrlEntrance iu)
+            if (Controller is IUrlEntrance iu)
             {
                 OnEntranceRequested(iu.SubUrlRequested(url));
             }

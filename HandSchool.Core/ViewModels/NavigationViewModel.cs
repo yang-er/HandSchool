@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Views;
 using System;
 
 namespace HandSchool.ViewModels

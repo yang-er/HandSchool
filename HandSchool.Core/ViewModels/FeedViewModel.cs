@@ -1,10 +1,11 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -26,7 +27,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载消息的命令
         /// </summary>
-        public CommandAction LoadItemsCommand { get; set; }
+        public ICommand LoadItemsCommand { get; set; }
 
         /// <summary>
         /// 视图模型的实例

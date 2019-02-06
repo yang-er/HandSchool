@@ -1,14 +1,13 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
+using HandSchool.JLU.InfoQuery;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using HandSchool.JLU.InfoQuery;
 
 [assembly: RegisterService(typeof(LibraryRent))]
 namespace HandSchool.JLU.InfoQuery
@@ -31,6 +30,8 @@ namespace HandSchool.JLU.InfoQuery
         const string configUsername = "jlu.lib.username.txt";
         const string configPassword = "jlu.lib.password.txt";
         const string ErrorMessagePattern = @"<font color=""red"">(\S+)</font>";
+        const string toReplace = "http://202.198.25.5:8080";
+        const string beReplace = "https://lib.jlu.xylab.fun";
 
         public string HtmlUrl { get; set; }
         public byte[] OpenWithPost => null;
@@ -52,6 +53,7 @@ namespace HandSchool.JLU.InfoQuery
             HtmlUrl = subUrl;
         }
         
+        [ToFix("param?")]
         public static async Task RequestRentInfo(object o)
         {
             var rentInfo = new LoginDispatcher();
@@ -71,7 +73,9 @@ namespace HandSchool.JLU.InfoQuery
 
         private class LoginDispatcher : NotifyPropertyChanged, ILoginField
         {
-            private AwaredWebClient WebClient { get; set; }
+            #region ILoginField
+
+            private IWebClient WebClient { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
             public bool IsLogin { get; private set; }
@@ -96,7 +100,7 @@ namespace HandSchool.JLU.InfoQuery
                 set
                 {
                     SetProperty(ref save_password, value);
-                    if (!value) SetProperty(ref auto_login, true, nameof(AutoLogin));
+                    if (!value) SetProperty(ref auto_login, false, nameof(AutoLogin));
                 }
             }
 
@@ -113,6 +117,8 @@ namespace HandSchool.JLU.InfoQuery
                 Password = Core.Configure.Read(configPassword);
             }
 
+            #endregion
+            
             public async Task<bool> Login()
             {
                 if (Username == "" || Password == "")
@@ -126,20 +132,20 @@ namespace HandSchool.JLU.InfoQuery
                     Core.Configure.Write(configPassword, SavePassword ? Password : "");
                 }
 
-                WebClient?.Dispose();
-                WebClient = new AwaredWebClient("http://" + Domain, Encoding.UTF8);
+                WebClient = Core.New<IWebClient>();
                 WebClient.Cookie.Add(new Cookie("xc", "5", "/", Domain));
                 WebClient.Cookie.Add(new Cookie("mgid", "274", "/", Domain));
                 WebClient.Cookie.Add(new Cookie("maid", "920", "/", Domain));
-
-                // Access Main Page To Create a JSESSIONID
+                
                 try
                 {
                     var realPost = PostValueBegin.Replace("`uname`", Username)
                                                  .Replace("`pwd`", Password);
-                    var result = await WebClient.PostAsync(LoginPath + "opacLogin.jspx", realPost, PostType, "*/*");
-
-                    if (result != "" && WebClient.Location == "")
+                    var reqMeta = new WebRequestMeta(LoginPath + "opacLogin.jspx", "*/*");
+                    var resp = await WebClient.PostAsync(reqMeta, realPost, PostType);
+                    var result = await resp.ReadAsStringAsync();
+                    
+                    if (result != "" && resp.Location == "")
                     {
                         var errMsg = Regex.Match(result, ErrorMessagePattern).Groups[1].Value;
                         var eventArgs = new LoginStateEventArgs(LoginState.Failed, errMsg);
@@ -148,20 +154,15 @@ namespace HandSchool.JLU.InfoQuery
                         return false;
                     }
                     
-                    await WebClient.GetAsync(WebClient.Location, "*/*");
-                    RedirectUrl = WebClient.Location.Replace("http://202.198.25.5:8080", "https://lib.jlu.xylab.fun");
+                    var resp2 = await WebClient.GetAsync(resp.Location, "*/*");
+                    RedirectUrl = resp2.Location.Replace(toReplace, beReplace);
                 }
-                catch (WebException ex)
+                catch (WebsException ex)
                 {
-                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
-                    return false;
-                }
-                catch (ContentAcceptException ex)
-                {
-                    var error = "图书馆的服务器似乎出了点问题……";
-                    if (ex.Current != "")
-                        error += "服务器未知响应：" + ex.Data + "，请联系开发者。";
-                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, error));
+                    string tips = null;
+                    if (ex.Status == WebStatus.MimeNotMatch)
+                        tips = "图书馆的服务器似乎出了点问题……\n服务器响应未知，请联系开发者。";
+                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex, tips));
                     return false;
                 }
 

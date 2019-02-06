@@ -2,8 +2,11 @@
 using HandSchool.ViewModels;
 using System.Threading.Tasks;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
+    /// <summary>
+    /// 视图模型的拓展方法。
+    /// </summary>
     public static class ViewModelExtensions
     {
         /// <summary>

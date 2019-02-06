@@ -1,7 +1,8 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Views;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HandSchool.ViewModels
 {
@@ -14,7 +15,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 登录命令
         /// </summary>
-        public CommandAction LoginCommand { get; set; }
+        public ICommand LoginCommand { get; set; }
 
         /// <summary>
         /// 操作表单
@@ -48,7 +49,8 @@ namespace HandSchool.ViewModels
             {
                 var viewModel = new LoginViewModel(form);
                 viewModel.LoginCommand = new CommandAction(viewModel.Login);
-                viewModel.Page = Core.Platform.CreateLoginPage(viewModel);
+                viewModel.Page = Core.Reflection.CreateInstance<ILoginPage>();
+                viewModel.Page.SetNavigationArguments(viewModel);
 
                 if (CurrentTask != null) await CurrentTask;
                 CurrentTask = new Task(() => { });

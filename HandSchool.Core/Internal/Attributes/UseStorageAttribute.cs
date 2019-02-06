@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 类使用的文件的注册特性，用于清空设置文件。

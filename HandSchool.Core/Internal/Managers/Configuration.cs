@@ -1,10 +1,18 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
+    /// <summary>
+    /// 提供配置文件的相关功能。
+    /// </summary>
+    [ToFix("需要支持多个终端的配置")]
     public class ConfigurationManager
     {
+        /// <summary>
+        /// 根据目录构造一个配置管理器，提供相关功能。
+        /// </summary>
+        /// <param name="directory">目录名</param>
         public ConfigurationManager(string directory)
         {
             Directory = directory;
@@ -14,6 +22,11 @@ namespace HandSchool.Internal
         /// 数据基础目录
         /// </summary>
         public string Directory { get; }
+
+        /// <summary>
+        /// 目前的配置上下文
+        /// </summary>
+        public int Context { get; }
 
         /// <summary>
         /// 从文件读取配置数据。

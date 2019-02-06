@@ -1,11 +1,10 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 [assembly: RegisterService(typeof(MessageEntrance))]
@@ -31,10 +30,9 @@ namespace HandSchool.JLU.Services
                 MessageViewModel.Instance.Clear();
                 MessageViewModel.Instance.AddRange(from asv in ro.items select new MessageItem(asv));
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
-                await MessageViewModel.Instance.ShowTimeoutMessage();
+                await MessageViewModel.Instance.RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
         }
         
@@ -45,10 +43,9 @@ namespace HandSchool.JLU.Services
                 var postArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id + "\"]}";
                 await Core.App.Service.Post(messageReadUrl, postArgs);
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
-                await MessageViewModel.Instance.ShowTimeoutMessage();
+                await MessageViewModel.Instance.RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
         }
 
@@ -58,10 +55,9 @@ namespace HandSchool.JLU.Services
             {
                 await Core.App.Service.Post(messageDeleteUrl, $"{{\"idList\":[\"{id}\"]}}");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
-                await MessageViewModel.Instance.ShowTimeoutMessage();
+                await MessageViewModel.Instance.RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
             }
         }
     }

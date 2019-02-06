@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
-using HandSchool.Internal;
+using HandSchool.Internals;
 using Dict = System.Collections.Generic.Dictionary<string, string>;
 
 namespace HandSchool.JLU.JsonObject

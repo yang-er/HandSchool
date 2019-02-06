@@ -21,6 +21,10 @@ namespace HandSchool.Models
         /// </summary>
         public string GroupTitle { get; set; }
 
+        /// <summary>
+        /// 返回一个字符串表示当前对象。
+        /// </summary>
+        /// <returns>当前对象</returns>
         public override string ToString()
         {
             return GroupTitle;

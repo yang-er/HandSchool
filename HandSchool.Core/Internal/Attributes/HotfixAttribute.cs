@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 模块热更新的标记数据。
@@ -19,6 +17,11 @@ namespace HandSchool.Internal
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class HotfixAttribute : Attribute
     {
+        /// <summary>
+        /// 网络客户端
+        /// </summary>
+        private static IWebClient WebClient { get; set; }
+
         /// <summary>
         /// 更新源
         /// </summary>
@@ -50,32 +53,35 @@ namespace HandSchool.Internal
 
             try
             {
-                using (var wc = new AwaredWebClient("", System.Text.Encoding.UTF8))
+                if (WebClient is null)
                 {
-                    wc.Timeout = 5000;
-                    var new_meta = await wc.DownloadStringTaskAsync(UpdateSource);
-                    var meta_exp = new_meta.Split(new[] { ';' }, 2);
-                    var local_meta = Core.Configure.Read(LocalStorage + ".ver");
-
-                    if (force)
-                    {
-                        force = true;
-                    }
-                    else if (local_meta == "")
-                    {
-                        force = true;
-                    }
-                    else if (local_meta.Split(new[] { ';' }, 2)[0] != meta_exp[0])
-                    {
-                        force = true;
-                    }
+                    WebClient = Core.New<IWebClient>();
+                    WebClient.Timeout = 5000;
+                }
                 
-                    if (force)
-                    {
-                        Core.Configure.Write(LocalStorage + ".ver", new_meta);
-                        await wc.DownloadFileTaskAsync(meta_exp[1], Path.Combine(Core.Configure.Directory, LocalStorage));
-                        Core.Logger.WriteLine("Hotfix", "Module successfully updated - " + LocalStorage);
-                    }
+                var new_meta = await WebClient.GetStringAsync(UpdateSource);
+                var meta_exp = new_meta.Split(new[] { ';' }, 2);
+                var local_meta = Core.Configure.Read(LocalStorage + ".ver");
+
+                if (force)
+                {
+                    force = true;
+                }
+                else if (local_meta == "")
+                {
+                    force = true;
+                }
+                else if (local_meta.Split(new[] { ';' }, 2)[0] != meta_exp[0])
+                {
+                    force = true;
+                }
+                
+                if (force)
+                {
+                    Core.Configure.Write(LocalStorage + ".ver", new_meta);
+                    var fileResp = await WebClient.GetAsync(meta_exp[1]);
+                    await fileResp.WriteToFileAsync(Path.Combine(Core.Configure.Directory, LocalStorage));
+                    Core.Logger.WriteLine("Hotfix", "Module successfully updated - " + LocalStorage);
                 }
             }
             catch (Exception ex)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HandSchool.Internal.HtmlObject
+namespace HandSchool.Internals.HtmlObject
 {
     /// <summary>
     /// 表示表单的 HTML 对象

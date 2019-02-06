@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using System;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,11 +10,40 @@ namespace HandSchool.Views
     /// </summary>
     public class MenuEntry : BindableObject
     {
+        #region Bindable Properties
+
         public static readonly BindableProperty CommandProperty =
             BindableProperty.Create(
                 propertyName: nameof(Command),
                 returnType: typeof(ICommand),
                 declaringType: typeof(MenuEntry));
+
+        public static readonly BindableProperty HiddenForPullProperty =
+            BindableProperty.Create(
+                propertyName: nameof(HiddenForPull),
+                returnType: typeof(bool),
+                declaringType: typeof(MenuEntry));
+
+        public static readonly BindableProperty OrderProperty =
+            BindableProperty.Create(
+                propertyName: nameof(Order),
+                returnType: typeof(ToolbarItemOrder),
+                declaringType: typeof(MenuEntry),
+                defaultValue: ToolbarItemOrder.Default);
+
+        public static readonly BindableProperty UWPIconProperty =
+            BindableProperty.Create(
+                propertyName: nameof(UWPIcon),
+                returnType: typeof(string),
+                declaringType: typeof(MenuEntry));
+
+        public static readonly BindableProperty TitleProperty =
+            BindableProperty.Create(
+                propertyName: nameof(Title),
+                returnType: typeof(string),
+                declaringType: typeof(MenuEntry));
+
+        #endregion
 
         /// <summary>
         /// 菜单项承载运行的命令
@@ -25,12 +54,6 @@ namespace HandSchool.Views
             set => SetValue(CommandProperty, value);
         }
 
-        public static readonly BindableProperty TitleProperty =
-            BindableProperty.Create(
-                propertyName: nameof(Title),
-                returnType: typeof(string),
-                declaringType: typeof(MenuEntry));
-
         /// <summary>
         /// 菜单项的标题
         /// </summary>
@@ -39,12 +62,6 @@ namespace HandSchool.Views
             get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
-
-        public static readonly BindableProperty HiddenForPullProperty =
-            BindableProperty.Create(
-                propertyName: nameof(HiddenForPull),
-                returnType: typeof(bool),
-                declaringType: typeof(MenuEntry));
 
         /// <summary>
         /// 在支持下拉刷新的平台上隐藏
@@ -55,12 +72,6 @@ namespace HandSchool.Views
             set => SetValue(HiddenForPullProperty, value);
         }
 
-        public static readonly BindableProperty UWPIconProperty =
-            BindableProperty.Create(
-                propertyName: nameof(UWPIcon),
-                returnType: typeof(string),
-                declaringType: typeof(MenuEntry));
-
         /// <summary>
         /// 在UWP上显示的图标Unicode
         /// </summary>
@@ -69,13 +80,6 @@ namespace HandSchool.Views
             get => (string)GetValue(UWPIconProperty);
             set => SetValue(UWPIconProperty, value);
         }
-
-        public static readonly BindableProperty OrderProperty =
-            BindableProperty.Create(
-                propertyName: nameof(Order),
-                returnType: typeof(ToolbarItemOrder),
-                declaringType: typeof(MenuEntry),
-                defaultValue: ToolbarItemOrder.Default);
 
         /// <summary>
         /// 在工具栏里的位置

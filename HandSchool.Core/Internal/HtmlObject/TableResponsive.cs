@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms.Internals;
 
-namespace HandSchool.Internal.HtmlObject
+namespace HandSchool.Internals.HtmlObject
 {
     /// <summary>
     /// 响应式数据表格。

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HandSchool.Internal.HtmlObject;
-using HandSchool.Internal;
+using HandSchool.Internals.HtmlObject;
+using HandSchool.Internals;
 
 namespace HandSchool.UnitTest
 {
     [TestClass]
-    public class HtmlObjectTest
+    public class HtmlObject
     {
         [TestMethod]
-        public void SelectTestMethod()
+        public void Select()
         {
             var tcmTypeSelect = new Select("tcmType")
             {
@@ -52,7 +52,7 @@ namespace HandSchool.UnitTest
         }
 
         [TestMethod]
-        public void EnumerableAdapterTestMethod()
+        public void EnumerableAdapter()
         {
             var adapted = new EnumerableAdapter(CreateSampleData());
             var sb = new StringBuilder();
@@ -62,7 +62,7 @@ namespace HandSchool.UnitTest
         }
 
         [TestMethod]
-        public void TableResponsiveTestMethod()
+        public void TableResponsive()
         {
             var progList = new TableResponsive(bodyId: "progList")
             {

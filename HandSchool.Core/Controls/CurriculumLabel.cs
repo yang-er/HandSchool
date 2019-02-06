@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -122,15 +122,16 @@ namespace HandSchool.Views
                 GestureRecognizers.Add(new TapGestureRecognizer
                 {
                     Command = new CommandAction(EditCurriculum),
-                    NumberOfTapsRequired = 2
+                    NumberOfTapsRequired = 2,
                 });
             }
         }
         
         private async Task EditCurriculum()
         {
-            // var page = new CurriculumPage(Context as CurriculumItem);
-            // await Navigation.PushAsync(page);
+            var page = Core.Reflection.CreateInstance<ICurriculumPage>();
+            page.SetNavigationArguments(Context as CurriculumItem, false);
+            await page.ShowAsync();
         }
 
         public Color GetColor()
@@ -139,8 +140,10 @@ namespace HandSchool.Views
             return Color.FromHex(ScheduleColors[ColorId % 8]);
         }
 
-        static readonly string[] ScheduleColors = {
+        static readonly string[] ScheduleColors =
+        {
             "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65",
-            "#9fa8da", "#42a5f5", "#80deea", "#c6de7c" };
+            "#9fa8da", "#42a5f5", "#80deea", "#c6de7c"
+        };
     }
 }

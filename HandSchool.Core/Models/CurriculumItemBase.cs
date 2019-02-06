@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using System.Collections.Generic;
 
 namespace HandSchool.Models

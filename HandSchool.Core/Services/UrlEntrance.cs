@@ -12,17 +12,7 @@ namespace HandSchool.Services
         /// 使用的网址
         /// </summary>
         string HtmlUrl { get; set; }
-
-        /// <summary>
-        /// 开启页面自带的POST内容。如果为NULL则GET。
-        /// </summary>
-        byte[] OpenWithPost { get; }
-
-        /// <summary>
-        /// 页面使用的cookie
-        /// </summary>
-        List<string> Cookie { get; }
-
+        
         /// <summary>
         /// 处理子网页的出现
         /// </summary>

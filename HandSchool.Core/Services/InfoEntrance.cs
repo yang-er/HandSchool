@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals.HtmlObject;
 
 namespace HandSchool.Services
 {

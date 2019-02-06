@@ -1,8 +1,11 @@
-﻿using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals.HtmlObject;
 using System.Text;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
+    /// <summary>
+    /// 提供HTML对象的写法拓展方法。
+    /// </summary>
     public static class HtmlObjectExtensions
     {
         /// <summary>

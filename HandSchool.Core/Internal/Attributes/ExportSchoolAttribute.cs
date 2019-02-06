@@ -1,7 +1,10 @@
 ﻿using System;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
+    /// <summary>
+    /// 学校程序集导出学校的标志。
+    /// </summary>
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     public sealed class ExportSchoolAttribute : Attribute
     {

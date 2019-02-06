@@ -4,7 +4,6 @@
               xmlns:w="clr-namespace:HandSchool.Views"
               x:Class="HandSchool.Views.FeedPage"
               UseTabletMode="True"
-              UseCustomLoading="True"
               Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />

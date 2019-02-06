@@ -1,5 +1,5 @@
-﻿using HandSchool.Internal;
-using HandSchool.Internal.HtmlObject;
+﻿using HandSchool.Internals;
+using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
@@ -98,7 +98,12 @@ namespace HandSchool.JLU.InfoQuery
                 }
             };
 
-            Menu.Add(new InfoEntranceMenu("加载", new CommandAction(SolveLessonList), "\uE721"));
+            Menu.Add(new HandSchool.Views.MenuEntry
+            {
+                Title = "加载",
+                UWPIcon = "\uE721",
+                Command = new CommandAction(SolveLessonList)
+            });
         }
 
         private async Task SolveLessonList()

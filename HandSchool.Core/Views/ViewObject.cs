@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.ViewModels;
 using Microcharts;
 using System;
@@ -15,8 +15,10 @@ namespace HandSchool.Views
     /// 一个既可以在Xamarin.Forms环境中使用，也可以在本机环境下使用的视图基类。
     /// </summary>
 	[ContentProperty("Content")]
-    public class ViewObject : BindableObject, IViewPage
+    public class ViewObject : BindableObject, IViewPage, IViewLifecycle
     {
+        #region Bindable Properties
+
         public static readonly BindableProperty TitleProperty =
             BindableProperty.Create(
                 propertyName: nameof(Title),
@@ -25,14 +27,14 @@ namespace HandSchool.Views
                 defaultValue: default(string),
                 defaultBindingMode: BindingMode.OneWay);
 
-        public static readonly BindableProperty UseCustomLoadingProperty =
+        public static readonly BindableProperty IsBusyProperty =
             BindableProperty.Create(
-                propertyName: nameof(UseCustomLoading),
+                propertyName: nameof(IsBusy),
                 returnType: typeof(bool),
                 declaringType: typeof(ViewObject),
                 defaultValue: false,
                 defaultBindingMode: BindingMode.OneWay);
-
+        
         public static readonly BindableProperty UseTabletModeProperty =
             BindableProperty.Create(
                 propertyName: nameof(UseTabletMode),
@@ -49,13 +51,15 @@ namespace HandSchool.Views
                 defaultValue: false,
                 defaultBindingMode: BindingMode.OneWay);
 
+        #endregion
+
         /// <summary>
-        /// 是否自定义加载动画
+        /// 是否正在忙
         /// </summary>
-        public bool UseCustomLoading
+        public bool IsBusy
         {
-            get => (bool)GetValue(UseCustomLoadingProperty);
-            protected set => SetValue(UseCustomLoadingProperty, value);
+            get => (bool)GetValue(IsBusyProperty);
+            set => SetValue(IsBusyProperty, value);
         }
 
         /// <summary>
@@ -160,13 +164,22 @@ namespace HandSchool.Views
         /// </summary>
         public event EventHandler Appearing;
         
+        /// <summary>
+        /// 是否为模态页面
+        /// </summary>
         public bool IsModal { get; set; }
 
+        /// <summary>
+        /// 页面显示时处理。
+        /// </summary>
         protected virtual void OnAppearing()
         {
             Appearing?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// 页面消失时处理。
+        /// </summary>
         protected virtual void OnDisappearing()
         {
             Disappearing?.Invoke(this, EventArgs.Empty);

@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
@@ -40,26 +40,10 @@ namespace HandSchool.UWP
         private void Frame_Navigated(object sender, NavigationEventArgs args)
         {
             Debug.Assert(args.SourcePageType.IsSubclassOf(typeof(ViewPage)));
-            var currentPage = args.Content as IViewPage;
+            var currentPage = args.Content as IViewLifecycle;
             currentPage.RegisterNavigation(this);
         }
-
-        /// <summary>
-        /// 在导航栈内推入页面。
-        /// </summary>
-        /// <param name="page">推入栈内的页面</param>
-        public Task PushAsync(IViewPage page)
-        {
-            if (page is ViewDialog dialog)
-            {
-                return dialog.ShowAsync().AsTask();
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-        }
-
+        
         public Task PushAsync(string pageType, object param)
         {
             var type = Core.Reflection.TryGetType(pageType);
@@ -83,7 +67,7 @@ namespace HandSchool.UWP
             }
             else if (typeof(ViewObject).IsAssignableFrom(pageType))
             {
-                InnerFrame.Navigate(typeof(PackagedPage), new ValueTuple<Type, object>(pageType, param));
+                InnerFrame.Navigate(typeof(PackagedPage), (pageType, param));
             }
 
             return Task.CompletedTask;

@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
@@ -15,7 +15,8 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "图书馆藏查询", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
     internal class LibrarySearch : BaseController, IUrlEntrance
     {
-        const string OriginalUrl = "https://lib.jlu.xylab.fun/sms/opac/search/showiphoneSearch.action";
+        const string OriginalUrl = "https://lib.jlu.xylab.fun/" +
+            "sms/opac/search/showiphoneSearch.action";
 
         public string HtmlUrl { get; set; }
         public byte[] OpenWithPost => null;
@@ -34,8 +35,14 @@ namespace HandSchool.JLU.InfoQuery
 
         public LibrarySearch() : this(OriginalUrl)
         {
-            var cmd = new CommandAction(LibraryRent.RequestRentInfo);
-            Menu.Add(new InfoEntranceMenu("我的借阅", cmd, "\uE7BE"));
+            var cmd = new Xamarin.Forms.Command(async (o) => await LibraryRent.RequestRentInfo(o));
+
+            Menu.Add(new HandSchool.Views.MenuEntry
+            {
+                Title = "我的借阅",
+                UWPIcon = "\uE7BE",
+                Command = cmd
+            });
         }
 
         public LibrarySearch(string subUrl)

@@ -1,6 +1,6 @@
-﻿using HandSchool.Internal;
-using System;
+﻿using System;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace HandSchool.Models
 {
@@ -47,16 +47,16 @@ namespace HandSchool.Models
         /// <summary>
         /// 设置为已读取
         /// </summary>
-        CommandAction SetRead { get; }
+        ICommand SetRead { get; }
 
         /// <summary>
         /// 设置为未读取
         /// </summary>
-        CommandAction SetUnread { get; }
+        ICommand SetUnread { get; }
 
         /// <summary>
         /// 删除消息
         /// </summary>
-        CommandAction Delete { get; }
+        ICommand Delete { get; }
     }
 }

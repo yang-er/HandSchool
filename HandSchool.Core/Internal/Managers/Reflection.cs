@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 处理反射相关的函数，例如获取属性与创建类实例。
@@ -75,25 +75,13 @@ namespace HandSchool.Internal
         /// 注册类型信息，以供反射使用。
         /// </summary>
         /// <typeparam name="T">实际对应的类型</typeparam>
-        public void RegisterType<T>() where T : new()
+        public void RegisterCtor<T>() where T : new()
         {
             var typed = typeof(T);
             if (Registar.ContainsKey(typed.FullName)) return;
             Registar.Add(typed.FullName, typed);
             Registar.Add(typed.Name, typed);
             CtorRegistar.Add(typed.FullName, () => new T());
-        }
-
-        /// <summary>
-        /// 注册实现内容，以供反射使用。
-        /// </summary>
-        /// <typeparam name="TIn">抽象类型</typeparam>
-        /// <typeparam name="TOut">实现类型</typeparam>
-        public void RegisterImpl<TIn, TOut>()
-            where TOut : TIn, new()
-        {
-            ImplRegistar.Add(typeof(TIn).FullName, typeof(TOut));
-            CtorRegistar.Add(typeof(TOut).FullName, () => new TOut());
         }
         
         /// <summary>
@@ -158,8 +146,8 @@ namespace HandSchool.Internal
         public T CreateInstance<T>() where T : class
         {
             var guid = typeof(T).FullName;
-            Debug.Assert(ImplRegistar.ContainsKey(guid));
-            return CreateInstance<T>(ImplRegistar[guid]);
+            Debug.Assert(Registar.ContainsKey(guid));
+            return CreateInstance<T>(Registar[guid]);
         }
     }
 }

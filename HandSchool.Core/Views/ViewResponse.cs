@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using Microcharts;
 using System.ComponentModel;
 using System.Threading.Tasks;

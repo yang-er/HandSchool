@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 等待修改的特性，用于标记下一个版本的任务和已知bug等。

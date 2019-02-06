@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HandSchool.Internal
+namespace HandSchool.Internals
 {
     /// <summary>
     /// 注册服务，表示此服务可能会被用到。

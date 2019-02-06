@@ -1,7 +1,7 @@
 ﻿namespace HandSchool.Views
 {
     /// <summary>
-    /// 展示页面用的接口要求。
+    /// 展示页面用的选项卡接口要求。
     /// </summary>
     public interface IViewPresenter
     {
