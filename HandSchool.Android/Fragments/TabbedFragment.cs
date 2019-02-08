@@ -31,6 +31,7 @@ namespace HandSchool.Droid
             FragmentViewResource = Resource.Layout.layout_tabbed;
             Presenter = presenter;
             Title = presenter.Title;
+            RetainInstance = false;
         }
         
         public override void OnViewCreated(View view, Bundle savedInstanceState)
@@ -41,6 +42,19 @@ namespace HandSchool.Droid
             ViewPager.Adapter = Adapter;
             Tabbar.SetupWithViewPager(ViewPager);
             Tabbar.Visibility = ViewStates.Visible;
+            Tabbar.AddOnTabSelectedListener(Adapter);
+        }
+
+        public override void OnDetach()
+        {
+            base.OnDetach();
+            Tabbar.RemoveOnTabSelectedListener(Adapter);
+        }
+
+        public override void OnAttach(Context context)
+        {
+            base.OnAttach(context);
+            if (Adapter != null) Tabbar.AddOnTabSelectedListener(Adapter);
         }
     }
 }

@@ -55,11 +55,10 @@ namespace HandSchool.ViewModels
                 where @void.Has<SettingsAttribute>()
                 select new SettingWrapper(@void)
             ).ToList();
-
-            var Mtype = typeof(SettingViewModel);
-
-            Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
             
+            Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
+            Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
+
             SaveConfigures = new CommandAction(async () =>
             {
                 Core.App.Loader.SaveSettings(Core.App.Service);
@@ -81,6 +80,15 @@ namespace HandSchool.ViewModels
             Core.App.Service.ResetSettings();
 
             await Instance.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
+        }
+
+        /// <summary>
+        /// 测试功能
+        /// </summary>
+        [Settings("测试", "检测绑定数目。")]
+        public static async void TestBindingCounts()
+        {
+            await Instance.RequestMessageAsync("绑定数目", Instance.GetEventAttached() + "个", "好的");
         }
     }
 }

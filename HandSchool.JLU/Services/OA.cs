@@ -38,8 +38,16 @@ namespace HandSchool.JLU.Services
             bool timedOut = !DateTime.TryParse(lu, out var lastUpdate);
             if (!timedOut) timedOut = lastUpdate.AddHours(1) < DateTime.Now;
 
-            if (timedOut) await Core.App.Feed.Execute();
-            else Parse(Core.Configure.Read(configOa));
+            if (timedOut)
+            {
+                await FeedViewModel.Instance.LoadItems(false);
+                FeedViewModel.Instance.LeftPageCount = 2;
+            }
+            else
+            {
+                Parse(Core.Configure.Read(configOa));
+                FeedViewModel.Instance.LeftPageCount = 2;
+            }
         }
 
         private async Task InnerExecute(string file, bool fp)
@@ -64,17 +72,22 @@ namespace HandSchool.JLU.Services
 
         public Task Execute() => InnerExecute("feed.xml", true);
 
+        [ToFix("清理逻辑")]
         public async Task<int> Execute(int n)
         {
-            if (n == 1)
+            if (n < 1)
+            {
+                return 0;
+            }
+            else if (n == 1)
             {
                 await InnerExecute("feed.xml", true);
                 return 2;
             }
-            else if (n <= 3)
+            else if (n == 2)
             {
                 await InnerExecute($"feed{n}.xml", false);
-                return 3 - n;
+                return 0;
             }
             else
             {

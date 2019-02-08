@@ -100,5 +100,40 @@ namespace HandSchool.Views
                 intpage.Layout(size);
             }
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            foreach (var packager in Packagers)
+            {
+                packager.SendDisappearing();
+            }
+
+            ViewModel.View = null;
+            ViewModel = null;
+
+            foreach (PivotItem item in Pivot.Items)
+            {
+                (item.Content as Grid).Children.Clear();
+            }
+
+            foreach (var page in InternalPages)
+            {
+                Platform.GetRenderer(page).Dispose();
+                Platform.SetRenderer(page, null);
+                page.BindingContext = null;
+            }
+
+            foreach (var packager in Packagers)
+            {
+                packager.ViewModel = null;
+            }
+
+            InternalPages.Clear();
+            Packagers.Clear();
+
+            System.GC.Collect();
+        }
     }
 }

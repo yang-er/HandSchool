@@ -1,26 +1,45 @@
-﻿using Android.OS;
+﻿using Android.Content;
+using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
 using HandSchool.Droid;
-using HandSchool.Internal;
+using HandSchool.Internals;
 using HandSchool.ViewModels;
 using Microcharts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 
 namespace HandSchool.Views
 {
-    public class ViewFragment : Fragment, IViewPage
+    /// <summary>
+    /// 实现 <see cref="IViewPage"/> 的Android本机基础碎片。
+    /// </summary>
+    public class ViewFragment : Fragment, IViewPage, IViewLifecycle
     {
+        /// <summary>
+        /// 创建一个视图碎片。
+        /// </summary>
         public ViewFragment()
         {
             ToolbarMenu = new ToolbarMenuTracker
             {
                 List = new ObservableCollection<MenuEntry>()
             };
+            
+            RetainInstance = true;
+        }
+
+        /// <summary>
+        /// 创建一个视图碎片并初始化状态资源。
+        /// </summary>
+        /// <param name="layoutResId"></param>
+        public ViewFragment(int layoutResId) : this()
+        {
+            FragmentViewResource = layoutResId;
         }
 
         /// <summary>
@@ -31,26 +50,27 @@ namespace HandSchool.Views
         /// <summary>
         /// 页面的标题
         /// </summary>
-        public string Title { get; set; }
+        public virtual string Title { get; set; }
 
         /// <summary>
         /// 与此页面沟通的视图模型
         /// </summary>
-        public BaseViewModel ViewModel { get; set; }
+        public virtual BaseViewModel ViewModel { get; set; }
 
         /// <summary>
         /// 工具栏的菜单
         /// </summary>
-        public ToolbarMenuTracker ToolbarMenu { get; }
+        public virtual ToolbarMenuTracker ToolbarMenu { get; }
 
+        /// <summary>
+        /// 是否为模态页面
+        /// </summary>
         bool IViewPage.IsModal => false;
-
-        Xamarin.Forms.View IViewPage.Content
-        {
-            get => throw new InvalidCastException();
-            set => throw new InvalidCastException();
-        }
-
+        
+        /// <summary>
+        /// 添加工具栏菜单。
+        /// </summary>
+        /// <param name="item">菜单</param>
         public void AddToolbarEntry(MenuEntry item)
         {
             ToolbarMenu.List.Add(item);
@@ -60,7 +80,7 @@ namespace HandSchool.Views
         {
             return inflater.Inflate(FragmentViewResource, container, false);
         }
-
+        
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
@@ -75,9 +95,21 @@ namespace HandSchool.Views
             }
         }
 
-        public virtual void SetNavigationArguments(object param) { }
+        public virtual bool IsBusy { get; set; }
 
         #region 页面生命周期
+
+        public override void OnAttach(Context context)
+        {
+            base.OnAttach(context);
+            SendAppearing();
+        }
+
+        public override void OnDetach()
+        {
+            base.OnDetach();
+            SendDisappearing();
+        }
 
         /// <summary>
         /// 页面正在消失时
@@ -94,21 +126,33 @@ namespace HandSchool.Views
         /// </summary>
         public INavigate Navigation { get; private set; }
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public ToolbarMenuTracker ToolbarTracker => ToolbarMenu;
+
+        /// <summary>
+        /// 注册视图导航控制器。
+        /// </summary>
+        /// <param name="navigate">视图导航控制器</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void RegisterNavigation(INavigate navigate)
         {
-            base.OnCreate(savedInstanceState);
-            Appearing?.Invoke(this, EventArgs.Empty);
+            Navigation = navigate;
         }
 
-        public override void OnDestroy()
+        /// <summary>
+        /// 设置导航参数。
+        /// </summary>
+        /// <param name="param">导航参数</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void SetNavigationArguments(object param) { }
+
+        public virtual void SendDisappearing()
         {
-            base.OnDestroy();
             Disappearing?.Invoke(this, EventArgs.Empty);
         }
 
-        public void RegisterNavigation(INavigate navigate)
+        public virtual void SendAppearing()
         {
-            Navigation = navigate;
+            Appearing?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

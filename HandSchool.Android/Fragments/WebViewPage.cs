@@ -2,17 +2,18 @@
 using Android.Views;
 using Android.Webkit;
 using HandSchool.Droid;
-using HandSchool.Internal;
+using HandSchool.Internals;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using Java.Interop;
 using System;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HandSchool.Views
 {
-    public class WebViewPage : ViewFragment
+    public class WebViewPage : ViewFragment, IWebViewPage, INotifyPropertyChanged
     {
         public WebViewPage()
         {
@@ -26,52 +27,60 @@ namespace HandSchool.Views
         public string Uri { get; set; }
         public string Html { get; set; }
 
-        public BaseController Entrance
+        public BaseController Controller
         {
             get => ViewModel as BaseController;
             set => ViewModel = value;
         }
 
+        public override bool IsBusy
+        {
+            get => base.IsBusy;
+            set
+            {
+                if (base.IsBusy != value)
+                {
+                    base.IsBusy = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBusy)));
+                }
+            }
+        }
+
+        private void WeakBind(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(IsBusy)) IsBusy = Controller.IsBusy;
+        }
+
         public override void SetNavigationArguments(object param)
         {
-            Entrance = param as BaseController;
-            var meta = Entrance.GetType().Get<EntranceAttribute>();
+            Controller = param as BaseController;
+            Controller.View = this;
+            var meta = Controller.GetType().Get<EntranceAttribute>();
             Title = meta.Title;
             
-            if (Entrance is IInfoEntrance ie)
+            if (Controller is IInfoEntrance ie)
             {
                 var sb = new StringBuilder();
                 ie.HtmlDocument.ToHtml(sb);
                 Html = sb.ToString();
             }
-            else if (Entrance is IUrlEntrance iu)
+            else if (Controller is IUrlEntrance iu)
             {
                 Uri = iu.HtmlUrl;
 
                 if (Uri.Contains("://"))
                 {
-                    Entrance.SetIsBusy(true);
+                    Controller.IsBusy = true;
                 }
             }
 
-            foreach (var key in Entrance.Menu)
+            foreach (var key in Controller.Menu)
             {
-                /* TODO:
-                 * AddToolbarEntry(new MenuEntry
-                {
-                    Title = key.Name,
-                    Command = key.Command,
-                });
-                ToolbarItems.Add(new ToolbarItem
-                {
-                    Text = key.Name,
-                    Command = key.Command,
-                    CommandParameter = (Action<IWebEntrance>)OnEntranceRequested
-                });*/
+                AddToolbarEntry(key);
             }
 
-            Entrance.Evaluate = JavaScript;
-            Callback = Entrance.Receive;
+            Controller.Evaluate = JavaScript;
+            Callback = Controller.Receive;
         }
 
         public void JavaScript(string script)
@@ -85,7 +94,9 @@ namespace HandSchool.Views
         }
 
         const string baseUrl = "file:///android_asset/";
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
@@ -104,6 +115,7 @@ namespace HandSchool.Views
                 {
                     WebView.SetWebViewClient(new AwareWebClient(this));
                     WebView.LoadUrl(Uri);
+                    IsBusy = Controller.IsBusy = true;
                 }
                 else
                 {
@@ -115,7 +127,7 @@ namespace HandSchool.Views
         private void NotifyLoadComplete()
         {
             // TODO
-            Entrance.SetIsBusy(false);
+            IsBusy = Controller.IsBusy = false;
         }
 
         [JavascriptInterface]
@@ -127,7 +139,7 @@ namespace HandSchool.Views
         
         protected virtual void OnSubUrlRequested(string req)
         {
-            if (Entrance is IUrlEntrance iu)
+            if (Controller is IUrlEntrance iu)
             {
                 OnEntranceRequested(iu.SubUrlRequested(req));
             }

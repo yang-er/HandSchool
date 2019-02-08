@@ -108,7 +108,8 @@ namespace HandSchool.Internals
         /// <returns>本地储存的数据。</returns>
         public static string ReadContent(object obj)
         {
-            return obj.GetType().Get<HotfixAttribute>().ReadContent();
+            return obj.GetType().Get<HotfixAttribute>()?.ReadContent()
+                ?? "$(function(){invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')});";
         }
     }
 }

@@ -45,5 +45,14 @@ namespace HandSchool.Internals
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// 检测绑定数目，以调试内存泄漏。
+        /// </summary>
+        /// <returns>绑定数目</returns>
+        protected int GetEventAttached()
+        {
+            return PropertyChanged?.GetInvocationList().Length ?? 0;
+        }
     }
 }

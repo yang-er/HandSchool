@@ -9,4 +9,14 @@
   <dimen name="nav_header_vertical_spacing">8dp</dimen>
   <dimen name="nav_header_height">200dp</dimen>
   <dimen name="fab_margin">16dp</dimen>
+
+  <dimen name="text_micro">10sp</dimen>
+  <dimen name="text_mini">12sp</dimen>
+  <dimen name="text_small">14sp</dimen>
+  <dimen name="text_normal">16sp</dimen>
+  <dimen name="text_large">18sp</dimen>
+
+  <dimen name="card_view_horizontal_margin">8dp</dimen>
+  <dimen name="card_view_vertical_margin">4dp</dimen>
+  <dimen name="card_view_corner_radius">2dp</dimen>
 </resources>

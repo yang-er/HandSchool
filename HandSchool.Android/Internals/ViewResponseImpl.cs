@@ -3,7 +3,7 @@ using Android.Content;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
-using HandSchool.Internal;
+using HandSchool.Internals;
 using HandSchool.Views;
 using SkiaSharp.Views.Android;
 using System.Linq;
@@ -13,16 +13,9 @@ namespace HandSchool.Droid.Elements
 {
     public class ViewResponseImpl : IViewResponseImpl
     {
-        public Context Context { get; }
-
-        public ViewResponseImpl(Context context)
-        {
-            Context = context;
-        }
-        
         public void ReqActAsync(IViewPage sender, ActionSheetArguments args)
         {
-            var builder = new AlertDialog.Builder(Context);
+            var builder = new AlertDialog.Builder(sender.ToContext());
             builder.SetTitle(args.Title);
 
             string[] items = args.Buttons.ToArray();
@@ -45,15 +38,15 @@ namespace HandSchool.Droid.Elements
         public void ReqChtAsync(IViewPage sender, RequestChartArguments args)
         {
             // Create and assign layout
-            var builder = new AlertDialog.Builder(Context);
-            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            var builder = new AlertDialog.Builder(sender.ToContext());
+            LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
             var chartLayout = layoutInflater.Inflate(Resource.Layout.dialog_input, null);
             builder.SetView(chartLayout);
             builder.SetTitle(args.Title);
             builder.SetPositiveButton(args.Close, (IDialogInterfaceOnClickListener)null);
 
             // Set drawing content
-            args.Chart.LabelTextSize = Context.Dip2Px(12);
+            args.Chart.LabelTextSize = sender.ToContext().Dip2Px(12);
             var canvasView = chartLayout.FindViewById<SKCanvasView>(Resource.Id.skia_chart_canvas);
             canvasView.PaintSurface += (s, e) =>
             {
@@ -68,17 +61,17 @@ namespace HandSchool.Droid.Elements
             Display d = manager.DefaultDisplay;
             Window window = dialog.Window;
             WindowManagerLayoutParams param = window.Attributes;
-            param.Height = Context.Dip2Px(340);
+            param.Height = sender.ToContext().Dip2Px(340);
             param.Gravity = GravityFlags.CenterHorizontal;
             dialog.Window.Attributes = param;
         }
 
         public void ReqInpAsync(IViewPage sender, RequestInputArguments args)
         {
-            var builder = new AlertDialog.Builder(Context);
+            var builder = new AlertDialog.Builder(sender.ToContext());
             string answer = null;
 
-            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
             var inputLayout = layoutInflater.Inflate(Resource.Layout.dialog_input, null);
             builder.SetView(inputLayout);
 
@@ -100,7 +93,7 @@ namespace HandSchool.Droid.Elements
 
             dialog.ShowEvent += (s, e) =>
             {
-                var imm = (InputMethodManager)Context.GetSystemService(Context.InputMethodService);
+                var imm = (InputMethodManager)sender.ToContext().GetSystemService(Context.InputMethodService);
                 imm.ShowSoftInput(textBox, ShowFlags.Forced);
             };
 
@@ -109,7 +102,7 @@ namespace HandSchool.Droid.Elements
 
         public void ReqMsgAsync(IViewPage sender, AlertArguments args)
         {
-            AlertDialog alert = new AlertDialog.Builder(Context).Create();
+            AlertDialog alert = new AlertDialog.Builder(sender.ToContext()).Create();
             alert.SetTitle(args.Title);
             alert.SetMessage(args.Message);
 

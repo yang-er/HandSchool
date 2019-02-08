@@ -33,7 +33,8 @@
     <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis />
-    <AndroidTlsProvider>legacy</AndroidTlsProvider>
+    <AndroidTlsProvider>
+    </AndroidTlsProvider>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -86,7 +87,11 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Fragments\DemoFragment.cs" />
+    <Compile Include="Fragments\EmbeddedFragment.cs" />
     <Compile Include="Fragments\IndexPage.cs" />
+    <Compile Include="Fragments\LoginFragment.cs" />
     <Compile Include="Internals\CodeStore.cs" />
     <Compile Include="Adapters\AboutMenuItemClick.cs" />
     <Compile Include="Internals\BindViewAttribute.cs" />
@@ -112,7 +117,6 @@
     <Compile Include="Renderers\EntryCellRenderer.cs" />
     <None Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
-    <Compile Include="Fragments\IndexFragment.cs" />
     <Compile Include="Fragments\TabbedFragment.cs" />
     <Compile Include="Fragments\WebViewPage.cs" />
     <Compile Include="Widgets\ClassTableWidget.cs" />
@@ -361,6 +365,42 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\layout_index.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout_login.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_login.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\bg_login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\bg_login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\loginbg.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-land-xxhdpi\bg_login.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-land-xxxhdpi\bg_login.png">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\cell_text1.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

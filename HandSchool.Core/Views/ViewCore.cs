@@ -6,7 +6,7 @@ namespace HandSchool.Views
     /// <summary>
     /// 核心视图页面，提供了基本的绑定内容。
     /// </summary>
-    public interface IViewCore
+    public interface IViewCore : IBusySignal
     {
         /// <summary>
         /// 页面的标题
@@ -18,11 +18,6 @@ namespace HandSchool.Views
         /// </summary>
         BaseViewModel ViewModel { get; set; }
         
-        /// <summary>
-        /// 页面是否正忙
-        /// </summary>
-        bool IsBusy { get; set; }
-
         /// <summary>
         /// 工具菜单内容
         /// </summary>

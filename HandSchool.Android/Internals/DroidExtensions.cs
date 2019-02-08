@@ -23,5 +23,22 @@ namespace HandSchool.Droid
         {
             return pxValue / context.Resources.DisplayMetrics.Density;
         }
+
+        /// <summary>
+        /// 获取Android上下文
+        /// </summary>
+        /// <param name="page">页面</param>
+        /// <returns>上下文</returns>
+        public static Context ToContext(this Views.IViewPage page)
+        {
+            if (page.Navigation is BaseActivity activity)
+            {
+                return activity;
+            }
+            else
+            {
+                return PlatformImplV2.Instance.ContextStack.Peek();
+            }
+        }
     }
 }

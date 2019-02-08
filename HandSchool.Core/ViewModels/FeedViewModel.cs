@@ -19,6 +19,8 @@ namespace HandSchool.ViewModels
         static readonly Lazy<FeedViewModel> Lazy = 
             new Lazy<FeedViewModel>(() => new FeedViewModel());
 
+        private int leftPageCount;
+
         /// <summary>
         /// 消息内容列表
         /// </summary>
@@ -45,15 +47,46 @@ namespace HandSchool.ViewModels
         }
 
         /// <summary>
+        /// 剩余页面数
+        /// </summary>
+        public int LeftPageCount
+        {
+            get => leftPageCount;
+            set => SetProperty(ref leftPageCount, value, onChanged: () => OnPropertyChanged(nameof(FooterTip)));
+        }
+
+        /// <summary>
+        /// 列表底部提示
+        /// </summary>
+        public string FooterTip
+        {
+            get
+            {
+                if (IsBusy)
+                    return "正在加载中~";
+                else if (leftPageCount == 0)
+                    return "已经到底啦QAQ";
+                return "下拉加载更多……";
+            }
+        }
+
+        /// <summary>
         /// 加载消息的方法。
         /// </summary>
-        private async Task ExecuteLoadItemsCommand()
+        private Task ExecuteLoadItemsCommand() => LoadItems(false);
+
+        /// <summary>
+        /// 加载消息的方法。
+        /// </summary>
+        public async Task LoadItems(bool more)
         {
-            if (IsBusy) return; IsBusy = true;
+            if (IsBusy) return;
+            IsBusy = true;
+            int newcnt = 0;
 
             try
             {
-                await Core.App.Feed.Execute();
+                newcnt = await Core.App.Feed.Execute(more ? LeftPageCount : 1);
             }
             catch (Exception ex)
             {
@@ -63,6 +96,8 @@ namespace HandSchool.ViewModels
             {
                 IsBusy = false;
             }
+
+            LeftPageCount = newcnt;
         }
         
         #region ICollection<T> Implements

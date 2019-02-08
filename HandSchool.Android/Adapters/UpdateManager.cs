@@ -1,10 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using HandSchool.Internal;
+using HandSchool.Internals;
 using System;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HandSchool.Droid
@@ -23,6 +21,8 @@ namespace HandSchool.Droid
         }
 
         public Context Context { get; set; }
+
+        private IWebClient WebClient { get; set; }
 
         private string[] Arvgs;
         
@@ -48,13 +48,16 @@ namespace HandSchool.Droid
         {
             try
             {
-                using (var wc = new AwaredWebClient(UpdateSource, Encoding.UTF8))
+                if (WebClient is null)
                 {
-                    wc.Timeout = 3000;
-                    return await wc.DownloadStringTaskAsync("version.txt");
+                    WebClient = Core.New<IWebClient>();
+                    WebClient.Timeout = 3000;
+                    WebClient.BaseAddress = UpdateSource;
                 }
+
+                return await WebClient.GetStringAsync("version.txt");
             }
-            catch (WebException)
+            catch (WebsException)
             {
                 return "";
             }
@@ -62,6 +65,7 @@ namespace HandSchool.Droid
 
         public async void Update(bool displayNone = false, Context context = null)
         {
+            await Task.Yield();
             context = context ?? Context;
             string UpdateMsg = await GetUpdateString();
             if (UpdateMsg == "") return;

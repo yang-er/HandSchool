@@ -26,7 +26,7 @@ namespace HandSchool.Views
             set => Title = value;
         }
 
-        bool IViewCore.IsBusy
+        bool IBusySignal.IsBusy
         {
             get => ViewModel.IsBusy;
             set => ViewModel.IsBusy = value;

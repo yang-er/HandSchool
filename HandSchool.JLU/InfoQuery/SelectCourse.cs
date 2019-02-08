@@ -42,7 +42,7 @@ namespace HandSchool.JLU.InfoQuery
             HtmlDocument = new Bootstrap
             {
                 Children = { currentSplanName, courList, schList },
-                JavaScript = { HotfixAttribute.ReadContent(this) ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')" }
+                JavaScript = { HotfixAttribute.ReadContent(this) }
             };
         }
     }

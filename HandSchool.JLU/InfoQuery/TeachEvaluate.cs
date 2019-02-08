@@ -35,7 +35,7 @@ namespace HandSchool.JLU.InfoQuery
                 {
                     $"var list = []; var i = 0, len = 0; " +
                     $"var uwp = {(Core.Platform.RuntimeName == "UWP" ? "true" : "false")};",
-                    HotfixAttribute.ReadContent(this) ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')"
+                    HotfixAttribute.ReadContent(this)
                 }
             };
 

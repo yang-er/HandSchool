@@ -73,6 +73,8 @@ namespace HandSchool.Views
             ViewModel = null;
             Packager.ViewModel = null;
             Packager = null;
+            InternalPage.BindingContext = null;
+            InternalPage = null;
             System.GC.Collect();
         }
 

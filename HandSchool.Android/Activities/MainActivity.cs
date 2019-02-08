@@ -38,7 +38,10 @@ namespace HandSchool.Droid
                 menuItem2.SetChecked(true);
                 lastItemId = menuItem2.Order;
 
-                switch (menuItem.Type)
+                TransactionV3(menuItem.FragmentV3.Item1, menuItem.FragmentV3.Item2);
+                return true;
+
+                /*switch (menuItem.Type)
                 {
                     case NavMenuItemType.FragmentCore:
                         Transaction(menuItem.CreateFragmentCore());
@@ -65,7 +68,7 @@ namespace HandSchool.Droid
 
                     default:
                         return false;
-                }
+                }*/
             }
             finally
             {
@@ -80,15 +83,13 @@ namespace HandSchool.Droid
         {
             ContentViewResource = Resource.Layout.activity_main;
             XForms.Init(this, bundle);
-            new PlatformImplV2(this);
+            PlatformImplV2.Register(this);
             base.OnCreate(bundle);
             PlatformImplV2.Instance.UpdateManager.Update();
             Forwarder.NormalWay.Begin();
             Core.Configure.Write("hs.school.bin", "jlu");
             Core.Initialize();
 
-            Transaction(new Views.IndexPage());
-            
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
@@ -101,6 +102,9 @@ namespace HandSchool.Droid
             NavigationView.SetNavigationItemSelectedListener(listHandler);
             NavigationView.Menu.GetItem(0).SetChecked(true);
 
+            var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
+            TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
+            
             var firstLabel = NavigationView.GetHeaderView(0)
                 .FindViewById<Android.Widget.TextView>(Resource.Id.nav_header_first);
             firstLabel.SetBinding("Text", new Xamarin.Forms.Binding
@@ -136,7 +140,7 @@ namespace HandSchool.Droid
         {
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (s) => (this as Views.INavigate).PushAsync(typeof(IndexFragment), null)).Show();
+                .SetAction("Action", (s) => (this as Views.INavigate).PushAsync(typeof(DemoFragment), null)).Show();
         }
     }
 }

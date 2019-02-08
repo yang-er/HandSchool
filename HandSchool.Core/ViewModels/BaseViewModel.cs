@@ -10,7 +10,7 @@ namespace HandSchool.ViewModels
     /// </summary>
     /// <inheritdoc cref="NotifyPropertyChanged" />
     /// <inheritdoc cref="IViewResponse" />
-    public class BaseViewModel : NotifyPropertyChanged, IViewResponse
+    public class BaseViewModel : NotifyPropertyChanged, IViewResponse, IBusySignal
     {
         bool isBusy = false;
         string title = string.Empty;

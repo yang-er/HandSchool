@@ -49,7 +49,7 @@ namespace HandSchool.ViewModels
             {
                 var viewModel = new LoginViewModel(form);
                 viewModel.LoginCommand = new CommandAction(viewModel.Login);
-                viewModel.Page = Core.Reflection.CreateInstance<ILoginPage>();
+                viewModel.Page = Core.New<ILoginPage>();
                 viewModel.Page.SetNavigationArguments(viewModel);
 
                 if (CurrentTask != null) await CurrentTask;

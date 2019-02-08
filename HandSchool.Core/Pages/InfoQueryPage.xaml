@@ -15,8 +15,7 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <w:TextCell Title="{Binding Name}"
-                            Detail="{Binding Description}"
-                            PreferedCardView="False" />
+                            Detail="{Binding Description}" />
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

@@ -4,7 +4,7 @@ using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
-using HandSchool.Internal;
+using HandSchool.Internals;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
@@ -20,63 +20,54 @@ namespace HandSchool.Droid
 {
     public class BaseActivity : AppCompatActivity, INavigate
     {
-        public BaseViewModel ViewModel
-        {
-            get => _viewModel;
-            set => SetViewModel(value);
-        }
+        #region UI Elements
 
-        private void SetViewModel(BaseViewModel value)
-        {
-            if (_viewModel != null)
-            {
-                //_viewModel.IsBusyChanged -= s;
-                // _viewModel.
-            }
-
-            _viewModel = value;
-        }
-
-        private BaseViewModel _viewModel;
-
+        /// <summary>
+        /// 工具栏
+        /// </summary>
         [BindView(Resource.Id.toolbar)]
         public AToolbar Toolbar { get; set; }
 
+        /// <summary>
+        /// 进度条
+        /// </summary>
         [BindView(Resource.Id.main_progress_bar)]
         public ProgressBar ProgressBar { get; set; }
 
+        /// <summary>
+        /// 工具栏布局
+        /// </summary>
         [BindView(Resource.Id.appbar_layout)]
         public AppBarLayout AppBarLayout { get; set; }
 
+        /// <summary>
+        /// 选项卡
+        /// </summary>
         [BindView(Resource.Id.sliding_tabs)]
         public TabLayout Tabbar { get; set; }
 
+        /// <summary>
+        /// 布局所需要的资源
+        /// </summary>
         protected int ContentViewResource { get; set; }
 
+        #endregion
+
+        public BaseViewModel ViewModel { get; set; }
+        
         #region Fragment Transaction
 
         private ToolbarMenuTracker MenuTracker { get; set; }
-
-        private Guid? ViewObjectIdentity;
-
-        private static readonly Dictionary<Guid, ViewObject>
-            TransactionSource = new Dictionary<Guid, ViewObject>();
-
-        protected void Transaction(SupportFragment fragment)
+        
+        protected void TransactionV3(SupportFragment fragment, IViewCore core)
         {
-            RemoveViewObject();
-
-            if (fragment is IViewCore core)
-            {
-                SupportActionBar.Title = core.Title;
-                ViewModel = core.ViewModel;
-            }
+            ClearOldStates();
 
             if (fragment is TabbedFragment tabbed)
             {
                 tabbed.Tabbar = Tabbar;
             }
-
+            
             var transition = SupportFragmentManager.BeginTransaction();
             transition.Replace(Resource.Id.frame_layout, fragment);
             transition.Commit();
@@ -86,56 +77,39 @@ namespace HandSchool.Droid
                 Tabbar.Visibility = ViewStates.Gone;
             }
 
+            if (core != null)
+            {
+                SupportActionBar.Title = core.Title;
+                ViewModel = core.ViewModel;
+                MenuTracker = core.ToolbarTracker;
+                if (MenuTracker != null)
+                    MenuTracker.Changed += ReloadToolbarMenu;
+            }
+
+            if (core is IViewLifecycle pg)
+            {
+                pg.RegisterNavigation(this);
+            }
+
+            if (fragment is INotifyPropertyChanged npc)
+            {
+                npc.PropertyChanged += HandBind;
+            }
+
             ReloadToolbarMenu(this, EventArgs.Empty);
         }
 
-        protected void Transaction(ViewFragment fragment)
+        protected void Transaction(SupportFragment fragment)
         {
-            fragment.RegisterNavigation(this);
-            Transaction(fragment as SupportFragment);
-            MenuTracker = fragment.ToolbarMenu;
-            MenuTracker.Changed += ReloadToolbarMenu;
+            TransactionV3(fragment, fragment as IViewCore);
         }
-
+        
         protected void Transaction(ViewObject viewPage)
         {
-            var internalPage = new Xamarin.Forms.ContentPage
-            {
-                Content = viewPage.Content,
-                BindingContext = viewPage.ViewModel,
-            };
-
-            viewPage.RegisterNavigation(this);
-            SupportActionBar.Title = viewPage.Title;
-            //viewPage.PropertyChanged += ViewPropChanged;
-            ViewModel = viewPage.ViewModel;
-
-            Transaction(internalPage.CreateSupportFragment(this));
-            MenuTracker = viewPage.ToolbarTracker;
-            MenuTracker.Changed += ReloadToolbarMenu;
-            var currentIdentity = Guid.NewGuid();
-            TransactionSource.Add(currentIdentity, viewPage);
-            ViewObjectIdentity = currentIdentity;
+            var fm = new EmbeddedFragment(viewPage, this);
+            TransactionV3(fm, viewPage);
         }
-
-        private void RemoveViewObject()
-        {
-            // If the activity is using a viewObject...
-            if (ViewObjectIdentity.HasValue)
-            {
-                //var vm = TransactionSource[ViewObjectIdentity.Value].ViewModel;
-                //vm.PropertyChanged -= ViewPropChanged;
-                TransactionSource.Remove(ViewObjectIdentity.Value);
-                ViewObjectIdentity = null;
-            }
-
-            if (MenuTracker != null)
-            {
-                MenuTracker.Changed -= ReloadToolbarMenu;
-                MenuTracker = null;
-            }
-        }
-
+        
         private void ReloadToolbarMenu(object sender, EventArgs args)
         {
             InvalidateOptionsMenu();
@@ -158,6 +132,19 @@ namespace HandSchool.Droid
             }
 
             return base.OnCreateOptionsMenu(menu);
+        }
+
+        private void HandBind(object sender, PropertyChangedEventArgs args)
+        {
+            var busySignal = sender as IBusySignal;
+            
+            switch (args.PropertyName)
+            {
+                case "IsBusy":
+                    ProgressBar.Visibility = busySignal.IsBusy
+                        ? ViewStates.Visible : ViewStates.Invisible;
+                    break;
+            }
         }
 
         #endregion
@@ -230,7 +217,7 @@ namespace HandSchool.Droid
             if (!(Toolbar.Parent is CollapsingToolbarLayout))
                 SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
-            PlatformImplV2.Instance.SetViewResponseImpl(new Elements.ViewResponseImpl(this));
+            PlatformImplV2.Instance.SetContext(this);
 
             if (Intent.HasExtra(BroadcastedArgument))
             {
@@ -239,12 +226,29 @@ namespace HandSchool.Droid
                 OnNavigatedParameter(ArgumentBroadcastSource[guid]);
             }
         }
-        
+
+        private void ClearOldStates()
+        {
+            if (MenuTracker != null)
+            {
+                MenuTracker.Changed -= ReloadToolbarMenu;
+                MenuTracker = null;
+            }
+
+            foreach (var fg in SupportFragmentManager.Fragments)
+            {
+                if (fg is INotifyPropertyChanged inpc)
+                {
+                    inpc.PropertyChanged -= HandBind;
+                }
+            }
+        }
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            RemoveViewObject();
-            PlatformImplV2.Instance.SetViewResponseImpl(null);
+            ClearOldStates();
+            PlatformImplV2.Instance.SetContext(null);
         }
 
         private class ToolbarBackListener : Java.Lang.Object, View.IOnClickListener

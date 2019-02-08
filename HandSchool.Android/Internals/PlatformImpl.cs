@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Content;
 using HandSchool.Droid.Elements;
-using HandSchool.Internal;
-using HandSchool.Models;
-using HandSchool.ViewModels;
+using HandSchool.Internals;
 using HandSchool.Views;
+using System;
+using System.Collections.Generic;
 using SysEnv = System.Environment;
 
 namespace HandSchool.Droid
@@ -26,7 +16,7 @@ namespace HandSchool.Droid
 
         public UpdateManager UpdateManager { get; }
 
-        private Stack<ViewResponseImpl> ImplStack { get; }
+        public Stack<Context> ContextStack { get; }
 
         public static List<NavMenuItemV2> NavigationItems { get; } = new List<NavMenuItemV2>();
 
@@ -38,35 +28,42 @@ namespace HandSchool.Droid
             });
 
         public static List<NavMenuItemV2> NavigationItemsSec => LazySec.Value;
-
-        public override IViewResponseImpl ViewResponseImpl
+        
+        public void SetContext(Context impl)
         {
-            get => ImplStack.Peek();
-            protected set { /* No response! */ }
-        }
-
-        public void SetViewResponseImpl(ViewResponseImpl impl)
-        {
-            if (impl is null && ImplStack.Count > 0)
-                ImplStack.Pop();
+            if (impl is null && ContextStack.Count > 0)
+                ContextStack.Pop();
             else if (impl != null)
-                ImplStack.Push(impl);
+                ContextStack.Push(impl);
         }
 
-        public PlatformImplV2(Context context)
+        private PlatformImplV2(Context context)
         {
             Context = context;
             RuntimeName = "Android";
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
             ConfigureDirectory = SysEnv.GetFolderPath(SysEnv.SpecialFolder.Personal);
             Core.InitPlatform(Instance = this);
-            Core.Reflection.RegisterType<AboutPage>();
-            Core.Reflection.RegisterType<WebViewPage>();
-            Core.Reflection.RegisterType<MessagePresenter>();
+
+            Core.Reflection.RegisterCtor<AboutPage>();
+            Core.Reflection.RegisterCtor<IndexPage>();
+            Core.Reflection.RegisterCtor<WebViewPage>();
+            Core.Reflection.RegisterCtor<LoginFragment>();
+            Core.Reflection.RegisterCtor<MessagePresenter>();
+            Core.Reflection.RegisterCtor<HttpClientImpl>();
             Core.Reflection.RegisterType<DetailPage, DetailActivity>();
-            Core.Reflection.RegisterType<IndexPage>();
-            ImplStack = new Stack<ViewResponseImpl>();
+            Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
+            Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
+            Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
+
+            ContextStack = new Stack<Context>();
             UpdateManager = new UpdateManager(context);
+            ViewResponseImpl = new ViewResponseImpl();
+        }
+
+        public static void Register(Context context)
+        {
+            new PlatformImplV2(context);
         }
         
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
@@ -76,17 +73,7 @@ namespace HandSchool.Droid
 
         public override void CheckUpdate()
         {
-            UpdateManager.Update(true, ImplStack.Peek().Context);
-        }
-
-        public override ILoginPage CreateLoginPage(LoginViewModel viewModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<bool> ShowNewCurriculumPageAsync(CurriculumItem item, INavigate navigationContext)
-        {
-            throw new NotImplementedException();
+            UpdateManager.Update(true, ContextStack.Peek());
         }
     }
 }

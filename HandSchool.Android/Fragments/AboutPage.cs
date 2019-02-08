@@ -5,16 +5,21 @@ using DanielStone.MaterialAbout;
 using DanielStone.MaterialAbout.Items;
 using DanielStone.MaterialAbout.Models;
 using HandSchool.Droid;
+using HandSchool.Internals;
 using HandSchool.ViewModels;
 using Resource = HandSchool.Droid.Resource;
 
 namespace HandSchool.Views
 {
-    public class AboutPage : MaterialAboutFragment, IViewCore
+    public class AboutPage : MaterialAboutFragment, IViewCore, IViewLifecycle
     {
         public string Title { get; set; }
 
         public BaseViewModel ViewModel { get; set; }
+
+        public ToolbarMenuTracker ToolbarTracker { get; }
+
+        public bool IsBusy { get; set; }
 
         public AboutPage()
         {
@@ -71,13 +76,13 @@ namespace HandSchool.Views
             var license = new MaterialAboutActionItem.Builder()
                 .Text("开放源代码许可")
                 .Icon(Resource.Drawable.aboutpage_codeicon)
-                .SetOnClickAction(null)
+                .SetOnClickAction(new AboutMenuItemClick(async () => await Navigation.PushAsync(typeof(WebViewPage), new AboutViewModel.LicenseInfo())))
                 .Build();
 
             var privacy = new MaterialAboutActionItem.Builder()
                 .Text("隐私许可")
                 .Icon(Resource.Drawable.aboutpage_privacyicon)
-                .SetOnClickAction(null)
+                .SetOnClickAction(new AboutMenuItemClick(async () => await Navigation.PushAsync(typeof(WebViewPage), new AboutViewModel.PrivacyPolicy())))
                 .Build();
 
             var card = new MaterialAboutCard.Builder()
@@ -120,6 +125,19 @@ namespace HandSchool.Views
                 .Build();
 
             builder.AddCard(card);
+        }
+
+        public void SendAppearing() { }
+
+        public void SendDisappearing() { }
+
+        public void SetNavigationArguments(object param) { }
+
+        INavigate Navigation { get; set; }
+
+        public void RegisterNavigation(INavigate navigate)
+        {
+            Navigation = navigate;
         }
     }
 }

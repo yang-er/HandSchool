@@ -59,8 +59,16 @@ namespace HandSchool.Internals
                 AllowAutoRedirect = false,
                 UseCookies = true,
                 CookieContainer = Cookie,
-                ServerCertificateCustomValidationCallback = delegate { return true; }
             };
+
+            try
+            {
+                Handler.ServerCertificateCustomValidationCallback = delegate { return true; };
+            }
+            catch (NotImplementedException)
+            {
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            }
 
             HttpClient = new HttpClient(Handler, true);
             Timeout = 15000;

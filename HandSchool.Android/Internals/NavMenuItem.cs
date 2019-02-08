@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Views;
 using System;
@@ -59,10 +59,37 @@ namespace HandSchool.Droid
             return Core.Reflection.CreateInstance<SupportFragment>(PageType);
         }
 
-        public BaseActivity CreateActivity()
+        public (SupportFragment, IViewCore) FragmentV3 => lazyFm.Value;
+
+        private readonly Lazy<(SupportFragment,IViewCore)> lazyFm;
+        
+        private (SupportFragment, IViewCore) CreateV3()
         {
-            if (Type != NavMenuItemType.Activity) throw new InvalidCastException();
-            return Core.Reflection.CreateInstance<BaseActivity>(PageType);
+            switch (Type)
+            {
+                case NavMenuItemType.FragmentCore:
+                    var fcc = CreateFragmentCore();
+                    return (fcc, fcc as IViewCore);
+
+                case NavMenuItemType.Fragment:
+                    var fg = CreateFragment();
+                    fg.SetNavigationArguments(null);
+                    return (fg, fg);
+
+                case NavMenuItemType.Presenter:
+                    var pr = CreatePresenter();
+                    var tfg = new TabbedFragment(pr);
+                    return (tfg, tfg);
+
+                case NavMenuItemType.Object:
+                    var viewPage = CreateObject();
+                    viewPage.SetNavigationArguments(null);
+                    var frg = new EmbeddedFragment(viewPage, PlatformImplV2.Instance.Context);
+                    return (frg, viewPage);
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
         public static NavMenuItemType Judge(Type PageType)
@@ -85,6 +112,7 @@ namespace HandSchool.Droid
         {
             Type = Judge(PageType);
             DrawableId = IconList[(int)icon];
+            lazyFm = new Lazy<(SupportFragment, IViewCore)>(CreateV3);
         }
     }
 }
