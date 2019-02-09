@@ -116,12 +116,33 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\OenConverter.cs" />
+    <Compile Include="Elements\CurriculumLabel.cs" />
+    <Compile Include="Elements\HybridWebView.cs" />
+    <Compile Include="Elements\PickerCell.cs" />
+    <Compile Include="Internals\NavigateImpl.cs" />
+    <Compile Include="Internals\PlatformExtensions.cs" />
+    <Compile Include="Internals\PlatformFormsImpl.cs" />
+    <Compile Include="Internals\ViewPage.cs" />
+    <Compile Include="Old\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Old\WebViewPage.cs" />
+    <Compile Include="Pages\CurriculumPage.xaml.cs">
+      <DependentUpon>CurriculumPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IndexPage.xaml.cs">
+      <DependentUpon>IndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Renderers\NavMenuItemImpl.cs" />
     <Compile Include="Renderers\PlatformImpl.cs" />
     <Compile Include="MainPage.cs" />
     <Compile Include="Renderers\HybridWebViewRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="SelectTypePage.xaml.cs">
+      <DependentUpon>SelectTypePage.xaml</DependentUpon>
+    </Compile>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Renderers\PageRenderer.cs" />
@@ -231,15 +252,37 @@
       <Project>{dea278bf-b6bf-4331-96b7-cedc9a4e39c3}</Project>
       <Name>HandSchool.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj">
-      <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
-      <Name>HandSchool.JLU</Name>
+    <ProjectReference Include="..\HandSchool.Forwarder\HandSchool.Forwarder.csproj">
+      <Project>{08d98a3f-9d96-417e-8691-9aba9db919db}</Project>
+      <Name>HandSchool.Forwarder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="..\HandSchool.Forms\HandSchool.Forms.projitems" Label="Shared" />
+  <ItemGroup>
+    <EmbeddedResource Include="Old\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\CurriculumPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\IndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SelectTypePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
