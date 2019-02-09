@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
+using HandSchool.Internals;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,7 +34,7 @@ namespace HandSchool.Views
             IsPushing = true;
 
             LastItem = e.Item as FeedItem;
-            await Navigation.PushAsync(typeof(DetailPage), LastItem);
+            await Navigation.PushAsync<DetailPage>(LastItem);
 
             if (Device.Idiom != TargetIdiom.Tablet) LastItem = null;
             IsPushing = false;

@@ -9,7 +9,7 @@ using SkiaSharp.Views.Android;
 using System.Linq;
 using Xamarin.Forms.Internals;
 
-namespace HandSchool.Droid.Elements
+namespace HandSchool.Droid
 {
     public class ViewResponseImpl : IViewResponseImpl
     {

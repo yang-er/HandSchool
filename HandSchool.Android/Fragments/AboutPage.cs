@@ -13,6 +13,8 @@ namespace HandSchool.Views
 {
     public class AboutPage : MaterialAboutFragment, IViewCore, IViewLifecycle
     {
+        #region IViewCore Impl
+
         public string Title { get; set; }
 
         public BaseViewModel ViewModel { get; set; }
@@ -26,6 +28,32 @@ namespace HandSchool.Views
             Title = "关于";
             ViewModel = AboutViewModel.Instance;
         }
+
+        #endregion
+
+        #region Small Functions
+
+        private void OpenGitHub()
+        {
+            Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool");
+        }
+
+        private async void OpenS1()
+        {
+            await Navigation.PushAsync<WebViewPage>(new AboutViewModel.LicenseInfo());
+        }
+
+        private async void OpenS2()
+        {
+            await Navigation.PushAsync<WebViewPage>(new AboutViewModel.PrivacyPolicy());
+        }
+
+        private void OpenStore()
+        {
+            Core.Platform.OpenUrl(Core.Platform.StoreLink);
+        }
+
+        #endregion
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
@@ -70,19 +98,19 @@ namespace HandSchool.Views
             var source = new MaterialAboutActionItem.Builder()
                 .Text("开源项目")
                 .Icon(Resource.Drawable.aboutpage_githubicon)
-                .SetOnClickAction(new AboutMenuItemClick(() => Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool")))
+                .SetOnClickAction(new AboutMenuItemClick(OpenGitHub))
                 .Build();
 
             var license = new MaterialAboutActionItem.Builder()
                 .Text("开放源代码许可")
                 .Icon(Resource.Drawable.aboutpage_codeicon)
-                .SetOnClickAction(new AboutMenuItemClick(async () => await Navigation.PushAsync(typeof(WebViewPage), new AboutViewModel.LicenseInfo())))
+                .SetOnClickAction(new AboutMenuItemClick(OpenS1))
                 .Build();
 
             var privacy = new MaterialAboutActionItem.Builder()
                 .Text("隐私许可")
                 .Icon(Resource.Drawable.aboutpage_privacyicon)
-                .SetOnClickAction(new AboutMenuItemClick(async () => await Navigation.PushAsync(typeof(WebViewPage), new AboutViewModel.PrivacyPolicy())))
+                .SetOnClickAction(new AboutMenuItemClick(OpenS2))
                 .Build();
 
             var card = new MaterialAboutCard.Builder()
@@ -106,7 +134,7 @@ namespace HandSchool.Views
             var rating = new MaterialAboutActionItem.Builder()
                 .Text("评分与评论")
                 .SubText("觉得好用请给五星！_(:з)∠)_")
-                .SetOnClickAction(new AboutMenuItemClick(() => Core.Platform.OpenUrl(Core.Platform.StoreLink)))
+                .SetOnClickAction(new AboutMenuItemClick(OpenStore))
                 .Icon(Resource.Drawable.aboutpage_rateicon)
                 .Build();
 
@@ -127,6 +155,8 @@ namespace HandSchool.Views
             builder.AddCard(card);
         }
 
+        #region IViewLifecycle
+
         public void SendAppearing() { }
 
         public void SendDisappearing() { }
@@ -139,5 +169,7 @@ namespace HandSchool.Views
         {
             Navigation = navigate;
         }
+
+        #endregion
     }
 }

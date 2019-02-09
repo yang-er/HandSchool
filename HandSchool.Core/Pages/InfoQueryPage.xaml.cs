@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
+using HandSchool.Internals;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,7 +29,7 @@ namespace HandSchool.Views
 
             if (e.Item is InfoEntranceWrapper iew)
             {
-                await Navigation.PushAsync(typeof(IWebViewPage), iew.Load.Invoke());
+                await Navigation.PushAsync<IWebViewPage>(iew.Load.Invoke());
             }
             else if (e.Item is TapEntranceWrapper tew)
             {

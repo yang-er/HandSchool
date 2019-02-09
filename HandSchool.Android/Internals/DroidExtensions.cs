@@ -1,4 +1,6 @@
 ﻿using Android.Content;
+using Android.Views;
+using HandSchool.Internals;
 
 namespace HandSchool.Droid
 {

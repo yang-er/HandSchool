@@ -18,7 +18,7 @@ using System.Collections.ObjectModel;
 
 namespace HandSchool.Droid
 {
-    public class BaseActivity : AppCompatActivity, INavigate
+    public class BaseActivity : AppCompatActivity, INavigate, IBindTarget
     {
         #region UI Elements
 
@@ -39,13 +39,7 @@ namespace HandSchool.Droid
         /// </summary>
         [BindView(Resource.Id.appbar_layout)]
         public AppBarLayout AppBarLayout { get; set; }
-
-        /// <summary>
-        /// 选项卡
-        /// </summary>
-        [BindView(Resource.Id.sliding_tabs)]
-        public TabLayout Tabbar { get; set; }
-
+        
         /// <summary>
         /// 布局所需要的资源
         /// </summary>
@@ -62,21 +56,11 @@ namespace HandSchool.Droid
         protected void TransactionV3(SupportFragment fragment, IViewCore core)
         {
             ClearOldStates();
-
-            if (fragment is TabbedFragment tabbed)
-            {
-                tabbed.Tabbar = Tabbar;
-            }
             
             var transition = SupportFragmentManager.BeginTransaction();
             transition.Replace(Resource.Id.frame_layout, fragment);
             transition.Commit();
-
-            if (!(fragment is TabbedFragment))
-            {
-                Tabbar.Visibility = ViewStates.Gone;
-            }
-
+            
             if (core != null)
             {
                 SupportActionBar.Title = core.Title;
@@ -204,18 +188,9 @@ namespace HandSchool.Droid
         {
             base.OnCreate(savedInstanceState);
             SetContentView(ContentViewResource);
-
-            foreach (var prop in GetType().GetProperties())
-            {
-                if (prop.Has<BindViewAttribute>())
-                {
-                    var attr = prop.Get<BindViewAttribute>();
-                    prop.SetValue(this, FindViewById(attr.ResourceId));
-                }
-            }
+            this.SolveView(this);
             
-            if (!(Toolbar.Parent is CollapsingToolbarLayout))
-                SetSupportActionBar(Toolbar);
+            SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
             PlatformImplV2.Instance.SetContext(this);
 
@@ -251,51 +226,6 @@ namespace HandSchool.Droid
             PlatformImplV2.Instance.SetContext(null);
         }
 
-        private class ToolbarBackListener : Java.Lang.Object, View.IOnClickListener
-        {
-            public WeakReference<BaseActivity> Activity { get; }
-
-            public ToolbarBackListener(BaseActivity activity)
-            {
-                Activity = new WeakReference<BaseActivity>(activity);
-            }
-
-            public void OnClick(View v)
-            {
-                if (!Activity.TryGetTarget(out var activity)) return;
-
-                if (activity.SupportFragmentManager.BackStackEntryCount > 0)
-                {
-                    activity.SupportFragmentManager.PopBackStack();
-                }
-                else
-                {
-                    activity.Finish();
-                }
-            }
-        }
-
-        private class MenuEntryClickedListener : Java.Lang.Object, IMenuItemOnMenuItemClickListener
-        {
-            public MenuEntryClickedListener(MenuEntry item)
-            {
-                Reference = new WeakReference<MenuEntry>(item);
-            }
-
-            public WeakReference<MenuEntry> Reference { get; }
-
-            public bool OnMenuItemClick(IMenuItem item)
-            {
-                if (Reference.TryGetTarget(out var target))
-                {
-                    target.Command?.Execute(null);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+        public virtual void SolveBindings() { }
     }
 }

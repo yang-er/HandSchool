@@ -1,5 +1,4 @@
 ﻿using Android.Content;
-using HandSchool.Droid.Elements;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;

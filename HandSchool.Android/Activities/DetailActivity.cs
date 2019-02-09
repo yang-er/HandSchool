@@ -19,6 +19,15 @@ namespace HandSchool.Droid
         [BindView(Resource.Id.detail_text_view)]
         public TextView TextContent { get; set; }
 
+        [BindView(Resource.Id.detail_title)]
+        public TextView DetailTitle { get; set; }
+
+        [BindView(Resource.Id.detail_time)]
+        public TextView DetailTime { get; set; }
+
+        [BindView(Resource.Id.detail_sender)]
+        public TextView DetailSender { get; set; }
+
         public new DetailViewModel ViewModel
         {
             get => base.ViewModel as DetailViewModel;
@@ -31,15 +40,28 @@ namespace HandSchool.Droid
             ViewModel = DetailViewModel.From(obj);
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            var detail = menu.Add(ViewModel.Operation);
+            detail.SetShowAsAction(ShowAsAction.Always);
+            detail.SetOnMenuItemClickListener(new MenuEntryClickedListener(ViewModel.Command));
+            return base.OnCreateOptionsMenu(menu);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             ContentViewResource = Resource.Layout.activity_detail;
             base.OnCreate(savedInstanceState);
-            Toolbar.Title = ViewModel.Title;
-            Toolbar.Subtitle = "666";
-            TextContent.Text = ViewModel.Content;
 
-            // Create your application here
+            TextContent.Text = ViewModel.Content;
+            DetailTitle.Text = ViewModel.Name;
+            DetailTime.Text = ViewModel.Date;
+            DetailSender.Text = ViewModel.Sender;
+
+            var ActionBar = SupportActionBar;
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
+            ActionBar.Title = ViewModel.Title;
         }
     }
 }

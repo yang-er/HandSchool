@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
+using HandSchool.Views;
 using System.Threading.Tasks;
 
 namespace HandSchool.Internals
@@ -28,6 +29,15 @@ namespace HandSchool.Internals
         public static Task ShowTimeoutMessage(this BaseViewModel baseVm)
         {
             return baseVm.RequestMessageAsync("错误", "连接超时，请重试。", "知道了");
+        }
+
+        /// <summary>
+        /// 将新的导航页推入。
+        /// </summary>
+        /// <param name="navigate">导航工具</param>
+        public static Task PushAsync<T>(this INavigate navigate, object param = null)
+        {
+            return navigate.PushAsync(typeof(T), param);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace HandSchool.Droid
 {
     public class TabbedFragment : ViewFragment
     {
+        [BindView(Resource.Id.sliding_tabs)]
         public TabLayout Tabbar { get; set; }
 
         [BindView(Resource.Id.viewPager)]
@@ -45,16 +46,16 @@ namespace HandSchool.Droid
             Tabbar.AddOnTabSelectedListener(Adapter);
         }
 
-        public override void OnDetach()
+        public override void SendAppearing()
         {
-            base.OnDetach();
-            Tabbar.RemoveOnTabSelectedListener(Adapter);
+            base.SendAppearing();
+            if (Adapter != null) Tabbar.AddOnTabSelectedListener(Adapter);
         }
 
-        public override void OnAttach(Context context)
+        public override void SendDisappearing()
         {
-            base.OnAttach(context);
-            if (Adapter != null) Tabbar.AddOnTabSelectedListener(Adapter);
+            base.SendDisappearing();
+            Tabbar.RemoveOnTabSelectedListener(Adapter);
         }
     }
 }

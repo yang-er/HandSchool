@@ -88,17 +88,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Adapters\MenuEntryClick.cs" />
+    <Compile Include="Adapters\NavHeadViewHolder.cs" />
+    <Compile Include="Renderers\TextCellView.cs" />
+    <Compile Include="Adapters\ToolbarBackClick.cs" />
     <Compile Include="Fragments\DemoFragment.cs" />
     <Compile Include="Fragments\EmbeddedFragment.cs" />
     <Compile Include="Fragments\IndexPage.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
     <Compile Include="Internals\CodeStore.cs" />
-    <Compile Include="Adapters\AboutMenuItemClick.cs" />
+    <Compile Include="Adapters\AboutItemClick.cs" />
     <Compile Include="Internals\BindViewAttribute.cs" />
     <Compile Include="Internals\DroidExtensions.cs" />
     <Compile Include="Internals\NavMenuItem.cs" />
     <Compile Include="Adapters\NavMenuList.cs" />
-    <Compile Include="Adapters\TabbedPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapter.cs" />
     <Compile Include="Internals\ViewResponseImpl.cs" />
     <Compile Include="Internals\PlatformImpl.cs" />
     <Compile Include="Renderers\TextCellRenderer.cs" />
@@ -113,7 +117,7 @@
     <Compile Include="Activities\SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\UpdateManager.cs" />
+    <Compile Include="Internals\UpdateManager.cs" />
     <Compile Include="Renderers\EntryCellRenderer.cs" />
     <None Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />

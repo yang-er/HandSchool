@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using HandSchool.Internals;
 using Android.Support.Design.Widget;
 using Android.Text;
 using Android.Views;
@@ -95,27 +96,29 @@ namespace HandSchool.Droid
         {
             var context = PlatformImplV2.Instance.ContextStack.Peek();
             var navigate = context as INavigate;
-            navigate.PushAsync(typeof(LoginActivity), this);
+            navigate.PushAsync<LoginActivity>(this);
             return Completed;
         }
-
-        public override void OnDetach()
-        {
-            base.OnDetach();
-            // Completed?.Start();
-        }
-
+        
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+            
+            LoginViewModel.Form.PropertyChanged += OnSwitchChanged;
+            LoginViewModel.PropertyChanged += OnSwitchChanged;
+            LoginButton.Click += OnLoginRequested;
+
+            if (_navArgNotSet) UpdateCaptchaInfomation();
+        }
+
+        public override void SolveBindings()
+        {
+            base.SolveBindings();
             UsernameBox.Text = LoginViewModel.Form.Username;
             PasswordBox.Text = LoginViewModel.Form.Password;
             SavePasswordBox.Checked = LoginViewModel.Form.SavePassword;
             AutoLoginBox.Checked = LoginViewModel.Form.AutoLogin;
             TipsText.Text = LoginViewModel.Form.Tips;
-            UsernameBox.AddTextChangedListener(new TextJumper(UsernameBox, PasswordBox));
-            PasswordBox.AddTextChangedListener(new TextJumper(PasswordBox, CaptchaBox));
-            CaptchaBox.AddTextChangedListener(new TextJumper(CaptchaBox, LoginButton));
 
             if (LoginViewModel.Form.CaptchaSource == null)
             {
@@ -128,20 +131,14 @@ namespace HandSchool.Droid
                 AutoLoginBox.Visibility = ViewStates.Invisible;
                 CaptchaImage.SetImageBitmap(CaptchaBitmap);
             }
-
-            LoginViewModel.Form.PropertyChanged += OnSwitchChanged;
-            LoginViewModel.PropertyChanged += OnSwitchChanged;
-            LoginButton.Click += OnLoginRequested;
-
-            if (_navArgNotSet) UpdateCaptchaInfomation();
         }
 
         public override void OnDestroyView()
         {
-            base.OnDestroyView();
             LoginViewModel.Form.PropertyChanged -= OnSwitchChanged;
             LoginViewModel.PropertyChanged -= OnSwitchChanged;
             LoginButton.Click -= OnLoginRequested;
+            base.OnDestroyView();
         }
 
         private void OnLoginRequested(object sender, EventArgs args)
@@ -168,12 +165,13 @@ namespace HandSchool.Droid
                     ProgressBar.Visibility = LoginViewModel.IsBusy
                         ? ViewStates.Visible : ViewStates.Invisible;
                     LoginButton.Enabled = !LoginViewModel.IsBusy;
-                    UsernameBox.Enabled = !LoginViewModel.IsBusy;
+
+                    /* UsernameBox.Enabled = !LoginViewModel.IsBusy;
                     PasswordBox.Enabled = !LoginViewModel.IsBusy;
                     CaptchaBox.Enabled = !LoginViewModel.IsBusy;
                     SavePasswordBox.Enabled = !LoginViewModel.IsBusy;
                     AutoLoginBox.Enabled = !LoginViewModel.IsBusy
-                        && LoginViewModel.Form.CaptchaSource == null;
+                        && LoginViewModel.Form.CaptchaSource == null; */
                     break;
             }
         }
@@ -214,39 +212,6 @@ namespace HandSchool.Droid
             }
 
             LoginViewModel.IsBusy = false;
-        }
-
-        private class TextJumper : Java.Lang.Object, ITextWatcher
-        {
-            public TextJumper(TextInputEditText @this, View next)
-            {
-                InputThis = @this;
-                InputNext = next;
-            }
-
-            public TextInputEditText InputThis { get; }
-            public View InputNext { get; }
-
-            public void AfterTextChanged(IEditable s)
-            {
-                var ans = s.ToString();
-
-                if (ans.Contains('\r') || ans.Contains('\n'))
-                {
-                    ans = ans.Replace("\r", "").Replace("\n", "");
-                    InputThis.Text = ans;
-
-                    if (InputNext != null)
-                    {
-                        InputThis.ClearFocus();
-                        InputNext.RequestFocus();
-                    }
-                }
-            }
-
-            public void BeforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-            public void OnTextChanged(CharSequence s, int start, int before, int count) { }
         }
     }
 }

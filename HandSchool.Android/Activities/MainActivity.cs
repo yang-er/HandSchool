@@ -6,6 +6,7 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
+using HandSchool.Internals;
 using System;
 using Xamarin.Forms.Platform.Android;
 using XForms = Xamarin.Forms.Forms;
@@ -40,35 +41,6 @@ namespace HandSchool.Droid
 
                 TransactionV3(menuItem.FragmentV3.Item1, menuItem.FragmentV3.Item2);
                 return true;
-
-                /*switch (menuItem.Type)
-                {
-                    case NavMenuItemType.FragmentCore:
-                        Transaction(menuItem.CreateFragmentCore());
-                        return true;
-
-                    case NavMenuItemType.Fragment:
-                        Transaction(menuItem.CreateFragment());
-                        return true;
-
-                    case NavMenuItemType.Activity:
-                        StartActivity(menuItem.PageType);
-                        return true;
-
-                    case NavMenuItemType.Object:
-                        var obj = menuItem.CreateObject();
-                        obj.SetNavigationArguments(null);
-                        Transaction(obj);
-                        return true;
-
-                    case NavMenuItemType.Presenter:
-                        var vp = menuItem.CreatePresenter();
-                        Transaction(new TabbedFragment(vp));
-                        return true;
-
-                    default:
-                        return false;
-                }*/
             }
             finally
             {
@@ -90,7 +62,7 @@ namespace HandSchool.Droid
             Core.Configure.Write("hs.school.bin", "jlu");
             Core.Initialize();
 
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+            var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
             
@@ -104,24 +76,15 @@ namespace HandSchool.Droid
 
             var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
             TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
-            
-            var firstLabel = NavigationView.GetHeaderView(0)
-                .FindViewById<Android.Widget.TextView>(Resource.Id.nav_header_first);
-            firstLabel.SetBinding("Text", new Xamarin.Forms.Binding
-            {
-                Path = "WelcomeMessage",
-                Source = ViewModels.IndexViewModel.Instance,
-                Mode = Xamarin.Forms.BindingMode.OneWay
-            });
 
-            var secondLabel = NavigationView.GetHeaderView(0)
-                .FindViewById<Android.Widget.TextView>(Resource.Id.nav_header_second);
-            secondLabel.SetBinding("Text", new Xamarin.Forms.Binding
-            {
-                Path = "CurrentMessage",
-                Source = ViewModels.IndexViewModel.Instance,
-                Mode = Xamarin.Forms.BindingMode.OneWay
-            });
+            NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            NavHeadViewHolder.Instance.CleanBind();
+            this.CleanBind();
         }
 
         public override void OnBackPressed()
@@ -140,7 +103,7 @@ namespace HandSchool.Droid
         {
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (s) => (this as Views.INavigate).PushAsync(typeof(DemoFragment), null)).Show();
+                .SetAction("Action", (s) => (this as Views.INavigate).PushAsync<DemoFragment>()).Show();
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Android.Content;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
-using Android.Views;
 using HandSchool.Internals;
 using HandSchool.Views;
 using Java.Lang;
-using Xamarin.Forms.Platform.Android;
 
 namespace HandSchool.Droid
 {

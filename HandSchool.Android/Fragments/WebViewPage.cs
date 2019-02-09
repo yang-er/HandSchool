@@ -147,7 +147,7 @@ namespace HandSchool.Views
 
         protected virtual void OnEntranceRequested(IWebEntrance ent)
         {
-            Navigation.PushAsync(typeof(WebViewPage), ent);
+            Navigation.PushAsync<WebViewPage>(ent);
         }
 
         private class AwareWebClient : WebViewClient

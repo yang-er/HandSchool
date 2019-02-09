@@ -5,6 +5,7 @@ using Android.Views;
 using HandSchool.Droid;
 using HandSchool.Internals;
 using HandSchool.ViewModels;
+using HandSchool.Views;
 using Microcharts;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 
-namespace HandSchool.Views
+namespace HandSchool.Droid
 {
     /// <summary>
     /// 实现 <see cref="IViewPage"/> 的Android本机基础碎片。
     /// </summary>
-    public class ViewFragment : Fragment, IViewPage, IViewLifecycle
+    public class ViewFragment : Fragment, IViewPage, IViewLifecycle, IBindTarget
     {
         /// <summary>
         /// 创建一个视图碎片。
@@ -84,15 +85,7 @@ namespace HandSchool.Views
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-
-            foreach (var prop in GetType().GetProperties())
-            {
-                if (prop.Has<BindViewAttribute>())
-                {
-                    var attr = prop.Get<BindViewAttribute>();
-                    prop.SetValue(this, view.FindViewById(attr.ResourceId));
-                }
-            }
+            this.SolveView(view);
         }
 
         public virtual bool IsBusy { get; set; }
@@ -231,5 +224,7 @@ namespace HandSchool.Views
         }
 
         #endregion
+
+        public virtual void SolveBindings() { }
     }
 }
