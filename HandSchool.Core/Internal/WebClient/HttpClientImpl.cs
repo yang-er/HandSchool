@@ -81,7 +81,9 @@ namespace HandSchool.Internals
             {
                 var response = await HttpClient.SendAsync(msg);
                 if (meta.Accept != "*/*" && response.Content.Headers.ContentType.MediaType != meta.Accept)
-                    throw new WebsException(WebStatus.MimeNotMatch);
+                    throw new WebsException(new WebResponse(response, meta, WebStatus.MimeNotMatch));
+                if ((int)response.StatusCode >= 400)
+                    throw new WebsException(new WebResponse(response, meta, WebStatus.ProtocolError));
                 return new WebResponse(response, meta, WebStatus.Success);
             }
             catch (HttpRequestException ex)
@@ -90,30 +92,11 @@ namespace HandSchool.Internals
 
                 if (ex.InnerException is SocketException ex2)
                 {
-                    switch (ex2.SocketErrorCode)
-                    {
-                        case SocketError.ConnectionReset:
-                        case SocketError.ConnectionAborted:
-                            known = WebStatus.ReceiveFailure;
-                            break;
-                            
-                        case SocketError.NetworkUnreachable:
-                        case SocketError.NetworkDown:
-                        case SocketError.HostNotFound:
-                            known = WebStatus.NameResolutionFailure;
-                            break;
-
-                        case SocketError.ConnectionRefused:
-                        case SocketError.NetworkReset:
-                        case SocketError.HostUnreachable:
-                        case SocketError.TooManyOpenSockets:
-                            known = WebStatus.ConnectFailure;
-                            break;
-                            
-                        case SocketError.TimedOut:
-                            known = WebStatus.Timeout;
-                            break;
-                    }
+                    known = Convert(ex2);
+                }
+                else if (ex.InnerException is WebException ex3)
+                {
+                    known = AwaredWebClientImpl.Convert(ex3.Status);
                 }
 
                 throw new WebsException(new WebResponse(meta, known), ex);
@@ -125,6 +108,33 @@ namespace HandSchool.Internals
             catch (OperationCanceledException ex)
             {
                 throw new WebsException(new WebResponse(meta, WebStatus.Timeout), ex);
+            }
+        }
+
+        internal static WebStatus Convert(SocketException ex)
+        {
+            switch (ex.SocketErrorCode)
+            {
+                case SocketError.ConnectionReset:
+                case SocketError.ConnectionAborted:
+                    return WebStatus.ReceiveFailure;
+
+                case SocketError.NetworkUnreachable:
+                case SocketError.NetworkDown:
+                case SocketError.HostNotFound:
+                    return WebStatus.NameResolutionFailure;
+
+                case SocketError.ConnectionRefused:
+                case SocketError.NetworkReset:
+                case SocketError.HostUnreachable:
+                case SocketError.TooManyOpenSockets:
+                    return WebStatus.ConnectFailure;
+
+                case SocketError.TimedOut:
+                    return WebStatus.Timeout;
+
+                default:
+                    return WebStatus.UnknownError;
             }
         }
 

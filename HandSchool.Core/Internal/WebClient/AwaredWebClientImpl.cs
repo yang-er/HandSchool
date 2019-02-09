@@ -99,6 +99,9 @@ namespace HandSchool.Internals
                 {
                     protocolErrorResponses = new WebHeaderCollection { resp.Headers };
                     protocolErrorResponses["Status"] = ((int)resp.StatusCode).ToString() + " " + resp.StatusCode.ToString();
+
+                    if ((int)resp.StatusCode >= 400)
+                        throw new WebsException(new WebResponse(new byte[0], req, WebStatus.ProtocolError, this, resp.StatusCode));
                     return new WebResponse(new byte[0], req, WebStatus.Success, this, resp.StatusCode);
                 }
                 else
@@ -139,7 +142,7 @@ namespace HandSchool.Internals
             });
         }
 
-        private static WebStatus Convert(WebExceptionStatus e)
+        internal static WebStatus Convert(WebExceptionStatus e)
         {
             switch (e)
             {
@@ -177,7 +180,10 @@ namespace HandSchool.Internals
                 Request = meta;
                 StatusCode = code;
                 Location = client.Location;
-                ContentType = client.ResponseHeaders["Content-Type"];
+                string contentType = client.ResponseHeaders["Content-Type"];
+                int lastIndex = contentType.LastIndexOf("; ");
+                if (lastIndex == -1) lastIndex = contentType.Length;
+                ContentType = contentType.Substring(0, lastIndex);
                 encoding = client.Encoding;
                 Status = stat;
             }

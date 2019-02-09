@@ -42,7 +42,7 @@ namespace HandSchool.Internals
                     return "数据包传输出现错误";
 
                 case WebStatus.ProtocolError:
-                    return "协议错误***";
+                    return "服务器返回信息有问题";
 
                 case WebStatus.SecureChannelFailure:
                     return "SSL证书错误";
@@ -51,7 +51,7 @@ namespace HandSchool.Internals
                     return "网络沟通出现错误";
 
                 case WebStatus.Timeout:
-                    return "连接超时，可能是您的网络不太好";
+                    return "连接超时，可能是服务器的网络不太好";
 
                 case WebStatus.MimeNotMatch:
                     return "返回类型不匹配";

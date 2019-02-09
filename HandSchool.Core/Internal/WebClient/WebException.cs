@@ -24,8 +24,7 @@ namespace HandSchool.Internals
         /// 创建一个网络异常实例。
         /// </summary>
         /// <param name="response">响应信息</param>
-        public WebsException(IWebResponse response)
-            : base(response.Status.ToDescription())
+        public WebsException(IWebResponse response) : base(response.Status.ToDescription())
         {
             Response = response;
             Request = response.Request;
@@ -36,9 +35,19 @@ namespace HandSchool.Internals
         /// 创建一个网络异常实例。
         /// </summary>
         /// <param name="status">状态信息</param>
-        public WebsException(WebStatus status)
-            : base(status.ToDescription())
+        public WebsException(WebStatus status) : base(status.ToDescription())
         {
+            Status = status;
+        }
+
+        /// <summary>
+        /// 创建一个网络异常实例。
+        /// </summary>
+        /// <param name="status">状态信息</param>
+        public WebsException(IWebResponse response, WebStatus status) : base(status.ToDescription())
+        {
+            Response = response;
+            Request = response.Request;
             Status = status;
         }
 

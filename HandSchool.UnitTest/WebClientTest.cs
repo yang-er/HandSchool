@@ -31,10 +31,14 @@ namespace HandSchool.UnitTest
         [TestMethod]
         public async Task Response404Test()
         {
-            var response = await WebClient.GetAsync("https://www.xylab.fun/test404");
-            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
-            Assert.AreEqual("text/html", response.ContentType);
-            Assert.AreNotEqual(WebStatus.ProtocolError, response.Status);
+            var ex = await Assert.ThrowsExceptionAsync<WebsException>(async () =>
+            {
+                await WebClient.GetAsync("http://localhost/test404");
+            });
+            
+            Assert.AreEqual(HttpStatusCode.NotFound, ex.Response.StatusCode);
+            Assert.AreEqual("text/html", ex.Response.ContentType);
+            Assert.AreEqual(WebStatus.ProtocolError, ex.Response.Status);
         }
 
         [TestMethod]
