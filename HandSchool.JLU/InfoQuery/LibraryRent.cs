@@ -54,20 +54,16 @@ namespace HandSchool.JLU.InfoQuery
         }
         
         [ToFix("param?")]
-        public static async Task RequestRentInfo(object o)
+        public static async Task<IUrlEntrance> RequestRentInfo()
         {
             var rentInfo = new LoginDispatcher();
             if (await rentInfo.RequestLogin())
             {
-                var ops = rentInfo.GetLibraryRent();
-                if (o is Action<IWebEntrance> entReq)
-                {
-                    entReq.Invoke(ops);
-                }
-                else
-                {
-                    throw new ArgumentException(o.GetType().Name);
-                }
+                return rentInfo.GetLibraryRent();
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -133,6 +129,7 @@ namespace HandSchool.JLU.InfoQuery
                 }
 
                 WebClient = Core.New<IWebClient>();
+                WebClient.BaseAddress = "http://" + Domain;
                 WebClient.Cookie.Add(new Cookie("xc", "5", "/", Domain));
                 WebClient.Cookie.Add(new Cookie("mgid", "274", "/", Domain));
                 WebClient.Cookie.Add(new Cookie("maid", "920", "/", Domain));

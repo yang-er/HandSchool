@@ -10,12 +10,12 @@
                      UWPIcon="&#xE8D7;" Title="挂失" Order="Primary" />
     </w:ViewObject.ToolbarMenu>
     <ListView CachingStrategy="RecycleElement"
+              RefreshCommand="{Binding LoadBasicInfoCommand}"
               SelectionMode="None"
               HasUnevenRows="True"
               IsPullToRefreshEnabled="True"
-              IsRefreshing="{Binding IsBusy}"
-              ItemsSource="{Binding BasicInfo}"
-              RefreshCommand="{Binding LoadBasicInfoCommand}">
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+              ItemsSource="{Binding BasicInfo}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <w:TextCell Title="{Binding Title}"

@@ -24,9 +24,23 @@ namespace HandSchool.ViewModels
         public List<MenuEntry> Menu { get; } = new List<MenuEntry>();
 
         /// <summary>
+        /// 子入口点请求
+        /// </summary>
+        public event Action<IWebEntrance> SubEntranceRequested;
+
+        /// <summary>
         /// 收到JavaScript消息
         /// </summary>
         /// <param name="data">消息</param>
         public abstract Task Receive(string data);
+
+        /// <summary>
+        /// 发送子入口点。
+        /// </summary>
+        /// <param name="webEntrance">入口点</param>
+        protected void SendSubEntrance(IWebEntrance webEntrance)
+        {
+            SubEntranceRequested?.Invoke(webEntrance);
+        }
     }
 }

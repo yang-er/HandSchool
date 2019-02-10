@@ -190,7 +190,7 @@ namespace HandSchool.Internals
                 InnerResponse = resp;
                 StatusCode = resp.StatusCode;
                 Location = resp.Headers.Location?.OriginalString ?? "";
-                ContentType = resp.Content.Headers.ContentType.MediaType;
+                ContentType = resp.Content.Headers.ContentType?.MediaType ?? "*/*";
                 Status = stat;
             }
 

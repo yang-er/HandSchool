@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
+using Android.Support.V4.View;
 using HandSchool.Internals;
 using HandSchool.Views;
 using Java.Lang;
@@ -41,16 +42,19 @@ namespace HandSchool.Droid
             
             return Fragments[i];
         }
+
+        public void ClearBindings(TabLayout tl)
+        {
+            tl.RemoveOnTabSelectedListener(this);
+            tl.SetupWithViewPager(null);
+        }
         
         public override ICharSequence GetPageTitleFormatted(int position)
         {
             return new String(AllPages[position].Title);
         }
 
-        public void OnTabReselected(TabLayout.Tab tab)
-        {
-            Tracker.List = AllPages[tab.Position].ToolbarTracker.List;
-        }
+        public void OnTabReselected(TabLayout.Tab tab) { }
 
         public void OnTabSelected(TabLayout.Tab tab)
         {

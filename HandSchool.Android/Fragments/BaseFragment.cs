@@ -147,7 +147,7 @@ namespace HandSchool.Droid
         {
             Appearing?.Invoke(this, EventArgs.Empty);
         }
-
+        
         #endregion
 
         #region 视图的响应：通过 MessagingCenter 传递

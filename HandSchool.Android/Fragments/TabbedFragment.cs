@@ -18,7 +18,6 @@ namespace HandSchool.Droid
 {
     public class TabbedFragment : ViewFragment
     {
-        [BindView(Resource.Id.sliding_tabs)]
         public TabLayout Tabbar { get; set; }
 
         [BindView(Resource.Id.viewPager)]
@@ -41,21 +40,8 @@ namespace HandSchool.Droid
 
             Adapter = new TabbedPagerAdapter(view.Context, this);
             ViewPager.Adapter = Adapter;
-            Tabbar.SetupWithViewPager(ViewPager);
-            Tabbar.Visibility = ViewStates.Visible;
             Tabbar.AddOnTabSelectedListener(Adapter);
-        }
-
-        public override void SendAppearing()
-        {
-            base.SendAppearing();
-            if (Adapter != null) Tabbar.AddOnTabSelectedListener(Adapter);
-        }
-
-        public override void SendDisappearing()
-        {
-            base.SendDisappearing();
-            Tabbar.RemoveOnTabSelectedListener(Adapter);
+            Tabbar.SetupWithViewPager(ViewPager);
         }
     }
 }

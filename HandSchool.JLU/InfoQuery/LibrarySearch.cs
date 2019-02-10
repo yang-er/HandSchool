@@ -33,15 +33,20 @@ namespace HandSchool.JLU.InfoQuery
             return Task.CompletedTask;
         }
 
+        private async Task RentInfoAsync()
+        {
+            var rent = await LibraryRent.RequestRentInfo();
+            if (rent == null) return;
+            else SendSubEntrance(rent);
+        }
+
         public LibrarySearch() : this(OriginalUrl)
         {
-            var cmd = new Xamarin.Forms.Command(async (o) => await LibraryRent.RequestRentInfo(o));
-
             Menu.Add(new HandSchool.Views.MenuEntry
             {
                 Title = "我的借阅",
                 UWPIcon = "\uE7BE",
-                Command = cmd
+                Command = new CommandAction(RentInfoAsync)
             });
         }
 

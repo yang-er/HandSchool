@@ -81,6 +81,7 @@ namespace HandSchool.Views
 
             Controller.Evaluate = JavaScript;
             Callback = Controller.Receive;
+            Controller.SubEntranceRequested += OnEntranceRequested;
         }
 
         public void JavaScript(string script)

@@ -206,7 +206,8 @@ namespace HandSchool.Droid
                 if (CaptchaBitmap != null)
                     CaptchaBitmap.Recycle();
                 CaptchaBitmap = Bitmap.CreateScaledBitmap(orig,
-                    Context.Dip2Px(99), Context.Dip2Px(33), true);
+                    PlatformImplV2.Instance.Context.Dip2Px(99),
+                    PlatformImplV2.Instance.Context.Dip2Px(33), true);
                 orig.Recycle();
                 CaptchaImage.SetImageBitmap(CaptchaBitmap);
             }

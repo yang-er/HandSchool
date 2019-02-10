@@ -39,7 +39,13 @@ namespace HandSchool.Droid
         /// </summary>
         [BindView(Resource.Id.appbar_layout)]
         public AppBarLayout AppBarLayout { get; set; }
-        
+
+        /// <summary>
+        /// 选项卡
+        /// </summary>
+        [BindView(Resource.Id.sliding_tabs)]
+        public TabLayout Tabbar { get; set; }
+
         /// <summary>
         /// 布局所需要的资源
         /// </summary>
@@ -56,11 +62,23 @@ namespace HandSchool.Droid
         protected void TransactionV3(SupportFragment fragment, IViewCore core)
         {
             ClearOldStates();
-            
+
+            if (fragment is TabbedFragment tabbed)
+            {
+                Tabbar.Visibility = ViewStates.Visible;
+                tabbed.Tabbar = Tabbar;
+            }
+
             var transition = SupportFragmentManager.BeginTransaction();
             transition.Replace(Resource.Id.frame_layout, fragment);
             transition.Commit();
-            
+
+            if (Tabbar != null && !(fragment is TabbedFragment))
+            {
+                Tabbar.Visibility = ViewStates.Gone;
+                Tabbar.SetupWithViewPager(null);
+            }
+
             if (core != null)
             {
                 SupportActionBar.Title = core.Title;
@@ -215,6 +233,11 @@ namespace HandSchool.Droid
                 if (fg is INotifyPropertyChanged inpc)
                 {
                     inpc.PropertyChanged -= HandBind;
+                }
+
+                if (fg is TabbedFragment tabbed)
+                {
+                    Tabbar.RemoveOnTabSelectedListener(tabbed.Adapter);
                 }
             }
         }
