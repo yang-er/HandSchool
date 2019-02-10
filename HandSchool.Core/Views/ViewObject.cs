@@ -15,25 +15,9 @@ namespace HandSchool.Views
     /// 一个既可以在Xamarin.Forms环境中使用，也可以在本机环境下使用的视图基类。
     /// </summary>
 	[ContentProperty("Content")]
-    public class ViewObject : BindableObject, IViewPage, IViewLifecycle
+    public class ViewObject : ContentPage, IViewPage, IViewLifecycle
     {
         #region Bindable Properties
-
-        public static readonly BindableProperty TitleProperty =
-            BindableProperty.Create(
-                propertyName: nameof(Title),
-                returnType: typeof(string),
-                declaringType: typeof(ViewObject),
-                defaultValue: default(string),
-                defaultBindingMode: BindingMode.OneWay);
-
-        public static readonly BindableProperty IsBusyProperty =
-            BindableProperty.Create(
-                propertyName: nameof(IsBusy),
-                returnType: typeof(bool),
-                declaringType: typeof(ViewObject),
-                defaultValue: false,
-                defaultBindingMode: BindingMode.OneWay);
         
         public static readonly BindableProperty UseTabletModeProperty =
             BindableProperty.Create(
@@ -52,16 +36,7 @@ namespace HandSchool.Views
                 defaultBindingMode: BindingMode.OneWay);
 
         #endregion
-
-        /// <summary>
-        /// 是否正在忙
-        /// </summary>
-        public bool IsBusy
-        {
-            get => (bool)GetValue(IsBusyProperty);
-            set => SetValue(IsBusyProperty, value);
-        }
-
+    
         /// <summary>
         /// 是否开启在iOS下的平板模式
         /// </summary>
@@ -88,26 +63,7 @@ namespace HandSchool.Views
             get => BindingContext as BaseViewModel;
             set { BindingContext = value; if (value != null) value.View = this; }
         }
-
-        /// <summary>
-        /// 页面的控件内容，实际呈现的内容。
-        /// </summary>
-        public View Content { get; set; }
-
-        /// <summary>
-        /// 推入时结束此任务。
-        /// </summary>
-        public Task Pushed { get; set; }
         
-        /// <summary>
-        /// 页面的标题。
-        /// </summary>
-        public string Title
-        {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
-
         /// <summary>
         /// 工具栏的菜单
         /// </summary>
@@ -130,8 +86,6 @@ namespace HandSchool.Views
 
         public ViewObject()
         {
-            Pushed = new Task(() => { });
-
             ToolbarTracker = new ToolbarMenuTracker();
             ToolbarTracker.List = new ObservableCollection<MenuEntry>();
             ToolbarMenu = ToolbarTracker.List;
@@ -147,63 +101,23 @@ namespace HandSchool.Views
         }
 
         /// <summary>
+        /// 是否为模态页面
+        /// </summary>
+        public bool IsModal { get; set; }
+        
+        /// <summary>
         /// 处理导航的参数，在页面显示之前调用。
         /// </summary>
         /// <param name="param">导航的参数内容</param>
         public virtual void SetNavigationArguments(object param) { }
-
-        #region 页面的生命周期：出现与消失
-
-        /// <summary>
-        /// 页面消失时调用。
-        /// </summary>
-        public event EventHandler Disappearing;
-
-        /// <summary>
-        /// 页面显示时调用。
-        /// </summary>
-        public event EventHandler Appearing;
         
-        /// <summary>
-        /// 是否为模态页面
-        /// </summary>
-        public bool IsModal { get; set; }
-
-        /// <summary>
-        /// 页面显示时处理。
-        /// </summary>
-        protected virtual void OnAppearing()
-        {
-            Appearing?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// 页面消失时处理。
-        /// </summary>
-        protected virtual void OnDisappearing()
-        {
-            Disappearing?.Invoke(this, EventArgs.Empty);
-        }
-        
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void SendAppearing() => OnAppearing();
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void SendDisappearing() => OnDisappearing();
-        
-        #endregion
-
-        #region 页面的导航：平台相关实现
-
-        public INavigate Navigation { get; private set; }
+        public new INavigate Navigation { get; private set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void RegisterNavigation(INavigate navigate)
         {
             Navigation = navigate;
         }
-
-        #endregion
 
         #region 视图的响应：通过 MessagingCenter 传递
 

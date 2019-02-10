@@ -14,7 +14,6 @@ namespace HandSchool.Droid
     public class EmbeddedFragment : ViewFragment, INotifyPropertyChanged
     {
         public ViewObject ViewObject { get; }
-        public Page InnerPage { get; }
         public Fragment Renderer { get; }
         public bool SelfControl { get; }
 
@@ -53,14 +52,8 @@ namespace HandSchool.Droid
         {
             ViewObject = obj;
             SelfControl = selfControl;
-
-            InnerPage = new Page
-            {
-                Content = obj.Content,
-                BindingContext = obj.BindingContext
-            };
             
-            Renderer = XForms.CreateSupportFragment(InnerPage, context);
+            Renderer = XForms.CreateSupportFragment(ViewObject, context);
         }
 
         public event PropertyChangedEventHandler PropertyChanged
@@ -77,7 +70,6 @@ namespace HandSchool.Droid
         protected override void Dispose(bool disposing)
         {
             Renderer.Dispose();
-            InnerPage.BindingContext = null;
             ViewObject.BindingContext = null;
             base.Dispose(disposing);
         }
