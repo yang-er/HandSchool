@@ -1,7 +1,8 @@
 ﻿using HandSchool.UWP.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
-using SelectionMode = Windows.UI.Xaml.Controls.ListViewSelectionMode;
+using WSelectionMode = Windows.UI.Xaml.Controls.ListViewSelectionMode;
+using WStyle = Windows.UI.Xaml.Style;
 using WApp = Windows.UI.Xaml.Application;
 
 [assembly: ExportRenderer(typeof(ListView), typeof(ListViewRender))]
@@ -18,9 +19,10 @@ namespace HandSchool.UWP.Renderers
             {
                 List.GroupStyleSelector = (ListGroupStyleSelector)
                     WApp.Current.Resources["HSListViewGroupStyleSelector"];
-                List.SelectionMode = SelectionMode.None;
+                List.ItemContainerStyle = (WStyle)
+                    WApp.Current.Resources["HSListViewItem"];
+                List.SelectionMode = WSelectionMode.None;
             }
         }
-
     }
 }

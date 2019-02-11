@@ -45,7 +45,7 @@ namespace HandSchool.Internals
         /// <returns>加密后编码数组。</returns>
         public static byte[] ToMD5(this byte[] source)
         {
-            using (MD5 MD5p = new MD5CryptoServiceProvider())
+            using (var MD5p = new MD5CryptoServiceProvider())
             {
                 return MD5p.ComputeHash(source);
             }

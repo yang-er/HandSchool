@@ -82,7 +82,7 @@ namespace HandSchool.Views
                     break;
 
                 case SettingTypes.Const:
-                    Margin = new Thickness(0, 4, 0, 4);
+                    Visibility = Visibility.Collapsed;
                     break;
 
                 default:

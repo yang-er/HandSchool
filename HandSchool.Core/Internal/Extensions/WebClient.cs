@@ -60,12 +60,7 @@ namespace HandSchool.Internals
                     return "未知错误";
             }
         }
-
-        /// <summary>
-        /// 获得网络异常对应的字符串消息。
-        /// </summary>
-        /// <param name="e">网络异常信息。</param>
-        /// <returns>表述异常的字符串。</returns>
+        
         public static string GetWebExceptionMessage(WebException e)
         {
             switch (e.Status)
@@ -97,6 +92,36 @@ namespace HandSchool.Internals
         public static void AddCookie(this IWebClient webClient, Cookie cookie)
         {
             webClient.Cookie.Add(new Uri(webClient.BaseAddress), cookie);
+        }
+
+        public static WebStatus Convert(this WebExceptionStatus e)
+        {
+            switch (e)
+            {
+                case WebExceptionStatus.Success:
+                    return WebStatus.Success;
+                case WebExceptionStatus.NameResolutionFailure:
+                    return WebStatus.NameResolutionFailure;
+                case WebExceptionStatus.ConnectFailure:
+                    return WebStatus.ConnectFailure;
+                case WebExceptionStatus.ReceiveFailure:
+                case WebExceptionStatus.SendFailure:
+                case WebExceptionStatus.PipelineFailure:
+                case WebExceptionStatus.RequestCanceled:
+                case WebExceptionStatus.ConnectionClosed:
+                    return WebStatus.ReceiveFailure;
+                case WebExceptionStatus.TrustFailure:
+                case WebExceptionStatus.SecureChannelFailure:
+                    return WebStatus.SecureChannelFailure;
+                case WebExceptionStatus.ServerProtocolViolation:
+                case WebExceptionStatus.KeepAliveFailure:
+                    return WebStatus.ServerProtocolViolation;
+                case WebExceptionStatus.Pending:
+                case WebExceptionStatus.Timeout:
+                    return WebStatus.Timeout;
+                default:
+                    return WebStatus.UnknownError;
+            }
         }
     }
 }

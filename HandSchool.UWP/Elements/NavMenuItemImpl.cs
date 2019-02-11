@@ -3,6 +3,10 @@ using HandSchool.Views;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+#if __UAP__
+using HandSchool.Internals;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
+#endif
 
 namespace HandSchool.UWP
 {

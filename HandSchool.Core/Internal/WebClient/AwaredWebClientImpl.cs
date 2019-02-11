@@ -106,7 +106,7 @@ namespace HandSchool.Internals
                 }
                 else
                 {
-                    throw new WebsException(new WebResponse(req, Convert(ex.Status)), ex);
+                    throw new WebsException(new WebResponse(req, ex.Status.Convert()), ex);
                 }
             }
             catch (NotSupportedException ex)
@@ -141,37 +141,7 @@ namespace HandSchool.Internals
                 return DownloadDataTaskAsync(req.Url);
             });
         }
-
-        internal static WebStatus Convert(WebExceptionStatus e)
-        {
-            switch (e)
-            {
-                case WebExceptionStatus.Success:
-                    return WebStatus.Success;
-                case WebExceptionStatus.NameResolutionFailure:
-                    return WebStatus.NameResolutionFailure;
-                case WebExceptionStatus.ConnectFailure:
-                    return WebStatus.ConnectFailure;
-                case WebExceptionStatus.ReceiveFailure:
-                case WebExceptionStatus.SendFailure:
-                case WebExceptionStatus.PipelineFailure:
-                case WebExceptionStatus.RequestCanceled:
-                case WebExceptionStatus.ConnectionClosed:
-                    return WebStatus.ReceiveFailure;
-                case WebExceptionStatus.TrustFailure:
-                case WebExceptionStatus.SecureChannelFailure:
-                    return WebStatus.SecureChannelFailure;
-                case WebExceptionStatus.ServerProtocolViolation:
-                case WebExceptionStatus.KeepAliveFailure:
-                    return WebStatus.ServerProtocolViolation;
-                case WebExceptionStatus.Pending:
-                case WebExceptionStatus.Timeout:
-                    return WebStatus.Timeout;
-                default:
-                    return WebStatus.UnknownError;
-            }
-        }
-
+        
         private class WebResponse : IWebResponse
         {
             public WebResponse(byte[] result, WebRequestMeta meta, WebStatus stat, AwaredWebClientImpl client, HttpStatusCode code)

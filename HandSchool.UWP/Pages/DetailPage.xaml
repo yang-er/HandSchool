@@ -7,18 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="24,0,24,16">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock FontSize="24" Grid.Row="0" Margin="0,0,0,8" Text="{x:Bind Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
-        <TextBlock FontSize="16" Grid.Row="2" Margin="0,0,0,8" Text="{x:Bind Sender}" TextWrapping="Wrap" VerticalAlignment="Top" />
-        <TextBlock FontSize="16" Grid.Row="1" Margin="0,0,0,8" Text="{x:Bind Time}" TextWrapping="Wrap" VerticalAlignment="Top" />
-        <ScrollViewer Grid.Row="3">
-            <TextBlock Margin="0,16,0,8" FontSize="16" Text="{x:Bind Body}" TextWrapping="Wrap" VerticalAlignment="Top" />
-        </ScrollViewer>
-    </Grid>
+    <ScrollViewer>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="24,0,24,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="24" Grid.Row="0" Margin="0,0,0,8" Text="{x:Bind Title}" TextWrapping="Wrap" VerticalAlignment="Top" />
+            <TextBlock FontSize="16" Grid.Row="2" Margin="0,0,0,8" Text="{x:Bind Sender}" TextWrapping="Wrap" VerticalAlignment="Top" />
+            <TextBlock FontSize="16" Grid.Row="1" Margin="0,0,0,8" Text="{x:Bind Time}" TextWrapping="Wrap" VerticalAlignment="Top" />
+            <TextBlock Margin="0,16,0,8" Grid.Row="3" FontSize="16" Text="{x:Bind Body}" TextWrapping="Wrap" VerticalAlignment="Top" />
+        </Grid>
+    </ScrollViewer>
 </local:ViewPage>

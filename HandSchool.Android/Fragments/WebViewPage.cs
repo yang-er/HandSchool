@@ -15,6 +15,8 @@ namespace HandSchool.Views
 {
     public class WebViewPage : ViewFragment, IWebViewPage, INotifyPropertyChanged
     {
+        const string injectJS = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
+
         public WebViewPage()
         {
             FragmentViewResource = Resource.Layout.layout_webview;
@@ -106,8 +108,9 @@ namespace HandSchool.Views
 
             if (!string.IsNullOrEmpty(Html))
             {
-                WebView.LoadDataWithBaseURL(baseUrl,
-                    Html.Replace("{webview_base_url}", baseUrl),
+                var realHtml = Html.Replace("{webview_base_url}", baseUrl)
+                                   .Replace("{invokeCSharpAction_script}", injectJS);
+                WebView.LoadDataWithBaseURL(baseUrl, realHtml,
                     "text/html", "utf-8", null);
             }
             else

@@ -65,7 +65,7 @@ namespace HandSchool.Internals
             {
                 Handler.ServerCertificateCustomValidationCallback = delegate { return true; };
             }
-            catch (NotImplementedException)
+            catch
             {
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             }
@@ -96,7 +96,7 @@ namespace HandSchool.Internals
                 }
                 else if (ex.InnerException is WebException ex3)
                 {
-                    known = AwaredWebClientImpl.Convert(ex3.Status);
+                    known = ex3.Status.Convert();
                 }
 
                 throw new WebsException(new WebResponse(meta, known), ex);

@@ -34,7 +34,7 @@ namespace HandSchool.JLU.Models
         public NameValueCollection Attach { get; private set; }
         public string Type => "未知";
 
-        public string Show => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
+        public string Show => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
 
         public IEnumerable<Entry> GetGradeDistribute()
         {

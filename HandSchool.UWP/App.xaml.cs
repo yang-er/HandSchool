@@ -17,6 +17,16 @@ namespace HandSchool.UWP
         {
             PlatformImpl.Register();
             Forwarder.NormalWay.Begin();
+
+            if ("Windows.Mobile" == Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily)
+            {
+                RequestedTheme = ApplicationTheme.Dark;
+            }
+            else
+            {
+                RequestedTheme = ApplicationTheme.Light;
+            }
+
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -48,9 +58,7 @@ namespace HandSchool.UWP
             }
             
             Window.Current.Activate();
-
             SetupTitleBarStyles();
-            ClearXamarinStyles();
         }
 
         private void SetupTitleBarStyles()
@@ -62,14 +70,6 @@ namespace HandSchool.UWP
             titleBar.ButtonForegroundColor = Colors.Black;
         }
         
-        private void ClearXamarinStyles()
-        {
-            var formsListViewItem = (Style)Resources["FormsListViewItem"];
-            formsListViewItem.Setters.Clear();
-            formsListViewItem.Setters.Add(new Setter(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Stretch));
-            formsListViewItem.Setters.Add(new Setter(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-        }
-
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new NotImplementedException("Failed to load Page " + e.SourcePageType.FullName);
