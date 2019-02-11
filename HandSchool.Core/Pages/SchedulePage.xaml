@@ -22,11 +22,13 @@
                     <ColumnDefinition Width="25" />
                 </Grid.ColumnDefinitions>
                 <Grid.Resources>
-                    <Style TargetType="Label">
-                        <Setter Property="FontSize" Value="14" />
-                        <Setter Property="HorizontalTextAlignment" Value="Center" />
-                        <Setter Property="VerticalTextAlignment" Value="Center" />
-                    </Style>
+                    <ResourceDictionary>
+                        <Style TargetType="Label">
+                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="HorizontalTextAlignment" Value="Center" />
+                            <Setter Property="VerticalTextAlignment" Value="Center" />
+                        </Style>
+                    </ResourceDictionary>
                 </Grid.Resources>
                 <Label Text="周一" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
                 <Label Text="周二" TextColor="Gray" Grid.Column="2" Grid.Row="0" />

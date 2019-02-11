@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = ".HandSchool.Core.UAP", "HandSchool.Core\.HandSchool.Core.UAP.shproj", "{5336E020-94CE-463D-A157-92C876FF65FD}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = ".HandSchool.JLU.UAP", "HandSchool.JLU\.HandSchool.JLU.UAP.shproj", "{6242163F-8CFD-4116-B7F6-0D85DC70A467}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = ".HandSchool.Forwarder.UAP", "HandSchool.Forwarder\.HandSchool.Forwarder.UAP.shproj", "{4FF79660-3B4D-4D2B-99A3-2AA37D2E162E}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = ".HandSchool.UWP.UAP", "HandSchool.UWP\.HandSchool.UWP.UAP.shproj", "{26B7104F-1EB1-4167-B967-AC927B7AE408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandSchool.UAP", "HandSchool.UAP\HandSchool.UAP.csproj", "{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		HandSchool.UWP\.HandSchool.UWP.UAP.projitems*{26b7104f-1eb1-4167-b967-ac927b7ae408}*SharedItemsImports = 13
+		HandSchool.Forwarder\.HandSchool.Forwarder.UAP.projitems*{4ff79660-3b4d-4d2b-99a3-2aa37d2e162e}*SharedItemsImports = 13
+		HandSchool.Core\.HandSchool.Core.UAP.projitems*{5336e020-94ce-463d-a157-92c876ff65fd}*SharedItemsImports = 13
+		HandSchool.JLU\.HandSchool.JLU.UAP.projitems*{6242163f-8cfd-4116-b7f6-0d85dc70a467}*SharedItemsImports = 13
+		HandSchool.Core\.HandSchool.Core.UAP.projitems*{c1da2401-fa7b-492d-8c28-b49f83bb7b58}*SharedItemsImports = 4
+		HandSchool.Forwarder\.HandSchool.Forwarder.UAP.projitems*{c1da2401-fa7b-492d-8c28-b49f83bb7b58}*SharedItemsImports = 4
+		HandSchool.JLU\.HandSchool.JLU.UAP.projitems*{c1da2401-fa7b-492d-8c28-b49f83bb7b58}*SharedItemsImports = 4
+		HandSchool.UWP\.HandSchool.UWP.UAP.projitems*{c1da2401-fa7b-492d-8c28-b49f83bb7b58}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|ARM.Build.0 = Debug|ARM
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|ARM.Deploy.0 = Debug|ARM
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|x64.ActiveCfg = Debug|x64
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|x64.Build.0 = Debug|x64
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|x64.Deploy.0 = Debug|x64
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|x86.ActiveCfg = Debug|x86
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|x86.Build.0 = Debug|x86
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Debug|x86.Deploy.0 = Debug|x86
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|ARM.ActiveCfg = Release|ARM
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|ARM.Build.0 = Release|ARM
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|ARM.Deploy.0 = Release|ARM
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|x64.ActiveCfg = Release|x64
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|x64.Build.0 = Release|x64
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|x64.Deploy.0 = Release|x64
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|x86.ActiveCfg = Release|x86
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|x86.Build.0 = Release|x86
+		{C1DA2401-FA7B-492D-8C28-B49F83BB7B58}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78A6AD41-A4A1-4724-AB6D-D6F313F256D2}
+	EndGlobalSection
+EndGlobal
