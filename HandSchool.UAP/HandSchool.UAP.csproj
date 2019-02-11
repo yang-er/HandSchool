@@ -17,11 +17,11 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>..\HandSchool.UWP\HandSchool.UWP_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>HandSchool.UWP_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>5601B361B0A14AAABA8B9EC17B361A854963C073</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
@@ -101,7 +101,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\HandSchool.UWP\HandSchool.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>HandSchool.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="WebWrapper\bootstrap.css" />
@@ -116,22 +116,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="..\HandSchool.UWP\Package.appxmanifest">
-      <Link>Package.appxmanifest</Link>
-    </AppxManifest>
-    <None Include="..\HandSchool.UWP\HandSchool.UWP_StoreKey.pfx">
-      <Link>HandSchool.UWP_StoreKey.pfx</Link>
-    </None>
-    <None Include="..\HandSchool.UWP\Package.xml">
-      <Link>Package.xml</Link>
-    </None>
-    <None Include="..\HandSchool.UWP\Package.StoreAssociation.xml">
+    <AppxManifest Include="Package.appxmanifest" />
+    <None Include="HandSchool.UWP_StoreKey.pfx" />
+    <None Include="Package.xml" />
+    <None Include="Package.StoreAssociation.xml">
       <SubType>Designer</SubType>
-      <Link>Package.StoreAssociation.xml</Link>
     </None>
-    <None Include="..\HandSchool.UWP\HandSchool.snk">
-      <Link>HandSchool.snk</Link>
-    </None>
+    <None Include="HandSchool.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\HandSchool.UWP\Properties\Default.rd.xml">
