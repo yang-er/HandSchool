@@ -13,7 +13,7 @@ namespace HandSchool.Views
                 returnType: typeof(SettingWrapper),
                 declaringType: typeof(ValueCell),
                 defaultValue: default(SettingWrapper),
-                defaultBindingMode: BindingMode.OneTime,
+                defaultBindingMode: BindingMode.OneWay,
                 propertyChanged: WrapperChanged);
         
         public static readonly BindableProperty NumericValueProperty =
@@ -49,7 +49,7 @@ namespace HandSchool.Views
                 returnType: typeof(string),
                 declaringType: typeof(ValueCell),
                 defaultValue: "",
-                defaultBindingMode: BindingMode.OneTime);
+                defaultBindingMode: BindingMode.OneWay);
 
         public static readonly BindableProperty DescriptionProperty =
             BindableProperty.Create(
@@ -57,7 +57,7 @@ namespace HandSchool.Views
                 returnType: typeof(string),
                 declaringType: typeof(ValueCell),
                 defaultValue: "",
-                defaultBindingMode: BindingMode.OneTime);
+                defaultBindingMode: BindingMode.OneWay);
 
         public static readonly BindableProperty TypeProperty =
             BindableProperty.Create(
@@ -65,7 +65,7 @@ namespace HandSchool.Views
                 returnType: typeof(SettingTypes),
                 declaringType: typeof(ValueCell),
                 defaultValue: SettingTypes.Unknown,
-                defaultBindingMode: BindingMode.OneTime);
+                defaultBindingMode: BindingMode.OneWay);
 
         private static void WrapperChanged(BindableObject bind, object old, object @new)
         {

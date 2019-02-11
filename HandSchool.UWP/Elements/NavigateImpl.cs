@@ -1,7 +1,5 @@
-﻿using HandSchool.Internals;
-using HandSchool.Views;
+﻿using HandSchool.Views;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Navigation;
@@ -39,7 +37,7 @@ namespace HandSchool.UWP
         /// <param name="args">导航时发生的事件</param>
         private void Frame_Navigated(object sender, NavigationEventArgs args)
         {
-            Debug.Assert(args.SourcePageType.IsSubclassOf(typeof(ViewPage)));
+            Debug.Assert(typeof(ViewPage).IsAssignableFrom(args.SourcePageType));
             var currentPage = args.Content as IViewLifecycle;
             currentPage.RegisterNavigation(this);
         }
@@ -67,7 +65,7 @@ namespace HandSchool.UWP
             }
             else if (typeof(ViewObject).IsAssignableFrom(pageType))
             {
-                InnerFrame.Navigate(typeof(PackagedPage), (pageType, param));
+                InnerFrame.Navigate(typeof(PackagedPage), new Tuple<Type, object>(pageType, param));
             }
 
             return Task.CompletedTask;

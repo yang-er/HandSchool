@@ -5,18 +5,19 @@
               x:Class="HandSchool.Views.InfoQueryPage"
               UseTabletMode="True"
               Title="{Binding Title}">
-    <ListView VerticalOptions="FillAndExpand"
+    <w:ViewObject.Content>
+        <ListView VerticalOptions="FillAndExpand"
               HasUnevenRows="true"
               GroupDisplayBinding="{Binding GroupTitle}"
               ItemTapped="ItemTapped"
               IsGroupingEnabled="true"
-              SelectionMode="None"
               CachingStrategy="RecycleElement">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:TextCell Title="{Binding Name}"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding Name}"
                             Detail="{Binding Description}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

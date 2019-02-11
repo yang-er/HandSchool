@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove=".HandSchool.JLU.UAP.projitems" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HandSchool.Core\HandSchool.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
   </ItemGroup>
 
 </Project>

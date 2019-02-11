@@ -1,5 +1,4 @@
-﻿using HandSchool.Internals;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -14,14 +13,11 @@ namespace HandSchool.Views
         public TabbedPage()
         {
             InitializeComponent();
-            InternalPages = new List<ContentPage>();
             Packagers = new List<ViewObject>();
         }
 
         private List<ViewObject> Packagers { get; }
-
-        private List<ContentPage> InternalPages { get; }
-
+        
         protected override void OnPageLoaded(RoutedEventArgs args, MainPage mainPage)
         {
             if (Packagers.Count == 0)
@@ -65,17 +61,11 @@ namespace HandSchool.Views
         {
             Appearing += (s, e) => Packager.SendAppearing();
             Disappearing += (s, e) => Packager.SendDisappearing();
-
-            var InternalPage = new ContentPage
-            {
-                Content = Packager.Content,
-                BindingContext = Packager.ViewModel,
-            };
             
             var grid = new Grid
             {
-                Children = { InternalPage.CreateFrameworkElement() },
-                Tag = InternalPage,
+                Children = { Packager.CreateFrameworkElement() },
+                Tag = Packager,
             };
 
             var pi = new PivotItem
@@ -87,7 +77,6 @@ namespace HandSchool.Views
             };
             
             Pivot.Items.Add(pi);
-            InternalPages.Add(InternalPage);
             grid.SizeChanged += FrameworkElement_SizeChanged;
         }
 
@@ -117,22 +106,15 @@ namespace HandSchool.Views
             {
                 (item.Content as Grid).Children.Clear();
             }
-
-            foreach (var page in InternalPages)
-            {
-                Platform.GetRenderer(page).Dispose();
-                Platform.SetRenderer(page, null);
-                page.BindingContext = null;
-            }
-
+            
             foreach (var packager in Packagers)
             {
-                packager.ViewModel = null;
+                Platform.GetRenderer(packager).Dispose();
+                Platform.SetRenderer(packager, null);
+                packager.BindingContext = null;
             }
-
-            InternalPages.Clear();
+            
             Packagers.Clear();
-
             System.GC.Collect();
         }
     }

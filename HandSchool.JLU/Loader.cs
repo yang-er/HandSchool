@@ -46,7 +46,7 @@ namespace HandSchool.JLU
         {
             Core.App.DailyClassCount = 11;
             RegisteredFiles = new List<string>();
-            Core.Reflection.RegisterFiles(GetType().Assembly, RegisteredFiles);
+            Core.Reflection.RegisterFiles(this.GetAssembly(), RegisteredFiles);
             
             var lp = Core.Configure.Read(configFile);
             SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();

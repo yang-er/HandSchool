@@ -1,5 +1,4 @@
-﻿using HandSchool.Internals;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Windows.UI.Xaml;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
@@ -16,9 +15,7 @@ namespace HandSchool.Views
         }
         
         public ViewObject Packager { get; set; }
-
-        public ContentPage InternalPage { get; set; }
-
+        
         protected override void OnPageLoaded(RoutedEventArgs args, MainPage mainPage)
         {
             if (Packager is null)
@@ -32,7 +29,6 @@ namespace HandSchool.Views
                 foreach (var entry in Packager.ToolbarMenu)
                     AddToolbarEntry(entry);
                 base.OnPageLoaded(args, mainPage);
-                Packager.Pushed.Start();
             }
         }
         
@@ -44,7 +40,7 @@ namespace HandSchool.Views
                 Packager = (ViewObject)presenter.GetAllPages()[0];
                 ProcessPackager();
             }
-            else if (e.Parameter is System.ValueTuple<System.Type, object> paramed)
+            else if (e.Parameter is System.Tuple<System.Type, object> paramed)
             {
                 Packager = Core.Reflection.CreateInstance<ViewObject>(paramed.Item1);
                 Packager.SetNavigationArguments(paramed.Item2);
@@ -67,28 +63,20 @@ namespace HandSchool.Views
 
             // Do some basic cleaning.
             (Content as Windows.UI.Xaml.Controls.Grid).Children.Clear();
-            Platform.GetRenderer(InternalPage).Dispose();
-            Platform.SetRenderer(InternalPage, null);
+            Platform.GetRenderer(Packager).Dispose();
+            Platform.SetRenderer(Packager, null);
             ViewModel.View = null;
             ViewModel = null;
             Packager.ViewModel = null;
             Packager = null;
-            InternalPage.BindingContext = null;
-            InternalPage = null;
             System.GC.Collect();
         }
 
         private void ProcessPackager()
         {
-            InternalPage = new ContentPage
-            {
-                Content = Packager.Content,
-                BindingContext = Packager.ViewModel,
-            };
-            
             Content = new Windows.UI.Xaml.Controls.Grid
             {
-                Children = { InternalPage.CreateFrameworkElement() }
+                Children = { Packager.CreateFrameworkElement() }
             };
         }
         
@@ -96,7 +84,7 @@ namespace HandSchool.Views
         {
             if (Content is FrameworkElement element)
             {
-                InternalPage?.Layout(new Rectangle(0, 0, element.ActualWidth, element.ActualHeight));
+                Packager?.Layout(new Rectangle(0, 0, element.ActualWidth, element.ActualHeight));
             }
         }
     }

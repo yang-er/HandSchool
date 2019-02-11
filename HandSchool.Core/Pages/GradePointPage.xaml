@@ -7,18 +7,19 @@
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
     </w:ViewObject.ToolbarMenu>
-    <ListView ItemsSource="{Binding Items}"
+    <w:ViewObject.Content>
+        <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
-              SelectionMode="None"
               IsPullToRefreshEnabled="true"
               RefreshCommand="{Binding LoadItemsCommand}"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               HasUnevenRows="true"
               CachingStrategy="RecycleElement">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:TextCell Title="{Binding Name}" Detail="{Binding Show}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding Name}" Detail="{Binding Show}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

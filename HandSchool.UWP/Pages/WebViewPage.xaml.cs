@@ -175,6 +175,8 @@ namespace HandSchool.Views
                     LoadCompleted += () => ViewModel.IsBusy = false;
                 }
             }
+
+            Controller.SubEntranceRequested += OnEntranceRequested;
         }
 
         /// <summary>

@@ -61,6 +61,8 @@
         </GroupStyle.HeaderTemplate>
     </GroupStyle>
 
+    <local:ListGroupStyleSelector x:Key="HSListViewGroupStyleSelector" />
+
     <DataTemplate x:Key="HSValueCell">
         <StackPanel Padding="8,12">
             <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
@@ -68,4 +70,5 @@
             <TextBlock Text="{Binding Description}" FontSize="13" />
         </StackPanel>
     </DataTemplate>
+    
 </ResourceDictionary>
