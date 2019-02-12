@@ -13,21 +13,14 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Views
 {
-    public class WebViewPage : ViewFragment, IWebViewPage, INotifyPropertyChanged
+    [BindView(Resource.Layout.layout_webview)]
+    public partial class WebViewPage : ViewFragment, IWebViewPage, INotifyPropertyChanged
     {
         const string injectJS = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
-
-        public WebViewPage()
-        {
-            FragmentViewResource = Resource.Layout.layout_webview;
-        }
+        const string baseUrl = "file:///android_asset/";
 
         [BindView(Resource.Id.web_view)]
         public WebView WebView { get; set; }
-
-        private Func<string, Task> Callback { get; set; }
-        public string Uri { get; set; }
-        public string Html { get; set; }
 
         public BaseController Controller
         {
@@ -37,26 +30,26 @@ namespace HandSchool.Views
 
         public override bool IsBusy
         {
-            get => base.IsBusy;
-            set
-            {
-                if (base.IsBusy != value)
-                {
-                    base.IsBusy = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBusy)));
-                }
-            }
+            get => Controller?.IsBusy ?? false;
+            set => Controller.IsBusy = value;
         }
+        
+        public string Uri { get; set; }
+        public string Html { get; set; }
 
         private void WeakBind(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == nameof(IsBusy)) IsBusy = Controller.IsBusy;
+            if (args.PropertyName == nameof(IsBusy))
+                PropertyChanged?.Invoke(this, args);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public override void SetNavigationArguments(object param)
         {
             Controller = param as BaseController;
             Controller.View = this;
+            Controller.PropertyChanged += WeakBind;
             var meta = Controller.GetType().Get<EntranceAttribute>();
             Title = meta.Title;
             
@@ -69,11 +62,7 @@ namespace HandSchool.Views
             else if (Controller is IUrlEntrance iu)
             {
                 Uri = iu.HtmlUrl;
-
-                if (Uri.Contains("://"))
-                {
-                    Controller.IsBusy = true;
-                }
+                Controller.IsBusy = Uri.Contains("://");
             }
 
             foreach (var key in Controller.Menu)
@@ -82,7 +71,6 @@ namespace HandSchool.Views
             }
 
             Controller.Evaluate = JavaScript;
-            Callback = Controller.Receive;
             Controller.SubEntranceRequested += OnEntranceRequested;
         }
 
@@ -96,13 +84,9 @@ namespace HandSchool.Views
             WebView.LoadUrl(string.Format("javascript: {0}", str));
         }
 
-        const string baseUrl = "file:///android_asset/";
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void SolveBindings()
         {
-            base.OnViewCreated(view, savedInstanceState);
+            base.SolveBindings();
             WebView.Settings.JavaScriptEnabled = true;
             WebView.AddJavascriptInterface(this, "jsBridge");
 
@@ -110,8 +94,7 @@ namespace HandSchool.Views
             {
                 var realHtml = Html.Replace("{webview_base_url}", baseUrl)
                                    .Replace("{invokeCSharpAction_script}", injectJS);
-                WebView.LoadDataWithBaseURL(baseUrl, realHtml,
-                    "text/html", "utf-8", null);
+                WebView.LoadDataWithBaseURL(baseUrl, realHtml, "text/html", "utf-8", null);
             }
             else
             {
@@ -119,7 +102,7 @@ namespace HandSchool.Views
                 {
                     WebView.SetWebViewClient(new AwareWebClient(this));
                     WebView.LoadUrl(Uri);
-                    IsBusy = Controller.IsBusy = true;
+                    Controller.IsBusy = true;
                 }
                 else
                 {
@@ -127,18 +110,18 @@ namespace HandSchool.Views
                 }
             }
         }
-
+        
         private void NotifyLoadComplete()
         {
             // TODO
-            IsBusy = Controller.IsBusy = false;
+            Controller.IsBusy = false;
         }
 
         [JavascriptInterface]
         [Export("invokeAction")]
         public void InvokeAction(string data)
         {
-            Callback?.Invoke(data);
+            Controller?.Receive(data);
         }
         
         protected virtual void OnSubUrlRequested(string req)
@@ -152,39 +135,6 @@ namespace HandSchool.Views
         protected virtual void OnEntranceRequested(IWebEntrance ent)
         {
             Navigation.PushAsync<WebViewPage>(ent);
-        }
-
-        private class AwareWebClient : WebViewClient
-        {
-            WeakReference<WebViewPage> inner;
-
-            public AwareWebClient(WebViewPage view)
-            {
-                inner = new WeakReference<WebViewPage>(view);
-            }
-
-            public override void OnPageFinished(WebView view, string url)
-            {
-                if (inner.TryGetTarget(out var target))
-                {
-                    target.NotifyLoadComplete();
-                }
-            }
-
-            public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
-            {
-                if (request.IsRedirect) return false;
-
-                if (inner.TryGetTarget(out var target))
-                {
-                    target.OnSubUrlRequested(request.Url.ToString());
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
         }
     }
 }

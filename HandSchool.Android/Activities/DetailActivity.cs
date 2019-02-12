@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using HandSchool.ViewModels;
+using System;
 
 namespace HandSchool.Droid
 {
     [Activity(Theme = "@style/AppTheme.NoActionBar")]
+    [BindView(Resource.Layout.activity_detail)]
     public class DetailActivity : BaseActivity
     {
         [BindView(Resource.Id.detail_text_view)]
@@ -28,16 +23,22 @@ namespace HandSchool.Droid
         [BindView(Resource.Id.detail_sender)]
         public TextView DetailSender { get; set; }
 
-        public new DetailViewModel ViewModel
-        {
-            get => base.ViewModel as DetailViewModel;
-            set => base.ViewModel = value;
-        }
+        public DetailViewModel ViewModel { get; set; }
 
         protected override void OnNavigatedParameter(object obj)
         {
             base.OnNavigatedParameter(obj);
             ViewModel = DetailViewModel.From(obj);
+
+            var ActionBar = SupportActionBar;
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
+
+            TextContent.Text = ViewModel.Content;
+            DetailTitle.Text = ViewModel.Name;
+            DetailTime.Text = ViewModel.Date;
+            DetailSender.Text = ViewModel.Sender;
+            ActionBar.Title = ViewModel.Title;
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -46,22 +47,6 @@ namespace HandSchool.Droid
             detail.SetShowAsAction(ShowAsAction.Always);
             detail.SetOnMenuItemClickListener(new MenuEntryClickedListener(ViewModel.Command));
             return base.OnCreateOptionsMenu(menu);
-        }
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            ContentViewResource = Resource.Layout.activity_detail;
-            base.OnCreate(savedInstanceState);
-
-            TextContent.Text = ViewModel.Content;
-            DetailTitle.Text = ViewModel.Name;
-            DetailTime.Text = ViewModel.Date;
-            DetailSender.Text = ViewModel.Sender;
-
-            var ActionBar = SupportActionBar;
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
-            ActionBar.SetHomeButtonEnabled(true);
-            ActionBar.Title = ViewModel.Title;
         }
     }
 }

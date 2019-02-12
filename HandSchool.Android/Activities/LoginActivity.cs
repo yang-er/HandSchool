@@ -4,6 +4,7 @@ using Android.OS;
 namespace HandSchool.Droid
 {
     [Activity(Theme = "@style/AppTheme.NoActionBar")]
+    [BindView(Resource.Layout.activity_login)]
     public class LoginActivity : BaseActivity
     {
         private LoginFragment Fragment { get; set; }
@@ -12,17 +13,12 @@ namespace HandSchool.Droid
         {
             Fragment = obj as LoginFragment;
             TransactionV3(Fragment, Fragment);
-        }
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            ContentViewResource = Resource.Layout.activity_login;
-            base.OnCreate(savedInstanceState);
-            var bar = SupportActionBar;
-            bar.SetDisplayHomeAsUpEnabled(true);
-            bar.SetHomeButtonEnabled(true);
+            var ActionBar = SupportActionBar;
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
         }
-
+        
         public override void Finish()
         {
             base.Finish();

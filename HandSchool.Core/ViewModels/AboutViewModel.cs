@@ -38,8 +38,6 @@ namespace HandSchool.ViewModels
         {
             AboutEntrances = new InfoEntranceGroup { GroupTitle = "关于" };
             AboutEntrances.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => OpenSource())));
-            if (Core.Platform.RuntimeName != "iOS")
-                AboutEntrances.Add(new TapEntranceWrapper("检查更新", "", (nav) => Task.Run(() => CheckUpdate())));
             AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
             AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
             AboutEntrances.Add(new InfoEntranceWrapper(typeof(LicenseInfo)));
@@ -51,17 +49,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 打开本软件的开源项目页面。
         /// </summary>
-        private void OpenSource() => Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool");
+        public void OpenSource() => Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool");
 
         /// <summary>
         /// 在应用商店中打开本软件详情。
         /// </summary>
-        private void OpenMarket() => Core.Platform.OpenUrl(Core.Platform.StoreLink);
+        public void OpenMarket() => Core.Platform.OpenUrl(Core.Platform.StoreLink);
 
         /// <summary>
         /// 检查软件更新。
         /// </summary>
-        private void CheckUpdate() => Core.Platform.CheckUpdate();
+        public void CheckUpdate() => Core.Platform.CheckUpdate();
 
         [Entrance("*", "隐私政策", "提供关于本程序如何使用您的隐私的一些说明。", EntranceType.UrlEntrance)]
         public class PrivacyPolicy : BaseController, IUrlEntrance

@@ -52,9 +52,12 @@ namespace HandSchool.Droid
         protected int ContentViewResource { get; set; }
 
         #endregion
-
-        public BaseViewModel ViewModel { get; set; }
         
+        public BaseActivity()
+        {
+            ContentViewResource = this.SolveSelf();
+        }
+
         #region Fragment Transaction
 
         private ToolbarMenuTracker MenuTracker { get; set; }
@@ -82,7 +85,6 @@ namespace HandSchool.Droid
             if (core != null)
             {
                 SupportActionBar.Title = core.Title;
-                ViewModel = core.ViewModel;
                 MenuTracker = core.ToolbarTracker;
                 if (MenuTracker != null)
                     MenuTracker.Changed += ReloadToolbarMenu;
@@ -159,21 +161,8 @@ namespace HandSchool.Droid
             ArgumentBroadcastSource = new Dictionary<Guid, object>();
 
         protected virtual void OnNavigatedParameter(object obj) { }
-
-        Task INavigate.PushAsync(string pageType, object param)
-        {
-            var type = Core.Reflection.TryGetType(pageType);
-
-            if (type is null)
-            {
-                Core.Logger.WriteLine("NavImpl", pageType + " not found.");
-                return Task.CompletedTask;
-            }
-
-            return (this as INavigate).PushAsync(type, param);
-        }
         
-        Task INavigate.PushAsync(Type pageType, object param)
+        public Task PushAsync(Type pageType, object param)
         {
             pageType = Core.Reflection.TryGetType(pageType);
 

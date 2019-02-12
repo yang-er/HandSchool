@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.OS;
 using HandSchool.Views;
 using System;
 using SupportFragment = Android.Support.V4.App.Fragment;
@@ -7,6 +6,7 @@ using SupportFragment = Android.Support.V4.App.Fragment;
 namespace HandSchool.Droid
 {
     [Activity(Theme = "@style/AppTheme.NoActionBar")]
+    [BindView(Resource.Layout.activity_popup)]
     public class SecondActivity : BaseActivity
     {
         protected override void OnNavigatedParameter(object obj)
@@ -29,33 +29,31 @@ namespace HandSchool.Droid
                         var fg = Core.Reflection.CreateInstance<SupportFragment>(param2.Item1);
                         Transaction(fg);
                         break;
+
                     case NavMenuItemType.Fragment:
                         var vf = Core.Reflection.CreateInstance<ViewFragment>(param2.Item1);
                         vf.SetNavigationArguments(param2.Item2);
                         Transaction(vf);
                         break;
+
                     case NavMenuItemType.Object:
                         var vo = Core.Reflection.CreateInstance<ViewObject>(param2.Item1);
                         vo.SetNavigationArguments(param2.Item2);
                         Transaction(vo);
                         break;
+
                     case NavMenuItemType.Presenter:
                         var vp = Core.Reflection.CreateInstance<IViewPresenter>(param2.Item1);
                         Transaction(new TabbedFragment(vp));
                         break;
+
                     default:
                         break;
                 }
             }
-        }
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            ContentViewResource = Resource.Layout.activity_popup;
-            base.OnCreate(savedInstanceState);
-            var bar = SupportActionBar;
-            bar.SetDisplayHomeAsUpEnabled(true);
-            bar.SetHomeButtonEnabled(true);
+            
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
         }
     }
 }

@@ -39,5 +39,24 @@ namespace HandSchool.Internals
         {
             return navigate.PushAsync(typeof(T), param);
         }
+
+        /// <summary>
+        /// 将新的导航页推入。
+        /// </summary>
+        /// <param name="navigate">导航工具</param>
+        /// <param name="pageType">页面类型</param>
+        /// <param name="param">参数</param>
+        public static Task PushAsync(this INavigate navigate, string pageType, object param)
+        {
+            var type = Core.Reflection.TryGetType(pageType);
+
+            if (type is null)
+            {
+                Core.Logger.WriteLine("NavImpl", pageType + " not found.");
+                return Task.CompletedTask;
+            }
+
+            return navigate.PushAsync(type, param);
+        }
     }
 }

@@ -26,6 +26,8 @@ namespace HandSchool.Droid
         /// </summary>
         public ViewFragment()
         {
+            FragmentViewResource = this.SolveSelf();
+
             ToolbarMenu = new ToolbarMenuTracker
             {
                 List = new ObservableCollection<MenuEntry>()
@@ -33,16 +35,7 @@ namespace HandSchool.Droid
             
             RetainInstance = true;
         }
-
-        /// <summary>
-        /// 创建一个视图碎片并初始化状态资源。
-        /// </summary>
-        /// <param name="layoutResId"></param>
-        public ViewFragment(int layoutResId) : this()
-        {
-            FragmentViewResource = layoutResId;
-        }
-
+        
         /// <summary>
         /// 显示为Fragment的试图资源xml
         /// </summary>

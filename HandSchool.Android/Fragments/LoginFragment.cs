@@ -16,11 +16,9 @@ using CharSequence = Java.Lang.ICharSequence;
 
 namespace HandSchool.Droid
 {
+    [BindView(Resource.Layout.layout_login)]
     public class LoginFragment : ViewFragment, ILoginPage
     {
-        public LoginViewModel LoginViewModel { get; set; }
-        public Task Completed { get; }
-
         #region UI BindViews
 
         [BindView(Resource.Id.login_username)]
@@ -58,14 +56,12 @@ namespace HandSchool.Droid
 
         #endregion
         
+        public LoginViewModel LoginViewModel { get; set; }
+
+        public Task Completed { get; } = new Task(() => { });
+
         private bool _navArgNotSet;
         
-        public LoginFragment()
-        {
-            FragmentViewResource = Resource.Layout.layout_login;
-            Completed = new Task(() => { });
-        }
-
         public async void Response(object sender, LoginStateEventArgs e)
         {
             switch (e.State)
@@ -165,13 +161,6 @@ namespace HandSchool.Droid
                     ProgressBar.Visibility = LoginViewModel.IsBusy
                         ? ViewStates.Visible : ViewStates.Invisible;
                     LoginButton.Enabled = !LoginViewModel.IsBusy;
-
-                    /* UsernameBox.Enabled = !LoginViewModel.IsBusy;
-                    PasswordBox.Enabled = !LoginViewModel.IsBusy;
-                    CaptchaBox.Enabled = !LoginViewModel.IsBusy;
-                    SavePasswordBox.Enabled = !LoginViewModel.IsBusy;
-                    AutoLoginBox.Enabled = !LoginViewModel.IsBusy
-                        && LoginViewModel.Form.CaptchaSource == null; */
                     break;
             }
         }

@@ -123,7 +123,6 @@
     <Compile Include="Internals\NavigateImpl.cs" />
     <Compile Include="Internals\PlatformExtensions.cs" />
     <Compile Include="Internals\PlatformFormsImpl.cs" />
-    <Compile Include="Internals\ViewPage.cs" />
     <Compile Include="Old\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>

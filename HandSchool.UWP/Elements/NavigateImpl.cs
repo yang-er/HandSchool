@@ -43,19 +43,6 @@ namespace HandSchool.UWP
             currentPage.RegisterNavigation(this);
         }
         
-        public Task PushAsync(string pageType, object param)
-        {
-            var type = Core.Reflection.TryGetType(pageType);
-
-            if (type is null)
-            {
-                Core.Logger.WriteLine("NavImpl", pageType + " not found.");
-                return Task.CompletedTask;
-            }
-            
-            return PushAsync(type, param);
-        }
-
         public Task PushAsync(Type pageType, object param)
         {
             pageType = Core.Reflection.TryGetType(pageType);

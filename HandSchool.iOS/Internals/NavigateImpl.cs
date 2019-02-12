@@ -5,18 +5,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace HandSchool.Forms
+namespace HandSchool.iOS
 {
     /// <summary>
     /// 基于Xamarin.Forms的导航实现类。
     /// </summary>
     /// <inheritdoc cref="INavigate" />
-    /// <inheritdoc cref="IReadOnlyList{T}" />
-    internal class NavigateImpl : INavigate, IReadOnlyList<IViewPage>
+    internal class NavigateImpl : INavigate
     {
-        public NavigateImpl(NavigationPage navPage)
+        public NavigateImpl(Page navPage)
         {
             InnerNavigation = navPage.Navigation;
+            
             navPage.Pushed += NavigationOccured;
         }
 
@@ -24,56 +24,34 @@ namespace HandSchool.Forms
         {
             if (args.Page is TabbedPage tabbed)
             {
-                foreach (IViewPage core in tabbed.Children)
+                foreach (IViewLifecycle core in tabbed.Children)
                 {
                     core.RegisterNavigation(this);
                 }
             }
-            else if (args.Page is ViewPage core)
+            else if (args.Page is ViewObject core)
             {
                 core.RegisterNavigation(this);
             }
         }
 
         private INavigation InnerNavigation { get; set; }
-
-        public IReadOnlyList<IViewPage> NavigationStack => this;
-
-        public async Task<IViewPage> PopAsync()
-        {
-            var page = await InnerNavigation.PopAsync();
-            return page as ViewPage;
-        }
-
-        public Task PushAsync(IViewPage page)
-        {
-            return InnerNavigation.PushAsync(page as ViewPage);
-        }
-
-        public int Count => InnerNavigation.NavigationStack.Count;
-
-        public IViewPage this[int index] => InnerNavigation.NavigationStack[index] as ViewPage;
-
-        private IEnumerable<ViewPage> GetEnumerable()
-        {
-            foreach (var page in InnerNavigation.NavigationStack)
-            {
-                yield return page as ViewPage;
-            }
-        }
-
-        public IEnumerator<IViewPage> GetEnumerator() => GetEnumerable().GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerable().GetEnumerator();
-
-        public Task PushAsync(string pageType, object param)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Task PushAsync(Type pageType, object param)
         {
-            throw new NotImplementedException();
+            pageType = Core.Reflection.TryGetType(pageType);
+
+            if (typeof(Page).IsAssignableFrom(pageType))
+            {
+                var page = Core.Reflection.CreateInstance<Page>(pageType);
+                if (page is IViewLifecycle vlc)
+                    vlc.SetNavigationArguments(param);
+                return InnerNavigation.PushAsync(page);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

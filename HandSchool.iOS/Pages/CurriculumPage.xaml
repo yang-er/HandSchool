@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:w="clr-namespace:HandSchool.Views"
+            xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+            xmlns:w2="clr-namespace:HandSchool.Views"
             x:Class="HandSchool.Views.CurriculumPage">
-    <ContentPage.Resources>
+    <w:ViewObject.Resources>
         <ResourceDictionary>
-            <w:OenConverter  x:Key="cvtOen" />
+            <w2:OenConverter  x:Key="cvtOen" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </w:ViewObject.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="saveButton" />
         <ToolbarItem x:Name="removeButton" />
     </ContentPage.ToolbarItems>
-    <ContentPage.Content>
+    <w:ViewObject.Content>
         <TableView Intent="Settings" HasUnevenRows="true">
             <TableRoot>
                 <TableSection Title="课程信息">
@@ -22,8 +23,8 @@
                     <!--<TextCell Text="课程号" Detail="{Binding CourseID}" DetailColor="Black" />-->
                 </TableSection>
                 <TableSection Title="时间设定">
-                    <w:PickerCell Title="开始周" SelectedIndex="{Binding WeekBegin}">
-                        <w:PickerCell.Items>
+                    <w2:PickerCell Title="开始周" SelectedIndex="{Binding WeekBegin}">
+                        <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                             <x:String>第1周</x:String>
                             <x:String>第2周</x:String>
@@ -47,10 +48,10 @@
                             <x:String>第20周</x:String>
                             <x:String>第21周</x:String>
                             <x:String>第22周</x:String>
-                        </w:PickerCell.Items>
-                    </w:PickerCell>
-                    <w:PickerCell Title="结束周" SelectedIndex="{Binding WeekEnd}">
-                        <w:PickerCell.Items>
+                        </w2:PickerCell.Items>
+                    </w2:PickerCell>
+                    <w2:PickerCell Title="结束周" SelectedIndex="{Binding WeekEnd}">
+                        <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                             <x:String>第1周</x:String>
                             <x:String>第2周</x:String>
@@ -74,17 +75,17 @@
                             <x:String>第20周</x:String>
                             <x:String>第21周</x:String>
                             <x:String>第22周</x:String>
-                        </w:PickerCell.Items>
-                    </w:PickerCell>
-                    <w:PickerCell Title="单周/双周" SelectedIndex="{Binding WeekOen, Mode=TwoWay, Converter={StaticResource cvtOen}}">
-                        <w:PickerCell.Items>
+                        </w2:PickerCell.Items>
+                    </w2:PickerCell>
+                    <w2:PickerCell Title="单周/双周" SelectedIndex="{Binding WeekOen, Mode=TwoWay, Converter={StaticResource cvtOen}}">
+                        <w2:PickerCell.Items>
                             <x:String>双周</x:String>
                             <x:String>单周</x:String>
                             <x:String>单双周</x:String>
-                        </w:PickerCell.Items>
-                    </w:PickerCell>
-                    <w:PickerCell Title="日期" SelectedIndex="{Binding WeekDay}">
-                        <w:PickerCell.Items>
+                        </w2:PickerCell.Items>
+                    </w2:PickerCell>
+                    <w2:PickerCell Title="日期" SelectedIndex="{Binding WeekDay}">
+                        <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                             <x:String>星期一</x:String>
                             <x:String>星期二</x:String>
@@ -93,20 +94,20 @@
                             <x:String>星期五</x:String>
                             <x:String>星期六</x:String>
                             <x:String>星期天</x:String>
-                        </w:PickerCell.Items>
-                    </w:PickerCell>
-                    <w:PickerCell Title="开始节" x:Name="beginDay">
-                        <w:PickerCell.Items>
+                        </w2:PickerCell.Items>
+                    </w2:PickerCell>
+                    <w2:PickerCell Title="开始节" x:Name="beginDay">
+                        <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
-                        </w:PickerCell.Items>
-                    </w:PickerCell>
-                    <w:PickerCell Title="结束节" x:Name="endDay">
-                        <w:PickerCell.Items>
+                        </w2:PickerCell.Items>
+                    </w2:PickerCell>
+                    <w2:PickerCell Title="结束节" x:Name="endDay">
+                        <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
-                        </w:PickerCell.Items>
-                    </w:PickerCell>
+                        </w2:PickerCell.Items>
+                    </w2:PickerCell>
                 </TableSection>
             </TableRoot>
         </TableView>
-    </ContentPage.Content>
-</w:ViewPage>
+    </w:ViewObject.Content>
+</w:ViewObject>

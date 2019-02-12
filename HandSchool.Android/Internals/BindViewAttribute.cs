@@ -8,7 +8,7 @@ namespace HandSchool.Droid
     /// <summary>
     /// 视图绑定自动化特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = false)]
     public class BindViewAttribute : Attribute
     {
         /// <summary>
@@ -78,6 +78,16 @@ namespace HandSchool.Droid
             }
 
             target.SolveBindings();
+        }
+
+        /// <summary>
+        /// 从类型自身获取视图绑定源。
+        /// </summary>
+        /// <param name="target">绑定源</param>
+        /// <returns>视图资源ID</returns>
+        public static int SolveSelf(this IBindTarget target)
+        {
+            return target.GetType().Get<BindViewAttribute>(false)?.ResourceId ?? 0;
         }
 
         /// <summary>

@@ -57,7 +57,8 @@ namespace HandSchool.Droid
             var dialog = builder.Create();
             dialog.DismissEvent += (s, e) => args.ReturnTask.Start();
             dialog.Show();
-            IWindowManager manager = MainActivity.Instance.WindowManager;
+
+            IWindowManager manager = ((BaseActivity)sender.ToContext()).WindowManager;
             Display d = manager.DefaultDisplay;
             Window window = dialog.Window;
             WindowManagerLayoutParams param = window.Attributes;

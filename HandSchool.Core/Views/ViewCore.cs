@@ -23,4 +23,10 @@ namespace HandSchool.Views
         /// </summary>
         ToolbarMenuTracker ToolbarTracker { get; }
     }
+
+    public interface IViewCore<TViewModel> : IViewCore
+        where TViewModel : BaseViewModel
+    {
+        new TViewModel ViewModel { get; set; }
+    }
 }

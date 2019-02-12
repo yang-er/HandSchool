@@ -6,18 +6,21 @@ using DanielStone.MaterialAbout.Items;
 using DanielStone.MaterialAbout.Models;
 using HandSchool.Droid;
 using HandSchool.Internals;
+using HandSchool.Services;
 using HandSchool.ViewModels;
 using Resource = HandSchool.Droid.Resource;
 
 namespace HandSchool.Views
 {
-    public class AboutPage : MaterialAboutFragment, IViewCore, IViewLifecycle
+    public class AboutPage : MaterialAboutFragment, IViewCore<AboutViewModel>, IViewLifecycle
     {
         #region IViewCore Impl
 
         public string Title { get; set; }
 
-        public BaseViewModel ViewModel { get; set; }
+        BaseViewModel IViewCore.ViewModel { get; set; }
+
+        public AboutViewModel ViewModel { get; set; }
 
         public ToolbarMenuTracker ToolbarTracker { get; }
 
@@ -29,32 +32,13 @@ namespace HandSchool.Views
             ViewModel = AboutViewModel.Instance;
         }
 
+        private async void Open<T>() where T : IWebEntrance, new()
+        {
+            await Navigation.PushAsync<WebViewPage>(new T());
+        }
+        
         #endregion
-
-        #region Small Functions
-
-        private void OpenGitHub()
-        {
-            Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool");
-        }
-
-        private async void OpenS1()
-        {
-            await Navigation.PushAsync<WebViewPage>(new AboutViewModel.LicenseInfo());
-        }
-
-        private async void OpenS2()
-        {
-            await Navigation.PushAsync<WebViewPage>(new AboutViewModel.PrivacyPolicy());
-        }
-
-        private void OpenStore()
-        {
-            Core.Platform.OpenUrl(Core.Platform.StoreLink);
-        }
-
-        #endregion
-
+        
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
@@ -98,19 +82,19 @@ namespace HandSchool.Views
             var source = new MaterialAboutActionItem.Builder()
                 .Text("开源项目")
                 .Icon(Resource.Drawable.aboutpage_githubicon)
-                .SetOnClickAction(new AboutMenuItemClick(OpenGitHub))
+                .SetOnClickAction(new AboutMenuItemClick(AboutViewModel.Instance.OpenSource))
                 .Build();
 
             var license = new MaterialAboutActionItem.Builder()
                 .Text("开放源代码许可")
                 .Icon(Resource.Drawable.aboutpage_codeicon)
-                .SetOnClickAction(new AboutMenuItemClick(OpenS1))
+                .SetOnClickAction(new AboutMenuItemClick(Open<AboutViewModel.LicenseInfo>))
                 .Build();
 
             var privacy = new MaterialAboutActionItem.Builder()
                 .Text("隐私许可")
                 .Icon(Resource.Drawable.aboutpage_privacyicon)
-                .SetOnClickAction(new AboutMenuItemClick(OpenS2))
+                .SetOnClickAction(new AboutMenuItemClick(Open<AboutViewModel.PrivacyPolicy>))
                 .Build();
 
             var card = new MaterialAboutCard.Builder()
@@ -134,7 +118,7 @@ namespace HandSchool.Views
             var rating = new MaterialAboutActionItem.Builder()
                 .Text("评分与评论")
                 .SubText("觉得好用请给五星！_(:з)∠)_")
-                .SetOnClickAction(new AboutMenuItemClick(OpenStore))
+                .SetOnClickAction(new AboutMenuItemClick(AboutViewModel.Instance.OpenMarket))
                 .Icon(Resource.Drawable.aboutpage_rateicon)
                 .Build();
 
