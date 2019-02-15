@@ -91,6 +91,26 @@ namespace HandSchool.Droid
         }
 
         /// <summary>
+        /// 给文本框赋值。
+        /// </summary>
+        /// <param name="tw">文本框</param>
+        /// <param name="text">文本</param>
+        public static void SetText(this Android.Widget.TextView tw, string text)
+        {
+            tw.Text = text;
+        }
+
+        /// <summary>
+        /// 给文本框赋值。
+        /// </summary>
+        /// <param name="tw">文本框</param>
+        /// <param name="v">是否可见</param>
+        public static void SetVisibility(this Android.Widget.TextView tw, bool v)
+        {
+            tw.Visibility = v ? ViewStates.Visible : ViewStates.Gone;
+        }
+
+        /// <summary>
         /// 从绑定目标中清理数据。
         /// </summary>
         /// <param name="target">绑定目标</param>

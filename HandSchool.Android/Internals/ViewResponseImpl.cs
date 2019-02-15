@@ -40,7 +40,7 @@ namespace HandSchool.Droid
             // Create and assign layout
             var builder = new AlertDialog.Builder(sender.ToContext());
             LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
-            var chartLayout = layoutInflater.Inflate(Resource.Layout.dialog_input, null);
+            var chartLayout = layoutInflater.Inflate(Resource.Layout.dialog_chart, null);
             builder.SetView(chartLayout);
             builder.SetTitle(args.Title);
             builder.SetPositiveButton(args.Close, (IDialogInterfaceOnClickListener)null);

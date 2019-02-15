@@ -79,7 +79,7 @@
     <PackageReference Include="Xamarin.Android.Support.v7.GridLayout">
       <Version>28.0.0.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1029999" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v4" Version="28.0.0.1" />
@@ -406,6 +406,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\cell_text1.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\cell_text2.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

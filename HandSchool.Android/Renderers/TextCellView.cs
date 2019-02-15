@@ -23,6 +23,9 @@ namespace HandSchool.Droid
         [BindView(Resource.Id.cell_rightdown)]
         public TextView RightDown { get; set; }
 
+        [BindView(Resource.Id.cell_attach1)]
+        public TextView Attach1 { get; set; }
+
         public Element Element => BindingContext;
 
         private void CellChanged(object sender, PropertyChangedEventArgs e)
@@ -30,29 +33,39 @@ namespace HandSchool.Droid
             switch (e.PropertyName)
             {
                 case nameof(BindingContext.Title):
-                    Title.Text = BindingContext.Title;
+                    Title?.SetText(BindingContext.Title);
                     break;
 
                 case nameof(BindingContext.Detail):
-                    Detail.Text = BindingContext.Detail;
+                    Detail?.SetText(BindingContext.Detail);
                     break;
 
                 case nameof(BindingContext.RightUp):
-                    RightUp.Text = BindingContext.RightUp;
+                    RightUp?.SetText(BindingContext.RightUp);
                     break;
 
                 case nameof(BindingContext.RightDown):
-                    RightDown.Text = BindingContext.RightDown;
+                    RightDown?.SetText(BindingContext.RightDown);
+                    break;
+
+                case nameof(BindingContext.Attach1):
+                    Attach1?.SetText(BindingContext.Attach1);
+                    break;
+
+                case nameof(BindingContext.RightDownShow):
+                    RightDown?.SetVisibility(BindingContext.RightDownShow);
                     break;
             }
         }
 
         public void SolveBindings()
         {
-            Title.Text = BindingContext.Title;
-            Detail.Text = BindingContext.Detail;
-            RightUp.Text = BindingContext.RightUp;
-            RightDown.Text = BindingContext.RightDown;
+            Title?.SetText(BindingContext.Title);
+            Detail?.SetText(BindingContext.Detail);
+            RightUp?.SetText(BindingContext.RightUp);
+            RightDown?.SetText(BindingContext.RightDown);
+            RightDown?.SetVisibility(BindingContext.RightDownShow);
+            Attach1?.SetText(BindingContext.Attach1);
         }
 
         public TextCellView(Context context, int layout, ACell cell) : base(context)

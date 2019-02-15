@@ -1,4 +1,7 @@
-﻿using Android.Content;
+﻿using System.ComponentModel;
+using Android.Content;
+using Android.Support.V4.Widget;
+using Android.Views;
 using HandSchool.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -9,11 +12,14 @@ namespace HandSchool.Droid.Renderers
     public class ListViewRenderer2 : ListViewRenderer
     {
         public ListViewRenderer2(Context context) : base(context) { }
-
+        
         protected override void OnElementChanged(ElementChangedEventArgs<ListView> e)
         {
             if (e.NewElement != null)
+            {
                 e.NewElement.SelectionMode = ListViewSelectionMode.None;
+            }
+
             base.OnElementChanged(e);
         }
     }

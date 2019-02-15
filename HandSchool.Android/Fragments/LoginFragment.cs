@@ -116,6 +116,16 @@ namespace HandSchool.Droid
             AutoLoginBox.Checked = LoginViewModel.Form.AutoLogin;
             TipsText.Text = LoginViewModel.Form.Tips;
 
+            SavePasswordBox.CheckedChange += (s, e) =>
+            {
+                LoginViewModel.Form.SavePassword = e.IsChecked;
+            };
+
+            AutoLoginBox.CheckedChange += (s, e) =>
+            {
+                LoginViewModel.Form.AutoLogin = e.IsChecked;
+            };
+
             if (LoginViewModel.Form.CaptchaSource == null)
             {
                 CaptchaPanel.Visibility = ViewStates.Gone;
