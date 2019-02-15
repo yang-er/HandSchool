@@ -1,16 +1,18 @@
 ﻿using HandSchool.iOS;
 using HandSchool.Views;
 using System;
+using System.Collections.Generic;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(ViewPage), typeof(ViewPageRenderer))]
+[assembly: ExportRenderer(typeof(ViewObject), typeof(ViewPageRenderer))]
 namespace HandSchool.iOS
 {
     public class ViewPageRenderer : PageRenderer
     {
         private UIActivityIndicatorView Spinner;
+        private List<MenuEntry> RealMenu { get; set; }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
@@ -44,15 +46,43 @@ namespace HandSchool.iOS
 
             MessagingCenter.Unsubscribe<Page, bool>(this, Page.BusySetSignalName);
 
-            if (e.NewElement is ViewPage page)
+            if (e.NewElement is ViewObject page)
             {
                 MessagingCenter.Subscribe<Page, bool>(this, Page.BusySetSignalName, SetIsBusy, page);
+
+                if (page.Navigation == null)
+                {
+                    page.RegisterNavigation(new NavigateImpl(page));
+                }
+
+                RealMenu = new List<MenuEntry>();
+                MenuEntry main = null;
+
+                foreach (var entry in page.ToolbarMenu)
+                {
+                    if (entry.HiddenForPull) continue;
+                    RealMenu.Add(entry);
+                    if (entry.Order == ToolbarItemOrder.Primary)
+                        main = main ?? entry;
+                }
+
+                if (main != null && RealMenu.Count == 1)
+                {
+                    var tbi = new ToolbarItem { BindingContext = main };
+                    tbi.SetBinding(MenuItem.TextProperty, "Title", BindingMode.OneWay);
+                    tbi.SetBinding(MenuItem.CommandProperty, "Command", BindingMode.OneWay);
+                    page.ToolbarItems.Add(tbi);
+                }
+                else
+                {
+                    Core.Logger.WriteLine("PageRenderer", "QAQ");
+                }
             }
         }
         
         private void SetIsBusy(Page page, bool isBusy)
         {
-            if (Element is ViewPage pg && (bool)pg.GetValue(HandSchool.Internal.PlatformExtensions.ShowLoadingProperty) && isBusy)
+            if (Element is ViewObject pg && (bool)pg.GetValue(HandSchool.Internal.PlatformExtensions.ShowLoadingProperty) && isBusy)
             {
                 Spinner.StartAnimating();
             }

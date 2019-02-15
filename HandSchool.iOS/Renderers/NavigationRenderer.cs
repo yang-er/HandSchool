@@ -25,7 +25,7 @@ namespace HandSchool.iOS
         {
             if (Element is NavigationPage navpg)
             {
-                if (navpg.CurrentPage is ViewPage pg)
+                if (navpg.CurrentPage is ViewObject pg)
                 {
                     if ((bool)pg.GetValue(PlatformExtensions.ShowLeftCancelProperty))
                     {
@@ -34,7 +34,7 @@ namespace HandSchool.iOS
                             Title = "取消",
                         };
 
-                        cancelBtn.Clicked += async (sender, e) => await pg.CloseAsync();
+                        // cancelBtn.Clicked += async (sender, e) => await pg.CloseAsync();
                         controller.NavigationItem.LeftBarButtonItem = cancelBtn;
                     }
                 }

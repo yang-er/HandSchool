@@ -5,7 +5,7 @@
             x:Class="HandSchool.Views.SettingPage"
             Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" UWPIcon="&#xE74E;" />
+        <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" Order="Primary" UWPIcon="&#xE74E;" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
         <ListView ItemsSource="{Binding Items}"

@@ -33,6 +33,8 @@ namespace HandSchool.Views
         private void Canvas_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             Chart.LabelTextSize = e.Info.Height / 220.0f * 14;
+            if (Windows.UI.Xaml.Application.Current.RequestedTheme == Windows.UI.Xaml.ApplicationTheme.Dark)
+                Chart.BackgroundColor = SkiaSharp.SKColor.FromHsv(0, 0, 0);
             Chart.Draw(e.Surface.Canvas, e.Info.Width, e.Info.Height);
         }
     }

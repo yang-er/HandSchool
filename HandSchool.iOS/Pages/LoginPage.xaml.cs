@@ -9,17 +9,13 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ViewPage, ILoginPage
+    public partial class LoginPage : ViewObject, ILoginPage
     {
         MemoryStream image_mem;
         
-        internal LoginPage(LoginViewModel viewModel)
+        public LoginPage()
         {
             InitializeComponent();
-            LoginViewModel = viewModel;
-            On<_iOS_>().UseSafeArea().ShowLeftCancel();
-            On<_Each_>().ShowLoading();
-            UpdateCaptchaInfomation();
         }
 
         public LoginViewModel LoginViewModel
@@ -50,6 +46,11 @@ namespace HandSchool.Views
             return (this as Page).Navigation.PushModalAsync(this);
         }
 
+        public Task CloseAsync()
+        {
+            return (this as Page).Navigation.PopModalAsync();
+        }
+
         public async void UpdateCaptchaInfomation()
         {
             LoginViewModel.IsBusy = true;
@@ -76,6 +77,13 @@ namespace HandSchool.Views
             }
 
             LoginViewModel.IsBusy = false;
+        }
+
+        public void SetNavigationArguments(LoginViewModel lvm)
+        {
+            LoginViewModel = lvm;
+            On<_iOS_>().UseSafeArea().ShowLeftCancel();
+            UpdateCaptchaInfomation();
         }
     }
 }

@@ -52,7 +52,12 @@ namespace HandSchool.ViewModels
         public int LeftPageCount
         {
             get => leftPageCount;
-            set => SetProperty(ref leftPageCount, value, onChanged: () => OnPropertyChanged(nameof(FooterTip)));
+            set => SetProperty(ref leftPageCount, value, onChanged: _leftPageCountChanged);
+        }
+
+        void _leftPageCountChanged()
+        {
+            OnPropertyChanged(nameof(FooterTip));
         }
 
         /// <summary>
@@ -69,7 +74,7 @@ namespace HandSchool.ViewModels
                 return "下拉加载更多……";
             }
         }
-
+        
         /// <summary>
         /// 加载消息的方法。
         /// </summary>

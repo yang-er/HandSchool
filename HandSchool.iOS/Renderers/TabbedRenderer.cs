@@ -12,7 +12,6 @@ namespace HandSchool.iOS
         public MainPageRenderer()
         {
             MessagingCenter.Subscribe<object, UIAlertController>(this, PlatformImpl.UIViewControllerRequest, UIViewControllerRequested);
-            MessagingCenter.Subscribe<MainPage, bool>(this, MainPage.SelectPageSignal, SelectPageChanged);
         }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)

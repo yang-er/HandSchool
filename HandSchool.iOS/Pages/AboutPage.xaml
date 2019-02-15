@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              x:Class="HandSchool.Views.AboutPage"
+              SizeChanged="PopContentPage_SizeChanged"
+              Title="{Binding Title}">
+    <StackLayout x:Name="mainLayout">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="OrientationStates">
+                <VisualState Name="Portrait">
+                    <VisualState.Setters>
+                        <Setter Property="Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState Name="Landscape">
+                    <VisualState.Setters>
+                        <Setter Property="Orientation" Value="Horizontal" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+        
+        <StackLayout x:Name="logoLayout" Orientation="Vertical" WidthRequest="120" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+            <Image Source="abouticon.png" x:Name="aboutIcon" HorizontalOptions="CenterAndExpand">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="OrientationStates">
+                        <VisualState Name="Portrait">
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="0,25,0,0" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Landscape">
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="0" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Image>
+            <Label Text="掌上校园" FontSize="Large" TextColor="Black" HorizontalOptions="Center" />
+            <Label Text="{Binding Version}" FontSize="Medium" HorizontalOptions="Center" />
+        </StackLayout>
+
+        <StackLayout x:Name="entranceLayout" WidthRequest="260" HorizontalOptions="Center">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="OrientationStates">
+                    <VisualState Name="Portrait">
+                        <VisualState.Setters>
+                            <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Landscape">
+                        <VisualState.Setters>
+                            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <ListView x:Name="myListView"
+                      Margin="0,5"
+                      VerticalOptions="Center"
+                      HorizontalOptions="Center"
+                      HasUnevenRows="true"
+                      ItemTapped="ItemTapped"
+                      SelectionMode="None"
+                      WidthRequest="240"
+                      CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" FontSize="Medium" HorizontalOptions="StartAndExpand" />
+                                <Label Text="＞" Style="{DynamicResource ListItemTextStyle}" TextColor="LightGray" FontSize="Medium" HorizontalOptions="End" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+    </StackLayout>
+</w:ViewObject>

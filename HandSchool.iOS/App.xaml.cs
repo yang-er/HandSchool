@@ -1,23 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using HandSchool.Internal;
-using HandSchool.ViewModels;
-using HandSchool.Views;
+﻿using HandSchool.Views;
 using Xamarin.Forms;
+using XApplication = Xamarin.Forms.Application;
 
-namespace HandSchool
+namespace HandSchool.iOS
 {
-    public partial class App : Application
+    public partial class App : XApplication
     {
+        public static new App Current
+        {
+            get => XApplication.Current as App;
+        }
+
         public App()
         {
-            Core.Reflection.ForceLoad(false);
-            Core.Initialize();
+            PlatformImpl.Register();
+            Forwarder.NormalWay.Begin();
             InitializeComponent();
             Core.Initialize();
-            MainPage = new MainPage();
+
+            if (Core.Initialized)
+                SetMainPage<MainPage>();
+            else
+                SetMainPage<SelectTypePage>();
+        }
+
+        public void SetMainPage<T>()
+            where T : Page, new()
+        {
+            MainPage = new T();
         }
         
         protected override void OnStart()

@@ -9,12 +9,12 @@
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
         <ListView ItemsSource="{Binding Items}"
-              ItemTapped="Handle_ItemTapped"
-              IsPullToRefreshEnabled="true"
-              RefreshCommand="{Binding LoadItemsCommand}"
-              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-              HasUnevenRows="true"
-              CachingStrategy="RecycleElement">
+                  ItemTapped="Handle_ItemTapped"
+                  IsPullToRefreshEnabled="true"
+                  RefreshCommand="{Binding LoadItemsCommand}"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  HasUnevenRows="true"
+                  CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <w:TextCell Title="{Binding Name}" Detail="{Binding Show}" />

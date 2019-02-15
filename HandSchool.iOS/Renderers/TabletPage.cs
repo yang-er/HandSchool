@@ -5,7 +5,7 @@ namespace HandSchool.iOS
 {
     public class TabletPageImpl : MasterDetailPage
     {
-        public TabletPageImpl(ViewPage insidePage, ViewPage defaultPage)
+        public TabletPageImpl(ViewObject insidePage, ViewObject defaultPage)
         {
             MasterBehavior = MasterBehavior.Split;
             Master = new NavigationPage(insidePage) { Title = insidePage.Title };

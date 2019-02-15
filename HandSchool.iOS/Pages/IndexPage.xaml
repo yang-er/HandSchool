@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:w="clr-namespace:HandSchool.Views"
-            x:Class="HandSchool.Views.IndexPage"
-            Title="{Binding Title}">
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              x:Class="HandSchool.Views.IndexPage"
+              Title="{Binding Title}">
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <StackLayout Padding="10" Spacing="10" >
             <Frame BackgroundColor="#708090">
@@ -52,4 +52,4 @@
             </Frame>
         </StackLayout>
     </ScrollView>
-</w:ViewPage>
+</w:ViewObject>

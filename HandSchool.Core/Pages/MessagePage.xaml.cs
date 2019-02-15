@@ -13,6 +13,15 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = MessageViewModel.Instance;
+
+            if (Core.Platform.RuntimeName == "Android")
+            {
+                var ListView = Content as ListView;
+                ListView.SeparatorVisibility = SeparatorVisibility.None;
+                ListView.Header = new StackLayout { HeightRequest = 4 };
+                ListView.Footer = new StackLayout { HeightRequest = 4 };
+                ListView.BackgroundColor = Color.FromRgb(244, 244, 244);
+            }
         }
 
         protected override void OnAppearing()

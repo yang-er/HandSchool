@@ -25,7 +25,7 @@ namespace HandSchool.iOS
         public FileImageSource Icon { get; }
         private IViewPresenter Presenter { get; }
         private readonly Lazy<TapEntranceWrapper> Wrapper;
-        private readonly Lazy<ViewPage> LazyCorePage;
+        private readonly Lazy<ViewObject> LazyCorePage;
         private readonly Lazy<Page> LazyFullPage;
 
         public TapEntranceWrapper AsEntrance() => Wrapper.Value;
@@ -42,11 +42,11 @@ namespace HandSchool.iOS
             {
                 Presenter = Core.Reflection.CreateInstance<IViewPresenter>(PageType);
                 if (Presenter.PageCount != 1) throw new NotImplementedException("Not designed");
-                LazyCorePage = new Lazy<ViewPage>(Create1);
+                LazyCorePage = new Lazy<ViewObject>(Create1);
             }
             else
             {
-                LazyCorePage = new Lazy<ViewPage>(Create3);
+                LazyCorePage = new Lazy<ViewObject>(Create3);
             }
 
             LazyFullPage = new Lazy<Page>(CreateFull);
@@ -65,19 +65,21 @@ namespace HandSchool.iOS
             }
         }
 
-        private ViewPage Create1()
+        private ViewObject Create1()
         {
-            return Presenter.GetAllPages()[0] as ViewPage;
+            return Presenter.GetAllPages()[0] as ViewObject;
         }
 
-        private ViewPage Create3()
+        private ViewObject Create3()
         {
-            return Core.Reflection.CreateInstance<ViewPage>(PageType);
+            var pg = Core.Reflection.CreateInstance<ViewObject>(PageType);
+            pg.SetNavigationArguments(null);
+            return pg;
         }
 
         private async Task ExecuteAsEntrance(INavigate navigate)
         {
-            await navigate.PushAsync(LazyCorePage.Value);
+            await navigate.PushAsync(PageType, null);
         }
 
         private TapEntranceWrapper CreateEntrance()

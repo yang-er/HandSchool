@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 
 using Foundation;
-using HandSchool.Forms;
 using HandSchool.Internal;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -14,13 +14,9 @@ using UIKit;
 
 namespace HandSchool.iOS
 {
-    public sealed partial class PlatformImpl : PlatformFormsImpl
+    public sealed partial class PlatformImpl : PlatformBase
     {
-        public override string StoreLink { get; }
-
-        public override string RuntimeName => "iOS";
-
-        public override string ConfigureDirectory { get; }
+        public const string UIViewControllerRequest = "HandSchool.iOS.UIVCReq";
 
         public override void CheckUpdate() => OpenUrl(StoreLink);
 
@@ -30,14 +26,32 @@ namespace HandSchool.iOS
 
         public static PlatformImpl Instance { get; private set; }
 
-        public PlatformImpl()
+        private PlatformImpl()
         {
+            RuntimeName = "iOS";
             StoreLink = "itms-apps://itunes.apple.com/cn/app/zhang-shang-ji-da/id1439771819?mt=8";
             ConfigureDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library");
             Core.InitPlatform(Instance = this);
             NavigationMenu = new List<NavMenuItemImpl>();
             InfoQueryMenu = new InfoEntranceGroup("其他功能");
             NavigationViewModel.FetchComplete += MenuComplete;
+            ViewResponseImpl = new ViewResponseImpl();
+
+            Core.Reflection.RegisterCtor<HttpClientImpl>();
+            Core.Reflection.RegisterCtor<CurriculumPage>();
+            Core.Reflection.RegisterCtor<LoginPage>();
+            Core.Reflection.RegisterCtor<AboutPage>();
+            Core.Reflection.RegisterCtor<WebViewPage>();
+            // Core.Reflection.RegisterCtor<CurriculumPage>();
+            Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
+            Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
+            Core.Reflection.RegisterType<ILoginPage, LoginPage>();
+            Core.Reflection.RegisterType<ICurriculumPage, CurriculumPage>();
+        }
+
+        public static void Register()
+        {
+            new PlatformImpl();
         }
 
         private void MenuComplete(object sender, EventArgs args)
@@ -45,9 +59,9 @@ namespace HandSchool.iOS
             var settingList = new InfoEntranceGroup("设置")
             {
                 new TapEntranceWrapper("设置", "调整程序运行的参数。",
-                    (nav) => nav.PushAsync(new SettingPage())),
+                    (nav) => nav.PushAsync<SettingPage>()),
                 new TapEntranceWrapper("关于", "程序的版本信息、开发人员、许可证和隐私声明等。",
-                    (nav) => nav.PushAsync(new AboutPage())),
+                    (nav) => nav.PushAsync<AboutPage>()),
             };
 
             Core.App.InfoEntrances.Add(settingList);

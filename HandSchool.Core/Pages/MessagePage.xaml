@@ -11,20 +11,22 @@
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
         <ListView ItemsSource="{Binding Items}"
-              ItemTapped="Handle_ItemTapped"
-              IsPullToRefreshEnabled="true"
-              RefreshCommand="{Binding LoadItemsCommand}"
-              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-              HasUnevenRows="true"
-              CachingStrategy="RecycleElement">
+                  ItemTapped="Handle_ItemTapped"
+                  IsPullToRefreshEnabled="true"
+                  RefreshCommand="{Binding LoadItemsCommand}"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  HasUnevenRows="true"
+                  CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <w:TextCell Title="{Binding Title}"
-                            Detail="{Binding Body}"
-                            RightUp="{Binding Date}"
-                            RightDown="●"
-                            RightDownColor="Red"
-                            RightDownShow="{Binding Unread}">
+                                Detail="{Binding Body}"
+                                RightUp="{Binding Date}"
+                                RightDown="●"
+                                RightDownColor="Red"
+                                Attach1="{Binding Sender}"
+                                PreferedCardView="2"
+                                RightDownShow="{Binding Unread}">
                         <Cell.ContextActions>
                             <MenuItem Command="{Binding SetRead}" Text="已读" />
                             <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />

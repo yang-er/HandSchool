@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.Threading.Tasks;
@@ -8,18 +8,48 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CurriculumPage : ViewPage
+	public partial class CurriculumPage : ViewObject, ICurriculumPage
 	{
-        public CurriculumItem Binding
+        public TaskCompletionSource<bool> Awaiter { get; }
+
+        public CurriculumItem Model
         {
             get => BindingContext as CurriculumItem;
             set => BindingContext = value;
         }
 
-        public CurriculumPage(CurriculumItem item, bool isCreate = false)
+        public CurriculumPage()
 		{
 			InitializeComponent();
-            Binding = item;
+            Awaiter = new TaskCompletionSource<bool>();
+        }
+
+        private async Task SaveCommand()
+        {
+            ScheduleViewModel.Instance.SaveToFile();
+            Awaiter.SetResult(true);
+            await CloseAsync();
+        }
+
+        private async Task RemoveCommand()
+        {
+            ScheduleViewModel.Instance.RemoveItem(Model);
+            ScheduleViewModel.Instance.SaveToFile();
+            Awaiter.SetResult(true);
+            await CloseAsync();
+        }
+
+        private async Task CreateCommand()
+        {
+            ScheduleViewModel.Instance.AddItem(Model);
+            ScheduleViewModel.Instance.SaveToFile();
+            Awaiter.SetResult(true);
+            await CloseAsync();
+        }
+
+        public void SetNavigationArguments(CurriculumItem item, bool isCreate)
+        {
+            Model = item;
 
             if (isCreate)
             {
@@ -37,8 +67,8 @@ namespace HandSchool.Views
                 removeButton.Text = "删除";
                 Title = "编辑课程";
             }
-            
-            for (int i = 1; i <= Core.App.DailyClassCount; i++) 
+
+            for (int i = 1; i <= Core.App.DailyClassCount; i++)
             {
                 beginDay.Items.Add($"第{i}节");
                 endDay.Items.Add($"第{i}节");
@@ -48,24 +78,21 @@ namespace HandSchool.Views
             endDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayEnd"));
         }
 
-        private async Task SaveCommand()
+        protected override void OnDisappearing()
         {
-            ScheduleViewModel.Instance.SaveToFile();
-            await CloseAsync();
+            base.OnDisappearing();
+            Awaiter.TrySetResult(false);
         }
 
-        private async Task RemoveCommand()
+        public Task<bool> ShowAsync()
         {
-            ScheduleViewModel.Instance.RemoveItem(Binding);
-            ScheduleViewModel.Instance.SaveToFile();
-            await CloseAsync();
+            (this as Page).Navigation.PushModalAsync(this);
+            return Awaiter.Task;
         }
 
-        private async Task CreateCommand()
+        private Task CloseAsync()
         {
-            ScheduleViewModel.Instance.AddItem(Binding);
-            ScheduleViewModel.Instance.SaveToFile();
-            await CloseAsync();
+            return (this as Page).Navigation.PopModalAsync();
         }
     }
 }

@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SelectTypePage : ViewPage
+	public partial class SelectTypePage : ViewObject
     {
         public SelectTypePage()
         {
@@ -31,8 +31,8 @@ namespace HandSchool.Views
             Core.App.InjectService(sch);
             sch.PreLoad();
             sch.PostLoad();
-            
-            (Application.Current.MainPage as MainPage).FinishSettings();
+
+            iOS.App.Current.SetMainPage<MainPage>();
         }
     }
 }

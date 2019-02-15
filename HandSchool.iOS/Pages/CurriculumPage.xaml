@@ -6,7 +6,7 @@
             x:Class="HandSchool.Views.CurriculumPage">
     <w:ViewObject.Resources>
         <ResourceDictionary>
-            <w2:OenConverter  x:Key="cvtOen" />
+            <w2:OenConverter x:Key="cvtOen" />
         </ResourceDictionary>
     </w:ViewObject.Resources>
     <ContentPage.ToolbarItems>

@@ -15,12 +15,7 @@ namespace HandSchool.ViewModels
     {
         static readonly Lazy<AboutViewModel> Lazy =
             new Lazy<AboutViewModel>(() => new AboutViewModel());
-
-        /// <summary>
-        /// 信息入口点的列表
-        /// </summary>
-        public InfoEntranceGroup AboutEntrances { get; }
-
+        
         /// <summary>
         /// 目前程序的版本号
         /// </summary>
@@ -36,12 +31,6 @@ namespace HandSchool.ViewModels
         /// </summary>
         private AboutViewModel()
         {
-            AboutEntrances = new InfoEntranceGroup { GroupTitle = "关于" };
-            AboutEntrances.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => OpenSource())));
-            AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => OpenMarket())));
-            AboutEntrances.Add(new InfoEntranceWrapper(typeof(PrivacyPolicy)));
-            AboutEntrances.Add(new InfoEntranceWrapper(typeof(LicenseInfo)));
-            
             Version = Core.Version;
             Title = "关于";
         }

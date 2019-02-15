@@ -225,7 +225,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\HandSchool.UWP\Properties\AssemblyInfo.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>

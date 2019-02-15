@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<w:ViewPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:w="clr-namespace:HandSchool.Views"
-            x:Class="HandSchool.Views.SelectTypePage">
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              x:Class="HandSchool.Views.SelectTypePage">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -38,7 +38,6 @@
         </Grid>
 
         <Picker x:Name="MySchool" IsVisible="False" Grid.Row="3" WidthRequest="200" HorizontalOptions="Center" Margin="0,0,0,16" />
-
         <Button x:Name="NextButton" Text="下一步" Grid.Row="4" HorizontalOptions="Center" IsEnabled="False" Clicked="Button_Clicked" />
     </Grid>
-</w:ViewPage>
+</w:ViewObject>

@@ -5,7 +5,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class IndexPage : ViewPage
+	public partial class IndexPage : ViewObject
 	{
         public IndexPage()
         {

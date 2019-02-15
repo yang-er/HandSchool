@@ -17,7 +17,7 @@ namespace HandSchool.iOS
         {
             InnerNavigation = navPage.Navigation;
             
-            navPage.Pushed += NavigationOccured;
+            // navPage.Pushed += NavigationOccured;
         }
 
         public void NavigationOccured(object sender, NavigationEventArgs args)

@@ -23,7 +23,7 @@ namespace HandSchool.JLU.Models
         public string Body => piece.message.body;
         public DateTime Time => piece.message.dateCreate;
         public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
-        public string Date => piece.message.dateCreate.ToString("d");
+        public string Date => Core.Platform.RuntimeName == "Android" ? piece.message.dateCreate.ToString() : piece.message.dateCreate.ToString("d");
         public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
         public ICommand SetRead { get; }
         public ICommand SetUnread { get; }

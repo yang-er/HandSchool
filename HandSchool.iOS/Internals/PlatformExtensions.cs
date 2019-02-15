@@ -12,21 +12,21 @@ namespace HandSchool.Internal
             BindableProperty.Create(
                 propertyName: nameof(ShowLoading),
                 returnType: typeof(bool),
-                declaringType: typeof(ViewPage),
+                declaringType: typeof(ViewObject),
                 defaultValue: false);
 
         public static readonly BindableProperty ShowLeftCancelProperty =
             BindableProperty.Create(
                 propertyName: nameof(ShowLeftCancel),
                 returnType: typeof(bool),
-                declaringType: typeof(ViewPage),
+                declaringType: typeof(ViewObject),
                 defaultValue: false);
 
         public static readonly BindableProperty UseTabletModeProperty =
             BindableProperty.Create(
                 propertyName: nameof(UseTabletMode),
                 returnType: typeof(bool),
-                declaringType: typeof(ViewPage),
+                declaringType: typeof(ViewObject),
                 defaultValue: false);
 
         public static IPlatformElementConfiguration<_iOS_, Page> UseSafeArea(

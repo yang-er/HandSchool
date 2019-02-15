@@ -65,6 +65,13 @@ namespace HandSchool.Views
                 declaringType: typeof(TextCell),
                 defaultValue: string.Empty);
 
+        public static readonly BindableProperty Attach1Property =
+            BindableProperty.Create(
+                propertyName: nameof(Attach1),
+                returnType: typeof(string),
+                declaringType: typeof(TextCell),
+                defaultValue: string.Empty);
+
         public static readonly BindableProperty RightDownColorProperty =
             BindableProperty.Create(
                 propertyName: nameof(RightDownColor),
@@ -110,6 +117,12 @@ namespace HandSchool.Views
         {
             get => (string)GetValue(RightDownProperty);
             set => SetValue(RightDownProperty, value);
+        }
+
+        public string Attach1
+        {
+            get => (string)GetValue(Attach1Property);
+            set => SetValue(Attach1Property, value);
         }
 
         public Color RightDownColor
