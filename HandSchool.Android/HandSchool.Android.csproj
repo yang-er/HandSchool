@@ -85,13 +85,18 @@
     <PackageReference Include="Xamarin.Android.Support.v4" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.1" />
+    <PackageReference Include="Xamarin.Jaredrummler.MaterialSpinner">
+      <Version>1.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\CurriculumActivitiy.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Adapters\MenuEntryClick.cs" />
     <Compile Include="Adapters\NavHeadViewHolder.cs" />
     <Compile Include="Adapters\WebViewClient.cs" />
     <Compile Include="Renderers\ListViewRenderer.cs" />
+    <Compile Include="Fragments\CurriculumFragment.cs" />
     <Compile Include="Renderers\TextCellView.cs" />
     <Compile Include="Adapters\ToolbarBackClick.cs" />
     <Compile Include="Fragments\DemoFragment.cs" />
@@ -412,6 +417,16 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\cell_text2.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\curriculumlayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_curriculum.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

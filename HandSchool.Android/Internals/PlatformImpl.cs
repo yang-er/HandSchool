@@ -1,4 +1,6 @@
 ﻿using Android.Content;
+using HandSchool.Droid.Activities;
+using HandSchool.Droid.Fragments;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;
@@ -51,10 +53,10 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterCtor<MessagePresenter>();
             Core.Reflection.RegisterCtor<HttpClientImpl>();
             Core.Reflection.RegisterType<DetailPage, DetailActivity>();
+            Core.Reflection.RegisterType<ICurriculumPage, CurriculumFragment>();
             Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
-
             ContextStack = new Stack<Context>();
             UpdateManager = new UpdateManager(context);
             ViewResponseImpl = new ViewResponseImpl();
