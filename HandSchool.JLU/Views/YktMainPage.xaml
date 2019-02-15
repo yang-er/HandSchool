@@ -9,18 +9,19 @@
         <w:MenuEntry Command="{Binding SetUpLostStateCommand}"
                      UWPIcon="&#xE8D7;" Title="挂失" Order="Primary" />
     </w:ViewObject.ToolbarMenu>
-    <ListView CachingStrategy="RecycleElement"
+    <w:ViewObject.Content>
+        <ListView CachingStrategy="RecycleElement"
               RefreshCommand="{Binding LoadBasicInfoCommand}"
-              SelectionMode="None"
               HasUnevenRows="True"
               IsPullToRefreshEnabled="True"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               ItemsSource="{Binding BasicInfo}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:TextCell Title="{Binding Title}"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding Title}"
                             Detail="{Binding Description}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

@@ -8,29 +8,30 @@
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
     </w:ViewObject.ToolbarMenu>
-    <ListView ItemsSource="{Binding Items}"
-              ItemTapped="Handle_ItemTapped"
-              ItemAppearing="ListView_ItemAppearing"
-              IsPullToRefreshEnabled="true"
-              SelectionMode="None"
-              RefreshCommand="{Binding LoadItemsCommand}"
-              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-              HasUnevenRows="true"
-              CachingStrategy="RecycleElement">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:TextCell Title="{Binding Title}"
-                            Detail="{Binding Category}"
-                            RightDown="{Binding PubDate}"
-                            PreferedCardView="1" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-        <ListView.Footer>
-            <StackLayout>
-                <Label Margin="16" Text="{Binding FooterTip}"
-                       HorizontalOptions="CenterAndExpand"
-                       HorizontalTextAlignment="Center" />
-            </StackLayout>
-        </ListView.Footer>
-    </ListView>
+    <w:ViewObject.Content>
+        <ListView ItemsSource="{Binding Items}"
+                  ItemTapped="Handle_ItemTapped"
+                  ItemAppearing="ListView_ItemAppearing"
+                  IsPullToRefreshEnabled="true"
+                  RefreshCommand="{Binding LoadItemsCommand}"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  HasUnevenRows="true"
+                  CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding Title}"
+                                Detail="{Binding Category}"
+                                RightDown="{Binding PubDate}"
+                                PreferedCardView="1" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <StackLayout>
+                    <Label Margin="16" Text="{Binding FooterTip}"
+                           HorizontalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Center" />
+                </StackLayout>
+            </ListView.Footer>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

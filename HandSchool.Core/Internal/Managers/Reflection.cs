@@ -43,13 +43,13 @@ namespace HandSchool.Internals
         /// 加载程序集注册的文件。
         /// </summary>
         /// <param name="assembly"></param>
-        public void RegisterFiles(Assembly assembly, List<string> fileList)
+        public void RegisterFiles(Assembly assembly, string tag, List<string> fileList)
         {
             foreach (var reg in assembly.Gets<RegisterServiceAttribute>())
             {
                 var stg = reg.RegisterType.Get<UseStorageAttribute>(false);
 
-                if (stg != null && stg.School == "JLU")
+                if (stg != null && stg.School == tag)
                 {
                     fileList.AddRange(stg.Files);
                 }

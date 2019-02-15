@@ -61,11 +61,19 @@
         </GroupStyle.HeaderTemplate>
     </GroupStyle>
 
+    <local:ListGroupStyleSelector x:Key="HSListViewGroupStyleSelector" />
+
     <DataTemplate x:Key="HSValueCell">
         <StackPanel Padding="8,12">
             <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="16" />
-            <view:ValueBox Margin="0,8" Wrapper="{Binding Wrapper, Mode=OneTime}" />
-            <TextBlock Text="{Binding Description}" FontSize="13" />
+            <TextBlock Margin="0,8" Text="{Binding Description}" FontSize="13" />
+            <view:ValueBox Wrapper="{Binding Wrapper, Mode=OneTime}" />
         </StackPanel>
     </DataTemplate>
+    
+    <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{ThemeResource SystemChromeMediumColor}" />
+    <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SystemChromeMediumColor}" />
+    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemChromeMediumColor}" />
+    <SolidColorBrush x:Key="CardViewBackground" Color="{ThemeResource SystemChromeMediumColor}" Opacity=".5" />
+
 </ResourceDictionary>

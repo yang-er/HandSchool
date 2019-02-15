@@ -1,9 +1,12 @@
-﻿using HandSchool.Internals;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.Views;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+#if __UAP__
+using HandSchool.Internals;
+using NavigationViewItem = Microsoft.UI.Xaml.Controls.NavigationViewItem;
+#endif
 
 namespace HandSchool.UWP
 {
@@ -77,7 +80,7 @@ namespace HandSchool.UWP
 
             else if (typeof(ViewObject).IsAssignableFrom(PageType))
             {
-                NavigationParameter = new ValueTuple<Type, object>(PageType, null);
+                NavigationParameter = new Tuple<Type, object>(PageType, null);
                 PageType = typeof(PackagedPage);
             }
         }

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{5336E020-94CE-463D-A157-92C876FF65FD}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HandSchool</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CurriculumLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TextCell.xaml.cs">
+      <DependentUpon>TextCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ValueCell.xaml.cs">
+      <DependentUpon>ValueCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Core.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Arguments\RequestChartArguments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Arguments\RequestInputArguments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\EntranceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\ExportSchoolAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\HotfixAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\RegisteredServiceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\SettingsAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\ToFixAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Attributes\UseStorageAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Charts\ChartBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Charts\DataEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Charts\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Charts\LineMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Charts\PieChart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Charts\PointMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\CurriculumMergeAlgorithm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\DictionaryAdapter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Extensions\HtmlObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Extensions\Logging.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Extensions\Reflection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Extensions\String.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Extensions\ViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Extensions\WebClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\BaseInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\Bootstrap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\FirstPara.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\Form.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\FormGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\MasterDetail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\CurriculumSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceWrapperInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EntranceWrapperTap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FeedItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItemGPA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginStateEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SettingTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SettingWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\WeekOddEvenNone.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\CurriculumPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\DetailPage.xaml.cs">
+      <DependentUpon>DetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\FeedPage.xaml.cs">
+      <DependentUpon>FeedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GradePointPage.xaml.cs">
+      <DependentUpon>GradePointPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\InfoQueryPage.xaml.cs">
+      <DependentUpon>InfoQueryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MessagePage.xaml.cs">
+      <DependentUpon>MessagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SchedulePage.xaml.cs">
+      <DependentUpon>SchedulePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\WebViewPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\FeedEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GradeEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\InfoEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MessageEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ScheduleEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SystemEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\UrlEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WebEntrance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DetailViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeedViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GradePointViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HotfixController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IndexViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IndexViewModelCurriculum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IndexViewModelWeather.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IndexViewModelWelcome.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MessageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NavigationViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScheduleViewModelTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BusySignal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Command.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MenuEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MenuIcon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Navigate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NavMenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewLifecycle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewPresenter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ViewResponse.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\OldCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\Radio.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\RawHtml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\Select.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\Table.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\HtmlObject\TableResponsive.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Managers\Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Managers\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Managers\Platform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Managers\Reflection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Managers\Registry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\Managers\School.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\NotifyPropertyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\ToolbarTracker.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Internal\WebClient\AwaredWebClientImpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient\HttpClientImpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient\WebClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient\WebException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient\WebRequestMeta.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient\WebResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\WebClient\WebStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\TextCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\ValueCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\DetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\FeedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\GradePointPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\InfoQueryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MessagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SchedulePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -110,7 +110,7 @@ namespace HandSchool.Views
 
         private void SetTileSize(object sender, EventArgs e)
         {
-            if (Core.Platform.Idiom == TargetIdiom.Tablet || Core.Platform.RuntimeName == "UWP")
+            if (Core.Platform.Idiom != TargetIdiom.Phone)
             {
                 if (forceSize)
                 {

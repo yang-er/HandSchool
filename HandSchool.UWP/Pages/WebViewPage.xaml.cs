@@ -16,6 +16,8 @@ namespace HandSchool.Views
     /// </summary>
     public sealed partial class WebViewPage : ViewPage, IWebViewPage
     {
+        const string injectJS = "function invokeCSharpAction(data){window.external.notify(data);}";
+
         /// <summary>
         /// 信息入口点
         /// </summary>
@@ -77,9 +79,11 @@ namespace HandSchool.Views
         /// <param name="args">路由事件</param>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            if (Html != string.Empty && Html != null)
+            if (!string.IsNullOrEmpty(Html))
             {
-                WebView.NavigateToString(Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//"));
+                var realHtml = Html.Replace("{webview_base_url}", "ms-appx-web:///WebWrapper//")
+                                   .Replace("{invokeCSharpAction_script}", injectJS);
+                WebView.NavigateToString(realHtml);
             }
             else
             {
@@ -95,10 +99,10 @@ namespace HandSchool.Views
         /// <param name="args">网页浏览器导航完成事件参数</param>
         private async void OnWebViewNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
         {
-            if (args.IsSuccess)
+            if (args.IsSuccess && !string.IsNullOrEmpty(Html))
             {
                 // Inject JS script
-                await WebView.InvokeScriptAsync("eval", new[] { "function invokeCSharpAction(data){window.external.notify(data);}" });
+                await WebView.InvokeScriptAsync("eval", new[] { injectJS });
             }
 
             LoadCompleted?.Invoke();
@@ -175,6 +179,8 @@ namespace HandSchool.Views
                     LoadCompleted += () => ViewModel.IsBusy = false;
                 }
             }
+
+            Controller.SubEntranceRequested += OnEntranceRequested;
         }
 
         /// <summary>

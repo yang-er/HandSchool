@@ -8,17 +8,15 @@ using Android.Support.V7.App;
 using Android.Views;
 using HandSchool.Internals;
 using System;
-using Xamarin.Forms.Platform.Android;
 using XForms = Xamarin.Forms.Forms;
 
 namespace HandSchool.Droid
 {
     [Activity(Label = "掌上校园", Icon = "@drawable/icon", Theme = "@style/AppTheme.NoActionBar",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [BindView(Resource.Layout.activity_main)]
     public class MainActivity : BaseActivity
     {
-        public static MainActivity Instance;
-
         [BindView(Resource.Id.nav_view)]
         public NavigationView NavigationView { get; set; }
 
@@ -68,6 +66,7 @@ namespace HandSchool.Droid
             
             FloatingButton.Click += FabOnClick;
             
+            // get the navigation menu
             var listHandler = new NavMenuListHandler();
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);
@@ -103,7 +102,7 @@ namespace HandSchool.Droid
         {
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (s) => (this as Views.INavigate).PushAsync<DemoFragment>()).Show();
+                .SetAction("Action", (s) => this.PushAsync<DemoFragment>()).Show();
         }
     }
 }

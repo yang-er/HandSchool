@@ -9,28 +9,29 @@
         <w:MenuEntry Command="{Binding ReadAllCommand}" Title="全部已读" Order="Secondary" UWPIcon="&#xE77A;" />
         <w:MenuEntry Command="{Binding DeleteAllCommand}" Title="全部删除" Order="Secondary" UWPIcon="&#xE74D;" />
     </w:ViewObject.ToolbarMenu>
-    <ListView ItemsSource="{Binding Items}"
+    <w:ViewObject.Content>
+        <ListView ItemsSource="{Binding Items}"
               ItemTapped="Handle_ItemTapped"
               IsPullToRefreshEnabled="true"
               RefreshCommand="{Binding LoadItemsCommand}"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               HasUnevenRows="true"
-              SelectionMode="None"
               CachingStrategy="RecycleElement">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:TextCell Title="{Binding Title}"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding Title}"
                             Detail="{Binding Body}"
                             RightUp="{Binding Date}"
                             RightDown="●"
                             RightDownColor="Red"
                             RightDownShow="{Binding Unread}">
-                    <Cell.ContextActions>
-                        <MenuItem Command="{Binding SetRead}" Text="已读" />
-                        <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />
-                    </Cell.ContextActions>
-                </w:TextCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                        <Cell.ContextActions>
+                            <MenuItem Command="{Binding SetRead}" Text="已读" />
+                            <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />
+                        </Cell.ContextActions>
+                    </w:TextCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

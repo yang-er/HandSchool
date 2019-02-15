@@ -130,9 +130,9 @@ namespace HandSchool.JLU.InfoQuery
 
                 WebClient = Core.New<IWebClient>();
                 WebClient.BaseAddress = "http://" + Domain;
-                WebClient.Cookie.Add(new Cookie("xc", "5", "/", Domain));
-                WebClient.Cookie.Add(new Cookie("mgid", "274", "/", Domain));
-                WebClient.Cookie.Add(new Cookie("maid", "920", "/", Domain));
+                WebClient.AddCookie(new Cookie("xc", "5", "/", Domain));
+                WebClient.AddCookie(new Cookie("mgid", "274", "/", Domain));
+                WebClient.AddCookie(new Cookie("maid", "920", "/", Domain));
                 
                 try
                 {

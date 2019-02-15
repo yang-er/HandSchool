@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              x:Class="HandSchool.UWP.AboutPageView">
+    <w:ViewObject.Content>
+        <ScrollView>
+            <StackLayout Spacing="8" Padding="24,8,24,8">
+                <Label Text="掌上校园" FontSize="32">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="TapGestureRecognizer_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <StackLayout Orientation="Horizontal" Spacing="8">
+                    <Label Text="HandSchool.UWP" FontSize="20" />
+                    <Label x:Name="versionBox" Text="2.0" FontSize="20" />
+                </StackLayout>
+                <Label Text="一个致力于将各个学校不同的教务系统整合成一个手机app的项目。" />
+                <Label Text="适配模式" Margin="0,8,0,0" FontSize="20" />
+                <Label Text="利用C#和Xamarin.Forms编写，可以运行在 UWP (1803+)、Andorid (5.0+)、iOS (11.0+) 上。" />
+                <Label Text="采用了 MVVM 的框架模式，支持多个学校共存。" />
+                <Label Text="有些内容不方便通过Page呈现的，提供了可以通过js交互的WebView。" />
+                <Label Text="设计与适配" Margin="0,8,0,0" FontSize="20" />
+                <Label Text="- yang-er @ GitHub" />
+                <Label Text="- miasakachenmo @ GitHub" />
+                <Label Text="支持的学校" Margin="0,8,0,0" FontSize="20" />
+                <Label Text="- 吉林大学" />
+                <Label Text="- more coming soon !" />
+                <Label Text="开放源代码" Margin="0,8,0,0" FontSize="20" />
+                <Label Text="MIT协议，欢迎提供好玩的意见！" />
+                <Label Text="查看源代码" TextColor="#005cc5">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HyperlinkButton_Click" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="在线资源" Margin="0,8,0,0" FontSize="20" />
+                <Label Text="隐私政策" TextColor="#005cc5">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HyperlinkButton_Click2" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="开放源代码许可" TextColor="#005cc5">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HyperlinkButton_Click3" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </ScrollView>
+    </w:ViewObject.Content>
+</w:ViewObject>

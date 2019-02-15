@@ -21,8 +21,7 @@ namespace HandSchool.Internals.HtmlObject
         {
             sb.Append($"<!doctype html><html><head><meta charset=\"{Charset}\"><base href=\"{{webview_base_url}}\"></base>");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
-            if (Core.Platform.RuntimeName == "Android")
-                sb.Append("<script>function invokeCSharpAction(data){jsBridge.invokeAction(data);}</script>");
+            sb.Append("<script>{invokeCSharpAction_script}</script>");
             sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><style>{Css}</style><title>{Title}</title></head>");
             sb.Append($"<body class=\"{Core.Platform.RuntimeName}\"><div class=\"container-fluid\">");
             Children.ForEach((obj) => obj.ToHtml(sb));

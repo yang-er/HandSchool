@@ -3,18 +3,19 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               x:Class="HandSchool.JLU.Views.YktHistoryPage">
-    <ListView CachingStrategy="RecycleElement"
-              SelectionMode="None"
+    <w:ViewObject.Content>
+        <ListView CachingStrategy="RecycleElement"
               HasUnevenRows="True"
               IsPullToRefreshEnabled="True"
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               ItemsSource="{Binding RecordInfo}"
               RefreshCommand="{Binding RecordFindCommand}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:TextCell Title="{Binding Title}"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding Title}"
                             Detail="{Binding Description}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

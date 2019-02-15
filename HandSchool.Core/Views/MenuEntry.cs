@@ -22,7 +22,8 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(HiddenForPull),
                 returnType: typeof(bool),
-                declaringType: typeof(MenuEntry));
+                declaringType: typeof(MenuEntry),
+                defaultValue: false);
 
         public static readonly BindableProperty OrderProperty =
             BindableProperty.Create(
@@ -35,13 +36,15 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(UWPIcon),
                 returnType: typeof(string),
-                declaringType: typeof(MenuEntry));
+                declaringType: typeof(MenuEntry),
+                defaultValue: "");
 
         public static readonly BindableProperty TitleProperty =
             BindableProperty.Create(
                 propertyName: nameof(Title),
                 returnType: typeof(string),
-                declaringType: typeof(MenuEntry));
+                declaringType: typeof(MenuEntry),
+                defaultValue: "");
 
         #endregion
 

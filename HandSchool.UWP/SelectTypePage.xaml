@@ -2,7 +2,6 @@
     x:Class="HandSchool.Views.SelectTypePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:HandSchool.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -17,8 +16,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="欢迎使用掌上校园" Grid.Row="1" FontSize="32" Width="300" HorizontalTextAlignment="Center" Margin="0,0,0,24" />
-        <TextBlock Text="选择你的学校" Grid.Row="2" FontSize="16" Width="200" HorizontalTextAlignment="Center" Margin="0,0,0,8" />
+        <TextBlock Text="欢迎使用掌上校园" Grid.Row="1" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,24" />
+        <TextBlock Text="选择你的学校" Grid.Row="2" FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,8" />
         <ComboBox x:Name="MySchool" Grid.Row="3" Width="200" HorizontalAlignment="Center" Margin="0,0,0,16" />
         <Button Content="下一步" Grid.Row="4" Width="100" HorizontalAlignment="Center" Click="Button_Click" />
     </Grid>

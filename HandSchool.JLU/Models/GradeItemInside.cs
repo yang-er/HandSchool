@@ -32,7 +32,7 @@ namespace HandSchool.JLU.Models
 
         public string Type => AlreadyKnownThings.Type5Name(asv.type5);
 
-        public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToShortDateString());
+        public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
 
         static readonly string[] ChartShrooms =
         {

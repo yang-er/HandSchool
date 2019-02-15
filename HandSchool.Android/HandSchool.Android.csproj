@@ -94,6 +94,8 @@
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Adapters\MenuEntryClick.cs" />
     <Compile Include="Adapters\NavHeadViewHolder.cs" />
+    <Compile Include="Adapters\WebViewClient.cs" />
+    <Compile Include="Renderers\ListViewRenderer.cs" />
     <Compile Include="Fragments\CurriculumFragment.cs" />
     <Compile Include="Renderers\TextCellView.cs" />
     <Compile Include="Adapters\ToolbarBackClick.cs" />
@@ -124,8 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Internals\UpdateManager.cs" />
-    <Compile Include="Renderers\EntryCellRenderer.cs" />
-    <None Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\TabbedFragment.cs" />
     <Compile Include="Fragments\WebViewPage.cs" />

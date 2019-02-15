@@ -7,14 +7,15 @@
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" UWPIcon="&#xE74E;" />
     </w:ViewObject.ToolbarMenu>
-    <ListView ItemsSource="{Binding Items}"
+    <w:ViewObject.Content>
+        <ListView ItemsSource="{Binding Items}"
               HasUnevenRows="True"
-              ItemSelected="ListView_ItemSelected"
-              SelectionMode="None">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <w:ValueCell Wrapper="{Binding Self}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+              ItemSelected="ListView_ItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:ValueCell Wrapper="{Binding Self}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </w:ViewObject.Content>
 </w:ViewObject>

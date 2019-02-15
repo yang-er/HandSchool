@@ -74,9 +74,9 @@ namespace HandSchool.JLU
                 UIMS.WebClient = Core.New<IWebClient>();
                 UIMS.WebClient.BaseAddress = UIMS.ServerUri;
                 var proxy_server_domain = UIMS.proxy_server.Split(':')[0];
-                UIMS.WebClient.Cookie.Add(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server_domain));
-                UIMS.WebClient.Cookie.Add(new Cookie("alu", UIMS.Username, "/ntms/", proxy_server_domain));
-                UIMS.WebClient.Cookie.Add(new Cookie("pwdStrength", "1", "/ntms/", proxy_server_domain));
+                UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server_domain));
+                UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", proxy_server_domain));
+                UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", proxy_server_domain));
 
                 // Access Main Page To Create a JSESSIONID
                 try

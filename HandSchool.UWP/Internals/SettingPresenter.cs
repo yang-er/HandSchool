@@ -1,6 +1,7 @@
 ﻿using HandSchool.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
+using HandSchool.UWP;
 
 namespace HandSchool.Views
 {
@@ -15,18 +16,8 @@ namespace HandSchool.Views
             return new IViewPage[]
             {
                 new SettingPage() { Title = "设置" },
-                new AboutPage() { Title = "关于" },
+                new AboutPageView() { Title = "关于" },
             };
-        }
-    }
-
-    public sealed class AboutPage : ViewObject
-    {
-        public AboutPage()
-        {
-            Content = new ScrollView { Content = new AboutView().ToView() };
-            Content.VerticalOptions = LayoutOptions.FillAndExpand;
-            ViewModel = AboutViewModel.Instance;
         }
     }
 }

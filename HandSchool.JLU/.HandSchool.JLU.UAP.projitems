@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{5336E020-94CE-463D-A157-92C876FF65FD}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HandSchool.JLU</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AlreadyKnownThings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\AdviceSchedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\ClassSchedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\CollegeIntroduce.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\EmptyRoom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\LibraryRent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\LibrarySearch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\LibraryZwyy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\ProgramMaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\SelectCourse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InfoQuery\TeachEvaluate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JSONs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Loader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItemInside.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GradeItemOutside.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MessageItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PickCardInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RecordInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SchoolCardInfoPiece.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Grade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\InsideSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\OA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\OutsideSchool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Schedule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SchoolCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UIMS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\YktViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\YktHistoryPage.xaml.cs">
+      <DependentUpon>YktHistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\YktMainPage.xaml.cs">
+      <DependentUpon>YktMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\YktPickPage.xaml.cs">
+      <DependentUpon>YktPickPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\YktViewPresenter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)InfoQuery\emptyroom.js" />
+    <None Include="$(MSBuildThisFileDirectory)InfoQuery\selectcourse.js" />
+    <None Include="$(MSBuildThisFileDirectory)InfoQuery\selectcourse.js.ver" />
+    <None Include="$(MSBuildThisFileDirectory)InfoQuery\teacheval.js" />
+    <None Include="$(MSBuildThisFileDirectory)InfoQuery\teacheval.js.ver" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\YktHistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\YktMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\YktPickPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="HandSchool.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HandSchool.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+    <controls:NavigationView x:Name="NavigationView"
+                             ItemInvoked="NavigationView_ItemInvoked"
+                             DisplayModeChanged="NavigationView_DisplayModeChanged"
+                             IsBackButtonVisible="Collapsed">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Frame x:Name="ContentFrame" Grid.Row="1" Margin="0,8,0,0" Navigated="ContentFrame_Navigated" Navigating="ContentFrame_Navigating">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition />
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="HeaderAreaGrid" Margin="12,-12,0,-12" FontSize="24" VerticalAlignment="Center" FontWeight="Light" Text="{Binding Title}" />
+                <ProgressBar Margin="0,0,0,-4" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="{Binding IsBusy}" />
+                <CommandBar x:FieldModifier="public" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" DefaultLabelPosition="Right" Background="{x:Null}" Name="CommandBar"></CommandBar>
+            </Grid>
+
+        </Grid>
+    </controls:NavigationView>
+</Page>

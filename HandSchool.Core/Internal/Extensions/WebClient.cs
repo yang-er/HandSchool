@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace HandSchool.Internals
@@ -60,37 +60,67 @@ namespace HandSchool.Internals
                     return "未知错误";
             }
         }
-
-        /// <summary>
-        /// 获得网络异常对应的字符串消息。
-        /// </summary>
-        /// <param name="e">网络异常信息。</param>
-        /// <returns>表述异常的字符串。</returns>
-        public static string GetWebExceptionMessage(System.Net.WebException e)
+        
+        public static string GetWebExceptionMessage(WebException e)
         {
             switch (e.Status)
             {
-                case System.Net.WebExceptionStatus.NameResolutionFailure:
+                case WebExceptionStatus.NameResolutionFailure:
                     return "域名解析失败，未连接到互联网";
-                case System.Net.WebExceptionStatus.ConnectFailure:
+                case WebExceptionStatus.ConnectFailure:
                     return "连接服务器失败，未连接到校内网络";
-                case System.Net.WebExceptionStatus.ReceiveFailure:
-                case System.Net.WebExceptionStatus.SendFailure:
-                case System.Net.WebExceptionStatus.PipelineFailure:
-                case System.Net.WebExceptionStatus.RequestCanceled:
-                case System.Net.WebExceptionStatus.ConnectionClosed:
+                case WebExceptionStatus.ReceiveFailure:
+                case WebExceptionStatus.SendFailure:
+                case WebExceptionStatus.PipelineFailure:
+                case WebExceptionStatus.RequestCanceled:
+                case WebExceptionStatus.ConnectionClosed:
                     return "数据包传输出现错误";
-                case System.Net.WebExceptionStatus.TrustFailure:
-                case System.Net.WebExceptionStatus.SecureChannelFailure:
+                case WebExceptionStatus.TrustFailure:
+                case WebExceptionStatus.SecureChannelFailure:
                     return "SSL证书错误";
-                case System.Net.WebExceptionStatus.ServerProtocolViolation:
-                case System.Net.WebExceptionStatus.KeepAliveFailure:
+                case WebExceptionStatus.ServerProtocolViolation:
+                case WebExceptionStatus.KeepAliveFailure:
                     return "网络沟通出现错误";
-                case System.Net.WebExceptionStatus.Pending:
-                case System.Net.WebExceptionStatus.Timeout:
+                case WebExceptionStatus.Pending:
+                case WebExceptionStatus.Timeout:
                     return "连接超时，可能是您的网络不太好";
                 default:
                     return e.Status.ToString() + "\n" + e.StackTrace;
+            }
+        }
+
+        public static void AddCookie(this IWebClient webClient, Cookie cookie)
+        {
+            webClient.Cookie.Add(new Uri(webClient.BaseAddress), cookie);
+        }
+
+        public static WebStatus Convert(this WebExceptionStatus e)
+        {
+            switch (e)
+            {
+                case WebExceptionStatus.Success:
+                    return WebStatus.Success;
+                case WebExceptionStatus.NameResolutionFailure:
+                    return WebStatus.NameResolutionFailure;
+                case WebExceptionStatus.ConnectFailure:
+                    return WebStatus.ConnectFailure;
+                case WebExceptionStatus.ReceiveFailure:
+                case WebExceptionStatus.SendFailure:
+                case WebExceptionStatus.PipelineFailure:
+                case WebExceptionStatus.RequestCanceled:
+                case WebExceptionStatus.ConnectionClosed:
+                    return WebStatus.ReceiveFailure;
+                case WebExceptionStatus.TrustFailure:
+                case WebExceptionStatus.SecureChannelFailure:
+                    return WebStatus.SecureChannelFailure;
+                case WebExceptionStatus.ServerProtocolViolation:
+                case WebExceptionStatus.KeepAliveFailure:
+                    return WebStatus.ServerProtocolViolation;
+                case WebExceptionStatus.Pending:
+                case WebExceptionStatus.Timeout:
+                    return WebStatus.Timeout;
+                default:
+                    return WebStatus.UnknownError;
             }
         }
     }

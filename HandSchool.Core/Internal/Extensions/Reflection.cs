@@ -20,17 +20,7 @@ namespace HandSchool.Internals
             if (@checked && ret is null) throw new InvalidOperationException(nameof(TAttribute) + " is not attached to " + info.Name);
             return ret;
         }
-
-        /// <summary>
-        /// 从类成员中反射获取设置属性。
-        /// </summary>
-        /// <param name="info">成员信息</param>
-        /// <returns>设置的特性。</returns>
-        public static TAttribute Get<TAttribute>(this Type info, bool @checked = true) where TAttribute : Attribute
-        {
-            return Get<TAttribute>((MemberInfo)info.GetTypeInfo(), @checked);
-        }
-
+        
         /// <summary>
         /// 从类成员中反射获取设置属性。
         /// </summary>
@@ -43,7 +33,7 @@ namespace HandSchool.Internals
                 if (obj is TAttribute attr) yield return attr;
             }
         }
-        
+
         /// <summary>
         /// 从类成员中反射获取设置属性。
         /// </summary>
@@ -55,13 +45,13 @@ namespace HandSchool.Internals
         }
 
         /// <summary>
-        /// 从类成员中反射获取设置属性。
+        /// 获取某对象的类型所在程序集。
         /// </summary>
-        /// <param name="info">成员信息</param>
-        /// <returns>设置的特性。</returns>
-        public static bool Has<TAttribute>(this Type info) where TAttribute : Attribute
+        /// <param name="type">对象</param>
+        /// <returns>程序集</returns>
+        public static Assembly GetAssembly(this object type)
         {
-            return Has<TAttribute>((MemberInfo)info.GetTypeInfo());
+            return type.GetType().GetTypeInfo().Assembly;
         }
     }
 }

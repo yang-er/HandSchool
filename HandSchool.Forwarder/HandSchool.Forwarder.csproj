@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove=".HandSchool.Forwarder.UAP.projitems" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HandSchool.Core\HandSchool.Core.csproj" />
     <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj" />
   </ItemGroup>
