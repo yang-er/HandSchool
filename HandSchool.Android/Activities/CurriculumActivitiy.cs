@@ -22,11 +22,7 @@ namespace HandSchool.Droid.Activities
     {
         CurriculumFragment Fragment;
         CurriculumItem a;
-        public new ScheduleViewModel ViewModel
-        {
-            get => base.ViewModel as ScheduleViewModel;
-            set => base.ViewModel = value;
-        }
+        public ScheduleViewModel ViewModel { get; set; }
         protected override void OnNavigatedParameter(object obj)
         {
             Fragment = obj as CurriculumFragment;

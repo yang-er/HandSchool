@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace HandSchool.Internals
 {
@@ -11,8 +12,27 @@ namespace HandSchool.Internals
     public class ToolbarMenuTracker
     {
         ObservableCollection<MenuEntry> _inner;
-        NotifyCollectionChangedEventHandler _handler;
-        EventHandler _todo;
+
+        private void SubItemChanged(object sender, PropertyChangedEventArgs args)
+        {
+            Changed?.Invoke(sender, args);
+        }
+
+        private void ListItemListening(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            Changed?.Invoke(sender, args);
+
+            if (args.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (MenuEntry toAdd in args.NewItems)
+                    toAdd.PropertyChanged += SubItemChanged;
+            }
+            else
+            {
+                foreach (MenuEntry toDel in args.OldItems)
+                    toDel.PropertyChanged -= SubItemChanged;
+            }
+        }
 
         /// <summary>
         /// 保存的列表
@@ -26,40 +46,29 @@ namespace HandSchool.Internals
 
             set
             {
-                if (_handler != null && _inner != null)
+                if (_inner != null)
                 {
-                    _inner.CollectionChanged -= _handler;
+                    _inner.CollectionChanged -= ListItemListening;
+                    foreach (var item in _inner)
+                        item.PropertyChanged -= SubItemChanged;
                 }
 
                 _inner = value;
 
-                if (value != null && _handler != null)
+                if (value != null)
                 {
-                    value.CollectionChanged += _handler;
+                    value.CollectionChanged += ListItemListening;
+                    foreach (var item in _inner)
+                        item.PropertyChanged += SubItemChanged;
                 }
 
-                _todo?.Invoke(this, EventArgs.Empty);
+                Changed?.Invoke(this, EventArgs.Empty);
             }
         }
 
         /// <summary>
         /// 菜单改变时发生。
         /// </summary>
-        public event EventHandler Changed
-        {
-            add
-            {
-                _todo = value;
-                _handler = new NotifyCollectionChangedEventHandler(value);
-                if (_inner != null) _inner.CollectionChanged += _handler;
-            }
-
-            remove
-            {
-                if (_inner != null) _inner.CollectionChanged -= _handler;
-                _handler = null;
-                _todo = null;
-            }
-        }
+        public event EventHandler Changed;
     }
 }

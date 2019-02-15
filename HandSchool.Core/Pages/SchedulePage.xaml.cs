@@ -18,6 +18,8 @@ namespace HandSchool.Views
 
         private bool isWider = false;
         private bool forceSize = true;
+        private bool invalidated = true;
+        private int lastWeek = -666;
         
         public ScheduleViewModelBase SchedViewModel
         {
@@ -70,8 +72,11 @@ namespace HandSchool.Views
                 svm.RefreshComplete += LoadList;
             }
 
-            LoadList();
-            this.WriteLog("OnAppearing. Redrawing class table");
+            if (invalidated || lastWeek != SchedViewModel.Week)
+            {
+                LoadList();
+                this.WriteLog("OnAppearing. Redrawing class table");
+            }
         }
 
         protected override void OnDisappearing()
@@ -86,6 +91,8 @@ namespace HandSchool.Views
         
         public void LoadList()
         {
+            invalidated = false;
+            lastWeek = SchedViewModel.Week;
             scheduleGrid.BatchBegin();
 
             for (int i = scheduleGrid.Children.Count;

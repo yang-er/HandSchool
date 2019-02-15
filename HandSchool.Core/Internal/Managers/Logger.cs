@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace HandSchool.Internals
 {
@@ -16,7 +17,7 @@ namespace HandSchool.Internals
         [DebuggerStepThrough]
         private void WriteLine(string content)
         {
-            Trace.WriteLine(content);
+            Task.Run(() => Trace.WriteLine(content));
         }
 
         /// <summary>

@@ -51,20 +51,10 @@ namespace HandSchool.ViewModels
             AddMenuEntry("首页", "IndexPage", null, MenuIcon.Index);
             AddMenuEntry("课程表", "SchedulePage", null, MenuIcon.Schedule);
 
-            if (Core.Platform.RuntimeName == "Android" &&
-                Core.App.Loader.Feed != null &&
-                Core.App.Loader.Message != null)
-            {
-                AddMenuEntry("消息通知", "MessagePresenter", null, MenuIcon.Feed);
-            }
-            else
-            {
-                if (Core.App.Loader.Feed != null)
-                    AddMenuEntry("学校通知", "FeedPage", null, MenuIcon.Feed);
-                if (Core.App.Loader.Message != null)
-                    AddMenuEntry("站内消息", "MessagePage", null, MenuIcon.Message);
-            }
-
+            if (Core.App.Loader.Feed != null)
+                AddMenuEntry("学校通知", "FeedPage", null, MenuIcon.Feed);
+            if (Core.App.Loader.Message != null)
+                AddMenuEntry("站内消息", "MessagePage", null, MenuIcon.Message);
             if (Core.App.Loader.GradePoint != null)
                 AddMenuEntry("学分成绩", "GradePointPage", null, MenuIcon.GradeChart);
             if (Core.App.InfoEntrances.Count > 0 || Core.Platform.RuntimeName == "iOS")

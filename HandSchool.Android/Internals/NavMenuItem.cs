@@ -28,7 +28,7 @@ namespace HandSchool.Droid
             Resource.Drawable.ic_nav_sched,
             Resource.Drawable.ic_nav_feed,
             Resource.Drawable.ic_nav_info,
-            Resource.Drawable.ic_nav_feed,
+            Resource.Drawable.aboutpage_feedbackicon,
             Resource.Drawable.ic_nav_grade,
             Resource.Drawable.ic_nav_card,
             Resource.Drawable.ic_nav_settings,
