@@ -196,7 +196,7 @@ namespace HandSchool.Droid.Fragments
             var context = PlatformImplV2.Instance.ContextStack.Peek();
             var navigate = context as INavigate;
             await navigate.PushAsync<CurriculumActivitiy>(this);
-            return Result.Task;
+            return true;
         }
     }
 }
