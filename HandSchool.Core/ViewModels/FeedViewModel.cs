@@ -43,6 +43,7 @@ namespace HandSchool.ViewModels
         {
             Title = "学校通知";
             Items = new ObservableCollection<FeedItem>();
+            Items.CollectionChanged += (s, e) => OnPropertyChanged(nameof(Count));
             LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
         }
 

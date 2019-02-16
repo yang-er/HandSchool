@@ -12,10 +12,12 @@ namespace HandSchool.Views
     public partial class LoginPage : ViewObject, ILoginPage
     {
         MemoryStream image_mem;
+        readonly TaskCompletionSource<bool> finished;
         
         public LoginPage()
         {
             InitializeComponent();
+            finished = new TaskCompletionSource<bool>();
         }
 
         public LoginViewModel LoginViewModel
@@ -43,12 +45,13 @@ namespace HandSchool.Views
 
         public Task ShowAsync()
         {
-            return (this as Page).Navigation.PushModalAsync(this);
+            Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
+            return finished.Task;
         }
 
         public Task CloseAsync()
         {
-            return (this as Page).Navigation.PopModalAsync();
+            return (this as Page).Navigation.PopModalAsync().ContinueWith(t => finished.TrySetResult(true));
         }
 
         public async void UpdateCaptchaInfomation()

@@ -9,20 +9,8 @@ namespace HandSchool.Views
 		public TextCell()
 		{
 			InitializeComponent();
-
-            bool isUWP = Core.Platform.RuntimeName == "UWP";
-            bool notCardView = PreferedCardView == -1;
-            bool isIOS = Core.Platform.RuntimeName == "iOS";
-
-            if (!isUWP && (notCardView || isIOS))
-            {
-                Bind(TitleLabel, Label.TextProperty, nameof(Title));
-                Bind(DescriptionLabel, Label.TextProperty, nameof(Detail));
-                Bind(RightUpLabel, Label.TextProperty, nameof(RightUp));
-                Bind(RightDownLabel, Label.TextProperty, nameof(RightDown));
-                Bind(RightDownLabel, Label.TextColorProperty, nameof(RightDownColor));
-                Bind(RightDownLabel, VisualElement.IsVisibleProperty, nameof(RightDownShow));
-            }
+            // Bind(TitleLabel, Label.TextProperty, nameof(Title));
+            // Bind(DescriptionLabel, Label.TextProperty, nameof(Detail));
         }
 
         void Bind(BindableObject obj, BindableProperty prop, string path)

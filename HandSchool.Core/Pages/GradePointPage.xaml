@@ -17,7 +17,7 @@
                   CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <w:TextCell Title="{Binding Name}" Detail="{Binding Show}" />
+                    <w:TextCell Title="{Binding Title}" Detail="{Binding Detail}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

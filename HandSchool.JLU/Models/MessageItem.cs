@@ -21,6 +21,7 @@ namespace HandSchool.JLU.Models
         public int Id => int.Parse(piece.msgInboxId);
         public string Title => piece.message.title;
         public string Body => piece.message.body;
+        public string Detail => piece.message.body;
         public DateTime Time => piece.message.dateCreate;
         public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
         public string Date => Core.Platform.RuntimeName == "Android" ? piece.message.dateCreate.ToString() : piece.message.dateCreate.ToString("d");

@@ -5,12 +5,24 @@ using System.Linq;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using NavigationPage = Xamarin.Forms.NavigationPage;
 
 [assembly: ExportRenderer(typeof(NavigationPage), typeof(NavigationPageRenderer))]
 namespace HandSchool.iOS
 {
     public class NavigationPageRenderer : NavigationRenderer
     {
+        protected override void OnElementChanged(VisualElementChangedEventArgs e)
+        {
+            if (e.NewElement != null)
+            {
+                ((NavigationPage)e.NewElement).OnThisPlatform().EnableTranslucentNavigationBar();
+            }
+
+            base.OnElementChanged(e);
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();

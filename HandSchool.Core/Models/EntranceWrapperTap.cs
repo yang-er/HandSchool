@@ -7,20 +7,10 @@ namespace HandSchool.Models
     /// <summary>
     /// 单击进入的入口点包装，通常传递一个 <see cref="INavigate"/> 对象来帮助界面访问。
     /// </summary>
-    public class TapEntranceWrapper : IEntranceWrapper
+    public sealed class TapEntranceWrapper : EntranceWrapperBase
     {
         private readonly Func<INavigate, Task> internal_action;
-
-        /// <summary>
-        /// 入口点名称
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// 入口点描述
-        /// </summary>
-        public string Description { get; }
-
+        
         /// <summary>
         /// 入口点被通知，然后执行内部的动作，并传递参数。
         /// </summary>
@@ -37,8 +27,8 @@ namespace HandSchool.Models
         /// <param name="action">入口点的异步动作函数。</param>
         public TapEntranceWrapper(string name, string desc, Func<INavigate, Task> action)
         {
-            Name = name;
-            Description = desc;
+            Title = name;
+            Detail = desc;
             internal_action = action;
         }
     }

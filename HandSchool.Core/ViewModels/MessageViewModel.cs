@@ -52,6 +52,7 @@ namespace HandSchool.ViewModels
         {
             Title = "站内消息";
             Items = new ObservableCollection<IMessageItem>();
+            Items.CollectionChanged += (s, e) => OnPropertyChanged(nameof(Count));
             LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
             DeleteAllCommand = new CommandAction(ExecuteDeleteAllCommand);
             ReadAllCommand = new CommandAction(ExecuteReadAllCommand);

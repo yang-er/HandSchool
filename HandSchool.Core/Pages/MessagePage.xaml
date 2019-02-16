@@ -3,7 +3,13 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.MessagePage"
               xmlns:w="clr-namespace:HandSchool.Views"
+              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
               Title="{Binding Title}">
+    <w:ViewObject.Resources>
+        <ResourceDictionary>
+            <w:NoDataBackgroundConverter x:Key="ndbcv" />
+        </ResourceDictionary>
+    </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" Order="Default" HiddenForPull="True" UWPIcon="&#xE72C;" />
         <w:MenuEntry Command="{Binding ReadAllCommand}" Title="全部已读" Order="Secondary" UWPIcon="&#xE77A;" />

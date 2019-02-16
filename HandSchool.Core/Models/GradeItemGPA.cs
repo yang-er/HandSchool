@@ -10,7 +10,7 @@ namespace HandSchool.Models
     /// </summary>
     public class GPAItem : IGradeItem
     {
-        public string Name => "GPA统计";
+        public string Title => "GPA统计";
 
         public string Score => "";
         public string Point => "";
@@ -22,7 +22,7 @@ namespace HandSchool.Models
         public NameValueCollection Attach => null;
 
         public DateTime Date { get; }
-        public string Show { get; }
+        public string Detail { get; }
 
         /// <summary>
         /// 建立新的GPA项目。
@@ -30,7 +30,7 @@ namespace HandSchool.Models
         /// <param name="to_show">将被展示的内容。</param>
         public GPAItem(string to_show)
         {
-            Show = to_show;
+            Detail = to_show;
             Date = DateTime.Now;
         }
 

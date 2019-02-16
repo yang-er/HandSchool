@@ -3,13 +3,7 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           x:Class="HandSchool.Views.TextCell">
     <StackLayout Padding="15">
-        <AbsoluteLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-            <Label x:Name="TitleLabel" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-            <Label x:Name="RightUpLabel" HorizontalOptions="End" Style="{DynamicResource ListItemDetailTextStyle}" AbsoluteLayout.LayoutBounds=".8,.0,.9,.9" AbsoluteLayout.LayoutFlags="All" FontSize="13" />
-        </AbsoluteLayout>
-        <AbsoluteLayout  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-            <Label x:Name="DescriptionLabel" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
-            <Label x:Name="RightDownLabel" HorizontalOptions="End" Style="{DynamicResource ListItemDetailTextStyle}" AbsoluteLayout.LayoutBounds=".8,.0,.9,.9" AbsoluteLayout.LayoutFlags="All" FontSize="13" />
-        </AbsoluteLayout>
+        <Label Text="{Binding Title}" x:Name="TitleLabel" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+        <Label Text="{Binding Detail}" x:Name="DescriptionLabel" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
     </StackLayout>
 </ViewCell>

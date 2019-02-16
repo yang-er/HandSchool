@@ -44,5 +44,10 @@
         /// 信息描述
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// For internal use.
+        /// </summary>
+        public string Detail => Category;
     }
 }

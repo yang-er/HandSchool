@@ -7,18 +7,8 @@ namespace HandSchool.Models
     /// <summary>
     /// 信息查询入口点包装，通常会用 <see cref="IWebEntrance"/> 来进行信息查询。
     /// </summary>
-    public sealed class InfoEntranceWrapper : IEntranceWrapper
+    public sealed class InfoEntranceWrapper : EntranceWrapperBase
     {
-        /// <summary>
-        /// 入口点名称
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// 入口点描述
-        /// </summary>
-        public string Description { get; }
-
         /// <summary>
         /// 入口点加载委托
         /// </summary>
@@ -49,8 +39,8 @@ namespace HandSchool.Models
         private InfoEntranceWrapper(Type type, Func<IWebEntrance> loader)
         {
             var ent = type.Get<EntranceAttribute>();
-            Name = ent.Title;
-            Description = ent.Description;
+            Title = ent.Title;
+            Detail = ent.Description;
             if (type.Has<HotfixAttribute>())
                 type.Get<HotfixAttribute>().CheckUpdate(false);
             Load = loader;

@@ -20,7 +20,7 @@ namespace HandSchool.JLU.Models
             };
         }
 
-        public string Name => asv.course.courName;
+        public string Title => asv.course.courName;
         public string Score => asv.score;
         public string Point => asv.gpoint;
         public string Credit => asv.credit;
@@ -32,7 +32,7 @@ namespace HandSchool.JLU.Models
 
         public string Type => AlreadyKnownThings.Type5Name(asv.type5);
 
-        public string Show => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
+        public string Detail => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
 
         static readonly string[] ChartShrooms =
         {

@@ -28,7 +28,12 @@ namespace HandSchool.iOS
                 userController.AddUserScript(script);
                 userController.AddScriptMessageHandler(this, "invokeAction");
 
-                var config = new WKWebViewConfiguration { UserContentController = userController };
+                var config = new WKWebViewConfiguration
+                {
+                    UserContentController = userController,
+                    IgnoresViewportScaleLimits = false
+                };
+
                 cookieStore = config.WebsiteDataStore.HttpCookieStore;
                 var webView = new WKWebView(Frame, config);
                 SetNativeControl(webView);

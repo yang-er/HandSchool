@@ -45,6 +45,11 @@ namespace HandSchool.Models
         bool Unread { get; set; }
 
         /// <summary>
+        /// For internal use.
+        /// </summary>
+        string Detail { get; }
+
+        /// <summary>
         /// 设置为已读取
         /// </summary>
         ICommand SetRead { get; }

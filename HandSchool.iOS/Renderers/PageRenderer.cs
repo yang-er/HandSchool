@@ -82,7 +82,7 @@ namespace HandSchool.iOS
         
         private void SetIsBusy(Page page, bool isBusy)
         {
-            if (Element is ViewObject pg && (bool)pg.GetValue(HandSchool.Internal.PlatformExtensions.ShowLoadingProperty) && isBusy)
+            if (Element is ViewObject pg && isBusy)
             {
                 Spinner.StartAnimating();
             }

@@ -26,8 +26,13 @@ namespace HandSchool.JLU.Models
         public virtual string Description
         {
             get => description;
-            set => SetProperty(ref description, value);
+            set => SetProperty(ref description, value, onChanged: () => OnPropertyChanged(nameof(Detail)));
         }
+
+        /// <summary>
+        /// For internal use.
+        /// </summary>
+        public string Detail => Description;
 
         /// <summary>
         /// 信息的操作

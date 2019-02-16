@@ -7,15 +7,15 @@
               Title="{Binding Title}">
     <w:ViewObject.Content>
         <ListView VerticalOptions="FillAndExpand"
-              HasUnevenRows="true"
-              GroupDisplayBinding="{Binding GroupTitle}"
-              ItemTapped="ItemTapped"
-              IsGroupingEnabled="true"
-              CachingStrategy="RecycleElement">
+                  HasUnevenRows="true"
+                  GroupDisplayBinding="{Binding GroupTitle}"
+                  ItemTapped="ItemTapped"
+                  IsGroupingEnabled="true"
+                  CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <w:TextCell Title="{Binding Name}"
-                            Detail="{Binding Description}" />
+                    <w:TextCell Title="{Binding Title}"
+                                Detail="{Binding Detail}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

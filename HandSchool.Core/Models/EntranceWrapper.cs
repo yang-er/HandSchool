@@ -3,16 +3,16 @@
     /// <summary>
     /// 入口点包装的基本接口。
     /// </summary>
-    public interface IEntranceWrapper
+    public class EntranceWrapperBase
     {
         /// <summary>
         /// 入口点名称
         /// </summary>
-        string Name { get; }
+        public string Title { get; protected set; }
 
         /// <summary>
         /// 入口点描述
         /// </summary>
-        string Description { get; }
+        public string Detail { get; protected set; }
     }
 }

@@ -55,14 +55,20 @@ namespace HandSchool.iOS
         private Page CreateFull()
         {
             var page = LazyCorePage.Value;
+            Page toReturn;
+
             if ((bool)page.GetValue(PlatformExtensions.UseTabletModeProperty))
             {
-                return new TabletPageImpl(page, null);
+                toReturn = new TabletPageImpl(page, null);
             }
             else
             {
-                return new NavigationPage(page);
+                toReturn = new NavigationPage(page);
             }
+
+            toReturn.Title = Title;
+            toReturn.Icon = Icon;
+            return toReturn;
         }
 
         private ViewObject Create1()

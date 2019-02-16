@@ -72,7 +72,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="15" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="{Binding Name}" Style="{DynamicResource ListItemTextStyle}" FontSize="Medium" HorizontalOptions="StartAndExpand" />
+                                <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="Medium" HorizontalOptions="StartAndExpand" />
                                 <Label Text="＞" Style="{DynamicResource ListItemTextStyle}" TextColor="LightGray" FontSize="Medium" HorizontalOptions="End" />
                             </StackLayout>
                         </ViewCell>

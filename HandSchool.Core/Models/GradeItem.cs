@@ -13,7 +13,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 成绩名称
         /// </summary>
-        string Name { get; }
+        string Title { get; }
 
         /// <summary>
         /// 成绩分数
@@ -63,7 +63,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 获得展示的字符串
         /// </summary>
-        string Show { get; }
+        string Detail { get; }
 
         /// <summary>
         /// 全班的成绩分布

@@ -52,6 +52,7 @@ namespace HandSchool.Views
             }
 
             Controller.Evaluate = WebView.JavaScript;
+            Controller.SubEntranceRequested += OnEntranceRequested;
             WebView.RegisterAction(Controller.Receive);
         }
         
