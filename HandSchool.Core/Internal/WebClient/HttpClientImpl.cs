@@ -81,10 +81,10 @@ namespace HandSchool.Internals
             {
                 var response = await HttpClient.SendAsync(msg);
                 if (meta.Accept != "*/*" && response.Content.Headers.ContentType.MediaType != meta.Accept)
-                    throw new WebsException(new WebResponse(response, meta, WebStatus.MimeNotMatch));
+                    throw new WebsException(new WebResponse(response, meta, WebStatus.MimeNotMatch, BaseAddress));
                 if ((int)response.StatusCode >= 400)
-                    throw new WebsException(new WebResponse(response, meta, WebStatus.ProtocolError));
-                return new WebResponse(response, meta, WebStatus.Success);
+                    throw new WebsException(new WebResponse(response, meta, WebStatus.ProtocolError, BaseAddress));
+                return new WebResponse(response, meta, WebStatus.Success, BaseAddress);
             }
             catch (HttpRequestException ex)
             {
@@ -184,12 +184,13 @@ namespace HandSchool.Internals
         /// </summary>
         private class WebResponse : IWebResponse
         {
-            public WebResponse(HttpResponseMessage resp, WebRequestMeta meta, WebStatus stat)
+            public WebResponse(HttpResponseMessage resp, WebRequestMeta meta, WebStatus stat, string baseUrl)
             {
                 Request = meta;
                 InnerResponse = resp;
                 StatusCode = resp.StatusCode;
                 Location = resp.Headers.Location?.OriginalString ?? "";
+                Location = Location.Replace(baseUrl, "");
                 ContentType = resp.Content.Headers.ContentType?.MediaType ?? "*/*";
                 Status = stat;
             }
