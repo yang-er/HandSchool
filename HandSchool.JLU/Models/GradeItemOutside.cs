@@ -1,9 +1,10 @@
 ﻿using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
-using Microcharts;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using Color = Xamarin.Forms.Color;
+using Entry = Microcharts.Entry;
 
 namespace HandSchool.JLU.Models
 {
@@ -35,6 +36,8 @@ namespace HandSchool.JLU.Models
         public string Type => "未知";
 
         public string Detail => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
+
+        public Color TypeColor => Color.Gray;
 
         public IEnumerable<Entry> GetGradeDistribute()
         {

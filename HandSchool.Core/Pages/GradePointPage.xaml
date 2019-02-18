@@ -3,7 +3,13 @@
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.GradePointPage"
+              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
               Title="{Binding Title}">
+    <w:ViewObject.Resources>
+        <ResourceDictionary>
+            <w:NoDataBackgroundConverter x:Key="ndbcv" />
+        </ResourceDictionary>
+    </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
     </w:ViewObject.ToolbarMenu>
@@ -14,10 +20,16 @@
                   RefreshCommand="{Binding LoadItemsCommand}"
                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                   HasUnevenRows="true"
+                  BackgroundColor="{Binding Count, Converter={StaticResource ndbcv}}"
                   CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <w:TextCell Title="{Binding Title}" Detail="{Binding Detail}" />
+                    <w:TextCell Title="{Binding Title}"
+                                Detail="{Binding Detail}"
+                                RightDownShow="False"
+                                RightDown="{Binding Type}"
+                                RightDownColor="{Binding TypeColor}"
+                                PreferedCardView="3" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

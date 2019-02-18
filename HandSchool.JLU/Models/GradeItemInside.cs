@@ -14,10 +14,10 @@ namespace HandSchool.JLU.Models
         public InsideGradeItem(ArchiveScoreValue value)
         {
             asv = value;
-            Attach = new NameValueCollection
-            {
-                { "选课课号", asv.xkkh }
-            };
+            Attach = new NameValueCollection { { "选课课号", asv.xkkh } };
+
+            var gradeInternal = Score + (int.TryParse(Score, out int sc) ? " 分" : "");
+            Detail = string.Format("{1}发布；{2}，{3} 学分，绩点 {0}。", Point, Date.ToString("d"), gradeInternal, Credit);
         }
 
         public string Title => asv.course.courName;
@@ -31,8 +31,9 @@ namespace HandSchool.JLU.Models
         public NameValueCollection Attach { get; }
 
         public string Type => AlreadyKnownThings.Type5Name(asv.type5);
+        public Xamarin.Forms.Color TypeColor => AlreadyKnownThings.Type5Color(asv.type5);
 
-        public string Detail => string.Format("{2}发布；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
+        public string Detail { get; }
 
         static readonly string[] ChartShrooms =
         {

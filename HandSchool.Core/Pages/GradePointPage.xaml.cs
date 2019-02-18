@@ -8,12 +8,18 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GradePointPage : ViewObject
     {
-        bool control = false;
-
         public GradePointPage()
         {
             InitializeComponent();
             ViewModel = GradePointViewModel.Instance;
+
+            if (Core.Platform.RuntimeName == "Android")
+            {
+                var ListView = Content as ListView;
+                ListView.SeparatorVisibility = SeparatorVisibility.None;
+                ListView.Header = new StackLayout { HeightRequest = 4 };
+                ListView.Footer = new StackLayout { HeightRequest = 4 };
+            }
         }
 
         private async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

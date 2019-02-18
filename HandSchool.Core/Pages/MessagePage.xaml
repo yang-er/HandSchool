@@ -21,6 +21,7 @@
                   IsPullToRefreshEnabled="true"
                   RefreshCommand="{Binding LoadItemsCommand}"
                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  BackgroundColor="{Binding Count, Converter={StaticResource ndbcv}}"
                   HasUnevenRows="true"
                   CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>

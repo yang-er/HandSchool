@@ -53,7 +53,7 @@ namespace HandSchool.JLU.Services
                 lastReport = await Core.App.Service.Post(serviceResourceUrl, gpaPostValue);
                 Core.Configure.Write(configGpa, lastReport);
                 GradePointViewModel.Instance.Clear();
-                GradePointViewModel.Instance.Add(ParseGPA(lastReport));
+                if (ro.value.Length > 0) GradePointViewModel.Instance.Add(ParseGPA(lastReport));
 
                 // Save score details and add
                 Core.Configure.Write(configGrade, ro.Serialize());

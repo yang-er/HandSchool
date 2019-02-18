@@ -4,7 +4,13 @@
               xmlns:w="clr-namespace:HandSchool.Views"
               x:Class="HandSchool.Views.FeedPage"
               UseTabletMode="True"
+              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
               Title="{Binding Title}">
+    <w:ViewObject.Resources>
+        <ResourceDictionary>
+            <w:NoDataBackgroundConverter x:Key="ndbcv" />
+        </ResourceDictionary>
+    </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
     </w:ViewObject.ToolbarMenu>
@@ -13,6 +19,7 @@
                   ItemTapped="Handle_ItemTapped"
                   ItemAppearing="ListView_ItemAppearing"
                   IsPullToRefreshEnabled="true"
+                  BackgroundColor="{Binding Count, Converter={StaticResource ndbcv}}"
                   RefreshCommand="{Binding LoadItemsCommand}"
                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                   HasUnevenRows="true"

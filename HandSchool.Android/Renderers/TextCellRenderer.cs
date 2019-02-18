@@ -25,6 +25,10 @@ namespace HandSchool.Droid.Renderers
             {
                 return new TextCellView(context, Resource.Layout.cell_text2, cell2);
             }
+            else if (item is ACell cell3 && cell3.PreferedCardView == 3)
+            {
+                return new TextCellView(context, Resource.Layout.cell_text3, cell3);
+            }
             else
             {
                 return base.GetCellCore(item, convertView, parent, context);

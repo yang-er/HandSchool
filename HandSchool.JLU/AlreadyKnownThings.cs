@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
 using HandSchool.Internals;
+using Xamarin.Forms;
 using Dict = System.Collections.Generic.Dictionary<string, string>;
 
 namespace HandSchool.JLU.JsonObject
@@ -22,6 +23,19 @@ namespace HandSchool.JLU.JsonObject
             }
         }
 
+        public static Color Type5Color(string type5)
+        {
+            switch (type5)
+            {
+                case "4160": return Color.FromRgb(227, 76, 38);
+                case "4161": return Color.FromRgb(23, 134, 0);
+                case "4162": return Color.FromRgb(53, 114, 165);
+                case "4163": return Color.FromRgb(176, 114, 25);
+                case "4164": return Color.FromRgb(106, 64, 253);
+                default: return Color.FromRgb(241, 224, 90);
+            }
+        }
+
         static readonly Lazy<List<CollegeOverview>> collegeLoader = new Lazy<List<CollegeOverview>>(LazyCollege);
         static readonly Lazy<List<BuildingOverview>> buildingLoader = new Lazy<List<BuildingOverview>>(LazyBuilding);
         static readonly Lazy<KeyValueDict> campusLoader = new Lazy<KeyValueDict>(LazyCampus);
@@ -29,6 +43,7 @@ namespace HandSchool.JLU.JsonObject
         static readonly Lazy<Dict> termInfoLoader = new Lazy<Dict>(LazyTermInfo);
 
         public static KeyValueDict Division => divisionLoader.Value;
+
         public static KeyValueDict Campus => campusLoader.Value;
         public static List<BuildingOverview> Buildings => buildingLoader.Value;
         public static List<CollegeOverview> Colleges => collegeLoader.Value;

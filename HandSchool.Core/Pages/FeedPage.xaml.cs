@@ -24,7 +24,6 @@ namespace HandSchool.Views
             {
                 ListView.SeparatorVisibility = SeparatorVisibility.None;
                 ListView.Header = new StackLayout { HeightRequest = 4 };
-                ListView.BackgroundColor = Color.FromRgb(244, 244, 244);
             }
         }
 

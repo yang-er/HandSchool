@@ -1,7 +1,8 @@
-﻿using Microcharts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using Color = Xamarin.Forms.Color;
+using Entry = Microcharts.Entry;
 
 namespace HandSchool.Models
 {
@@ -15,6 +16,7 @@ namespace HandSchool.Models
         public string Score => "";
         public string Point => "";
         public string Type => "";
+        public Color TypeColor => Color.Transparent;
         public string Credit => "";
         public string Term => "";
         public bool ReSelect => false;

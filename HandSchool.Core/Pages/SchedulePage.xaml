@@ -3,8 +3,14 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.SchedulePage"
               xmlns:w="clr-namespace:HandSchool.Views"
+              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
               IsBusy="{Binding IsBusy}"
               Title="{Binding Title}">
+    <w:ViewObject.Resources>
+        <ResourceDictionary>
+            <w:NoDataBackgroundConverter x:Key="ndbcv" />
+        </ResourceDictionary>
+    </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="{Binding CurrentWeek}" Order="Default" UWPIcon="&#xE787;" />
         <w:MenuEntry Title="刷新课表" Command="{Binding RefreshCommand}" Order="Secondary" UWPIcon="&#xE72C;" />

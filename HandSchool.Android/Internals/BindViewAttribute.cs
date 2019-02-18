@@ -2,6 +2,7 @@
 using Android.Views;
 using HandSchool.Internals;
 using System;
+using Xamarin.Forms.Platform.Android;
 
 namespace HandSchool.Droid
 {
@@ -108,6 +109,16 @@ namespace HandSchool.Droid
         public static void SetVisibility(this Android.Widget.TextView tw, bool v)
         {
             tw.Visibility = v ? ViewStates.Visible : ViewStates.Gone;
+        }
+
+        /// <summary>
+        /// 给文本框设置颜色。
+        /// </summary>
+        /// <param name="tw">文本框</param>
+        /// <param name="color">颜色</param>
+        public static void SetColor(this Android.Widget.TextView tw, Xamarin.Forms.Color color)
+        {
+            tw.SetTextColor(color.ToAndroid());
         }
 
         /// <summary>

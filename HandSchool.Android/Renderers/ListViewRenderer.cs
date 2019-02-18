@@ -15,12 +15,21 @@ namespace HandSchool.Droid.Renderers
         
         protected override void OnElementChanged(ElementChangedEventArgs<ListView> e)
         {
+            base.OnElementChanged(e);
+            
             if (e.NewElement != null)
             {
                 e.NewElement.SelectionMode = ListViewSelectionMode.None;
-            }
 
-            base.OnElementChanged(e);
+                if (e.NewElement.Header is StackLayout stackLayout)
+                {
+                    if (stackLayout.HeightRequest == 4)
+                    {
+                        // Only items that use CardView would reach here
+                        Control.SetSelector(Android.Resource.Color.Transparent);
+                    }
+                }
+            }
         }
     }
 }

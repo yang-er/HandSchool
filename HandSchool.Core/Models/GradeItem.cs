@@ -69,5 +69,10 @@ namespace HandSchool.Models
         /// 全班的成绩分布
         /// </summary>
         IEnumerable<Entry> GetGradeDistribute();
+
+        /// <summary>
+        /// 成绩类型的颜色
+        /// </summary>
+        Xamarin.Forms.Color TypeColor { get; }
     }
 }
