@@ -27,7 +27,7 @@
                     <w:TextCell Title="{Binding Title}"
                                 Detail="{Binding Detail}"
                                 RightDownShow="False"
-                                RightDown="{Binding Type}"
+                                Attach1="{Binding Type}"
                                 RightDownColor="{Binding TypeColor}"
                                 PreferedCardView="3" />
                 </DataTemplate>

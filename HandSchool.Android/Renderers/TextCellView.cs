@@ -60,7 +60,7 @@ namespace HandSchool.Droid
                     break;
 
                 case nameof(BindingContext.RightDownShow):
-                    // RightDown?.SetVisibility(BindingContext.RightDownShow);
+                    RightDown?.SetVisibility(BindingContext.RightDownShow);
                     break;
 
                 case nameof(BindingContext.RightDownColor):
@@ -75,7 +75,7 @@ namespace HandSchool.Droid
             Detail?.SetText(BindingContext.Detail);
             RightUp?.SetText(BindingContext.RightUp);
             RightDown?.SetText(BindingContext.RightDown);
-            // RightDown?.SetVisibility(BindingContext.RightDownShow);
+            RightDown?.SetVisibility(BindingContext.RightDownShow);
             Attach1?.SetText(BindingContext.Attach1);
             RightDownIndicator?.SetColor(BindingContext.RightDownColor);
         }
