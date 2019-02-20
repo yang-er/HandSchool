@@ -84,7 +84,7 @@ namespace HandSchool.Droid
                 case NavMenuItemType.Object:
                     var viewPage = CreateObject();
                     viewPage.SetNavigationArguments(null);
-                    var frg = new EmbeddedFragment(viewPage, PlatformImplV2.Instance.Context);
+                    var frg = new EmbeddedFragment(viewPage);
                     return (frg, viewPage);
 
                 default:

@@ -74,6 +74,7 @@ namespace HandSchool.Droid
 
             var transition = SupportFragmentManager.BeginTransaction();
             transition.Replace(Resource.Id.frame_layout, fragment);
+            transition.SetTransition(0x00001001);
             transition.Commit();
 
             if (Tabbar != null && !(fragment is TabbedFragment))
@@ -110,7 +111,7 @@ namespace HandSchool.Droid
         
         protected void Transaction(ViewObject viewPage)
         {
-            var fm = new EmbeddedFragment(viewPage, this);
+            var fm = new EmbeddedFragment(viewPage);
             TransactionV3(fm, viewPage);
         }
         

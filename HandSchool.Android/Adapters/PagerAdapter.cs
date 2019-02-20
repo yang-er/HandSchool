@@ -36,7 +36,7 @@ namespace HandSchool.Droid
             if (Fragments[i] is null)
             {
                 ((IViewLifecycle)AllPages[i]).RegisterNavigation(Navigate);
-                Fragments[i] = new EmbeddedFragment((ViewObject)AllPages[i], Context, true);
+                Fragments[i] = new EmbeddedFragment((ViewObject)AllPages[i], true);
                 if (i == 0) (AllPages[0] as IViewLifecycle)?.SendAppearing();
             }
             
