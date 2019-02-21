@@ -56,6 +56,7 @@ namespace HandSchool.Internals
                 if (WebClient is null)
                 {
                     WebClient = Core.New<IWebClient>();
+                    WebClient.BaseAddress = "";
                     WebClient.Timeout = 5000;
                 }
                 

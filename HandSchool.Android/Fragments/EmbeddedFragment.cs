@@ -14,7 +14,7 @@ namespace HandSchool.Droid
     public class EmbeddedFragment : ViewFragment, INotifyPropertyChanged
     {
         public ViewObject ViewObject { get; }
-        public Fragment Renderer { get; }
+        public Fragment Renderer { get; set; }
         public bool SelfControl { get; }
 
         public override BaseViewModel ViewModel
@@ -47,13 +47,17 @@ namespace HandSchool.Droid
         }
 
         public override ToolbarMenuTracker ToolbarMenu => ViewObject.ToolbarTracker;
+        
+        public EmbeddedFragment()
+        {
+            ViewObject = new ViewObject();
+            SelfControl = true;
+        }
 
-        public EmbeddedFragment(ViewObject obj, Context context, bool selfControl = false)
+        public EmbeddedFragment(ViewObject obj, bool selfControl = false)
         {
             ViewObject = obj;
             SelfControl = selfControl;
-            
-            Renderer = XForms.CreateSupportFragment(ViewObject, context);
         }
 
         public event PropertyChangedEventHandler PropertyChanged
@@ -64,12 +68,13 @@ namespace HandSchool.Droid
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            Renderer = Renderer ?? XForms.CreateSupportFragment(ViewObject, Context);
             return Renderer.OnCreateView(inflater, container, savedInstanceState);
         }
 
         protected override void Dispose(bool disposing)
         {
-            Renderer.Dispose();
+            Renderer?.Dispose();
             ViewObject.BindingContext = null;
             base.Dispose(disposing);
         }
