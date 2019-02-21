@@ -56,6 +56,7 @@
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidTlsProvider>legacy</AndroidTlsProvider>
     <EnableProguard>false</EnableProguard>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -92,18 +93,17 @@
   <ItemGroup>
     <Compile Include="Activities\CurriculumActivitiy.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Activities\SelectTypeActivity.cs" />
     <Compile Include="Adapters\MenuEntryClick.cs" />
     <Compile Include="Adapters\NavHeadViewHolder.cs" />
     <Compile Include="Adapters\WebViewClient.cs" />
     <Compile Include="Renderers\FrameRenderer.cs" />
-    <Compile Include="Renderers\FrameView.cs" />
     <Compile Include="Renderers\ListViewRenderer.cs" />
     <Compile Include="Fragments\CurriculumFragment.cs" />
     <Compile Include="Renderers\TextCellView.cs" />
     <Compile Include="Adapters\ToolbarBackClick.cs" />
     <Compile Include="Fragments\DemoFragment.cs" />
     <Compile Include="Fragments\EmbeddedFragment.cs" />
-    <Compile Include="Fragments\IndexPage.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
     <Compile Include="Internals\CodeStore.cs" />
     <Compile Include="Adapters\AboutItemClick.cs" />

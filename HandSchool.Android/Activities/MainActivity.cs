@@ -9,7 +9,6 @@ using Android.Views;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;
-using XForms = Xamarin.Forms.Forms;
 
 namespace HandSchool.Droid
 {
@@ -52,16 +51,9 @@ namespace HandSchool.Droid
         
         protected override void OnCreate(Bundle bundle)
         {
-            ContentViewResource = Resource.Layout.activity_main;
-            XForms.Init(this, bundle);
-            PlatformImplV2.Register(this);
+            Xamarin.Forms.Forms.Init(this, bundle);
             base.OnCreate(bundle);
-            PlatformImplV2.Instance.UpdateManager.Update();
-            Forwarder.NormalWay.Begin();
-            if(Core.Initialize())
-            {
-                this.PushAsync<SelectTypePage>();
-            }
+            PlatformImplV2.Register(this);
             var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
@@ -79,7 +71,6 @@ namespace HandSchool.Droid
             TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
 
             NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
-
         }
 
         protected override void OnDestroy()

@@ -129,12 +129,12 @@ namespace HandSchool.Droid
             if (LoginViewModel.Form.CaptchaSource == null)
             {
                 CaptchaPanel.Visibility = ViewStates.Gone;
-                AutoLoginBox.Visibility = ViewStates.Visible;
+                AutoLoginBox.Enabled = true;
             }
             else
             {
                 CaptchaPanel.Visibility = ViewStates.Visible;
-                AutoLoginBox.Visibility = ViewStates.Invisible;
+                AutoLoginBox.Enabled = false;
                 CaptchaImage.SetImageBitmap(CaptchaBitmap);
             }
         }
@@ -205,8 +205,8 @@ namespace HandSchool.Droid
                 if (CaptchaBitmap != null)
                     CaptchaBitmap.Recycle();
                 CaptchaBitmap = Bitmap.CreateScaledBitmap(orig,
-                    PlatformImplV2.Instance.Context.Dip2Px(99),
-                    PlatformImplV2.Instance.Context.Dip2Px(33), true);
+                    Core.Platform.Dip2Px(99),
+                    Core.Platform.Dip2Px(33), true);
                 orig.Recycle();
                 CaptchaImage.SetImageBitmap(CaptchaBitmap);
             }

@@ -17,23 +17,12 @@ namespace HandSchool.Droid
 
         public UpdateManager(Context context)
         {
-            Context = context;
-        }
-
-        public Context Context { get; set; }
-
-        private IWebClient WebClient { get; set; }
-
-        private string[] Arvgs;
-        
-        public int GetVersionCode()
-        {
             int versionCode = 999;
 
             try
             {
-                versionCode = Context.PackageManager
-                    .GetPackageInfo(Context.PackageName, 0)
+                versionCode = context.PackageManager
+                    .GetPackageInfo(context.PackageName, 0)
                     .VersionCode;
             }
             catch (PackageManager.NameNotFoundException e)
@@ -41,9 +30,13 @@ namespace HandSchool.Droid
                 e.PrintStackTrace();
             }
 
-            return versionCode;
+            VersionCode = versionCode;
         }
-
+        
+        public int VersionCode { get; set; }
+        private IWebClient WebClient { get; set; }
+        private string[] Arvgs;
+        
         private async Task<string> GetUpdateString()
         {
             try
@@ -63,20 +56,19 @@ namespace HandSchool.Droid
             }
         }
 
-        public async void Update(bool displayNone = false, Context context = null)
+        public async void Update(bool displayNone, Context activity)
         {
             await Task.Yield();
-            context = context ?? Context;
             string UpdateMsg = await GetUpdateString();
             if (UpdateMsg == "") return;
             Arvgs = UpdateMsg.Split(new[] { ' ' }, 3, StringSplitOptions.None);
 
-            if (int.Parse(Arvgs[0]) > GetVersionCode())
+            if (int.Parse(Arvgs[0]) > VersionCode)
             {
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     string Detail = Arvgs[2];
-                    new AlertDialog.Builder(context)
+                    new AlertDialog.Builder(activity)
                         .SetTitle("应用更新")
                         .SetMessage(Detail)
                         .SetNegativeButton("取消", (IDialogInterfaceOnClickListener)null)
@@ -88,7 +80,7 @@ namespace HandSchool.Droid
             {
                 Core.Platform.EnsureOnMainThread(() =>
                 {
-                    new AlertDialog.Builder(context)
+                    new AlertDialog.Builder(activity)
                         .SetTitle("应用更新")
                         .SetMessage("您的应用已经是最新的啦！")
                         .SetNegativeButton("确认", (IDialogInterfaceOnClickListener)null)

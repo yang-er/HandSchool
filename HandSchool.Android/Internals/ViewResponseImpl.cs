@@ -46,7 +46,7 @@ namespace HandSchool.Droid
             builder.SetPositiveButton(args.Close, (IDialogInterfaceOnClickListener)null);
 
             // Set drawing content
-            args.Chart.LabelTextSize = sender.ToContext().Dip2Px(12);
+            args.Chart.LabelTextSize = Core.Platform.Dip2Px(12);
             var canvasView = chartLayout.FindViewById<SKCanvasView>(Resource.Id.skia_chart_canvas);
             canvasView.PaintSurface += (s, e) =>
             {
@@ -62,7 +62,7 @@ namespace HandSchool.Droid
             Display d = manager.DefaultDisplay;
             Window window = dialog.Window;
             WindowManagerLayoutParams param = window.Attributes;
-            param.Height = sender.ToContext().Dip2Px(340);
+            param.Height = Core.Platform.Dip2Px(340);
             param.Gravity = GravityFlags.CenterHorizontal;
             dialog.Window.Attributes = param;
         }

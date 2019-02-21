@@ -12,9 +12,7 @@ namespace HandSchool.Droid
     public sealed class PlatformImplV2 : PlatformBase
     {
         public static PlatformImplV2 Instance { get; private set; }
-
-        public Context Context { get; }
-
+        
         public UpdateManager UpdateManager { get; }
 
         public Stack<Context> ContextStack { get; }
@@ -40,7 +38,6 @@ namespace HandSchool.Droid
 
         private PlatformImplV2(Context context)
         {
-            Context = context;
             RuntimeName = "Android";
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
             ConfigureDirectory = SysEnv.GetFolderPath(SysEnv.SpecialFolder.Personal);
@@ -50,7 +47,6 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterCtor<IndexPage>();
             Core.Reflection.RegisterCtor<WebViewPage>();
             Core.Reflection.RegisterCtor<LoginFragment>();
-            Core.Reflection.RegisterCtor<MessagePresenter>();
             Core.Reflection.RegisterCtor<HttpClientImpl>();
             Core.Reflection.RegisterType<DetailPage, DetailActivity>();
             Core.Reflection.RegisterType<ICurriculumPage, CurriculumFragment>();
@@ -58,13 +54,19 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
             ContextStack = new Stack<Context>();
-            UpdateManager = new UpdateManager(context);
+            UpdateManager = new UpdateManager(context.ApplicationContext);
             ViewResponseImpl = new ViewResponseImpl();
+            Density = context.Resources.DisplayMetrics.Density;
         }
+
+        public float Density { get; }
 
         public static void Register(Context context)
         {
-            new PlatformImplV2(context);
+            if (Instance is null)
+                new PlatformImplV2(context);
+            Instance.ContextStack.Clear();
+            Instance.ContextStack.Push(context);
         }
         
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)

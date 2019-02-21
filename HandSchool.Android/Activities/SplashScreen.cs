@@ -13,8 +13,11 @@ namespace HandSchool.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            var intent = new Intent(this, typeof(MainActivity));
-            StartActivity(intent);
+            Xamarin.Forms.Forms.Init(this, bundle);
+            PlatformImplV2.Register(this);
+            Forwarder.NormalWay.Begin();
+            var next = Core.Initialize() ? typeof(MainActivity) : typeof(SelectTypeActivity);
+            StartActivity(new Intent(this, next));
             Finish();
         }
     }

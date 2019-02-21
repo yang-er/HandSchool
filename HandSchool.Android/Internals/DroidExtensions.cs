@@ -15,6 +15,16 @@ namespace HandSchool.Droid
         {
             return (int)(dpValue * context.Resources.DisplayMetrics.Density + 0.5f);
         }
+        
+        /// <summary>
+        /// 将dp值转换为px值
+        /// </summary>
+        /// <param name="dpValue">dp值</param>
+        /// <returns>px值</returns>
+        public static int Dip2Px(this PlatformBase platform, float dpValue)
+        {
+            return (int)(dpValue * ((PlatformImplV2)platform).Density + 0.5f);
+        }
 
         /// <summary>
         /// 将px值转换为dp值

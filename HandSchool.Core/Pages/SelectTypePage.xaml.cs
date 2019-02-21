@@ -24,6 +24,8 @@ namespace HandSchool.Views
             NextButton.IsEnabled = true;
         }
 
+        public event Action SchoolSelected;
+
         private void Button_Clicked(object sender, EventArgs e)
         {
             var sch = MySchool.SelectedItem as ISchoolWrapper;
@@ -32,10 +34,7 @@ namespace HandSchool.Views
             Core.App.InjectService(sch);
             sch.PreLoad();
             sch.PostLoad();
-            
-#if !__UWP__
-            (Application.Current.MainPage as MainPage).FinishSettings();
-#endif
+            SchoolSelected?.Invoke();
         }
     }
 }
