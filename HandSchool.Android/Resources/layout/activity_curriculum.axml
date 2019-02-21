@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/fuckyou"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-	  <include
-    layout="@layout/app_bar_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-<FrameLayout
-android:id="@+id/frame_layout"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
-</FrameLayout>
-</LinearLayout>
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	android:background="@drawable/loginbg">
+	<android.support.design.widget.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/appbar_layout"
+		android:background="@android:color/transparent"
+		android:theme="@style/AppTheme.AppBarOverlay"
+		app:elevation="0dp">
+
+		<android.support.v7.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			android:background="@android:color/transparent"
+			app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+		<ProgressBar
+			android:id="@+id/main_progress_bar"
+			style="?android:attr/progressBarStyleHorizontal"
+			android:visibility="invisible"
+			tools:visibility="visible"
+			android:indeterminate="true"
+			android:layout_width="match_parent"
+			android:layout_marginTop="-8.0dip"
+			android:layout_marginBottom="-8.0dip"
+			android:indeterminateTint="@color/white"
+			android:layout_height="16.0dip" />
+			
+	</android.support.design.widget.AppBarLayout>
+	<FrameLayout android:id="@+id/frame_layout"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
+</android.support.design.widget.CoordinatorLayout>

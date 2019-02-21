@@ -26,6 +26,7 @@ namespace HandSchool.Droid.Activities
         protected override void OnNavigatedParameter(object obj)
         {
             Fragment = obj as CurriculumFragment;
+            Fragment.Father = this;
             TransactionV3(Fragment, Fragment);
         }
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,16 +37,8 @@ namespace HandSchool.Droid.Activities
             bar.SetDisplayHomeAsUpEnabled(true);
             bar.SetHomeButtonEnabled(true);
         }
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            var detail = menu.Add("创建");
-            detail.SetShowAsAction(ShowAsAction.Always);
-            detail.SetOnMenuItemClickListener(new MenuEntryClickedListener(new CommandAction(OnFinishCreate)));
-            return base.OnCreateOptionsMenu(menu);
-        }
         public  Task  OnFinishCreate()
         {
-            ScheduleViewModel.Instance.SaveToFile();
             Finish();
             return Task.CompletedTask;
         }

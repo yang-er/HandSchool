@@ -52,10 +52,16 @@ namespace HandSchool.Droid.Fragments
 
         [BindView(Resource.Id.classname)]
         public TextInputEditText ClassName { get; set; }
+
+        [BindView(Resource.Id.finishbutton)]
+        public Button FinishButton { get; set; }
+
         public MaterialSpinnerAdapter StartNumAdapter;
         public MaterialSpinnerAdapter EndNumAdapter;
         public MaterialSpinnerAdapter StartWeekAdapter;
         public MaterialSpinnerAdapter EndWeekAdapter;
+
+        public CurriculumActivitiy Father;
         public CurriculumFragment()
         {
             FragmentViewResource = Resource.Layout.curriculumlayout;
@@ -117,6 +123,12 @@ namespace HandSchool.Droid.Fragments
                 WeekOen.SelectedIndex = (int)Model.WeekOen;
                 Weekday.SelectedIndex = Model.WeekDay;
             }
+            FinishButton.Click += OnFinishButtonClick;
+        }
+        public void OnFinishButtonClick(object Sender,EventArgs args)
+        {
+                ScheduleViewModel.Instance.SaveToFile();
+                Father.Finish();
 
         }
         public void OnTextChanged(object Sender, AfterTextChangedEventArgs Args)

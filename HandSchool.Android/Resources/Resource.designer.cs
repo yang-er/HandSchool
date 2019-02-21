@@ -4497,17 +4497,17 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09004d
 			public const int CTRL = 2131296333;
 			
-			// aapt resource value: 0x7f0900bf
-			public const int ClassGrid = 2131296447;
+			// aapt resource value: 0x7f0900be
+			public const int ClassGrid = 2131296446;
 			
-			// aapt resource value: 0x7f0900b9
-			public const int ClassNum = 2131296441;
+			// aapt resource value: 0x7f0900b8
+			public const int ClassNum = 2131296440;
+			
+			// aapt resource value: 0x7f0900bc
+			public const int ClassTableText = 2131296444;
 			
 			// aapt resource value: 0x7f0900bd
-			public const int ClassTableText = 2131296445;
-			
-			// aapt resource value: 0x7f0900be
-			public const int ClassView = 2131296446;
+			public const int ClassView = 2131296445;
 			
 			// aapt resource value: 0x7f09004e
 			public const int FUNCTION = 2131296334;
@@ -4602,8 +4602,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090052
 			public const int always = 2131296338;
 			
-			// aapt resource value: 0x7f0900a5
-			public const int appbar_layout = 2131296421;
+			// aapt resource value: 0x7f0900a3
+			public const int appbar_layout = 2131296419;
 			
 			// aapt resource value: 0x7f09006b
 			public const int async = 2131296363;
@@ -4626,23 +4626,23 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090126
 			public const int cancel_action = 2131296550;
 			
-			// aapt resource value: 0x7f0900b5
-			public const int cell_attach1 = 2131296437;
+			// aapt resource value: 0x7f0900b4
+			public const int cell_attach1 = 2131296436;
+			
+			// aapt resource value: 0x7f0900b1
+			public const int cell_detail = 2131296433;
 			
 			// aapt resource value: 0x7f0900b2
-			public const int cell_detail = 2131296434;
-			
-			// aapt resource value: 0x7f0900b3
-			public const int cell_rightdown = 2131296435;
-			
-			// aapt resource value: 0x7f0900b7
-			public const int cell_rightdownind = 2131296439;
+			public const int cell_rightdown = 2131296434;
 			
 			// aapt resource value: 0x7f0900b6
-			public const int cell_rightup = 2131296438;
+			public const int cell_rightdownind = 2131296438;
 			
-			// aapt resource value: 0x7f0900b4
-			public const int cell_title = 2131296436;
+			// aapt resource value: 0x7f0900b5
+			public const int cell_rightup = 2131296437;
+			
+			// aapt resource value: 0x7f0900b3
+			public const int cell_title = 2131296435;
 			
 			// aapt resource value: 0x7f09002c
 			public const int center = 2131296300;
@@ -4659,8 +4659,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09012e
 			public const int chronometer = 2131296558;
 			
-			// aapt resource value: 0x7f0900b1
-			public const int class1 = 2131296433;
+			// aapt resource value: 0x7f0900b0
+			public const int class1 = 2131296432;
 			
 			// aapt resource value: 0x7f090135
 			public const int class10 = 2131296565;
@@ -4695,20 +4695,20 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09013f
 			public const int class9 = 2131296575;
 			
-			// aapt resource value: 0x7f0900bc
-			public const int classgridframe = 2131296444;
+			// aapt resource value: 0x7f0900bb
+			public const int classgridframe = 2131296443;
 			
-			// aapt resource value: 0x7f0900b8
-			public const int classindex = 2131296440;
+			// aapt resource value: 0x7f0900b7
+			public const int classindex = 2131296439;
+			
+			// aapt resource value: 0x7f0900c5
+			public const int classname = 2131296453;
 			
 			// aapt resource value: 0x7f0900c6
-			public const int classname = 2131296454;
+			public const int classroom = 2131296454;
 			
-			// aapt resource value: 0x7f0900c7
-			public const int classroom = 2131296455;
-			
-			// aapt resource value: 0x7f0900ba
-			public const int classtableframe = 2131296442;
+			// aapt resource value: 0x7f0900b9
+			public const int classtableframe = 2131296441;
 			
 			// aapt resource value: 0x7f09002f
 			public const int clip_horizontal = 2131296303;
@@ -4758,23 +4758,23 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0900d0
 			public const int design_navigation_view = 2131296464;
 			
-			// aapt resource value: 0x7f0900a9
-			public const int detail_sender = 2131296425;
+			// aapt resource value: 0x7f0900aa
+			public const int detail_sender = 2131296426;
 			
 			// aapt resource value: 0x7f0900ab
 			public const int detail_text_view = 2131296427;
 			
-			// aapt resource value: 0x7f0900a8
-			public const int detail_time = 2131296424;
+			// aapt resource value: 0x7f0900a9
+			public const int detail_time = 2131296425;
 			
-			// aapt resource value: 0x7f0900a7
-			public const int detail_title = 2131296423;
+			// aapt resource value: 0x7f0900a8
+			public const int detail_title = 2131296424;
 			
 			// aapt resource value: 0x7f09003c
 			public const int disableHome = 2131296316;
 			
-			// aapt resource value: 0x7f0900ad
-			public const int drawer_layout = 2131296429;
+			// aapt resource value: 0x7f0900ac
+			public const int drawer_layout = 2131296428;
 			
 			// aapt resource value: 0x7f090095
 			public const int edit_query = 2131296405;
@@ -4785,11 +4785,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090134
 			public const int end_padder = 2131296564;
 			
-			// aapt resource value: 0x7f0900c3
-			public const int endnum = 2131296451;
+			// aapt resource value: 0x7f0900c2
+			public const int endnum = 2131296450;
 			
-			// aapt resource value: 0x7f0900c1
-			public const int endweek = 2131296449;
+			// aapt resource value: 0x7f0900c0
+			public const int endweek = 2131296448;
 			
 			// aapt resource value: 0x7f090057
 			public const int enterAlways = 2131296343;
@@ -4806,8 +4806,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f09008b
 			public const int expanded_menu = 2131296395;
 			
-			// aapt resource value: 0x7f0900b0
-			public const int fab = 2131296432;
+			// aapt resource value: 0x7f0900af
+			public const int fab = 2131296431;
 			
 			// aapt resource value: 0x7f090032
 			public const int fill = 2131296306;
@@ -4824,17 +4824,17 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090068
 			public const int filled = 2131296360;
 			
+			// aapt resource value: 0x7f0900c8
+			public const int finishbutton = 2131296456;
+			
 			// aapt resource value: 0x7f090066
 			public const int @fixed = 2131296358;
 			
 			// aapt resource value: 0x7f09006d
 			public const int forever = 2131296365;
 			
-			// aapt resource value: 0x7f0900a4
-			public const int frame_layout = 2131296420;
-			
-			// aapt resource value: 0x7f0900a3
-			public const int fuckyou = 2131296419;
+			// aapt resource value: 0x7f0900a6
+			public const int frame_layout = 2131296422;
 			
 			// aapt resource value: 0x7f09000a
 			public const int ghost_view = 2131296266;
@@ -4884,8 +4884,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0900ca
 			public const int largeLabel = 2131296458;
 			
-			// aapt resource value: 0x7f0900bb
-			public const int lastrefreshtime = 2131296443;
+			// aapt resource value: 0x7f0900ba
+			public const int lastrefreshtime = 2131296442;
 			
 			// aapt resource value: 0x7f090035
 			public const int left = 2131296309;
@@ -4935,8 +4935,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0900da
 			public const int login_username = 2131296474;
 			
-			// aapt resource value: 0x7f0900ac
-			public const int main_progress_bar = 2131296428;
+			// aapt resource value: 0x7f0900a5
+			public const int main_progress_bar = 2131296421;
 			
 			// aapt resource value: 0x7f0900e7
 			public const int mal_action_item_subtext = 2131296487;
@@ -5142,8 +5142,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090121
 			public const int nav_header_second = 2131296545;
 			
-			// aapt resource value: 0x7f0900ae
-			public const int nav_view = 2131296430;
+			// aapt resource value: 0x7f0900ad
+			public const int nav_view = 2131296429;
 			
 			// aapt resource value: 0x7f0900cf
 			public const int navigation_header_container = 2131296463;
@@ -5280,8 +5280,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0900d5
 			public const int skia_chart_canvas = 2131296469;
 			
-			// aapt resource value: 0x7f0900af
-			public const int sliding_tabs = 2131296431;
+			// aapt resource value: 0x7f0900ae
+			public const int sliding_tabs = 2131296430;
 			
 			// aapt resource value: 0x7f0900c9
 			public const int smallLabel = 2131296457;
@@ -5316,11 +5316,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090037
 			public const int start = 2131296311;
 			
-			// aapt resource value: 0x7f0900c2
-			public const int startnum = 2131296450;
+			// aapt resource value: 0x7f0900c1
+			public const int startnum = 2131296449;
 			
-			// aapt resource value: 0x7f0900c0
-			public const int startweek = 2131296448;
+			// aapt resource value: 0x7f0900bf
+			public const int startweek = 2131296447;
 			
 			// aapt resource value: 0x7f090127
 			public const int status_bar_latest_event_content = 2131296551;
@@ -5346,8 +5346,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090020
 			public const int tag_unhandled_key_listeners = 2131296288;
 			
-			// aapt resource value: 0x7f0900c8
-			public const int teacher = 2131296456;
+			// aapt resource value: 0x7f0900c7
+			public const int teacher = 2131296455;
 			
 			// aapt resource value: 0x7f090021
 			public const int text = 2131296289;
@@ -5388,11 +5388,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090084
 			public const int title_template = 2131296388;
 			
-			// aapt resource value: 0x7f0900aa
-			public const int toolbar = 2131296426;
+			// aapt resource value: 0x7f0900a4
+			public const int toolbar = 2131296420;
 			
-			// aapt resource value: 0x7f0900a6
-			public const int toolbar_layout = 2131296422;
+			// aapt resource value: 0x7f0900a7
+			public const int toolbar_layout = 2131296423;
 			
 			// aapt resource value: 0x7f090038
 			public const int top = 2131296312;
@@ -5451,11 +5451,11 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0900e4
 			public const int web_view = 2131296484;
 			
-			// aapt resource value: 0x7f0900c5
-			public const int weekday = 2131296453;
-			
 			// aapt resource value: 0x7f0900c4
-			public const int weekoen = 2131296452;
+			public const int weekday = 2131296452;
+			
+			// aapt resource value: 0x7f0900c3
+			public const int weekoen = 2131296451;
 			
 			// aapt resource value: 0x7f090141
 			public const int widgetBackground = 2131296577;

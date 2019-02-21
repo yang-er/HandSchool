@@ -13,12 +13,4 @@ using HandSchool.Droid;
 
 namespace HandSchool.Views
 {
-    public class IndexPage : ViewFragment
-    {
-        public IndexPage()
-        {
-            FragmentViewResource = Resource.Layout.layout_index;
-            Title = "掌上校园";
-        }
-    }
 }
