@@ -117,7 +117,6 @@
     <Compile Include="Renderers\TextCellRenderer.cs" />
     <Compile Include="Fragments\AboutPage.cs" />
     <Compile Include="Activities\BaseActivity.cs" />
-    <Compile Include="Renderers\MessagePresenter.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Renderers\ViewObjectRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

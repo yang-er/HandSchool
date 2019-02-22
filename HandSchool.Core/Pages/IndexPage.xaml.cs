@@ -1,4 +1,5 @@
 ﻿using HandSchool.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
@@ -10,7 +11,11 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = IndexViewModel.Instance;
-            //On<_iOS_>().UseSafeArea().HideFrameShadow();
+
+            if (Core.Platform.RuntimeName == "Android")
+            {
+                Content.BackgroundColor = Color.FromRgb(241, 241, 241);
+            }
         }
 
         protected override void OnAppearing()
