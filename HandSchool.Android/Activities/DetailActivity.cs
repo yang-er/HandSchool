@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.OS;
 using Android.Views;
 using Android.Widget;
 using HandSchool.ViewModels;
@@ -22,8 +21,10 @@ namespace HandSchool.Droid
 
         [BindView(Resource.Id.detail_sender)]
         public TextView DetailSender { get; set; }
-
+        
         public DetailViewModel ViewModel { get; set; }
+
+        int tapCount = 0;
 
         protected override void OnNavigatedParameter(object obj)
         {
@@ -39,6 +40,19 @@ namespace HandSchool.Droid
             DetailTime.Text = ViewModel.Date;
             DetailSender.Text = ViewModel.Sender;
             ActionBar.Title = ViewModel.Title;
+            
+            TextContent.Touch += (sender, e) =>
+            {
+                if (++tapCount == 12)
+                {
+                    TextContent.Post(() =>
+                    {
+                        TextContent.SetOnTouchListener(null);
+                        TextContent.SetTextIsSelectable(true);
+                        TextContent.RequestFocus();
+                    });
+                }
+            };
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
