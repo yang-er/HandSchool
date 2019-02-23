@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              Title="校园一卡通"
+              x:Class="HandSchool.JLU.Views.YktPage">
+    <w:ViewObject.ToolbarMenu>
+        <w:MenuEntry Command="{Binding ChargeCreditCommand}"
+                     UWPIcon="&#xEF40;" Title="充值" Order="Primary" />
+        <w:MenuEntry Command="{Binding SetUpLostStateCommand}"
+                     UWPIcon="&#xE8D7;" Title="挂失" Order="Primary" />
+    </w:ViewObject.ToolbarMenu>
+    <w:ViewObject.Content>
+        <ListView CachingStrategy="RecycleElement"
+                  HasUnevenRows="True"
+                  BackgroundColor="#F4F4F4"
+                  IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  ItemsSource="{Binding RecordInfo}"
+                  SeparatorVisibility="None"
+                  RefreshCommand="{Binding LoadTwoInfoCommand}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <w:TextCell Title="{Binding RecordName}"
+                                Detail="{Binding DescriptionShow}"
+                                RightDownShow="True"
+                                RightDown="{Binding RemainMoneyShow}"
+                                RightUp="{Binding CostShow}"
+                                PreferedCardView="4" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Header>
+                <Frame Margin="8,8,8,4" Padding="0,20,0,20">
+                    <StackLayout BindingContext="{Binding BasicInfo}">
+                        <Grid Padding="20,0,20,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Column="0" Grid.RowSpan="3" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="60" WidthRequest="60" Source="JLU.png" />
+                            <Label Grid.Column="1" Grid.Row="0" Text="{Binding NameInfo.Description}" FontSize="Large" TextColor="Black" />
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding CardId.Description}" />
+                            <Label Grid.Column="1" Grid.Row="2">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Type.Description, Mode=OneWay}" />
+                                        <Span Text=" - " />
+                                        <Span Text="{Binding Part.Description, Mode=OneWay}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Column="2" Grid.Row="1" Text="{Binding IsLost}" TextColor="DarkGreen" VerticalOptions="End" HorizontalOptions="End" />
+                            <Label Grid.Column="2" Grid.Row="2" Text="{Binding IsFrozen}" TextColor="DarkBlue" VerticalOptions="Start" HorizontalOptions="End" />
+                        </Grid>
+                        <Grid>
+                            <Grid.Resources>
+                                <ResourceDictionary>
+                                    <Style TargetType="Label" x:Key="ItemVal">
+                                        <Setter Property="HorizontalTextAlignment" Value="Center" />
+                                        <Setter Property="HorizontalOptions" Value="Center" />
+                                        <Setter Property="Grid.Row" Value="1" />
+                                    </Style>
+                                    <Style TargetType="Label" x:Key="ItemTit">
+                                        <Setter Property="FontSize" Value="16" />
+                                        <Setter Property="Grid.Row" Value="0" />
+                                        <Setter Property="TextColor" Value="Black" />
+                                        <Setter Property="HorizontalTextAlignment" Value="Center" />
+                                    </Style>
+                                </ResourceDictionary>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="1" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="1" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Grid.Row="0" Grid.Column="0" Text="卡余额" Style="{StaticResource ItemTit}" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Balance.Description}" Style="{StaticResource ItemVal}" />
+                            <BoxView Grid.RowSpan="2" Grid.Column="1" BackgroundColor="Gray" />
+                            <Label Grid.Row="0" Grid.Column="2" Text="当前过渡" Style="{StaticResource ItemTit}" />
+                            <Label Grid.Row="1" Grid.Column="2" Text="{Binding CurGd.Description}" Style="{StaticResource ItemVal}" />
+                            <BoxView Grid.RowSpan="2" Grid.Column="3" BackgroundColor="Gray" />
+                            <Label Grid.Row="0" Grid.Column="4" Text="上次过渡" Style="{StaticResource ItemTit}" />
+                            <Label Grid.Row="1" Grid.Column="4" Text="{Binding LastGd.Description}" Style="{StaticResource ItemVal}" />
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </ListView.Header>
+            <ListView.Footer>
+                <Frame Margin="8,4,8,8" Padding="12">
+                    <StackLayout>
+                        <Label Text="常见问题 Q&amp;A" FontSize="16" TextColor="Accent" />
+                        <Label Text="Q: 为什么使用绑定的银行卡向校园卡转帐后，校园卡余额没有变化？" TextColor="Black" />
+                        <Label Text="A: 使用绑定的银行卡往校园卡转账后，用户需要进行一次刷卡操作才可以将转账金额写入到校园卡中。" />
+                        <Label Text="Q: 错误的挂失了我的卡，怎么样才能解除挂失？" TextColor="Black" />
+                        <Label Text="A: 电脑登录 http://xyk.jlu.edu.cn/ 可以进行解除挂失。" />
+                        <Label Text="Q: 这里的消费记录似乎显示的不够全？" TextColor="Black" />
+                        <Label Text="A: 这里显示近7天的消费记录，如果7天内没有记录，这里会显示最近90天的消费记录。" />
+                        <Label Text="Q: 丢失了校园卡要怎么办？" TextColor="Black" />
+                        <Label Text="A: 建议先挂失您的卡，然后去校园卡服务点进行自助补卡、人工补卡等。" />
+                        <Label Text="Q: 可以给校园卡充值现金吗？" TextColor="Black" />
+                        <Label Text="A: 每周一的服务时间，您可以携带现金前去校园卡服务点进行操作，其他时间只能用绑定的银行卡进行充值。" />
+                        <Label Text="Q: 你们这个App靠不靠谱啊，会不会开后门？" TextColor="Black" />
+                        <Label Text="A: 亲亲，没有的。如果不放心不敢使用的话，您可以不用或者卸载哦。这种完全无中生有的话，你帮他说一遍，等于说你也要负责任的。" />
+                    </StackLayout>
+                </Frame>
+            </ListView.Footer>
+        </ListView>
+    </w:ViewObject.Content>
+</w:ViewObject>

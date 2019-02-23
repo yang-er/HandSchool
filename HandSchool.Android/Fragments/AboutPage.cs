@@ -36,7 +36,23 @@ namespace HandSchool.Views
         {
             await Navigation.PushAsync<WebViewPage>(new T());
         }
+
+        private void OpenQQGroup()
+        {
+            Core.Platform.OpenUrl("https://shang.qq.com/wpa/qunwpa?idkey=e58ed94d409641b8cb3663c6ca512001061921904a0c0fa6044dff50495862b2");
+        }
         
+        private void ShareMe()
+        {
+            var intent = new Intent(Intent.ActionSend);
+            intent.SetType("text/plain");
+            intent.PutExtra(Intent.ExtraText, "嘿，同学，听说过掌上校园吗？\n" + Core.Platform.StoreLink);
+            var chooserIntent = Intent.CreateChooser(intent, "嘿，同学，听说过掌上校园吗？");
+            chooserIntent.SetFlags(ActivityFlags.ClearTop);
+            chooserIntent.SetFlags(ActivityFlags.NewTask);
+            Context.StartActivity(chooserIntent);
+        }
+
         #endregion
         
         public override void OnViewCreated(View view, Bundle savedInstanceState)
@@ -112,7 +128,7 @@ namespace HandSchool.Views
             var share = new MaterialAboutActionItem.Builder()
                 .Text("分享给朋友")
                 .Icon(Resource.Drawable.aboutpage_shareicon)
-                .SetOnClickAction(null)
+                .SetOnClickAction(new AboutMenuItemClick(ShareMe))
                 .Build();
 
             var rating = new MaterialAboutActionItem.Builder()
@@ -126,7 +142,7 @@ namespace HandSchool.Views
                 .Text("反馈")
                 .SubText("QQ群 752277651")
                 .Icon(Resource.Drawable.aboutpage_feedbackicon)
-                .SetOnClickAction(null)
+                .SetOnClickAction(new AboutMenuItemClick(OpenQQGroup))
                 .Build();
 
             var card = new MaterialAboutCard.Builder()

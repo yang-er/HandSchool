@@ -38,27 +38,31 @@ namespace HandSchool.JLU.ViewModels
             RecordFindCommand = new CommandAction(ProcessQuery);
             SetUpLostStateCommand = new CommandAction(ProcessSetLost);
             LoadBasicInfoCommand = new CommandAction(RefreshBasicInfoAsync);
+            LoadTwoInfoCommand = new CommandAction(LoadTwoAsync);
             IsFirstOpen = true;
-            
-            BasicInfo = new List<SchoolCardInfoPiece>
-            {
-                new SchoolCardInfoPiece("姓名", "未知"),
-                new SchoolCardInfoPiece("学工号", "不知道"),
-                new SchoolCardInfoPiece("校园卡余额", "不清楚"),
-                new SchoolCardInfoPiece("银行卡号", "不知晓"),
-                new SchoolCardInfoPiece("当前过渡余额", "听不清"),
-                new SchoolCardInfoPiece("上次过渡余额", "看不见"),
-                new SchoolCardInfoPiece("挂失状态", "可能正确吧"),
-                new SchoolCardInfoPiece("冻结状态", "大概正常吧"),
-                new SchoolCardInfoPiece("身份类型", "你先登录"),
-                new SchoolCardInfoPiece("部门名称", "猜不透"),
-            };
+
+            BasicInfo = new CardBasicInfo();
         }
 
         /// <summary>
         /// 拾卡信息
         /// </summary>
         public ObservableCollection<PickCardInfo> PickCardInfo { get; set; }
+
+        /// <summary>
+        /// 名称信息
+        /// </summary>
+        public SchoolCardInfoPiece NameInfo { get; set; }
+
+        /// <summary>
+        /// 学工号
+        /// </summary>
+        public SchoolCardInfoPiece CardId { get; set; }
+
+        /// <summary>
+        /// 余额
+        /// </summary>
+        public SchoolCardInfoPiece Balance { get; set; }
 
         /// <summary>
         /// 消费记录
@@ -94,6 +98,20 @@ namespace HandSchool.JLU.ViewModels
         /// 加载基本信息的命令
         /// </summary>
         public ICommand LoadBasicInfoCommand { get; set; }
+
+        /// <summary>
+        /// 加载基本信息的命令
+        /// </summary>
+        public ICommand LoadTwoInfoCommand { get; set; }
+
+        /// <summary>
+        /// 加载校园卡两个信息。
+        /// </summary>
+        public async Task LoadTwoAsync()
+        {
+            await RefreshBasicInfoAsync();
+            await ProcessQuery();
+        }
 
         /// <summary>
         /// 加载校园卡基本信息。

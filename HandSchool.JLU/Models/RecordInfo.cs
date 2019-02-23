@@ -15,11 +15,12 @@ namespace HandSchool.JLU.Models
         public string RecordCost { get; set; }
         public string RemainMoney { get; set; }
 
-        public override string Title => $"{RecordName} {(RecordCost.StartsWith("-") ? "" : "+")}{RecordCost}";
-        public override string Description => 
-            $"消费时间：{RecordTime}" + 
-            (RecordPlace == "无" ? "" : $"\n商户名称：{RecordPlace}") +
-            "\n卡余额：" + RemainMoney;
+        public string CostShow => (RecordCost.StartsWith("-") ? "" : "+") + RecordCost;
+        public string RemainMoneyShow => RemainMoney + "元";
+        public string DescriptionShow => $"消费时间：{RecordTime}\n商户名称：{RecordPlace}";
+
+        public override string Title => $"{RecordName} {CostShow}";
+        public override string Description => $"{DescriptionShow}\n卡余额：{RemainMoney}";
         
         public static IEnumerable<RecordInfo> EnumerateFromHtml(string html)
         {

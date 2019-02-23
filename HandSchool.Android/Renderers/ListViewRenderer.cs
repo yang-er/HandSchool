@@ -21,13 +21,10 @@ namespace HandSchool.Droid.Renderers
             {
                 e.NewElement.SelectionMode = ListViewSelectionMode.None;
 
-                if (e.NewElement.Header is StackLayout stackLayout)
+                if (e.NewElement.SeparatorVisibility == SeparatorVisibility.None)
                 {
-                    if (stackLayout.HeightRequest == 4)
-                    {
-                        // Only items that use CardView would reach here
-                        Control.SetSelector(Android.Resource.Color.Transparent);
-                    }
+                    // Only items that use CardView would reach here
+                    Control.SetSelector(Android.Resource.Color.Transparent);
                 }
             }
         }

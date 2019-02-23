@@ -1,8 +1,5 @@
 ﻿using Android.Content;
 using Android.Views;
-using Android.Widget;
-using HandSchool.Internals;
-using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ACell = HandSchool.Views.TextCell;
@@ -17,21 +14,20 @@ namespace HandSchool.Droid.Renderers
         protected override AView GetCellCore(Cell item,
             AView convertView, ViewGroup parent, Context context)
         {
-            if (item is ACell cell && cell.PreferedCardView == 1)
+            var cell = item as ACell;
+
+            switch (cell.PreferedCardView)
             {
-                return new TextCellView(context, Resource.Layout.cell_text1, cell);
-            }
-            else if (item is ACell cell2 && cell2.PreferedCardView == 2)
-            {
-                return new TextCellView(context, Resource.Layout.cell_text2, cell2);
-            }
-            else if (item is ACell cell3 && cell3.PreferedCardView == 3)
-            {
-                return new TextCellView(context, Resource.Layout.cell_text3, cell3);
-            }
-            else
-            {
-                return base.GetCellCore(item, convertView, parent, context);
+                case 1:
+                    return new TextCellView(context, Resource.Layout.cell_text1, cell);
+                case 2:
+                    return new TextCellView(context, Resource.Layout.cell_text2, cell);
+                case 3:
+                    return new TextCellView(context, Resource.Layout.cell_text3, cell);
+                case 4:
+                    return new TextCellView(context, Resource.Layout.cell_text4, cell);
+                default:
+                    return base.GetCellCore(item, convertView, parent, context);
             }
         }
     }
