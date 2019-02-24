@@ -1,6 +1,5 @@
 ﻿using HandSchool.Services;
 using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,18 +22,11 @@ namespace HandSchool.Views
             MySchool.SelectedItem = Core.Schools.Find((s) => s.SchoolId == "jlu");
             NextButton.IsEnabled = true;
         }
-
-        public event Action SchoolSelected;
-
+        
         private void Button_Clicked(object sender, EventArgs e)
         {
             var sch = MySchool.SelectedItem as ISchoolWrapper;
-            Core.Configure.Write("hs.school.bin", sch.SchoolId);
-
-            Core.App.InjectService(sch);
-            sch.PreLoad();
-            sch.PostLoad();
-            SchoolSelected?.Invoke();
+            Navigation.PushAsync(sch.HelloPage, sch);
         }
     }
 }

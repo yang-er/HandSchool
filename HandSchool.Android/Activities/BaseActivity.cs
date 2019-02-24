@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
 using SupportFragment = Android.Support.V4.App.Fragment;
+using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 using AToolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Widget;
 using Android.Content;
@@ -61,7 +62,12 @@ namespace HandSchool.Droid
         #region Fragment Transaction
 
         private ToolbarMenuTracker MenuTracker { get; set; }
-        
+
+        protected virtual void SetTransactionArguments(FragmentTransaction transition)
+        {
+            transition.SetTransition(0x00001001);
+        }
+
         protected void TransactionV3(SupportFragment fragment, IViewCore core)
         {
             ClearOldStates();
@@ -73,8 +79,8 @@ namespace HandSchool.Droid
             }
 
             var transition = SupportFragmentManager.BeginTransaction();
+            SetTransactionArguments(transition);
             transition.Replace(Resource.Id.frame_layout, fragment);
-            transition.SetTransition(0x00001001);
             transition.Commit();
 
             if (Tabbar != null && !(fragment is TabbedFragment))
@@ -163,7 +169,7 @@ namespace HandSchool.Droid
 
         protected virtual void OnNavigatedParameter(object obj) { }
         
-        public Task PushAsync(Type pageType, object param)
+        public virtual Task PushAsync(Type pageType, object param)
         {
             pageType = Core.Reflection.TryGetType(pageType);
 

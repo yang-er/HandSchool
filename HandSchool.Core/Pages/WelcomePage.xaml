@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns:w="clr-namespace:HandSchool.Views" 
+              xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="HandSchool.Views.WelcomePage"
+              Appearing="ViewObject_Appearing">
+    <w:ViewObject.Content>
+        <StackLayout VerticalOptions="Center">
+            <Image x:Name="imgView"
+                   Source="bg_welcome"
+                   WidthRequest="142.222"
+                   HeightRequest="288"
+                   HorizontalOptions="Center" />
+            <Label FontSize="24"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,-5,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="已经设置好了，" TextColor="#705845" />
+                        <Span Text="&#x0a;" />
+                        <Span Text="快来使用吧！" TextColor="#705845" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </w:ViewObject.Content>
+</w:ViewObject>

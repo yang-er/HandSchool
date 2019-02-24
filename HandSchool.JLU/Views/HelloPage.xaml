@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="HandSchool.JLU.Views.HelloPage">
+    <w:ViewObject.Content>
+        <ScrollView>
+            <StackLayout Padding="40">
+                <StackLayout Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                    <Image Source="JLU.png"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Start" />
+                    <Label Text="吉林大学" />
+                </StackLayout>
+                <Label Text="欢迎你QwQ吉大的同学。" />
+                <Label Text="这里是一些简单的介绍。" />
+                <Button Text="下一步"
+                        WidthRequest="100"
+                        HorizontalOptions="End"
+                        Clicked="NextRequested" />
+            </StackLayout>
+        </ScrollView>
+    </w:ViewObject.Content>
+</w:ViewObject>

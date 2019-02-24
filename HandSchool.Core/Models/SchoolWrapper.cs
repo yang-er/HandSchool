@@ -68,5 +68,10 @@ namespace HandSchool.Services
         /// 使用的储存文件。将在重置时清除。
         /// </summary>
         List<string> RegisteredFiles { get; }
+
+        /// <summary>
+        /// 学校欢迎界面的类型。
+        /// </summary>
+        Type HelloPage { get; }
     }
 }

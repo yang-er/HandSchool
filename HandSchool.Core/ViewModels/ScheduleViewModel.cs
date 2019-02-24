@@ -73,7 +73,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 刷新课程表，修改当前周，并通知视图重新绘制。
         /// </summary>
-        private async Task Refresh()
+        public async Task Refresh()
         {
             if (IsBusy) return;
             IsBusy = true;

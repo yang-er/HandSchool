@@ -51,7 +51,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载绩点的具体函数。
         /// </summary>
-        private async Task ExecuteLoadItemsCommand()
+        public async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy) return; IsBusy = true;
 

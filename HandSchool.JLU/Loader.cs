@@ -21,6 +21,7 @@ namespace HandSchool.JLU
         public string SchoolName => "吉林大学";
         public string SchoolId => "jlu";
         const string configFile = "jlu.config.json";
+        public Type HelloPage => typeof(HelloPage);
         public const string FileBaseUrl = "https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool/JLU";
 
         public Lazy<ISchoolSystem> Service { get; set; }
@@ -31,6 +32,7 @@ namespace HandSchool.JLU
         public EventHandler<LoginStateEventArgs> NoticeChange { get; set; }
 
         public List<string> RegisteredFiles { get; private set; }
+        // public static bool OutsideSchool { get; set; }
 
         internal static SchoolCard Ykt;
         public static InfoEntranceGroup InfoList;
@@ -83,9 +85,16 @@ namespace HandSchool.JLU
 
         internal class SettingsJSON
         {
-            public string ProxyServer { get; set; } = "10.60.65.8"; // uims.jlu.edu.cn
-            public bool UseHttps { get; set; } = true;
-            public bool OutsideSchool { get; set; } = false;
+            public SettingsJSON()
+            {
+                ProxyServer = "10.60.65.8"; // uims.jlu.edu.cn
+                UseHttps = false;
+                OutsideSchool = false;
+            }
+
+            public string ProxyServer { get; set; }
+            public bool UseHttps { get; set; }
+            public bool OutsideSchool { get; set; }
         }
         
         public void SaveSettings(ISchoolSystem uims)

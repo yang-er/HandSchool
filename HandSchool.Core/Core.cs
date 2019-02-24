@@ -69,7 +69,7 @@ namespace HandSchool
         /// <returns>是否已经加载对应学校</returns>
         public static bool Initialize()
         {
-            if (App != null) return true;
+            if (App != null) return Initialized;
             App = new SchoolApplication();
             
             var type = Configure.Read("hs.school.bin");
