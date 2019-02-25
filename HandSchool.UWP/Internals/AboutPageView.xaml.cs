@@ -27,12 +27,12 @@ namespace HandSchool.UWP
 
         private void HyperlinkButton_Click2(object sender, EventArgs e)
         {
-            Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool/blob/master/PRIVACY.md");
+            Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool/blob/new-2/PRIVACY.md");
         }
 
         private void HyperlinkButton_Click3(object sender, EventArgs e)
         {
-            Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool/blob/master/LICENSE");
+            Core.Platform.OpenUrl("https://github.com/yang-er/HandSchool/blob/new-2/LICENSE");
         }
     }
 }
