@@ -45,11 +45,11 @@ namespace HandSchool.Droid
         {
             if (page.Navigation is BaseActivity activity)
             {
-                return activity;
+                return activity.IsDestroyed ? null : activity;
             }
             else
             {
-                return PlatformImplV2.Instance.ContextStack.Peek();
+                return PlatformImplV2.Instance.ContextStack.Count > 0 ? PlatformImplV2.Instance.ContextStack.Peek() : null;
             }
         }
     }

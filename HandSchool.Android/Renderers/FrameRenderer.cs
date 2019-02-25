@@ -20,12 +20,21 @@ namespace HandSchool.Droid.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-
+            
             using (var tv = new Android.Util.TypedValue())
             {
                 Context.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, tv, true);
                 Foreground = Context.Theme.GetDrawable(tv.ResourceId);
                 Clickable = true;
+            }
+
+            if (e.NewElement?.GetValue(Views.MenuEntry.TagCommandProperty) is System.Windows.Input.ICommand command)
+            {
+                Click += (sender, args) => command.Execute(null);
+            }
+            else
+            {
+                SetOnClickListener(null);
             }
         }
     }

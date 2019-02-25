@@ -46,6 +46,13 @@ namespace HandSchool.Views
                 declaringType: typeof(MenuEntry),
                 defaultValue: "");
 
+        public static readonly BindableProperty TagCommandProperty =
+            BindableProperty.CreateAttached(
+                propertyName: "TagCommand",
+                returnType: typeof(ICommand),
+                declaringType: typeof(Frame),
+                defaultValue: null);
+
         #endregion
 
         /// <summary>

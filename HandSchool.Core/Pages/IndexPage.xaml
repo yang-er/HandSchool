@@ -6,52 +6,44 @@
               Title="{Binding Title}">
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
-            <Frame Margin="10,5">
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RequestLoginCommand}" />
-                </Frame.GestureRecognizers>
+            <Frame Margin="10,5" w:MenuEntry.TagCommand="{Binding RequestLoginCommand}">
                 <StackLayout>
-                    <Label Text="{Binding WelcomeMessage}" FontSize="25" />
-                    <Label Text="{Binding CurrentMessage}" FontSize="Medium" />
-                    <Label Text="{Binding WeatherTips}" FontSize="Medium" />
+                    <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black" />
+                    <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </Frame>
             <Frame Margin="10,5" IsVisible="{Binding NoClass}">
                 <StackLayout>
-                    <Label Text="现在" FontSize="Medium" />
-                    <Label Text="无（没有课或未刷新）" FontSize="Medium" />
-                    <Label Text="享受美好的休息时光吧~" FontSize="Medium" />
+                    <Label Text="现在" FontSize="Medium" TextColor="Accent" />
+                    <Label Text="无（没有课或未刷新）" FontSize="Medium" TextColor="Black" />
+                    <Label Text="享受美好的休息时光吧~" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </Frame>
             <Frame Margin="10,5" IsVisible="{Binding CurrentHasClass}">
                 <StackLayout BindingContext="{Binding CurrentClass}">
-                    <Label Text="现在" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding Name}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="White" />
+                    <Label Text="现在" FontSize="Medium" TextColor="Accent" />
+                    <Label Text="{Binding Name}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </Frame>
             <Frame Margin="10,5" IsVisible="{Binding NextHasClass}">
                 <StackLayout BindingContext="{Binding NextClass}">
-                    <Label Text="接下来" FontSize="Medium" />
-                    <Label Text="{Binding Name}" FontSize="Medium" />
-                    <Label Text="{Binding Teacher}" FontSize="Medium" />
-                    <Label Text="{Binding Classroom}" FontSize="Medium" />
+                    <Label Text="接下来" FontSize="Medium" TextColor="Accent" />
+                    <Label Text="{Binding Name}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </Frame>
             <Frame Margin="10,5">
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RefreshCommand}" />
-                </Frame.GestureRecognizers>
                 <StackLayout>
-                    <Label Text="今日天气" FontSize="Medium" />
-                    <Label Text="{Binding Weather}" FontSize="Medium" />
-                    <Label Text="{Binding WeatherRange}" FontSize="Medium" />
-                    <Label Text="{Binding WeatherTips}" FontSize="Medium" />
+                    <Label Text="今日天气" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding Weather}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding WeatherRange}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </Frame>
-
         </FlexLayout>
     </ScrollView>
-
 </w:ViewObject>

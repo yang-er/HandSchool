@@ -15,7 +15,9 @@ namespace HandSchool.Droid
     {
         public void ReqActAsync(IViewPage sender, ActionSheetArguments args)
         {
-            var builder = new AlertDialog.Builder(sender.ToContext());
+            var context = sender.ToContext();
+            if (context is null) return;
+            var builder = new AlertDialog.Builder(context);
             builder.SetTitle(args.Title);
 
             string[] items = args.Buttons.ToArray();
@@ -38,7 +40,9 @@ namespace HandSchool.Droid
         public void ReqChtAsync(IViewPage sender, RequestChartArguments args)
         {
             // Create and assign layout
-            var builder = new AlertDialog.Builder(sender.ToContext());
+            var context = sender.ToContext();
+            if (context is null) return;
+            var builder = new AlertDialog.Builder(context);
             LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
             var chartLayout = layoutInflater.Inflate(Resource.Layout.dialog_chart, null);
             builder.SetView(chartLayout);
@@ -69,7 +73,9 @@ namespace HandSchool.Droid
 
         public void ReqInpAsync(IViewPage sender, RequestInputArguments args)
         {
-            var builder = new AlertDialog.Builder(sender.ToContext());
+            var context = sender.ToContext();
+            if (context is null) return;
+            var builder = new AlertDialog.Builder(context);
             string answer = null;
 
             LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
@@ -103,7 +109,9 @@ namespace HandSchool.Droid
 
         public void ReqMsgAsync(IViewPage sender, AlertArguments args)
         {
-            AlertDialog alert = new AlertDialog.Builder(sender.ToContext()).Create();
+            var context = sender.ToContext();
+            if (context is null) return;
+            AlertDialog alert = new AlertDialog.Builder(context).Create();
             alert.SetTitle(args.Title);
             alert.SetMessage(args.Message);
 

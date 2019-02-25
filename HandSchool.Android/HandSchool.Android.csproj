@@ -105,7 +105,6 @@
     <Compile Include="Fragments\DemoFragment.cs" />
     <Compile Include="Fragments\EmbeddedFragment.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
-    <Compile Include="Internals\CodeStore.cs" />
     <Compile Include="Adapters\AboutItemClick.cs" />
     <Compile Include="Internals\BindViewAttribute.cs" />
     <Compile Include="Internals\DroidExtensions.cs" />
