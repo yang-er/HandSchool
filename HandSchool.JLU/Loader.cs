@@ -22,7 +22,7 @@ namespace HandSchool.JLU
         public string SchoolId => "jlu";
         const string configFile = "jlu.config.json";
         public Type HelloPage => typeof(HelloPage);
-        public const string FileBaseUrl = "https://raw.githubusercontent.com/yang-er/HandSchool/master/HandSchool/HandSchool/JLU";
+        public const string FileBaseUrl = "https://raw.githubusercontent.com/yang-er/HandSchool/new-2/HandSchool.JLU";
 
         public Lazy<ISchoolSystem> Service { get; set; }
         public Lazy<IGradeEntrance> GradePoint { get; set; }
