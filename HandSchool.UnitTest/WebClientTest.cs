@@ -33,7 +33,7 @@ namespace HandSchool.UnitTest
         {
             var ex = await Assert.ThrowsExceptionAsync<WebsException>(async () =>
             {
-                await WebClient.GetAsync("http://localhost/test404");
+                await WebClient.GetAsync("https://www.xylab.fun/test404");
             });
             
             Assert.AreEqual(HttpStatusCode.NotFound, ex.Response.StatusCode);
@@ -46,7 +46,7 @@ namespace HandSchool.UnitTest
         {
             var ex = await Assert.ThrowsExceptionAsync<WebsException>(async () =>
             {
-                await WebClient.GetAsync("http://test.xylab.fun");
+                await WebClient.GetAsync("http://notadomain");
             });
 
             Assert.AreEqual(WebStatus.NameResolutionFailure, ex.Status);

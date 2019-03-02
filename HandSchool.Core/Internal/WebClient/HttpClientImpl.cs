@@ -37,7 +37,7 @@ namespace HandSchool.Internals
         /// </summary>
         public string BaseAddress
         {
-            get => HttpClient.BaseAddress.OriginalString;
+            get => HttpClient.BaseAddress?.OriginalString ?? "";
             set => HttpClient.BaseAddress = new Uri(value);
         }
 
@@ -190,7 +190,8 @@ namespace HandSchool.Internals
                 InnerResponse = resp;
                 StatusCode = resp.StatusCode;
                 Location = resp.Headers.Location?.OriginalString ?? "";
-                Location = Location.Replace(baseUrl, "");
+                if (!string.IsNullOrEmpty(baseUrl))
+                    Location = Location.Replace(baseUrl, "");
                 ContentType = resp.Content.Headers.ContentType?.MediaType ?? "*/*";
                 Status = stat;
             }
