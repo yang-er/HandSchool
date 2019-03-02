@@ -63,17 +63,10 @@ namespace HandSchool.Views
         }
 #endif
 
-        public CurriculumLabel(CurriculumItemBase value, int id)
+        private FormattedString GetDisplay()
         {
-            Context = value;
-            ColorId = id;
-            Padding = new Thickness(10);
-            VerticalOptions = LayoutOptions.FillAndExpand;
-            HorizontalOptions = LayoutOptions.FillAndExpand;
-            WidthRequest = 200;
-
             var formattedString = new FormattedString();
-            var desc = value.ToDescription();
+            var desc = Context.ToDescription();
 
             // this.SizeChanged += Layout_SizeChanged;
 
@@ -81,22 +74,22 @@ namespace HandSchool.Views
             {
                 if (formattedString.Spans.Count > 0)
                 {
-                    formattedString.Spans.Add(new Span { Text = "\n\n"});
+                    formattedString.Spans.Add(new Span { Text = "\n\n" });
                 }
 
                 var tit = new Span
                 {
                     FontAttributes = FontAttributes.Bold,
                     ForegroundColor = Color.White,
-                    Text = item.Title
+                    Text = item.Title,
                 };
-
+                
                 var des = new Span
                 {
                     ForegroundColor = Color.FromRgba(255, 255, 255, 220),
-                    Text = item.Description
+                    Text = item.Description,
                 };
-
+                
                 if (Core.Platform.RuntimeName == "iOS")
                     des.FontSize *= 0.8;
                 formattedString.Spans.Add(tit);
@@ -104,12 +97,25 @@ namespace HandSchool.Views
                 formattedString.Spans.Add(des);
             }
 
+            return formattedString;
+        }
+
+        public CurriculumLabel(CurriculumItemBase value, int id)
+        {
+            BindingContext = Context = value;
+            ColorId = id;
+            Padding = new Thickness(10);
+            VerticalOptions = LayoutOptions.FillAndExpand;
+            HorizontalOptions = LayoutOptions.FillAndExpand;
+            WidthRequest = 200;
+            
             Children.Add(new Label
             {
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
-                FormattedText = formattedString,
-                VerticalOptions = HorizontalOptions = LayoutOptions.CenterAndExpand
+                FormattedText = GetDisplay(),
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
             });
 
             Grid.SetColumn(this, Context.WeekDay);
@@ -129,9 +135,11 @@ namespace HandSchool.Views
         
         private async Task EditCurriculum()
         {
-            var page = Core.Reflection.CreateInstance<ICurriculumPage>();
+            var page = Core.New<ICurriculumPage>();
             page.SetNavigationArguments(Context as CurriculumItem, false);
-            await page.ShowAsync();
+
+            if (await page.ShowAsync())
+                ViewModels.ScheduleViewModel.Instance.SendRefreshComplete();
         }
 
         public Color GetColor()

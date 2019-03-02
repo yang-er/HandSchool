@@ -231,11 +231,6 @@ namespace HandSchool.Views
                     break;
 
                 case SettingTypes.Action:
-                    var gesture = new TapGestureRecognizer();
-                    gesture.SetBinding(TapGestureRecognizer.CommandProperty, "ExcuteAction");
-                    View.GestureRecognizers.Add(gesture);
-                    break;
-
                 case SettingTypes.Const:
                     break;
 

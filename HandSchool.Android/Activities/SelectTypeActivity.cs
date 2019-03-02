@@ -62,8 +62,15 @@ namespace HandSchool.Droid
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             base.OnCreate(savedInstanceState);
             PlatformImplV2.Register(this);
-            Transaction(new SelectTypePage());
+            if (!(savedInstanceState?.ContainsKey("android:viewHierarchyState") ?? false))
+                Transaction(new SelectTypePage());
             MessagingCenter.Subscribe<WelcomePage>(this, WelcomePage.FinishSignal, OnSelectTypeFinished);
+        }
+
+        protected override void OnDestroy()
+        {
+            MessagingCenter.Unsubscribe<WelcomePage>(this, WelcomePage.FinishSignal);
+            base.OnDestroy();
         }
     }
 }

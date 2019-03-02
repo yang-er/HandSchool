@@ -8,18 +8,66 @@
             <StackLayout Padding="40">
                 <StackLayout Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
                     <Image Source="JLU.png"
-                   WidthRequest="50"
-                   HeightRequest="50"
-                   HorizontalOptions="Start"
-                   VerticalOptions="Start" />
-                    <Label Text="吉林大学" />
+                           WidthRequest="30"
+                           HeightRequest="30"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Start" />
+                    <Label Text="吉林大学"
+                           TextColor="Black"
+                           FontSize="20"
+                           Margin="10,0,0,0" />
                 </StackLayout>
-                <Label Text="欢迎你QwQ吉大的同学。" />
-                <Label Text="这里是一些简单的介绍。" />
-                <Button Text="下一步"
-                        WidthRequest="100"
-                        HorizontalOptions="End"
-                        Clicked="NextRequested" />
+                
+                <StackLayout Spacing="5"
+                             VerticalOptions="FillAndExpand">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="欢迎你QwQ吉大的同学。这里是一些本程序的" />
+                                <Span Text="简单介绍" ForegroundColor="Black" />
+                                <Span Text="和" />
+                                <Span Text="注意事项" ForegroundColor="Black" />
+                                <Span Text="。" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="目前掌上校园支持" />
+                                <Span Text="查询课表、查询成绩、站内消息、校内通知、校园卡服务、公共信息查询、网上选课、图书馆馆藏与借阅查询" ForegroundColor="Black" />
+                                <Span Text="等功能，如果你找不到一定是在信息查询里啦~" />
+                                <Span Text="抢课、转专业申请、多用户等功能正在考虑是否加入，如果加入的话将仅在桌面版掌上校园上提供。" />
+                                <Span Text="如果你有什么好的主意和功能推荐，欢迎加入反馈交流群，告诉我们你的需求~" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="为了确保学校教务处的关键信息的安全，我们暂时不提供在校外连接UIMS的方式。" />
+                                <Span Text="连接校内网教务系统UIMS，无线网目前仅在JLU.PC、JLU.NET、JLU.NET-5G下可用，而" />
+                                <Span Text="JLU.TEST和JLU.TEST-5G在部分教学楼无法使用" ForegroundColor="Black" />
+                                <Span Text="。大部分校内有线网是可以打开UIMS的。为了保证功能正常，本程序限制了一小部分，当您目前连接的网络" />
+                                <Span Text="打开UIMS过慢时，我们会提示连接超时" ForegroundColor="Black" />
+                                <Span Text="。当您觉得您的网络是正常打开UIMS的，而本程序无法连接时，敬请告诉开发者啦~" />
+                                <Span Text="另外，如果您登录了UIMS却获取了不属于自己的信息，请不要惊慌，这只是UIMS服务器过忙了，大家都这样。（大雾）" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" x:Name="settingsPanel">
+                    <Label Text="我在校外" HorizontalOptions="FillAndExpand" TextColor="Black" />
+                    <Switch x:Name="outOfSchool" />
+                </StackLayout>
+
+                <w:BorderlessButton Text="下一步"
+                                    WidthRequest="100"
+                                    HorizontalOptions="End"
+                                    x:Name="nextButton" />
             </StackLayout>
         </ScrollView>
     </w:ViewObject.Content>

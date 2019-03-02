@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+	
+		<LinearLayout
+			android:layout_marginTop="20dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+		
+			<TextView
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:textSize="@dimen/text_normal"
+				android:layout_marginBottom="2dp"
+				android:textColor="@color/black"
+				android:text="课程信息" />
+		
+			<android.support.design.widget.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="课程名称"
+				android:layout_marginBottom="2dp"
+				android:textSize="@dimen/text_normal"
+				android:singleLine="true"
+				android:id="@+id/classname" />
+
+			<android.support.design.widget.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="上课地点"
+				android:layout_marginBottom="2dp"
+				android:textSize="@dimen/text_normal"
+				android:singleLine="true"
+				android:id="@+id/classroom" />
+
+			<android.support.design.widget.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="任课老师"
+				android:layout_marginBottom="15dp"
+				android:textSize="@dimen/text_normal"
+				android:singleLine="true"
+				android:id="@+id/teacher" />
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:textSize="@dimen/text_normal"
+				android:layout_marginBottom="5dp"
+				android:textColor="@color/black"
+				android:text="时间设定" />
+
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginBottom="5dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="fill_parent"
+					android:gravity ="center"
+					android:layout_weight="1"
+					android:text="起止周" />
+
+				<com.jaredrummler.materialspinner.MaterialSpinner
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity ="center_vertical"
+					android:layout_weight="2"
+					app:ms_padding_top="6dp"
+					app:ms_padding_bottom="6dp"
+					app:ms_padding_left="15dp"
+					app:ms_padding_right="6dp"
+					android:id="@+id/startweek" />
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="fill_parent"
+					android:gravity ="center"
+					android:layout_weight="1"
+					android:text="到" />
+
+				<com.jaredrummler.materialspinner.MaterialSpinner
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity ="center_vertical"
+					android:layout_weight="2"
+					app:ms_padding_top="6dp"
+					app:ms_padding_bottom="6dp"
+					app:ms_padding_left="12dp"
+					app:ms_padding_right="6dp"
+					android:id="@+id/endweek" />
+
+			</LinearLayout>
+		
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginBottom="5dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="fill_parent"
+					android:gravity ="center"
+					android:layout_weight="1"
+					android:text="这天从" />
+
+				<com.jaredrummler.materialspinner.MaterialSpinner
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity ="center_vertical"
+					android:layout_weight="2"
+					app:ms_padding_top="6dp"
+					app:ms_padding_bottom="6dp"
+					app:ms_padding_left="15dp"
+					app:ms_padding_right="6dp"
+					android:id="@+id/startnum" />
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="fill_parent"
+					android:gravity ="center"
+					android:layout_weight="1"
+					android:text="到" />
+
+				<com.jaredrummler.materialspinner.MaterialSpinner
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity ="center_vertical"
+					android:layout_weight="2"
+					app:ms_padding_top="6dp"
+					app:ms_padding_bottom="6dp"
+					app:ms_padding_left="12dp"
+					app:ms_padding_right="6dp"
+					android:id="@+id/endnum" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="fill_parent"
+					android:gravity ="center"
+					android:layout_weight="1"
+					android:text="每" />
+
+				<com.jaredrummler.materialspinner.MaterialSpinner
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity ="center_vertical"
+					android:layout_weight="2"
+					app:ms_padding_top="6dp"
+					app:ms_padding_bottom="6dp"
+					app:ms_padding_left="15dp"
+					app:ms_padding_right="6dp"
+					android:id="@+id/weekoen" />
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="fill_parent"
+					android:gravity ="center"
+					android:layout_weight="1"
+					android:text="的" />
+				<com.jaredrummler.materialspinner.MaterialSpinner
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity ="center_vertical"
+					android:layout_weight="2"
+					app:ms_padding_top="6dp"
+					app:ms_padding_bottom="6dp"
+					app:ms_padding_left="12dp"
+					app:ms_padding_right="6dp"
+					android:id="@+id/weekday" />
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</ScrollView>

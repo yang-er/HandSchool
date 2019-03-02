@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:w="clr-namespace:HandSchool.Views"
-            x:Class="HandSchool.Views.SettingPage"
-            Title="{Binding Title}">
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:w="clr-namespace:HandSchool.Views"
+              x:Class="HandSchool.Views.SettingPage"
+              Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" Order="Primary" UWPIcon="&#xE74E;" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
         <ListView ItemsSource="{Binding Items}"
-              HasUnevenRows="True"
-              ItemSelected="ListView_ItemSelected">
+                  HasUnevenRows="True"
+                  ItemTapped="ListView_ItemTapped"
+                  ItemSelected="ListView_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <w:ValueCell Wrapper="{Binding Self}" />

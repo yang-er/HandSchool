@@ -49,7 +49,7 @@ namespace HandSchool.Droid
             }
             else
             {
-                return PlatformImplV2.Instance.ContextStack.Count > 0 ? PlatformImplV2.Instance.ContextStack.Peek() : null;
+                return PlatformImplV2.Instance.PeekContext(false);
             }
         }
     }

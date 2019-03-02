@@ -242,7 +242,7 @@ namespace HandSchool.Droid
         {
             base.OnDestroy();
             ClearOldStates();
-            PlatformImplV2.Instance.SetContext(null);
+            PlatformImplV2.Instance.RemoveContext(this);
         }
 
         public virtual void SolveBindings() { }

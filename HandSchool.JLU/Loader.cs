@@ -105,9 +105,14 @@ namespace HandSchool.JLU
                 ProxyServer = service.ProxyServer,
                 UseHttps = service.UseHttps,
                 OutsideSchool = service.OutsideSchool,
-            }.Serialize();
+            };
 
-            Core.Configure.Write(configFile, save);
+            SaveSettings(save);
+        }
+
+        internal void SaveSettings(SettingsJSON json)
+        {
+            Core.Configure.Write(configFile, json.Serialize());
         }
     }
 }

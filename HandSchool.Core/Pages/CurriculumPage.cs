@@ -6,7 +6,7 @@ namespace HandSchool.Views
     /// <summary>
     /// 课程修改的页面。
     /// </summary>
-    public interface ICurriculumPage : IViewPage
+    public interface ICurriculumPage
     {
         /// <summary>
         /// 设置的课程表内容

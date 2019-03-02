@@ -63,6 +63,25 @@ namespace HandSchool.Droid
         }
 
         /// <summary>
+        /// 从 <see cref="Dialog"/> 中解析 <see cref="IBindTarget"/> 的绑定视图。
+        /// </summary>
+        /// <param name="view">视图对象</param>
+        /// <param name="target">目标绑定</param>
+        public static void SolveView(this IBindTarget target, Dialog view)
+        {
+            foreach (var prop in target.GetType().GetProperties())
+            {
+                if (prop.Has<BindViewAttribute>())
+                {
+                    var attr = prop.Get<BindViewAttribute>();
+                    prop.SetValue(target, view.FindViewById(attr.ResourceId));
+                }
+            }
+
+            target.SolveBindings();
+        }
+
+        /// <summary>
         /// 从 <see cref="Activity"/> 中解析 <see cref="IBindTarget"/> 的绑定视图。
         /// </summary>
         /// <param name="view">视图对象</param>

@@ -90,7 +90,7 @@ namespace HandSchool.Droid
 
         public Task ShowAsync()
         {
-            var context = PlatformImplV2.Instance.ContextStack.Peek();
+            var context = PlatformImplV2.Instance.PeekContext();
             var navigate = context as INavigate;
             navigate.PushAsync<LoginActivity>(this);
             return Completed;

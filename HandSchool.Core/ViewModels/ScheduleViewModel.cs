@@ -78,7 +78,7 @@ namespace HandSchool.ViewModels
             if (IsBusy) return;
             IsBusy = true;
             await Core.App.Schedule.Execute();
-            RefreshComplete?.Invoke();
+            SendRefreshComplete();
             IsBusy = false;
         }
 
@@ -102,7 +102,7 @@ namespace HandSchool.ViewModels
                 break;
             }
 
-            RefreshComplete?.Invoke();
+            SendRefreshComplete();
         }
         
         /// <summary>
@@ -118,8 +118,14 @@ namespace HandSchool.ViewModels
 
             var page = Core.New<ICurriculumPage>();
             page.SetNavigationArguments(item, true);
+
             if (await page.ShowAsync())
-                RefreshComplete?.Invoke();
+                SendRefreshComplete();
+        }
+
+        public void SendRefreshComplete()
+        {
+            RefreshComplete?.Invoke();
         }
 
         #endregion
@@ -165,6 +171,16 @@ namespace HandSchool.ViewModels
         {
             Items.Add(item);
             ItemsSet = null;
+        }
+
+        /// <summary>
+        /// 查询是否包含课程。
+        /// </summary>
+        /// <param name="context">课程</param>
+        /// <returns>是否包含</returns>
+        public bool Contains(CurriculumItem context)
+        {
+            return Items.Contains(context);
         }
 
         /// <summary>

@@ -91,15 +91,15 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\CurriculumActivitiy.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Activities\SelectTypeActivity.cs" />
     <Compile Include="Adapters\MenuEntryClick.cs" />
     <Compile Include="Adapters\NavHeadViewHolder.cs" />
     <Compile Include="Adapters\WebViewClient.cs" />
+    <Compile Include="Renderers\BorderlessButtonRenderer.cs" />
     <Compile Include="Renderers\FrameRenderer.cs" />
     <Compile Include="Renderers\ListViewRenderer.cs" />
-    <Compile Include="Fragments\CurriculumFragment.cs" />
+    <Compile Include="Renderers\CurriculumDialog.cs" />
     <Compile Include="Renderers\TextCellView.cs" />
     <Compile Include="Adapters\ToolbarBackClick.cs" />
     <Compile Include="Fragments\DemoFragment.cs" />
@@ -421,16 +421,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\curriculumlayout.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_curriculum.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\nodatabg.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -485,6 +475,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xhdpi\bg_balloon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\dialog_curriculum.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -18,11 +18,26 @@ namespace HandSchool.JLU.Views
         public override void SetNavigationArguments(object param)
         {
             base.SetNavigationArguments(param);
-            Loader = (Loader)param;
+
+            if (param != null)
+            {
+                Loader = (Loader)param;
+                nextButton.Clicked += NextRequested;
+            }
+            else
+            {
+                nextButton.IsVisible = false;
+                settingsPanel.IsVisible = false;
+            }
         }
 
         private void NextRequested(object sender, EventArgs args)
         {
+            Loader.SaveSettings(new Loader.SettingsJSON
+            {
+                OutsideSchool = outOfSchool.IsToggled
+            });
+
             Navigation.PushAsync<InitializePage>(Loader);
         }
     }

@@ -1,6 +1,4 @@
 ﻿using Android.Content;
-using HandSchool.Droid.Activities;
-using HandSchool.Droid.Fragments;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;
@@ -15,7 +13,7 @@ namespace HandSchool.Droid
         
         public UpdateManager UpdateManager { get; }
 
-        public Stack<Context> ContextStack { get; }
+        private List<Context> ContextStack { get; }
 
         public static List<NavMenuItemV2> NavigationItems { get; } = new List<NavMenuItemV2>();
 
@@ -30,10 +28,20 @@ namespace HandSchool.Droid
         
         public void SetContext(Context impl)
         {
-            if (impl is null && ContextStack.Count > 0)
-                ContextStack.Pop();
-            else if (impl != null)
-                ContextStack.Push(impl);
+            ContextStack.Add(impl);
+        }
+
+        public void RemoveContext(Context impl)
+        {
+            if (ContextStack.Contains(impl))
+                ContextStack.Remove(impl);
+        }
+
+        public Context PeekContext(bool force = true)
+        {
+            if (force && ContextStack.Count == 0)
+                throw new InvalidOperationException("No context");
+            return ContextStack.Count == 0 ? null : ContextStack[ContextStack.Count - 1];
         }
 
         private PlatformImplV2(Context context)
@@ -49,11 +57,11 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterCtor<LoginFragment>();
             Core.Reflection.RegisterCtor<HttpClientImpl>();
             Core.Reflection.RegisterType<DetailPage, DetailActivity>();
-            Core.Reflection.RegisterType<ICurriculumPage, CurriculumFragment>();
+            Core.Reflection.RegisterType<ICurriculumPage, CurriculumDialog>();
             Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
-            ContextStack = new Stack<Context>();
+            ContextStack = new List<Context>();
             UpdateManager = new UpdateManager(context.ApplicationContext);
             ViewResponseImpl = new ViewResponseImpl();
             Density = context.Resources.DisplayMetrics.Density;
@@ -65,8 +73,6 @@ namespace HandSchool.Droid
         {
             if (Instance is null)
                 new PlatformImplV2(context);
-            Instance.ContextStack.Clear();
-            Instance.ContextStack.Push(context);
         }
         
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
@@ -76,7 +82,7 @@ namespace HandSchool.Droid
 
         public override void CheckUpdate()
         {
-            UpdateManager.Update(true, ContextStack.Peek());
+            UpdateManager.Update(true, PeekContext());
         }
     }
 }
