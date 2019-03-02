@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace HandSchool.Models
 {
@@ -28,6 +31,16 @@ namespace HandSchool.Models
         public override string ToString()
         {
             return GroupTitle;
+        }
+
+        public void RemoveAll(Func<EntranceWrapperBase, bool> p)
+        {
+            var toDel = this.LastOrDefault(p);
+            while (toDel != null)
+            {
+                Remove(toDel);
+                toDel = this.LastOrDefault(p);
+            }
         }
     }
 }

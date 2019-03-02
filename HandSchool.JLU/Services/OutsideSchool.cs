@@ -1,10 +1,11 @@
 ﻿using HandSchool.Internals;
+using HandSchool.JLU.Services;
 using HandSchool.Models;
+using HandSchool.Services;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU
@@ -14,14 +15,11 @@ namespace HandSchool.JLU
         class OutsideSchoolStrategy : ISideSchoolStrategy
         {
             UIMS UIMS { get; }
+            const string BaseUrl = "http://cjcx.jlu.edu.cn/score/action/";
+            const string ServiceRes = "service_res.php";
+            const string SecurityCheck = "security_check.php";
+
             public OutsideSchoolStrategy(UIMS handle) => UIMS = handle;
-
-            /*
-
-            const string BaseUrl = "http://cjcx.jlu.edu.cn/score/";
-            const string ServiceRes = "action/service_res.php";
-            const string SecurityCheck = "action/security_check.php";
-
 
             public string TimeoutUrl => "???";
             public string WelcomeMessage => "欢迎你哦。";
@@ -31,63 +29,76 @@ namespace HandSchool.JLU
             public async Task<bool> LoginSide()
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
-                UIMS.WebClient = new AwaredWebClient(BaseUrl, Encoding.UTF8);
-                
+                UIMS.WebClient = Core.New<IWebClient>();
+                UIMS.WebClient.BaseAddress = BaseUrl;
+
+                var proxy_server_domain = UIMS.proxy_server.Split(':')[0];
+                UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/score/action/", "cjcx.jlu.edu.cn"));
+                UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/score/action/", "cjcx.jlu.edu.cn"));
+
                 try
                 {
-                    var loginData = new NameValueCollection
+                    var loginData = new KeyValueDict
                     {
                         { "j_username", UIMS.Username },
                         { "j_password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
                     };
-                    
-                    await UIMS.WebClient.PostAsync(SecurityCheck, loginData);
 
-                    if (UIMS.WebClient.Location != string.Empty)
+                    var loginMeta = new WebRequestMeta(SecurityCheck, "*/*");
+
+                    var loginResult = await UIMS.WebClient.PostAsync(loginMeta, loginData);
+
+                    if (loginResult.Location == "../index.php")
                     {
+                        UIMS.IsLogin = true;
+                        UIMS.NeedLogin = false;
+                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
+                        return true;
+                    }
+                    else if (loginResult.Location == "../userLogin.php?reason=loginError")
+                    {
+                        string result = await UIMS.WebClient.GetStringAsync("../userLogin.php?reason=loginError", "text/html");
+                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误(\S+)</span>").Groups[1].Value));
+                        UIMS.IsLogin = false;
+                        return false;
+                    }
+                    else
+                    {
+                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, loginResult.Location));
                         return false;
                     }
                 }
-                catch (WebException ex)
+                catch (WebsException ex)
                 {
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(ex));
                     return false;
                 }
-                catch (ContentAcceptException ex)
-                {
-                    var error = "CJCX服务器似乎出了点问题……";
-                    if (ex.Current != "")
-                        error += "服务器未知响应：" + ex.Data + "，请联系开发者。";
-                    UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, error));
-                    return false;
-                }
-
-                UIMS.IsLogin = true;
-                UIMS.NeedLogin = false;
-                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
-                return true;
-            }
-
-            public void OnLoad() { }*/
-            public string TimeoutUrl => throw new NotImplementedException();
-
-            public string WelcomeMessage => throw new NotImplementedException();
-
-            public string CurrentMessage => throw new NotImplementedException();
-
-            public string FormatArguments(string input)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task<bool> LoginSide()
-            {
-                throw new NotImplementedException();
             }
 
             public void OnLoad()
             {
-                throw new NotImplementedException();
+                UIMS.NeedLogin = true;
+                var Loader = Core.App.Loader as Loader;
+                Loader.GradePoint = new Lazy<IGradeEntrance>(() => new CJCXGrade());
+                Loader.GradePoint.Value.ToString();
+                Loader.Message = new Lazy<IMessageEntrance>(() => new NullMsg());
+                Loader.InfoList.RemoveAll(t => !t.Title.Contains("图书"));
+            }
+
+            class NullMsg : IMessageEntrance
+            {
+                public string ScriptFileUri => "";
+                public bool IsPost => false;
+                public string PostValue => "";
+                public string StorageFile => "";
+                public string LastReport => "";
+                public Task Delete(int id) => Task.CompletedTask;
+                public async Task Execute()
+                {
+                    await HandSchool.ViewModels.MessageViewModel.Instance.RequestMessageAsync("错误", "您在校外，暂时不能查看收件箱。");
+                }
+                public void Parse() { }
+                public Task SetReadState(int id, bool read) => Task.CompletedTask;
             }
         }
     }

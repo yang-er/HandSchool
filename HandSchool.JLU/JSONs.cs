@@ -571,6 +571,32 @@ namespace HandSchool.JLU.JsonObject
         public string msg { get; set; }
         public object obj { get; set; }
     }
+
+    class CJCXCJ
+    {
+        public int count { get; set; }
+        public int errno { get; set; }
+        public string id { get; set; }
+        public Item[] items { get; set; }
+        public string msg { get; set; }
+        public string resName { get; set; }
+        public int status { get; set; }
+
+        public class Item
+        {
+            public string isReselect { get; set; }
+            public string xkkh { get; set; }
+            public string studName { get; set; }
+            public string xh { get; set; }
+            public string lsrId { get; set; }
+            public string cj { get; set; }
+            public decimal gpoint { get; set; }
+            public decimal zscj { get; set; }
+            public decimal credit { get; set; }
+            public string kcmc { get; set; }
+            public int termId { get; set; }
+        }
+    }
 }
 
 #pragma warning restore

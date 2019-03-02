@@ -8,36 +8,33 @@ using Entry = Microcharts.Entry;
 
 namespace HandSchool.JLU.Models
 {
-    class OutsideGradeItem : IGradeItem
+    internal sealed class CJCXGradeItem : IGradeItem
     {
-        private OutsideScoreValue asv;
+        private readonly CJCXCJ.Item Item;
 
-        public OutsideGradeItem(OutsideScoreValue value)
+        public CJCXGradeItem(CJCXCJ.Item item)
         {
-            asv = value;
-            Term = value.xkkh.Substring(1, 9) + "第" + value.xkkh.Substring(11, 1) + "学期";
-            Pass = double.Parse(value.gpoint) > 0.1;
+            Item = item;
+            Attach = new NameValueCollection { { "选课课号", item.xkkh } };
 
-            Attach = new NameValueCollection
-            {
-                { "选课课号", asv.xkkh }
-            };
+            var gradeInternal = Score + (int.TryParse(Score, out int sc) ? " 分" : "");
+            Detail = string.Format("{1}，{2} 学分，绩点 {0}。", Point, gradeInternal, Credit);
+            Pass = Item.gpoint > 0.4m;
+            Term = "";
         }
 
-        public string Title => asv.kcmc;
-        public string Score => asv.zscj;
-        public string Point => asv.gpoint;
-        public string Credit => asv.credit;
-        public bool ReSelect => asv.isReselect == "Y";
-        public bool Pass { get; private set; }
-        public string Term { get; private set; }
+        public string Title => Item.kcmc;
+        public string Score => Item.cj;
+        public string Point => string.Format("{0:1}", Item.gpoint);
+        public string Type => "";
+        public string Credit => string.Format("{0:1}", Item.credit);
+        public bool ReSelect => Item.isReselect == "Y";
+        public bool Pass { get; }
+        public string Term { get; }
         public DateTime Date => DateTime.Now;
-        public NameValueCollection Attach { get; private set; }
-        public string Type => "未知";
-
-        public string Detail => string.Format("{2}刷新；{0}通过，绩点 {1}。", Pass ? "已" : "未", Point, Date.ToString("d"));
-
-        public Color TypeColor => Color.Gray;
+        public NameValueCollection Attach { get; }
+        public string Detail { get; }
+        public Color TypeColor => Color.Transparent;
 
         public IEnumerable<Entry> GetGradeDistribute()
         {
