@@ -9,6 +9,7 @@ using Android.Views;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;
+using AlertDialog = Android.App.AlertDialog;
 
 namespace HandSchool.Droid
 {
@@ -22,10 +23,7 @@ namespace HandSchool.Droid
 
         [BindView(Resource.Id.drawer_layout)]
         public DrawerLayout DrawerLayout { get; set; }
-
-        [BindView(Resource.Id.fab)]
-        public FloatingActionButton FloatingButton { get; set; }
-
+        
         int lastItemId = 0;
 
         public bool NavigationItemSelected(NavMenuItemV2 menuItem, IMenuItem menuItem2)
@@ -57,9 +55,7 @@ namespace HandSchool.Droid
             var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
-
-            FloatingButton.Click += FabOnClick;
-
+            
             // get the navigation menu
             var listHandler = new NavMenuListHandler();
             listHandler.NavigationItemSelected += NavigationItemSelected;
@@ -88,7 +84,12 @@ namespace HandSchool.Droid
             }
             else
             {
-                base.OnBackPressed();
+                new AlertDialog.Builder(this)
+                    .SetTitle("退出")
+                    .SetMessage("是否退出掌上校园？")
+                    .SetPositiveButton("是", (s, e) => base.OnBackPressed())
+                    .SetNegativeButton("否", (s, e) => { })
+                    .Show();
             }
         }
 
