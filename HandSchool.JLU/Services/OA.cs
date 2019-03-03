@@ -1,15 +1,13 @@
-﻿using HandSchool.Internals;
-using HandSchool.JLU.Services;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Xml;
 
-[assembly: RegisterService(typeof(OA))]
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -17,99 +15,54 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IFeedEntrance" />
     [Entrance("JLU", "网上教务", "提供了吉林大学电子校务平台上的所有信息。")]
-    [UseStorage("JLU", configOa, configOaTime)]
     internal sealed class OA : IFeedEntrance
     {
         const string configOa = "jlu.oa.xml";
         const string configOaTime = "jlu.oa.xml.time";
 
         private IWebClient WebClient { get; }
+        private IConfigureProvider Configure { get; }
+        private ILogger<OA> Logger { get; }
 
-        public OA(IWebClient webClient)
+        public OA(IWebClient webClient, IConfigureProvider configure, ILogger<OA> logger)
         {
             WebClient = webClient;
             WebClient.BaseAddress = "https://joj.chinacloudsites.cn/";
-
-
+            Configure = configure;
+            Logger = logger;
         }
         
-        public static async Task PreloadData()
-        {
-            await Task.Yield();
-            var lu = Core.Configure.Read(configOaTime);
-            bool timedOut = !DateTime.TryParse(lu, out var lastUpdate);
-            if (!timedOut) timedOut = lastUpdate.AddHours(1) < DateTime.Now;
-
-            if (timedOut)
-            {
-                await FeedViewModel.Instance.LoadItems(false);
-                FeedViewModel.Instance.LeftPageCount = 2;
-            }
-            else
-            {
-                Parse(Core.Configure.Read(configOa));
-                FeedViewModel.Instance.LeftPageCount = 2;
-            }
-        }
-
-        private async Task InnerExecute(string file, bool fp)
+        /// <summary>
+        /// 内部执行数据的获取。
+        /// </summary>
+        /// <param name="file">文件名</param>
+        /// <param name="fp">是否为第一页</param>
+        /// <exception cref="ServiceException" />
+        /// <returns>通知项的迭代器</returns>
+        private async Task<IEnumerable<FeedItem>> InnerExecute(string file, bool fp)
         {
             try
             {
                 var lastReport = await WebClient.GetStringAsync(file, "text/xml");
-                if (lastReport == "") return;
+                if (lastReport == "") return new FeedItem[0];
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                if (fp) Core.Configure.Write(configOa, lastReport);
-                if (fp) Core.Configure.Write(configOaTime, dateString);
-                Parse(lastReport, fp);
-                this.WriteLog("Feed updated at " + dateString);
+
+                if (fp)
+                {
+                    await Configure.SaveAsync(configOa, lastReport);
+                    await Configure.SaveAsync(configOaTime, dateString);
+                }
+
+                Logger.Info("Feed updated at " + dateString);
+                return lastReport.ParseRSS();
             }
             catch (WebsException ex)
             {
-                if (ex.Status == WebStatus.NameResolutionFailure)
-                    this.WriteLog("App not connected to network. Stop feeding.");
-                else throw;
-            }
-        }
-
-        public Task Execute() => InnerExecute("feed.xml", true);
-
-        [ToFix("清理逻辑")]
-        public async Task<int> Execute(int n)
-        {
-            if (n < 1)
-            {
-                return 0;
-            }
-            else if (n == 1)
-            {
-                await InnerExecute("feed.xml", true);
-                return 2;
-            }
-            else if (n == 2)
-            {
-                await InnerExecute($"feed{n}.xml", false);
-                return 0;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        static void Parse(string feedXml, bool fp = true)
-        {
-            if (feedXml == "") return;
-
-            try
-            {
-                var items = feedXml.ParseRSS();
-                if (fp) FeedViewModel.Instance.Clear();
-                FeedViewModel.Instance.AddRange(items);
+                throw new ServiceException(ex.Status.ToDescription(), ex);
             }
             catch (XmlException ex)
             {
-                Core.Logger.WriteException(ex);
+                throw new ServiceException("解析数据出现错误。", ex);
             }
         }
 
@@ -117,18 +70,46 @@ namespace HandSchool.JLU.Services
         /// 获取第n页新闻。
         /// </summary>
         /// <param name="n">页号</param>
+        /// <exception cref="ServiceException" />
         /// <returns>下次查询页号与此次获取到的内容</returns>
         public async Task<Tuple<int, IEnumerable<FeedItem>>> FetchAsync(int n)
         {
             int leftPage = 0;
             IEnumerable<FeedItem> feeds = new FeedItem[0];
 
-            if (n == 0)
+            if (n == 1)
             {
-                return new Tuple<int, IEnumerable<FeedItem>>(0, new FeedItem[0]);
+                leftPage = 2;
+                feeds = await InnerExecute("feed.xml", true);
+            }
+            else if (n == 2)
+            {
+                leftPage = 0;
+                feeds = await InnerExecute("feed2.xml", false);
             }
 
             return new Tuple<int, IEnumerable<FeedItem>>(leftPage, feeds);
+        }
+        
+        /// <summary>
+        /// 从缓存中读取数据。
+        /// </summary>
+        /// <returns>缓存的内容，若没有则为null</returns>
+        public async Task<IEnumerable<FeedItem>> FromCacheAsync()
+        {
+            var lu = await Configure.ReadAsync(configOaTime);
+            bool timedOut = !DateTime.TryParse(lu, out var lastUpdate);
+            if (!timedOut) timedOut = lastUpdate.AddHours(1) < DateTime.Now;
+            if (timedOut) return null;
+
+            try
+            {
+                return lu.ParseRSS();
+            }
+            catch
+            {
+                return new FeedItem[0];
+            }
         }
     }
 }
