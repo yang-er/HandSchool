@@ -10,6 +10,8 @@ namespace HandSchool
     /// </summary>
     public static partial class Core
     {
+        public const string LoginStateChangedSignal = "HandSchool.LoginStateChanged";
+
         /// <summary>
         /// 单例的加载了当前学校的App
         /// </summary>

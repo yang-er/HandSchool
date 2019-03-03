@@ -1,38 +1,44 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
-using HandSchool.JLU.Services;
+using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.ViewModels;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-[assembly: RegisterService(typeof(MessageEntrance))]
 namespace HandSchool.JLU.Services
 {
     [Entrance("JLU", "系统收件箱", "提供了UIMS的收件箱功能，可以查看成绩发布通知等。")]
-    [UseStorage("JLU", configMsgBox)]
     internal sealed class MessageEntrance : IMessageEntrance
     {
-        const string configMsgBox = "jlu.msgbox.json";
-
         const string getMessageUrl = "siteMessages/get-message-in-box.do";
         const string messageReadUrl = "siteMessages/read-message.do";
         const string messageDeleteUrl = "siteMessages/delete-recv-message.do";
+
+        private ISchoolSystem Connection { get; }
+
+        public MessageEntrance(ISchoolSystem connection)
+        {
+            Connection = connection;
+        }
         
-        public async Task Execute()
+        public async Task<IEnumerable<IMessageItem>> ExecuteAsync()
         {
             try
             {
-                var lastReport = await Core.App.Service.Post(getMessageUrl, "{}");
-                Core.Configure.Write(configMsgBox, lastReport);
+                var lastReport = await Connection.Post(getMessageUrl, "{}");
                 var ro = lastReport.ParseJSON<MessageBox>();
-                MessageViewModel.Instance.Clear();
-                MessageViewModel.Instance.AddRange(from asv in ro.items select new MessageItem(asv));
+                return from asv in ro.items select new MessageItem(asv);
             }
             catch (WebsException ex)
             {
-                await MessageViewModel.Instance.RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
+                throw new ServiceException(ex.Status.ToDescription(), ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new ServiceException("数据解析出错。", ex);
             }
         }
         
@@ -41,11 +47,11 @@ namespace HandSchool.JLU.Services
             try
             {
                 var postArgs = "{\"read\":\"" + (read ? "Y" : "N") + "\",\"idList\":[\"" + id + "\"]}";
-                await Core.App.Service.Post(messageReadUrl, postArgs);
+                await Connection.Post(messageReadUrl, postArgs);
             }
             catch (WebsException ex)
             {
-                await MessageViewModel.Instance.RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
+                throw new ServiceException(ex.Status.ToDescription(), ex);
             }
         }
 
@@ -53,11 +59,11 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                await Core.App.Service.Post(messageDeleteUrl, $"{{\"idList\":[\"{id}\"]}}");
+                await Connection.Post(messageDeleteUrl, $"{{\"idList\":[\"{id}\"]}}");
             }
             catch (WebsException ex)
             {
-                await MessageViewModel.Instance.RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
+                throw new ServiceException(ex.Status.ToDescription(), ex);
             }
         }
     }
