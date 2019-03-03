@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HandSchool.Design;
+using HandSchool.Services;
 
 namespace HandSchool.ViewModels
 {
@@ -17,6 +19,8 @@ namespace HandSchool.ViewModels
     public sealed class FeedViewModel : BaseViewModel, ICollection<FeedItem>
     {
         private int leftPageCount;
+        private IFeedEntrance Service { get; }
+        private ILogger<FeedViewModel> Logger { get; }
 
         /// <summary>
         /// 消息内容列表
@@ -31,12 +35,16 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 将学校通知的数据源和刷新操作组织起来。
         /// </summary>
-        public FeedViewModel()
+        public FeedViewModel(IFeedEntrance service, ILogger<FeedViewModel> logger)
         {
             Title = "学校通知";
             Items = new ObservableCollection<FeedItem>();
             Items.CollectionChanged += (s, e) => OnPropertyChanged(nameof(Count));
-            LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
+            LoadItemsCommand = new CommandAction(async () => await LoadItems(false));
+
+            Service = service;
+            Logger = logger;
+            Task.Run(LoadCacheAsync);
         }
 
         /// <summary>
@@ -67,11 +75,17 @@ namespace HandSchool.ViewModels
                 return "下拉加载更多……";
             }
         }
-        
+
         /// <summary>
-        /// 加载消息的方法。
+        /// 从缓存中加载数据。如果不存在，那么更新数据。
         /// </summary>
-        private Task ExecuteLoadItemsCommand() => LoadItems(false);
+        private async Task LoadCacheAsync()
+        {
+            await Task.Yield();
+            var items = await Service.FromCacheAsync();
+            if (items == null) await LoadItems(true);
+            else AddRange(items);
+        }
 
         /// <summary>
         /// 加载消息的方法。
@@ -84,11 +98,19 @@ namespace HandSchool.ViewModels
 
             try
             {
-                newcnt = await Core.App.Feed.Execute(more ? LeftPageCount : 1);
+                var res = await Service.FetchAsync(more ? LeftPageCount : 1);
+                newcnt = res.Item1;
+                if (!more) Clear();
+                AddRange(res.Item2);
+            }
+            catch (ServiceException ex)
+            {
+                await RequestMessageAsync("出错", ex.Message);
+                Logger.Warn(ex);
             }
             catch (Exception ex)
             {
-                this.WriteLog(ex);
+                Logger.Error(ex);
             }
             finally
             {
