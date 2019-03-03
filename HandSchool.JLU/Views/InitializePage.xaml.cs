@@ -1,10 +1,11 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using HandSchool.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace HandSchool.Views
+namespace HandSchool.JLU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InitializePage : ViewObject
@@ -38,7 +39,7 @@ namespace HandSchool.Views
             jwxtCheck.Text = result ? "√" : "×";
             jwxtCheck.TextColor = result ? Color.DarkGreen : Color.Red;
 
-            if (result)
+            if (result && !((UIMS)Core.App.Service).OutsideSchool)
             {
                 kcbCheck.Text = "";
                 kcbProgress.IsRunning = true;

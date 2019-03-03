@@ -42,6 +42,7 @@ namespace HandSchool.JLU
             Ykt = new SchoolCard();
             Core.Reflection.RegisterCtor<YktViewPresenter>();
             Core.Reflection.RegisterCtor<YktPage>();
+            Core.Reflection.RegisterCtor<InitializePage>();
             NavigationViewModel.Instance.AddMenuEntry("一卡通", Core.Platform.RuntimeName == "Android" ? "YktPage" : "YktViewPresenter", "JLU", MenuIcon.CreditCard);
         }
 
