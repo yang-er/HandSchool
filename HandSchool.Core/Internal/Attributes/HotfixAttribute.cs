@@ -53,13 +53,15 @@ namespace HandSchool.Internals
 
             try
             {
-                if (WebClient is null)
+                lock (Core.App)
                 {
-                    WebClient = Core.New<IWebClient>();
-                    WebClient.BaseAddress = "";
-                    WebClient.Timeout = 5000;
+                    if (WebClient is null)
+                    {
+                        WebClient = Core.New<IWebClient>();
+                        WebClient.Timeout = 5000;
+                    }
                 }
-                
+
                 var new_meta = await WebClient.GetStringAsync(UpdateSource);
                 var meta_exp = new_meta.Split(new[] { ';' }, 2);
                 var local_meta = Core.Configure.Read(LocalStorage + ".ver");
@@ -79,9 +81,9 @@ namespace HandSchool.Internals
                 
                 if (force)
                 {
-                    Core.Configure.Write(LocalStorage + ".ver", new_meta);
                     var fileResp = await WebClient.GetAsync(meta_exp[1]);
                     await fileResp.WriteToFileAsync(Path.Combine(Core.Configure.Directory, LocalStorage));
+                    Core.Configure.Write(LocalStorage + ".ver", new_meta);
                     Core.Logger.WriteLine("Hotfix", "Module successfully updated - " + LocalStorage);
                 }
             }
@@ -99,7 +101,9 @@ namespace HandSchool.Internals
         public string ReadContent()
         {
             var ans = Core.Configure.Read(LocalStorage);
-            return ans == "" ? null : ans;
+            ans = ans == "" ? null : ans;
+            if (ans is null) Core.Configure.Write(LocalStorage + ".ver", "");
+            return ans;
         }
 
         /// <summary>

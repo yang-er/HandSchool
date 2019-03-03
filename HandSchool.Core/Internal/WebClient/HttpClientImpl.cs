@@ -229,10 +229,11 @@ namespace HandSchool.Internals
                 else return InnerResponse?.Content.ReadAsStringAsync();
             }
 
-            public Task WriteToFileAsync(string path)
+            public async Task WriteToFileAsync(string path)
             {
-                if (InnerResponse is null) return Task.CompletedTask;
-                else return InnerResponse.Content.CopyToAsync(new FileStream(path, FileMode.Create));
+                if (InnerResponse is null) return;
+                using (var fs = new FileStream(path, FileMode.Create))
+                    await InnerResponse.Content.CopyToAsync(fs);
             }
 
             public void Dispose()
