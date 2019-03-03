@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              xmlns:w="clr-namespace:HandSchool.Views"
               x:Class="HandSchool.Views.IndexPage"
               Title="{Binding Title}">
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
@@ -38,7 +38,7 @@
             </Frame>
             <Frame Margin="10,5">
                 <StackLayout>
-                    <Label Text="今日天气" FontSize="Medium" TextColor="Black" />
+                    <Label Text="今日天气" FontSize="Medium" TextColor="Accent" />
                     <Label Text="{Binding Weather}" FontSize="Medium" TextColor="Black" />
                     <Label Text="{Binding WeatherRange}" FontSize="Medium" TextColor="Black" />
                     <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="Black" />

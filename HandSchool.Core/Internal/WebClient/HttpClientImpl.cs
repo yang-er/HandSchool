@@ -80,7 +80,7 @@ namespace HandSchool.Internals
             try
             {
                 var response = await HttpClient.SendAsync(msg);
-                if (meta.Accept != "*/*" && response.Content.Headers.ContentType.MediaType != meta.Accept)
+                if (response.IsSuccessStatusCode && meta.Accept != "*/*" && response.Content.Headers.ContentType.MediaType != meta.Accept)
                     throw new WebsException(new WebResponse(response, meta, WebStatus.MimeNotMatch, BaseAddress));
                 if ((int)response.StatusCode >= 400)
                     throw new WebsException(new WebResponse(response, meta, WebStatus.ProtocolError, BaseAddress));
