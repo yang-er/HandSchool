@@ -1,14 +1,13 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
-using HandSchool.JLU.Services;
 using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-[assembly: RegisterService(typeof(Schedule))]
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -16,7 +15,6 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IScheduleEntrance" />
     [Entrance("JLU", "课程表", "提供解析UIMS课程表的功能。")]
-    [UseStorage("JLU", configKcb, configKcbOrig)]
     internal class Schedule : IScheduleEntrance
     {
         const string configKcbOrig = "jlu.kcb.json";
@@ -26,28 +24,37 @@ namespace HandSchool.JLU.Services
         const string schedulePostValue = "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
         
         static readonly string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
-        
-        public async Task Execute()
+
+        private IConfigureProvider Configure { get; }
+        private ISchoolSystem Connection { get; }
+
+        public Schedule(IConfigureProvider configure, ISchoolSystem connection)
+        {
+            Configure = configure;
+            Connection = connection;
+        }
+
+        public async Task<IEnumerable<CurriculumItem>> ExecuteAsync()
         {
             try
             {
-                var scheduleValue = await Core.App.Service.Post(serviceResourceUrl, schedulePostValue);
-                Core.Configure.Write(configKcbOrig, scheduleValue);
+                var scheduleValue = await Connection.Post(serviceResourceUrl, schedulePostValue);
+                // await Configure.SaveAsync(configKcbOrig, scheduleValue);
                 var table = scheduleValue.ParseJSON<RootObject<ScheduleValue>>();
-                ScheduleViewModel.Instance.RemoveAllItem(obj => !obj.IsCustom);
-                var iterator = ParseEnumer(table.value);
-                foreach (var item in iterator)
-                    ScheduleViewModel.Instance.AddItem(item);
-                ScheduleViewModel.Instance.SaveToFile();
+                return ParseEnumerable(table.value);
             }
             catch (WebsException ex)
             {
                 if (ex.Status != WebStatus.Timeout) throw;
-                await ScheduleViewModel.Instance.ShowTimeoutMessage();
+                throw new ServiceException("连接超时，请重试。", ex);
+            }
+            catch (JsonException ex)
+            {
+                throw new ServiceException("数据解析出现问题。", ex);
             }
         }
-
-        public static IEnumerable<CurriculumItem> ParseEnumer(IEnumerable<ScheduleValue> tableValue)
+        
+        internal static IEnumerable<CurriculumItem> ParseEnumerable(IEnumerable<ScheduleValue> tableValue)
         {
             foreach (var obj in tableValue)
             {
@@ -95,7 +102,5 @@ namespace HandSchool.JLU.Services
                     return i;
             return 11;
         }
-
-        public int ClassNext => GetClassNext();
     }
 }

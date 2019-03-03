@@ -81,19 +81,13 @@ namespace HandSchool.JLU.JsonObject
         public TeachingTerm teachingTerm { get; set; }
         public string score { get; set; }
         public DateTime dateScore { get; set; }
-        public object planDetail { get; set; }
         public string isPass { get; set; }
-        public string classHour { get; set; }
         public Course course { get; set; }
         public string isReselect { get; set; }
-        public string scoreNum { get; set; }
-        public Student student { get; set; }
         public string asId { get; set; }
         public string type5 { get; set; }
         public string gpoint { get; set; }
         public string credit { get; set; }
-        public object notes { get; set; }
-        public string selectType { get; set; }
         public GradeDetails distribute { get; set; }
     }
 

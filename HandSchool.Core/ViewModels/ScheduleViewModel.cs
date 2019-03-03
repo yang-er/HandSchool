@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.Views;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using MessagingCenter = Xamarin.Forms.MessagingCenter;
 
 namespace HandSchool.ViewModels
 {
@@ -17,26 +19,29 @@ namespace HandSchool.ViewModels
     {
         private int week;
         const string storageFile = "jlu.kcb2.json";
-
-        static readonly Lazy<ScheduleViewModel> Lazy =
-            new Lazy<ScheduleViewModel>(() => new ScheduleViewModel());
-
-        /// <summary>
-        /// 视图模型的实例
-        /// </summary>
-        public static ScheduleViewModel Instance => Lazy.Value;
+        
+        private ILogger<ScheduleViewModel> Logger { get; }
+        private IConfigureProvider Configure { get; }
+        private IScheduleEntrance Service { get; }
 
         /// <summary>
         /// 将当前周、增删改查等操作加载。
         /// </summary>
-        private ScheduleViewModel()
+        public ScheduleViewModel(IScheduleEntrance service, IConfigureProvider configure, ILogger<ScheduleViewModel> logger)
         {
-            Core.App.LoginStateChanged += SyncData;
-            ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
+            Service = service;
+            Configure = configure;
+            Logger = logger;
+
+            Title = "课程表";
             RefreshCommand = new CommandAction(Refresh);
             AddCommand = new CommandAction(Create);
             ChangeWeekCommand = new CommandAction(ChangeWeek);
-            Title = "课程表";
+
+            MessagingCenter.Subscribe<object, LoginStateEventArgs>(this, Core.LoginStateChangedSignal, SyncData);
+
+            Core.App.LoginStateChanged += SyncData;
+            ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
         }
         
         public override bool IsComposed => false;
@@ -73,13 +78,36 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 刷新课程表，修改当前周，并通知视图重新绘制。
         /// </summary>
-        public async Task Refresh()
+        private async Task Refresh()
         {
             if (IsBusy) return;
             IsBusy = true;
-            await Core.App.Schedule.Execute();
-            SendRefreshComplete();
-            IsBusy = false;
+            bool updated = false;
+
+            try
+            {
+                var values = await Service.ExecuteAsync();
+                RemoveAllItem(item => !item.IsCustom);
+                foreach (var item in values)
+                    AddItem(item);
+                updated = true;
+            }
+            catch (ServiceException ex)
+            {
+                await RequestMessageAsync("出错", ex.Message);
+                Logger.Warn(ex);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (updated)
+                SendRefreshComplete();
         }
 
         /// <summary>
@@ -230,10 +258,10 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 保存课程表项目
         /// </summary>
-        public void SaveToFile()
+        public async void SaveToFile()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.Configure.Write(storageFile, Items.Serialize());
+            await Configure.SaveAsAsync(storageFile, Items);
         }
 
         /// <summary>
@@ -242,8 +270,8 @@ namespace HandSchool.ViewModels
         /// <returns>课程表内容</returns>
         private static List<CurriculumItem> LoadFromFile()
         {
-            var LastReport = Core.Configure.Read(storageFile);
-            return LastReport != "" ? LastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
+            var lastReport = Configure.ReadAsync(storageFile).ConfigureAwait(false).GetAwaiter().GetResult();
+            return lastReport != "" ? lastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
         }
 
         #endregion

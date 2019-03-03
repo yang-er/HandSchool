@@ -1,5 +1,7 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.Models;
+using HandSchool.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,9 +18,9 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="ICollection{T}" />
     public sealed class MessageViewModel : BaseViewModel, ICollection<IMessageItem>
     {
-        static readonly Lazy<MessageViewModel> Lazy = 
-            new Lazy<MessageViewModel>(() => new MessageViewModel());
         private bool IsFirstOpen { get; set; }
+        private IMessageEntrance Service { get; }
+        private ILogger<MessageViewModel> Logger { get; }
 
         /// <summary>
         /// 目前的所有站内消息
@@ -39,16 +41,11 @@ namespace HandSchool.ViewModels
         /// 全部设置已读的命令
         /// </summary>
         public ICommand ReadAllCommand { get; set; }
-
-        /// <summary>
-        /// 视图模型的实例
-        /// </summary>
-        public static MessageViewModel Instance => Lazy.Value;
-
+        
         /// <summary>
         /// 将视图模型的操作加载。
         /// </summary>
-        private MessageViewModel()
+        public MessageViewModel(IMessageEntrance service, ILogger<MessageViewModel> logger)
         {
             Title = "站内消息";
             Items = new ObservableCollection<IMessageItem>();
@@ -57,16 +54,20 @@ namespace HandSchool.ViewModels
             DeleteAllCommand = new CommandAction(ExecuteDeleteAllCommand);
             ReadAllCommand = new CommandAction(ExecuteReadAllCommand);
             IsFirstOpen = true;
+
+            Service = service;
+            Logger = logger;
         }
 
         /// <summary>
         /// 删除所有站内消息。
         /// </summary>
+        [ToFix("并发删除所有")]
         private async Task ExecuteDeleteAllCommand()
         {
-            foreach (var item in Instance.Items)
+            foreach (var item in Items)
             {
-                await Core.App.Message.Delete(item.Id);
+                await Service.Delete(item.Id);
             }
 
             Items.Clear();
@@ -75,11 +76,12 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 将所有站内消息设置为已读状态。
         /// </summary>
+        [ToFix("并发已读所有")]
         private async Task ExecuteReadAllCommand()
         {
             foreach (var item in Items)
             {
-                await Core.App.Message.SetReadState(item.Id, true);
+                await Service.SetReadState(item.Id, true);
             }
         }
 
@@ -88,15 +90,23 @@ namespace HandSchool.ViewModels
         /// </summary>
         private async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy) return; IsBusy = true;
+            if (IsBusy) return;
+            IsBusy = true;
 
             try
             {
-                await Core.App.Message.Execute();
+                var values = await Service.ExecuteAsync();
+                Clear();
+                AddRange(values);
+            }
+            catch (ServiceException ex)
+            {
+                await RequestMessageAsync("出错", ex.Message);
+                Logger.Warn(ex);
             }
             catch (Exception ex)
             {
-                this.WriteLog(ex);
+                Logger.Error(ex);
             }
             finally
             {
