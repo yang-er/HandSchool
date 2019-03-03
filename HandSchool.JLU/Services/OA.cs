@@ -1,8 +1,10 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.Services;
+using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Xml;
@@ -21,14 +23,14 @@ namespace HandSchool.JLU.Services
         const string configOa = "jlu.oa.xml";
         const string configOaTime = "jlu.oa.xml.time";
 
-        IWebClient WebClient => Lazy.Value;
-        readonly Lazy<IWebClient> Lazy = new Lazy<IWebClient>(CreateWebClient);
+        private IWebClient WebClient { get; }
 
-        static IWebClient CreateWebClient()
+        public OA(IWebClient webClient)
         {
-            var wc = Core.New<IWebClient>();
-            wc.BaseAddress = "https://joj.chinacloudsites.cn/";
-            return wc;
+            WebClient = webClient;
+            WebClient.BaseAddress = "https://joj.chinacloudsites.cn/";
+
+
         }
         
         public static async Task PreloadData()
@@ -109,6 +111,24 @@ namespace HandSchool.JLU.Services
             {
                 Core.Logger.WriteException(ex);
             }
+        }
+
+        /// <summary>
+        /// 获取第n页新闻。
+        /// </summary>
+        /// <param name="n">页号</param>
+        /// <returns>下次查询页号与此次获取到的内容</returns>
+        public async Task<Tuple<int, IEnumerable<FeedItem>>> FetchAsync(int n)
+        {
+            int leftPage = 0;
+            IEnumerable<FeedItem> feeds = new FeedItem[0];
+
+            if (n == 0)
+            {
+                return new Tuple<int, IEnumerable<FeedItem>>(0, new FeedItem[0]);
+            }
+
+            return new Tuple<int, IEnumerable<FeedItem>>(leftPage, feeds);
         }
     }
 }

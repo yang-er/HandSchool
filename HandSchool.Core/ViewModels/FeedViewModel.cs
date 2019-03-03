@@ -16,9 +16,6 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="ICollection{T}" />
     public sealed class FeedViewModel : BaseViewModel, ICollection<FeedItem>
     {
-        static readonly Lazy<FeedViewModel> Lazy = 
-            new Lazy<FeedViewModel>(() => new FeedViewModel());
-
         private int leftPageCount;
 
         /// <summary>
@@ -30,16 +27,11 @@ namespace HandSchool.ViewModels
         /// 加载消息的命令
         /// </summary>
         public ICommand LoadItemsCommand { get; set; }
-
-        /// <summary>
-        /// 视图模型的实例
-        /// </summary>
-        public static FeedViewModel Instance => Lazy.Value;
-
+        
         /// <summary>
         /// 将学校通知的数据源和刷新操作组织起来。
         /// </summary>
-        private FeedViewModel()
+        public FeedViewModel()
         {
             Title = "学校通知";
             Items = new ObservableCollection<FeedItem>();
@@ -84,7 +76,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 加载消息的方法。
         /// </summary>
-        public async Task LoadItems(bool more)
+        private async Task LoadItems(bool more)
         {
             if (IsBusy) return;
             IsBusy = true;
