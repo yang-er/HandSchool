@@ -82,23 +82,30 @@ namespace HandSchool.JLU
                 Loader.GradePoint = new Lazy<IGradeEntrance>(() => new CJCXGrade());
                 Loader.GradePoint.Value.ToString();
                 Loader.Message = new Lazy<IMessageEntrance>(() => new NullMsg());
+                Loader.Schedule = new Lazy<IScheduleEntrance>(() => new NullSched());
                 Loader.InfoList.RemoveAll(t => !t.Title.Contains("图书"));
             }
 
             class NullMsg : IMessageEntrance
             {
-                public string ScriptFileUri => "";
-                public bool IsPost => false;
-                public string PostValue => "";
-                public string StorageFile => "";
-                public string LastReport => "";
                 public Task Delete(int id) => Task.CompletedTask;
-                public async Task Execute()
+                public Task Execute()
                 {
-                    await HandSchool.ViewModels.MessageViewModel.Instance.RequestMessageAsync("错误", "您在校外，暂时不能查看收件箱。");
+                    return HandSchool.ViewModels.MessageViewModel.Instance.RequestMessageAsync("错误", "您在校外，暂时不能查看收件箱。");
                 }
-                public void Parse() { }
                 public Task SetReadState(int id, bool read) => Task.CompletedTask;
+            }
+
+            class NullSched : IScheduleEntrance
+            {
+                public int ClassNext => 11;
+
+                public Task Execute()
+                {
+                    return HandSchool.ViewModels.ScheduleViewModel.Instance.RequestMessageAsync("错误", "您在校外，暂时不能刷新课程表。");
+                }
+
+                public int GetClassNext() => 11;
             }
         }
     }
