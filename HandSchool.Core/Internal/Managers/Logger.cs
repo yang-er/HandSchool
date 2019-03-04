@@ -11,6 +11,8 @@ namespace HandSchool.Internals
     /// </summary>
     public class Logger : ILogger
     {
+        public string DefaultSourceName => "Unknown";
+
         /// <summary>
         /// 写入消息内容。
         /// </summary>

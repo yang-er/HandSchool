@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace HandSchool.JLU.Services
 {
     [Entrance("JLU", "系统收件箱", "提供了UIMS的收件箱功能，可以查看成绩发布通知等。")]
-    internal sealed class MessageEntrance : IMessageEntrance
+    internal sealed class UimsMessage : IMessageEntrance
     {
         const string getMessageUrl = "siteMessages/get-message-in-box.do";
         const string messageReadUrl = "siteMessages/read-message.do";
@@ -19,7 +19,7 @@ namespace HandSchool.JLU.Services
 
         private ISchoolSystem Connection { get; }
 
-        public MessageEntrance(ISchoolSystem connection)
+        public UimsMessage(ISchoolSystem connection)
         {
             Connection = connection;
         }

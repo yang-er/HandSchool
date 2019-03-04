@@ -20,7 +20,6 @@ namespace HandSchool.ViewModels
     {
         private bool IsFirstOpen { get; set; }
         private IMessageEntrance Service { get; }
-        private ILogger<MessageViewModel> Logger { get; }
 
         /// <summary>
         /// 目前的所有站内消息

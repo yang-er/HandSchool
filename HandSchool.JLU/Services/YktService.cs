@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-[assembly: RegisterService(typeof(SchoolCard))]
+[assembly: RegisterService(typeof(YktService))]
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -21,7 +21,7 @@ namespace HandSchool.JLU.Services
     /// <inheritdoc cref="ILoginField" />
     [Entrance("JLU", "校园一卡通", "提供校园卡的查询、充值、挂失等功能。")]
     [UseStorage("JLU", configUsername, configPassword)]
-    internal sealed class SchoolCard : NotifyPropertyChanged, ILoginField
+    internal sealed class YktService : NotifyPropertyChanged, ILoginField
     {
         const string configUsername = "jlu.schoolcard.username.txt";
         const string configPassword = "jlu.schoolcard.password.txt";
@@ -34,7 +34,7 @@ namespace HandSchool.JLU.Services
         bool is_login = false;
 
         private IConfigureProvider Configure { get; }
-        private ILogger<SchoolCard> Logger { get; }
+        private ILogger Logger { get; }
         public IWebClient WebClient { get; }
         
         public string Username { get; set; }
@@ -56,7 +56,7 @@ namespace HandSchool.JLU.Services
             private set => SetProperty(ref is_login, value);
         }
 
-        public SchoolCard(IConfigureProvider configure, IWebClient webClient, ILogger<SchoolCard> logger)
+        public YktService(IConfigureProvider configure, IWebClient webClient, ILogger<YktService> logger)
         {
             Configure = configure;
             WebClient = webClient;
