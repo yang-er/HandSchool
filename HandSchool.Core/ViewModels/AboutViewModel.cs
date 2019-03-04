@@ -2,7 +2,6 @@
 using HandSchool.Models;
 using HandSchool.Services;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -13,19 +12,11 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="BaseViewModel" />
     public class AboutViewModel : BaseViewModel
     {
-        static readonly Lazy<AboutViewModel> Lazy =
-            new Lazy<AboutViewModel>(() => new AboutViewModel());
-        
         /// <summary>
         /// 目前程序的版本号
         /// </summary>
         public string Version { get; set; }
-
-        /// <summary>
-        /// 视图模型的单个实例
-        /// </summary>
-        public static AboutViewModel Instance => Lazy.Value;
-
+        
         /// <summary>
         /// 创建一个关于界面的视图模型。
         /// </summary>
