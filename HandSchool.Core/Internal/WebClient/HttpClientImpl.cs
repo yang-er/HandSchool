@@ -80,7 +80,7 @@ namespace HandSchool.Internals
             try
             {
                 var response = await HttpClient.SendAsync(msg);
-                if (meta.Accept != "*/*" && response.Content.Headers.ContentType.MediaType != meta.Accept)
+                if (response.IsSuccessStatusCode && meta.Accept != "*/*" && response.Content.Headers.ContentType.MediaType != meta.Accept)
                     throw new WebsException(new WebResponse(response, meta, WebStatus.MimeNotMatch, BaseAddress));
                 if ((int)response.StatusCode >= 400)
                     throw new WebsException(new WebResponse(response, meta, WebStatus.ProtocolError, BaseAddress));
@@ -229,10 +229,11 @@ namespace HandSchool.Internals
                 else return InnerResponse?.Content.ReadAsStringAsync();
             }
 
-            public Task WriteToFileAsync(string path)
+            public async Task WriteToFileAsync(string path)
             {
-                if (InnerResponse is null) return Task.CompletedTask;
-                else return InnerResponse.Content.CopyToAsync(new FileStream(path, FileMode.Create));
+                if (InnerResponse is null) return;
+                using (var fs = new FileStream(path, FileMode.Create))
+                    await InnerResponse.Content.CopyToAsync(fs);
             }
 
             public void Dispose()

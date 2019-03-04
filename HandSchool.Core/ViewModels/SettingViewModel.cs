@@ -57,7 +57,7 @@ namespace HandSchool.ViewModels
             ).ToList();
             
             Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
-            Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
+            // Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
 
             SaveConfigures = new CommandAction(async () =>
             {
