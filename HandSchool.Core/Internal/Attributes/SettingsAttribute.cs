@@ -6,7 +6,7 @@ namespace HandSchool.Internals
     /// <summary>
     /// 可用的应用设置项。在 <see cref="ISchoolSystem"/> 中给属性添加此特性，可以在应用设置中显示。
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method, Inherited = true)]
     public sealed class SettingsAttribute : Attribute
     {
         /// <summary>

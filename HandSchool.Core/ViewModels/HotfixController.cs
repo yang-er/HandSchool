@@ -1,7 +1,7 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.Internals.HtmlObject;
 using HandSchool.Services;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -30,13 +30,25 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="IInfoEntrance" />
     public abstract class HotfixController : BaseController, IInfoEntrance
     {
+        protected HotfixController(ISchoolSystem schoolSystem)
+        {
+            Service = schoolSystem;
+        }
+
+        /// <summary>
+        /// 使用的Bootstrap文档
+        /// </summary>
         public Bootstrap HtmlDocument { get; set; }
         
+        /// <summary>
+        /// 教务系统服务
+        /// </summary>
+        protected ISchoolSystem Service { get; }
+
         /// <summary>
         /// JavaScript 发送的内容的接收函数。
         /// </summary>
         /// <param name="data">发送的数据内容。</param>
-        [ToFix("WebException Changes")]
         public override async Task Receive(string data)
         {
             if (data == "finished")
@@ -51,25 +63,19 @@ namespace HandSchool.ViewModels
             }
             else if (data.StartsWith("post;"))
             {
-                var ops = data.Split(new char[] { ';' }, 3);
+                var ops = data.Split(new[] { ';' }, 3);
                 string ret;
 
                 try
                 {
-                    ret = await Core.App.Service.Post(ops[1], ops[2]);
+                    ret = await Service.Post(ops[1], ops[2]);
                 }
-                catch (System.Net.WebException ex)
+                catch (WebsException ex)
                 {
-                    if (ex.Status == WebExceptionStatus.Timeout)
-                    {
-                        IsBusy = false;
-                        await this.ShowTimeoutMessage();
-                        return;
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (ex.Status != WebStatus.Timeout) throw;
+                    IsBusy = false;
+                    await RequestMessageAsync("错误", "连接超时，请重试。");
+                    return;
                 }
 
                 HandlePostReturnValue(ops, ref ret);
@@ -77,20 +83,20 @@ namespace HandSchool.ViewModels
             }
             else if (data.StartsWith("msg;"))
             {
-                var ops = data.Split(new char[] { ';' }, 2);
+                var ops = data.Split(new[] { ';' }, 2);
                 HandleMessageValue(ref ops[1]);
                 await RequestMessageAsync("消息", ops[1], "好的");
             }
             else if (data.StartsWith("ask;"))
             {
-                var ops = data.Split(new char[] { ';' }, 3);
+                var ops = data.Split(new[] { ';' }, 3);
                 HandleMessageValue(ref ops[1]);
                 if (await RequestAnswerAsync("消息", ops[1], "取消", "确定"))
                     Evaluate("te_callback(" + ops[2] + ")");
             }
             else
             {
-                this.WriteLog("Unknown response: <<<EOF\n" + data + "\nEOF; " +
+                Logger.Warn("Unknown response: <<<EOF\n" + data + "\nEOF; " +
                     "You can rewrite Receive(string) as you needed.");
             }
         }

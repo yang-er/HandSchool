@@ -12,20 +12,25 @@ namespace HandSchool.Design
 
     public interface ILogger
     {
+        string DefaultSourceName { get; }
+
         void WriteLine(string source, string log, LogLevel level);
 
         void WriteException(Exception ex, LogLevel level, string path, int line);
     }
 
-    public interface ILogger<T> : ILogger { }
+    public interface ILogger<out T> : ILogger { }
 
     internal class NestedLogger<T> : ILogger<T>
     {
         private ILogger LoggerBase { get; }
 
+        public string DefaultSourceName { get; }
+
         public NestedLogger(ILogger source)
         {
             LoggerBase = source;
+            DefaultSourceName = typeof(T).Name;
         }
 
         public void WriteException(Exception ex, LogLevel level, string path, int line)
@@ -51,14 +56,19 @@ namespace HandSchool.Design
             logger.WriteException(ex, LogLevel.Error, path, line);
         }
 
-        public static void Info<T>(this ILogger<T> logger, string info)
+        public static void Info(this ILogger logger, string info)
         {
-            logger.WriteLine(typeof(T).Name, info, LogLevel.Info);
+            logger.WriteLine(logger.DefaultSourceName, info, LogLevel.Info);
         }
 
-        public static void Warn<T>(this ILogger<T> logger, string warn)
+        public static void Warn(this ILogger logger, string warn)
         {
-            logger.WriteLine(typeof(T).Name, warn, LogLevel.Warn);
+            logger.WriteLine(logger.DefaultSourceName, warn, LogLevel.Warn);
+        }
+
+        public static void Error(this ILogger logger, string error)
+        {
+            logger.WriteLine(logger.DefaultSourceName, error, LogLevel.Error);
         }
     }
 }

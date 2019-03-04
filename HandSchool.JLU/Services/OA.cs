@@ -22,7 +22,7 @@ namespace HandSchool.JLU.Services
 
         private IWebClient WebClient { get; }
         private IConfigureProvider Configure { get; }
-        private ILogger<OA> Logger { get; }
+        private ILogger Logger { get; }
 
         public OA(IWebClient webClient, IConfigureProvider configure, ILogger<OA> logger)
         {

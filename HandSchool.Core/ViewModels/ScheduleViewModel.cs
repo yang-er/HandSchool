@@ -20,7 +20,6 @@ namespace HandSchool.ViewModels
         private int week;
         const string storageFile = "jlu.kcb2.json";
         
-        private ILogger<ScheduleViewModel> Logger { get; }
         private IConfigureProvider Configure { get; }
         private IScheduleEntrance Service { get; }
 
@@ -41,7 +40,7 @@ namespace HandSchool.ViewModels
             MessagingCenter.Subscribe<object, LoginStateEventArgs>(this, Core.LoginStateChangedSignal, SyncData);
 
             Core.App.LoginStateChanged += SyncData;
-            ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
+            ItemsLoader = new Lazy<List<CurriculumItem>>(Service.FromCache);
         }
         
         public override bool IsComposed => false;
@@ -254,6 +253,8 @@ namespace HandSchool.ViewModels
             Items.RemoveAll(pred);
             ItemsSet = null;
         }
+        
+        #endregion
 
         /// <summary>
         /// 保存课程表项目
@@ -263,17 +264,5 @@ namespace HandSchool.ViewModels
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
             await Configure.SaveAsAsync(storageFile, Items);
         }
-
-        /// <summary>
-        /// 从文件加载课程表列表。
-        /// </summary>
-        /// <returns>课程表内容</returns>
-        private List<CurriculumItem> LoadFromFile()
-        {
-            var lastReport = Configure.Read(storageFile);
-            return lastReport != "" ? lastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
-        }
-
-        #endregion
     }
 }

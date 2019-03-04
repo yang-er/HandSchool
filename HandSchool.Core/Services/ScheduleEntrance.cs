@@ -15,6 +15,12 @@ namespace HandSchool.Services
         int GetClassNext();
 
         /// <summary>
+        /// 从本地数据获取课程数据。
+        /// </summary>
+        /// <returns>课程数据的迭代器</returns>
+        List<CurriculumItem> FromCache();
+
+        /// <summary>
         /// 获取课程数据。
         /// </summary>
         /// <returns>课程数据的迭代器</returns>

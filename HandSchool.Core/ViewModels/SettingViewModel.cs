@@ -2,7 +2,9 @@
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HandSchool.ViewModels
@@ -13,23 +15,10 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="BaseViewModel" />
     public sealed class SettingViewModel : BaseViewModel
     {
-        static readonly Lazy<SettingViewModel> Lazy = 
-            new Lazy<SettingViewModel>(() => new SettingViewModel());
-
-        /// <summary>
-        /// 视图模型的实例
-        /// </summary>
-        public static SettingViewModel Instance => Lazy.Value;
-
-        /// <summary>
-        /// 关于应用的视图模型
-        /// </summary>
-        public AboutViewModel AboutViewModel => AboutViewModel.Instance;
-
         /// <summary>
         /// 所有设置入口点的包装
         /// </summary>
-        public List<SettingWrapper> Items { get; }
+        public ObservableCollection<HeadedList<SettingWrapper>> Items { get; }
 
         /// <summary>
         /// 保存设置的命令
@@ -42,7 +31,7 @@ namespace HandSchool.ViewModels
         private SettingViewModel()
         {
             Title = "设置中心";
-            var type = Core.App.Service.GetType();
+            /*var type = Core.App.Service.GetType();
             var props = type.GetProperties();
             var voids = type.GetMethods();
 
@@ -57,38 +46,43 @@ namespace HandSchool.ViewModels
             ).ToList();
             
             Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
-            // Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
+            // Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));*/
+            Items = new ObservableCollection<HeadedList<SettingWrapper>>();
+            SaveConfigures = new CommandAction(SaveConfiguresAsync);
+            throw new NotImplementedException();
+        }
 
-            SaveConfigures = new CommandAction(async () =>
-            {
-                Core.App.Loader.SaveSettings(Core.App.Service);
-                await RequestMessageAsync("设置中心", "保存成功！", "好的");
-            });
+        private async Task SaveConfiguresAsync()
+        {
+            Core.App.Loader.SaveSettings(Core.App.Service);
+            await RequestMessageAsync("设置中心", "保存成功！", "好的");
         }
         
         /// <summary>
         /// 清除数据的功能
         /// </summary>
         [Settings("清除数据", "将应用数据清空，恢复到默认状态。")]
-        public static async void ResetSettings()
+        public async void ResetSettings()
         {
-            if (!await Instance.RequestAnswerAsync("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
+            if (!await RequestAnswerAsync("清除数据", "确定要清除数据吗？", "取消", "确认")) return;
 
             foreach (var fileName in Core.App.Loader.RegisteredFiles)
                 Core.Configure.Remove(fileName);
             Core.Configure.Remove("hs.school.bin");
             Core.App.Service.ResetSettings();
 
-            await Instance.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
+            await RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
         }
 
+#if DEBUG
         /// <summary>
         /// 测试功能
         /// </summary>
         [Settings("测试", "检测绑定数目。")]
-        public static async void TestBindingCounts()
+        public async void TestBindingCounts()
         {
-            await Instance.RequestMessageAsync("绑定数目", Instance.GetEventAttached() + "个", "好的");
+            await RequestMessageAsync("绑定数目", Instance.GetEventAttached() + "个", "好的");
         }
+#endif
     }
 }

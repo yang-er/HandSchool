@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
 using HandSchool.Models;
 using System.Collections.Generic;
 
@@ -18,7 +18,7 @@ namespace HandSchool.ViewModels
         public override int Week
         {
             get => 0;
-            set => this.WriteLog("Error value was requested to be set: " + value);
+            set => Logger?.Error("Error value was requested to be set: " + value);
         }
 
         public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)

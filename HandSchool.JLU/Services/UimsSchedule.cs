@@ -1,6 +1,7 @@
 ﻿using HandSchool.Design;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
+using HandSchool.JLU.Services;
 using HandSchool.Models;
 using HandSchool.Services;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+[assembly: RegisterService(typeof(UimsSchedule))]
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -15,7 +17,8 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IScheduleEntrance" />
     [Entrance("JLU", "课程表", "提供解析UIMS课程表的功能。")]
-    internal class Schedule : IScheduleEntrance
+    [UseStorage("JLU", configKcb, configKcbOrig)]
+    internal class UimsSchedule : IScheduleEntrance
     {
         const string configKcbOrig = "jlu.kcb.json";
         const string configKcb = "jlu.kcb2.json";
@@ -28,7 +31,7 @@ namespace HandSchool.JLU.Services
         private IConfigureProvider Configure { get; }
         private ISchoolSystem Connection { get; }
 
-        public Schedule(IConfigureProvider configure, ISchoolSystem connection)
+        public UimsSchedule(IConfigureProvider configure, ISchoolSystem connection)
         {
             Configure = configure;
             Connection = connection;
@@ -101,6 +104,11 @@ namespace HandSchool.JLU.Services
                 if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(ClassBetween[i])) < 0)
                     return i;
             return 11;
+        }
+
+        public List<CurriculumItem> FromCache()
+        {
+            return Configure.Read(configKcb).ParseJSON<List<CurriculumItem>>();
         }
     }
 }

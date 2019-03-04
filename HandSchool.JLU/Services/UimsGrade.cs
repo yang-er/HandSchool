@@ -2,6 +2,7 @@
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
+using HandSchool.JLU.Services;
 using HandSchool.Models;
 using HandSchool.Services;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+[assembly: RegisterService(typeof(UimsGrade))]
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -16,6 +18,7 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IGradeEntrance" />
     [Entrance("JLU", "成绩查询", "提供内网的成绩查询和查看成绩分布功能。")]
+    [UseStorage("JLU", configGpa, configGrade)]
     internal sealed class UimsGrade : IGradeEntrance
     {
         const string configGrade = "jlu.grade.json";

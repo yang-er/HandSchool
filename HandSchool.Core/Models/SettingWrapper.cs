@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internals;
+using System.Linq;
 using System.Reflection;
 
 namespace HandSchool.Models
@@ -12,21 +13,6 @@ namespace HandSchool.Models
         /// 在 XAML 中提供，绑定自己使用。
         /// </summary>
         public SettingWrapper Self => this;
-
-        /// <summary>
-        /// 在动作模式时占位的一个属性值。
-        /// </summary>
-        public static string ActionPlaceHolder { get; set; } = "";
-
-        /// <summary>
-        /// 如果设置的类型为 Action，其对应的设置的运行时信息
-        /// </summary>
-        public PropertyInfo Information { get; }
-
-        /// <summary>
-        /// 如果设置的类型为 Action，其调用的方法的运行时信息
-        /// </summary>
-        public MethodInfo MethodInfo { get; }
 
         /// <summary>
         /// 可用设置项的元数据，指示了设置项标题、描述与限制等
@@ -49,12 +35,80 @@ namespace HandSchool.Models
         public SettingTypes Type { get; }
 
         /// <summary>
+        /// 调用源
+        /// </summary>
+        private object CallSite { get; }
+        
+        /// <summary>
+        /// 如果设置的类型为 Value，其对应的设置的运行时信息
+        /// </summary>
+        public PropertyInfo PropertyInfo { get; }
+
+        /// <summary>
+        /// 如果设置的类型为 Action，其调用的方法的运行时信息
+        /// </summary>
+        public MethodInfo MethodInfo { get; }
+
+        /// <summary>
         /// 设置项的值设置，通过反射进行获取和修改
         /// </summary>
         public object Value
         {
-            get => Information.GetValue(Core.App.Service);
-            set => Information.SetValue(Core.App.Service, value);
+            get => PropertyInfo.GetValue(CallSite);
+            set => PropertyInfo.SetValue(CallSite, value);
+        }
+
+        /// <summary>
+        /// 执行操作。
+        /// </summary>
+        public void ExecuteAction()
+        {
+            MethodInfo.Invoke(CallSite, new object[] { });
+        }
+
+        /// <summary>
+        /// 从某个具体对象中寻找设置信息。
+        /// </summary>
+        /// <param name="header">组标题</param>
+        /// <param name="obj">具体对象</param>
+        /// <returns>设置集合</returns>
+        public static HeadedList<SettingWrapper> From(string header, object obj)
+        {
+            var type = obj.GetType();
+            var props = type.GetProperties(BindingFlags.Public);
+            var voids = type.GetMethods(BindingFlags.Public);
+
+            return new HeadedList<SettingWrapper>(header, (
+                from prop in props
+                where prop.Has<SettingsAttribute>()
+                select new SettingWrapper(obj, prop)
+            ).Union(
+                from @void in voids
+                where @void.Has<SettingsAttribute>()
+                select new SettingWrapper(obj, @void)
+            ));
+        }
+
+        /// <summary>
+        /// 从某个抽象类型中寻找设置信息。
+        /// </summary>
+        /// <param name="header">组标题</param>
+        /// <returns>设置集合</returns>
+        public static HeadedList<SettingWrapper> From<T>(string header)
+        {
+            var type = typeof(T);
+            var props = type.GetProperties(BindingFlags.Static);
+            var voids = type.GetMethods(BindingFlags.Static);
+
+            return new HeadedList<SettingWrapper>(header, (
+                from prop in props
+                where prop.Has<SettingsAttribute>()
+                select new SettingWrapper(null, prop)
+            ).Union(
+                from @void in voids
+                where @void.Has<SettingsAttribute>()
+                select new SettingWrapper(null, @void)
+            ));
         }
 
         /// <summary>
@@ -65,14 +119,16 @@ namespace HandSchool.Models
         /// <summary>
         /// 设置的值内容修改包装。
         /// </summary>
-        /// <param name="pinfo">属性的信息。</param>
-        public SettingWrapper(PropertyInfo pInfo)
+        /// <param name="src">数据源</param>
+        /// <param name="pInfo">属性的信息。</param>
+        public SettingWrapper(object src, PropertyInfo pInfo)
         {
-            Information = pInfo;
+            CallSite = src;
+            PropertyInfo = pInfo;
             AttributeData = pInfo.Get<SettingsAttribute>();
             IsStatic = pInfo.GetMethod.IsStatic;
 
-            if (!Information.CanWrite)
+            if (!PropertyInfo.CanWrite)
                 Type = SettingTypes.Const;
             else if (pInfo.PropertyType == typeof(int))
                 Type = SettingTypes.Integer;
@@ -87,21 +143,15 @@ namespace HandSchool.Models
         /// <summary>
         /// 设置的点击入口点包装。
         /// </summary>
+        /// <param name="src">数据源</param>
         /// <param name="mInfo">方法的信息。</param>
-        public SettingWrapper(MethodInfo mInfo)
+        public SettingWrapper(object src, MethodInfo mInfo)
         {
-            Information = typeof(SettingWrapper).GetProperty(nameof(ActionPlaceHolder));
+            CallSite = src;
             MethodInfo = mInfo;
             IsStatic = mInfo.IsStatic;
             AttributeData = mInfo.Get<SettingsAttribute>();
             Type = SettingTypes.Action;
-
-            ExcuteAction = new CommandAction(() =>
-            {
-                MethodInfo.Invoke(Core.App.Service, new object[] { });
-            });
         }
-
-        public CommandAction ExcuteAction { get; }
     }
 }

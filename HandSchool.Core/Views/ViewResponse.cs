@@ -8,6 +8,7 @@ namespace HandSchool.Views
 {
     /// <summary>
     /// 用于暴露部分 View 行为给 ViewModel 的响应。
+    /// 要求实际实现必须自己保证在UI线程上。
     /// </summary>
     public interface IViewResponse
     {
@@ -33,8 +34,8 @@ namespace HandSchool.Views
         /// 弹出选择对话框，从中选择一个操作。
         /// </summary>
         /// <param name="title">对话框的标题。</param>
-        /// <param name="cancel">对话框的取消按钮文字。为 <see cref="null"/> 时不显示按钮。</param>
-        /// <param name="destruction">对话框的删除按钮文字。为 <see cref="null"/> 时不显示按钮。</param>
+        /// <param name="cancel">对话框的取消按钮文字。为 null 时不显示按钮。</param>
+        /// <param name="destruction">对话框的删除按钮文字。为 null 时不显示按钮。</param>
         /// <param name="buttons">可选的动作列表每一项的文字。</param>
         /// <returns>按下的按钮标签文字。</returns>
         Task<string> RequestActionAsync(string title, string cancel, string destruction, params string[] buttons);
