@@ -16,13 +16,3 @@
 
 ### 支持的学校
 - 吉林大学 UIMS
-
-### 文档资料
-- JLULife @ brady
-- CookieAwareWebClient @ zhleiyang
-- PopContentPage @ shanhongyue
-- Xamarin.Forms @ xamarin
-- Docs @ microsoft
-- Creating Mobile Apps with Xamarin.Forms @ Microsoft Press
-- Bootstrap v4.0
-- etc...

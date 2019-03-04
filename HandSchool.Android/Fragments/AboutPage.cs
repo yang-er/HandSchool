@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Android.OS;
+using Android.Support.Design.Widget;
 using Android.Views;
 using DanielStone.MaterialAbout;
 using DanielStone.MaterialAbout.Items;
@@ -39,7 +40,21 @@ namespace HandSchool.Views
 
         private void OpenQQGroup()
         {
-            Core.Platform.OpenUrl("https://shang.qq.com/wpa/qunwpa?idkey=e58ed94d409641b8cb3663c6ca512001061921904a0c0fa6044dff50495862b2");
+            try
+            {
+                var intent = new Intent();
+                var key = "kxaGnwD9ChhoM2Do-wKDOj6fcMIekaEY";
+                var before = "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D";
+                intent.SetData(Android.Net.Uri.Parse(before + key));
+                StartActivity(intent);
+            }
+            catch
+            {
+                var cmb = (ClipboardManager)Context.GetSystemService(Context.ClipboardService);
+                cmb.Text = "752277651";
+
+                Snackbar.Make(View, "已经将群号复制到剪贴板。", 4000).Show();
+            }
         }
         
         private void ShareMe()

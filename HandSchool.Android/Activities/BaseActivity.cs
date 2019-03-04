@@ -147,15 +147,18 @@ namespace HandSchool.Droid
 
         private void HandBind(object sender, PropertyChangedEventArgs args)
         {
-            var busySignal = sender as IBusySignal;
-            
-            switch (args.PropertyName)
+            RunOnUiThread(() =>
             {
-                case "IsBusy":
-                    ProgressBar.Visibility = busySignal.IsBusy
-                        ? ViewStates.Visible : ViewStates.Invisible;
-                    break;
-            }
+                var busySignal = sender as IBusySignal;
+
+                switch (args.PropertyName)
+                {
+                    case "IsBusy":
+                        ProgressBar.Visibility = busySignal.IsBusy
+                            ? ViewStates.Visible : ViewStates.Invisible;
+                        break;
+                }
+            });
         }
 
         #endregion

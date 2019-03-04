@@ -122,12 +122,14 @@ namespace HandSchool.Droid
             Model.Teacher = Teacher.Text;
 
             if (IsCreate) ScheduleViewModel.Instance.AddItem(Model);
+            ScheduleViewModel.Instance.SaveToFile();
             ControlSource.TrySetResult(true);
         }
 
         private void OnDeleted(object sender, DialogClickEventArgs args)
         {
             ScheduleViewModel.Instance.RemoveItem(Model);
+            ScheduleViewModel.Instance.SaveToFile();
             ControlSource.TrySetResult(true);
         }
 
