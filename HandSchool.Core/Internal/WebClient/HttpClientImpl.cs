@@ -16,12 +16,22 @@ namespace HandSchool.Internals
         /// <summary>
         /// Cookie的容器
         /// </summary>
-        public CookieContainer Cookie { get; }
+        public CookieContainer Cookie { get; private set; }
 
         /// <summary>
         /// 默认字符编码
         /// </summary>
         public Encoding Encoding { get; set; }
+
+        /// <summary>
+        /// 重置客户端，取消所有网络任务，清除所有Cookie。
+        /// </summary>
+        public void ResetClient()
+        {
+            HttpClient.CancelPendingRequests();
+            Cookie = new CookieContainer();
+            Handler.CookieContainer = Cookie;
+        }
 
         /// <summary>
         /// 是否允许自动导航

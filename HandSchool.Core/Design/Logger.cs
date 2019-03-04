@@ -55,5 +55,10 @@ namespace HandSchool.Design
         {
             logger.WriteLine(typeof(T).Name, info, LogLevel.Info);
         }
+
+        public static void Warn<T>(this ILogger<T> logger, string warn)
+        {
+            logger.WriteLine(typeof(T).Name, warn, LogLevel.Warn);
+        }
     }
 }
