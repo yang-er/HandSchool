@@ -13,6 +13,11 @@ namespace HandSchool.Internals
         CookieContainer Cookie { get; }
 
         /// <summary>
+        /// 重置客户端，取消所有网络任务，清除所有Cookie。
+        /// </summary>
+        void ResetClient();
+
+        /// <summary>
         /// 是否允许自动导航
         /// </summary>
         bool AllowAutoRedirect { get; set; }
@@ -52,7 +57,7 @@ namespace HandSchool.Internals
         /// <summary>
         /// 以GET形式发送数据。
         /// </summary>
-        /// <param name="script">网络请求</param>
+        /// <param name="req">网络请求</param>
         /// <returns>返回结果</returns>
         Task<IWebResponse> GetAsync(WebRequestMeta req);
     }

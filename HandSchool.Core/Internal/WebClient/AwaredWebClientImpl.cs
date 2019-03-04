@@ -23,12 +23,21 @@ namespace HandSchool.Internals
         /// <summary>
         /// Cookie的容器
         /// </summary>
-        public CookieContainer Cookie { get; } = new CookieContainer();
+        public CookieContainer Cookie { get; private set; } = new CookieContainer();
 
         /// <summary>
         /// Web响应的HTTP头集合
         /// </summary>
         public new WebHeaderCollection ResponseHeaders => base.ResponseHeaders ?? protocolErrorResponses;
+
+        /// <summary>
+        /// 重置客户端，取消所有网络任务，清除所有Cookie。
+        /// </summary>
+        public void ResetClient()
+        {
+            CancelAsync();
+            Cookie = new CookieContainer();
+        }
 
         /// <summary>
         /// 是否允许自动跳转
@@ -198,8 +207,6 @@ namespace HandSchool.Internals
             }
         }
         
-        const string json = "application/json";
-
         private WebHeaderCollection protocolErrorResponses;
 
         protected override WebRequest GetWebRequest(Uri address)
@@ -216,29 +223,5 @@ namespace HandSchool.Internals
 
             return request;
         }
-
-        /// <summary>
-        /// 获得 <see cref="CookieContainer"/> 内的所有 <see cref="Cookie"/>。
-        /// </summary>
-        /// <param name="cc">容纳器。</param>
-        /// <returns>所有Cookie组成的列表</returns>
-        [Obsolete("This method is not stable.")]
-        public static List<Cookie> GetAllCookies(CookieContainer cc)
-        {
-            const BindingFlags flag = BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance;
-            var args = new object[] { };
-            var lstCookies = new List<Cookie>();
-
-            var table = (Hashtable)cc.GetType().InvokeMember("m_domainTable", flag, null, cc, args);
-
-            foreach (var pathList in table.Values)
-            {
-                var lstCookieCol = (SortedList)pathList.GetType().InvokeMember("m_list", flag, null, pathList, args);
-                lstCookies.AddRange(from CookieCollection col in lstCookieCol.Values from Cookie c in col select c);
-            }
-
-            return lstCookies;
-        }
-
     }
 }

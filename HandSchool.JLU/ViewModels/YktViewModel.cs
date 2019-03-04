@@ -1,10 +1,9 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.Models;
+using HandSchool.JLU.Services;
 using HandSchool.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using JsonException = Newtonsoft.Json.JsonException;
@@ -16,21 +15,18 @@ namespace HandSchool.JLU.ViewModels
     /// </summary>
     internal class YktViewModel : BaseViewModel
     {
-        static readonly Lazy<YktViewModel> Lazy =
-            new Lazy<YktViewModel>(() => new YktViewModel());
         private bool IsFirstOpen { get; set; }
-
-        /// <summary>
-        /// 视图模型的实例
-        /// </summary>
-        public static YktViewModel Instance => Lazy.Value;
+        private SchoolCard Service { get; }
 
         /// <summary>
         /// 建立校园一卡通的视图模型，加载命令。
         /// </summary>
-        private YktViewModel()
+        private YktViewModel(SchoolCard service)
         {
+            Service = service;
+
             Title = "校园一卡通";
+            BasicInfo = new CardBasicInfo();
             PickCardInfo = new ObservableCollection<PickCardInfo>();
             RecordInfo = new ObservableCollection<RecordInfo>();
             LoadPickCardInfoCommand = new CommandAction(GetPickCardInfo);
@@ -40,30 +36,13 @@ namespace HandSchool.JLU.ViewModels
             LoadBasicInfoCommand = new CommandAction(RefreshBasicInfoAsync);
             LoadTwoInfoCommand = new CommandAction(LoadTwoAsync);
             IsFirstOpen = true;
-
-            BasicInfo = new CardBasicInfo();
         }
 
         /// <summary>
         /// 拾卡信息
         /// </summary>
         public ObservableCollection<PickCardInfo> PickCardInfo { get; set; }
-
-        /// <summary>
-        /// 名称信息
-        /// </summary>
-        public SchoolCardInfoPiece NameInfo { get; set; }
-
-        /// <summary>
-        /// 学工号
-        /// </summary>
-        public SchoolCardInfoPiece CardId { get; set; }
-
-        /// <summary>
-        /// 余额
-        /// </summary>
-        public SchoolCardInfoPiece Balance { get; set; }
-
+        
         /// <summary>
         /// 消费记录
         /// </summary>
@@ -72,7 +51,7 @@ namespace HandSchool.JLU.ViewModels
         /// <summary>
         /// 基础信息的抽象列表
         /// </summary>
-        public List<SchoolCardInfoPiece> BasicInfo { get; set; }
+        public CardBasicInfo BasicInfo { get; set; }
 
         /// <summary>
         /// 加载拾卡信息的命令
@@ -120,24 +99,24 @@ namespace HandSchool.JLU.ViewModels
         {
             if (IsBusy) return;
             IsBusy = true;
-            string last_error = null;
+            string lastError = null;
 
             try
             {
-                await Loader.Ykt.BasicInfoAsync();
+                await Service.BasicInfoAsync(BasicInfo);
             }
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.MimeNotMatch)
-                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                    lastError = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
                 else
-                    last_error = "网络似乎出了点问题呢……";
+                    lastError = "网络似乎出了点问题呢……";
             }
             finally
             {
                 IsBusy = false;
-                if (last_error != null)
-                    await RequestMessageAsync("查询失败", last_error, "好吧");
+                if (lastError != null)
+                    await RequestMessageAsync("查询失败", lastError, "好吧");
             }
         }
 
@@ -148,28 +127,31 @@ namespace HandSchool.JLU.ViewModels
         {
             if (IsBusy) return;
             IsBusy = true;
-            string last_error = null;
+            string lastError = null;
 
             try
             {
-                await Loader.Ykt.QueryCost();
+                var enumerable = await Service.QueryCost();
+                RecordInfo.Clear();
+                foreach (var e in enumerable)
+                    RecordInfo.Add(e);
             }
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.MimeNotMatch)
-                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                    lastError = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
                 else
-                    last_error = "网络似乎出了点问题呢……";
+                    lastError = "网络似乎出了点问题呢……";
             }
             catch (JsonException ex)
             {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Message;
+                lastError = "服务器的响应未知，请检查。\n" + ex.Message;
             }
             finally
             {
                 IsBusy = false;
-                if (last_error != null)
-                    await RequestMessageAsync("查询失败", last_error, "好吧");
+                if (lastError != null)
+                    await RequestMessageAsync("查询失败", lastError, "好吧");
             }
         }
 
@@ -183,7 +165,10 @@ namespace HandSchool.JLU.ViewModels
 
             try
             {
-                await Loader.Ykt.GetPickCardInfo();
+                var enumerable = await Service.GetPickCardInfo();
+                PickCardInfo.Clear();
+                foreach (var e in enumerable)
+                    PickCardInfo.Add(e);
             }
             catch (WebsException ex)
             {
@@ -201,7 +186,6 @@ namespace HandSchool.JLU.ViewModels
         /// <summary>
         /// 处理充值命令。
         /// </summary>
-        /// <param name="money">充值金额</param>
         public async Task ProcessCharge()
         {
             if (IsBusy) return;
@@ -213,39 +197,39 @@ namespace HandSchool.JLU.ViewModels
             if (money is null) return;
 
             IsBusy = true;
-            string last_error = null;
+            string lastError = null;
 
             try
             {
-                if (!await Loader.Ykt.ChargeMoney(money))
+                if (!await Service.ChargeMoney(money))
                 {
-                    last_error = Loader.Ykt.LastReport;
+                    lastError = Service.LastReport;
                 }
             }
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.MimeNotMatch)
-                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                    lastError = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
                 else
-                    last_error = "网络似乎出了点问题呢……";
+                    lastError = "网络似乎出了点问题呢……";
             }
             catch (OverflowException)
             {
-                last_error = "单笔充值限定在0.01~200.00之间。";
+                lastError = "单笔充值限定在0.01~200.00之间。";
             }
             catch (FormatException)
             {
-                last_error = "充值金额的格式错误，请检查后重试。";
+                lastError = "充值金额的格式错误，请检查后重试。";
             }
             catch (JsonException ex)
             {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Message;
+                lastError = "服务器的响应未知，请检查。\n" + ex.Message;
             }
             finally
             {
                 IsBusy = false;
-                if (last_error != null)
-                    await RequestMessageAsync("充值失败", last_error);
+                if (lastError != null)
+                    await RequestMessageAsync("充值失败", lastError);
                 else
                     await RequestMessageAsync("充值成功", "成功充值了" + money + "元。");
             }
@@ -263,54 +247,36 @@ namespace HandSchool.JLU.ViewModels
                 "确认挂失吗？", "否", "是")) return;
 
             IsBusy = true;
-            string last_error = null;
+            string lastError = null;
 
             try
             {
-                if (!await Loader.Ykt.SetLost())
+                if (!await Service.SetLost())
                 {
-                    last_error = Loader.Ykt.LastReport;
+                    lastError = Service.LastReport;
                 }
             }
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.MimeNotMatch)
-                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                    lastError = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
                 else
-                    last_error = "网络似乎出了点问题呢……";
+                    lastError = "网络似乎出了点问题呢……";
             }
             catch (JsonException ex)
             {
-                last_error = "服务器的响应未知，请检查。\n" + ex.Message;
+                lastError = "服务器的响应未知，请检查。\n" + ex.Message;
             }
             finally
             {
                 IsBusy = false;
-                if (last_error != null)
-                    await RequestMessageAsync("挂失失败", last_error);
+                if (lastError != null)
+                    await RequestMessageAsync("挂失失败", lastError);
                 else
                     await RequestMessageAsync("挂失成功", "校园卡资金似乎暂时安全了呢（大雾");
             }
         }
-
-        /// <summary>
-        /// 解析基础信息
-        /// </summary>
-        /// <param name="html">需要解析的网页</param>
-        public void ParseBasicInfo(string html)
-        {
-            html = html.Replace("    ", "")
-                       .Replace("\r", "")
-                       .Replace("\n", "");
-
-            foreach (var info in BasicInfo)
-            {
-                if (info.Command != null) continue;
-                info.Description = Regex.Match(html, @"<td class=""first"">"
-                    + info.Title + @"</td><td class=""second"">(\S+)</td>").Groups[1].Value;
-            }
-        }
-
+        
         /// <summary>
         /// 程序声明周期中第一次打开一卡通功能时执行。
         /// </summary>
@@ -319,14 +285,11 @@ namespace HandSchool.JLU.ViewModels
             if (!IsFirstOpen) return;
             IsFirstOpen = false;
 
-            if (await Loader.Ykt.RequestLogin())
+            if (await Service.RequestLogin())
             {
-                await Core.Platform.EnsureOnMainThread(async () =>
-                {
-                    await RefreshBasicInfoAsync();
-                    await ProcessQuery();
-                    await GetPickCardInfo();
-                });
+                await RefreshBasicInfoAsync();
+                await ProcessQuery();
+                // await GetPickCardInfo();
             }
         }
     }

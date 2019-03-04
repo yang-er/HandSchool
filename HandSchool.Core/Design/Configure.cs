@@ -13,11 +13,25 @@ namespace HandSchool.Design
         Task SaveAsync(string name, string value);
 
         /// <summary>
+        /// 同步地保存设置内容。
+        /// </summary>
+        /// <param name="name">内容名称</param>
+        /// <param name="value">内容值</param>
+        void Save(string name, string value);
+
+        /// <summary>
         /// 异步地读取设置内容。
         /// </summary>
         /// <param name="name">内容名称</param>
         /// <returns>读取的内容</returns>
         Task<string> ReadAsync(string name);
+
+        /// <summary>
+        /// 同步地读取设置内容。
+        /// </summary>
+        /// <param name="name">内容名称</param>
+        /// <returns>读取的内容</returns>
+        string Read(string name);
 
         /// <summary>
         /// 异步地删除设置内容。

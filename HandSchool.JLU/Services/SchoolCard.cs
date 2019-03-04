@@ -1,11 +1,13 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
-using HandSchool.JLU.ViewModels;
 using HandSchool.Models;
+using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -29,12 +31,12 @@ namespace HandSchool.JLU.Services
         const string parsePattern = @"(?<=<div class=\""tableDiv\""><table class=\""" +
             @"mobileT\"" cellpadding=\""0\"" cellspacing=\""0\"">)[\s\S]*(?=</table)";
 
-        #region Login Fields
-
         bool is_login = false;
-        bool auto_login = false;
-        bool save_password = false;
 
+        private IConfigureProvider Configure { get; }
+        private ILogger<SchoolCard> Logger { get; }
+        public IWebClient WebClient { get; }
+        
         public string Username { get; set; }
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
@@ -43,24 +45,47 @@ namespace HandSchool.JLU.Services
         public string Tips => "校园卡查询密码默认为身份证最后六位数字。";
         public string FormName => "校园卡服务中心";
         public bool NeedLogin => !is_login;
-        public bool IsLogin { get => is_login; private set => SetProperty(ref is_login, value); }
-        public bool AutoLogin { get => auto_login; set => SetProperty(ref auto_login, value); }
-        public bool SavePassword { get => save_password; set => SetProperty(ref save_password, value); }
+        public bool AutoLogin { get; set; }
+        public bool SavePassword { get; set; }
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
+        public string LastReport { get; private set; }
 
+        public bool IsLogin
+        {
+            get => is_login;
+            private set => SetProperty(ref is_login, value);
+        }
+
+        public SchoolCard(IConfigureProvider configure, IWebClient webClient, ILogger<SchoolCard> logger)
+        {
+            Configure = configure;
+            WebClient = webClient;
+            WebClient.BaseAddress = baseUrl;
+            Logger = logger;
+
+            IsLogin = false;
+            Username = Configure.Read(configUsername);
+            if (!string.IsNullOrEmpty(Username))
+                Password = Configure.Read(configPassword);
+            SavePassword = !string.IsNullOrEmpty(Password);
+        }
+        
+        /// <summary>
+        /// 登录之前进行准备工作，例如加载验证码等内容。
+        /// </summary>
+        /// <returns>是否准备成功。</returns>
         public async Task<bool> PrepareLogin()
         {
             try
             {
-                WebClient = Core.New<IWebClient>();
-                WebClient.BaseAddress = baseUrl;
+                WebClient.ResetClient();
                 await WebClient.GetAsync("");
-                var login_str = await WebClient.GetStringAsync("Account/Login");
-                var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
+                var loginStr = await WebClient.GetStringAsync("Account/Login");
+                var captchaUrl = Regex.Match(loginStr, @"id=""imgCheckCode"" src=""/(\S+)""");
 
-                var reqMeta = new WebRequestMeta(captcha_url.Groups[1].Value, "image/jif");
-                var captcha_resp = await WebClient.GetAsync(reqMeta);
-                CaptchaSource = await captcha_resp.ReadAsByteArrayAsync();
+                var reqMeta = new WebRequestMeta(captchaUrl.Groups[1].Value, "image/jif");
+                var captchaResp = await WebClient.GetAsync(reqMeta);
+                CaptchaSource = await captchaResp.ReadAsByteArrayAsync();
                 return CaptchaSource != null;
             }
             catch (WebsException)
@@ -69,19 +94,18 @@ namespace HandSchool.JLU.Services
             }
         }
 
+        /// <summary>
+        /// 登录操作，通过网络进行登录操作。
+        /// </summary>
+        /// <returns>是否登录成功。</returns>
         public async Task<bool> Login()
         {
-            if (Username == "" || Password == "")
-            {
-                return false;
-            }
-            else
-            {
-                Core.Configure.Write(configUsername, Username);
-                Core.Configure.Write(configPassword, SavePassword ? Password : "");
-            }
+            if (Username == "" || Password == "") return false;
+            await Configure.SaveAsync(configUsername, Username);
+            await Configure.SaveAsync(configPassword, SavePassword ? Password : "");
 
-            var post_value = new KeyValueDict
+            string lastReport = "";
+            var postValue = new KeyValueDict
             {
                 { "SignType", "SynSno" },
                 { "UserAccount", Username },
@@ -96,21 +120,12 @@ namespace HandSchool.JLU.Services
             {
                 var reqMeta = new WebRequestMeta("Account/Login", WebRequestMeta.Json);
                 reqMeta.SetHeader("Referer", baseUrl + "/Account/Login?next=" + nextUrl);
-                var resp = await WebClient.PostAsync(reqMeta, post_value);
-                LastReport = await resp.ReadAsStringAsync();
+                var resp = await WebClient.PostAsync(reqMeta, postValue);
+                lastReport = await resp.ReadAsStringAsync();
 
-                if (LastReport == "被拒绝")
-                {
-                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "软件版本过老，无法登录。"));
-                    return false;
-                }
-
-                var result = LastReport.ParseJSON<YktResult>();
-                if (!result.success)
-                {
-                    LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, result.msg));
-                    return false;
-                }
+                if (lastReport == "被拒绝") throw new ServiceException("软件版本过老，无法登录。");
+                var result = lastReport.ParseJSON<YktResult>();
+                if (!result.success) throw new ServiceException(result.msg);
             }
             catch (WebsException ex)
             {
@@ -119,9 +134,14 @@ namespace HandSchool.JLU.Services
             }
             catch (JsonException)
             {
-                this.WriteLog("Unexpected value received <<<EOF\n" + LastReport + "\nEOF;");
+                Logger.Warn("Unexpected value received <<<EOF\n" + lastReport + "\nEOF;");
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
                 return IsLogin = false;
+            }
+            catch (ServiceException ex)
+            {
+                LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, ex.Message));
+                return false;
             }
             
             IsLogin = true;
@@ -129,46 +149,68 @@ namespace HandSchool.JLU.Services
             return true;
         }
         
-        public SchoolCard()
-        {
-            IsLogin = false;
-            Username = Core.Configure.Read(configUsername);
-            if (Username != "") Password = Core.Configure.Read(configPassword);
-            SavePassword = Password != "";
-        }
-
-        #endregion
-
+        /// <summary>
+        /// 将HTML字符串规格化。
+        /// </summary>
+        /// <param name="input">输入串</param>
+        /// <returns>输出串</returns>
         static string RegularizeHtml(string input)
         {
             return input.Replace("    ", "").Replace("\r", "").Replace("\n", "");
         }
 
+        /// <summary>
+        /// 更新基本信息。
+        /// </summary>
+        /// <param name="basicInfo">基本信息</param>
         /// <exception cref="WebsException" />
-        public async Task BasicInfoAsync()
+        /// <returns>基本信息的集合</returns>
+        public async Task BasicInfoAsync(CardBasicInfo basicInfo)
         {
             if (!await this.RequestLogin()) return;
             var resultBasicInfo = await WebClient.GetStringAsync("SynCard/Manage/BasicInfo", "text/html");
-            YktViewModel.Instance.ParseBasicInfo(resultBasicInfo);
+            ParseBasicInfo(basicInfo, resultBasicInfo);
         }
 
-        /// <exception cref="WebsException" />
-        public async Task GetPickCardInfo()
+        /// <summary>
+        /// 解析基础信息
+        /// </summary>
+        /// <param name="basicInfo">基础信息</param>
+        /// <param name="html">需要解析的网页</param>
+        private static void ParseBasicInfo(CardBasicInfo basicInfo, string html)
         {
-            if (!await this.RequestLogin()) return;
-            
-            var cardList = await WebClient.GetStringAsync("InfoPub/CardNotice/NFixCardList", "*/*");
-            var parsedHtml = Regex.Match(RegularizeHtml(cardList), parsePattern).Value;
-            var cardEnumer = PickCardInfo.EnumerateFromHtml("<Root><div><table>" + parsedHtml + "</table></div></Root>");
-            YktViewModel.Instance.PickCardInfo.Clear();
-            foreach (var item in cardEnumer)
-                YktViewModel.Instance.PickCardInfo.Add(item);
+            html = RegularizeHtml(html);
+
+            foreach (var info in basicInfo)
+            {
+                if (info.Command != null) continue;
+                info.Description = Regex.Match(html, @"<td class=""first"">" + info.Title + @"</td><td class=""second"">(\S+)</td>").Groups[1].Value;
+            }
         }
 
+        /// <summary>
+        /// 获取拾卡信息。
+        /// </summary>
+        /// <exception cref="WebsException" />
+        /// <returns>拾卡信息的集合</returns>
+        public async Task<IEnumerable<PickCardInfo>> GetPickCardInfo()
+        {
+            if (!await this.RequestLogin()) return new PickCardInfo[0];
+            
+            var cardList = await WebClient.GetStringAsync("InfoPub/CardNotice/NFixCardList");
+            var parsedHtml = Regex.Match(RegularizeHtml(cardList), parsePattern).Value;
+            return PickCardInfo.EnumerateFromHtml("<Root><div><table>" + parsedHtml + "</table></div></Root>");
+        }
+
+        /// <summary>
+        /// 充值钱币。
+        /// </summary>
+        /// <param name="money">充值的金额</param>
         /// <exception cref="OverflowException" />
         /// <exception cref="FormatException" />
         /// <exception cref="WebsException" />
         /// <exception cref="JsonException" />
+        /// <returns>是否充值成功</returns>
         public async Task<bool> ChargeMoney(string money)
         {
             if (!await this.RequestLogin())
@@ -177,21 +219,21 @@ namespace HandSchool.JLU.Services
                 return false;
             }
 
-            var true_money = double.Parse(money);
-            if (true_money > 200 || true_money <= 0)
+            var trueMoney = double.Parse(money);
+            if (trueMoney > 200 || trueMoney <= 0)
                 throw new OverflowException();
 
-            var post_value = new KeyValueDict
+            var postValue = new KeyValueDict
             {
                 { "FromCard", "bcard" },
                 { "ToCard", "card" },
-                { "Amount", true_money.ToString("f2")},
+                { "Amount", trueMoney.ToString("f2")},
                 { "Password", Password.ToBase64() }
             };
 
             var reqMeta = new WebRequestMeta("SynCard/Manage/TransferPost", WebRequestMeta.Json);
             reqMeta.SetHeader("Referer", baseUrl + "/SynCard/Manage/Transfer");
-            var response = await WebClient.PostAsync(reqMeta, post_value);
+            var response = await WebClient.PostAsync(reqMeta, postValue);
             var transferReport = await response.ReadAsStringAsync();
             var result = transferReport.ParseJSON<YktResult>();
 
@@ -199,10 +241,14 @@ namespace HandSchool.JLU.Services
             return result.success;
         }
         
+        /// <summary>
+        /// 查询流水记录。
+        /// </summary>
         /// <exception cref="WebsException" />
-        public async Task QueryCost()
+        /// <returns>流水记录的集合</returns>
+        public async Task<IEnumerable<RecordInfo>> QueryCost()
         {
-            if (!await this.RequestLogin()) return;
+            if (!await this.RequestLogin()) return new RecordInfo[0];
             const string noHistory = "当前查询条件内没有流水记录";
 
             var resultWeek = await WebClient.GetStringAsync("SynCard/Manage/OneWeekTrjn");
@@ -211,20 +257,19 @@ namespace HandSchool.JLU.Services
             if (resultDay.Contains(noHistory) && resultWeek.Contains(noHistory))
             {
                 resultWeek = await WebClient.GetStringAsync("SynCard/Manage/TrjnHistory");
-                if (resultWeek.Contains(noHistory)) return;
+                if (resultWeek.Contains(noHistory)) return new RecordInfo[0];
             }
 
             var parseWeek = Regex.Match(RegularizeHtml(resultWeek), parsePattern).Value;
             var parseToday = Regex.Match(RegularizeHtml(resultDay), parsePattern).Value;
-            var enumHtml = RecordInfo.EnumerateFromHtml("<Root><div><table>" + parseToday + parseWeek + "</table></div></Root>");
-
-            YktViewModel.Instance.RecordInfo.Clear();
-
-            foreach (var item in enumHtml)
-                YktViewModel.Instance.RecordInfo.Add(item);
+            return RecordInfo.EnumerateFromHtml("<Root><div><table>" + parseToday + parseWeek + "</table></div></Root>");
         }
 
+        /// <summary>
+        /// 标记卡为挂失状态。
+        /// </summary>
         /// <exception cref="WebsException" />
+        /// <returns>挂失是否成功</returns>
         public async Task<bool> SetLost()
         {
             if (!await this.RequestLogin())
@@ -234,31 +279,24 @@ namespace HandSchool.JLU.Services
             }
 
             // First, we should get our card number.
-            var value_got = await WebClient.GetStringAsync("SynCard/Manage/CardLost");
-            var card_no = Regex.Match(value_got, @"name=""selectCardnos""><option value=""(\S+)"">").Groups[1].Value;
+            var valueGot = await WebClient.GetStringAsync("SynCard/Manage/CardLost");
+            var cardNo = Regex.Match(valueGot, @"name=""selectCardnos""><option value=""(\S+)"">").Groups[1].Value;
 
             // Then, go ahead.
-            var post_value = new KeyValueDict
+            var postValue = new KeyValueDict
             {
-                { "CardNo", card_no },
+                { "CardNo", cardNo },
                 { "Password", Password.ToBase64() },
-                { "selectCardnos", card_no },
+                { "selectCardnos", cardNo },
             };
 
             var reqMeta = new WebRequestMeta("SynCard/Manage/CardLost", WebRequestMeta.Json);
             reqMeta.SetHeader("Referer", baseUrl + "/SynCard/Manage/CardLost");
-            var response = await WebClient.PostAsync(reqMeta, post_value);
+            var response = await WebClient.PostAsync(reqMeta, postValue);
             var cardLost = await response.ReadAsStringAsync();
-            var Result = cardLost.ParseJSON<YktResult>();
-            LastReport = Result.msg;
-            return Result.success || LastReport == "Value cannot be null.\r\nParameter name: key";
+            var result = cardLost.ParseJSON<YktResult>();
+            LastReport = result.msg;
+            return result.success || LastReport == "Value cannot be null.\r\nParameter name: key";
         }
-
-        public IWebClient WebClient { get; private set; }
-
-        /// <summary>
-        /// 上一个返回的错误
-        /// </summary>
-        public string LastReport { get; private set; }
     }
 }
