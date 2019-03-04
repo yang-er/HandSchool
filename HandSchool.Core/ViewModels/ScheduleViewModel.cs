@@ -268,9 +268,9 @@ namespace HandSchool.ViewModels
         /// 从文件加载课程表列表。
         /// </summary>
         /// <returns>课程表内容</returns>
-        private static List<CurriculumItem> LoadFromFile()
+        private List<CurriculumItem> LoadFromFile()
         {
-            var lastReport = Configure.ReadAsync(storageFile).ConfigureAwait(false).GetAwaiter().GetResult();
+            var lastReport = Configure.Read(storageFile);
             return lastReport != "" ? lastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
         }
 
