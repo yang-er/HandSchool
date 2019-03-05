@@ -21,10 +21,10 @@ namespace HandSchool.JLU.Services
         const string configOaTime = "jlu.oa.xml.time";
 
         private IWebClient WebClient { get; }
-        private IConfigureProvider Configure { get; }
+        private IConfiguration Configure { get; }
         private ILogger Logger { get; }
 
-        public OA(IWebClient webClient, IConfigureProvider configure, ILogger<OA> logger)
+        public OA(IWebClient webClient, IConfiguration configure, ILogger<OA> logger)
         {
             WebClient = webClient;
             WebClient.BaseAddress = "https://joj.chinacloudsites.cn/";

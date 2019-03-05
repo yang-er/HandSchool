@@ -37,14 +37,14 @@ namespace HandSchool.JLU.Services
         public override string CurrentMessage => NeedLogin ? "登录后可以查看更多内容" : $"{Nick}第{CurrentWeek}周";
 
         [ToFix("存在性能问题，瓶颈在JSON的解析上")]
-        public UimsSchool(IConfigureProvider config, IWebClient wc) : base(config, wc)
+        public UimsSchool(IConfiguration config, IWebClient wc) : base(config, wc)
         {
             WebClient.BaseAddress = ServerUri;
             
             try
             {
-                ParseLoginInfo(Core.Configure.Read(configUserCache));
-                ParseTermInfo(Core.Configure.Read(configTeachTerm));
+                ParseLoginInfo(Configure.Read(configUserCache));
+                ParseTermInfo(Configure.Read(configTeachTerm));
             }
             catch (JsonException)
             {

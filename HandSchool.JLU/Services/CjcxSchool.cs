@@ -19,7 +19,7 @@ namespace HandSchool.JLU.Services
         public override string CurrentMessage => "不在学校的第n天，想念暖气";
         public override string FormatArguments(string input) => input;
 
-        public CjcxSchool(IConfigureProvider config, IWebClient wc) : base(config, wc)
+        public CjcxSchool(IConfiguration config, IWebClient wc) : base(config, wc)
         {
             WebClient.BaseAddress = BaseUrl;
             NeedLogin = true;

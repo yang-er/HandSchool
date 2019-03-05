@@ -20,13 +20,13 @@ namespace HandSchool.ViewModels
         private int week;
         const string storageFile = "jlu.kcb2.json";
         
-        private IConfigureProvider Configure { get; }
+        private IConfiguration Configure { get; }
         private IScheduleEntrance Service { get; }
 
         /// <summary>
         /// 将当前周、增删改查等操作加载。
         /// </summary>
-        public ScheduleViewModel(IScheduleEntrance service, IConfigureProvider configure, ILogger<ScheduleViewModel> logger)
+        public ScheduleViewModel(IScheduleEntrance service, IConfiguration configure, ILogger<ScheduleViewModel> logger)
         {
             Service = service;
             Configure = configure;
