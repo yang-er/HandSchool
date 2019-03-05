@@ -20,7 +20,6 @@ namespace HandSchool.ViewModels
     {
         private int leftPageCount;
         private IFeedEntrance Service { get; }
-        private ILogger<FeedViewModel> Logger { get; }
 
         /// <summary>
         /// 消息内容列表

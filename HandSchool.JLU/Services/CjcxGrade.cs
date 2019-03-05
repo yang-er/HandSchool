@@ -22,10 +22,10 @@ namespace HandSchool.JLU.Services
         const string scriptUrl = "service_res.php";
         const string postValue = "{\"tag\":\"lessonSelectResult@oldStudScore\",\"params\":{\"xh\":\"00000000\"}}";
         
-        private IConfigureProvider Configure { get; }
+        private IConfiguration Configure { get; }
         private ISchoolSystem Connection { get; }
 
-        public CjcxGrade(IConfigureProvider configure, ISchoolSystem connection)
+        public CjcxGrade(IConfiguration configure, ISchoolSystem connection)
         {
             Configure = configure;
             Connection = connection;

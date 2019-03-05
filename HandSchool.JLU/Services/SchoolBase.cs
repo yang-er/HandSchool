@@ -21,7 +21,7 @@ namespace HandSchool.JLU.Services
         private bool is_login = false;
         private bool auto_login = true;
         private bool save_password = true;
-        protected IConfigureProvider Configure { get; }
+        protected IConfiguration Configure { get; }
 
         public string Username { get; set; }
         public string Password { get; set; }
@@ -35,7 +35,7 @@ namespace HandSchool.JLU.Services
         public string CaptchaCode { get; set; } = "";
         public byte[] CaptchaSource { get; set; } = null;
 
-        protected SchoolBase(IConfigureProvider config, IWebClient wc)
+        protected SchoolBase(IConfiguration config, IWebClient wc)
         {
             Configure = config;
             WebClient = wc;

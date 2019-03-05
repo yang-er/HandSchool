@@ -33,7 +33,7 @@ namespace HandSchool.JLU.Services
 
         bool is_login = false;
 
-        private IConfigureProvider Configure { get; }
+        private IConfiguration Configure { get; }
         private ILogger Logger { get; }
         public IWebClient WebClient { get; }
         
@@ -56,7 +56,7 @@ namespace HandSchool.JLU.Services
             private set => SetProperty(ref is_login, value);
         }
 
-        public YktService(IConfigureProvider configure, IWebClient webClient, ILogger<YktService> logger)
+        public YktService(IConfiguration configure, IWebClient webClient, ILogger<YktService> logger)
         {
             Configure = configure;
             WebClient = webClient;

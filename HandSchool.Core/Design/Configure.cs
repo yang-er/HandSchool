@@ -3,7 +3,7 @@ using HandSchool.Internals;
 
 namespace HandSchool.Design
 {
-    public interface IConfigureProvider
+    public interface IConfiguration
     {
         /// <summary>
         /// 异步地保存设置内容。
@@ -42,14 +42,19 @@ namespace HandSchool.Design
 
     public static class ConfigureExtensions
     {
-        public static Task SaveAsAsync<T>(this IConfigureProvider cp, string name, T value)
+        public static Task SaveAsAsync<T>(this IConfiguration cp, string name, T value)
         {
             return cp.SaveAsync(name, value.Serialize());
         }
 
-        public static async Task<T> ReadAsAsync<T>(this IConfigureProvider cp, string name)
+        public static async Task<T> ReadAsAsync<T>(this IConfiguration cp, string name)
         {
             return (await cp.ReadAsync(name)).ParseJSON<T>();
+        }
+
+        public static T ReadAs<T>(this IConfiguration cp, string name)
+        {
+            return cp.Read(name).ParseJSON<T>();
         }
     }
 }

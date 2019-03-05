@@ -28,10 +28,10 @@ namespace HandSchool.JLU.Services
         
         static readonly string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
 
-        private IConfigureProvider Configure { get; }
+        private IConfiguration Configure { get; }
         private ISchoolSystem Connection { get; }
 
-        public UimsSchedule(IConfigureProvider configure, ISchoolSystem connection)
+        public UimsSchedule(IConfiguration configure, ISchoolSystem connection)
         {
             Configure = configure;
             Connection = connection;

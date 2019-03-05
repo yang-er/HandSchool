@@ -34,10 +34,10 @@ namespace HandSchool.JLU.Services
         /// </summary>
         public int RowLimit { get; set; } = 25;
 
-        private IConfigureProvider Configure { get; }
+        private IConfiguration Configure { get; }
         private ISchoolSystem Connection { get; }
         
-        public UimsGrade(IConfigureProvider configure, ISchoolSystem connection)
+        public UimsGrade(IConfiguration configure, ISchoolSystem connection)
         {
             Configure = configure;
             Connection = connection;
