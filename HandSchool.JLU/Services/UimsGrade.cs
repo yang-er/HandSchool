@@ -1,4 +1,5 @@
-﻿using HandSchool.Design;
+﻿using System;
+using HandSchool.Design;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
@@ -35,12 +36,13 @@ namespace HandSchool.JLU.Services
         public int RowLimit { get; set; } = 25;
 
         private IConfiguration Configure { get; }
-        private ISchoolSystem Connection { get; }
-        
-        public UimsGrade(IConfiguration configure, ISchoolSystem connection)
+        private readonly Lazy<ISchoolSystem> lazyConnection;
+        private ISchoolSystem Connection => lazyConnection.Value;
+
+        public UimsGrade(IConfiguration configure, Lazy<ISchoolSystem> connection)
         {
             Configure = configure;
-            Connection = connection;
+            lazyConnection = connection;
         }
         
         static IEnumerable<InsideGradeItem> ParseAsv(string lastRead)

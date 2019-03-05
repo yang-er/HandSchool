@@ -48,16 +48,14 @@ namespace HandSchool.ViewModels
             LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
             Service = service;
             Logger = logger;
-            Logger.Info(nameof(GradePointViewModel) + " was obtained.");
-
-            Task.Run(PreLoadAsync);
+            Logger.Info("Instance was obtained.");
         }
 
         /// <summary>
         /// 启动后预加载数据。
         /// </summary>
         /// <returns></returns>
-        private async Task PreLoadAsync()
+        public async Task LoadCacheAsync()
         {
             await Task.Yield();
 

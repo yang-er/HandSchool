@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System;
+using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.Models;
@@ -17,11 +18,12 @@ namespace HandSchool.JLU.Services
         const string messageReadUrl = "siteMessages/read-message.do";
         const string messageDeleteUrl = "siteMessages/delete-recv-message.do";
 
-        private ISchoolSystem Connection { get; }
+        private readonly Lazy<ISchoolSystem> lazyConnection;
+        private ISchoolSystem Connection => lazyConnection.Value;
 
-        public UimsMessage(ISchoolSystem connection)
+        public UimsMessage(Lazy<ISchoolSystem> connection)
         {
-            Connection = connection;
+            lazyConnection = connection;
         }
         
         public async Task<IEnumerable<IMessageItem>> ExecuteAsync()

@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System.Collections.Generic;
+using HandSchool.Internals;
 using System.Linq;
 using System.Reflection;
 
@@ -72,13 +73,13 @@ namespace HandSchool.Models
         /// <param name="header">组标题</param>
         /// <param name="obj">具体对象</param>
         /// <returns>设置集合</returns>
-        public static HeadedList<SettingWrapper> From(string header, object obj)
+        public static IEnumerable<SettingWrapper> From(object obj)
         {
             var type = obj.GetType();
             var props = type.GetProperties(BindingFlags.Public);
             var voids = type.GetMethods(BindingFlags.Public);
 
-            return new HeadedList<SettingWrapper>(header, (
+            return (
                 from prop in props
                 where prop.Has<SettingsAttribute>()
                 select new SettingWrapper(obj, prop)
@@ -86,7 +87,7 @@ namespace HandSchool.Models
                 from @void in voids
                 where @void.Has<SettingsAttribute>()
                 select new SettingWrapper(obj, @void)
-            ));
+            );
         }
 
         /// <summary>
@@ -94,13 +95,13 @@ namespace HandSchool.Models
         /// </summary>
         /// <param name="header">组标题</param>
         /// <returns>设置集合</returns>
-        public static HeadedList<SettingWrapper> From<T>(string header)
+        public static IEnumerable<SettingWrapper> From<T>()
         {
             var type = typeof(T);
             var props = type.GetProperties(BindingFlags.Static);
             var voids = type.GetMethods(BindingFlags.Static);
 
-            return new HeadedList<SettingWrapper>(header, (
+            return (
                 from prop in props
                 where prop.Has<SettingsAttribute>()
                 select new SettingWrapper(null, prop)
@@ -108,7 +109,7 @@ namespace HandSchool.Models
                 from @void in voids
                 where @void.Has<SettingsAttribute>()
                 select new SettingWrapper(null, @void)
-            ));
+            );
         }
 
         /// <summary>

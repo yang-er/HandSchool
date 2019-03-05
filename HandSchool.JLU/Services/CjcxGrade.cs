@@ -1,4 +1,5 @@
-﻿using HandSchool.Design;
+﻿using System;
+using HandSchool.Design;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
@@ -23,12 +24,13 @@ namespace HandSchool.JLU.Services
         const string postValue = "{\"tag\":\"lessonSelectResult@oldStudScore\",\"params\":{\"xh\":\"00000000\"}}";
         
         private IConfiguration Configure { get; }
-        private ISchoolSystem Connection { get; }
+        private readonly Lazy<ISchoolSystem> lazyConnection;
+        private ISchoolSystem Connection => lazyConnection.Value;
 
-        public CjcxGrade(IConfiguration configure, ISchoolSystem connection)
+        public CjcxGrade(IConfiguration configure, Lazy<ISchoolSystem> connection)
         {
             Configure = configure;
-            Connection = connection;
+            lazyConnection = connection;
         }
         
         static IEnumerable<CJCXGradeItem> ParseCjcx(CJCXCJ roAsv)

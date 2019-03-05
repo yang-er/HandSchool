@@ -16,12 +16,12 @@ namespace HandSchool.JLU.ViewModels
     internal class YktViewModel : BaseViewModel
     {
         private bool IsFirstOpen { get; set; }
-        private SchoolCard Service { get; }
+        private YktService Service { get; }
 
         /// <summary>
         /// 建立校园一卡通的视图模型，加载命令。
         /// </summary>
-        private YktViewModel(SchoolCard service)
+        private YktViewModel(YktService service)
         {
             Service = service;
 

@@ -1,70 +1,96 @@
-﻿using HandSchool.Design;
-using Autofac;
+﻿using Autofac;
+using HandSchool.Design;
+using HandSchool.Internals;
+using HandSchool.JLU.Models;
+using HandSchool.JLU.Services;
+using HandSchool.JLU.ViewModels;
 using HandSchool.Services;
 using HandSchool.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using HandSchool.JLU.Services;
-using HandSchool.JLU.Models;
-using HandSchool.Internals;
-using HandSchool.JLU.ViewModels;
 using System.Threading.Tasks;
+using HandSchool.JLU;
+using HandSchool.Models;
 
+[assembly: RegisterService(typeof(JluLoader))]
 namespace HandSchool.JLU
 {
     [UseStorage("JLU", configFile)]
-    public class JluLoader : SchoolWrapper
+    public class JluLoader : SchoolBuilder
     {
         const string configFile = "jlu.config.json";
 
-        internal SettingsJson Settings { get; }
+        internal SettingsJson InternalSettings { get; }
 
         public JluLoader(ILogger<JluLoader> logger, IConfiguration config)
             : base("吉林大学", "JLU", logger, config, 11)
         {
-            Settings = Configure.ReadAs<SettingsJson>(configFile);
+            InternalSettings = Configure.ReadAs<SettingsJson>(configFile);
         }
-
+        
         public override void Startup()
         {
             base.Startup();
 
             // 注册校园服务类
-            this.RegisterType<YktService>();
-            this.RegisterType<YktViewModel>();
+            this.RegisterType<YktService>()
+                .InstancePerLifetimeScope();
+            this.RegisterType<YktViewModel>()
+                .InstancePerLifetimeScope();
 
-            this.RegisterType<OA>().As<IFeedEntrance>();
-            this.RegisterType<FeedViewModel>();
+            this.RegisterType<OA>()
+                .As<IFeedEntrance>()
+                .InstancePerLifetimeScope();
+            this.RegisterType<FeedViewModel>()
+                .InstancePerLifetimeScope();
 
             // 注册校内外对应的服务类
             if (Settings.OutsideSchool)
             {
-                this.RegisterType<CjcxSchool>().As<ISchoolSystem>();
+                this.RegisterType<CjcxSchool>()
+                    .As<ISchoolSystem>()
+                    .InstancePerLifetimeScope();
 
-                this.RegisterType<CjcxGrade>().As<IGradeEntrance>();
-                this.RegisterType<GradePointViewModel>();
+                this.RegisterType<CjcxGrade>()
+                    .As<IGradeEntrance>()
+                    .InstancePerLifetimeScope();
+                this.RegisterType<GradePointViewModel>()
+                    .InstancePerLifetimeScope();
             }
             else
             {
-                this.RegisterType<UimsSchool>().As<ISchoolSystem>();
+                this.RegisterType<UimsSchool>()
+                    .As<ISchoolSystem>()
+                    .InstancePerLifetimeScope();
 
-                this.RegisterType<UimsGrade>().As<IGradeEntrance>();
-                this.RegisterType<GradePointViewModel>();
+                this.RegisterType<UimsGrade>()
+                    .As<IGradeEntrance>()
+                    .InstancePerLifetimeScope();
+                this.RegisterType<GradePointViewModel>()
+                    .InstancePerLifetimeScope();
 
-                this.RegisterType<UimsMessage>().As<IMessageEntrance>();
-                this.RegisterType<MessageViewModel>();
+                this.RegisterType<UimsMessage>()
+                    .As<IMessageEntrance>()
+                    .InstancePerLifetimeScope();
+                this.RegisterType<MessageViewModel>()
+                    .InstancePerLifetimeScope();
 
-                this.RegisterType<UimsSchedule>().As<IScheduleEntrance>();
-                this.RegisterType<ScheduleViewModel>();
+                this.RegisterType<UimsSchedule>()
+                    .As<IScheduleEntrance>()
+                    .InstancePerLifetimeScope();
+                this.RegisterType<ScheduleViewModel>()
+                    .InstancePerLifetimeScope();
             }
+        }
+
+        protected override HeadedList<SettingWrapper> EnumerateSettings()
+        {
+            var list = base.EnumerateSettings();
+            list.AddRange(SettingWrapper.From(Resolve<ISchoolSystem>()));
+            return list;
         }
 
         public override async Task LoadDataAsync()
         {
             await base.LoadDataAsync();
-            
         }
     }
 }

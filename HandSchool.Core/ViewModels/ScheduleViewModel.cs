@@ -22,21 +22,25 @@ namespace HandSchool.ViewModels
         
         private IConfiguration Configure { get; }
         private IScheduleEntrance Service { get; }
+        private readonly Func<ICurriculumPage> pageFactory;
 
         /// <summary>
         /// 将当前周、增删改查等操作加载。
         /// </summary>
-        public ScheduleViewModel(IScheduleEntrance service, IConfiguration configure, ILogger<ScheduleViewModel> logger)
+        public ScheduleViewModel(IScheduleEntrance service, IConfiguration configure, ILogger<ScheduleViewModel> logger, Func<ICurriculumPage> cpFactory)
         {
             Service = service;
             Configure = configure;
             Logger = logger;
+            pageFactory = cpFactory;
 
             Title = "课程表";
             RefreshCommand = new CommandAction(Refresh);
             AddCommand = new CommandAction(Create);
             ChangeWeekCommand = new CommandAction(ChangeWeek);
 
+
+            // TODO
             MessagingCenter.Subscribe<object, LoginStateEventArgs>(this, Core.LoginStateChangedSignal, SyncData);
 
             Core.App.LoginStateChanged += SyncData;
@@ -143,7 +147,7 @@ namespace HandSchool.ViewModels
                 CourseID = "CUSTOM-" + DateTime.Now.ToString("s")
             };
 
-            var page = Core.New<ICurriculumPage>();
+            var page = pageFactory();
             page.SetNavigationArguments(item, true);
 
             if (await page.ShowAsync())

@@ -43,7 +43,6 @@ namespace HandSchool.ViewModels
 
             Service = service;
             Logger = logger;
-            Task.Run(LoadCacheAsync);
         }
 
         /// <summary>
@@ -78,9 +77,8 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 从缓存中加载数据。如果不存在，那么更新数据。
         /// </summary>
-        private async Task LoadCacheAsync()
+        public async Task LoadCacheAsync()
         {
-            await Task.Yield();
             var items = await Service.FromCacheAsync();
             if (items == null) await LoadItems(true);
             else AddRange(items);
