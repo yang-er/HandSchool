@@ -29,12 +29,13 @@ namespace HandSchool.JLU.Services
         static readonly string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
 
         private IConfiguration Configure { get; }
-        private ISchoolSystem Connection { get; }
+        private readonly Lazy<ISchoolSystem> lazyConnection;
+        private ISchoolSystem Connection => lazyConnection.Value;
 
-        public UimsSchedule(IConfiguration configure, ISchoolSystem connection)
+        public UimsSchedule(IConfiguration configure, Lazy<ISchoolSystem> connection)
         {
             Configure = configure;
-            Connection = connection;
+            lazyConnection = connection;
         }
 
         public async Task<IEnumerable<CurriculumItem>> ExecuteAsync()
