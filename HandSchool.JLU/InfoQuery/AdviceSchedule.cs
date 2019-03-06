@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System;
+using HandSchool.Internals;
 using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Services;
@@ -15,6 +16,14 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "学生班级推荐课表", "可以来看看下学期的课表啦~", EntranceType.InfoEntrance)]
     internal class AdviceSchedule : BaseController, IInfoEntrance
     {
+        /// <summary>
+        /// 使用的Bootstrap文档
+        /// </summary>
+        public Bootstrap HtmlDocument { get; set; }
+
+        private readonly Lazy<ISchoolSystem> lazyService;
+        private ISchoolSystem Service => lazyService.Value;
+
         private int teachTermId = -1;
         private RootObject<TeachingTerm> termList;
         private RootObject<ScheduleValue> scheduleList;
@@ -24,8 +33,10 @@ namespace HandSchool.JLU.InfoQuery
         public string QueryTerms => "{\"tag\":\"search@teachingTerm\",\"branch\":\"default\",\"params\":{}}";
         public string QuerySchedule => $"{{\"tag\":\"tcmAdcAdvice@dep_recommandT\",\"branch\":\"byAdc\",\"params\":{{\"termId\":{teachTermId},\"adcId\":`adcId`}}}}";
 
-        public AdviceSchedule()
+        public AdviceSchedule(Lazy<ISchoolSystem> service)
         {
+            lazyService = service;
+
             var term = new Select("termId")
             {
                 { "-1", "加载中……" }
@@ -40,7 +51,7 @@ namespace HandSchool.JLU.InfoQuery
             foreach (var classes in numList)
                 sb.Append($"<tr><th class=\"left\">第{classes}节</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
             sb.Append("</tbody></table></div>");
-            var orig_table = sb.ToRawHtml();
+            var origTable = sb.ToRawHtml();
             
             HtmlDocument = new Bootstrap
             {
@@ -50,7 +61,7 @@ namespace HandSchool.JLU.InfoQuery
                     {
                         term.WrapFormGroup()
                     }) {
-                        orig_table
+                        origTable
                     }
                 },
                 JavaScript =
@@ -67,9 +78,7 @@ namespace HandSchool.JLU.InfoQuery
                 Command = new CommandAction(() => Evaluate?.Invoke("invokeCSharpAction('show='+$('#termId').val())"))
             });
         }
-
-        public Bootstrap HtmlDocument { get; set; }
-
+        
         private string GetCss()
         {
             return ".curriculumTable th{border:1px solid #000;text-align:center;}" +
@@ -114,9 +123,9 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUri, QueryTerms);
-                LastReport = LastReport.Replace("Date\":null", "Date2\":null");
-                termList = LastReport.ParseJSON<RootObject<TeachingTerm>>();
+                var lastReport = await Service.Post(ScriptFileUri, QueryTerms);
+                lastReport = lastReport.Replace("Date\":null", "Date2\":null");
+                termList = lastReport.ParseJSON<RootObject<TeachingTerm>>();
                 var sb = new StringBuilder();
                 bool selected = true;
 
@@ -147,8 +156,8 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUri, QuerySchedule);
-                scheduleList = LastReport.ParseJSON<RootObject<ScheduleValue>>();
+                var lastReport = await Service.Post(ScriptFileUri, QuerySchedule);
+                scheduleList = lastReport.ParseJSON<RootObject<ScheduleValue>>();
             }
             catch (JsonException)
             {
@@ -166,7 +175,7 @@ namespace HandSchool.JLU.InfoQuery
         {
             await SolveClassDetail();
             var vm = new TemplateScheduleViewModel("学生班级推荐课表");
-            vm.Items = Schedule.ParseEnumer(scheduleList.value);
+            vm.Items = UimsSchedule.ParseEnumerable(scheduleList.value);
             vm.RenderWeek(0, out var currList);
 
             var strTable = new string[7, 11];

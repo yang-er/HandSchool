@@ -28,7 +28,19 @@ namespace HandSchool.Models
         public static InfoEntranceWrapper From<T>()
             where T : IWebEntrance, new()
         {
-            return new InfoEntranceWrapper(typeof(T), () => new T());
+            return From(() => new T());
+        }
+
+        /// <summary>
+        /// 从 <typeparamref name="T"/> 创建一个入口点包装。
+        /// </summary>
+        /// <typeparam name="T">入口点类型</typeparam>
+        /// <param name="factory">对象工厂</param>
+        /// <returns>创建好的入口点包装</returns>
+        public static InfoEntranceWrapper From<T>(Func<T> factory)
+            where T : IWebEntrance
+        {
+            return new InfoEntranceWrapper(typeof(T), () => factory());
         }
 
         /// <summary>

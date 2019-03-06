@@ -1,8 +1,9 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace HandSchool.JLU.InfoQuery
@@ -15,12 +16,10 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "图书馆藏查询", "查一查想要的书在图书馆的位置吧~", EntranceType.UrlEntrance)]
     internal class LibrarySearch : BaseController, IUrlEntrance
     {
-        const string OriginalUrl = "https://lib.jlu.xylab.fun/" +
+        const string originalUrl = "https://lib.jlu.xylab.fun/" +
             "sms/opac/search/showiphoneSearch.action";
 
         public string HtmlUrl { get; set; }
-        public byte[] OpenWithPost => null;
-        public List<string> Cookie => null;
 
         public IUrlEntrance SubUrlRequested(string sub)
         {
@@ -29,19 +28,24 @@ namespace HandSchool.JLU.InfoQuery
 
         public override Task Receive(string data)
         {
-            this.WriteLog("Accidently received message <<<EOF\n" + data + "\nEOF;");
+            Logger.Warn("Accidently received message <<<EOF\n" + data + "\nEOF;");
             return Task.CompletedTask;
         }
 
+        private readonly Func<LibraryRent> libraryRentFactory;
+
         private async Task RentInfoAsync()
         {
-            var rent = await LibraryRent.RequestRentInfo();
-            if (rent == null) return;
-            else SendSubEntrance(rent);
+            var rentSite = libraryRentFactory();
+            if (!await rentSite.RequestLogin()) return;
+            SendSubEntrance(new LibrarySearch(rentSite.GetLibraryRent()));
         }
 
-        public LibrarySearch() : this(OriginalUrl)
+        public LibrarySearch(ILogger<LibrarySearch> logger, Func<LibraryRent> factory) : this(originalUrl)
         {
+            Logger = logger;
+            libraryRentFactory = factory;
+
             Menu.Add(new HandSchool.Views.MenuEntry
             {
                 Title = "我的借阅",
@@ -50,7 +54,7 @@ namespace HandSchool.JLU.InfoQuery
             });
         }
 
-        public LibrarySearch(string subUrl)
+        private LibrarySearch(string subUrl)
         {
             HtmlUrl = subUrl;
         }

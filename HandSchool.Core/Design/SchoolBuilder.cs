@@ -101,9 +101,6 @@ namespace HandSchool.Design
             this.RegisterGeneric(typeof(NestedLogger<>))
                 .As(typeof(ILogger<>))
                 .OnActivated(e => ((ILogger)e.Instance).Info("instance created."));
-
-            this.Register(c => new Internals.HttpClientImpl())
-                .As<Internals.IWebClient>();
         }
 
         /// <summary>
@@ -124,9 +121,13 @@ namespace HandSchool.Design
             {
                 await Task.Yield();
                 await Task.Run(() => Resolve<ISchoolSystem>());
-                await Resolve<FeedViewModel>().LoadCacheAsync();
-                await Resolve<GradePointViewModel>().LoadCacheAsync();
-                await Task.Run(() => Resolve<ScheduleViewModel>().FindItem(p => true));
+
+                if (Container.TryResolve<FeedViewModel>(out var feedViewModel))
+                    await feedViewModel.LoadCacheAsync();
+                if (Container.TryResolve<GradePointViewModel>(out var gradePointViewModel))
+                    await gradePointViewModel.LoadCacheAsync();
+                if (Container.TryResolve<ScheduleViewModel>(out var scheduleViewModel))
+                    await Task.Run(() => scheduleViewModel.FindItem(p => true));
             }
             catch (Exception ex)
             {
@@ -147,6 +148,15 @@ namespace HandSchool.Design
         protected virtual HeadedList<SettingWrapper> EnumerateSettings()
         {
             return new HeadedList<SettingWrapper>("学校设置");
+        }
+
+        /// <summary>
+        /// 列举所有的信息查询。
+        /// </summary>
+        /// <returns></returns>
+        public virtual HeadedObservableCollection<InfoEntranceWrapper> EnumerateInfoQuery()
+        {
+            return new HeadedObservableCollection<InfoEntranceWrapper>("信息查询");
         }
 
         /// <summary>
@@ -182,6 +192,14 @@ namespace HandSchool.Design
         public void Dispose()
         {
             Container?.Dispose();
+        }
+    }
+
+    public static class SchoolBuilderExtensions
+    {
+        public static void AddType<T>(this HeadedObservableCollection<InfoEntranceWrapper> iew, Func<T> factory) where T : IWebEntrance
+        {
+            iew.Add(InfoEntranceWrapper.From(factory));
         }
     }
 }

@@ -3,6 +3,7 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HandSchool.Design;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -16,7 +17,7 @@ namespace HandSchool.JLU.InfoQuery
         
         public override async Task Receive(string data)
         {
-            this.WriteLog("Unexpected value received <<<EOF\n" + data + "\nEOF;");
+            Logger.Warn("Unexpected value received <<<EOF\n" + data + "\nEOF;");
             await Task.CompletedTask;
         }
 

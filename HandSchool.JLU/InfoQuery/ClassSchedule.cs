@@ -4,12 +4,12 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -21,7 +21,13 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "学院开课情况查询", "看看可以去蹭哪些课吧~", EntranceType.InfoEntrance)]
     internal class ClassSchedule : BaseController, IInfoEntrance
     {
+        /// <summary>
+        /// 使用的Bootstrap文档
+        /// </summary>
         public Bootstrap HtmlDocument { get; set; }
+
+        private readonly Lazy<ISchoolSystem> lazyService;
+        private ISchoolSystem Service => lazyService.Value;
 
         private int termId = 136;
         private int schId = 101;
@@ -32,8 +38,10 @@ namespace HandSchool.JLU.InfoQuery
         string PostValue => $"{{\"tag\":\"lesson@globalStore\",\"branch\":\"default\",\"params\":{{\"termId\":{termId},\"schId\":\"{schId}\"{(tcmType == -1 ? "" : ",\"tcmType\":\""+ tcmType +"\"")}}},\"orderBy\":\"courseInfo.courName, extLessonNo\"}}";
         string PostDetail => $"{{\"tag\":\"teachClassMaster@selectResultAdjust\",\"branch\":\"byLesson\",\"params\":{{\"lessonId\":\"{lessonId}\"}}}}";
 
-        public ClassSchedule()
+        public ClassSchedule(Lazy<ISchoolSystem> service)
         {
+            lazyService = service;
+
             var schIdSelect = new Select
             (
                 "schId",
@@ -113,8 +121,8 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUrl, PostValue);
-                var lists = LastReport.ParseJSON<RootObject<CollegeCourse>>();
+                var lastReport = await Service.Post(ScriptFileUrl, PostValue);
+                var lists = lastReport.ParseJSON<RootObject<CollegeCourse>>();
                 var sb = new StringBuilder();
 
                 foreach (var opt in lists.value)
@@ -138,11 +146,11 @@ namespace HandSchool.JLU.InfoQuery
                 IsBusy = false;
                 await RequestMessageAsync("提示", "加载课程列表失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 IsBusy = false;
-                await this.ShowTimeoutMessage();
+                await RequestMessageAsync("提示", "加载课程列表失败，连接超时，请重试。");
             }
         }
 
@@ -153,8 +161,8 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUrl, PostDetail);
-                var lists = LastReport.ParseJSON<RootObject<LessonIdList>>();
+                var lastReport = await Service.Post(ScriptFileUrl, PostDetail);
+                var lists = lastReport.ParseJSON<RootObject<LessonIdList>>();
                 var sb = new StringBuilder();
 
                 foreach (var opt in lists.value)
@@ -179,11 +187,11 @@ namespace HandSchool.JLU.InfoQuery
                 IsBusy = false;
                 await RequestMessageAsync("提示", "加载教学班列表失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 IsBusy = false;
-                await this.ShowTimeoutMessage();
+                await RequestMessageAsync("提示", "加载教学班列表失败，连接超时，请重试。");
             }
         }
 

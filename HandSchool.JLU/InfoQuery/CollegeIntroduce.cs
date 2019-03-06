@@ -4,8 +4,8 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,13 +19,22 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "学院介绍查询", "查询各个学院的详细信息。", EntranceType.InfoEntrance)]
     internal class CollegeIntroduce : BaseController, IInfoEntrance
     {
-        private int schId = 101;
+        /// <summary>
+        /// 使用的Bootstrap文档
+        /// </summary>
         public Bootstrap HtmlDocument { get; set; }
+
+        private readonly Lazy<ISchoolSystem> lazyService;
+        private ISchoolSystem Service => lazyService.Value;
+
+        private int schId = 101;
         const string serviceResourcesUrl = "service/res.do";
         private string PostValue => $"{{\"tag\":\"school@schoolSearch\",\"branch\":\"byId\",\"params\":{{\"schId\":\"{schId}\"}}}}";
         
-        public CollegeIntroduce()
+        public CollegeIntroduce(Lazy<ISchoolSystem> service)
         {
+            lazyService = service;
+
             var divisionSelect = new Select("division", AlreadyKnownThings.Division)
             {
                 FirstKeyValuePair = new KeyValuePair<string, string>("*", "全部学部"),
@@ -63,8 +72,7 @@ namespace HandSchool.JLU.InfoQuery
             sb.Append("<h4>院系主页</h4><p id=\"website\">学校很懒，什么也没有留下……</p>");
             sb.Append("<h4>院系介绍</h4><p id=\"introduction\">学校很懒，什么也没有留下……</p>");
             var bodyContent = sb.ToRawHtml();
-
-
+            
             HtmlDocument = new Bootstrap
             {
                 Children =
@@ -98,7 +106,7 @@ namespace HandSchool.JLU.InfoQuery
             {
                 if (data == "schId=null")
                 {
-                    await RequestMessageAsync("信息查询", "未指定查询学院。", "知道了");
+                    await RequestMessageAsync("信息查询", "未指定查询学院。");
                     return;
                 }
 
@@ -107,61 +115,62 @@ namespace HandSchool.JLU.InfoQuery
             }
             else
             {
-                await RequestMessageAsync("信息查询", "未定义操作。", "知道了");
+                await RequestMessageAsync("信息查询", "未定义操作。");
                 await RequestMessageAsync("信息查询", "未知响应：" + data);
             }
         }
         
         private static void CreateInfo(StringBuilder jsBuilder, CollegeInfo info)
         {
-            if (info.schoolName == null) info.schoolName = "学校很懒，什么也没有留下……";
+            info.schoolName = info.schoolName ?? "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#schoolName').text('" + info.schoolName + "');");
 
-            if (info.englishName == null) info.englishName = "School is lazy, left nothing...";
+            info.englishName = info.englishName ?? "School is lazy, left nothing...";
             jsBuilder.Append("$('#englishName').text('" + info.englishName + "');");
 
-            if (info.extSchNo == null) info.extSchNo = "??";
+            info.extSchNo = info.extSchNo ?? "??";
             jsBuilder.Append("$('#extSchNo').text('" + info.extSchNo + "');");
 
-            if (info.campus == null) info.campus = "未知";
-            else info.campus = AlreadyKnownThings.Campus[info.campus];
+            info.campus = info.campus == null ? "未知" : AlreadyKnownThings.Campus[info.campus];
             jsBuilder.Append("$('#Icampus').text('" + info.campus + "');");
 
-            if (info.division == null) info.division = "未知";
-            else info.division = AlreadyKnownThings.Division[info.division];
+            info.division = info.division == null ? "未知" : AlreadyKnownThings.Division[info.division];
             jsBuilder.Append("$('#Idivision').text('" + info.division + "');");
 
-            if (info.staff == null) info.staff = new Staff { name = "未设置" };
+            info.staff = info.staff ?? new Staff { name = "未设置" };
             jsBuilder.Append("$('#staff').text('" + info.staff.name + "');");
 
-            if (info.telephone == null) info.telephone = "学校很懒，什么也没有留下……";
+            info.telephone = info.telephone ?? "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#telephone').text('" + info.telephone + "');");
 
-            if (info.website == null) info.website = "学校很懒，什么也没有留下……";
+            info.website = info.website ?? "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#website').text('" + info.website + "');");
 
-            if (info.introduction == null) info.introduction = "学校很懒，什么也没有留下……";
+            info.introduction = info.introduction ?? "学校很懒，什么也没有留下……";
             jsBuilder.Append("$('#introduction').text('" + info.introduction + "');");
         }
 
         private async Task Execute()
         {
-            if (IsBusy) return; IsBusy = true;
+            if (IsBusy) return;
+            IsBusy = true;
 
             try
             {
-                var LastReport = await Core.App.Service.Post(serviceResourcesUrl, PostValue);
-                IsBusy = false;
-                var obj = LastReport.ParseJSON<RootObject<CollegeInfo>>();
+                var lastReport = await Service.Post(serviceResourcesUrl, PostValue);
+                var obj = lastReport.ParseJSON<RootObject<CollegeInfo>>();
                 var jsBuilder = new StringBuilder();
                 CreateInfo(jsBuilder, obj.value[0]);
                 Evaluate?.Invoke(jsBuilder.ToString());
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
+                await RequestMessageAsync("提示", "加载失败，连接超时，请重试。");
+            }
+            finally
+            {
                 IsBusy = false;
-                await this.ShowTimeoutMessage();
             }
         }
     }

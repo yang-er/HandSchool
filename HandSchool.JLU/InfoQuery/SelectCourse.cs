@@ -1,7 +1,9 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Internals.HtmlObject;
 using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.ViewModels;
+using System;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -21,7 +23,7 @@ namespace HandSchool.JLU.InfoQuery
             base.HandlePostReturnValue(ops, ref ret);
         }
 
-        public SelectCourse()
+        public SelectCourse(Lazy<ISchoolSystem> service) : base(service)
         {
             var currentSplanName = new FirstPara("目前选课：<span id=\"splanName\">未知</span>");
 
@@ -42,7 +44,7 @@ namespace HandSchool.JLU.InfoQuery
             HtmlDocument = new Bootstrap
             {
                 Children = { currentSplanName, courList, schList },
-                JavaScript = { HotfixAttribute.ReadContent(this) }
+                JavaScript = { GetContent() }
             };
         }
     }
