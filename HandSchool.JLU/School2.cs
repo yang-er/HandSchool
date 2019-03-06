@@ -9,6 +9,7 @@ using HandSchool.ViewModels;
 using System.Threading.Tasks;
 using HandSchool.JLU;
 using HandSchool.Models;
+using HandSchool.JLU.InfoQuery;
 
 [assembly: RegisterService(typeof(JluLoader))]
 namespace HandSchool.JLU
@@ -42,8 +43,12 @@ namespace HandSchool.JLU
             this.RegisterType<FeedViewModel>()
                 .InstancePerLifetimeScope();
 
+            this.RegisterType<LibrarySearch>();
+            this.RegisterType<LibraryRent>();
+            // this.RegisterType<LibraryZwyy>();
+
             // 注册校内外对应的服务类
-            if (Settings.OutsideSchool)
+            if (InternalSettings.OutsideSchool)
             {
                 this.RegisterType<CjcxSchool>()
                     .As<ISchoolSystem>()
@@ -54,6 +59,8 @@ namespace HandSchool.JLU
                     .InstancePerLifetimeScope();
                 this.RegisterType<GradePointViewModel>()
                     .InstancePerLifetimeScope();
+
+                this.RegisterType<LibrarySearch>();
             }
             else
             {
@@ -78,6 +85,14 @@ namespace HandSchool.JLU
                     .InstancePerLifetimeScope();
                 this.RegisterType<ScheduleViewModel>()
                     .InstancePerLifetimeScope();
+
+                this.RegisterType<EmptyRoom>();
+                this.RegisterType<TeachEvaluate>();
+                this.RegisterType<CollegeIntroduce>();
+                this.RegisterType<ProgramMaster>();
+                this.RegisterType<ClassSchedule>();
+                this.RegisterType<SelectCourse>();
+                this.RegisterType<AdviceSchedule>();
             }
         }
 
@@ -88,9 +103,23 @@ namespace HandSchool.JLU
             return list;
         }
 
-        public override async Task LoadDataAsync()
+        public override HeadedObservableCollection<InfoEntranceWrapper> EnumerateInfoQuery()
         {
-            await base.LoadDataAsync();
+            var collection = base.EnumerateInfoQuery();
+            collection.AddType(Resolve<LibrarySearch>);
+
+            if (!InternalSettings.OutsideSchool)
+            {
+                collection.AddType(Resolve<EmptyRoom>);
+                collection.AddType(Resolve<TeachEvaluate>);
+                collection.AddType(Resolve<CollegeIntroduce>);
+                collection.AddType(Resolve<ProgramMaster>);
+                collection.AddType(Resolve<ClassSchedule>);
+                collection.AddType(Resolve<SelectCourse>);
+                collection.AddType(Resolve<AdviceSchedule>);
+            }
+
+            return collection;
         }
     }
 }

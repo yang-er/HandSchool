@@ -1,4 +1,5 @@
-﻿using HandSchool.Design;
+﻿using System;
+using HandSchool.Design;
 using HandSchool.Internals;
 using HandSchool.Internals.HtmlObject;
 using HandSchool.Services;
@@ -30,20 +31,22 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="IInfoEntrance" />
     public abstract class HotfixController : BaseController, IInfoEntrance
     {
-        protected HotfixController(ISchoolSystem schoolSystem)
+        private readonly Lazy<ISchoolSystem> lazyService;
+
+        protected HotfixController(Lazy<ISchoolSystem> schoolSystem)
         {
-            Service = schoolSystem;
+            lazyService = schoolSystem;
         }
 
         /// <summary>
         /// 使用的Bootstrap文档
         /// </summary>
         public Bootstrap HtmlDocument { get; set; }
-        
+
         /// <summary>
         /// 教务系统服务
         /// </summary>
-        protected ISchoolSystem Service { get; }
+        protected ISchoolSystem Service => lazyService.Value;
 
         /// <summary>
         /// JavaScript 发送的内容的接收函数。
@@ -104,7 +107,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 读取热更新的脚本内容。
         /// </summary>
-        public virtual string GetContent()
+        public string GetContent()
         {
             return HotfixAttribute.ReadContent(this) ?? "invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')";
         }

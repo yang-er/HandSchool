@@ -4,11 +4,12 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JsonException = Newtonsoft.Json.JsonException;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -20,7 +21,14 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "专业培养计划", "看看我们要学什么，提前预习偷偷补课。", EntranceType.InfoEntrance)]
     internal class ProgramMaster : BaseController, IInfoEntrance
     {
+        /// <summary>
+        /// 使用的Bootstrap文档
+        /// </summary>
         public Bootstrap HtmlDocument { get; set; }
+
+        private readonly Lazy<ISchoolSystem> lazyService;
+        private ISchoolSystem Service => lazyService.Value;
+
         public int[] Batches = { 2009, 2013, 2018 };
 
         private int batch = 2013;
@@ -31,8 +39,10 @@ namespace HandSchool.JLU.InfoQuery
         public string PostValue => $"{{\"tag\":\"programDetail@common\",\"branch\":\"default\",\"params\":{{\"progId\":\"{progId}\"}},\"orderBy\":\" advGrade, termSeq, courseInfo.extCourseNo\"}}";
         public string PostList => $"{{\"type\":\"search\",\"branch\":\"default\",\"params\":{{\"schId\":\"{schId}\",\"active\":\"Y\",\"batch\":\"{batch}\"}},\"tag\":\"programMaster@programsQuery\"}}";
 
-        public ProgramMaster()
+        public ProgramMaster(Lazy<ISchoolSystem> service)
         {
+            lazyService = service;
+
             var schIdSelect = new Select
             (
                 "schId",
@@ -110,8 +120,8 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostList);
-                var lists = LastReport.ParseJSON<RootObject<ProgItem>>();
+                var lastReport = await Service.Post(ScriptFileUri, PostList);
+                var lists = lastReport.ParseJSON<RootObject<ProgItem>>();
                 var sb = new StringBuilder();
                 sb.Append("<option value=\"-1\" selected>请选择</option>");
 
@@ -152,8 +162,8 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(ScriptFileUri, PostValue);
-                var lists = LastReport.ParseJSON<RootObject<ProgTerm>>();
+                var lastReport = await Service.Post(ScriptFileUri, PostValue);
+                var lists = lastReport.ParseJSON<RootObject<ProgTerm>>();
                 var sb = new StringBuilder();
 
                 foreach (var opt in lists.value)

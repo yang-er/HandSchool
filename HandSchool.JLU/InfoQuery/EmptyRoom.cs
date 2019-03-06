@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System;
+using HandSchool.Internals;
 using HandSchool.Internals.HtmlObject;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
@@ -13,7 +14,13 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "查空教室", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
     internal class EmptyRoom : BaseController, IInfoEntrance
     {
+        /// <summary>
+        /// 使用的Bootstrap文档
+        /// </summary>
         public Bootstrap HtmlDocument { get; set; }
+
+        private readonly Lazy<ISchoolSystem> lazyService;
+        private ISchoolSystem Service => lazyService.Value;
 
         const string serviceResourceUrl = "service/res.do";
         private string Cs = "";
@@ -22,8 +29,10 @@ namespace HandSchool.JLU.InfoQuery
 
         private string PostValue => $"{{\"tag\":\"roomIdle@roomUsage\",\"branch\":\"default\",\"params\":{{\"termId\":`term`,\"bid\":\"{Bid}\",\"rname\":\"\",\"dateActual\":{{}},\"cs\":{Cs},\"d_actual\":\"{Today}T00:00:00+08:00\"}}}}";
         
-        public EmptyRoom()
+        public EmptyRoom(Lazy<ISchoolSystem> service)
         {
+            lazyService = service;
+
             var campusSelect = new Select("campus", AlreadyKnownThings.Campus)
             {
                 OnChanged = "getList()"
@@ -101,8 +110,8 @@ namespace HandSchool.JLU.InfoQuery
 
             try
             {
-                var LastReport = await Core.App.Service.Post(serviceResourceUrl, PostValue);
-                Evaluate($"callback({LastReport})");
+                var lastReport = await Service.Post(serviceResourceUrl, PostValue);
+                Evaluate?.Invoke($"callback({lastReport})");
             }
             catch (WebsException ex)
             {
@@ -116,7 +125,7 @@ namespace HandSchool.JLU.InfoQuery
         {
             if(!data.StartsWith("time"))
             {
-                await RequestMessageAsync("查空教室", "请选择合法数据！", "知道了");
+                await RequestMessageAsync("查空教室", "请选择合法数据！");
             }
             else
             {

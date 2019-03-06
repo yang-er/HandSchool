@@ -1,8 +1,10 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Internals.HtmlObject;
 using HandSchool.Models;
+using HandSchool.Services;
 using HandSchool.ViewModels;
 using HandSchool.Views;
+using System;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -20,7 +22,7 @@ namespace HandSchool.JLU.InfoQuery
             base.HandlePostReturnValue(ops, ref ret);
         }
 
-        public TeachEvaluate()
+        public TeachEvaluate(Lazy<ISchoolSystem> service) : base(service)
         {
             var usageDescription = new FirstPara("本功能可以帮助你完成评教。" +
                 "蓝色代表可以评价，黄色代表需要手动登录网页评价，绿色代表评价完成。");
@@ -35,7 +37,7 @@ namespace HandSchool.JLU.InfoQuery
                 {
                     $"var list = []; var i = 0, len = 0; " +
                     $"var uwp = {(Core.Platform.RuntimeName == "UWP" ? "true" : "false")};",
-                    HotfixAttribute.ReadContent(this)
+                    GetContent()
                 }
             };
 
