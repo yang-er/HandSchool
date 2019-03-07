@@ -48,12 +48,21 @@ namespace HandSchool.JLU
                 studName = LoginInfo.nickName;
                 adcId = LoginInfo.defRes.adcId.ToString();
                 schoolId = LoginInfo.defRes.school.ToString();
-                term = LoginInfo.defRes.teachingTerm.ToString();
+                term = LoginInfo.defRes.teachingTerm == 0 ? "136" : LoginInfo.defRes.teachingTerm.ToString();
             }
 
             private void ParseTermInfo(string resp)
             {
-                var ro = resp.ParseJSON<RootObject<TeachingTerm>>().value[0];
+                var rot = resp.ParseJSON<RootObject<TeachingTerm>>();
+
+                if (rot.value.Length == 0)
+                {
+                    Nick = "接口似乎出了点问题";
+                    UIMS.CurrentWeek = 0;
+                    return;
+                }
+
+                var ro = rot.value[0];
                 if (ro.vacationDate < DateTime.Now)
                 {
                     Nick = ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假");
@@ -72,17 +81,53 @@ namespace HandSchool.JLU
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
                 UIMS.WebClient = Core.New<IWebClient>();
-                UIMS.WebClient.BaseAddress = UIMS.ServerUri;
-                var proxy_server_domain = UIMS.proxy_server.Split(':')[0];
-                UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", proxy_server_domain));
-                UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", proxy_server_domain));
-                UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", proxy_server_domain));
+
+                if (UIMS.QuickMode)
+                {
+                    UIMS.WebClient.BaseAddress = "https://10.60.65.8/ntms/";
+                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "10.60.65.8"));
+                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", "10.60.65.8"));
+                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", "10.60.65.8"));
+                }
+                else if (UIMS.WebClient is HttpClientImpl hci)
+                {
+                    hci.BaseAddress = "https://10.60.65.7/ntms/";
+                    hci.AttachHeader("Host", "uims.jlu.edu.cn");
+                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "10.60.65.7"));
+                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", "10.60.65.7"));
+                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", "10.60.65.7"));
+                }
+                else
+                {
+                    UIMS.WebClient.BaseAddress = "https://uims.jlu.edu.cn/ntms/";
+                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", UIMS.proxy_server));
+                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", UIMS.proxy_server));
+                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", UIMS.proxy_server));
+                }
 
                 // Access Main Page To Create a JSESSIONID
                 try
                 {
+                    UIMS.WebClient.Timeout = 1000;
+
+                    for (int i = 0; i < 15; i++)
+                    {
+                        try
+                        {
+                            await UIMS.WebClient.GetAsync("", "*/*");
+                            break;
+                        }
+                        catch (WebsException)
+                        {
+                            Core.Logger.WriteLine("UIMS", "Timeout #"+i);
+                            // continue;
+                        }
+                    }
+
+                    //UIMS.WebClient.Timeout = 10000;
                     var activateRequest = await UIMS.WebClient.GetAsync("", "*/*");
 
+                    UIMS.WebClient.Timeout = 15000;
                     // Set Login Session
                     var loginData = new KeyValueDict
                     {
@@ -94,21 +139,23 @@ namespace HandSchool.JLU
                     var reqMeta = new WebRequestMeta("j_spring_security_check", WebRequestMeta.All);
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
                     var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
+                    var loc = response.Location.Replace("https://uims.jlu.edu.cn/ntms/", "");
 
-                    if (response.Location == "error/dispatch.jsp?reason=loginError")
+                    if (loc == "error/dispatch.jsp?reason=loginError")
                     {
                         string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
                         UIMS.IsLogin = false;
                         return false;
                     }
-                    else if (response.Location == "index.do")
+                    else if (loc == "index.do")
                     {
                         studId = studName = adcId = schoolId = term = null;
 
                         // Get User Info
                         reqMeta = new WebRequestMeta("action/getCurrentUserInfo.do", WebRequestMeta.Json);
-                        var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "{}", WebRequestMeta.Json);
+                        // reqMeta.SetHeader("Referer", "https://uims.jlu.edu.cn/ntms/index.do");
+                        var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
                         string resp = await webResp2.ReadAsStringAsync();
                         if (resp.StartsWith("<!")) return false;
                         Core.Configure.Write(configUserCache, UIMS.AutoLogin ? resp : "");

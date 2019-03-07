@@ -10,6 +10,7 @@ namespace HandSchool.Internals
         public const string Json = "application/json";
         public const string Plain = "text/plain";
         public const string Xml = "text/xml";
+        public const string Form = "application/x-www-form-urlencoded";
         public const string All = "*/*";
 
         /// <summary>

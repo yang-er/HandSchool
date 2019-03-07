@@ -157,9 +157,9 @@ namespace HandSchool.JLU.InfoQuery
                 CreateInfo(jsBuilder, obj.value[0]);
                 Evaluate?.Invoke(jsBuilder.ToString());
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 IsBusy = false;
                 await this.ShowTimeoutMessage();
             }

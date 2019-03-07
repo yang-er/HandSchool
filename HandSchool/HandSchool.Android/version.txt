@@ -1,1 +1,1 @@
-13 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复了课程表无法保存的问题QAQ
+14 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复了UIMS接口导致的崩溃问题。如果需要快速访问UIMS，请手动在设置里开启。

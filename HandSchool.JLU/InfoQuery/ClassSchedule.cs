@@ -138,9 +138,9 @@ namespace HandSchool.JLU.InfoQuery
                 IsBusy = false;
                 await RequestMessageAsync("提示", "加载课程列表失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 IsBusy = false;
                 await this.ShowTimeoutMessage();
             }
@@ -179,9 +179,9 @@ namespace HandSchool.JLU.InfoQuery
                 IsBusy = false;
                 await RequestMessageAsync("提示", "加载教学班列表失败。");
             }
-            catch (WebException ex)
+            catch (WebsException ex)
             {
-                if (ex.Status != WebExceptionStatus.Timeout) throw;
+                if (ex.Status != WebStatus.Timeout) throw;
                 IsBusy = false;
                 await this.ShowTimeoutMessage();
             }

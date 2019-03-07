@@ -91,11 +91,13 @@ namespace HandSchool.JLU
                 ProxyServer = "10.60.65.8"; // uims.jlu.edu.cn
                 UseHttps = false;
                 OutsideSchool = false;
+                QuickMode = false;
             }
 
             public string ProxyServer { get; set; }
             public bool UseHttps { get; set; }
             public bool OutsideSchool { get; set; }
+            public bool QuickMode { get; set; }
         }
         
         public void SaveSettings(ISchoolSystem uims)
@@ -106,6 +108,7 @@ namespace HandSchool.JLU
                 ProxyServer = service.ProxyServer,
                 UseHttps = service.UseHttps,
                 OutsideSchool = service.OutsideSchool,
+                QuickMode = service.QuickMode,
             };
 
             SaveSettings(save);

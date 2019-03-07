@@ -32,7 +32,7 @@ namespace HandSchool.JLU
         public string FormName => "UIMS教务管理系统";
 
         private string proxy_server;
-        [Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。\n如果在JLU.NET等公用WiFi下访问，建议改为 10.60.65.8。")]
+        //[Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。\n如果在JLU.NET等公用WiFi下访问，建议改为 10.60.65.8。")]
         public string ProxyServer
         {
             get => proxy_server;
@@ -45,15 +45,22 @@ namespace HandSchool.JLU
         }
 
         private bool use_https;
-        [Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。连接成功率更高。")]
+        //[Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。连接成功率更高。")]
         public bool UseHttps
         {
             get => use_https;
             set => SetProperty(ref use_https, value);
         }
 
-        private bool outside_school;
+        private bool quick_mode;
+        [Settings("快速连接模式", "通过10.60.65.8连接UIMS，可能不稳定，随时有接口被封锁的风险，但是快。如果需要抢课等场景，建议提前开启并测试接口是否正常。")]
+        public bool QuickMode
+        {
+            get => quick_mode;
+            set => SetProperty(ref quick_mode, value);
+        }
 
+        private bool outside_school;
         [Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
         public bool OutsideSchool
         {
@@ -122,10 +129,11 @@ namespace HandSchool.JLU
                 LoginStateChanged += injectedHandler;
             }
 
-            ProxyServer = config.ProxyServer;
-            UseHttps = config.UseHttps;
+            ProxyServer = "uims.jlu.edu.cn";
+            UseHttps = true;
             OutsideSchool = config.OutsideSchool;
-            
+            QuickMode = config.QuickMode;
+
             IsLogin = false;
             NeedLogin = false;
             Username = Core.Configure.Read(configUsername);
@@ -170,7 +178,7 @@ namespace HandSchool.JLU
                 var reqMeta = new WebRequestMeta(url, WebRequestMeta.Json);
                 var response = await WebClient.PostAsync(reqMeta, FormatArguments(send), WebRequestMeta.Json);
 
-                if (response.Location == UsingStrategy.TimeoutUrl)
+                if (response.Location.Contains(UsingStrategy.TimeoutUrl))
                 {
                     throw new WebsException("登录超时。", WebStatus.Timeout);
                 }
@@ -196,7 +204,7 @@ namespace HandSchool.JLU
             {
                 var ret = await WebClient.GetAsync(url, WebRequestMeta.Json);
 
-                if (ret.Location == UsingStrategy.TimeoutUrl)
+                if (ret.Location.Contains(UsingStrategy.TimeoutUrl))
                 {
                     throw new WebsException("登录超时。", WebStatus.Timeout);
                 }

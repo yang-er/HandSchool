@@ -33,8 +33,7 @@
     <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidSupportedAbis />
-    <AndroidTlsProvider>
-    </AndroidTlsProvider>
+    <AndroidTlsProvider>legacy</AndroidTlsProvider>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

@@ -50,6 +50,11 @@ namespace HandSchool.Internals
             set => HttpClient.Timeout = new TimeSpan(0, 0, 0, 0, value);
         }
 
+        public void AttachHeader(string key, string value)
+        {
+            HttpClient.DefaultRequestHeaders.Add(key, value);
+        }
+
         public HttpClientImpl()
         {
             Cookie = new CookieContainer();
