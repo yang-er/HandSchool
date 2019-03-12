@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Design
 {
-    public abstract class SchoolBuilder : ContainerBuilder, IDisposable
+    public abstract class SchoolBuilder : IDisposable
     {
         /// <summary>
         /// 学校的名称
@@ -39,13 +39,13 @@ namespace HandSchool.Design
         /// <summary>
         /// 依赖注入生成的容器
         /// </summary>
-        protected IContainer Container { get; set; }
+        protected ILifetimeScope Container { get; set; }
 
         /// <summary>
         /// 是否已经加载完成
         /// </summary>
         public bool Loaded => Container != null;
-
+        
         private readonly Lazy<List<string>> lazyRegFiles;
 
         private readonly Lazy<List<SettingWrapper>> lazySettings;
@@ -90,15 +90,15 @@ namespace HandSchool.Design
 
             return fileList;
         }
-
+        
         /// <summary>
         /// 启动服务。
         /// </summary>
-        public virtual void Startup()
+        protected virtual void Startup(ContainerBuilder that)
         {
-            this.Register(c => Logger);
+            that.Register(c => Logger);
 
-            this.RegisterGeneric(typeof(NestedLogger<>))
+            that.RegisterGeneric(typeof(NestedLogger<>))
                 .As(typeof(ILogger<>))
                 .OnActivated(e => ((ILogger)e.Instance).Info("instance created."));
         }
@@ -106,10 +106,11 @@ namespace HandSchool.Design
         /// <summary>
         /// 获取依赖注入容器并启动数据加载任务。
         /// </summary>
-        public void BuildStartup()
+        public ILifetimeScope FromParent(ILifetimeScope parentLifetimeScope)
         {
-            Container = Build();
+            Container = parentLifetimeScope.BeginLifetimeScope(Startup);
             Task.Run(LoadDataAsync);
+            return Container;
         }
         
         /// <summary>
@@ -120,7 +121,7 @@ namespace HandSchool.Design
             try
             {
                 await Task.Yield();
-                await Task.Run(() => Resolve<ISchoolSystem>());
+                await Task.Run(() => Container.Resolve<ISchoolSystem>());
 
                 if (Container.TryResolve<FeedViewModel>(out var feedViewModel))
                     await feedViewModel.LoadCacheAsync();
@@ -174,7 +175,7 @@ namespace HandSchool.Design
             if (!Loaded) throw new InvalidOperationException("Container not built.");
             return Container.Resolve<T>();
         }
-        
+
         /// <summary>
         /// 查询依赖项是否已被提供。
         /// </summary>

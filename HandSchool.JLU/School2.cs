@@ -27,72 +27,72 @@ namespace HandSchool.JLU
             InternalSettings = Configure.ReadAs<SettingsJson>(configFile);
         }
         
-        public override void Startup()
+        protected override void Startup(ContainerBuilder that)
         {
-            base.Startup();
+            base.Startup(that);
 
             // 注册校园服务类
-            this.RegisterType<YktService>()
+            that.RegisterType<YktService>()
                 .InstancePerLifetimeScope();
-            this.RegisterType<YktViewModel>()
+            that.RegisterType<YktViewModel>()
                 .InstancePerLifetimeScope();
 
-            this.RegisterType<OA>()
+            that.RegisterType<OA>()
                 .As<IFeedEntrance>()
                 .InstancePerLifetimeScope();
-            this.RegisterType<FeedViewModel>()
+            that.RegisterType<FeedViewModel>()
                 .InstancePerLifetimeScope();
 
-            this.RegisterType<LibrarySearch>();
-            this.RegisterType<LibraryRent>();
+            that.RegisterType<LibrarySearch>();
+            that.RegisterType<LibraryRent>();
             // this.RegisterType<LibraryZwyy>();
 
             // 注册校内外对应的服务类
             if (InternalSettings.OutsideSchool)
             {
-                this.RegisterType<CjcxSchool>()
+                that.RegisterType<CjcxSchool>()
                     .As<ISchoolSystem>()
                     .InstancePerLifetimeScope();
 
-                this.RegisterType<CjcxGrade>()
+                that.RegisterType<CjcxGrade>()
                     .As<IGradeEntrance>()
                     .InstancePerLifetimeScope();
-                this.RegisterType<GradePointViewModel>()
+                that.RegisterType<GradePointViewModel>()
                     .InstancePerLifetimeScope();
 
-                this.RegisterType<LibrarySearch>();
+                that.RegisterType<LibrarySearch>();
             }
             else
             {
-                this.RegisterType<UimsSchool>()
+                that.RegisterType<UimsSchool>()
                     .As<ISchoolSystem>()
                     .InstancePerLifetimeScope();
 
-                this.RegisterType<UimsGrade>()
+                that.RegisterType<UimsGrade>()
                     .As<IGradeEntrance>()
                     .InstancePerLifetimeScope();
-                this.RegisterType<GradePointViewModel>()
+                that.RegisterType<GradePointViewModel>()
                     .InstancePerLifetimeScope();
 
-                this.RegisterType<UimsMessage>()
+                that.RegisterType<UimsMessage>()
                     .As<IMessageEntrance>()
                     .InstancePerLifetimeScope();
-                this.RegisterType<MessageViewModel>()
+                that.RegisterType<MessageViewModel>()
                     .InstancePerLifetimeScope();
 
-                this.RegisterType<UimsSchedule>()
+                that.RegisterType<UimsSchedule>()
                     .As<IScheduleEntrance>()
                     .InstancePerLifetimeScope();
-                this.RegisterType<ScheduleViewModel>()
+                that.RegisterType<ScheduleViewModel>()
                     .InstancePerLifetimeScope();
 
-                this.RegisterType<EmptyRoom>();
-                this.RegisterType<TeachEvaluate>();
-                this.RegisterType<CollegeIntroduce>();
-                this.RegisterType<ProgramMaster>();
-                this.RegisterType<ClassSchedule>();
-                this.RegisterType<SelectCourse>();
-                this.RegisterType<AdviceSchedule>();
+                that.RegisterType<EmptyRoom>();
+                that.RegisterType<TeachEvaluate>();
+                that.RegisterType<CollegeIntroduce>();
+                that.RegisterType<ProgramMaster>();
+                that.RegisterType<ClassSchedule>();
+                that.RegisterType<SelectCourse>();
+                that.RegisterType<AdviceSchedule>();
             }
         }
 
