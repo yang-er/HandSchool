@@ -196,6 +196,11 @@ namespace HandSchool.Internals
             {
                 return Task.Run(() => System.IO.File.WriteAllBytes(path, respContent));
             }
+
+            public IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetHeaders()
+            {
+                throw new NotImplementedException();
+            }
         }
         
         const string json = "application/json";

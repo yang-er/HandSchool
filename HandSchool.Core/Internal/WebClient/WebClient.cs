@@ -52,7 +52,7 @@ namespace HandSchool.Internals
         /// <summary>
         /// 以GET形式发送数据。
         /// </summary>
-        /// <param name="script">网络请求</param>
+        /// <param name="req">网络请求</param>
         /// <returns>返回结果</returns>
         Task<IWebResponse> GetAsync(WebRequestMeta req);
     }

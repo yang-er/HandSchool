@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -51,5 +52,11 @@ namespace HandSchool.Internals
         /// </summary>
         /// <param name="path">文件路径</param>
         Task WriteToFileAsync(string path);
+
+        /// <summary>
+        /// 获得响应头。
+        /// </summary>
+        /// <returns>响应头</returns>
+        IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetHeaders();
     }
 }

@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System.Threading.Tasks;
+using HandSchool.Internals;
 using HandSchool.Models;
 using System.Windows.Input;
 
@@ -9,7 +10,8 @@ namespace HandSchool.ViewModels
     /// </summary>
     public class DetailViewModel : BaseViewModel
     {
-        string _name, _sender, _date, _content;
+        string _name, _sender, _date;
+        Task<string> _content;
 
         /// <summary>
         /// 消息大标题
@@ -41,7 +43,7 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 正文内容
         /// </summary>
-        public string Content
+        public Task<string> Content
         {
             get => _content;
             set => SetProperty(ref _content, value);
@@ -75,7 +77,7 @@ namespace HandSchool.ViewModels
                 Name = item.Title,
                 Sender = "发件人：" + item.Sender,
                 Date = "时间：" + item.Time.ToString(),
-                Content = item.Body,
+                Content = Task.FromResult(item.Body),
                 Command = item.Delete,
                 Operation = "删除",
                 UWPIcon = "\uE74D",
@@ -89,16 +91,13 @@ namespace HandSchool.ViewModels
         /// <returns>视图模型</returns>
         public static DetailViewModel From(FeedItem item)
         {
-            var desc = item.Description.Trim();
-            while (desc.Contains("    ")) desc = desc.Replace("    ", "  ");
-
             return new DetailViewModel
             {
                 Title = "通知详情",
                 Name = item.Title,
                 Sender = "分类：" + item.Category,
                 Date = "时间：" + item.PubDate,
-                Content = desc,
+                Content = item.GetDescriptionAsync(),
                 Command = new CommandAction(() => Core.Platform.OpenUrl(item.Link)),
                 Operation = "详情",
                 UWPIcon = "\uE7C1",

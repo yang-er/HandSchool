@@ -597,6 +597,34 @@ namespace HandSchool.JLU.JsonObject
             public int termId { get; set; }
         }
     }
+
+    public class DigResultStatus
+    {
+        public string message { get; set; }
+        public string code { get; set; }
+    }
+
+    public class DigResultValue
+    {
+        public string title { get; set; }
+        public string depart { get; set; }
+        public string publishdate { get; set; }
+        public string link { get; set; }
+        public string content { get; set; }
+        public bool flgtop { get; set; }
+    }
+
+    public class OaListRootObject
+    {
+        public DigResultStatus resultStatus { get; set; }
+        public DigResultValue[] resultValue { get; set; }
+    }
+
+    public class OaItemRootObject
+    {
+        public DigResultStatus resultStatus { get; set; }
+        public DigResultValue resultValue { get; set; }
+    }
 }
 
 #pragma warning restore

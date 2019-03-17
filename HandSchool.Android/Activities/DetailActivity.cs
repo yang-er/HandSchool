@@ -35,11 +35,13 @@ namespace HandSchool.Droid
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 
-            TextContent.Text = ViewModel.Content;
+            TextContent.Text = "正在加载…";
             DetailTitle.Text = ViewModel.Name;
             DetailTime.Text = ViewModel.Date;
             DetailSender.Text = ViewModel.Sender;
             ActionBar.Title = ViewModel.Title;
+
+            ViewModel.Content.ContinueWith(t => TextContent.Post(() => TextContent.Text = t.Result));
             
             TextContent.Touch += (sender, e) =>
             {

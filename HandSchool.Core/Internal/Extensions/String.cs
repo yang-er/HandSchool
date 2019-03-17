@@ -27,7 +27,7 @@ namespace HandSchool.Internals
             var root = XDocument.Parse(report).Root;
 
             return from item in root.Element("channel").Descendants("item")
-                   select new FeedItem
+                   select new RssFeedItem
                    {
                        Title = (string)item.Element("title"),
                        Description = (string)item.Element("description"),

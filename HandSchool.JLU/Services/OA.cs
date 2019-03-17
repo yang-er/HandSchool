@@ -6,6 +6,8 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Xml;
+using HandSchool.JLU.JsonObject;
+using HandSchool.JLU.Models;
 
 [assembly: RegisterService(typeof(OA))]
 namespace HandSchool.JLU.Services
@@ -21,13 +23,13 @@ namespace HandSchool.JLU.Services
         const string configOa = "jlu.oa.xml";
         const string configOaTime = "jlu.oa.xml.time";
 
-        IWebClient WebClient => Lazy.Value;
+        public IWebClient WebClient => Lazy.Value;
         readonly Lazy<IWebClient> Lazy = new Lazy<IWebClient>(CreateWebClient);
 
         static IWebClient CreateWebClient()
         {
             var wc = Core.New<IWebClient>();
-            wc.BaseAddress = "https://joj.chinacloudsites.cn/";
+            wc.BaseAddress = "http://202.98.18.57:18080/";
             return wc;
         }
         
@@ -50,11 +52,22 @@ namespace HandSchool.JLU.Services
             }
         }
 
-        private async Task InnerExecute(string file, bool fp)
+        private async Task InnerExecute(int page, bool fp)
         {
             try
             {
-                var lastReport = await WebClient.GetStringAsync(file, "text/xml");
+                var html = await WebClient.GetStringAsync("https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
+                var requestMeta = new WebRequestMeta("webservice/m/api/getNewsList", WebRequestMeta.Json);
+
+                var content = new KeyValueDict
+                {
+                    { "type", "179577" },
+                    { "page", page.ToString() },
+                    { "token", "NjFDREY3RDRGMUQzMUUxNEQyMEY3MjAwN0MzRDQ1QjIx" },
+                };
+
+                var resp = await WebClient.PostAsync(requestMeta, content);
+                var lastReport = await resp.ReadAsStringAsync();
                 if (lastReport == "") return;
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 if (fp) Core.Configure.Write(configOa, lastReport);
@@ -70,7 +83,7 @@ namespace HandSchool.JLU.Services
             }
         }
 
-        public Task Execute() => InnerExecute("feed.xml", true);
+        public Task Execute() => InnerExecute(1, true);
 
         [ToFix("清理逻辑")]
         public async Task<int> Execute(int n)
@@ -81,12 +94,12 @@ namespace HandSchool.JLU.Services
             }
             else if (n == 1)
             {
-                await InnerExecute("feed.xml", true);
+                await InnerExecute(1, true);
                 return 2;
             }
             else if (n == 2)
             {
-                await InnerExecute($"feed{n}.xml", false);
+                await InnerExecute(2, false);
                 return 0;
             }
             else
@@ -101,11 +114,12 @@ namespace HandSchool.JLU.Services
 
             try
             {
-                var items = feedXml.ParseRSS();
+                var items = feedXml.ParseJSON<OaListRootObject>();
                 if (fp) FeedViewModel.Instance.Clear();
-                FeedViewModel.Instance.AddRange(items);
+                foreach (var item in items.resultValue)
+                    FeedViewModel.Instance.Add(new OaFeedItem(item));
             }
-            catch (XmlException ex)
+            catch (Exception ex)
             {
                 Core.Logger.WriteException(ex);
             }

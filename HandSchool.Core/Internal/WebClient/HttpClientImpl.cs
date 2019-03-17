@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -239,6 +240,11 @@ namespace HandSchool.Internals
                 if (InnerResponse is null) return;
                 using (var fs = new FileStream(path, FileMode.Create))
                     await InnerResponse.Content.CopyToAsync(fs);
+            }
+
+            public IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetHeaders()
+            {
+                return InnerResponse.Headers;
             }
 
             public void Dispose()

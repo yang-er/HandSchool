@@ -1,9 +1,11 @@
-﻿namespace HandSchool.Models
+﻿using System.Threading.Tasks;
+
+namespace HandSchool.Models
 {
     /// <summary>
     /// 校内通知Feed项目的储存类。
     /// </summary>
-    public class FeedItem
+    public abstract class FeedItem
     {
         /// <summary>
         /// 信息编号
@@ -41,13 +43,29 @@
         public string Category { get; set; }
 
         /// <summary>
-        /// 信息描述
+        /// 获得信息描述。
         /// </summary>
-        public string Description { get; set; }
+        public abstract Task<string> GetDescriptionAsync();
 
         /// <summary>
         /// For internal use.
         /// </summary>
         public string Detail => Category;
+    }
+
+    public class RssFeedItem : FeedItem
+    {
+        /// <summary>
+        /// 信息描述
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// 获得信息描述。
+        /// </summary>
+        public override Task<string> GetDescriptionAsync()
+        {
+            return Task.FromResult(Description);
+        }
     }
 }

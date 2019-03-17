@@ -53,10 +53,12 @@ namespace HandSchool.JLU.Services
             {
                 foreach (var time in obj.teachClassMaster.lessonSchedules)
                 {
+                    if (string.IsNullOrEmpty(time.timeBlock.dayOfWeek)) continue;
+
                     var item = new CurriculumItem
                     {
-                        WeekBegin = int.Parse(time.timeBlock.beginWeek),
-                        WeekEnd = int.Parse(time.timeBlock.endWeek),
+                        WeekBegin = int.Parse(time.timeBlock.beginWeek ?? "1"),
+                        WeekEnd = int.Parse(time.timeBlock.endWeek ?? "19"),
                         WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
                         WeekDay = int.Parse(time.timeBlock.dayOfWeek),
                         Classroom = time.classroom.fullName,
