@@ -15,7 +15,7 @@ namespace HandSchool.JLU.Models
     {
         private readonly string internalLink;
         private string content = "";
-        const string xslt = "<!DOCTYPE xsl:stylesheet [ <!ENTITY nbsp \"&#x00A0;\"> ]>";
+        const string xslt = "<!DOCTYPE xsl:stylesheet [ <!ENTITY nbsp \"&#x00A0;\"> <!ENTITY middot \"&#x00B7;\"> ]>";
 
         private static ISet<XName> InlineElements { get; } = new HashSet<XName>
         {
