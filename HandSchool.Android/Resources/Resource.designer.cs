@@ -4647,14 +4647,14 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f090124
 			public const int cancel_action = 2131296548;
 			
-			// aapt resource value: 0x7f0900b3
-			public const int cell_attach1 = 2131296435;
-			
 			// aapt resource value: 0x7f0900b0
-			public const int cell_detail = 2131296432;
+			public const int cell_attach1 = 2131296432;
 			
 			// aapt resource value: 0x7f0900b1
-			public const int cell_rightdown = 2131296433;
+			public const int cell_detail = 2131296433;
+			
+			// aapt resource value: 0x7f0900b2
+			public const int cell_rightdown = 2131296434;
 			
 			// aapt resource value: 0x7f0900b5
 			public const int cell_rightdownind = 2131296437;
@@ -4662,8 +4662,8 @@ namespace HandSchool.Droid
 			// aapt resource value: 0x7f0900b4
 			public const int cell_rightup = 2131296436;
 			
-			// aapt resource value: 0x7f0900b2
-			public const int cell_title = 2131296434;
+			// aapt resource value: 0x7f0900b3
+			public const int cell_title = 2131296435;
 			
 			// aapt resource value: 0x7f09002c
 			public const int center = 2131296300;

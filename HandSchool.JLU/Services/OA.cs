@@ -3,9 +3,13 @@ using HandSchool.JLU.Services;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 
@@ -29,7 +33,7 @@ namespace HandSchool.JLU.Services
         static IWebClient CreateWebClient()
         {
             var wc = Core.New<IWebClient>();
-            wc.BaseAddress = "http://202.98.18.57:18080/";
+            wc.Timeout = 5000;
             return wc;
         }
         
@@ -47,7 +51,8 @@ namespace HandSchool.JLU.Services
             }
             else
             {
-                Parse(Core.Configure.Read(configOa));
+                var pc = ParseCache(Core.Configure.Read(configOa));
+                FeedViewModel.Instance.AddRange(from d in pc select new OaFeedItem(d));
                 FeedViewModel.Instance.LeftPageCount = 2;
             }
         }
@@ -56,23 +61,27 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                var html = await WebClient.GetStringAsync("https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
-                var requestMeta = new WebRequestMeta("webservice/m/api/getNewsList", WebRequestMeta.Json);
+                var lastReport = await WebClient.GetStringAsync("https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
+                lastReport = lastReport.Substring(lastReport.IndexOf(@"<div id=""itemContainer"">") + 24);
+                lastReport = lastReport.Substring(0, lastReport.IndexOf("</div>"));
+                lastReport = lastReport.Replace("    ", "")
+                                       .Replace("\r", "")
+                                       .Replace("\n", "")
+                                       .Replace("\t", "");
 
-                var content = new KeyValueDict
-                {
-                    { "type", "179577" },
-                    { "page", page.ToString() },
-                    { "token", "NjFDREY3RDRGMUQzMUUxNEQyMEY3MjAwN0MzRDQ1QjIx" },
-                };
-
-                var resp = await WebClient.PostAsync(requestMeta, content);
-                var lastReport = await resp.ReadAsStringAsync();
                 if (lastReport == "") return;
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                if (fp) Core.Configure.Write(configOa, lastReport);
-                if (fp) Core.Configure.Write(configOaTime, dateString);
-                Parse(lastReport, fp);
+
+                var dataList = ParseOa(lastReport).ToList();
+
+                if (fp)
+                {
+                    Core.Configure.Write(configOa, dataList.Serialize());
+                    Core.Configure.Write(configOaTime, dateString);
+                    FeedViewModel.Instance.Clear();
+                }
+
+                FeedViewModel.Instance.AddRange(from d in dataList select new OaFeedItem(d));
                 this.WriteLog("Feed updated at " + dateString);
             }
             catch (WebsException ex)
@@ -88,40 +97,52 @@ namespace HandSchool.JLU.Services
         [ToFix("清理逻辑")]
         public async Task<int> Execute(int n)
         {
-            if (n < 1)
-            {
-                return 0;
-            }
-            else if (n == 1)
-            {
-                await InnerExecute(1, true);
-                return 2;
-            }
-            else if (n == 2)
-            {
-                await InnerExecute(2, false);
-                return 0;
-            }
-            else
-            {
-                return 0;
-            }
+            if (n < 1) return 0;
+            await InnerExecute(n, n == 1);
+            return n + 1;
         }
-
-        static void Parse(string feedXml, bool fp = true)
+        
+        static IEnumerable<DigResultValue> ParseOa(string feedXml)
         {
-            if (feedXml == "") return;
-
             try
             {
-                var items = feedXml.ParseJSON<OaListRootObject>();
-                if (fp) FeedViewModel.Instance.Clear();
-                foreach (var item in items.resultValue)
-                    FeedViewModel.Instance.Add(new OaFeedItem(item));
+                var rootNode = "<root>" + 
+                               feedXml.Replace("<font class='red'>[置顶]</font>", "<font class=\"red\">[置顶]</font>")
+                                      .Replace("&", "&amp;")
+                                      .Replace("&amp;nbsp;", "")
+                               + "</root>";
+                var vp = XDocument.Parse(rootNode).Root;
+
+                return
+                    from item in vp.Descendants("DIV")
+                    let a2 = item.Element("A")
+
+                    select new DigResultValue
+                    {
+                        publishdate = (string) item.Element("SPAN"),
+                        content = "",
+                        depart = (string) item.Elements("A").Last(),
+                        title = ((XText) a2.LastNode).Value,
+                        link = "/defaultroot/" + a2.Attribute("href").Value,
+                        flgtop = a2.FirstNode is XElement
+                    };
             }
             catch (Exception ex)
             {
                 Core.Logger.WriteException(ex);
+                return new DigResultValue[0];
+            }
+        }
+
+        static IEnumerable<DigResultValue> ParseCache(string cacheJson)
+        {
+            try
+            {
+                return cacheJson.ParseJSON<List<DigResultValue>>();
+            }
+            catch
+            {
+                return new DigResultValue[0];
             }
         }
     }

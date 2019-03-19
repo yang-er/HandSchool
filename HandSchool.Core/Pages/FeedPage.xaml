@@ -29,6 +29,7 @@
                     <w:TextCell Title="{Binding Title}"
                                 Detail="{Binding Category}"
                                 RightDown="{Binding PubDate}"
+                                Attach1="{Binding TopAttach}"
                                 PreferedCardView="1" />
                 </DataTemplate>
             </ListView.ItemTemplate>

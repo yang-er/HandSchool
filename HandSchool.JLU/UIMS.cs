@@ -53,7 +53,7 @@ namespace HandSchool.JLU
         }
 
         private bool quick_mode;
-        [Settings("快速连接模式", "通过10.60.65.8连接UIMS，可能不稳定，随时有接口被封锁的风险，但是快。如果需要抢课等场景，建议提前开启并测试接口是否正常。")]
+        //[Settings("快速连接模式", "通过10.60.65.8连接UIMS，可能不稳定，随时有接口被封锁的风险，但是快。如果需要抢课等场景，建议提前开启并测试接口是否正常。")]
         public bool QuickMode
         {
             get => quick_mode;
@@ -132,7 +132,7 @@ namespace HandSchool.JLU
             ProxyServer = "uims.jlu.edu.cn";
             UseHttps = true;
             OutsideSchool = config.OutsideSchool;
-            QuickMode = config.QuickMode;
+            QuickMode = false; //config.QuickMode;
 
             IsLogin = false;
             NeedLogin = false;
