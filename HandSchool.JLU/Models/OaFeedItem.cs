@@ -17,6 +17,16 @@ namespace HandSchool.JLU.Models
         private string content = "";
         const string xslt = "<!DOCTYPE xsl:stylesheet [ <!ENTITY nbsp \"&#x00A0;\"> ]>";
 
+        private static ISet<XName> InlineElements { get; } = new HashSet<XName>
+        {
+            "p", "span", "font", "h1", "h2", "h3", "h4", "h5", "h6", "a", "strong", "em", "i", "b", "sup"
+        };
+
+        private static ISet<XName> IgnoredElements { get; } = new HashSet<XName>
+        {
+            "img"
+        };
+
         public OaFeedItem(DigResultValue rv)
         {
             Link = "https://oa.jlu.edu.cn" + rv.link;
@@ -25,6 +35,39 @@ namespace HandSchool.JLU.Models
             PubDate = rv.publishdate;
             Title = rv.title;
             Top = rv.flgtop;
+        }
+
+        private void SolveDiv(XElement div, StringBuilder sb)
+        {
+            foreach (var xn in div.Nodes())
+            {
+                switch (xn)
+                {
+                    case XElement xe when InlineElements.Contains(xe.Name):
+                        sb.AppendLine(((string)xe).Replace('\x2003', ' ').TrimEnd());
+                        break;
+                    case XElement xe when xe.Name == "br":
+                        sb.AppendLine();
+                        break;
+                    case XElement xe when xe.Name == "div":
+                        SolveDiv(xe, sb);
+                        break;
+                    case XElement xe when xe.Name == "table":
+                        sb.AppendLine("表格暂时无法显示。");
+                        break;
+                    case XElement xe when IgnoredElements.Contains(xe.Name):
+                    case XComment _:
+                        // This is a comment. we should ignore it.
+                        break;
+                    case XText xt:
+                        sb.AppendLine(xt.Value.Replace("\n", " ").TrimEnd());
+                        break;
+                    case XElement xe:
+                        throw new Exception("Error parsing document.\nNot implemented element: " + xe.Name);
+                    default:
+                        throw new Exception("Error parsing document.\nNot implemented node: " + xn.GetType());
+                }
+            }
         }
 
         public override async Task<string> GetDescriptionAsync()
@@ -43,39 +86,12 @@ namespace HandSchool.JLU.Models
                 try
                 {
                     var ro = str.ParseJSON<OaItemRootObject>();
-                    var doc = XDocument.Parse(xslt + ro.resultValue.content);
+                    var toParse = xslt + ro.resultValue.content;
+                    toParse = toParse.Replace("<o:p>", "<p>")
+                                     .Replace("</o:p>", "</p>");
+                    var doc = XDocument.Parse(toParse);
                     var contentDiv = doc.Elements().First().Elements().First();
-
-                    foreach (var xn in contentDiv.Nodes())
-                    {
-                        if (xn is XElement xe)
-                        {
-                            if (xe.Name == "p" || xe.Name == "span")
-                            {
-                                sb.AppendLine(((string)xe).Replace('\x2003', ' '));
-                            }
-                            else if (xe.Name == "br")
-                            {
-                                sb.AppendLine();
-                            }
-                            else
-                            {
-                                throw new Exception("Error parsing document.\nNot implemented element: " + xe.Name);
-                            }
-                        }
-                        else if (xn is XText xt)
-                        {
-                            sb.AppendLine(xt.Value.Replace("\n", " ").TrimEnd());
-                        }
-                        else if (xn is XComment)
-                        {
-                            // This is a comment. we should ignore it.
-                        }
-                        else
-                        {
-                            throw new Exception("Error parsing document.\nNot implemented node: " + xn.GetType());
-                        }
-                    }
+                    SolveDiv(contentDiv, sb);
                 }
                 catch (Exception ex)
                 {
