@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Internals
 {
-    public class HttpClientImpl : IWebClient
+    internal class HttpClientImpl : IWebClient
     {
         HttpClient HttpClient { get; }
         HttpClientHandler Handler { get; }
@@ -257,7 +257,7 @@ namespace HandSchool.Internals
         /// </summary>
         public void Dispose()
         {
-            Core.Logger.WriteLine("HttpClient", "requested dispose.");
+            Core.Logger.WriteLine("HttpClient", "requested dispose.", Design.LogLevel.Info);
             // HttpClient.CancelPendingRequests();
         }
     }

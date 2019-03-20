@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 [assembly: RegisterService(typeof(Loader))]
-[assembly: ExportSchool(typeof(Loader))]
+[assembly: ExportSchool("JLU", "吉林大学", typeof(Loader), typeof(HelloPage))]
 namespace HandSchool.JLU
 {
     [UseStorage("JLU", configFile)]

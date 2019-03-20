@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using HandSchool.Design.Lifecycle;
 
 namespace HandSchool.Droid
 {
@@ -14,6 +15,15 @@ namespace HandSchool.Droid
         {
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
+            var resolver = new Autofac.ContainerBuilder();
+
+            var root = new HandSchool.Design.Lifecycle.Core()
+                .UseFormsView()
+                .UseHttpClient()
+                .UseLogger()
+                .UsePlatform(new PlatformImplV2(this))
+                .BuildRoot();
+
             PlatformImplV2.Register(this);
             Forwarder.NormalWay.Begin();
             var next = Core.Initialize() ? typeof(MainActivity) : typeof(SelectTypeActivity);

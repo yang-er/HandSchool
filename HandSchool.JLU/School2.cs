@@ -1,17 +1,18 @@
 ﻿using Autofac;
 using HandSchool.Design;
 using HandSchool.Internals;
+using HandSchool.JLU;
+using HandSchool.JLU.InfoQuery;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
 using HandSchool.JLU.ViewModels;
+using HandSchool.JLU.Views;
+using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
-using System.Threading.Tasks;
-using HandSchool.JLU;
-using HandSchool.Models;
-using HandSchool.JLU.InfoQuery;
 
 [assembly: RegisterService(typeof(JluLoader))]
+[assembly: ExportSchool("JLU", "吉林大学", typeof(JluLoader), typeof(HelloPage))]
 namespace HandSchool.JLU
 {
     [UseStorage("JLU", configFile)]
@@ -19,17 +20,18 @@ namespace HandSchool.JLU
     {
         const string configFile = "jlu.config.json";
 
-        internal SettingsJson InternalSettings { get; }
+        internal SettingsJson InternalSettings { get; set; }
 
         public JluLoader(ILogger<JluLoader> logger, IConfiguration config)
             : base("吉林大学", "JLU", logger, config, 11)
         {
-            InternalSettings = Configure.ReadAs<SettingsJson>(configFile);
         }
         
         protected override void Startup(ContainerBuilder that)
         {
             base.Startup(that);
+
+            InternalSettings = Configure.ReadAs<SettingsJson>(configFile);
 
             // 注册校园服务类
             that.RegisterType<YktService>()

@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Design;
+using HandSchool.Internals;
 using HandSchool.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +31,7 @@ namespace HandSchool
         /// <summary>
         /// 日志管理
         /// </summary>
-        public static Logger Logger { get; private set; }
+        public static ILogger Logger { get; private set; }
 
         /// <summary>
         /// 平台相关实现
@@ -62,7 +63,7 @@ namespace HandSchool
             if (platform == null) return;
             Platform = platform;
             Configure = new ConfigurationManager(Platform.ConfigureDirectory);
-            Logger = new Logger();
+            Logger = new Design.Logging.TraceLogger();
         }
 
         /// <summary>
