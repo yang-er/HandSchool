@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using HandSchool.Design;
 
-namespace HandSchool.Internals
+namespace HandSchool.Design.Logging
 {
     /// <summary>
-    /// 提供简单的日志写入。
+    /// 提供基于Trace的简单日志写入。
     /// </summary>
-    public class Logger : ILogger
+    internal class TraceLogger : ILogger
     {
+        /// <summary>
+        /// 默认源名称
+        /// </summary>
         public string DefaultSourceName => "Unknown";
 
         /// <summary>

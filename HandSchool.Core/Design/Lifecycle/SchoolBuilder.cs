@@ -97,10 +97,6 @@ namespace HandSchool.Design
         protected virtual void Startup(ContainerBuilder that)
         {
             that.Register(c => Logger);
-
-            that.RegisterGeneric(typeof(NestedLogger<>))
-                .As(typeof(ILogger<>))
-                .OnActivated(e => ((ILogger)e.Instance).Info("instance created."));
         }
 
         /// <summary>

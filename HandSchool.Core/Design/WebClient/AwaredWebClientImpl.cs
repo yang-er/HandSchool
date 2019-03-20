@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using HandSchool.Design;
+using System;
 using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Linq;
 using System.Threading.Tasks;
-using SslPolicyErrors = System.Net.Security.SslPolicyErrors;
-using X509Cert = System.Security.Cryptography.X509Certificates.X509Certificate;
-using X509Chain = System.Security.Cryptography.X509Certificates.X509Chain;
 
 namespace HandSchool.Internals
 {
@@ -72,22 +65,9 @@ namespace HandSchool.Internals
         public AwaredWebClientImpl()
         {
             Encoding = Encoding.UTF8;
-            ServicePointManager.ServerCertificateValidationCallback = CertificateValidate;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
         }
-
-        /// <summary>
-        /// 检验SSL服务器证书是否有效。
-        /// </summary>
-        /// <param name="sender">进行TLS握手的请求。</param>
-        /// <param name="certificate">X509证书。</param>
-        /// <param name="chain">X509证书链。</param>
-        /// <param name="poly">错误策略。</param>
-        /// <returns>是否进行握手。</returns>
-        public static bool CertificateValidate(object sender, X509Cert certificate, X509Chain chain, SslPolicyErrors poly)
-        {
-            return true;
-        }
-
+        
         private async Task<IWebResponse> WrapTry(WebRequestMeta req, Func<Task<byte[]>> func)
         {
             try
@@ -120,7 +100,7 @@ namespace HandSchool.Internals
             }
             catch (NotSupportedException ex)
             {
-                Core.Logger.WriteException(ex);
+                Core.Logger.Error(ex);
                 throw new WebsException(WebStatus.UnknownError);
             }
         }

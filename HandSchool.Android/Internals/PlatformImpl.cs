@@ -44,7 +44,7 @@ namespace HandSchool.Droid
             return ContextStack.Count == 0 ? null : ContextStack[ContextStack.Count - 1];
         }
 
-        private PlatformImplV2(Context context)
+        public PlatformImplV2(Context context)
         {
             RuntimeName = "Android";
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";

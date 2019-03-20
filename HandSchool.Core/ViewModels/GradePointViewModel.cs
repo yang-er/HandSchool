@@ -32,12 +32,7 @@ namespace HandSchool.ViewModels
         /// 视图模型使用的服务
         /// </summary>
         private IGradeEntrance Service { get; }
-
-        /// <summary>
-        /// 日志记录器
-        /// </summary>
-        private ILogger<GradePointViewModel> Logger { get; }
-
+        
         /// <summary>
         /// 建立绩点视图模型的数据源和刷新操作。
         /// </summary>
@@ -48,7 +43,6 @@ namespace HandSchool.ViewModels
             LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
             Service = service;
             Logger = logger;
-            Logger.Info("Instance was obtained.");
         }
 
         /// <summary>

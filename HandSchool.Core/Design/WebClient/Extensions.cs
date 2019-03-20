@@ -91,7 +91,7 @@ namespace HandSchool.Internals
 
         public static void AddCookie(this IWebClient webClient, Cookie cookie)
         {
-            webClient.Cookie.Add(new Uri(webClient.BaseAddress), cookie);
+            webClient.Cookie.Add(cookie);
         }
 
         public static WebStatus Convert(this WebExceptionStatus e)
