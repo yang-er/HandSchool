@@ -37,7 +37,7 @@ function handle_one(resp)
 		var pattern = resp.items[0].puzzle.replace('_','(.)');
 		var regex = new RegExp(pattern);
 		var ans = '';
-		nameList.forEach(function (i){
+		names.forEach(function (i){
 			var res = regex.exec(i);
 			if(res != null){
 				ans = res[1];
