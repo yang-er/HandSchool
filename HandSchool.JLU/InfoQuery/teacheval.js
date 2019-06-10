@@ -49,7 +49,7 @@ function handle_one(resp)
 					}
 					else if (current[t] === '_')
 					{
-						ans = current[t];
+						ans = tocheck[t];
 					}
 				}
 				if (match) break;
