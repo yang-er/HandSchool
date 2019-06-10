@@ -5,7 +5,7 @@ function te_callback(resp)
 {
 	if (resp.id === 'evalItemId')
 		parse_list(resp);
-	else if (resp.id === 'student')
+	else if (resp.id === 'studId')
 		solve_namelist(resp);
 	else
 		handle_one(resp);
@@ -30,7 +30,6 @@ function solve()
 
 function handle_one(resp)
 {
-	invokeCSharpAction('msg;ohhh'+resp);
 	if (resp.count === 1 && resp.items[0].puzzle !== undefined)
 	{
 		pattern = resp.items[0].puzzle.replace('_','(.)');
