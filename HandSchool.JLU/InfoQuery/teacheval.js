@@ -3,7 +3,6 @@ var names = [];
 
 function te_callback(resp)
 {
-	invokeCSharpAction('msg;'+JSON.stringify(resp));
 	if (resp.id === 'evalItemId')
 		parse_list(resp);
 	else if (resp.id === 'studId')
@@ -33,19 +32,32 @@ function handle_one(resp)
 {
 	if (resp.count === 1 && resp.items[0].puzzle !== undefined)
 	{
-		invokeCSharpAction('msg;branch1');
-		var pattern = resp.items[0].puzzle.replace('_','(.)');
-		var regex = new RegExp(pattern);
+		var current = resp.items[0].puzzle.split('');
 		var ans = '';
-		names.forEach(function (i){
-			var res = regex.exec(i);
-			if(res != null){
-				ans = res[1];
+		for(var p = 0; p < names.length; p++)
+		{
+			var tocheck = names[p].split('');
+			if (current.length === tocheck.length)
+			{
+				var match = true;
+				for (var t = 0; t < names.length; t++)
+				{
+					if (tocheck[t] !== '_' && tocheck[t] !== current[t])
+					{
+						match = false;
+						break;
+					}
+					else if (tocheck[t] === '_')
+					{
+						ans = current[t];
+					}
+				}
+				if (match) break;
 			}
-		});
-		
+		}
+
 		invokeCSharpAction('msg;' + ans);
-		
+
 		if (ans === '')
 		{
 			invokeCSharpAction('msg;emmmm, something went wrong in name finding... I am sorry~');
@@ -58,14 +70,12 @@ function handle_one(resp)
 	}
 	else if (resp.count !== 1)
 	{
-		invokeCSharpAction('msg;branch2');
 		$('#'+list[i]).removeClass('table-primary').addClass('table-warning');
         invokeCSharpAction('msg;' + resp.msg);
         invokeCSharpAction('finished');
 	}
 	else
 	{
-		invokeCSharpAction('msg;branch3');
 		$('#'+list[i]).removeClass('table-info').addClass('table-success');
 		i++;
 		solve();
