@@ -42,12 +42,12 @@ function handle_one(resp)
 				var match = true;
 				for (var t = 0; t < names.length; t++)
 				{
-					if (tocheck[t] !== '_' && tocheck[t] !== current[t])
+					if (current[t] !== '_' && tocheck[t] !== current[t])
 					{
 						match = false;
 						break;
 					}
-					else if (tocheck[t] === '_')
+					else if (current[t] === '_')
 					{
 						ans = current[t];
 					}
@@ -55,8 +55,6 @@ function handle_one(resp)
 				if (match) break;
 			}
 		}
-
-		invokeCSharpAction('msg;' + ans);
 
 		if (ans === '')
 		{
