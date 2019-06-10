@@ -3,6 +3,7 @@ var names = [];
 
 function te_callback(resp)
 {
+	invokeCSharpAction('msg;'+JSON.stringify(resp));
 	if (resp.id === 'evalItemId')
 		parse_list(resp);
 	else if (resp.id === 'studId')
@@ -32,6 +33,7 @@ function handle_one(resp)
 {
 	if (resp.count === 1 && resp.items[0].puzzle !== undefined)
 	{
+		invokeCSharpAction('msg;branch1');
 		pattern = resp.items[0].puzzle.replace('_','(.)');
 		regex = new RegExp(pattern);
 		var ans = '';
@@ -54,12 +56,14 @@ function handle_one(resp)
 	}
 	else if (resp.count !== 1)
 	{
+		invokeCSharpAction('msg;branch2');
 		$('#'+list[i]).removeClass('table-primary').addClass('table-warning');
         invokeCSharpAction('msg;' + resp.msg);
         invokeCSharpAction('finished');
 	}
 	else
 	{
+		invokeCSharpAction('msg;branch3');
 		$('#'+list[i]).removeClass('table-info').addClass('table-success');
 		i++;
 		solve();
