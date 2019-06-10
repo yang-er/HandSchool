@@ -30,7 +30,8 @@ function solve()
 
 function handle_one(resp)
 {
-	if (resp.count === 1 && ('puzzle' in resp.items[0]))
+	invokeCSharpAction('msg;ohhh'+resp);
+	if (resp.count === 1 && resp.items[0].puzzle !== undefined)
 	{
 		pattern = resp.items[0].puzzle.replace('_','(.)');
 		regex = new RegExp(pattern);
@@ -45,6 +46,7 @@ function handle_one(resp)
 		if (ans === '')
 		{
 			invokeCSharpAction('msg;emmmm, something went wrong in name finding... I am sorry~');
+			invokeCSharpAction('finished');
 		}
 		else
 		{
