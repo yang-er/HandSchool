@@ -34,8 +34,8 @@ function handle_one(resp)
 	if (resp.count === 1 && resp.items[0].puzzle !== undefined)
 	{
 		invokeCSharpAction('msg;branch1');
-		pattern = resp.items[0].puzzle.replace('_','(.)');
-		regex = new RegExp(pattern);
+		var pattern = resp.items[0].puzzle.replace('_','(.)');
+		var regex = new RegExp(pattern);
 		var ans = '';
 		nameList.forEach(function (i){
 			var res = regex.exec(i);
