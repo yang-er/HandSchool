@@ -44,6 +44,8 @@ function handle_one(resp)
 			}
 		});
 		
+		invokeCSharpAction('msg;' + ans);
+		
 		if (ans === '')
 		{
 			invokeCSharpAction('msg;emmmm, something went wrong in name finding... I am sorry~');
