@@ -36,6 +36,7 @@ namespace HandSchool.ViewModels
             RefreshCommand = new CommandAction(Refresh);
             AddCommand = new CommandAction(Create);
             ChangeWeekCommand = new CommandAction(ChangeWeek);
+            QuickChangeWeekCommand = new CommandAction(QuickSwitchWeek);
             Title = "课程表";
         }
         
@@ -80,6 +81,37 @@ namespace HandSchool.ViewModels
             await Core.App.Schedule.Execute();
             SendRefreshComplete();
             IsBusy = false;
+        }
+
+        /// <summary>
+        /// 快速切换课程表显示周。
+        /// </summary>
+        private async Task QuickSwitchWeek()
+        {
+            var now = Core.App.Service.CurrentWeek;
+            var week2 = week == 0 ? now : week;
+            var paramList = new[] { "所有周", "当前周 (" + now + ")", "上一周 (" + Math.Max(1, week2 - 1) + ")", "下一周 (" + Math.Min(24, week2 + 1) + ")" };
+            var ret = await RequestActionAsync("显示周", "取消", null, paramList);
+            if (ret == "取消" || ret == null) return;
+
+            if (ret == "所有周")
+            {
+                SetProperty(ref week, 0, nameof(CurrentWeek));
+            }
+            else if (ret.StartsWith("当前周"))
+            {
+                SetProperty(ref week, Core.App.Service.CurrentWeek, nameof(CurrentWeek));
+            }
+            else if (ret.StartsWith("上一周"))
+            {
+                SetProperty(ref week, Math.Max(1, week2 - 1), nameof(CurrentWeek));
+            }
+            else if (ret.StartsWith("下一周"))
+            {
+                SetProperty(ref week, Math.Min(24, week2 + 1), nameof(CurrentWeek));
+            }
+
+            SendRefreshComplete();
         }
 
         /// <summary>

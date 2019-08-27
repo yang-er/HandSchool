@@ -44,6 +44,11 @@ namespace HandSchool.ViewModels
         public ICommand ChangeWeekCommand { get; set; }
 
         /// <summary>
+        /// 修改当前周的命令
+        /// </summary>
+        public ICommand QuickChangeWeekCommand { get; set; }
+
+        /// <summary>
         /// 获取多节课的课程表列表。
         /// </summary>
         protected static IEnumerable<CurriculumSet> FetchItemsSet(IEnumerable<CurriculumItem> list)

@@ -67,7 +67,7 @@ namespace HandSchool.Droid
         {
             ControlSource = new TaskCompletionSource<bool>();
             WeekDaySelection = new JObject[] { "请选择", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天" };
-            WeekOenSelection = new JObject[] { "单周", "双周", "单双周" };
+            WeekOenSelection = new JObject[] { "双周", "单周", "单双周" };
             DayStartSelection = new JObject[Core.App.DailyClassCount + 1];
             WeekStartSelection = new JObject[24];
             DayStartSelection[0] = WeekStartSelection[0] = WeekDaySelection[0];

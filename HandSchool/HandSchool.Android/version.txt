@@ -1,1 +1,1 @@
-15 https://www.coolapk.com/apk/com.x90yang.HandSchool 更换校内通知新闻源；修复了课程表中课程无起始结束周引起崩溃的问题。
+16 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复校内通知新闻源。

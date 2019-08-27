@@ -12,7 +12,7 @@
         </ResourceDictionary>
     </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Title="{Binding CurrentWeek}" Order="Default" UWPIcon="&#xE787;" />
+        <w:MenuEntry Title="{Binding CurrentWeek}" Command="{Binding QuickChangeWeekCommand}" Order="Default" UWPIcon="&#xE787;" />
         <w:MenuEntry Title="刷新课表" Command="{Binding RefreshCommand}" Order="Secondary" UWPIcon="&#xE72C;" />
         <w:MenuEntry Title="添加课程" Command="{Binding AddCommand}" Order="Secondary" UWPIcon="&#xE710;" />
         <!--<w:MenuEntry Title="没有地点的课" />-->

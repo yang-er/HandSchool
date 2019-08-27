@@ -68,6 +68,7 @@ namespace HandSchool.JLU.Services
                                        .Replace("\r", "")
                                        .Replace("\n", "")
                                        .Replace("\t", "");
+                lastReport = Regex.Replace(lastReport, @"<img\b[^>]*>", "");
 
                 if (lastReport == "") return;
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
