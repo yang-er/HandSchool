@@ -35,7 +35,7 @@ namespace HandSchool.JLU.Views
         {
             Loader.SaveSettings(new Loader.SettingsJSON
             {
-                OutsideSchool = outOfSchool.IsToggled
+                UseVpn = outOfSchool.IsToggled
             });
 
             Navigation.PushAsync<InitializePage>(Loader);

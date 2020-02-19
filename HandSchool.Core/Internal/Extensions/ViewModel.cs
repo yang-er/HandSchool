@@ -18,6 +18,7 @@ namespace HandSchool.Internals
         public static async Task<bool> RequestLogin(this ILoginField form)
         {
             if (form.AutoLogin && !form.IsLogin) await form.Login();
+            if (!await form.BeforeLoginForm()) return false;
             if (!form.IsLogin) await LoginViewModel.RequestAsync(form);
             return form.IsLogin;
         }

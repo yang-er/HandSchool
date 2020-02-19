@@ -62,6 +62,7 @@ namespace HandSchool.Internals
                     }
                 }
 
+                Core.Logger.WriteLine("HF", UpdateSource);
                 var new_meta = await WebClient.GetStringAsync(UpdateSource);
                 var meta_exp = new_meta.Split(new[] { ';' }, 2);
                 var local_meta = Core.Configure.Read(LocalStorage + ".ver");
@@ -113,8 +114,10 @@ namespace HandSchool.Internals
         /// <returns>本地储存的数据。</returns>
         public static string ReadContent(object obj)
         {
-            return obj.GetType().Get<HotfixAttribute>()?.ReadContent()
-                ?? "$(function(){invokeCSharpAction('msg;模块热更新出现问题，请重启应用尝试。')});";
+            var content = obj.GetType().Get<HotfixAttribute>()?.ReadContent();
+            if (content != null) return content;
+            obj.GetType().Get<HotfixAttribute>()?.CheckUpdate(true);
+            return "$(function(){invokeCSharpAction('msg;模块热更新出现问题，请退出此页面再进入试试。')});";
         }
     }
 }

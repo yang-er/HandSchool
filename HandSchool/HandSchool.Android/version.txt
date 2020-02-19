@@ -1,1 +1,1 @@
-16 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复校内通知新闻源。
+18 https://www.coolapk.com/apk/com.x90yang.HandSchool 支持学生VPN、远程信息查询。

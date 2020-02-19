@@ -625,6 +625,32 @@ namespace HandSchool.JLU.JsonObject
         public DigResultStatus resultStatus { get; set; }
         public DigResultValue resultValue { get; set; }
     }
+
+    public class RemoteTcm
+    {
+        public TeachClassMaster teachClassMaster { get; set; }
+
+        public class TcmRemote
+        {
+            public string platform { get; set; }
+            public string contactGroup { get; set; }
+            public int tcmId { get; set; }
+            public string teachMethod { get; set; }
+        }
+
+        public class LessonSegment
+        {
+            public string fullName { get; set; }
+        }
+
+        public class TeachClassMaster
+        {
+            public string name { get; set; }
+            public TcmRemote tcmRemote { get; set; }
+            public int tcmId { get; set; }
+            public LessonSegment lessonSegment { get; set; }
+        }
+    }
 }
 
 #pragma warning restore

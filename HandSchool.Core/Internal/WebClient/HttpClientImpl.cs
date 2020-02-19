@@ -162,7 +162,7 @@ namespace HandSchool.Internals
         {
             var realRequest = new HttpRequestMessage(HttpMethod.Post, req.Url);
             if (req.Accept != "*/*") realRequest.Headers.Accept.TryParseAdd(req.Accept);
-            realRequest.Content = new StringContent(value, Encoding, contentType);
+            if (contentType != null) realRequest.Content = new StringContent(value, Encoding, contentType);
 
             foreach (var header in req.Headers)
             {

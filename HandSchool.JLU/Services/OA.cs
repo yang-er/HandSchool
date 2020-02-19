@@ -61,7 +61,15 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                var lastReport = await WebClient.GetStringAsync("https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
+                var uims = Core.App.Service as UIMS;
+                string domain = "https://oa.jlu.edu.cn";
+                if (uims.UseVpn)
+                {
+                    domain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
+                    WebClient.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
+                }
+
+                var lastReport = await WebClient.GetStringAsync(domain + "/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
                 lastReport = lastReport.Substring(lastReport.IndexOf(@"<div id=""itemContainer"">") + 24);
                 lastReport = lastReport.Substring(0, lastReport.IndexOf("</div>"));
                 lastReport = lastReport.Replace("    ", "")
@@ -111,6 +119,8 @@ namespace HandSchool.JLU.Services
                                feedXml.Replace("<font class='red'>[置顶]</font>", "<font class=\"red\">[置顶]</font>")
                                       .Replace("&", "&amp;")
                                       .Replace("&amp;nbsp;", "")
+                                      .Replace("<a ", "<A ")
+                                      .Replace("<span ", "<SPAN ")
                                + "</root>";
                 var vp = XDocument.Parse(rootNode).Root;
 

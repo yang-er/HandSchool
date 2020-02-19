@@ -32,28 +32,40 @@ namespace HandSchool.JLU.Views
         {
             await System.Threading.Tasks.Task.Delay(1200);
 
-            jwxtCheck.Text = "";
-            jwxtProgress.IsRunning = true;
-            var result = await LoginViewModel.RequestAsync(Core.App.Service);
-            jwxtProgress.IsRunning = false;
-            jwxtCheck.Text = result ? "√" : "×";
-            jwxtCheck.TextColor = result ? Color.DarkGreen : Color.Red;
+            vpnCheck.Text = "";
+            vpnProgress.IsRunning = true;
+            var result2 = await LoginViewModel.RequestAsync(Loader.Vpn);
+            vpnProgress.IsRunning = false;
+            vpnCheck.Text = result2 ? "√" : "×";
+            vpnCheck.TextColor = result2 ? Color.DarkGreen : Color.Red;
 
-            if (result && !((UIMS)Core.App.Service).OutsideSchool)
+            if ((!result2 && !((UIMS)Core.App.Service).UseVpn) || result2)
             {
-                kcbCheck.Text = "";
-                kcbProgress.IsRunning = true;
-                await ScheduleViewModel.Instance.Refresh();
-                kcbProgress.IsRunning = false;
-                kcbCheck.Text = "√";
-                kcbCheck.TextColor = Color.DarkGreen;
+                await System.Threading.Tasks.Task.Delay(1200);
 
-                gradeCheck.Text = "";
-                gradeProgress.IsRunning = true;
-                await GradePointViewModel.Instance.ExecuteLoadItemsCommand();
-                gradeProgress.IsRunning = false;
-                gradeCheck.Text = "√";
-                gradeCheck.TextColor = Color.DarkGreen;
+                jwxtCheck.Text = "";
+                jwxtProgress.IsRunning = true;
+                var result = await LoginViewModel.RequestAsync(Core.App.Service);
+                jwxtProgress.IsRunning = false;
+                jwxtCheck.Text = result ? "√" : "×";
+                jwxtCheck.TextColor = result ? Color.DarkGreen : Color.Red;
+
+                if (result && !((UIMS)Core.App.Service).OutsideSchool)
+                {
+                    kcbCheck.Text = "";
+                    kcbProgress.IsRunning = true;
+                    await ScheduleViewModel.Instance.Refresh();
+                    kcbProgress.IsRunning = false;
+                    kcbCheck.Text = "√";
+                    kcbCheck.TextColor = Color.DarkGreen;
+
+                    gradeCheck.Text = "";
+                    gradeProgress.IsRunning = true;
+                    await GradePointViewModel.Instance.ExecuteLoadItemsCommand();
+                    gradeProgress.IsRunning = false;
+                    gradeCheck.Text = "√";
+                    gradeCheck.TextColor = Color.DarkGreen;
+                }
             }
 
             await System.Threading.Tasks.Task.Delay(500);

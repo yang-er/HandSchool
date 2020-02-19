@@ -22,7 +22,7 @@ namespace HandSchool.JLU
         public string SchoolId => "jlu";
         const string configFile = "jlu.config.json";
         public Type HelloPage => typeof(HelloPage);
-        public const string FileBaseUrl = "https://raw.githubusercontent.com/yang-er/HandSchool/new-2/HandSchool.JLU";
+        public const string FileBaseUrl = "https://gitee.com/tlylz99/HandSchool/raw/new-2/HandSchool.JLU";
 
         public Lazy<ISchoolSystem> Service { get; set; }
         public Lazy<IGradeEntrance> GradePoint { get; set; }
@@ -35,15 +35,19 @@ namespace HandSchool.JLU
         // public static bool OutsideSchool { get; set; }
 
         internal static SchoolCard Ykt;
+        internal static StudentVpn Vpn;
         public static InfoEntranceGroup InfoList;
 
         public void PostLoad()
         {
             Ykt = new SchoolCard();
+            Vpn = new StudentVpn();
             Core.Reflection.RegisterCtor<YktViewPresenter>();
             Core.Reflection.RegisterCtor<YktPage>();
             Core.Reflection.RegisterCtor<InitializePage>();
             NavigationViewModel.Instance.AddMenuEntry("一卡通", Core.Platform.RuntimeName == "Android" ? "YktPage" : "YktViewPresenter", "JLU", MenuIcon.CreditCard);
+
+            Task.Run(OA.PreloadData);
         }
 
         public void PreLoad()
@@ -61,10 +65,11 @@ namespace HandSchool.JLU
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
             Message = new Lazy<IMessageEntrance>(() => new MessageEntrance());
             Feed = new Lazy<IFeedEntrance>(() => new OA());
-            Task.Run(OA.PreloadData);
-            
+
             InfoList = new InfoEntranceGroup("公共信息查询")
             {
+                InfoEntranceWrapper.From<RemoteSchedule>(),
+                TapEntranceWrapper.From<EhallFill>(),
                 InfoEntranceWrapper.From<EmptyRoom>(),
                 InfoEntranceWrapper.From<TeachEvaluate>(),
                 InfoEntranceWrapper.From<CollegeIntroduce>(),
@@ -72,7 +77,7 @@ namespace HandSchool.JLU
                 InfoEntranceWrapper.From<ClassSchedule>(),
                 InfoEntranceWrapper.From<SelectCourse>(),
                 InfoEntranceWrapper.From<LibrarySearch>(),
-                // InfoEntranceWrapper.From<LibraryZwyy>(),
+                TapEntranceWrapper.From<LibraryZwyy>(),
                 InfoEntranceWrapper.From<AdviceSchedule>(),
             };
 
@@ -92,12 +97,14 @@ namespace HandSchool.JLU
                 UseHttps = false;
                 OutsideSchool = false;
                 QuickMode = false;
+                UseVpn = false;
             }
 
             public string ProxyServer { get; set; }
             public bool UseHttps { get; set; }
             public bool OutsideSchool { get; set; }
             public bool QuickMode { get; set; }
+            public bool UseVpn { get; set; }
         }
         
         public void SaveSettings(ISchoolSystem uims)
@@ -109,6 +116,7 @@ namespace HandSchool.JLU
                 UseHttps = service.UseHttps,
                 OutsideSchool = service.OutsideSchool,
                 QuickMode = service.QuickMode,
+                UseVpn = service.UseVpn,
             };
 
             SaveSettings(save);

@@ -1,10 +1,8 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
-using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,11 +12,11 @@ namespace HandSchool.JLU
 {
     partial class UIMS
     {
-        class InsideSchoolStrategy : ISideSchoolStrategy
+        class VpnSchoolStrategy : ISideSchoolStrategy
         {
             UIMS UIMS { get; }
 
-            public InsideSchoolStrategy(UIMS handle)
+            public VpnSchoolStrategy(UIMS handle)
             {
                 UIMS = handle;
             }
@@ -77,62 +75,35 @@ namespace HandSchool.JLU
 
             #endregion
 
-            public Task<bool> PrepareLogin()
+            public async Task<bool> PrepareLogin()
             {
-                return Task.FromResult(true);
+                if (Loader.Vpn.WebClient == null)
+                    await Loader.Vpn.PrepareLogin();
+                return await Loader.Vpn.RequestLogin();
             }
 
             public async Task<bool> LoginSide()
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
+                
+                if (!Loader.Vpn.IsLogin)
+                {
+                    UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, "VPN未登录"));
+                    return false;
+                }
+
                 UIMS.WebClient = Core.New<IWebClient>();
-
-                if (UIMS.QuickMode)
-                {
-                    UIMS.WebClient.BaseAddress = "https://10.60.65.8/ntms/";
-                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "10.60.65.8"));
-                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", "10.60.65.8"));
-                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", "10.60.65.8"));
-                }
-                else if (UIMS.WebClient is HttpClientImpl hci)
-                {
-                    hci.BaseAddress = "https://10.60.65.7/ntms/";
-                    hci.AttachHeader("Host", "uims.jlu.edu.cn");
-                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "10.60.65.7"));
-                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", "10.60.65.7"));
-                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", "10.60.65.7"));
-                }
-                else
-                {
-                    UIMS.WebClient.BaseAddress = "https://uims.jlu.edu.cn/ntms/";
-                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", UIMS.proxy_server));
-                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", UIMS.proxy_server));
-                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", UIMS.proxy_server));
-                }
-
+                UIMS.proxy_server = "vpns.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";
+                UIMS.WebClient.Cookie.Add(Loader.Vpn.WebClient.Cookie.GetCookies(new Uri("https://vpns.jlu.edu.cn")));
+                UIMS.WebClient.BaseAddress = UIMS.ServerUri;
+                
                 // Access Main Page To Create a JSESSIONID
                 try
                 {
-                    UIMS.WebClient.Timeout = 1000;
-
-                    for (int i = 0; i < 15; i++)
-                    {
-                        try
-                        {
-                            await UIMS.WebClient.GetAsync("", "*/*");
-                            break;
-                        }
-                        catch (WebsException)
-                        {
-                            Core.Logger.WriteLine("UIMS", "Timeout #"+i);
-                            // continue;
-                        }
-                    }
-
-                    //UIMS.WebClient.Timeout = 10000;
-                    var activateRequest = await UIMS.WebClient.GetAsync("", "*/*");
-
                     UIMS.WebClient.Timeout = 15000;
+
+                    //await UIMS.WebClient.GetStringAsync("");
+                    
                     // Set Login Session
                     var loginData = new KeyValueDict
                     {
@@ -143,10 +114,15 @@ namespace HandSchool.JLU
                         { "mousePath", MousePath }
                     };
 
+                    //var o1 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "pwdStrength%3D1", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
+                    //var o2 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "alu%3D" + UIMS.Username, UIMS.ServerUri + "userLogin.jsp?reason=nologin");
+                    //var o3 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "loginPage%3DuserLogin.jsp", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
+                    //var str = await Loader.Vpn.WebClient.GetStringAsync("/wengine-vpn/cookie?method=get&host=uims.jlu.edu.cn&scheme=https&path=/ntms/&vpn_timestamp=" + (DateTimeOffset.Now.ToUnixTimeSeconds()));
+
                     var reqMeta = new WebRequestMeta("j_spring_security_check", WebRequestMeta.All);
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
                     var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
-                    var loc = response.Location.Replace("https://uims.jlu.edu.cn/ntms/", "");
+                    var loc = response.Location.Replace(UIMS.ServerUri, "");
 
                     if (loc == "error/dispatch.jsp?reason=loginError")
                     {
@@ -178,6 +154,7 @@ namespace HandSchool.JLU
                     }
                     else
                     {
+                        var opt = await UIMS.WebClient.GetStringAsync(loc);
                         var error = "UIMS服务器似乎出了点问题……\n";
                         if (response.StatusCode == HttpStatusCode.Redirect)
                             error += "服务器未知响应：" + response.Location + "，请联系开发者。";
@@ -192,7 +169,7 @@ namespace HandSchool.JLU
 
                 UIMS.IsLogin = true;
                 UIMS.NeedLogin = false;
-                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));                
+                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
                 return true;
             }
 

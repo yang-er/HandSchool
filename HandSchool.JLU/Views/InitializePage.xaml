@@ -32,21 +32,25 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label Grid.ColumnSpan="2" Text="正在初始化" FontSize="36" Margin="0,0,0,15" TextColor="Black" />
-            <ActivityIndicator Grid.Row="1" x:Name="jwxtProgress" Style="{StaticResource ProgBar}" />
-            <Label Grid.Row="1" Text="…" x:Name="jwxtCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
-            <Label Grid.Row="1" Grid.Column="1" Text="登录教务系统" Style="{StaticResource ProgText}" />
-            <ActivityIndicator Grid.Row="2" x:Name="kcbProgress" Style="{StaticResource ProgBar}" />
-            <Label Grid.Row="2" Text="…" x:Name="kcbCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
-            <Label Grid.Row="2" Grid.Column="1" Text="更新课程表" Style="{StaticResource ProgText}" />
-            <ActivityIndicator Grid.Row="3" x:Name="gradeProgress" Style="{StaticResource ProgBar}" />
-            <Label Grid.Row="3" Text="…" x:Name="gradeCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
-            <Label Grid.Row="3" Grid.Column="1" Text="更新学分绩点" Style="{StaticResource ProgText}" />
+            <ActivityIndicator Grid.Row="1" x:Name="vpnProgress" Style="{StaticResource ProgBar}" />
+            <Label Grid.Row="1" Text="…" x:Name="vpnCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
+            <Label Grid.Row="1" Grid.Column="1" Text="登录学生VPN" Style="{StaticResource ProgText}" />
+            <ActivityIndicator Grid.Row="2" x:Name="jwxtProgress" Style="{StaticResource ProgBar}" />
+            <Label Grid.Row="2" Text="…" x:Name="jwxtCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
+            <Label Grid.Row="2" Grid.Column="1" Text="登录教务系统" Style="{StaticResource ProgText}" />
+            <ActivityIndicator Grid.Row="3" x:Name="kcbProgress" Style="{StaticResource ProgBar}" />
+            <Label Grid.Row="3" Text="…" x:Name="kcbCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
+            <Label Grid.Row="3" Grid.Column="1" Text="更新课程表" Style="{StaticResource ProgText}" />
+            <ActivityIndicator Grid.Row="4" x:Name="gradeProgress" Style="{StaticResource ProgBar}" />
+            <Label Grid.Row="4" Text="…" x:Name="gradeCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
+            <Label Grid.Row="4" Grid.Column="1" Text="更新学分绩点" Style="{StaticResource ProgText}" />
         </Grid>
     </w:ViewObject.Content>
 </w:ViewObject>

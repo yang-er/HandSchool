@@ -35,6 +35,8 @@ namespace HandSchool.JLU.Services
         bool auto_login = false;
         bool save_password = false;
 
+        public Task<bool> BeforeLoginForm() => Task.FromResult(true);
+
         public string Username { get; set; }
         public string Password { get; set; }
         public string CaptchaCode { get; set; }

@@ -61,11 +61,19 @@ namespace HandSchool.JLU
         }
 
         private bool outside_school;
-        [Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
+        //[Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
         public bool OutsideSchool
         {
             get => outside_school;
             set => SetProperty(ref outside_school, value);
+        }
+
+        private bool use_vpn;
+        [Settings("使用学生VPN", "使用学生VPN连接教务系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        public bool UseVpn
+        {
+            get => use_vpn;
+            set => SetProperty(ref use_vpn, value);
         }
 
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
@@ -131,8 +139,9 @@ namespace HandSchool.JLU
 
             ProxyServer = "uims.jlu.edu.cn";
             UseHttps = true;
-            OutsideSchool = config.OutsideSchool;
+            OutsideSchool = false; // config.OutsideSchool;
             QuickMode = false; //config.QuickMode;
+            UseVpn = config.UseVpn;
 
             IsLogin = false;
             NeedLogin = false;
@@ -141,6 +150,7 @@ namespace HandSchool.JLU
             if (Password == "") SavePassword = false;
 
             if (OutsideSchool) UsingStrategy = new OutsideSchoolStrategy(this);
+            else if (UseVpn) UsingStrategy = new VpnSchoolStrategy(this);
             else UsingStrategy = new InsideSchoolStrategy(this);
             UsingStrategy.OnLoad();
         }
@@ -225,6 +235,13 @@ namespace HandSchool.JLU
 
         public Task<bool> PrepareLogin()
         {
+            return UsingStrategy.PrepareLogin();
+        }
+
+        public Task<bool> BeforeLoginForm()
+        {
+            if (UseVpn)
+                return UsingStrategy.PrepareLogin();
             return Task.FromResult(true);
         }
 
@@ -236,6 +253,7 @@ namespace HandSchool.JLU
             string FormatArguments(string input);
             string WelcomeMessage { get; }
             string CurrentMessage { get; }
+            Task<bool> PrepareLogin();
         }
     }
 }

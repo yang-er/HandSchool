@@ -75,5 +75,11 @@ namespace HandSchool.Models
         /// 登录状态改变的事件
         /// </summary>
         event EventHandler<LoginStateEventArgs> LoginStateChanged;
+
+        /// <summary>
+        /// 在登录框弹出前需要做的事情
+        /// </summary>
+        /// <returns>是否有必要继续弹出</returns>
+        Task<bool> BeforeLoginForm();
     }
 }

@@ -12,8 +12,7 @@ namespace HandSchool.Droid
     /// </summary>
     public class UpdateManager
     {
-        const string UpdateSource = "https://raw.githubusercontent.com/" +
-            "yang-er/HandSchool/new-2/HandSchool/HandSchool.Android/";
+        const string UpdateSource = "https://gitee.com/tlylz99/HandSchool/raw/new-2/HandSchool.Android/";
 
         public UpdateManager(Context context)
         {

@@ -128,7 +128,7 @@ namespace HandSchool.Internals
         {
             return WrapTry(req, () =>
             {
-                Headers.Set("Content-Type", contentType);
+                if (contentType != null) Headers.Set("Content-Type", contentType);
                 var innerValue = Encoding.GetBytes(value);
                 return UploadDataTaskAsync(req.Url, "POST", innerValue);
             });

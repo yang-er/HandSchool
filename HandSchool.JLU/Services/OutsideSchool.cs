@@ -86,6 +86,11 @@ namespace HandSchool.JLU
                 Loader.InfoList.RemoveAll(t => !t.Title.Contains("图书"));
             }
 
+            public Task<bool> PrepareLogin()
+            {
+                return Task.FromResult(true);
+            }
+
             class NullMsg : IMessageEntrance
             {
                 public Task Delete(int id) => Task.CompletedTask;

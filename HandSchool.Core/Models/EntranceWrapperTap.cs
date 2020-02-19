@@ -1,4 +1,6 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Internal;
+using HandSchool.Internals;
+using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 
@@ -30,6 +32,18 @@ namespace HandSchool.Models
             Title = name;
             Detail = desc;
             internal_action = action;
+        }
+
+        /// <summary>
+        /// 从 <typeparamref name="T"/> 创建一个入口点包装。
+        /// </summary>
+        /// <typeparam name="T">入口点类型</typeparam>
+        /// <returns>创建好的入口点包装</returns>
+        public static TapEntranceWrapper From<T>()
+            where T : ITapEntrace, new()
+        {
+            var ent = typeof(T).Get<EntranceAttribute>();
+            return new TapEntranceWrapper(ent.Title, ent.Description, a => new T().Action(a));
         }
     }
 }

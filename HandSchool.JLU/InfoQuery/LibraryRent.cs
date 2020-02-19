@@ -114,7 +114,9 @@ namespace HandSchool.JLU.InfoQuery
             }
 
             #endregion
-            
+
+            public Task<bool> BeforeLoginForm() => Task.FromResult(true);
+
             public async Task<bool> Login()
             {
                 if (Username == "" || Password == "")
