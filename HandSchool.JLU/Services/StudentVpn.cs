@@ -36,7 +36,7 @@ namespace HandSchool.JLU.Services
 
         public string Tips => "账号为吉林大学学生邮箱的用户名(不包含@mails.jlu.edu.cn）和密码。";
         public string FormName => "学生VPN";
-        public bool NeedLogin => !is_login;
+        public bool NeedLogin { get; set; } = true;
 
         public Task<bool> BeforeLoginForm() => Task.FromResult(true);
 
@@ -185,6 +185,7 @@ namespace HandSchool.JLU.Services
             AutoLogin = SavePassword = Password != "";
             if (AutoLogin) remember_token = Core.Configure.Read(configRemember);
             if (string.IsNullOrWhiteSpace(remember_token)) remember_token = "aaaa";
+            else NeedLogin = false;
         }
 
         #endregion

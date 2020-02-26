@@ -86,6 +86,9 @@ namespace HandSchool.JLU
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
                 
+                if (!Loader.Vpn.IsLogin && !Loader.Vpn.NeedLogin)
+                    await Loader.Vpn.PrepareLogin();
+
                 if (!Loader.Vpn.IsLogin)
                 {
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, "VPN未登录"));
@@ -123,6 +126,7 @@ namespace HandSchool.JLU
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
                     var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
                     var loc = response.Location.Replace(UIMS.ServerUri, "");
+                    loc = loc.Replace("/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/", "");
 
                     if (loc == "error/dispatch.jsp?reason=loginError")
                     {
