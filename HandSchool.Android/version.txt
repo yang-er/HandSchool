@@ -1,1 +1,1 @@
-19 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复了UIMS登录问题。
+20 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复了对校内通知的读取。

@@ -75,14 +75,17 @@ namespace HandSchool.JLU.Models
             if (!string.IsNullOrEmpty(content)) return content;
 
             var oa = Core.App.Feed as OA;
-            var meta = new WebRequestMeta("http://202.98.18.57:18080/webservice/m/api/getNewsDetail", WebRequestMeta.Json);
+            var meta = new WebRequestMeta("https://ms.jlu.edu.cn:18080/webservice/m/api/getNewsDetail", WebRequestMeta.Json);
             var data = new KeyValueDict { { "link", internalLink } };
-            var resp = await oa.WebClient.PostAsync(meta, data);
-            var str = await resp.ReadAsStringAsync();
-            var sb = new StringBuilder();
 
-            await Task.Run(() =>
+            try
             {
+                var resp = await oa.WebClient.PostAsync(meta, data);
+                var str = await resp.ReadAsStringAsync();
+                var sb = new StringBuilder();
+
+                await Task.Yield();
+
                 try
                 {
                     var ro = str.ParseJSON<OaItemRootObject>();
@@ -99,9 +102,13 @@ namespace HandSchool.JLU.Models
                     sb.AppendLine("解析引擎出现错误，请联系开发者。可以通过右上角链接直接查看原文。");
                     sb.Append(ex);
                 }
-            });
 
-            return content = sb.ToString().Trim();
+                return content = sb.ToString().Trim();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }

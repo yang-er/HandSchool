@@ -43,10 +43,10 @@ namespace HandSchool.JLU
             {
                 LoginInfo = resp.ParseJSON<LoginValue>();
                 studId = LoginInfo.userId.ToString();
-                studName = LoginInfo.nickName;
+                studName = LoginInfo.loginInfo?.nickName ?? LoginInfo.nickName ?? "同学";
                 adcId = LoginInfo.defRes.adcId.ToString();
                 schoolId = LoginInfo.defRes.school.ToString();
-                term = LoginInfo.defRes.teachingTerm == 0 ? "136" : LoginInfo.defRes.teachingTerm.ToString();
+                term = LoginInfo.defRes.teachingTerm == 0 ? "138" : LoginInfo.defRes.teachingTerm.ToString();
             }
 
             private void ParseTermInfo(string resp)
@@ -117,9 +117,9 @@ namespace HandSchool.JLU
                         { "mousePath", MousePath }
                     };
 
-                    //var o1 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "pwdStrength%3D1", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
-                    //var o2 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "alu%3D" + UIMS.Username, UIMS.ServerUri + "userLogin.jsp?reason=nologin");
-                    //var o3 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "loginPage%3DuserLogin.jsp", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
+                    var o1 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "pwdStrength%3D1", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
+                    var o2 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "alu%3D" + UIMS.Username, UIMS.ServerUri + "userLogin.jsp?reason=nologin");
+                    var o3 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "loginPage%3DuserLogin.jsp", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
                     //var str = await Loader.Vpn.WebClient.GetStringAsync("/wengine-vpn/cookie?method=get&host=uims.jlu.edu.cn&scheme=https&path=/ntms/&vpn_timestamp=" + (DateTimeOffset.Now.ToUnixTimeSeconds()));
 
                     var reqMeta = new WebRequestMeta("j_spring_security_check", WebRequestMeta.All);

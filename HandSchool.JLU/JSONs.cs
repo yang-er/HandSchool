@@ -385,6 +385,7 @@ namespace HandSchool.JLU.JsonObject
         public int trulySch { get; set; }
         public GroupsInfo[] groupsInfo { get; set; }
         public string firstLogin { get; set; }
+        public LoginInfo loginInfo { get; set; }
         public DefRes defRes { get; set; }
         public string userType { get; set; }
         public DateTime sysTime { get; set; }
@@ -392,6 +393,15 @@ namespace HandSchool.JLU.JsonObject
         public int userId { get; set; }
         public string welcome { get; set; }
         public string loginName { get; set; }
+
+        public class LoginInfo
+        {
+            public string method { get; set; }
+            public string nickName { get; set; }
+            public string loginName { get; set; }
+            public int loginCounter { get; set; }
+            public string lrToken { get; set; }
+        }
 
         public class CacheUpdate
         {
