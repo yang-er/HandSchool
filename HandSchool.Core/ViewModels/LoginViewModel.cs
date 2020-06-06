@@ -53,9 +53,11 @@ namespace HandSchool.ViewModels
                 viewModel.Page.SetNavigationArguments(viewModel);
 
                 if (CurrentTask != null) await CurrentTask;
-                CurrentTask = new Task(() => { });
+                if (form.IsLogin) return true;
+                var cts = new TaskCompletionSource<bool>();
+                CurrentTask = cts.Task;
                 await viewModel.Page.ShowAsync();
-                CurrentTask.Start();
+                cts.SetResult(true);
                 return form.IsLogin;
             });
         }

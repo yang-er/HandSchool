@@ -38,7 +38,7 @@ namespace HandSchool
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Version => "2.2.25.2";
+        public static string Version => "2.2.26.0";
 
         /// <summary>
         /// 可用学校列表

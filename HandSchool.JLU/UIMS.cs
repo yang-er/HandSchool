@@ -91,15 +91,11 @@ namespace HandSchool.JLU
             }
         }
 
-        private bool auto_login = true;
+        private bool auto_login = false;
         public bool AutoLogin
         {
             get => auto_login;
-            set
-            {
-                SetProperty(ref auto_login, value);
-                if (value) SetProperty(ref save_password, true, nameof(SavePassword));
-            }
+            set => SetProperty(ref auto_login, false);
         }
 
         private bool save_password = true;
@@ -144,7 +140,7 @@ namespace HandSchool.JLU
             UseVpn = config.UseVpn;
 
             IsLogin = false;
-            NeedLogin = false;
+            NeedLogin = true;
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
             if (Password == "") SavePassword = false;

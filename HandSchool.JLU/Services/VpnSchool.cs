@@ -75,38 +75,43 @@ namespace HandSchool.JLU
 
             #endregion
 
+            bool reinit = true;
+
             public async Task<bool> PrepareLogin()
             {
                 if (Loader.Vpn.WebClient == null)
                     await Loader.Vpn.PrepareLogin();
-                return await Loader.Vpn.RequestLogin();
+                if (!await Loader.Vpn.RequestLogin())
+                    return false;
+
+                if (reinit)
+                {
+                    if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
+
+                    UIMS.WebClient = Core.New<IWebClient>();
+                    UIMS.proxy_server = "vpns.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";
+                    UIMS.WebClient.Cookie.Add(Loader.Vpn.WebClient.Cookie.GetCookies(new Uri("https://vpns.jlu.edu.cn")));
+                    UIMS.WebClient.BaseAddress = UIMS.ServerUri;
+
+                    UIMS.WebClient.Timeout = 15000;
+                    reinit = false;
+                }
+
+                if (!UIMS.IsLogin)
+                {
+                    var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do?vpn-1&s=1");
+                    if (captcha.StatusCode != HttpStatusCode.OK) return false;
+                    UIMS.CaptchaSource = await captcha.ReadAsByteArrayAsync();
+                }
+
+                return true;
             }
 
             public async Task<bool> LoginSide()
             {
-                if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
-                
-                if (!Loader.Vpn.IsLogin && !Loader.Vpn.NeedLogin)
-                    await Loader.Vpn.PrepareLogin();
-
-                if (!Loader.Vpn.IsLogin)
-                {
-                    UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, "VPN未登录"));
-                    return false;
-                }
-
-                UIMS.WebClient = Core.New<IWebClient>();
-                UIMS.proxy_server = "vpns.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";
-                UIMS.WebClient.Cookie.Add(Loader.Vpn.WebClient.Cookie.GetCookies(new Uri("https://vpns.jlu.edu.cn")));
-                UIMS.WebClient.BaseAddress = UIMS.ServerUri;
-                
                 // Access Main Page To Create a JSESSIONID
                 try
                 {
-                    UIMS.WebClient.Timeout = 15000;
-
-                    //await UIMS.WebClient.GetStringAsync("");
-                    
                     // Set Login Session
                     var loginData = new KeyValueDict
                     {
@@ -114,7 +119,8 @@ namespace HandSchool.JLU
                         { "password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
                         { "j_username", UIMS.Username },
                         { "j_password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "mousePath", MousePath }
+                        { "mousePath", MousePath },
+                        { "vcode", UIMS.CaptchaCode }
                     };
 
                     var o1 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "pwdStrength%3D1", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
@@ -131,8 +137,9 @@ namespace HandSchool.JLU
                     if (loc == "error/dispatch.jsp?reason=loginError")
                     {
                         string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
-                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
                         UIMS.IsLogin = false;
+                        UIMS.NeedLogin = false;
+                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
                         return false;
                     }
                     else if (loc == "index.do")
@@ -168,6 +175,8 @@ namespace HandSchool.JLU
                 catch (WebsException ex)
                 {
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(ex));
+                    reinit = true;
+                    UIMS.NeedLogin = true;
                     return false;
                 }
 
