@@ -1,6 +1,6 @@
 var typea = true;
 var names = [];
-var guidelineId = '150';
+var guidelineId = 150;
 
 function te_callback(resp)
 {
