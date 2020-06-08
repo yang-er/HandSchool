@@ -1,5 +1,6 @@
 var typea = true;
 var names = [];
+var guidelineId = '150';
 
 function te_callback(resp)
 {
@@ -63,7 +64,7 @@ function handle_one(resp)
 		}
 		else
 		{
-			invokeCSharpAction('post;action/eval/eval-with-answer.do;{"guidelineId":120,"evalItemId":"' + list[i] + '","answers":{"prob11":"A","prob12":"A","prob13":"N","prob14":"A","prob15":"A","prob21":"A","prob22":"A","prob23":"A","prob31":"A","prob32":"A","prob33":"A","prob41":"A","prob42":"A","prob43":"A","prob51":"A","prob52":"A","sat6":"A","mulsel71":"K","advice72":"good","prob73":"Y","puzzle_answer":"' + ans +'"},"clicks":{"_boot_":0,"prob11":129550,"prob12":131673,"prob13":134548,"prob14":137761,"prob15":140810,"prob21":143057,"prob22":145055,"prob23":146495,"prob31":150531,"prob32":151706,"prob33":152729,"prob41":154707,"prob42":155872,"prob43":160394,"prob51":163353,"prob52":165352,"sat6":166962,"mulsel71":171192,"prob73":176278}}');
+			invokeCSharpAction('post;action/eval/eval-with-answer.do;{"guidelineId":' + guidelineId + ',"evalItemId":"' + list[i] + '","answers":{"prob11":"A","prob12":"A","prob13":"N","prob14":"A","prob15":"A","prob21":"A","prob22":"A","prob23":"A","prob31":"A","prob32":"A","prob33":"A","prob41":"A","prob42":"A","prob43":"A","prob51":"A","prob52":"A","sat6":"A","mulsel71":"K","advice72":"good","prob73":"Y","puzzle_answer":"' + ans +'"},"clicks":{"_boot_":0,"prob11":129550,"prob12":131673,"prob13":134548,"prob14":137761,"prob15":140810,"prob21":143057,"prob22":145055,"prob23":146495,"prob31":150531,"prob32":151706,"prob33":152729,"prob41":154707,"prob42":155872,"prob43":160394,"prob51":163353,"prob52":165352,"sat6":166962,"mulsel71":171192,"prob73":176278}}');
 		}
 	}
 	else if (resp.count !== 1)
@@ -84,8 +85,8 @@ function parse_list(resp)
 {
     for(var p = 0; p < resp.value.length; p++)
     {
-        $('#evalItemList').append('<tr id="' + resp.value[p].evalItemId + '" class="' + (typea ? resp.value[p].evalActTime.evalGuideline.evalGuidelineId === '120' ? 'table-primary' : 'table-warning' : 'table-success') + '"><td>' + resp.value[p].target.name + '</td><td>' + resp.value[p].target.school.schoolName + '</td>' + (uwp ? '<td>' + resp.value[p].targetClar.notes + '</td>' : '') + '</tr>');
-        if (resp.value[p].evalActTime.evalGuideline.evalGuidelineId === '120')
+        $('#evalItemList').append('<tr id="' + resp.value[p].evalItemId + '" class="' + (typea ? resp.value[p].evalActTime.evalGuideline.evalGuidelineId === guidelineId ? 'table-primary' : 'table-warning' : 'table-success') + '"><td>' + resp.value[p].target.name + '</td><td>' + resp.value[p].target.school.schoolName + '</td>' + (uwp ? '<td>' + resp.value[p].targetClar.notes + '</td>' : '') + '</tr>');
+        if (resp.value[p].evalActTime.evalGuideline.evalGuidelineId === guidelineId)
         {
             len = list.push(resp.value[p].evalItemId);
         }
