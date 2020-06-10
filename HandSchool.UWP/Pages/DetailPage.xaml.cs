@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -38,9 +39,15 @@ namespace HandSchool.Views
                 Title = feed.Title;
                 Time = "时间：" + feed.PubDate;
                 Sender = "分类：" + feed.Category;
-                var desc = feed.Description.Trim();
-                while (desc.Contains("    ")) desc = desc.Replace("    ", "  ");
-                Body = desc;
+                Body = "加载中，请稍后……";
+
+                Task.Run(async () =>
+                {
+                    var desc = await feed.GetDescriptionAsync();
+                    desc = desc.Trim();
+                    while (desc.Contains("    ")) desc = desc.Replace("    ", "  ");
+                    Body = desc;
+                });
             }
             else if (e.Parameter is IMessageItem msg)
             {

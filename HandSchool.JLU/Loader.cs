@@ -97,7 +97,7 @@ namespace HandSchool.JLU
                 UseHttps = false;
                 OutsideSchool = false;
                 QuickMode = false;
-                UseVpn = false;
+                UseVpn = true;
             }
 
             public string ProxyServer { get; set; }
