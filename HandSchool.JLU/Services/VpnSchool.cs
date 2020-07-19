@@ -99,9 +99,17 @@ namespace HandSchool.JLU
 
                 if (!UIMS.IsLogin)
                 {
-                    var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do?vpn-1&s=1");
-                    if (captcha.StatusCode != HttpStatusCode.OK) return false;
-                    UIMS.CaptchaSource = await captcha.ReadAsByteArrayAsync();
+                    try
+                    {
+                        var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do?vpn-1&s=1");
+                        if (captcha.StatusCode != HttpStatusCode.OK) return false;
+                        UIMS.CaptchaSource = await captcha.ReadAsByteArrayAsync();
+                    }
+                    catch (WebsException)
+                    {
+                        UIMS.CaptchaSource = null;
+                        UIMS.CaptchaCode = null;
+                    }
                 }
 
                 return true;
