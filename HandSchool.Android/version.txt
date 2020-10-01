@@ -1,1 +1,1 @@
-22 https://www.coolapk.com/apk/com.x90yang.HandSchool 取消了UIMS登录时验证码。
+23 https://www.coolapk.com/apk/com.x90yang.HandSchool 修复了校内登录。
