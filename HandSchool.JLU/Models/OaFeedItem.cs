@@ -15,7 +15,7 @@ namespace HandSchool.JLU.Models
     {
         private readonly string internalLink;
         private string content = "";
-        const string xslt = "<!DOCTYPE xsl:stylesheet [ <!ENTITY nbsp \"&#x00A0;\"> <!ENTITY middot \"&#x00B7;\"> ]>";
+        const string xslt = "<!DOCTYPE xsl:stylesheet [ <!ENTITY nbsp \"&#x00A0;\"> <!ENTITY middot \"&#x00B7;\"> <!ENTITY times \"&#x00D7;\"> <!ENTITY divide \"&#x00F7;\"> <!ENTITY yen \"&#x00A5;\"> <!ENTITY trade \"&#x2122;\"> ]>";
 
         private static ISet<XName> InlineElements { get; } = new HashSet<XName>
         {
@@ -54,6 +54,9 @@ namespace HandSchool.JLU.Models
                         break;
                     case XElement xe when xe.Name == "table":
                         sb.AppendLine("表格暂时无法显示。");
+                        break;
+                    case XElement xe when xe.Name == "pre":
+                        sb.AppendLine(xe.Value);
                         break;
                     case XElement xe when IgnoredElements.Contains(xe.Name):
                     case XComment _:
