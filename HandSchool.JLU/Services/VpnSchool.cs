@@ -160,7 +160,7 @@ namespace HandSchool.JLU
                         var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
                         string resp = await webResp2.ReadAsStringAsync();
                         if (resp.StartsWith("<!")) return false;
-                        Core.Configure.Write(configUserCache, UIMS.AutoLogin ? resp : "");
+                        Core.Configure.Write(configUserCache, UIMS.SavePassword ? resp : "");
                         ParseLoginInfo(resp);
 
                         // Get term info
@@ -168,7 +168,7 @@ namespace HandSchool.JLU
                         webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
                         resp = await webResp2.ReadAsStringAsync();
                         if (resp.StartsWith("<!")) return false;
-                        Core.Configure.Write(configTeachTerm, UIMS.AutoLogin ? resp : "");
+                        Core.Configure.Write(configTeachTerm, UIMS.SavePassword ? resp : "");
                         ParseTermInfo(resp);
                     }
                     else
@@ -201,6 +201,7 @@ namespace HandSchool.JLU
                 {
                     ParseLoginInfo(Core.Configure.Read(configUserCache));
                     ParseTermInfo(Core.Configure.Read(configTeachTerm));
+                    UIMS.NeedLogin = !UIMS.SavePassword;
                 }
                 catch (JsonException)
                 {
