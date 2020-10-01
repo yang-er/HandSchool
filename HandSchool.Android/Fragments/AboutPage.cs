@@ -155,9 +155,9 @@ namespace HandSchool.Views
 
             var group = new MaterialAboutActionItem.Builder()
                 .Text("反馈")
-                .SubText("QQ群 752277651")
+                .SubText("酷安评论")
                 .Icon(Resource.Drawable.aboutpage_feedbackicon)
-                .SetOnClickAction(new AboutMenuItemClick(OpenQQGroup))
+                .SetOnClickAction(new AboutMenuItemClick(AboutViewModel.Instance.OpenMarket))
                 .Build();
 
             var card = new MaterialAboutCard.Builder()
