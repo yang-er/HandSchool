@@ -45,10 +45,10 @@ namespace HandSchool.JLU
             {
                 LoginInfo = resp.ParseJSON<LoginValue>();
                 studId = LoginInfo.userId.ToString();
-                studName = LoginInfo.nickName;
+                studName = LoginInfo.loginInfo?.nickName ?? LoginInfo.nickName ?? "同学";
                 adcId = LoginInfo.defRes.adcId.ToString();
                 schoolId = LoginInfo.defRes.school.ToString();
-                term = LoginInfo.defRes.teachingTerm == 0 ? "136" : LoginInfo.defRes.teachingTerm.ToString();
+                term = LoginInfo.defRes.teachingTerm == 0 ? "139" : LoginInfo.defRes.teachingTerm.ToString();
             }
 
             private void ParseTermInfo(string resp)
@@ -77,43 +77,19 @@ namespace HandSchool.JLU
 
             #endregion
 
-            public Task<bool> PrepareLogin()
-            {
-                return Task.FromResult(true);
-            }
+            bool reinit = true;
 
-            public async Task<bool> LoginSide()
+            public async Task<bool> PrepareLogin()
             {
-                if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
-                UIMS.WebClient = Core.New<IWebClient>();
+                if (reinit)
+                {
+                    if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
+                    UIMS.WebClient = Core.New<IWebClient>();
 
-                if (UIMS.QuickMode)
-                {
-                    UIMS.WebClient.BaseAddress = "https://10.60.65.8/ntms/";
-                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "10.60.65.8"));
-                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", "10.60.65.8"));
-                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", "10.60.65.8"));
-                }
-                else if (UIMS.WebClient is HttpClientImpl hci)
-                {
-                    hci.BaseAddress = "https://10.60.65.7/ntms/";
-                    hci.AttachHeader("Host", "uims.jlu.edu.cn");
-                    UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", "10.60.65.7"));
-                    UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", "10.60.65.7"));
-                    UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", "10.60.65.7"));
-                }
-                else
-                {
                     UIMS.WebClient.BaseAddress = "https://uims.jlu.edu.cn/ntms/";
                     UIMS.WebClient.AddCookie(new Cookie("loginPage", "userLogin.jsp", "/ntms/", UIMS.proxy_server));
                     UIMS.WebClient.AddCookie(new Cookie("alu", UIMS.Username, "/ntms/", UIMS.proxy_server));
                     UIMS.WebClient.AddCookie(new Cookie("pwdStrength", "1", "/ntms/", UIMS.proxy_server));
-                }
-
-                // Access Main Page To Create a JSESSIONID
-                try
-                {
-                    UIMS.WebClient.Timeout = 1000;
 
                     for (int i = 0; i < 15; i++)
                     {
@@ -124,15 +100,36 @@ namespace HandSchool.JLU
                         }
                         catch (WebsException)
                         {
-                            Core.Logger.WriteLine("UIMS", "Timeout #"+i);
+                            Core.Logger.WriteLine("UIMS", "Timeout #" + i);
                             // continue;
                         }
                     }
 
-                    //UIMS.WebClient.Timeout = 10000;
-                    var activateRequest = await UIMS.WebClient.GetAsync("", "*/*");
+                    reinit = false;
+                }
 
-                    UIMS.WebClient.Timeout = 15000;
+                if (!UIMS.IsLogin)
+                {
+                    try
+                    {
+                        var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do?vpn-1&s=1");
+                        if (captcha.StatusCode != HttpStatusCode.OK) return false;
+                        UIMS.CaptchaSource = await captcha.ReadAsByteArrayAsync();
+                    }
+                    catch (WebsException)
+                    {
+                        UIMS.CaptchaSource = null;
+                        UIMS.CaptchaCode = null;
+                    }
+                }
+
+                return true;
+            }
+
+            public async Task<bool> LoginSide()
+            {
+                try
+                {
                     // Set Login Session
                     var loginData = new KeyValueDict
                     {
@@ -140,19 +137,22 @@ namespace HandSchool.JLU
                         { "password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
                         { "j_username", UIMS.Username },
                         { "j_password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "mousePath", MousePath }
+                        { "mousePath", MousePath },
+                        { "vcode", UIMS.CaptchaCode }
                     };
 
                     var reqMeta = new WebRequestMeta("j_spring_security_check", WebRequestMeta.All);
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
                     var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
                     var loc = response.Location.Replace("https://uims.jlu.edu.cn/ntms/", "");
+                    loc = loc.Replace("/ntms/", "");
 
                     if (loc == "error/dispatch.jsp?reason=loginError")
                     {
                         string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
                         UIMS.IsLogin = false;
+                        UIMS.NeedLogin = false;
                         return false;
                     }
                     else if (loc == "index.do")
@@ -187,6 +187,8 @@ namespace HandSchool.JLU
                 catch (WebsException ex)
                 {
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(ex));
+                    reinit = true;
+                    UIMS.NeedLogin = true;
                     return false;
                 }
 

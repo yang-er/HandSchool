@@ -46,7 +46,7 @@ namespace HandSchool.JLU
                 studName = LoginInfo.loginInfo?.nickName ?? LoginInfo.nickName ?? "同学";
                 adcId = LoginInfo.defRes.adcId.ToString();
                 schoolId = LoginInfo.defRes.school.ToString();
-                term = LoginInfo.defRes.teachingTerm == 0 ? "138" : LoginInfo.defRes.teachingTerm.ToString();
+                term = LoginInfo.defRes.teachingTerm == 0 ? "139" : LoginInfo.defRes.teachingTerm.ToString();
             }
 
             private void ParseTermInfo(string resp)
