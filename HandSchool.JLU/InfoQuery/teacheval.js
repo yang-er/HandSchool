@@ -1,6 +1,6 @@
 var typea = true;
 var names = [];
-var guidelineId = 150;
+var guidelineId = 160;
 
 function te_callback(resp)
 {
@@ -64,7 +64,7 @@ function handle_one(resp)
 		}
 		else
 		{
-			invokeCSharpAction('post;action/eval/eval-with-answer.do;{"guidelineId":' + guidelineId + ',"evalItemId":"' + list[i] + '","answers":{"p01":"A","p02":"A","p03":"A","p04":"A","p05":"A","p06":"A","p07":"A","p08":"A","p09":"A","p10":"A","sat11":"A","p12":"A","puzzle_answer":"' + ans +'"},"clicks":{"_boot_":0,"p01":63409,"p02":65829,"p03":67030,"p04":68426,"p05":69772,"p06":71571,"p07":72831,"p08":74448,"p09":75587,"p10":76905,"sat11":78082,"p12":81632}}');
+			invokeCSharpAction('post;action/eval/eval-with-answer.do;{"guidelineId":' + guidelineId + ',"evalItemId":"' + list[i] + '","answers":{"p01":"A","p02":"A","p03":"A","p04":"A","p05":"A","p06":"A","p07":"A","p08":"A","p09":"A","p10":"A","sat11":"A","sat12":"A","puzzle_answer":"' + ans +'"},"clicks":{"_boot_":0,"p01":564159,"p02":565357,"p03":566910,"p04":568627,"p05":570216,"p06":572475,"p07":574019,"p08":575632,"p09":577687,"p10":579937,"sat11":581460,"sat12":582592}}');
 		}
 	}
 	else if (resp.count !== 1)
