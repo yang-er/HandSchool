@@ -10,6 +10,7 @@ trigger:
 
 variables:
 - group: git_sync
+- group: android
 
 jobs:
 - job: BuildAndroid
@@ -24,16 +25,42 @@ jobs:
 
   steps:
   - task: NuGetToolInstaller@1
+    displayName: 'Install NuGet Tools'
 
   - task: NuGetCommand@2
     inputs:
       restoreSolution: 'HandSchool.sln'
+    displayName: 'Restore NuGet Packages'
 
   - task: XamarinAndroid@1
     inputs:
       projectFile: 'HandSchool.Android/HandSchool.Android.csproj'
       outputDirectory: '$(outputDirectory)'
       configuration: '$(buildConfiguration)'
+    displayName: 'Build Android Project'
+
+  - task: AndroidSigning@3
+    inputs:
+      apkFiles: '$(Build.BinariesDirectory)/$(buildConfiguration)/com.x90yang.HandSchool.apk'
+      apksignerKeystoreFile: 'tlylz99.keystore'
+      apksignerKeystorePassword: '$(KEYSTORE_PASSWORD)'
+      apksignerKeystoreAlias: 'tlylz99'
+      apksignerKeyPassword: '$(KEYSTORE_PASSWORD)'
+    displayName: 'Sign Android APK'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.BinariesDirectory)/$(buildConfiguration)'
+      Contents: '*.apk'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    displayName: 'Copy APK files'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop_android'
+      publishLocation: 'Container'
+    displayName: 'Publish APK files'
 
 
 - job: BuildIos
@@ -52,10 +79,12 @@ jobs:
     enabled: false
 
   - task: NuGetToolInstaller@1
+    displayName: 'Install NuGet Tools'
 
   - task: NuGetCommand@2
     inputs:
       restoreSolution: 'HandSchool.sln'
+    displayName: 'Restore NuGet Packages'
 
   - task: XamariniOS@2
     inputs:
@@ -63,6 +92,7 @@ jobs:
       configuration: 'Release'
       buildForSimulator: true
       packageApp: false
+    displayName: 'Build iOS Project'
 
 
 - job: Sync
