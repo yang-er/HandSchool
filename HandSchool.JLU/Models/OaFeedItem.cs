@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using HandSchool.Internals;
@@ -37,81 +39,25 @@ namespace HandSchool.JLU.Models
             Top = rv.flgtop;
         }
 
-        private void SolveDiv(XElement div, StringBuilder sb)
-        {
-            foreach (var xn in div.Nodes())
-            {
-                switch (xn)
-                {
-                    case XElement xe when InlineElements.Contains(xe.Name):
-                        sb.AppendLine(((string)xe).Replace('\x2003', ' ').TrimEnd());
-                        break;
-                    case XElement xe when xe.Name == "br":
-                        sb.AppendLine();
-                        break;
-                    case XElement xe when xe.Name == "div":
-                        SolveDiv(xe, sb);
-                        break;
-                    case XElement xe when xe.Name == "table":
-                        sb.AppendLine("表格暂时无法显示。");
-                        break;
-                    case XElement xe when xe.Name == "pre":
-                        sb.AppendLine(xe.Value);
-                        break;
-                    case XElement xe when IgnoredElements.Contains(xe.Name):
-                    case XComment _:
-                        // This is a comment. we should ignore it.
-                        break;
-                    case XText xt:
-                        sb.AppendLine(xt.Value.Replace("\n", " ").TrimEnd());
-                        break;
-                    case XElement xe:
-                        throw new Exception("Error parsing document.\nNot implemented element: " + xe.Name);
-                    default:
-                        throw new Exception("Error parsing document.\nNot implemented node: " + xn.GetType());
-                }
-            }
-        }
-
         public override async Task<string> GetDescriptionAsync()
         {
             if (!string.IsNullOrEmpty(content)) return content;
 
             var oa = Core.App.Feed as OA;
-            var meta = new WebRequestMeta("https://ms.jlu.edu.cn:18080/webservice/m/api/getNewsDetail", WebRequestMeta.Json);
-            var data = new KeyValueDict { { "link", internalLink } };
+            var domain = Link;
 
             try
             {
-                var resp = await oa.WebClient.PostAsync(meta, data);
-                var str = await resp.ReadAsStringAsync();
-                var sb = new StringBuilder();
-
-                await Task.Yield();
-
-                try
+                if (Loader.Vpn != null && Loader.Vpn.IsLogin)
                 {
-                    var ro = str.ParseJSON<OaItemRootObject>();
-                    var toParse = xslt + ro.resultValue.content;
-                    toParse = toParse.Replace("<o:p>", "<p>")
-                                     .Replace("</o:p>", "</p>");
-                    var doc = XDocument.Parse(toParse);
-                    var contentDiv = doc.Elements().First().Elements().First();
-                    SolveDiv(contentDiv, sb);
+                    domain = domain.Replace("https://oa.jlu.edu.cn/", "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/");
                 }
-                catch (Exception ex)
-                {
-                    sb.Clear();
-                    sb.AppendLine("解析引擎出现错误，请联系开发者。可以通过右上角链接直接查看原文。");
-                    sb.Append(ex);
-                }
-
-                return content = sb.ToString().Trim();
+                var data = await oa.WebClient.GetStringAsync(domain);
+                content = Tools.AnalyzeHTMLToPhara(data);
+                GC.Collect();
+                return content;
             }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            catch(Exception error) { return error.Message; }
         }
     }
 }

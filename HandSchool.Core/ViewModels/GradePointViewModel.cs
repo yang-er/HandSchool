@@ -38,6 +38,9 @@ namespace HandSchool.ViewModels
         /// </summary>
         public static GradePointViewModel Instance => Lazy.Value;
 
+        public static Func<Task<(bool, string)>> BeforeOperatingCheck { private get; set; }
+
+
         /// <summary>
         /// 建立绩点视图模型的数据源和刷新操作。
         /// </summary>
@@ -54,6 +57,19 @@ namespace HandSchool.ViewModels
         public async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy) return; IsBusy = true;
+
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
 
             try
             {

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewObject
+    xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HandSchool.JLU.Views.XykIOS_QandA">
+    <Frame Margin="8,4,8,8" Padding="20" Scale="0.95" HasShadow="False">
+               <StackLayout>
+                    <Label Text="常见问题 Q&amp;A" FontSize="16" TextColor="Accent" />
+                    <Label Text="Q: 为什么使用绑定的银行卡向校园卡转帐后，校园卡余额没有变化？" TextColor="Black" />
+                    <Label Text="A: 使用绑定的银行卡往校园卡转账后，用户需要进行一次刷卡操作才可以将转账金额写入到校园卡中。" />
+                    <Label Text="Q: 这里的消费记录似乎显示的不够全？" TextColor="Black" />
+                    <Label Text="A: 默认显示近7天的消费记录，如果7天内没有记录，会显示最近90天的消费记录。且最多显示50条。" />
+                    <Label Text="Q: 你们这个App靠不靠谱啊，会不会有后门？" TextColor="Black" />
+                    <Label Text="A: 亲亲，没有的。如果不放心不敢使用的话，您可以不用或者卸载哦。在将来如果报道上有偏差，你要负责。" />
+               </StackLayout>
+    </Frame>
+</views:ViewObject>

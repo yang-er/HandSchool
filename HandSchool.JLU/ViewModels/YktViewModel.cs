@@ -1,16 +1,37 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.Models;
+using HandSchool.JLU.Services;
 using HandSchool.ViewModels;
+using HtmlAgilityPack;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using JsonException = Newtonsoft.Json.JsonException;
+namespace HandSchool
+{
+    class WebSourcesParseException : Exception
+    {
+        public WebSourcesParseException() : base() { }
 
+        public WebSourcesParseException(string msg) : base(msg){}
+    }
+}
 namespace HandSchool.JLU.ViewModels
 {
+    static class StringE
+    {
+        public static string SubStr(this string str, int startIndex, int endIndex)
+        {
+            if (startIndex > endIndex) return "";
+            return str.Substring(startIndex, endIndex - startIndex);
+        }
+    }
     /// <summary>
     /// 校园一卡通的视图模型。
     /// </summary>
@@ -24,6 +45,7 @@ namespace HandSchool.JLU.ViewModels
         /// 视图模型的实例
         /// </summary>
         public static YktViewModel Instance => Lazy.Value;
+        public static WebDialogAdditionalArgs CancelLostWebAdditionalArgs { set; private get; }
 
         /// <summary>
         /// 建立校园一卡通的视图模型，加载命令。
@@ -33,12 +55,12 @@ namespace HandSchool.JLU.ViewModels
             Title = "校园一卡通";
             PickCardInfo = new ObservableCollection<PickCardInfo>();
             RecordInfo = new ObservableCollection<RecordInfo>();
-            LoadPickCardInfoCommand = new CommandAction(GetPickCardInfo);
             ChargeCreditCommand = new CommandAction(ProcessCharge);
             RecordFindCommand = new CommandAction(ProcessQuery);
             SetUpLostStateCommand = new CommandAction(ProcessSetLost);
             LoadBasicInfoCommand = new CommandAction(RefreshBasicInfoAsync);
             LoadTwoInfoCommand = new CommandAction(LoadTwoAsync);
+            CancelLostStateCommand = new CommandAction(ProcessCancelLost);
             IsFirstOpen = true;
 
             BasicInfo = new CardBasicInfo();
@@ -68,11 +90,11 @@ namespace HandSchool.JLU.ViewModels
         /// 消费记录
         /// </summary>
         public ObservableCollection<RecordInfo> RecordInfo { get; set; }
-        
+
         /// <summary>
         /// 基础信息的抽象列表
         /// </summary>
-        public List<SchoolCardInfoPiece> BasicInfo { get; set; }
+        public CardBasicInfo BasicInfo { get; set; }
 
         /// <summary>
         /// 加载拾卡信息的命令
@@ -90,6 +112,11 @@ namespace HandSchool.JLU.ViewModels
         public ICommand SetUpLostStateCommand { get; set; }
 
         /// <summary>
+        /// 解挂校园卡的命令
+        /// </summary>
+        public ICommand CancelLostStateCommand { get; set; }
+
+        /// <summary>
         /// 加载消费记录的命令
         /// </summary>
         public ICommand RecordFindCommand { get; set; }
@@ -104,11 +131,39 @@ namespace HandSchool.JLU.ViewModels
         /// </summary>
         public ICommand LoadTwoInfoCommand { get; set; }
 
+        public static Func<Task<(bool, string)>> BeforeOperatingCheck { private get; set; }
+
+        async Task<bool> BeforeOperatingCheckAsync()
+        {
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return false;
+                }
+            }
+            IsBusy = false;
+            return true;
+        }
+
         /// <summary>
         /// 加载校园卡两个信息。
         /// </summary>
         public async Task LoadTwoAsync()
         {
+            if (IsBusy) return;
+            if (!await BeforeOperatingCheckAsync()) return;
+            IsBusy = true;
+            if (!await Loader.Ykt.CheckLogin())
+            {
+                IsBusy = false;
+                return; 
+            }
+            IsBusy = false;
             await RefreshBasicInfoAsync();
             await ProcessQuery();
         }
@@ -119,9 +174,9 @@ namespace HandSchool.JLU.ViewModels
         public async Task RefreshBasicInfoAsync()
         {
             if (IsBusy) return;
+
             IsBusy = true;
             string last_error = null;
-
             try
             {
                 await Loader.Ykt.BasicInfoAsync();
@@ -149,7 +204,6 @@ namespace HandSchool.JLU.ViewModels
             if (IsBusy) return;
             IsBusy = true;
             string last_error = null;
-
             try
             {
                 await Loader.Ykt.QueryCost();
@@ -174,38 +228,32 @@ namespace HandSchool.JLU.ViewModels
         }
 
         /// <summary>
-        /// 获取拾卡信息。
-        /// </summary>
-        public async Task GetPickCardInfo()
-        {
-            if (IsBusy) return;
-            IsBusy = true;
-
-            try
-            {
-                await Loader.Ykt.GetPickCardInfo();
-            }
-            catch (WebsException ex)
-            {
-                if (ex.Status == WebStatus.MimeNotMatch)
-                    await RequestMessageAsync("拾卡信息", "拾卡信息加载失败，可能是软件过老。");
-                else
-                    await RequestMessageAsync("拾卡信息", "拾卡信息加载失败，请检查网络连接。");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
-        /// <summary>
         /// 处理充值命令。
         /// </summary>
         /// <param name="money">充值金额</param>
         public async Task ProcessCharge()
         {
             if (IsBusy) return;
-            if (!await RequestAnswerAsync("提示", 
+
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
+            if (!await Loader.Ykt.CheckLogin())
+            {
+                await RequestMessageAsync("错误", "尚未登录校园卡系统\n请下拉刷新以登录");
+                return;
+            }
+            if (!await RequestAnswerAsync("提示",
                 "向校园卡转账成功后，所转金额都会先是在过渡余额中，" +
                 "在餐厅等处的卡机上进行刷卡操作后，过渡余额即会转入校园卡。" +
                 "是否继续充值？", "否", "是")) return;
@@ -217,7 +265,26 @@ namespace HandSchool.JLU.ViewModels
 
             try
             {
-                if (!await Loader.Ykt.ChargeMoney(money))
+                var res = await Loader.Ykt.PreChageMoney();
+                if (res is bool x && !x)
+                {
+                    last_error = Loader.Ykt.LastReport;
+                    return;
+                }
+                var result = ((byte[], byte[]))res;
+                var code = await RequestInputWithPicAsync("你好", "请输入验证码", "取消", "完成", result.Item1);
+                if (code == null)
+                {
+                    last_error = "不能取消输入验证码";
+                    return;
+                }
+                var keyboard = await RequestInputWithPicAsync("你好", "请输入图中键盘的数字布局", "取消", "完成", result.Item2);
+                if (keyboard == null)
+                {
+                    last_error = "不能取消识别键盘位";
+                    return;
+                }
+                if (!await Loader.Ykt.ChargeMoney(double.Parse(money), code, keyboard))
                 {
                     last_error = Loader.Ykt.LastReport;
                 }
@@ -250,16 +317,39 @@ namespace HandSchool.JLU.ViewModels
                     await RequestMessageAsync("充值成功", "成功充值了" + money + "元。");
             }
         }
-
         /// <summary>
         /// 处理挂失命令。
         /// </summary>
         public async Task ProcessSetLost()
         {
             if (IsBusy) return;
+
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
+            if (!await Loader.Ykt.CheckLogin())
+            {
+                await RequestMessageAsync("错误", "尚未登录校园卡系统\n请下拉刷新以登录");
+                return;
+            }
+            if (!BasicInfo.Lost.Description.Contains("正常"))
+            {
+                await RequestMessageAsync("提示", "卡片已经挂失，无需操作");
+                return;
+            }
             if (!await RequestAnswerAsync("提示",
-                "挂失后，您的校园卡会暂时无法使用。" +
-                "如果需要解除挂失，可以登录xyk.jlu.edu.cn，或者前往校园卡服务中心。" +
+                "挂失后校园卡会暂时无法使用。" +
+                "如果需要解除挂失，可以登录http://xyk.jlu.edu.cn，或者前往校园卡服务中心。" +
                 "确认挂失吗？", "否", "是")) return;
 
             IsBusy = true;
@@ -267,10 +357,29 @@ namespace HandSchool.JLU.ViewModels
 
             try
             {
-                if (!await Loader.Ykt.SetLost())
+                var res = await Loader.Ykt.PreSetLost();
+                if (res is bool x && !x) { last_error = Loader.Ykt.LastReport; }
+                else
                 {
-                    last_error = Loader.Ykt.LastReport;
+                    var result = ((byte[], byte[]))res;
+                    var code = await RequestInputWithPicAsync("你好", "请输入验证码", "取消", "完成", result.Item1);
+                    if (code == null)
+                    {
+                        last_error = "不能取消输入验证码";
+                        return;
+                    }
+                    var keyboard = await RequestInputWithPicAsync("你好", "请输入图中键盘的数字布局", "取消", "完成", result.Item2);
+                    if (keyboard == null)
+                    {
+                        last_error = "不能取消识别键盘位";
+                        return;
+                    }
+                    if (!await Loader.Ykt.SetLost(code, keyboard))
+                    {
+                        last_error = Loader.Ykt.LastReport;
+                    }
                 }
+
             }
             catch (WebsException ex)
             {
@@ -293,22 +402,93 @@ namespace HandSchool.JLU.ViewModels
             }
         }
 
+        ///<summary>
+        ///处理解挂
+        /// </summary>
+        public async Task ProcessCancelLost()
+        {
+            if (IsBusy) return;
+
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
+            if (!await Loader.Ykt.CheckLogin())
+            {
+                await RequestMessageAsync("错误", "尚未登录校园卡系统\n请下拉刷新以登录");
+                return;
+            }
+            if (BasicInfo.Lost.Description.Contains("正常"))
+            {
+                await RequestMessageAsync("提示", "卡片没有挂失，无需解挂");
+                return;
+            }
+            if (!await RequestAnswerAsync("提示",
+               "校园卡找到了？(滑稽)", "否", "是")) return;
+            try
+            {
+                if (IsBusy) return;
+                IsBusy = true;
+                var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
+                string url;
+                if (vpn)
+                {
+                    url = "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action";
+                }
+                else
+                {
+                    url = "http://xyk.jlu.edu.cn/homeLogin.action";
+                }
+
+                if (Core.Platform.RuntimeName == "Android")
+                {
+                    if (vpn)
+                    {
+                        CancelLostWebAdditionalArgs.Cookies.Add(("https://vpns.jlu.edu.cn", new System.Net.Cookie("remember_token", HandSchool.JLU.Loader.Vpn.RememberToken, "/")));
+                    }
+                    await RequestWebDialogAsync("请在网页操作", "填写验证码登录后将会自动操作", url, "", "退出", false, false, null, CancelLostWebAdditionalArgs);
+                }
+                IsBusy = false;
+            }
+            catch (Exception error)
+            {
+                await RequestMessageAsync("错误", error.Message);
+            }
+        }
         /// <summary>
         /// 解析基础信息
         /// </summary>
-        /// <param name="html">需要解析的网页</param>
-        public void ParseBasicInfo(string html)
+        /// <param name="htmlSources">需要解析的网页</param>
+        public void ParseBasicInfo(string htmlSources)
         {
-            html = html.Replace("    ", "")
-                       .Replace("\r", "")
-                       .Replace("\n", "");
-
-            foreach (var info in BasicInfo)
+            var html = new HtmlDocument();
+            html.LoadHtml(htmlSources);
+            var ps = html.DocumentNode.SelectNodes("//div[@class='userInfoR']/p/em");
+            if(ps == null)
             {
-                if (info.Command != null) continue;
-                info.Description = Regex.Match(html, @"<td class=""first"">"
-                    + info.Title + @"</td><td class=""second"">(\S+)</td>").Groups[1].Value;
+                throw new WebSourcesParseException();
             }
+            var infoList = new List<string>();
+            foreach (var p in ps)
+            {
+                infoList.Add(p.InnerHtml.Trim());
+            }
+            BasicInfo.NameInfo.Description = infoList[0];
+            BasicInfo.CardId.Description = infoList[1];
+            BasicInfo.InternalUID.Description = infoList[2];
+            BasicInfo.Balance.Description = infoList[3];
+            BasicInfo.CurGd.Description = infoList[4];
+            BasicInfo.Lost.Description = infoList[5];
+            BasicInfo.Frozen.Description = infoList[6];
         }
 
         /// <summary>
@@ -319,15 +499,29 @@ namespace HandSchool.JLU.ViewModels
             if (!IsFirstOpen) return;
             IsFirstOpen = false;
 
-            if (await Loader.Ykt.RequestLogin())
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsFirstOpen = true;
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
+
+            if (await Loader.Ykt.CheckLogin())
             {
                 await Core.Platform.EnsureOnMainThread(async () =>
                 {
-                    await RefreshBasicInfoAsync();
-                    await ProcessQuery();
-                    await GetPickCardInfo();
+                    await LoadTwoAsync();
                 });
             }
         }
     }
+
 }

@@ -1,23 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views"
+              xmlns:w="clr-namespace:HandSchool.Views" xmlns:controls="clr-namespace:HandSchool.Controls"
               x:Class="HandSchool.Views.InfoQueryPage"
               UseTabletMode="True"
               Title="{Binding Title}">
     <w:ViewObject.Content>
-        <ListView VerticalOptions="FillAndExpand"
-                  HasUnevenRows="true"
-                  GroupDisplayBinding="{Binding GroupTitle}"
-                  ItemTapped="ItemTapped"
-                  IsGroupingEnabled="true"
-                  CachingStrategy="RecycleElement">
-            <ListView.ItemTemplate>
+        <CollectionView
+            VerticalOptions="FillAndExpand"
+            ItemSizingStrategy="MeasureAllItems"
+            BackgroundColor="#F4F4F4"
+            IsGrouped="True">
+            <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <w:TextCell Title="{Binding Title}"
-                                Detail="{Binding Detail}" />
+                    <Label Text="{Binding GroupTitle}" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+            </CollectionView.ItemsLayout>
+            
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <controls:TextAtom
+                        OnTop="False"
+                        HasSecond="False"
+                        Title="{Binding Title}"
+                        ContentText="{Binding Detail}"
+                        >
+                        <controls:TextAtom.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ItemTapped"/>
+                        </controls:TextAtom.GestureRecognizers>
+                    </controls:TextAtom>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </w:ViewObject.Content>
 </w:ViewObject>

@@ -1,5 +1,5 @@
-﻿using Android.Support.V4.App;
-using Android.Views;
+﻿using Android.Views;
+using AndroidX.Fragment.App;
 using System;
 using JObject = Java.Lang.Object;
 

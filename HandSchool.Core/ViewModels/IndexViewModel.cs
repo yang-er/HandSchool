@@ -41,15 +41,33 @@ namespace HandSchool.ViewModels
         /// </summary>
         public ICommand RequestLoginCommand { get; set; }
 
+        public static Func<Task<(bool, string)>> BeforeOperatingCheck { set; private get; }
+
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）
         /// </summary>
-        static async Task RequestLogin()
+        public async Task RequestLogin()
         {
             if (!Core.Initialized) return;
             if (!Core.App.Service.NeedLogin) return;
+            if (IsBusy) return;
+
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
             await LoginViewModel.RequestAsync(Core.App.Service);
         }
+       
 
         /// <summary>
         /// 与目前教务系统和课程表数据进行同步。
@@ -70,7 +88,6 @@ namespace HandSchool.ViewModels
             UpdateNextCurriculum();
             Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
-            await UpdateWeather();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Android.Views;
+using Android.Webkit;
 using HandSchool.Internals;
 
 namespace HandSchool.Droid
@@ -52,5 +53,10 @@ namespace HandSchool.Droid
                 return PlatformImplV2.Instance.PeekContext(false);
             }
         }
+    }
+    public class BaseWebChromeClient : WebChromeClient
+    {
+        public object activity = null;
+        public WebView v;
     }
 }

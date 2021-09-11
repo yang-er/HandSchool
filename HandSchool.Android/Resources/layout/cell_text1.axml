@@ -21,14 +21,21 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal">
+            <ImageView
+                android:src="@drawable/on_top"
+                android:layout_height="20dp"
+                android:layout_width="20dp"
+                android:id="@+id/onTop"
+                android:layout_marginRight="7.0dp" />
 			
-			<TextView
-				android:id="@+id/cell_attach1"
+			
+			<!--TextView
+				android:id="@+id/attach1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="[置顶] "
+				android:text=""
 				android:textSize="@dimen/text_mini"
-				android:textColor="@color/red" />
+				android:textColor="@color/blue" /-->
 
 			<TextView
 				android:id="@+id/cell_detail"

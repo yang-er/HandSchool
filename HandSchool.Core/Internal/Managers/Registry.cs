@@ -13,8 +13,8 @@ namespace HandSchool.Internals
             Core.Reflection.RegisterCtor<DetailPage>();
             Core.Reflection.RegisterCtor<SchedulePage>();
             Core.Reflection.RegisterCtor<SettingPage>();
-            Core.Reflection.RegisterCtor<SelectTypePage>();
             Core.Reflection.RegisterCtor<WelcomePage>();
+            Core.Reflection.RegisterCtor<SelectTypePage>();
         }
     }
 }

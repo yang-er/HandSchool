@@ -17,7 +17,7 @@ namespace HandSchool.JLU.Models
             Attach = new NameValueCollection { { "选课课号", asv.xkkh } };
 
             var gradeInternal = Score + (int.TryParse(Score, out int sc) ? " 分" : "");
-            Detail = string.Format("{1}发布；{2}，{3} 学分，绩点 {0}。", Point, Date.ToString("d"), gradeInternal, Credit);
+            Detail = string.Format("{1}发布\n{2} | {3} 学分 | 绩点 {0}", Point, Date.ToString("d"), gradeInternal, Credit);
         }
 
         public string Title => asv.course.courName;

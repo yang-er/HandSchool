@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using HandSchool.Internals;
 using System.Threading.Tasks;
+using HandSchool.Internal;
 
 namespace HandSchool.Views
 {
@@ -21,9 +22,10 @@ namespace HandSchool.Views
         public AboutPage()
         {
             InitializeComponent();
+            On<_iOS_>().UseSafeArea();
+
             ViewModel = AboutViewModel.Instance;
             myListView.HeightRequest = 51 * 4;
-            UseSafeArea = true;
             
             AboutEntrances = new InfoEntranceGroup { GroupTitle = "关于" };
             AboutEntrances.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => ViewModel.OpenSource())));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace HandSchool.Internals
 {
@@ -15,7 +16,7 @@ namespace HandSchool.Internals
         /// 当属性改变时触发事件
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         /// <summary>
         /// 设置保存属性的值，并检查是否改变。
         /// </summary>
@@ -26,7 +27,7 @@ namespace HandSchool.Internals
         /// <param name="onChanged">在改变时触发 <see cref="Action"/> 完成自定义的属性改变事件。</param>
         /// <returns>是否改变了原值</returns>
         [DebuggerStepThrough]
-        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName]string propertyName = "", Action onChanged = null)
+        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;
@@ -35,7 +36,7 @@ namespace HandSchool.Internals
             OnPropertyChanged(propertyName);
             return true;
         }
-        
+
         /// <summary>
         /// 属性改变时简化地触发事件。
         /// </summary>

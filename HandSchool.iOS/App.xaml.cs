@@ -1,4 +1,5 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.iOS.Pages;
+using HandSchool.Views;
 using Xamarin.Forms;
 using XApplication = Xamarin.Forms.Application;
 
@@ -19,9 +20,15 @@ namespace HandSchool.iOS
             Core.Initialize();
 
             if (Core.Initialized)
+            {
                 SetMainPage<MainPage>();
+            }
             else
-                SetMainPage<SelectTypePage>();
+            {
+                //替换掉以前的WelcomePage;
+                Core.Reflection.RegisterType<WelcomePage, WelcomeIOSPage>();
+                SetMainPage<SelectTypeIOSPage>();
+            }
         }
 
         public void SetMainPage<T>()

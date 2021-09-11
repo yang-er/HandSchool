@@ -11,7 +11,7 @@
                 <Label Text="{Binding Sender}" FontSize="14" />
                 <Label Text="{Binding Date}" FontSize="14" />
                 <BoxView Margin="0,5,0,5" Color="Gray" HeightRequest="1" />
-                <Label Text="{Binding Content}" FontSize="16"
+                <Label x:Name="text" Text ="加载中，请稍候..." FontSize="16"
                        HorizontalOptions="FillAndExpand"
                        VerticalOptions="FillAndExpand" />
             </StackLayout>

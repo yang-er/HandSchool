@@ -9,7 +9,7 @@ namespace HandSchool.JLU.InfoQuery
     [Entrance("JLU", "健康状态填报", "填报每天的健康状况~", EntranceType.InfoEntrance)]
     class EhallFill : ITapEntrace
     {
-        const string EhallFills = "https://ehall.jlu.edu.cn/infoplus/form/JLDX_BK_XNYQSB/start";
+        const string EhallFills = "https://ehall.jlu.edu.cn/infoplus/form/BKSMRDK/start";
         
         public Task Action(INavigate navigate)
         {

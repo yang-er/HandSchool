@@ -39,17 +39,6 @@
                     <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="White" />
                 </StackLayout>
             </Frame>
-            <Frame BackgroundColor="#708090">
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding RefreshCommand}" />
-                </Frame.GestureRecognizers>
-                <StackLayout>
-                    <Label Text="今日天气" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding Weather}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding WeatherRange}" FontSize="Medium" TextColor="White" />
-                    <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="White" />
-                </StackLayout>
-            </Frame>
         </StackLayout>
     </ScrollView>
 </w:ViewObject>

@@ -1,8 +1,11 @@
 ﻿using Android.Content;
+using Android.Graphics.Drawables;
 using Android.Views;
 using HandSchool.Droid.Renderers;
 using HandSchool.Views;
+using System;
 using System.ComponentModel;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -32,7 +35,7 @@ namespace HandSchool.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == Page.BackgroundImageProperty.PropertyName)
+            if (e.PropertyName == Page.BackgroundImageSourceProperty.PropertyName)
                 UpdateBackgroundImage(Element);
             else if (e.PropertyName == VisualElement.HeightProperty.PropertyName)
                 UpdateHeight();
@@ -54,11 +57,21 @@ namespace HandSchool.Droid.Renderers
             
             _previousHeight = newHeight;
         }
-        
+
         private void UpdateBackgroundImage(Page view)
         {
-            if (!string.IsNullOrEmpty(view.BackgroundImage))
-                this.SetBackground(Context.GetDrawable(view.BackgroundImage));
+            if (view.BackgroundImageSource != null)
+            {
+                try
+                {
+                    var im = view.BackgroundImageSource as FileImageSource;
+                    this.SetBackground(Context.GetDrawable(im.File));
+                }
+                catch (Exception error)
+                {
+                    Core.Logger.WriteLine("error", error.Message);
+                }
+            }
             else
                 this.SetBackground(null);
         }

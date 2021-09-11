@@ -5,9 +5,6 @@
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               UseSafeArea="True"
 		      Title="{Binding Title}">
-    <w:ViewObject.ToolbarItems>
-        <ToolbarItem Text="登录" Command="{Binding LoginCommand}" />
-    </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
         <ScrollView Orientation="Vertical">
             <Grid>
@@ -37,6 +34,7 @@
                         <Label Text="自动登录" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
                         <Switch IsToggled="{Binding AutoLogin}" HorizontalOptions="End" />
                     </StackLayout>
+                    <Button x:Name="login" Text="登录" BackgroundColor="Blue" TextColor="White" FontSize="Medium"/>
                 </StackLayout>
             </Grid>
         </ScrollView>

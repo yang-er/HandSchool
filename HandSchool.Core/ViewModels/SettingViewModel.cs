@@ -55,14 +55,13 @@ namespace HandSchool.ViewModels
                 where @void.Has<SettingsAttribute>()
                 select new SettingWrapper(@void)
             ).ToList();
-            
             Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
-            // Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
+            //Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
 
             SaveConfigures = new CommandAction(async () =>
             {
                 Core.App.Loader.SaveSettings(Core.App.Service);
-                await RequestMessageAsync("设置中心", "保存成功！", "好的");
+                await RequestMessageAsync("设置中心", "保存成功\n但需要结束当前进程重启后生效！", "好的");
             });
         }
         

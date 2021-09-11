@@ -12,6 +12,7 @@ using System.Xml;
 using System.Xml.Linq;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
+using HandSchool.JLU.ViewModels;
 
 [assembly: RegisterService(typeof(OA))]
 namespace HandSchool.JLU.Services
@@ -34,55 +35,47 @@ namespace HandSchool.JLU.Services
         {
             var wc = Core.New<IWebClient>();
             wc.Timeout = 5000;
+            wc.GetThreadAddVpnCookie().Start();
             return wc;
         }
         
-        public static async Task PreloadData()
+        private async Task SearchByWord(string word, int page, bool reload)
         {
-            await Task.Yield();
-            var lu = Core.Configure.Read(configOaTime);
-            bool timedOut = !DateTime.TryParse(lu, out var lastUpdate);
-            if (!timedOut) timedOut = lastUpdate.AddHours(1) < DateTime.Now;
+            string domain = "https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?searchId=" + word + "&startPage=" + page;
+            if (Loader.Vpn != null && Loader.Vpn.IsLogin)
+            {
+                domain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/defaultroot/PortalInformation!jldxList.action?searchId=" + word + "&startPage=" + page;
+            }
+            var lastReport = await WebClient.GetStringAsync(domain);
+            var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
-            if (timedOut)
+            var dataList = ParseOa(lastReport);
+
+            if (reload)
             {
-                await FeedViewModel.Instance.LoadItems(false);
-                FeedViewModel.Instance.LeftPageCount = 2;
+                Core.Configure.Write(configOa, dataList.Serialize());
+                Core.Configure.Write(configOaTime, dateString);
+                FeedViewModel.Instance.Clear();
             }
-            else
-            {
-                var pc = ParseCache(Core.Configure.Read(configOa));
-                FeedViewModel.Instance.AddRange(from d in pc select new OaFeedItem(d));
-                FeedViewModel.Instance.LeftPageCount = 2;
-            }
+
+            FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
+            FeedViewModel.Instance.TotalPageCount = dataList.Item2;
+            this.WriteLog("Feed updated at " + dateString);
         }
-
         private async Task InnerExecute(int page, bool fp)
         {
             try
             {
-                var uims = Core.App.Service as UIMS;
                 string domain = "https://oa.jlu.edu.cn";
-                if (uims.UseVpn)
+                if (Loader.Vpn != null && Loader.Vpn.IsLogin)
                 {
                     domain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
-                    WebClient.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
                 }
 
                 var lastReport = await WebClient.GetStringAsync(domain + "/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
-                lastReport = lastReport.Substring(lastReport.IndexOf(@"<div id=""itemContainer"">") + 24);
-                lastReport = lastReport.Substring(0, lastReport.IndexOf("</div>"));
-                lastReport = lastReport.Replace("    ", "")
-                                       .Replace("\r", "")
-                                       .Replace("\n", "")
-                                       .Replace("\t", "");
-                lastReport = Regex.Replace(lastReport, @"<img\b[^>]*>", "");
-
-                if (lastReport == "") return;
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-
-                var dataList = ParseOa(lastReport).ToList();
-
+                
+                var dataList = ParseOa(lastReport);
                 if (fp)
                 {
                     Core.Configure.Write(configOa, dataList.Serialize());
@@ -90,7 +83,8 @@ namespace HandSchool.JLU.Services
                     FeedViewModel.Instance.Clear();
                 }
 
-                FeedViewModel.Instance.AddRange(from d in dataList select new OaFeedItem(d));
+                FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
+                FeedViewModel.Instance.TotalPageCount = dataList.Item2;
                 this.WriteLog("Feed updated at " + dateString);
             }
             catch (WebsException ex)
@@ -103,58 +97,60 @@ namespace HandSchool.JLU.Services
 
         public Task Execute() => InnerExecute(1, true);
 
+        public Task Search(string word) => SearchByWord(word, 1, true);
+
         [ToFix("清理逻辑")]
         public async Task<int> Execute(int n)
         {
             if (n < 1) return 0;
             await InnerExecute(n, n == 1);
-            return n + 1;
+            return n;
+        }
+
+        public async Task<int> Search(string word ,int n)
+        {
+            if (n < 1) return 0;
+            await SearchByWord(word, n, n == 1);
+            return n;
         }
         
-        static IEnumerable<DigResultValue> ParseOa(string feedXml)
+        static (List<DigResultValue>, int) ParseOa(string htmlSources)
         {
+            var html = new HtmlAgilityPack.HtmlDocument();
+            var ret = new List<DigResultValue>();
+            int pageCount = 0;
             try
             {
-                var rootNode = "<root>" + 
-                               feedXml.Replace("<font class='red'>[置顶]</font>", "<font class=\"red\">[置顶]</font>")
-                                      .Replace("&", "&amp;")
-                                      .Replace("&amp;nbsp;", "")
-                                      .Replace("<a ", "<A ")
-                                      .Replace("<span ", "<SPAN ")
-                               + "</root>";
-                var vp = XDocument.Parse(rootNode).Root;
-
-                return
-                    from item in vp.Descendants("DIV")
-                    let a2 = item.Element("A")
-
-                    select new DigResultValue
-                    {
-                        publishdate = (string) item.Element("SPAN"),
-                        content = "",
-                        depart = (string) item.Elements("A").Last(),
-                        title = ((XText) a2.LastNode).Value,
-                        link = "/defaultroot/" + a2.Attribute("href").Value,
-                        flgtop = a2.FirstNode is XElement
-                    };
-            }
-            catch (Exception ex)
-            {
-                Core.Logger.WriteException(ex);
-                return new DigResultValue[0];
-            }
-        }
-
-        static IEnumerable<DigResultValue> ParseCache(string cacheJson)
-        {
-            try
-            {
-                return cacheJson.ParseJSON<List<DigResultValue>>();
+                html.LoadHtml(htmlSources);
+                var msgs = html.DocumentNode.SelectNodes("//div[@id='itemContainer']/div");
+                foreach(var item in msgs)
+                {
+                    var title = item.SelectSingleNode("./a[@class='font14']");
+                    var sender = item.SelectSingleNode("./a[@class='column']");
+                    var time = item.SelectSingleNode("./span[@class='time']");
+                    var res = new DigResultValue();
+                    res.publishdate = time.InnerText.Replace("&nbsp;","");
+                    res.content = "";
+                    res.depart = sender.InnerText;
+                    res.title = title.InnerText.Replace("[置顶]","");
+                    res.link = "/defaultroot/" + title.GetAttributeValue("href", null);
+                    var top = title.SelectSingleNode("./font");
+                    res.flgtop = top != null;
+                    ret.Add(res);
+                }
+                var page = html.DocumentNode.SelectNodes("//div[@class='pages']//a");
+                var x = page.Last();
+                var pa = x.GetAttributeValue("href", null);
+                pageCount = int.Parse(pa.SubStr(pa.LastIndexOf("startPage=") + 10, pa.Length));
             }
             catch
             {
-                return new DigResultValue[0];
+                ret.Clear();
+                pageCount = 0;
             }
+            return (ret, pageCount);
+
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using HandSchool.JLU;
 using HandSchool.JLU.InfoQuery;
 using HandSchool.JLU.Services;
+using HandSchool.JLU.ViewModels;
 using HandSchool.JLU.Views;
 using HandSchool.Models;
 using HandSchool.Services;
@@ -9,6 +10,7 @@ using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 [assembly: RegisterService(typeof(Loader))]
@@ -30,26 +32,74 @@ namespace HandSchool.JLU
         public Lazy<IMessageEntrance> Message { get; set; }
         public Lazy<IFeedEntrance> Feed { get; set; }
         public EventHandler<LoginStateEventArgs> NoticeChange { get; set; }
+        public static WebDialogAdditionalArgs CancelLostWebAdditionalArgs { set { ViewModels.YktViewModel.CancelLostWebAdditionalArgs = value; } }
 
         public List<string> RegisteredFiles { get; private set; }
-        // public static bool OutsideSchool { get; set; }
-
-        internal static SchoolCard Ykt;
+        public static SchoolCard Ykt;
         internal static StudentVpn Vpn;
         public static InfoEntranceGroup InfoList;
+
+        /// <summary>
+        /// 设置是否使用Vpn
+        /// </summary>
+        [Settings("使用学生VPN", "使用学生VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        public static bool UseVpn { get; set; }
 
         public void PostLoad()
         {
             Ykt = new SchoolCard();
-            Vpn = new StudentVpn();
-            Core.Reflection.RegisterCtor<YktViewPresenter>();
-            Core.Reflection.RegisterCtor<YktPage>();
+            SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(Loader).GetProperty(nameof(UseVpn))));
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case "iOS":
+                    Core.Reflection.RegisterCtor<XykIOS>();
+                    Core.Reflection.RegisterCtor<XykIOS_QandA>();
+                    Core.Reflection.RegisterCtor<XykIOS_UserInfo>();
+                    break;
+                case "Android": Core.Reflection.RegisterCtor<XykDroid>();break;
+
+            }
             Core.Reflection.RegisterCtor<InitializePage>();
-            NavigationViewModel.Instance.AddMenuEntry("一卡通", Core.Platform.RuntimeName == "Android" ? "YktPage" : "YktViewPresenter", "JLU", MenuIcon.CreditCard);
+            NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIOS" : "XykDroid", "JLU", MenuIcon.CreditCard);
+            if (UseVpn)
+            {
+                Vpn = new StudentVpn();
+                Task.Run(async()=> {
+                    if (Vpn.AutoLogin)
+                    {
+                        var x = await Vpn.PrepareLogin();
+                        Vpn.timeoutManager.Login();
+                    }
+                    else
+                    {
+                        while (!Vpn.IsLogin)
+                        {
+                            if (await Vpn.RequestLogin() == RequestLoginState.FAILED) break;
+                            Thread.Sleep(200);
+                        }
+                        Vpn.timeoutManager.Login();
+                    }
+                });
+            }
 
-            Task.Run(OA.PreloadData);
+            FeedViewModel.BeforeOperatingCheck = CheckVpn;
+            IndexViewModel.BeforeOperatingCheck = CheckVpn;
+            YktViewModel.BeforeOperatingCheck = CheckVpn;
+            MessageViewModel.BeforeOperatingCheck = CheckVpn;
+            GradePointViewModel.BeforeOperatingCheck = CheckVpn;
+            ScheduleViewModel.BeforeOperatingCheck = CheckVpn;
         }
-
+        private async static Task<(bool, string)> CheckVpn()
+        {
+            if (UseVpn)
+            {
+                if (!await Vpn.CheckLogin())
+                {
+                    return (false, "需登录校园Vpn");
+                }
+            }
+            return (true, null);
+        }
         public void PreLoad()
         {
             Core.App.DailyClassCount = 11;
@@ -58,7 +108,7 @@ namespace HandSchool.JLU
             
             var lp = Core.Configure.Read(configFile);
             SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
-
+            Loader.UseVpn = config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
             Task.Run(GradeEntrance.PreloadData);
@@ -68,7 +118,6 @@ namespace HandSchool.JLU
 
             InfoList = new InfoEntranceGroup("公共信息查询")
             {
-                InfoEntranceWrapper.From<RemoteSchedule>(),
                 TapEntranceWrapper.From<EhallFill>(),
                 InfoEntranceWrapper.From<EmptyRoom>(),
                 InfoEntranceWrapper.From<TeachEvaluate>(),
@@ -89,7 +138,7 @@ namespace HandSchool.JLU
             return SchoolName;
         }
 
-        internal class SettingsJSON
+        public class SettingsJSON
         {
             public SettingsJSON()
             {
@@ -116,13 +165,13 @@ namespace HandSchool.JLU
                 UseHttps = service.UseHttps,
                 OutsideSchool = service.OutsideSchool,
                 QuickMode = service.QuickMode,
-                UseVpn = service.UseVpn,
+                UseVpn = Loader.UseVpn,
             };
 
             SaveSettings(save);
         }
 
-        internal void SaveSettings(SettingsJSON json)
+        public void SaveSettings(SettingsJSON json)
         {
             Core.Configure.Write(configFile, json.Serialize());
         }

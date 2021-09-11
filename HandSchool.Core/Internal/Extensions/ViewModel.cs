@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Internals
 {
+    
     /// <summary>
     /// 视图模型的拓展方法。
     /// </summary>
@@ -15,12 +16,13 @@ namespace HandSchool.Internals
         /// </summary>
         /// <param name="form">请求的表单。</param>
         /// <returns>登录是否成功。</returns>
-        public static async Task<bool> RequestLogin(this ILoginField form)
+        public static async Task<RequestLoginState> RequestLogin(this ILoginField form)
         {
             if (form.AutoLogin && !form.IsLogin) await form.Login();
-            if (!await form.BeforeLoginForm()) return false;
-            if (!form.IsLogin) await LoginViewModel.RequestAsync(form);
-            return form.IsLogin;
+            if (!await form.BeforeLoginForm()) return RequestLoginState.FAILED;
+            if (!form.IsLogin)
+                return await LoginViewModel.RequestAsync(form);
+            return form.IsLogin ? RequestLoginState.SUCCESSED : RequestLoginState.FAILED;
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿using Android.OS;
-using Android.Support.Design.Widget;
-using Android.Support.V4.View;
 using Android.Views;
+using AndroidX.ViewPager.Widget;
 using HandSchool.Views;
+using Google.Android.Material.Tabs;
 
 namespace HandSchool.Droid
 {

@@ -37,25 +37,6 @@ namespace HandSchool.Views
         {
             await Navigation.PushAsync<WebViewPage>(new T());
         }
-
-        private void OpenQQGroup()
-        {
-            try
-            {
-                var intent = new Intent();
-                var key = "kxaGnwD9ChhoM2Do-wKDOj6fcMIekaEY";
-                var before = "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D";
-                intent.SetData(Android.Net.Uri.Parse(before + key));
-                StartActivity(intent);
-            }
-            catch
-            {
-                var cmb = (ClipboardManager)Context.GetSystemService(Context.ClipboardService);
-                cmb.Text = "752277651";
-
-                Snackbar.Make(View, "已经将群号复制到剪贴板。", 4000).Show();
-            }
-        }
         
         private void ShareMe()
         {
@@ -97,7 +78,7 @@ namespace HandSchool.Views
                 .Text("版本")
                 .SubText(Core.Version)
                 .Icon(Resource.Drawable.aboutpage_updateicon)
-                .SetOnClickAction(new AboutMenuItemClick(Core.Platform.CheckUpdate))
+                //.SetOnClickAction(new AboutMenuItemClick(Core.Platform.CheckUpdate))
                 .Build();
 
             var card = new MaterialAboutCard.Builder()

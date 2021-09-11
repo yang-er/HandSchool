@@ -21,6 +21,7 @@ namespace HandSchool.ViewModels
             set => this.WriteLog("Error value was requested to be set: " + value);
         }
 
+
         public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
         {
             if (ItemsSet is null)

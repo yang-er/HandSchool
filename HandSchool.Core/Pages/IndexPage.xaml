@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views"
+              xmlns:w="clr-namespace:HandSchool.Views" xmlns:internal="clr-namespace:HandSchool.Internal"
               x:Class="HandSchool.Views.IndexPage"
               Title="{Binding Title}">
+
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
-            <Frame Margin="10,5" w:MenuEntry.TagCommand="{Binding RequestLoginCommand}">
+            <internal:TouchableFrame Margin="10,5" ClickedCommand="{Binding RequestLoginCommand}">
                 <StackLayout>
                     <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black" />
                     <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="Black" />
+                    <Label Text="愿你拥有比阳光明媚的心情" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
-            </Frame>
+            </internal:TouchableFrame>
             <Frame Margin="10,5" IsVisible="{Binding NoClass}">
                 <StackLayout>
                     <Label Text="现在" FontSize="Medium" TextColor="Accent" />
@@ -34,14 +35,6 @@
                     <Label Text="{Binding Name}" FontSize="Medium" TextColor="Black" />
                     <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="Black" />
                     <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="Black" />
-                </StackLayout>
-            </Frame>
-            <Frame Margin="10,5">
-                <StackLayout>
-                    <Label Text="今日天气" FontSize="Medium" TextColor="Accent" />
-                    <Label Text="{Binding Weather}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding WeatherRange}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding WeatherTips}" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </Frame>
         </FlexLayout>

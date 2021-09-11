@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using HandSchool.Internal;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CurriculumPage : ViewObject, ICurriculumPage
 	{
+       
         public TaskCompletionSource<bool> Awaiter { get; }
 
         public CurriculumItem Model
@@ -21,6 +23,7 @@ namespace HandSchool.Views
         public CurriculumPage()
 		{
 			InitializeComponent();
+            On<_iOS_>().UseSafeArea().ShowLeftCancel();
             Awaiter = new TaskCompletionSource<bool>();
         }
 
@@ -86,13 +89,10 @@ namespace HandSchool.Views
 
         public Task<bool> ShowAsync()
         {
-            (this as Page).Navigation.PushModalAsync(this);
+            Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
             return Awaiter.Task;
         }
 
-        private Task CloseAsync()
-        {
-            return (this as Page).Navigation.PopModalAsync();
-        }
+        private Task CloseAsync() => Application.Current.MainPage.Navigation.PopModalAsync();
     }
 }

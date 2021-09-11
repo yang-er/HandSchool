@@ -14,5 +14,6 @@ namespace HandSchool.Services
         /// <param name="n">页号</param>
         /// <returns>剩余页数</returns>
         Task<int> Execute(int n);
+        Task<int> Search(string word, int n);
     }
 }

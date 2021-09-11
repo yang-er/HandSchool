@@ -1,45 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views"
+              xmlns:w="clr-namespace:HandSchool.Views" xmlns:controls="clr-namespace:HandSchool.Controls" xmlns:internal="clr-namespace:HandSchool.Internal"
               x:Class="HandSchool.Views.FeedPage"
               UseTabletMode="True"
-              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
-              Title="{Binding Title}">
-    <w:ViewObject.Resources>
-        <ResourceDictionary>
-            <w:NoDataBackgroundConverter x:Key="ndbcv" />
-        </ResourceDictionary>
-    </w:ViewObject.Resources>
+              Title="{Binding Title}"
+              IsBusy="{Binding IsBusy}">
     <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
+        <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" />
+        <w:MenuEntry Command="{Binding SearchByKeyWordCommand}" Title="搜索"/>
     </w:ViewObject.ToolbarMenu>
+    <w:ViewObject.ToolbarItems>
+        <ToolbarItem Text="刷新" Command="{Binding LoadItemsCommand}"/>
+    </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
-        <ListView ItemsSource="{Binding Items}"
-                  ItemTapped="Handle_ItemTapped"
-                  ItemAppearing="ListView_ItemAppearing"
-                  IsPullToRefreshEnabled="true"
-                  BackgroundColor="{Binding Count, Converter={StaticResource ndbcv}}"
-                  RefreshCommand="{Binding LoadItemsCommand}"
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                  HasUnevenRows="true"
-                  CachingStrategy="RecycleElement">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <w:TextCell Title="{Binding Title}"
-                                Detail="{Binding Category}"
-                                RightDown="{Binding PubDate}"
-                                Attach1="{Binding TopAttach}"
-                                PreferedCardView="1" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <StackLayout>
-                    <Label Margin="16" Text="{Binding FooterTip}"
+        <!--为啥不用RefreshView呢，有bug呗（ios）-->
+            <CollectionView x:Name="collection_view"
+                ItemsSource="{Binding Items}"
+                ItemsUpdatingScrollMode="KeepScrollOffset"
+                ItemSizingStrategy ="MeasureAllItems"
+                BackgroundColor="#F4F4F4"
+                RemainingItemsThreshold ="0"
+                RemainingItemsThresholdReached ="CollectionView_LoadMore">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <internal:NoDataView/>
+                    </ContentView>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TextAtom OnTop="{Binding Top}"
+                                           Title="{Binding Category}"
+                                           AfterTitle="{Binding PubDate}"
+                                           ContentText="{Binding Title}" 
+                                           HasSecond="False">
+                            <controls:TextAtom.GestureRecognizers>
+                                <TapGestureRecognizer Tapped = "ItemTapped"/>
+                            </controls:TextAtom.GestureRecognizers>
+                        </controls:TextAtom>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.Footer>
+                    <StackLayout>
+                        <Label Margin="16" Text="{Binding FooterTip}"
                            HorizontalOptions="CenterAndExpand"
                            HorizontalTextAlignment="Center" />
-                </StackLayout>
-            </ListView.Footer>
-        </ListView>
+                    </StackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
     </w:ViewObject.Content>
 </w:ViewObject>

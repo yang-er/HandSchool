@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System.Threading;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms.Xaml;
@@ -39,6 +40,17 @@ namespace HandSchool.Views
             {
                 this.WriteLog("No parameters passed.");
             }
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            new Thread(new ThreadStart(() =>
+            {
+                Core.Platform.EnsureOnMainThread(async () =>
+                {
+                    text.Text = await (ViewModel as DetailViewModel).Content;
+                });
+            })).Start();
         }
     }
 }

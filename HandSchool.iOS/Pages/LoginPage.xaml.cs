@@ -23,7 +23,11 @@ namespace HandSchool.Views
         public LoginViewModel LoginViewModel
         {
             get => BindingContext as LoginViewModel;
-            set => ViewModel = value;
+            set
+            {
+                login.Command = value.LoginCommand;
+                ViewModel = value;
+            }
         }
 
         public async void Response(object sender, LoginStateEventArgs e)
@@ -42,18 +46,21 @@ namespace HandSchool.Views
                     break;
             }
         }
+        private Task CloseAsync() => Application.Current.MainPage.Navigation.PopModalAsync();
 
         public Task ShowAsync()
         {
+
             Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
             return finished.Task;
         }
 
-        public Task CloseAsync()
+        protected override void OnDisappearing()
         {
-            return (this as Page).Navigation.PopModalAsync().ContinueWith(t => finished.TrySetResult(true));
-        }
+            finished.TrySetResult(true);
+            base.OnDisappearing();
 
+        }
         public async void UpdateCaptchaInfomation()
         {
             LoginViewModel.IsBusy = true;

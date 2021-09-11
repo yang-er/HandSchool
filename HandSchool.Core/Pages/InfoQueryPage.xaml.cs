@@ -11,32 +11,35 @@ namespace HandSchool.Views
 	{
 		public InfoQueryPage()
 		{
-			InitializeComponent();
+            InitializeComponent();
             ViewModel = new BaseViewModel { Title = "信息查询" };
-            (Content as ListView).ItemsSource = Core.App.InfoEntrances;
+            (Content as CollectionView).ItemsSource = Core.App.InfoEntrances;
         }
 
         object LastItem = null;
         bool IsPushing = false;
 
-        public async void ItemTapped(object sender, ItemTappedEventArgs e)
+        public async void ItemTapped(object sender, System.EventArgs args)
         {
-            if (e.Item == null || e.Item == LastItem || IsPushing)
-                return; IsPushing = true;
-
-            if (Device.Idiom == TargetIdiom.Tablet)
-                LastItem = e.Item;
-
-            if (e.Item is InfoEntranceWrapper iew)
+            var frame = sender as Controls.TextAtom;
+            var e = frame.BindingContext;
+            await frame.TappedAnimation(async () =>
             {
-                await Navigation.PushAsync<IWebViewPage>(iew.Load.Invoke());
-            }
-            else if (e.Item is TapEntranceWrapper tew)
-            {
-                await tew.Activate(Navigation);
-            }
+                if (e == null || IsPushing)
+                    return;
+                IsPushing = true;
 
-            IsPushing = false;
+                if (e is InfoEntranceWrapper iew)
+                {
+                    await Navigation.PushAsync<IWebViewPage>(iew.Load.Invoke());
+                }
+                else if (e is TapEntranceWrapper tew)
+                {
+                    await tew.Activate(Navigation);
+                }
+                IsPushing = false;
+            });
+            
         }
     }
 }

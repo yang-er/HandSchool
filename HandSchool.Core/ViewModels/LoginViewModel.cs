@@ -3,14 +3,20 @@ using HandSchool.Models;
 using HandSchool.Views;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
+namespace HandSchool
+{
+    public enum RequestLoginState
+    {
+        FAILED = -1, VIEW_MODEL_ERROR = 0, SUCCESSED = 1
+    }
+}
 namespace HandSchool.ViewModels
 {
     /// <summary>
     /// 用于帮助填写表单登录的视图模型。
     /// </summary>
     /// <inheritdoc cref="BaseViewModel" />
-    public class LoginViewModel : BaseViewModel
+    public  class LoginViewModel : BaseViewModel
     {
         /// <summary>
         /// 登录命令
@@ -43,7 +49,7 @@ namespace HandSchool.ViewModels
         /// 异步地请求登录表单内容。
         /// </summary>
         /// <param name="form">需要登录的表单。</param>
-        public static Task<bool> RequestAsync(ILoginField form)
+        public static Task<RequestLoginState> RequestAsync(ILoginField form)
         {
             return Core.Platform.EnsureOnMainThread(async () =>
             {
@@ -53,12 +59,20 @@ namespace HandSchool.ViewModels
                 viewModel.Page.SetNavigationArguments(viewModel);
 
                 if (CurrentTask != null) await CurrentTask;
-                if (form.IsLogin) return true;
+                if (form.IsLogin) return RequestLoginState.SUCCESSED;
                 var cts = new TaskCompletionSource<bool>();
                 CurrentTask = cts.Task;
-                await viewModel.Page.ShowAsync();
+                try
+                {
+                    await viewModel.Page.ShowAsync();
+                }
+                catch (System.InvalidOperationException)
+                {
+                    cts.SetResult(true);
+                    return RequestLoginState.VIEW_MODEL_ERROR; 
+                }
                 cts.SetResult(true);
-                return form.IsLogin;
+                return form.IsLogin ? RequestLoginState.SUCCESSED : RequestLoginState.FAILED;
             });
         }
         

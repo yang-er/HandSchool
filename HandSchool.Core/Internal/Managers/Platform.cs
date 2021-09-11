@@ -30,9 +30,10 @@ namespace HandSchool.Internals
         {
             EnsureOnMainThread(() =>
             {
-                Device.OpenUri(new Uri(url));
+                Xamarin.Essentials.Launcher.OpenAsync(url);
             });
         }
+
 
         /// <summary>
         /// 设备的种类

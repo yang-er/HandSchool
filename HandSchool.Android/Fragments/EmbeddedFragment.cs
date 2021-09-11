@@ -1,6 +1,5 @@
 ﻿using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Views;
 using HandSchool.Internals;
 using HandSchool.ViewModels;
@@ -14,7 +13,7 @@ namespace HandSchool.Droid
     public class EmbeddedFragment : ViewFragment, INotifyPropertyChanged
     {
         public ViewObject ViewObject { get; }
-        public Fragment Renderer { get; set; }
+        public AndroidX.Fragment.App.Fragment Renderer { get; set; }
         public bool SelfControl { get; }
 
         public override BaseViewModel ViewModel
@@ -68,7 +67,7 @@ namespace HandSchool.Droid
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Renderer = Renderer ?? XForms.CreateSupportFragment(ViewObject, Context);
+            Renderer = Renderer != null ? Renderer : XForms.CreateSupportFragment(ViewObject, Context);
             return Renderer.OnCreateView(inflater, container, savedInstanceState);
         }
 

@@ -4,7 +4,7 @@ using Android.OS;
 using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
-using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
+using FragmentTransaction = AndroidX.Fragment.App.FragmentTransaction;
 using MessagingCenter = Xamarin.Forms.MessagingCenter;
 
 namespace HandSchool.Droid

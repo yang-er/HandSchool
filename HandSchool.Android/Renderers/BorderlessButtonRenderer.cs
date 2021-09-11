@@ -1,6 +1,6 @@
 ﻿using Android.Content;
-using Android.Support.V7.Widget;
 using Android.Views;
+using AndroidX.AppCompat.Widget;
 using HandSchool.Droid.Renderers;
 using HandSchool.Views;
 using Xamarin.Forms;

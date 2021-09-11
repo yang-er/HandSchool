@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/web_dia_text"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <android.webkit.WebView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:minWidth="400dp"
+        android:minHeight="400dp"
+        android:layout_weight="10"
+        android:id="@+id/web_dia_browser" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="5"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/web_dia_url_text"
+            android:layout_marginLeft="10dp" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:onClick="WebGoBack"
+            android:text="◁"
+            android:id="@+id/web_dia_goback"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:onClick="WebReload"
+            android:src="@drawable/reload"
+            android:scaleType="centerInside"
+            android:id="@+id/web_dia_reload"
+            android:contentDescription="description" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:onClick="WebGoForward"
+            android:id="@+id/web_dia_goforward"
+            android:text="▷" />
+    </GridLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:id="@+id/web_dia_resp"
+        android:inputType="text" />
+
+</LinearLayout>

@@ -79,9 +79,7 @@ namespace HandSchool.JLU
 
             public async Task<bool> PrepareLogin()
             {
-                if (Loader.Vpn.WebClient == null)
-                    await Loader.Vpn.PrepareLogin();
-                if (!await Loader.Vpn.RequestLogin())
+                if (Loader.Vpn.WebClient == null || !Loader.Vpn.IsLogin)
                     return false;
 
                 if (reinit)

@@ -13,6 +13,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using CharSequence = Java.Lang.ICharSequence;
+using System.Threading;
 
 namespace HandSchool.Droid
 {
@@ -52,7 +53,7 @@ namespace HandSchool.Droid
         public ProgressBar ProgressBar { get; set; }
 
         [BindView(Resource.Id.login_cardView)]
-        public Android.Support.V7.Widget.CardView CardView { get; set; }
+        public AndroidX.CardView.Widget.CardView CardView { get; set; }
 
         #endregion
         
@@ -90,7 +91,7 @@ namespace HandSchool.Droid
 
         public Task ShowAsync()
         {
-            var context = PlatformImplV2.Instance.PeekContext();
+            Context context  = PlatformImplV2.Instance.PeekContext();
             var navigate = context as INavigate;
             navigate.PushAsync<LoginActivity>(this);
             return Completed;

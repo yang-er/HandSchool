@@ -1,37 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls" xmlns:internal="clr-namespace:HandSchool.Internal"
               x:Class="HandSchool.Views.GradePointPage"
-              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
               Title="{Binding Title}">
-    <w:ViewObject.Resources>
-        <ResourceDictionary>
-            <w:NoDataBackgroundConverter x:Key="ndbcv" />
-        </ResourceDictionary>
-    </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" HiddenForPull="True" UWPIcon="&#xE72C;" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
-        <ListView ItemsSource="{Binding Items}"
-                  ItemTapped="Handle_ItemTapped"
-                  IsPullToRefreshEnabled="true"
-                  RefreshCommand="{Binding LoadItemsCommand}"
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                  HasUnevenRows="true"
-                  BackgroundColor="{Binding Count, Converter={StaticResource ndbcv}}"
-                  CachingStrategy="RecycleElement">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <w:TextCell Title="{Binding Title}"
-                                Detail="{Binding Detail}"
-                                RightDownShow="False"
-                                Attach1="{Binding Type}"
-                                RightDownColor="{Binding TypeColor}"
-                                PreferedCardView="3" />
+        <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
+        <CollectionView ItemsSource="{Binding Items}"
+                  BackgroundColor="#F4F4F4">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <internal:NoDataView/>
+                    </ContentView>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="4" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TextAtom 
+                            OnTop="False"
+                            HasSecond="True"
+                            FirstProportion="5"
+                            Title="{Binding Title}" 
+                            ContentText="{Binding Detail}" 
+                            SecondTitle="●"
+                            SecondTitleColor="{Binding TypeColor}"
+                            SecondContent="{Binding Type}"> 
+                        <controls:TextAtom.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Handle_ItemTapped"/>
+                            </controls:TextAtom.GestureRecognizers>
+                        </controls:TextAtom>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        </RefreshView>
     </w:ViewObject.Content>
 </w:ViewObject>

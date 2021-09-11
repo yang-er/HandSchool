@@ -48,7 +48,7 @@ namespace HandSchool.ViewModels
             get => _content;
             set => SetProperty(ref _content, value);
         }
-
+        public string MainText { get; set; } 
         /// <summary>
         /// 消息命令
         /// </summary>

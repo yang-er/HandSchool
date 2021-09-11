@@ -2,13 +2,21 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.Design.Widget;
-using Android.Support.V4.View;
-using Android.Support.V4.Widget;
-using Android.Support.V7.App;
+
 using Android.Views;
+using Android.Webkit;
+using Android.Widget;
+using AndroidX.AppCompat.App;
+using AndroidX.Core.View;
+using AndroidX.DrawerLayout.Widget;
+using HandSchool.Droid.Internals;
 using HandSchool.Internals;
+using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using AlertDialog = Android.App.AlertDialog;
 
 namespace HandSchool.Droid
@@ -67,6 +75,11 @@ namespace HandSchool.Droid
             TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
 
             NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
+
+            var x = new AndroidWebDialogAdditionalArgs { WebChromeClient = new CancelLostWebChromeClient(this) };
+            x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient)x.WebChromeClient);
+            x.Cookies = new System.Collections.Generic.List<(string, System.Net.Cookie)>();
+            JLU.Loader.CancelLostWebAdditionalArgs = x;
         }
 
         protected override void OnDestroy()
@@ -76,6 +89,39 @@ namespace HandSchool.Droid
             this.CleanBind();
         }
 
+        static void RmDir(string path)
+        {
+            if (!Directory.Exists(path)) return;
+            var dirs = Directory.GetDirectories(path);
+            var files = Directory.GetFiles(path);
+            foreach (var item in files)
+            {
+                try
+                {
+                    File.Delete(item);
+                }
+                catch { }
+            }
+            foreach (var item in dirs)
+            {
+                RmDir(item);
+            }
+            try
+            {
+                Directory.Delete(path);
+            }
+            catch { }
+        }
+        public static void ClearWebViewCache()
+        {
+            var path = Directory.GetParent(Core.Configure.Directory).FullName;
+            RmDir(path + "/app_textures");
+            RmDir(path + "/app_webview");
+            RmDir(path + "/shared_prefs");
+        }
+
+        BackHandler backHandler = new BackHandler();
+
         public override void OnBackPressed()
         {
             if (DrawerLayout.IsDrawerOpen(GravityCompat.Start))
@@ -84,12 +130,15 @@ namespace HandSchool.Droid
             }
             else
             {
-                new AlertDialog.Builder(this)
-                    .SetTitle("退出")
-                    .SetMessage("是否退出掌上校园？")
-                    .SetPositiveButton("是", (s, e) => base.OnBackPressed())
-                    .SetNegativeButton("否", (s, e) => { })
-                    .Show();
+                if (backHandler.IsDoubleBack())
+                {
+                    ClearWebViewCache();
+                    base.OnBackPressed();
+                }
+                else
+                {
+                    Toast.MakeText(this, "再按一次退出", ToastLength.Short).Show();
+                }
             }
         }
 
@@ -98,6 +147,26 @@ namespace HandSchool.Droid
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (s) => this.PushAsync<DemoFragment>()).Show();
+        }
+    }
+    class BackHandler
+    {
+        DateTime? lastBack = null;
+        public bool IsDoubleBack()
+        {
+            bool res = false;
+            var now = DateTime.Now;
+            TimeSpan? timeSpan = null;
+            if (lastBack != null)
+            {
+                timeSpan = now - lastBack.Value;
+            }
+            if (lastBack != null && timeSpan.Value.TotalMilliseconds > 0 && timeSpan.Value.TotalMilliseconds < 1000)
+            {
+                res = true;
+            }
+            lastBack = now;
+            return res;
         }
     }
 }

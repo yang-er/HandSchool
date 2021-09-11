@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace HandSchool.Views
 {
@@ -84,6 +86,12 @@ namespace HandSchool.Views
             ToolbarMenu.Add(item);
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            var safeInsets = On<iOS>().SafeAreaInsets();
+            Padding = safeInsets;
+        }
         public ViewObject()
         {
             ToolbarTracker = new ToolbarMenuTracker();
@@ -135,6 +143,19 @@ namespace HandSchool.Views
             Core.Platform.ViewResponseImpl.ReqInpAsync(this, args);
             return args.Result.Task;
         }
+        public Task<string> RequestInputWithPicAsync(string title, string description, string cancel, string accept,byte[]src)
+        {
+            var args = new RequestInputWithPicArguments(title, description, cancel, accept,src);
+            Core.Platform.ViewResponseImpl.ReqInpWPicAsync(this, args);
+            return args.Result.Task;
+        }
+        public Task<string> RequestWebDialogAsync(string title, string description, string url, string cancel, string accept, bool navigation, bool hasInput, string inputHint, WebDialogAdditionalArgs additionalArgs)
+        {
+            var args = new RequestWebDialogArguments(title, description, url, cancel, accept, navigation, hasInput, inputHint);
+            Core.Platform.ViewResponseImpl.ReqWebDiaAsync(this, args, additionalArgs);
+            return args.Result.Task;
+        }
+
 
         /// <summary>
         /// 弹出选择对话框，从中选择一个操作。

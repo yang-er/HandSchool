@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove=".HandSchool.Core.UAP.projitems" />
+    <None Remove="Pages\FirstOpen\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,11 +19,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="SkiaSharp" Version="1.68.0" />
-    <PackageReference Include="Xamarin.Forms" Version="3.6.0.709228" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\TextAtom.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\NoDataView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\FirstOpen\" />
+  </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarHandSchoolCoreHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

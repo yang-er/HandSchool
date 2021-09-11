@@ -24,7 +24,7 @@ namespace HandSchool.JLU.Services
         bool is_login = false;
         bool auto_login = false;
         bool save_password = false;
-
+        public LoginTimeoutManager timeoutManager { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
@@ -55,7 +55,7 @@ namespace HandSchool.JLU.Services
                 if (value) SetProperty(ref save_password, true, nameof(SavePassword));
             }
         }
-        
+
         public bool SavePassword
         {
             get => save_password;
@@ -67,6 +67,20 @@ namespace HandSchool.JLU.Services
         }
 
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
+        public async Task<bool> CheckLogin()
+        {
+            if (!IsLogin || timeoutManager.IsTimeout())
+            {
+                IsLogin = false;
+            }
+            else return true;
+            if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+            {
+                timeoutManager.Login();
+                return true;
+            }
+            else return false;
+        }
 
         public async Task<bool> PrepareLogin()
         {
@@ -141,7 +155,7 @@ namespace HandSchool.JLU.Services
                 var reqMeta = new WebRequestMeta("do-login?local_login=true", WebRequestMeta.All);
                 reqMeta.SetHeader("Referer", baseUrl + "/login");
                 var resp = await WebClient.PostAsync(reqMeta, post_value);
-                
+
                 if (resp.Location == "/login?local_login=true")
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "用户名密码或验证码错误"));
@@ -182,10 +196,11 @@ namespace HandSchool.JLU.Services
             IsLogin = false;
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
-            AutoLogin = SavePassword = Password != "";
+            AutoLogin = SavePassword = !string.IsNullOrEmpty(Password);
             if (AutoLogin) remember_token = Core.Configure.Read(configRemember);
             if (string.IsNullOrWhiteSpace(remember_token)) remember_token = "aaaa";
             else NeedLogin = false;
+            timeoutManager = new LoginTimeoutManager(43200);
         }
 
         #endregion

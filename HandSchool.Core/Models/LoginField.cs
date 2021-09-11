@@ -81,5 +81,9 @@ namespace HandSchool.Models
         /// </summary>
         /// <returns>是否有必要继续弹出</returns>
         Task<bool> BeforeLoginForm();
+
+        Task<bool> CheckLogin();
+
+        LoginTimeoutManager timeoutManager { get; set; }
     }
 }

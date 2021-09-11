@@ -3,23 +3,22 @@ using HandSchool.ViewModels;
 using HandSchool.Internals;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Windows.Input;
 
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MessagePage : ViewObject
     {
+        public static MessagePage Instance;
         public MessagePage()
         {
             InitializeComponent();
             ViewModel = MessageViewModel.Instance;
+            Instance = this;
 
             if (Core.Platform.RuntimeName == "Android")
             {
-                var ListView = Content as ListView;
-                ListView.SeparatorVisibility = SeparatorVisibility.None;
-                ListView.Header = new StackLayout { HeightRequest = 4 };
-                ListView.Footer = new StackLayout { HeightRequest = 4 };
             }
         }
 
@@ -28,17 +27,11 @@ namespace HandSchool.Views
             base.OnAppearing();
             MessageViewModel.Instance.FirstOpen();
         }
-
-        bool IsPushing = false;
-
-        private async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        protected override void OnDisappearing()
         {
-            if (e.Item == null || IsPushing) return;
-            IsPushing = true;
-            var imi = e.Item as IMessageItem;
-            imi.SetRead.Execute(null);
-            await Navigation.PushAsync<DetailPage>(imi);
-            IsPushing = false;
+            base.OnDisappearing();
         }
+
+        public bool IsPushing { get; set; } = false;
     }
 }

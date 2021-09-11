@@ -6,9 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
+    public enum FeedState
+    {
+        Normal, Search
+    }
     /// <summary>
     /// 学校通知的视图模型，提供了刷新和数据源的功能。
     /// </summary>
@@ -19,7 +24,11 @@ namespace HandSchool.ViewModels
         static readonly Lazy<FeedViewModel> Lazy = 
             new Lazy<FeedViewModel>(() => new FeedViewModel());
 
-        private int leftPageCount;
+        private int curPageIndex;
+        
+
+        public DateTime? LastReload = null;
+        public (FeedState, string) WorkState = (FeedState.Normal, null);
 
         /// <summary>
         /// 消息内容列表
@@ -30,6 +39,8 @@ namespace HandSchool.ViewModels
         /// 加载消息的命令
         /// </summary>
         public ICommand LoadItemsCommand { get; set; }
+
+        public ICommand SearchByKeyWordCommand { get; set; }
 
         /// <summary>
         /// 视图模型的实例
@@ -45,16 +56,21 @@ namespace HandSchool.ViewModels
             Items = new ObservableCollection<FeedItem>();
             Items.CollectionChanged += (s, e) => OnPropertyChanged(nameof(Count));
             LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
+            SearchByKeyWordCommand = new CommandAction(SearchByKeyWord);
         }
 
         /// <summary>
         /// 剩余页面数
         /// </summary>
-        public int LeftPageCount
+        public int CurPageIndex
         {
-            get => leftPageCount;
-            set => SetProperty(ref leftPageCount, value, onChanged: _leftPageCountChanged);
+            get => curPageIndex;
+            set => SetProperty(ref curPageIndex, value, onChanged: _leftPageCountChanged);
         }
+
+        public int TotalPageCount = 0;
+
+        public int LeftPage => TotalPageCount - CurPageIndex;
 
         void _leftPageCountChanged()
         {
@@ -70,16 +86,19 @@ namespace HandSchool.ViewModels
             {
                 if (IsBusy)
                     return "正在加载中~";
-                else if (leftPageCount == 0)
+                else if (LeftPage <= 0)
                     return "已经到底啦QAQ";
-                return "下拉加载更多……";
+                return "上拉加载更多……";
             }
         }
-        
+
         /// <summary>
         /// 加载消息的方法。
         /// </summary>
         private Task ExecuteLoadItemsCommand() => LoadItems(false);
+
+        private Task SearchByKeyWord() => SearchWord(false);
+        public static Func<Task<(bool, string)>> BeforeOperatingCheck { set; private get; }
 
         /// <summary>
         /// 加载消息的方法。
@@ -87,12 +106,29 @@ namespace HandSchool.ViewModels
         public async Task LoadItems(bool more)
         {
             if (IsBusy) return;
+            WorkState = (FeedState.Normal, null);
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
             IsBusy = true;
             int newcnt = 0;
-
             try
             {
-                newcnt = await Core.App.Feed.Execute(more ? LeftPageCount : 1);
+                newcnt = await Core.App.Feed.Execute(more ? CurPageIndex + 1 : 1);
+                if (!more)
+                {
+                    LastReload = DateTime.Now;
+                }
             }
             catch (Exception ex)
             {
@@ -103,9 +139,62 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
 
-            LeftPageCount = newcnt;
+            CurPageIndex = newcnt;
         }
         
+        public async Task SearchWord(bool more, string word = null)
+        {
+            if (IsBusy) return;
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
+            IsBusy = true;
+            int newcnt = 0;
+
+            try
+            {
+                string str;
+                if (string.IsNullOrWhiteSpace(word))
+                    str = await RequestInputAsync("输入要搜索的关键词", "", "取消", "完成");
+                else str = word;
+
+                if (string.IsNullOrWhiteSpace(str))
+                {
+                    IsBusy = false;
+                    return;
+                }
+                else
+                {
+                    newcnt = await Core.App.Feed.Search(str, more ? CurPageIndex + 1 : 1);
+                    WorkState = (FeedState.Search, str);
+                }
+
+                if (!more)
+                {
+                    LastReload = DateTime.Now;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.WriteLog(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            curPageIndex = 0;
+            CurPageIndex = newcnt;
+        }
         #region ICollection<T> Implements
 
         public int Count => Items.Count;

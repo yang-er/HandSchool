@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internals;
 using HandSchool.ViewModels;
 using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -145,6 +146,24 @@ namespace HandSchool.Views
                 defCol.Width = colWidth;
                 scrollView.Orientation = ScrollOrientation.Horizontal;
                 UseSafeArea = true;
+            }
+        }
+
+        async void iOS_Menu_Clicked(System.Object sender, System.EventArgs e)
+        {
+            if (sender == null) return;
+            var names = new String[] { "刷新课表", "添加课程", "查看任意周" };
+            var vm = BindingContext as ScheduleViewModel;
+            var commands = new ICommand[] { vm.RefreshCommand, vm.AddCommand, vm.ChangeWeekCommand };
+            var resp = await RequestActionAsync("更多", "取消", null, names);
+            if (string.IsNullOrWhiteSpace(resp)) return;
+            for(int i = 0; i < names.Length; i++)
+            {
+                if (resp.Contains(names[i]))
+                {
+                    commands[i].Execute(null);
+                    return;
+                }
             }
         }
     }

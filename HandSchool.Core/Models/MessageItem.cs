@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HandSchool.Models
 {
@@ -43,6 +44,7 @@ namespace HandSchool.Models
         /// 是否未读
         /// </summary>
         bool Unread { get; set; }
+        Color ReadState { get; }
 
         /// <summary>
         /// For internal use.

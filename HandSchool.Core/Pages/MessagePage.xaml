@@ -2,45 +2,44 @@
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.MessagePage"
-              xmlns:w="clr-namespace:HandSchool.Views"
-              BackgroundImage="{Binding Count, Converter={StaticResource ndbcv}}"
+              xmlns:w="clr-namespace:HandSchool.Views" xmlns:controls="clr-namespace:HandSchool.Controls" xmlns:internal="clr-namespace:HandSchool.Internal"
               Title="{Binding Title}">
-    <w:ViewObject.Resources>
-        <ResourceDictionary>
-            <w:NoDataBackgroundConverter x:Key="ndbcv" />
-        </ResourceDictionary>
-    </w:ViewObject.Resources>
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" Order="Default" HiddenForPull="True" UWPIcon="&#xE72C;" />
         <w:MenuEntry Command="{Binding ReadAllCommand}" Title="全部已读" Order="Secondary" UWPIcon="&#xE77A;" />
         <w:MenuEntry Command="{Binding DeleteAllCommand}" Title="全部删除" Order="Secondary" UWPIcon="&#xE74D;" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
-        <ListView ItemsSource="{Binding Items}"
-                  ItemTapped="Handle_ItemTapped"
-                  IsPullToRefreshEnabled="true"
-                  RefreshCommand="{Binding LoadItemsCommand}"
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                  BackgroundColor="{Binding Count, Converter={StaticResource ndbcv}}"
-                  HasUnevenRows="true"
-                  CachingStrategy="RecycleElement">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <w:TextCell Title="{Binding Title}"
-                                Detail="{Binding Body}"
-                                RightUp="{Binding Date}"
-                                RightDown="●"
-                                RightDownColor="Red"
-                                Attach1="{Binding Sender}"
-                                PreferedCardView="2"
-                                RightDownShow="{Binding Unread}">
-                        <Cell.ContextActions>
-                            <MenuItem Command="{Binding SetRead}" Text="已读" />
-                            <MenuItem Command="{Binding Delete}" Text="删除" IsDestructive="True" />
-                        </Cell.ContextActions>
-                    </w:TextCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <RefreshView Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+            <CollectionView ItemsSource="{Binding Items, Mode=TwoWay}" 
+                            BackgroundColor="#F4F4F4">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <internal:NoDataView/>
+                    </ContentView>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="4" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TextAtom 
+                            OnTop="False"
+                            Title="{Binding Title}" 
+                            ContentText="{Binding Body}" 
+                            AfterTitle="{Binding Sender}"
+                            HasSecond="True"
+                            FirstProportion="3.5"
+                            SecondTitle="●"
+                            SecondTitleColor="{Binding ReadState}"
+                            SecondContent="{Binding Date}"
+                            ClickedCommand="{Binding ItemTappedCommand}"
+                            LongClickedCommand="{Binding ItemLongPressCommand}">
+
+                        </controls:TextAtom>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </w:ViewObject.Content>
 </w:ViewObject>

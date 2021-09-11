@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Views;
+using AndroidX.Fragment.App;
 using HandSchool.Droid;
 using HandSchool.Internals;
 using HandSchool.ViewModels;
@@ -216,8 +216,22 @@ namespace HandSchool.Droid
             return args.ReturnTask;
         }
 
+        public Task<string> RequestInputWithPicAsync(string title, string description, string cancel, string accept, byte[] sources)
+        {
+            var args = new RequestInputWithPicArguments(title, description, cancel, accept, sources);
+            Core.Platform.ViewResponseImpl.ReqInpWPicAsync(this, args);
+            return args.Result.Task;
+        }
+
         #endregion
 
         public virtual void SolveBindings() { }
+
+        public Task<string> RequestWebDialogAsync(string title, string description, string url, string cancel, string accept, bool navigation, bool hasInput, string inputHint, WebDialogAdditionalArgs additionalArgs)
+        {
+            var args = new RequestWebDialogArguments(title, description,url, cancel, accept, navigation, hasInput, inputHint);
+            Core.Platform.ViewResponseImpl.ReqWebDiaAsync(this, args, additionalArgs);
+            return args.Result.Task;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Views;
 using Microcharts;
+using System;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -23,7 +24,7 @@ namespace HandSchool.ViewModels
             get => isBusy;
             set => SetProperty(ref isBusy, value, nameof(IsBusy));
         }
-        
+
         /// <summary>
         /// 视图显示的窗口标题。
         /// </summary>
@@ -54,6 +55,11 @@ namespace HandSchool.ViewModels
             if (View is null) return Task.FromResult<string>(null);
             return Core.Platform.EnsureOnMainThread(() => View.RequestInputAsync(title, description, cancel, accept));
         }
+        public Task<string> RequestInputWithPicAsync(string title, string description, string cancel, string accept,byte[]sources)
+        {
+            if (View is null) return Task.FromResult<string>(null);
+            return Core.Platform.EnsureOnMainThread(() => View.RequestInputWithPicAsync(title, description, cancel, accept,sources));
+        }
 
         public Task RequestMessageAsync(string title, string message, string button = "知道了")
         {
@@ -66,7 +72,11 @@ namespace HandSchool.ViewModels
             if (View is null) return Task.CompletedTask;
             return Core.Platform.EnsureOnMainThread(() => View.RequestChartAsync(chart, title, close));
         }
-
+        public Task<string> RequestWebDialogAsync(string title, string description, string url, string cancel, string accept, bool navigation, bool hasInput, string inputHint, WebDialogAdditionalArgs additionalArgs)
+        {
+            if (View is null) return Task.FromResult<string>(null);
+            return Core.Platform.EnsureOnMainThread(() => View.RequestWebDialogAsync(title, description, url, cancel, accept, navigation, hasInput, inputHint, additionalArgs));
+        }
         #endregion
     }
 }

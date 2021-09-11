@@ -25,10 +25,11 @@ namespace HandSchool.JLU
         public string Username { get; set; }
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
+        public LoginTimeoutManager timeoutManager { get; set; } = new LoginTimeoutManager(600);
         
         [Settings("提示", "保存使设置永久生效，部分设置重启后生效。")]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
-        
+
         public string FormName => "UIMS教务管理系统";
 
         private string proxy_server;
@@ -43,7 +44,20 @@ namespace HandSchool.JLU
                 SetProperty(ref proxy_server, new_val);
             }
         }
-
+        public async Task<bool> CheckLogin()
+        {
+            if (!IsLogin || timeoutManager.IsTimeout())
+            {
+                IsLogin = false;
+            }
+            else return true;
+            if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+            {
+                timeoutManager.Login();
+                return true;
+            }
+            else return false;
+        }
         private bool use_https;
         //[Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。连接成功率更高。")]
         public bool UseHttps
@@ -66,14 +80,6 @@ namespace HandSchool.JLU
         {
             get => outside_school;
             set => SetProperty(ref outside_school, value);
-        }
-
-        private bool use_vpn;
-        [Settings("使用学生VPN", "使用学生VPN连接教务系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
-        public bool UseVpn
-        {
-            get => use_vpn;
-            set => SetProperty(ref use_vpn, value);
         }
 
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
@@ -137,7 +143,6 @@ namespace HandSchool.JLU
             UseHttps = true;
             OutsideSchool = false; // config.OutsideSchool;
             QuickMode = false; //config.QuickMode;
-            UseVpn = config.UseVpn;
 
             IsLogin = false;
             NeedLogin = true;
@@ -146,7 +151,7 @@ namespace HandSchool.JLU
             if (Password == "") SavePassword = false;
 
             if (OutsideSchool) UsingStrategy = new OutsideSchoolStrategy(this);
-            else if (UseVpn) UsingStrategy = new VpnSchoolStrategy(this);
+            else if (Loader.UseVpn) UsingStrategy = new VpnSchoolStrategy(this);
             else UsingStrategy = new InsideSchoolStrategy(this);
             UsingStrategy.OnLoad();
         }
@@ -174,7 +179,7 @@ namespace HandSchool.JLU
         
         public async Task<string> Post(string url, string send)
         {
-            if (await this.RequestLogin() == false)
+            if (!await this.CheckLogin())
             {
                 throw new WebsException("登录超时。", WebStatus.Timeout);
             }
@@ -201,7 +206,7 @@ namespace HandSchool.JLU
 
         public async Task<string> Get(string url)
         {
-            if (await this.RequestLogin() == false)
+            if (!await this.CheckLogin())
             {
                 throw new WebsException("登录超时。", WebStatus.Timeout);
             }
@@ -236,7 +241,7 @@ namespace HandSchool.JLU
 
         public Task<bool> BeforeLoginForm()
         {
-            if (UseVpn)
+            if (Loader.UseVpn)
                 return UsingStrategy.PrepareLogin();
             return Task.FromResult(true);
         }

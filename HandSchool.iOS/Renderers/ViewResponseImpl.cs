@@ -1,4 +1,7 @@
-﻿using HandSchool.Internals;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Foundation;
+using HandSchool.Internals;
 using HandSchool.Views;
 using SkiaSharp.Views.iOS;
 using UIKit;
@@ -14,11 +17,13 @@ namespace HandSchool.iOS
 
         public void ReqInpAsync(IViewPage sender, RequestInputArguments args)
         {
-            var alert = UIAlertController.Create(args.Title, args.Message, UIAlertControllerStyle.Alert);
-            alert.AddTextField((field) => field.Placeholder = "");
-            alert.AddAction(UIAlertAction.Create(args.Accept, UIAlertActionStyle.Default, (s) => args.SetResult(alert.TextFields[0].Text)));
-            alert.AddAction(UIAlertAction.Create(args.Cancel, UIAlertActionStyle.Cancel, (s) => args.SetResult(null)));
-            MessagingCenter.Send((object)this, UIViewControllerRequest, alert);
+            var controller = UIAlertController.Create(args.Title, args.Message, UIAlertControllerStyle.Alert);
+            controller.AddTextField((h)=> { });
+            var cancel = UIAlertAction.Create(args.Cancel, UIAlertActionStyle.Default, (e) => { args.Result.SetResult(null); });
+            controller.AddAction(cancel);
+            var accept = UIAlertAction.Create(args.Accept, UIAlertActionStyle.Destructive, (e) => { args.Result.SetResult(string.IsNullOrWhiteSpace(controller.TextFields[0].Text) ? null : controller.TextFields[0].Text); });
+            controller.AddAction(accept);
+            (UIApplication.SharedApplication.Delegate as AppDelegate).Window.RootViewController.PresentViewController(controller, true, null);
         }
 
         public void ReqChtAsync(IViewPage sender, RequestChartArguments args)
@@ -36,7 +41,8 @@ namespace HandSchool.iOS
             };
 
             ca.View.AddSubview(chartView);
-            MessagingCenter.Send((object)this, UIViewControllerRequest, ca);
+            (UIApplication.SharedApplication.Delegate as AppDelegate).Window.RootViewController.PresentViewController(ca, true, null);
+
         }
 
         public void ReqMsgAsync(IViewPage sender, AlertArguments args)
@@ -47,6 +53,44 @@ namespace HandSchool.iOS
         public void ReqActAsync(IViewPage sender, ActionSheetArguments args)
         {
             MessagingCenter.Send(sender as Page, Page.ActionSheetSignalName, args);
+        }
+
+        //一个函数用来获取缩放后的图片大小以及要用到的占位空行
+        static (double with, double heigth,string blank) ImageSizeConvert(CoreGraphics.CGSize size)
+        {
+            var heigth = (250.0 / size.Width) * size.Height;
+            var n = heigth / 13.9;
+            var sb = new System.Text.StringBuilder();
+            for (var i = 0; n - i > 0.5; i++)
+                sb.Append('\n');
+            return (250, heigth, sb.ToString());
+        }
+
+        public void ReqInpWPicAsync(IViewPage sender, RequestInputWithPicArguments args)
+        {
+            if (args.Sources == null) return;
+            var data = NSData.FromArray(args.Sources);
+            var uiimage = UIImage.LoadFromData(data);
+            var size = ImageSizeConvert(uiimage.Size);
+
+            var controller = UIAlertController.Create(args.Title, args.Message + size.blank, UIAlertControllerStyle.Alert);
+            
+            var view = new UIImageView(frame: new CoreGraphics.CGRect(10, 80, size.Item1, size.Item2)); ;
+            view.Image = uiimage;
+            
+            controller.View.AddSubview(view);
+
+            controller.AddTextField((h) => { });
+            var cancel = UIAlertAction.Create(args.Cancel, UIAlertActionStyle.Default, (e) => { args.Result.SetResult(null); });
+            controller.AddAction(cancel);
+            var accept = UIAlertAction.Create(args.Accept, UIAlertActionStyle.Destructive, (e) => { args.Result.SetResult(string.IsNullOrWhiteSpace(controller.TextFields[0].Text) ? null : controller.TextFields[0].Text); });
+            controller.AddAction(accept);
+            (UIApplication.SharedApplication.Delegate as AppDelegate).Window.RootViewController.PresentViewController(controller, true, null);
+        }
+
+        public void ReqWebDiaAsync(IViewPage sender, RequestWebDialogArguments args, WebDialogAdditionalArgs additionalArgs)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

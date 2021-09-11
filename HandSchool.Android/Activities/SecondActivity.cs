@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using HandSchool.Views;
 using System;
-using SupportFragment = Android.Support.V4.App.Fragment;
+using SupportFragment = AndroidX.Fragment.App.Fragment;
 
 namespace HandSchool.Droid
 {

@@ -2,7 +2,7 @@
 using HandSchool.Models;
 using HandSchool.Views;
 using System;
-using SupportFragment = Android.Support.V4.App.Fragment;
+using SupportFragment = AndroidX.Fragment.App.Fragment;
 
 namespace HandSchool.Droid
 {
@@ -113,6 +113,7 @@ namespace HandSchool.Droid
             Type = Judge(PageType);
             DrawableId = IconList[(int)icon];
             lazyFm = new Lazy<(SupportFragment, IViewCore)>(CreateV3);
+
         }
     }
 }

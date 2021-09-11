@@ -1,6 +1,7 @@
 ﻿using HandSchool.Internals;
 using Microcharts;
 using System.ComponentModel;
+using System.Drawing;
 using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 
@@ -56,6 +57,8 @@ namespace HandSchool.Views
         /// <param name="title">对话框标题</param>
         /// <param name="close">关闭按钮文字</param>
         Task RequestChartAsync(Chart chart, string title = "", string close = "关闭");
+        Task<string> RequestWebDialogAsync(string title, string description, string url, string cancel, string accept, bool navigation, bool hasInput, string inputHint, WebDialogAdditionalArgs additionalArgs);
+        Task<string> RequestInputWithPicAsync(string title, string description, string cancel, string accept, byte[] sources);
     }
 
     /// <summary>
@@ -68,5 +71,7 @@ namespace HandSchool.Views
         void ReqActAsync(IViewPage sender, ActionSheetArguments args);
         void ReqInpAsync(IViewPage sender, RequestInputArguments args);
         void ReqChtAsync(IViewPage sender, RequestChartArguments args);
+        void ReqInpWPicAsync(IViewPage sender, RequestInputWithPicArguments args);
+        void ReqWebDiaAsync(IViewPage sender, RequestWebDialogArguments args, WebDialogAdditionalArgs additionalArgs);
     }
 }

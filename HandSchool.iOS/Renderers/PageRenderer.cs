@@ -1,4 +1,5 @@
-﻿using HandSchool.iOS;
+﻿using HandSchool.Controls;
+using HandSchool.iOS;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(ViewObject), typeof(ViewPageRenderer))]
+
 namespace HandSchool.iOS
 {
+
     public class ViewPageRenderer : PageRenderer
     {
         private UIActivityIndicatorView Spinner;

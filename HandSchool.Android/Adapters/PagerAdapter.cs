@@ -1,9 +1,8 @@
 ﻿using Android.Content;
-using Android.Support.Design.Widget;
-using Android.Support.V4.App;
-using Android.Support.V4.View;
+using AndroidX.Fragment.App;
 using HandSchool.Internals;
 using HandSchool.Views;
+using Google.Android.Material.Tabs;
 using Java.Lang;
 
 namespace HandSchool.Droid

@@ -36,12 +36,11 @@ namespace HandSchool.JLU.InfoQuery
         public string HtmlUrl { get; set; }
         public byte[] OpenWithPost => null;
         public List<string> Cookie => null;
-        
         public IUrlEntrance SubUrlRequested(string sub)
         {
             return new LibraryRent(sub);
         }
-
+      
         public override Task Receive(string data)
         {
             this.WriteLog("Unexpected value received <<<EOF\n" + data + "\nEOF;");
@@ -57,7 +56,7 @@ namespace HandSchool.JLU.InfoQuery
         public static async Task<IUrlEntrance> RequestRentInfo()
         {
             var rentInfo = new LoginDispatcher();
-            if (await rentInfo.RequestLogin())
+            if (await rentInfo.CheckLogin())
             {
                 return rentInfo.GetLibraryRent();
             }
@@ -111,6 +110,22 @@ namespace HandSchool.JLU.InfoQuery
             {
                 Username = Core.Configure.Read(configUsername);
                 Password = Core.Configure.Read(configPassword);
+            }
+            public LoginTimeoutManager timeoutManager { get; set; } = new LoginTimeoutManager(3600);
+
+            public async Task<bool> CheckLogin()
+            {
+                if (!IsLogin || timeoutManager.IsTimeout())
+                {
+                    IsLogin = false;
+                }
+                else return true;
+                if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+                {
+                    timeoutManager.Login();
+                    return true;
+                }
+                else return false;
             }
 
             #endregion
@@ -170,7 +185,6 @@ namespace HandSchool.JLU.InfoQuery
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
                 return true;
             }
-
             public Task<bool> PrepareLogin()
             {
                 return Task.FromResult(true);

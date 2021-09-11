@@ -25,7 +25,8 @@ namespace HandSchool.Droid
             });
 
         public static List<NavMenuItemV2> NavigationItemsSec => LazySec.Value;
-        
+
+
         public void SetContext(Context impl)
         {
             ContextStack.Add(impl);
@@ -56,6 +57,8 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterCtor<WebViewPage>();
             Core.Reflection.RegisterCtor<LoginFragment>();
             Core.Reflection.RegisterCtor<HttpClientImpl>();
+
+
             Core.Reflection.RegisterType<DetailPage, DetailActivity>();
             Core.Reflection.RegisterType<ICurriculumPage, CurriculumDialog>();
             Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();

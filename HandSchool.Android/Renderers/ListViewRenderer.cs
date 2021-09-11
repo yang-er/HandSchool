@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using Android.Content;
-using Android.Support.V4.Widget;
 using Android.Views;
 using HandSchool.Droid.Renderers;
 using Xamarin.Forms;
@@ -11,7 +10,7 @@ namespace HandSchool.Droid.Renderers
 {
     public class ListViewRenderer2 : ListViewRenderer
     {
-        public ListViewRenderer2(Context context) : base(context) { }
+        public ListViewRenderer2(Context context) : base(context) {}
         
         protected override void OnElementChanged(ElementChangedEventArgs<ListView> e)
         {

@@ -39,9 +39,9 @@ namespace HandSchool.ViewModels
             QuickChangeWeekCommand = new CommandAction(QuickSwitchWeek);
             Title = "课程表";
         }
-        
+
         public override bool IsComposed => false;
-        
+
         public override int Week
         {
             get => week;
@@ -68,6 +68,8 @@ namespace HandSchool.ViewModels
             Debug.Assert(sys != null);
             SetProperty(ref week, sys.CurrentWeek, nameof(CurrentWeek));
         }
+        public static Func<Task<(bool, string)>> BeforeOperatingCheck { private get; set; }
+
 
         #region 增删改查命令
 
@@ -77,6 +79,20 @@ namespace HandSchool.ViewModels
         public async Task Refresh()
         {
             if (IsBusy) return;
+
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.Item1)
+                {
+                    await RequestMessageAsync("错误", msg.Item2);
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
             IsBusy = true;
             await Core.App.Schedule.Execute();
             SendRefreshComplete();
@@ -136,12 +152,13 @@ namespace HandSchool.ViewModels
 
             SendRefreshComplete();
         }
-        
+
         /// <summary>
         /// 将添加课程的页面加载。
         /// </summary>
         private async Task Create()
         {
+            await RequestMessageAsync("提示", "修改完成后需重启生效\n刷新课表会导致修改失效");
             var item = new CurriculumItem
             {
                 IsCustom = true,
@@ -151,6 +168,7 @@ namespace HandSchool.ViewModels
             var page = Core.New<ICurriculumPage>();
             page.SetNavigationArguments(item, true);
 
+            
             if (await page.ShowAsync())
                 SendRefreshComplete();
         }
@@ -180,7 +198,7 @@ namespace HandSchool.ViewModels
         /// 课程表合并状态内容
         /// </summary>
         private IEnumerable<CurriculumSet> ItemsSet { get; set; }
-        
+
         public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
         {
             if (week == 0)
@@ -193,7 +211,7 @@ namespace HandSchool.ViewModels
                 list = Items.FindAll((item) => item.IfShow(week));
             }
         }
-        
+
         /// <summary>
         /// 添加课程。
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using Android.OS;
-using Android.Support.V7.App;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
@@ -8,14 +7,16 @@ using HandSchool.Internals;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms.Platform.Android;
-using SupportFragment = Android.Support.V4.App.Fragment;
-using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
-using AToolbar = Android.Support.V7.Widget.Toolbar;
+using SupportFragment  = AndroidX.Fragment.App.Fragment;
+using FragmentTransaction = AndroidX.Fragment.App.FragmentTransaction;
+using AToolbar = AndroidX.AppCompat.Widget.Toolbar; 
 using Android.Widget;
 using Android.Content;
 using Android.Views;
-using Android.Support.Design.Widget;
 using System.Collections.ObjectModel;
+using AndroidX.AppCompat.App;
+using Google.Android.Material.AppBar;
+using Google.Android.Material.Tabs;
 
 namespace HandSchool.Droid
 {

@@ -32,7 +32,7 @@
 				android:textColor="?colorAccent" />
 			
 			<TextView
-				android:id="@+id/cell_attach1"
+				android:id="@+id/other_info"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="RightDown"

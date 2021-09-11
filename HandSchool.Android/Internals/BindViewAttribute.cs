@@ -155,5 +155,10 @@ namespace HandSchool.Droid
                 }
             }
         }
+
+        public static void SetVisibility(this Android.Widget.ImageView iw, bool v)
+        {
+            iw.Visibility = v ? ViewStates.Visible : ViewStates.Gone;
+        }
     }
 }

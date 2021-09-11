@@ -83,7 +83,7 @@ namespace HandSchool.Internals
             Registar.Add(typed.Name, typed);
             CtorRegistar.Add(typed.FullName, () => new T());
         }
-        
+
         /// <summary>
         /// 注册替换实现内容，以供反射使用。
         /// </summary>
