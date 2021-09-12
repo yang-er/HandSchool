@@ -61,7 +61,7 @@
 
                 <StackLayout Orientation="Horizontal" x:Name="settingsPanel">
                     <Label Text="使用学生VPN" HorizontalOptions="FillAndExpand" TextColor="Black" />
-                    <Switch x:Name="outOfSchool" IsToggled="True" />
+                    <Switch x:Name="outOfSchool" IsToggled="False" />
                 </StackLayout>
 
                 <w:BorderlessButton Text="下一步"
