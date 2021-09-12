@@ -7,11 +7,13 @@
               Title="{Binding Title}"
               IsBusy="{Binding IsBusy}">
     <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" />
+        <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新" />
         <w:MenuEntry Command="{Binding SearchByKeyWordCommand}" Title="搜索"/>
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.ToolbarItems>
         <ToolbarItem Text="刷新" Command="{Binding LoadItemsCommand}"/>
+        <ToolbarItem Command="{Binding SearchByKeyWordCommand}" Text="搜索"/>
+
     </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
         <!--为啥不用RefreshView呢，有bug呗（ios）-->

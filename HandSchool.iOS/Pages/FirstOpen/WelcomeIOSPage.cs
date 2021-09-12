@@ -8,7 +8,7 @@ namespace HandSchool.iOS.Pages
         public WelcomeIOSPage(){}
         protected override void enter_main_clicked(object s, EventArgs e)
         {
-            Xamarin.Forms.Application.Current.MainPage.Navigation.PopModalAsync();
+            Xamarin.Forms.Application.Current.MainPage.Navigation.PopToRootAsync();
             Xamarin.Forms.Application.Current.MainPage = new MainPage();
         }
     }

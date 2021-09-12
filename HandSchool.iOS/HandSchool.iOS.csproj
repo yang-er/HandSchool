@@ -158,7 +158,6 @@
     <Compile Include="Renderers\PickerCellRenderer.cs" />
     <Compile Include="Renderers\TabletPage.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Pages\FirstOpen\SelectTypeIOSPage.cs" />
     <Compile Include="Pages\FirstOpen\WelcomeIOSPage.cs" />
   </ItemGroup>
   <ItemGroup>
