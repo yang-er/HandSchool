@@ -13,6 +13,7 @@
 ### 设计与适配
 - [GitHub@yang-er](https://github.com/yang-er)
 - [GitHub@miasakachenmo](https://github.com/miasakachenmo)
+- [GitHub@XhL6996](https://github.com/XhL6996)
 
 ### 支持的学校
 - 吉林大学 UIMS
