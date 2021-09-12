@@ -13,8 +13,8 @@ variables:
 - group: android
 
 jobs:
-- job: Build
-  displayName: "Build for Android / iOS"
+- job: BuildAndroid
+  displayName: "Build for Android"
 
   pool:
     vmImage: 'macos-latest'
@@ -24,14 +24,6 @@ jobs:
     outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
 
   steps:
-  # To manually select a Xamarin SDK version on the Microsoft-hosted macOS agent,
-  # configure this task with the *Mono* version that is associated with the
-  # Xamarin SDK version that you need, and set the "enabled" property to true.
-  # See https://go.microsoft.com/fwlink/?linkid=871629
-  - script: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_12_0
-    displayName: 'Select the Xamarin SDK version'
-    enabled: false
-
   - task: NuGetToolInstaller@1
     displayName: 'Install NuGet Tools'
 
@@ -69,6 +61,45 @@ jobs:
       ArtifactName: 'drop_android'
       publishLocation: 'Container'
     displayName: 'Publish Android APK'
+
+- job: BuildIos
+  displayName: "Build for iOS"
+
+  pool:
+    vmImage: 'macos-latest'
+
+  variables:
+    buildConfiguration: 'Release'
+    outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+
+  steps:
+  # To manually select a Xamarin SDK version on the Microsoft-hosted macOS agent,
+  # configure this task with the *Mono* version that is associated with the
+  # Xamarin SDK version that you need, and set the "enabled" property to true.
+  # See https://go.microsoft.com/fwlink/?linkid=871629
+  - script: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 5_12_0
+    displayName: 'Select the Xamarin SDK version'
+    enabled: false
+
+  - task: NuGetToolInstaller@1
+    displayName: 'Install NuGet Tools'
+
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: 'HandSchool.sln'
+    displayName: 'Restore NuGet Packages'
+
+  - task: InstallAppleCertificate@2
+    inputs:
+      certSecureFile: 'ios_distribution.p12'
+      keychain: 'temp'
+    displayName: 'Install Certificate'
+
+  - task: InstallAppleProvisioningProfile@1
+    inputs:
+      provisioningProfileLocation: 'secureFiles'
+      provProfileSecureFile: 'HandSchool_AppStore.mobileprovision'
+    displayName: 'Install Provisioning Profile'
 
   - task: XamariniOS@2
     inputs:
