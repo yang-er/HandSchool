@@ -107,6 +107,8 @@ jobs:
       configuration: '$(buildConfiguration)'
       packageApp: true
       runNugetRestore: false
+      signingIdentity: '$(APPLE_CERTIFICATE_SIGNING_IDENTITY)'
+      signingProvisioningProfileID: '$(APPLE_PROV_PROFILE_UUID)'
     displayName: 'Build iOS Project'
 
 
