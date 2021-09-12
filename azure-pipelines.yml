@@ -62,6 +62,7 @@ jobs:
       publishLocation: 'Container'
     displayName: 'Publish Android APK'
 
+
 - job: BuildIos
   displayName: "Build for iOS"
 
@@ -103,13 +104,27 @@ jobs:
 
   - task: XamariniOS@2
     inputs:
-      solutionFile: 'HandSchool.sln'
+      solutionFile: 'HandSchool.iOS/HandSchool.iOS.csproj'
       configuration: '$(buildConfiguration)'
       packageApp: true
       runNugetRestore: false
       signingIdentity: '$(APPLE_CERTIFICATE_SIGNING_IDENTITY)'
       signingProvisioningProfileID: '$(APPLE_PROV_PROFILE_UUID)'
     displayName: 'Build iOS Project'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.Repository.LocalPath)/HandSchool.iOS/bin/iPhone/$(buildConfiguration)'
+      Contents: '*.ipa'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    displayName: 'Copy iOS IPA'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop_ios'
+      publishLocation: 'Container'
+    displayName: 'Publish iOS IPA'
 
 
 - job: Sync
