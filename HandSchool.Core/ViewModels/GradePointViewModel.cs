@@ -71,6 +71,7 @@ namespace HandSchool.ViewModels
             }
             IsBusy = false;
 
+            IsBusy = true;
             try
             {
                 await Core.App.GradePoint.Execute();

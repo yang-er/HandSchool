@@ -423,7 +423,7 @@
   <color name="black">#000000</color>
   <!--黑色 -->
 
-  <color name="colorPrimary">#2196f3</color>
-  <color name="colorPrimaryDark">#1976d2</color>
+	<color name="colorPrimary">#2c3e50</color>
+	<color name="colorPrimaryDark">#1B3147</color>
   <color name="colorAccent">#1756e1</color>
 </resources>
