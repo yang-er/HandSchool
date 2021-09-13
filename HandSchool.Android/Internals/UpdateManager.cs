@@ -12,80 +12,69 @@ namespace HandSchool.Droid
     /// </summary>
     public class UpdateManager
     {
-        const string UpdateSource = "https://gitee.com/tlylz99/HandSchool/raw/new-2/HandSchool.Android/";
-
+        private IWebClient UpdateClient { get; set; }
+        Context Activity { get; set; }
         public UpdateManager(Context context)
         {
-            int versionCode = 999;
-
-            try
-            {
-                versionCode = context.PackageManager
-                    .GetPackageInfo(context.PackageName, 0)
-                    .VersionCode;
-            }
-            catch (PackageManager.NameNotFoundException e)
-            {
-                e.PrintStackTrace();
-            }
-
-            VersionCode = versionCode;
+            Activity = context;
         }
-        
-        public int VersionCode { get; set; }
-        private IWebClient WebClient { get; set; }
-        private string[] Arvgs;
-        
-        private async Task<string> GetUpdateString()
+        bool IsLatestVersion(string latest)
         {
+            var cur = Activity.PackageManager.GetPackageInfo(Activity.PackageName, 0).VersionName;
+            var curNums = cur.Split('.');
+            var lastestNums = latest.Split('.');
+            var len = Math.Min(curNums.Length, lastestNums.Length);
+            for (var i = 0; i < len; i++)
+            {
+                if (int.Parse(lastestNums[i]) > int.Parse(curNums[i])) return false;
+            }
+            return true;
+        }
+        public void GetUpdateClient()
+        {
+            UpdateClient = Core.New<IWebClient>();
+            UpdateClient.Timeout = 5000;
+        }
+        public async Task<AlertDialog.Builder> CheckUpdate()
+        {
+            if (UpdateClient != null) UpdateClient.Dispose();
+            GetUpdateClient();
             try
             {
-                if (WebClient is null)
+                var str = await UpdateClient.GetStringAsync("https://www.coolapk.com/apk/com.x90yang.HandSchool");
+                var updateHtml = new HtmlAgilityPack.HtmlDocument();
+                updateHtml.LoadHtml(str);
+                var version = updateHtml.DocumentNode.SelectSingleNode("//span[@class='list_app_info']").InnerText.Trim();
+                if (IsLatestVersion(version))
                 {
-                    WebClient = Core.New<IWebClient>();
-                    WebClient.Timeout = 3000;
-                    WebClient.BaseAddress = UpdateSource;
+                    return new AlertDialog.Builder(Activity)
+                    .SetTitle("提示")
+                    .SetMessage("已经是最新版了")
+                    .SetPositiveButton("好", listener: null);
                 }
-
-                return await WebClient.GetStringAsync("version.txt");
-            }
-            catch (WebsException)
-            {
-                return "";
-            }
-        }
-
-        public async void Update(bool displayNone, Context activity)
-        {
-            await Task.Yield();
-            string UpdateMsg = await GetUpdateString();
-            if (UpdateMsg == "") return;
-            Arvgs = UpdateMsg.Split(new[] { ' ' }, 3, StringSplitOptions.None);
-
-            if (int.Parse(Arvgs[0]) > VersionCode)
-            {
-                Core.Platform.EnsureOnMainThread(() =>
+                else
                 {
-                    string Detail = Arvgs[2];
-                    new AlertDialog.Builder(activity)
-                        .SetTitle("应用更新")
-                        .SetMessage(Detail)
-                        .SetNegativeButton("取消", (IDialogInterfaceOnClickListener)null)
-                        .SetPositiveButton("确认", (s, e) => Core.Platform.OpenUrl(Arvgs[1]))
-                        .Show();
-                });
+                    return new AlertDialog.Builder(Activity)
+                        .SetTitle("提示")
+                        .SetMessage("检测到新版本" + version + "\n点按更新前往酷安下载更新")
+                        .SetPositiveButton("更新", (s, e) =>
+                        {
+                            Core.Platform.OpenUrl("https://www.coolapk.com/apk/com.x90yang.HandSchool");
+                        })
+                        .SetNegativeButton("取消", listener: null);
+                }
             }
-            else if (displayNone)
+            catch
             {
-                Core.Platform.EnsureOnMainThread(() =>
-                {
-                    new AlertDialog.Builder(activity)
-                        .SetTitle("应用更新")
-                        .SetMessage("您的应用已经是最新的啦！")
-                        .SetNegativeButton("确认", (IDialogInterfaceOnClickListener)null)
-                        .Show();
-                });
+                return new AlertDialog.Builder(Activity).SetTitle("提示")
+                    .SetMessage("出了点问题，请稍后再试");
+            }
+            finally
+            {
+                UpdateClient.Dispose();
+                UpdateClient = null;
             }
         }
     }
+
 }

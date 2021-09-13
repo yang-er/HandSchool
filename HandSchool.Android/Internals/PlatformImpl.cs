@@ -85,7 +85,7 @@ namespace HandSchool.Droid
 
         public override void CheckUpdate()
         {
-            UpdateManager.Update(true, PeekContext());
+            return;
         }
     }
 }
