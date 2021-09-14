@@ -45,10 +45,6 @@ namespace HandSchool.ViewModels
         /// </summary>
         public void OpenMarket() => Core.Platform.OpenUrl(Core.Platform.StoreLink);
 
-        /// <summary>
-        /// 检查软件更新。
-        /// </summary>
-        public void CheckUpdate() => Core.Platform.CheckUpdate();
 
         [Entrance("*", "隐私政策", "提供关于本程序如何使用您的隐私的一些说明。", EntranceType.UrlEntrance)]
         public class PrivacyPolicy : BaseController, IUrlEntrance

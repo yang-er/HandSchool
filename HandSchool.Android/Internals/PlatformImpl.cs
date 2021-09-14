@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using AndroidX.AppCompat.App;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;
@@ -85,6 +86,25 @@ namespace HandSchool.Droid
 
         public override void CheckUpdate()
         {
+            if (ContextStack.Count == 0) return;
+            var MainAct = PeekContext();
+            if (MainAct == null) return;
+            var waiting = Android.Views.View.Inflate(MainAct, Resource.Layout.alert_waiting, null);
+            var alert = new AlertDialog.Builder(MainAct)
+                .SetTitle("正在检查更新")
+                .SetCancelable(false)
+                .SetView(waiting)
+                .Create();
+            alert.Show();
+
+            new UpdateManager(MainAct)
+                .CheckUpdate()
+                .ContinueWith(async (x) =>
+                {
+                    alert.Dismiss();
+                    var res = await x;
+                    Core.Platform.EnsureOnMainThread(() => res.Show());
+                });
             return;
         }
     }

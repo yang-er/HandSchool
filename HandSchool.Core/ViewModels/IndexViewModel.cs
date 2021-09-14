@@ -19,7 +19,7 @@ namespace HandSchool.ViewModels
         /// 视图模型的实例
         /// </summary>
         public static IndexViewModel Instance => Lazy.Value;
-
+        public ICommand CheckUpdateCommand { get; set; }
         /// <summary>
         /// 创建首页信息的视图模型，并更新数据。
         /// </summary>
@@ -29,6 +29,7 @@ namespace HandSchool.ViewModels
             Core.App.LoginStateChanged += UpdateWelcome;
             RefreshCommand = new CommandAction(Refresh);
             RequestLoginCommand = new CommandAction(RequestLogin);
+            CheckUpdateCommand = new CommandAction(Core.Platform.CheckUpdate);
         }
         
         /// <summary>

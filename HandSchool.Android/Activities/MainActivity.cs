@@ -4,20 +4,15 @@ using Android.OS;
 using Android.Support.Design.Widget;
 
 using Android.Views;
-using Android.Webkit;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using HandSchool.Droid.Internals;
 using HandSchool.Internals;
-using HandSchool.JLU.ViewModels;
-using HandSchool.Views;
 using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using AlertDialog = Android.App.AlertDialog;
+
 
 namespace HandSchool.Droid
 {
@@ -81,20 +76,7 @@ namespace HandSchool.Droid
             x.Cookies = new System.Collections.Generic.List<(string, System.Net.Cookie)>();
             JLU.Loader.CancelLostWebAdditionalArgs = x;
         }
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            menu.Add(0, 0, 0, "检查更新");
-            return base.OnCreateOptionsMenu(menu);
-        }
         
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            if (item.GroupId == 0 && item.ItemId == 0)
-            {
-                Core.Platform.EnsureOnMainThread(async () => (await new UpdateManager(this).CheckUpdate()).Show());
-            }
-            return base.OnOptionsItemSelected(item);
-        }
         protected override void OnDestroy()
         {
             base.OnDestroy();
