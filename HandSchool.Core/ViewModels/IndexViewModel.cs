@@ -29,8 +29,10 @@ namespace HandSchool.ViewModels
             Core.App.LoginStateChanged += UpdateWelcome;
             RefreshCommand = new CommandAction(Refresh);
             RequestLoginCommand = new CommandAction(RequestLogin);
+            CheckUpdateCommand = new CommandAction(Core.Platform.CheckUpdate);
         }
-        
+        public ICommand CheckUpdateCommand { get; set; }
+
         /// <summary>
         /// 刷新视图模型数据的命令
         /// </summary>
@@ -67,7 +69,6 @@ namespace HandSchool.ViewModels
 
             await LoginViewModel.RequestAsync(Core.App.Service);
         }
-       
 
         /// <summary>
         /// 与目前教务系统和课程表数据进行同步。

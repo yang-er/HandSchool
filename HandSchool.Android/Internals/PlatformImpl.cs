@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using AndroidX.AppCompat.App;
 using HandSchool.Internals;
 using HandSchool.Views;
 using System;
@@ -10,9 +11,6 @@ namespace HandSchool.Droid
     public sealed class PlatformImplV2 : PlatformBase
     {
         public static PlatformImplV2 Instance { get; private set; }
-        
-        public UpdateManager UpdateManager { get; }
-
         private List<Context> ContextStack { get; }
 
         public static List<NavMenuItemV2> NavigationItems { get; } = new List<NavMenuItemV2>();
@@ -42,7 +40,7 @@ namespace HandSchool.Droid
         {
             if (force && ContextStack.Count == 0)
                 throw new InvalidOperationException("No context");
-            return ContextStack.Count == 0 ? null : ContextStack[ContextStack.Count - 1];
+            return ContextStack.Count == 0 ? null : ContextStack[^1];
         }
 
         private PlatformImplV2(Context context)
@@ -58,14 +56,12 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterCtor<LoginFragment>();
             Core.Reflection.RegisterCtor<HttpClientImpl>();
 
-
             Core.Reflection.RegisterType<DetailPage, DetailActivity>();
             Core.Reflection.RegisterType<ICurriculumPage, CurriculumDialog>();
             Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
             ContextStack = new List<Context>();
-            UpdateManager = new UpdateManager(context.ApplicationContext);
             ViewResponseImpl = new ViewResponseImpl();
             Density = context.Resources.DisplayMetrics.Density;
         }
@@ -85,6 +81,25 @@ namespace HandSchool.Droid
 
         public override void CheckUpdate()
         {
+            if (ContextStack.Count == 0) return;
+            var MainAct = PeekContext();
+            if (MainAct == null) return;
+            var waiting = Android.Views.View.Inflate(MainAct, Resource.Layout.alert_waiting, null);
+            var alert = new AlertDialog.Builder(MainAct)
+                .SetTitle("正在检查更新")
+                .SetCancelable(false)
+                .SetView(waiting)
+                .Create();
+            alert.Show();
+
+            new UpdateManager(MainAct)
+                .CheckUpdate()
+                .ContinueWith(async (x) =>
+                {
+                    alert.Dismiss();
+                    var res = await x;
+                    Core.Platform.EnsureOnMainThread(() => res.Show());
+                });
             return;
         }
     }
