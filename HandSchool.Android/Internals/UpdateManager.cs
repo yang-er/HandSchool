@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using HandSchool.Internals;
 using System;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace HandSchool.Droid
             UpdateClient = Core.New<IWebClient>();
             UpdateClient.Timeout = 5000;
         }
-        public async Task<AlertDialog> CheckUpdate()
+        public async Task<AlertDialog.Builder> CheckUpdate()
         {
             if (UpdateClient != null) UpdateClient.Dispose();
             GetUpdateClient();
@@ -49,8 +50,7 @@ namespace HandSchool.Droid
                     return new AlertDialog.Builder(Activity)
                     .SetTitle("提示")
                     .SetMessage("已经是最新版了")
-                    .SetPositiveButton("好", listener: null)
-                    .Create();
+                    .SetPositiveButton("好", listener: null);
                 }
                 else
                 {
@@ -61,16 +61,13 @@ namespace HandSchool.Droid
                         {
                             Core.Platform.OpenUrl("https://www.coolapk.com/apk/com.x90yang.HandSchool");
                         })
-                        .SetNegativeButton("取消", listener: null)
-                        .Create();
+                        .SetNegativeButton("取消", listener: null);
                 }
             }
-            catch(Exception e)
+            catch
             {
                 return new AlertDialog.Builder(Activity).SetTitle("提示")
-                    .SetMessage("出了点问题，请稍后再试")
-                    .SetPositiveButton("好",listener:null)
-                    .Create();
+                    .SetMessage("出了点问题，请稍后再试");
             }
             finally
             {

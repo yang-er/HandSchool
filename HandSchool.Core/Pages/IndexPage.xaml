@@ -5,9 +5,6 @@
               x:Class="HandSchool.Views.IndexPage"
               Title="{Binding Title}">
 
-    <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Title="检查更新" Command="{Binding CheckUpdateCommand}"/>
-    </w:ViewObject.ToolbarMenu>
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
             <internal:TouchableFrame Margin="10,5" ClickedCommand="{Binding RequestLoginCommand}">
