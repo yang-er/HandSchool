@@ -101,9 +101,9 @@ namespace HandSchool.Droid
                 .CheckUpdate()
                 .ContinueWith(async (x) =>
                 {
-                    alert.Dismiss();
                     var res = await x;
-                    Core.Platform.EnsureOnMainThread(() => res.Show());
+                    alert.Dismiss();
+                    res.Show();
                 });
             return;
         }
