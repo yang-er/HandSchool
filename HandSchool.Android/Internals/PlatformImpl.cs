@@ -102,8 +102,11 @@ namespace HandSchool.Droid
                 .ContinueWith(async (x) =>
                 {
                     var res = await x;
-                    alert.Dismiss();
-                    res.Show();
+                    Core.Platform.EnsureOnMainThread(() =>
+                    {
+                        alert.Dismiss();
+                        res.Show();
+                    });
                 });
             return;
         }
