@@ -78,19 +78,19 @@ namespace HandSchool.Views
                 var tit = new Span
                 {
                     FontAttributes = FontAttributes.Bold,
-                    ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.5),
-                    Text = item.Title,
+                    ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.45),
+                    Text = item.Title.Length <= 11 ? item.Title : item.Title.Substring(0,11) + "...",
                 };
                 tit.FontSize *= 0.95;
 
                 var des = new Span
                 {
-                    ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.45),
+                    ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.4),
                     Text = SimplifiedNames.SimplifyName(item.Description.Replace("#", "\n"))
                 };
 
                 if (Core.Platform.RuntimeName == "iOS")
-                    des.FontSize *= 0.8;
+                    des.FontSize *= 0.9;
                 formattedString.Spans.Add(tit);
                 formattedString.Spans.Add(new Span { Text = "\n\n", FontSize = tit.FontSize / 4, });
                 formattedString.Spans.Add(des);

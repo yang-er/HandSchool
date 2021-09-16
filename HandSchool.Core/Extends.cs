@@ -43,7 +43,19 @@ namespace HandSchool
         }
         static string SimplifyRoomName(string roomName)
         {
-            var ruler = new Regex("[A-Za-z0-9]区第.+阶梯");
+            var ruler  = new Regex("第.+-.+周");
+            var m = ruler.Match(roomName);
+            if (m.Length != 0)
+            {
+                var str = m.Value;
+                var index1 = str.IndexOf('第');
+                str = str.Insert(index1 + 1, "\n");
+                var index2 = str.IndexOf('周');
+                return str.Insert(index2, "\n");
+            }
+
+            string res = roomName;
+            ruler = new Regex("[A-Za-z0-9]区第.+阶梯");
             var room = ruler.Match(roomName);
             if (room.Length != 0)
             {
@@ -53,27 +65,28 @@ namespace HandSchool
                 var index2 = str.IndexOf("阶");
                 var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
                 var str2 = area + ChineseToNum(area2);
-                return roomName.Replace(str, str2);
+                res = roomName.Replace(str, str2);
             }
-
-            ruler = new Regex("第.+阶梯");
-            room = ruler.Match(roomName);
-            if (room.Length != 0)
+            else
             {
-                var str = room.Value;
-                var index1 = str.IndexOf("第");
-                var index2 = str.IndexOf("阶");
-                var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
-                var str2 = ChineseToNum(area2) + "阶";
-                return roomName.Replace(str, str2);
+                ruler = new Regex("第.+阶梯");
+                room = ruler.Match(roomName);
+                if (room.Length != 0)
+                {
+                    var str = room.Value;
+                    var index1 = str.IndexOf("第");
+                    var index2 = str.IndexOf("阶");
+                    var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
+                    var str2 = ChineseToNum(area2) + "阶";
+                    res = roomName.Replace(str, str2);
+                }
             }
 
-            return roomName;
+            return res.Replace("教学楼", "楼").Replace('-', '\n');
         }
         public static string SimplifyName(string str)
         {
-            var res = SimplifyRoomName(str);
-            return res.Replace("教学楼", "楼").Replace('-', '\n');
+            return SimplifyRoomName(str);
         }
     }
     public static class TextAtomScales

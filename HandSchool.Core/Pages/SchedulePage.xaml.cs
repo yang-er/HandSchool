@@ -35,7 +35,7 @@ namespace HandSchool.Views
             scheduleGrid = scrollView.Content as Grid;
             
             colWidth = new GridLength(55, GridUnitType.Absolute);
-            rowHeight = new GridLength(90, GridUnitType.Absolute);
+            rowHeight = new GridLength(Device.RuntimePlatform == "iOS" ? 100 : 90, GridUnitType.Absolute);
 
             defCol = new ColumnDefinition { Width = GridLength.Star };
             defRow = new RowDefinition { Height = rowHeight };
