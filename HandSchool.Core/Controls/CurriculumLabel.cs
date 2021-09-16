@@ -68,8 +68,6 @@ namespace HandSchool.Views
             var formattedString = new FormattedString();
             var desc = Context.ToDescription();
 
-            // this.SizeChanged += Layout_SizeChanged;
-
             foreach (var item in desc)
             {
                 if (formattedString.Spans.Count > 0)
@@ -80,20 +78,21 @@ namespace HandSchool.Views
                 var tit = new Span
                 {
                     FontAttributes = FontAttributes.Bold,
-                    ForegroundColor = Color.White,
+                    ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.5),
                     Text = item.Title,
                 };
-                
+                tit.FontSize *= 0.95;
+
                 var des = new Span
                 {
-                    ForegroundColor = Color.FromRgba(255, 255, 255, 220),
-                    Text = item.Description,
+                    ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.45),
+                    Text = SimplifiedNames.SimplifyName(item.Description.Replace("#", "\n"))
                 };
-                
+
                 if (Core.Platform.RuntimeName == "iOS")
                     des.FontSize *= 0.8;
                 formattedString.Spans.Add(tit);
-                formattedString.Spans.Add(new Span { Text = "\n" });
+                formattedString.Spans.Add(new Span { Text = "\n\n", FontSize = tit.FontSize / 4, });
                 formattedString.Spans.Add(des);
             }
 
@@ -104,7 +103,7 @@ namespace HandSchool.Views
         {
             BindingContext = Context = value;
             ColorId = id;
-            Padding = new Thickness(10);
+            Padding = new Thickness(5);
             VerticalOptions = LayoutOptions.FillAndExpand;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             WidthRequest = 200;
@@ -145,13 +144,19 @@ namespace HandSchool.Views
         public Color GetColor()
         {
             // thanks to brady
-            return Color.FromHex(ScheduleColors[ColorId % 8]);
+            return ColorExtend.ColorFromRgb(ScheduleColors[ColorId % 8]);
         }
 
-        static readonly string[] ScheduleColors =
+        static readonly (int r, int g, int b)[] ScheduleColors =
         {
-            "#59e09e", "#f48fb1", "#ce93d8", "#ff8a65",
-            "#9fa8da", "#42a5f5", "#80deea", "#c6de7c"
+            (255,248,200),
+            (237,237,255),
+            (253,235,222),
+            (255,220,220),
+            (245,215,239),
+            (157,233,254),
+            (237,237,237),
+            (210,235,230)
         };
     }
 }

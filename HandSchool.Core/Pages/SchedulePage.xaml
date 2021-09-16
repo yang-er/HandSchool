@@ -18,8 +18,8 @@
         <ToolbarItem Text="选项" Clicked="iOS_Menu_Clicked"/>
     </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
-        <ScrollView Orientation="Horizontal" SizeChanged="SetTileSize">
-            <Grid VerticalOptions="FillAndExpand" RowSpacing="1" ColumnSpacing="1">
+        <ScrollView Orientation="Vertical" SizeChanged="SetTileSize">
+            <Grid HorizontalOptions="FillAndExpand" RowSpacing="1" ColumnSpacing="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
@@ -35,13 +35,13 @@
                         </Style>
                     </ResourceDictionary>
                 </Grid.Resources>
-                <Label Text="周一" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
-                <Label Text="周二" TextColor="Gray" Grid.Column="2" Grid.Row="0" />
-                <Label Text="周三" TextColor="Gray" Grid.Column="3" Grid.Row="0" />
-                <Label Text="周四" TextColor="Gray" Grid.Column="4" Grid.Row="0" />
-                <Label Text="周五" TextColor="Gray" Grid.Column="5" Grid.Row="0" />
-                <Label Text="周六" TextColor="Gray" Grid.Column="6" Grid.Row="0" />
-                <Label Text="周日" TextColor="Gray" Grid.Column="7" Grid.Row="0" />
+                <Label Text="一" TextColor="Gray" Grid.Column="1" Grid.Row="0" />
+                <Label Text="二" TextColor="Gray" Grid.Column="2" Grid.Row="0" />
+                <Label Text="三" TextColor="Gray" Grid.Column="3" Grid.Row="0" />
+                <Label Text="四" TextColor="Gray" Grid.Column="4" Grid.Row="0" />
+                <Label Text="五" TextColor="Gray" Grid.Column="5" Grid.Row="0" />
+                <Label Text="六" TextColor="Gray" Grid.Column="6" Grid.Row="0" />
+                <Label Text="日" TextColor="Gray" Grid.Column="7" Grid.Row="0" />
             </Grid>
         </ScrollView>
     </w:ViewObject.Content>

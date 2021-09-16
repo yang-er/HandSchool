@@ -34,10 +34,11 @@ namespace HandSchool.Views
             scrollView = Content as ScrollView;
             scheduleGrid = scrollView.Content as Grid;
             
-            rowHeight = new GridLength(60, GridUnitType.Absolute);
-            colWidth = new GridLength(100, GridUnitType.Absolute);
-            defCol = new ColumnDefinition { Width = colWidth };
-            defRow = new RowDefinition { Height = GridLength.Star };
+            colWidth = new GridLength(55, GridUnitType.Absolute);
+            rowHeight = new GridLength(90, GridUnitType.Absolute);
+
+            defCol = new ColumnDefinition { Width = GridLength.Star };
+            defRow = new RowDefinition { Height = rowHeight };
             
             for (int day = 1; day <= 7; day++)
             {
@@ -108,8 +109,6 @@ namespace HandSchool.Views
             int count = 0;
             foreach (var item in list)
             {
-                var height = scheduleGrid.HeightRequest;
-                var width = scheduleGrid.WidthRequest;
                 scheduleGrid.Children.Add(new CurriculumLabel(item, count++));
             }
 
@@ -133,26 +132,26 @@ namespace HandSchool.Views
             {
                 forceSize = false;
                 isWider = true;
+                defRow.Height = new GridLength(60, GridUnitType.Absolute);
                 defCol.Width = GridLength.Star;
-                defRow.Height = rowHeight;
                 scrollView.Orientation = ScrollOrientation.Vertical;
-                UseSafeArea = false;
+                UseSafeArea = true;
             }
             else if (scrollView.Width < scrollView.Height && (isWider || forceSize))
             {
                 forceSize = false;
                 isWider = false;
-                defRow.Height = GridLength.Star;
-                defCol.Width = colWidth;
-                scrollView.Orientation = ScrollOrientation.Horizontal;
+                defRow.Height = rowHeight;
+                defCol.Width = GridLength.Star;
+                scrollView.Orientation = ScrollOrientation.Vertical;
                 UseSafeArea = true;
             }
         }
 
-        async void iOS_Menu_Clicked(System.Object sender, System.EventArgs e)
+        async void iOS_Menu_Clicked(object sender, EventArgs e)
         {
             if (sender == null) return;
-            var names = new String[] { "刷新课表", "添加课程", "查看任意周" };
+            var names = new string[] { "刷新课表", "添加课程", "查看任意周" };
             var vm = BindingContext as ScheduleViewModel;
             var commands = new ICommand[] { vm.RefreshCommand, vm.AddCommand, vm.ChangeWeekCommand };
             var resp = await RequestActionAsync("更多", "取消", null, names);
