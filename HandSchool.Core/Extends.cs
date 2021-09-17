@@ -1,10 +1,6 @@
-﻿using HandSchool.Controls;
-using HandSchool.Internal;
-using HandSchool.Views;
+﻿using HandSchool.Views;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -43,20 +39,26 @@ namespace HandSchool
         }
         static string SimplifyRoomName(string roomName)
         {
-            var ruler  = new Regex("第.+-.+周");
-            var m = ruler.Match(roomName);
-            if (m.Length != 0)
+            var ruler = new Regex("第.+-.+周");
+            string res = roomName;
+
+            var m = ruler.Match(res);
+            bool allWeek = false;
+            while (m.Length != 0)
             {
                 var str = m.Value;
-                var index1 = str.IndexOf('第');
-                str = str.Insert(index1 + 1, "\n");
-                var index2 = str.IndexOf('周');
-                return str.Insert(index2, "\n");
+                var str2 = str.Replace("第", "").Replace("周", "");
+                res = res.Replace(str, str2);
+                m = ruler.Match(res);
+                allWeek = true;
+            }
+            if (allWeek)
+            {
+                return res;
             }
 
-            string res = roomName;
             ruler = new Regex("[A-Za-z0-9]区第.+阶梯");
-            var room = ruler.Match(roomName);
+            var room = ruler.Match(res);
             if (room.Length != 0)
             {
                 var str = room.Value;
@@ -65,12 +67,12 @@ namespace HandSchool
                 var index2 = str.IndexOf("阶");
                 var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
                 var str2 = area + ChineseToNum(area2);
-                res = roomName.Replace(str, str2);
+                res = res.Replace(str, str2);
             }
             else
             {
                 ruler = new Regex("第.+阶梯");
-                room = ruler.Match(roomName);
+                room = ruler.Match(res);
                 if (room.Length != 0)
                 {
                     var str = room.Value;
@@ -78,7 +80,7 @@ namespace HandSchool
                     var index2 = str.IndexOf("阶");
                     var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
                     var str2 = ChineseToNum(area2) + "阶";
-                    res = roomName.Replace(str, str2);
+                    res = res.Replace(str, str2);
                 }
             }
 
@@ -115,7 +117,7 @@ namespace HandSchool
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.Small, 200);
-            if(doing !=null)await doing();
+            if (doing != null) await doing();
             await item.ScaleTo(TextAtomScales.Large, 200);
             await item.ScaleTo(TextAtomScales.Normal, 150);
         }

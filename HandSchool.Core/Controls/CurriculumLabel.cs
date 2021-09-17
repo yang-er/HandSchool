@@ -62,7 +62,8 @@ namespace HandSchool.Views
             return TotalHeight;
         }
 #endif
-
+        private int LongestTitle { get; set; } = 11; //最长的标题长度，用于剪裁课程名称
+        private int FontSize { get; set; } = 13;//字体字号
         private FormattedString GetDisplay()
         {
             var formattedString = new FormattedString();
@@ -70,27 +71,66 @@ namespace HandSchool.Views
 
             foreach (var item in desc)
             {
-                if (formattedString.Spans.Count > 0)
+                if (formattedString.Spans.Count > 0) //这里已经有课了，是“所有周”的情况
                 {
-                    formattedString.Spans.Add(new Span { Text = "\n\n" });
+                    LongestTitle = 9;
+                    bool narrow = formattedString.Spans.Count / 3.0 > 2 && GetSpace() <= 2;
+
+                    if (formattedString.Spans.Count == 3)
+                    {
+                        FontSize = 12;
+                        var span = formattedString.Spans[0];
+                        if (span.Text.Length > LongestTitle + 3)
+                        {
+                            span.Text = span.Text.Substring(0, LongestTitle) + "...";
+                        }
+                        foreach (var i in formattedString.Spans)
+                        {
+                            if (i.Text == "\n\n")
+                                i.FontSize = FontSize >> 2;
+                            else i.FontSize = FontSize;
+                        }
+                    }
+                    if (narrow)
+                    {
+                        LongestTitle = 7;
+                        FontSize = 11;
+
+                        foreach (var i in formattedString.Spans)
+                        {
+                            if (i.Text == "\n\n")
+                                i.FontSize = FontSize >> 2;
+                            else i.FontSize = FontSize;
+                        }
+                        for (int i = 0; i < formattedString.Spans.Count; i += 4)
+                        {
+                            var span = formattedString.Spans[i];
+                            if (span.Text.Length > LongestTitle + 3)
+                            {
+                                span.Text = span.Text.Substring(0, LongestTitle) + "...";
+                            }
+                        }
+                    }
+                    formattedString.Spans.Add(new Span { Text = "\n\n", FontSize = narrow ? FontSize >> 2 : FontSize });
                 }
 
                 var tit = new Span
                 {
+                    FontSize = FontSize,
                     FontAttributes = FontAttributes.Bold,
                     ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.45),
-                    Text = item.Title.Length <= 11 ? item.Title : item.Title.Substring(0,11) + "...",
+                    Text = item.Title.Length <= LongestTitle ? item.Title : item.Title.Substring(0, LongestTitle) + "...",
                 };
-                tit.FontSize *= 0.95;
 
                 var des = new Span
                 {
+                    FontSize = FontSize,
                     ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.4),
                     Text = SimplifiedNames.SimplifyName(item.Description.Replace("#", "\n"))
                 };
-
                 if (Core.Platform.RuntimeName == "iOS")
                     des.FontSize *= 0.9;
+
                 formattedString.Spans.Add(tit);
                 formattedString.Spans.Add(new Span { Text = "\n\n", FontSize = tit.FontSize / 4, });
                 formattedString.Spans.Add(des);
@@ -103,11 +143,11 @@ namespace HandSchool.Views
         {
             BindingContext = Context = value;
             ColorId = id;
-            Padding = new Thickness(5);
+            Padding = new Thickness(3);
             VerticalOptions = LayoutOptions.FillAndExpand;
             HorizontalOptions = LayoutOptions.FillAndExpand;
             WidthRequest = 200;
-            
+
             Children.Add(new Label
             {
                 HorizontalTextAlignment = TextAlignment.Center,
@@ -119,7 +159,7 @@ namespace HandSchool.Views
 
             Grid.SetColumn(this, Context.WeekDay);
             Grid.SetRow(this, Context.DayBegin);
-            Grid.SetRowSpan(this, Context.DayEnd - Context.DayBegin + 1);
+            Grid.SetRowSpan(this, GetSpace());
             BackgroundColor = GetColor();
 
             if (Context is CurriculumItem)
@@ -131,7 +171,10 @@ namespace HandSchool.Views
                 });
             }
         }
-        
+        int GetSpace()
+        {
+            return Context.DayEnd - Context.DayBegin + 1;
+        }
         private async Task EditCurriculum()
         {
             var page = Core.New<ICurriculumPage>();
