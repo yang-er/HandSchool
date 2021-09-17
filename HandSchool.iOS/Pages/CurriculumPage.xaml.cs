@@ -2,6 +2,7 @@
 using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,7 @@ namespace HandSchool.Views
 	{
        
         public TaskCompletionSource<bool> Awaiter { get; }
-
+        TableView TableView;
         public CurriculumItem Model
         {
             get => BindingContext as CurriculumItem;
@@ -21,10 +22,18 @@ namespace HandSchool.Views
         }
 
         public CurriculumPage()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             On<_iOS_>().UseSafeArea().ShowLeftCancel();
             Awaiter = new TaskCompletionSource<bool>();
+            TableView = Content as TableView;
+            var tableSec = TableView.Root[1];
+            foreach (var item in (from i in tableSec
+                                  where i is PickerCell
+                                  select i))
+            {
+                (item as PickerCell).Father = this;
+            }
         }
 
         private async Task SaveCommand()

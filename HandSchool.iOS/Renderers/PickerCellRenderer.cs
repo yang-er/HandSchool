@@ -5,12 +5,15 @@ using HandSchool.Views;
 using HandSchool.iOS;
 using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 [assembly: ExportRenderer(typeof(PickerCell), typeof(PickerCellRenderer))]
 namespace HandSchool.iOS
 {
     public class PickerCellRenderer : CellRenderer
     {
+ 
         public static readonly BindableProperty ReusableCellProperty =
             BindableProperty.Create(
                 propertyName: "ReusableCell",
@@ -20,7 +23,7 @@ namespace HandSchool.iOS
             );
 
         const string CellName = "HandSchool.PickerCell";
-
+        
         public override UITableViewCell GetCell(Cell item, UITableViewCell reusableCell, UITableView tv)
         {
             if (!(reusableCell is CellTableViewCell tvc))
@@ -46,19 +49,27 @@ namespace HandSchool.iOS
                 realCell.TextLabel.Text = pickCell.Title;
         }
 
-        private void ShowTap(object sender, EventArgs args)
+        private async void ShowTap(object sender, EventArgs args)
         {
             var pickCell = (PickerCell)sender;
-            var uiac = UIAlertController.Create(pickCell.Title, null, UIAlertControllerStyle.ActionSheet);
-
-            for (int i = 0; i < pickCell.Items.Count; i++)
+            if (pickCell.Father == null) return;
+            var ops = new string[pickCell.Items.Count];
+            for(var i = 0; i < ops.Length; i++)
             {
-                int j = i;
-                uiac.AddAction(UIAlertAction.Create(pickCell.Items[i], UIAlertActionStyle.Default, (act) => pickCell.SelectedIndex = j));
+                ops[i] = pickCell.Items[i];
             }
 
-            uiac.AddAction(UIAlertAction.Create("取消", UIAlertActionStyle.Cancel, null));
-            MessagingCenter.Send((object)this, PlatformImpl.UIViewControllerRequest, uiac);
+            var res = await pickCell.Father.RequestActionAsync(pickCell.Title, "取消", null, ops);
+            
+            for (var i = 0; i < ops.Length; i++)
+            {
+                if(ops[i] == res)
+                {
+                    pickCell.SelectedIndex = i;
+                    return;
+                }
+                ops[i] = pickCell.Items[i];
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ namespace HandSchool.Views
 {
     public class PickerCell : Cell
     {
+        public ViewObject Father { get; set; } = null;
+
         public static readonly BindableProperty SelectedIndexProperty =
             BindableProperty.Create(
                 propertyName: nameof(SelectedIndex),
