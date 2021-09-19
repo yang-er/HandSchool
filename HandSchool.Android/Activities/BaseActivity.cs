@@ -13,7 +13,6 @@ using AToolbar = AndroidX.AppCompat.Widget.Toolbar;
 using Android.Widget;
 using Android.Content;
 using Android.Views;
-using System.Collections.ObjectModel;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.Tabs;
