@@ -28,19 +28,54 @@ namespace HandSchool.Views
             Awaiter = new TaskCompletionSource<bool>();
             TableView = Content as TableView;
             var tableSec = TableView.Root[1];
-            foreach (var item in (from i in tableSec
-                                  where i is PickerCell
-                                  select i))
+            foreach (var item in from i in tableSec
+                                 where i is PickerCell
+                                 select i)
             {
                 (item as PickerCell).Father = this;
             }
         }
+        private (bool legal, string msg) IsLegal()
+        {
+            if (weekDay.SelectedIndex == 0) return (false, "星期几不能为空");
+            if (startDay.SelectedIndex == 0) return (false, "起始节不能为空");
+            if (endDay.SelectedIndex == 0) return (false, "结束节不能为空");
+            if (startWeek.SelectedIndex == 0) return (false, "起始周不能为空");
+            if (endWeek.SelectedIndex == 0) return (false, "结束周不能为空");
 
+            if (startWeek.SelectedIndex > endWeek.SelectedIndex) return (false, "起始周不能晚于结束周");
+            if (startDay.SelectedIndex > endDay.SelectedIndex) return (false, "起始节不能晚于结束节");
+            return (true, null);
+
+        }
+        private void Sync()
+        {
+            Model.DayBegin = startDay.SelectedIndex;
+            Model.DayEnd = endDay.SelectedIndex;
+            Model.WeekBegin = startWeek.SelectedIndex;
+            Model.WeekEnd = endWeek.SelectedIndex;
+            Model.WeekDay = weekDay.SelectedIndex;
+            Model.WeekOen = (WeekOddEvenNone)weekOen.SelectedIndex;
+            Model.Name = className.Text;
+            Model.Classroom = classroom.Text;
+            Model.Teacher = teacher.Text;
+        }
         private async Task SaveCommand()
         {
-            ScheduleViewModel.Instance.SaveToFile();
-            Awaiter.SetResult(true);
-            await CloseAsync();
+            var check = IsLegal();
+            if (!check.legal)
+            {
+                await RequestMessageAsync("失败", check.msg, "好");
+            }
+            else
+            {
+                Sync();
+                ScheduleViewModel.Instance.SaveToFile();
+                Awaiter.SetResult(true);
+                await CloseAsync();
+                if (SchedulePage.Instance != null)
+                    SchedulePage.Instance.LoadList();
+            }
         }
 
         private async Task RemoveCommand()
@@ -49,14 +84,28 @@ namespace HandSchool.Views
             ScheduleViewModel.Instance.SaveToFile();
             Awaiter.SetResult(true);
             await CloseAsync();
+            if (SchedulePage.Instance != null)
+                SchedulePage.Instance.LoadList();
         }
 
         private async Task CreateCommand()
         {
-            ScheduleViewModel.Instance.AddItem(Model);
-            ScheduleViewModel.Instance.SaveToFile();
-            Awaiter.SetResult(true);
-            await CloseAsync();
+            var check = IsLegal();
+            if (!check.legal)
+            {
+                await RequestMessageAsync("失败", check.msg, "好");
+            }
+            else
+            {
+                Sync();
+                ScheduleViewModel.Instance.AddItem(Model);
+                ScheduleViewModel.Instance.SaveToFile();
+                Awaiter.SetResult(true);
+                await CloseAsync();
+                if (SchedulePage.Instance != null)
+                    SchedulePage.Instance.LoadList();
+            }
+
         }
 
         public void SetNavigationArguments(CurriculumItem item, bool isCreate)
@@ -82,12 +131,12 @@ namespace HandSchool.Views
 
             for (int i = 1; i <= Core.App.DailyClassCount; i++)
             {
-                beginDay.Items.Add($"第{i}节");
+                startDay.Items.Add($"第{i}节");
                 endDay.Items.Add($"第{i}节");
             }
 
-            beginDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayBegin"));
-            endDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayEnd"));
+            startDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayBegin", BindingMode.OneTime));
+            endDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayEnd", BindingMode.OneTime));
         }
 
         protected override void OnDisappearing()

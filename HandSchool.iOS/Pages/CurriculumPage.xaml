@@ -17,13 +17,13 @@
         <TableView Intent="Settings" HasUnevenRows="true">
             <TableRoot>
                 <TableSection Title="课程信息">
-                    <EntryCell Label="名称" Text="{Binding Name}" />
-                    <EntryCell Label="教师" Text="{Binding Teacher}" />
-                    <EntryCell Label="教室" Text="{Binding Classroom}" />
+                    <EntryCell Label="名称" x:Name="className" Text="{Binding Name, Mode=OneTime}" />
+                    <EntryCell Label="教师" x:Name="teacher" Text="{Binding Teacher, Mode=OneTime}" />
+                    <EntryCell Label="教室" x:Name="classroom" Text="{Binding Classroom, Mode=OneTime}" />
                     <!--<TextCell Text="课程号" Detail="{Binding CourseID}" DetailColor="Black" />-->
                 </TableSection>
                 <TableSection Title="时间设定">
-                    <w2:PickerCell Title="开始周" SelectedIndex="{Binding WeekBegin}">
+                    <w2:PickerCell x:Name="startWeek" Title="开始周" SelectedIndex="{Binding WeekBegin, Mode=OneTime}">
                         <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                             <x:String>第1周</x:String>
@@ -50,7 +50,7 @@
                             <x:String>第22周</x:String>
                         </w2:PickerCell.Items>
                     </w2:PickerCell>
-                    <w2:PickerCell Title="结束周" SelectedIndex="{Binding WeekEnd}">
+                    <w2:PickerCell x:Name="endWeek" Title="结束周" SelectedIndex="{Binding WeekEnd, Mode=OneTime}">
                         <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                             <x:String>第1周</x:String>
@@ -77,14 +77,14 @@
                             <x:String>第22周</x:String>
                         </w2:PickerCell.Items>
                     </w2:PickerCell>
-                    <w2:PickerCell Title="单周/双周" SelectedIndex="{Binding WeekOen, Mode=TwoWay, Converter={StaticResource cvtOen}}">
+                    <w2:PickerCell Title="单周/双周" x:Name="weekOen" SelectedIndex="{Binding WeekOen, Mode=OneTime, Converter={StaticResource cvtOen}}">
                         <w2:PickerCell.Items>
                             <x:String>双周</x:String>
                             <x:String>单周</x:String>
                             <x:String>单双周</x:String>
                         </w2:PickerCell.Items>
                     </w2:PickerCell>
-                    <w2:PickerCell Title="日期" SelectedIndex="{Binding WeekDay}">
+                    <w2:PickerCell x:Name="weekDay" Title="日期" SelectedIndex="{Binding WeekDay, Mode=OneTime}">
                         <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                             <x:String>星期一</x:String>
@@ -96,7 +96,7 @@
                             <x:String>星期天</x:String>
                         </w2:PickerCell.Items>
                     </w2:PickerCell>
-                    <w2:PickerCell Title="开始节" x:Name="beginDay">
+                    <w2:PickerCell Title="开始节" x:Name="startDay">
                         <w2:PickerCell.Items>
                             <x:String>请选择</x:String>
                         </w2:PickerCell.Items>

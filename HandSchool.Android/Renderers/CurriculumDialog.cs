@@ -108,21 +108,48 @@ namespace HandSchool.Droid
             Model = item;
             IsCreate = isCreate;
         }
+        private (bool legal, string msg) IsLegal()
+        {
+            if (WeekDay.SelectedIndex == 0) return (false, "星期几不能为空");
+            if (StartNum.SelectedIndex == 0) return (false, "起始节不能为空");
+            if (EndNum.SelectedIndex == 0) return (false, "结束节不能为空");
+            if (StartWeek.SelectedIndex == 0) return (false, "起始周不能为空");
+            if (EndWeek.SelectedIndex == 0) return (false, "结束周不能为空");
 
+            if (StartWeek.SelectedIndex > EndWeek.SelectedIndex) return (false, "起始周不能晚于结束周");
+            if (StartNum.SelectedIndex > EndNum.SelectedIndex) return (false, "起始节不能晚于结束节");
+            return (true, null);
+
+        }
         private void OnFinishEditing(object sender, DialogClickEventArgs args)
         {
-            Model.DayBegin = StartNum.SelectedIndex;
-            Model.DayEnd = EndNum.SelectedIndex;
-            Model.WeekBegin = StartWeek.SelectedIndex;
-            Model.WeekEnd = EndWeek.SelectedIndex;
-            Model.WeekDay = WeekDay.SelectedIndex;
-            Model.WeekOen = (WeekOddEvenNone)WeekOen.SelectedIndex;
-            Model.Name = ClassName.Text;
-            Model.Classroom = ClassRoom.Text;
-            Model.Teacher = Teacher.Text;
+            var check = IsLegal();
+            if (!check.legal)
+            {
+                var ac = new AlertDialog.Builder((Core.Platform as PlatformImplV2).PeekContext())
+                    .SetTitle("失败")
+                    .SetMessage(check.msg)
+                    .SetPositiveButton("好", listener: null).Create();
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    ac.Show();
+                });
+            }
+            else
+            {
+                Model.DayBegin = StartNum.SelectedIndex;
+                Model.DayEnd = EndNum.SelectedIndex;
+                Model.WeekBegin = StartWeek.SelectedIndex;
+                Model.WeekEnd = EndWeek.SelectedIndex;
+                Model.WeekDay = WeekDay.SelectedIndex;
+                Model.WeekOen = (WeekOddEvenNone)WeekOen.SelectedIndex;
+                Model.Name = ClassName.Text;
+                Model.Classroom = ClassRoom.Text;
+                Model.Teacher = Teacher.Text;
 
-            if (IsCreate) ScheduleViewModel.Instance.AddItem(Model);
-            ScheduleViewModel.Instance.SaveToFile();
+                if (IsCreate) ScheduleViewModel.Instance.AddItem(Model);
+                ScheduleViewModel.Instance.SaveToFile();
+            }
             ControlSource.TrySetResult(true);
         }
 

@@ -10,6 +10,7 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SchedulePage : ViewObject
 	{
+        public static SchedulePage Instance = null;
         private readonly ScrollView scrollView;
         private readonly Grid scheduleGrid;
         private readonly RowDefinition defRow;
@@ -31,6 +32,7 @@ namespace HandSchool.Views
         public SchedulePage()
         {
             InitializeComponent();
+            Instance = this;
             scrollView = Content as ScrollView;
             scheduleGrid = scrollView.Content as Grid;
             
