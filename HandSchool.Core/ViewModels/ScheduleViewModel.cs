@@ -158,7 +158,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         private async Task Create()
         {
-            await RequestMessageAsync("提示", "修改完成后需重启生效\n刷新课表会导致修改失效");
+            await RequestMessageAsync("提示", "刷新课表会导致修改失效");
             var item = new CurriculumItem
             {
                 IsCustom = true,
