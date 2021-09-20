@@ -52,13 +52,6 @@ namespace HandSchool.Models
         /// </summary>
         public bool Top { get; set; }
 
-        /*
-        /// <summary>
-        /// 置顶附加
-        /// </summary>
-        public string TopAttach => Top ? "[置顶] " : "";
-        */
-
         /// <summary>
         /// For internal use.
         /// </summary>

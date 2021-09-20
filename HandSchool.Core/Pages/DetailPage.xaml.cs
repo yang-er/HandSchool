@@ -41,16 +41,10 @@ namespace HandSchool.Views
                 this.WriteLog("No parameters passed.");
             }
         }
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            new Thread(new ThreadStart(() =>
-            {
-                Core.Platform.EnsureOnMainThread(async () =>
-                {
-                    text.Text = await (ViewModel as DetailViewModel).Content;
-                });
-            })).Start();
+            text.Text = await (ViewModel as DetailViewModel).Content;
         }
     }
 }
