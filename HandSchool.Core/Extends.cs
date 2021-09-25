@@ -105,10 +105,23 @@ namespace HandSchool
             return Color.FromRgb(rgb.Item1, rgb.Item2, rgb.Item3);
         }
         static double GetColorNum(double org, double rate) => org * rate > 1 ? 1 : org * rate;
-
         public static Color ColorDelta(Color color, double rate)
         {
-            return Color.FromRgb(GetColorNum(color.R, rate), GetColorNum(color.G, rate), GetColorNum(color.B, rate));
+            var rgb = new (int i, double v)[] { (0, color.R), (1, color.G), (2, color.B) };
+            Array.Sort(rgb, (a, b) =>
+            {
+                if (a.v == b.v) return 0;
+                return a.v < b.v ? -1 : 1;
+            });
+            rgb[0].v = GetColorNum(rgb[0].v, rate * 0.83);
+            rgb[1].v = GetColorNum(rgb[1].v, rate);
+            rgb[2].v = GetColorNum(rgb[2].v, rate * 1.2);
+            Array.Sort(rgb, (a, b) =>
+            {
+                if (a.i == b.i) return 0;
+                return a.i < b.i ? -1 : 1;
+            });
+            return Color.FromRgb(rgb[0].v, rgb[1].v, rgb[2].v);
         }
     }
     public static class Extends
