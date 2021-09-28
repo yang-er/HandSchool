@@ -44,7 +44,7 @@ namespace HandSchool.JLU.Views
         //点击之后啥也不干，就是玩
         async void ItemTappedHandler(object sender, System.EventArgs args)
         {
-            await(sender as VisualElement).TappedAnimation(null);
+            await(sender as VisualElement).TappedAnimation();
         }
 
         async void QandA_Clicked(System.Object sender, System.EventArgs e)

@@ -30,7 +30,7 @@ namespace HandSchool.JLU.Views
 
         async void ItemTappedHandler(object sender, System.EventArgs args)
         {
-            await(sender as VisualElement).TappedAnimation(null);
+            await(sender as VisualElement).TappedAnimation();
         }
     }
 }

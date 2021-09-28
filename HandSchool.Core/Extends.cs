@@ -126,7 +126,7 @@ namespace HandSchool
     }
     public static class Extends
     {
-        public async static Task TappedAnimation(this VisualElement item, Func<Task> doing)
+        public async static Task TappedAnimation(this VisualElement item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.Small, 200);
@@ -134,7 +134,7 @@ namespace HandSchool
             await item.ScaleTo(TextAtomScales.Large, 200);
             await item.ScaleTo(TextAtomScales.Normal, 150);
         }
-        public async static Task LongPressAnimation(this VisualElement item, Func<Task> doing)
+        public async static Task LongPressAnimation(this VisualElement item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.SuperLarge, 200);

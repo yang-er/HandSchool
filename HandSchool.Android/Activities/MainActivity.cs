@@ -45,7 +45,7 @@ namespace HandSchool.Droid
             {
                 System.Threading.Tasks.Task.Delay(100).ContinueWith(t => 
                 {
-                    Core.Platform.EnsureOnMainThread(() => DrawerLayout.CloseDrawer(GravityCompat.Start));
+                    RunOnUiThread(() => DrawerLayout.CloseDrawer(GravityCompat.Start));
                 });
             }
         }
@@ -58,18 +58,24 @@ namespace HandSchool.Droid
             var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
-            
+
             // get the navigation menu
             var listHandler = new NavMenuListHandler();
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);
             NavigationView.SetNavigationItemSelectedListener(listHandler);
-            NavigationView.Menu.GetItem(0).SetChecked(true);
-
             var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
-            TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
 
-            NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
+            System.Threading.Tasks.Task.Run(async () =>
+            {
+                await System.Threading.Tasks.Task.Yield();
+                RunOnUiThread(() =>
+                {
+                    NavigationView.Menu.GetItem(0).SetChecked(true);
+                    TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
+                    NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
+                });
+            });
 
             var x = new AndroidWebDialogAdditionalArgs { WebChromeClient = new CancelLostWebChromeClient(this) };
             x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient)x.WebChromeClient);
