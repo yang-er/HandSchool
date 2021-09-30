@@ -23,11 +23,7 @@ namespace HandSchool.Droid
             }
             else
             {
-                fragmentTransaction.SetCustomAnimations(
-                    Resource.Animation.slide_right_in,
-                    Resource.Animation.slide_left_out,
-                    Resource.Animation.slide_left_in,
-                    Resource.Animation.slide_right_out);
+                base.SetTransactionArguments(fragmentTransaction);
             }
         }
 

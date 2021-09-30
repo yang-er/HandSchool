@@ -103,14 +103,16 @@ namespace HandSchool.JLU
 
             class NullSched : IScheduleEntrance
             {
-                public int ClassNext => 11;
+
+                public (int section, SectionState? state) CurrentClass => GetCurrentClass();
 
                 public Task Execute()
                 {
                     return HandSchool.ViewModels.ScheduleViewModel.Instance.RequestMessageAsync("错误", "您在校外，暂时不能刷新课程表。");
                 }
 
-                public int GetClassNext() => 11;
+
+                public (int section, SectionState? state) GetCurrentClass() => (11, null);
             }
         }
     }

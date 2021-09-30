@@ -126,7 +126,7 @@ namespace HandSchool.Views
                 {
                     FontSize = FontSize,
                     ForegroundColor = ColorExtend.ColorDelta(GetColor(), 0.4),
-                    Text = SimplifiedNames.SimplifyName(item.Description.Replace("#", "\n"))
+                    Text = ClassInfoSimplifier.Instance.SimplifyName(item.Description)
                 };
                 if (Core.Platform.RuntimeName == "iOS")
                     des.FontSize *= 0.9;

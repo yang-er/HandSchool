@@ -49,7 +49,7 @@ namespace HandSchool.Models
             if (that is null || InnerList.Count != that.InnerList.Count)
                 return false;
             for (int i = 0; i < InnerList.Count; i++)
-                if (!InnerList[i].CompareTo(that.InnerList[i]))
+                if (!InnerList[i].Equals(that.InnerList[i]))
                     return false;
             return true;
         }
@@ -71,7 +71,7 @@ namespace HandSchool.Models
             {
                 for (int j = i + 1; j < InnerList.Count; j++)
                 {
-                    if (InnerList[i].CompareTo(InnerList[j]))
+                    if (InnerList[i].Equals(InnerList[j]))
                         InnerList.RemoveAt(j);
                 }
             }

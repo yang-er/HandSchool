@@ -14,11 +14,7 @@ namespace HandSchool.Controls
         public bool OnTop
         {
             get => (bool)base.GetValue(OnTopProperty);
-            set
-            {
-                SetValue(OnTopProperty, value);
-                OnPropertyChanged(nameof(OnTop));
-            }
+            set => SetValue(OnTopProperty, value);
         }
         public double FirstProportion
         {
@@ -26,7 +22,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(FirstProportionProperty, value);
-                OnPropertyChanged(nameof(FirstProportion));
             }
         }
         public bool HasSecond
@@ -35,7 +30,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(HasSecondProperty, value);
-                OnPropertyChanged(nameof(HasSecond));
             }
         }
         public string Title
@@ -44,7 +38,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(TitleProperty, value);
-                OnPropertyChanged(nameof(Title));
             }
         }
         public string AfterTitle
@@ -53,7 +46,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(AfterTitleProperty, value);
-                OnPropertyChanged(nameof(AfterTitle));
             }
         }
         public string ContentText
@@ -62,7 +54,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(ContentTextProperty, value);
-                OnPropertyChanged(nameof(ContentText));
             }
         }
         public string SecondTitle
@@ -71,7 +62,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(SecondTitleProperty, value);
-                OnPropertyChanged(nameof(SecondTitle));
             }
         }
         public string SecondContent
@@ -80,7 +70,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(SecondContentProperty, value);
-                OnPropertyChanged(nameof(SecondContent));
             }
         }
         public Color SecondContentColor
@@ -89,7 +78,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(SecondContentColorProperty, value);
-                OnPropertyChanged(nameof(SecondContentColor));
             }
         }
         public Color SecondTitleColor
@@ -98,7 +86,6 @@ namespace HandSchool.Controls
             set
             {
                 SetValue(SecondTitleColorProperty, value);
-                OnPropertyChanged(nameof(SecondTitleColor));
             }
         }
         protected override void OnPropertyChanged([CallerMemberName] string n = null)

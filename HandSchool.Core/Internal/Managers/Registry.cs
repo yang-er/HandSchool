@@ -15,6 +15,7 @@ namespace HandSchool.Internals
             Core.Reflection.RegisterCtor<SettingPage>();
             Core.Reflection.RegisterCtor<WelcomePage>();
             Core.Reflection.RegisterCtor<SelectTypePage>();
+            Core.Reflection.RegisterCtor<ClassInfoSimplifier>();
         }
     }
 }

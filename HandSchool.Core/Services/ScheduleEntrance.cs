@@ -1,5 +1,9 @@
 ﻿namespace HandSchool.Services
 {
+    public enum SectionState
+    {
+        ClassOn, ClassOver
+    }
     /// <summary>
     /// 课程表获取
     /// </summary>
@@ -7,13 +11,13 @@
     public interface IScheduleEntrance : ISystemEntrance
     {
         /// <summary>
-        /// 下一节课
+        /// 当前是第几节
         /// </summary>
-        int GetClassNext();
+        (int section, SectionState? state) GetCurrentClass();
 
         /// <summary>
-        /// 下一节课
+        /// 当前是第几节
         /// </summary>
-        int ClassNext { get; }
+        (int section, SectionState? state) CurrentClass { get; }
     }
 }

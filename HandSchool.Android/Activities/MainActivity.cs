@@ -49,7 +49,7 @@ namespace HandSchool.Droid
                 });
             }
         }
-        
+
         protected override void OnCreate(Bundle bundle)
         {
             Xamarin.Forms.Forms.Init(this, bundle);
@@ -64,18 +64,14 @@ namespace HandSchool.Droid
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);
             NavigationView.SetNavigationItemSelectedListener(listHandler);
-            var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
+            NavigationView.Menu.GetItem(0).SetChecked(true);
 
-            System.Threading.Tasks.Task.Run(async () =>
-            {
-                await System.Threading.Tasks.Task.Yield();
-                RunOnUiThread(() =>
-                {
-                    NavigationView.Menu.GetItem(0).SetChecked(true);
-                    TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
-                    NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
-                });
-            });
+            var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
+            
+            TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
+
+            
+            NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
 
             var x = new AndroidWebDialogAdditionalArgs { WebChromeClient = new CancelLostWebChromeClient(this) };
             x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient)x.WebChromeClient);

@@ -5,6 +5,7 @@ using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -253,6 +254,14 @@ namespace HandSchool.ViewModels
         public CurriculumItem FindItem(Predicate<CurriculumItem> pred)
         {
             return Items.Find(pred);
+        }
+
+        public IEnumerable<CurriculumItem> FindItems(Predicate<CurriculumItem> pred)
+        {
+            return
+                from item in Items
+                where pred(item)
+                select item;
         }
 
         /// <summary>

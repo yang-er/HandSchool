@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace HandSchool.Models
 {
+    public enum ClassState
+    {
+        Current, Next, Other
+    }
     /// <summary>
     /// 表示单节课程表项目的类。
     /// </summary>
@@ -13,8 +17,20 @@ namespace HandSchool.Models
         private WeekOddEvenNone _weekOen;
         private DateTime _selectDate;
         private bool _isCustom;
+        private ClassState _state;
         public static string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
-
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+        public ClassState State 
+        {
+            get => _state;
+            set => SetProperty(ref _state, value);
+        }
+        public string SectionInfo => $"{DayBegin}-{DayEnd}";
         /// <summary>
         /// 课程名称
         /// </summary>
@@ -106,6 +122,7 @@ namespace HandSchool.Models
             _weekOen = WeekOddEvenNone.None;
             _selectDate = DateTime.Now;
             _isCustom = false;
+            _state = ClassState.Other;
         }
 
         /// <summary>
@@ -140,8 +157,11 @@ namespace HandSchool.Models
         /// </summary>
         /// <param name="that">另一节课。</param>
         /// <returns>比较结果。</returns>
-        public bool CompareTo(CurriculumItem that)
+        public override bool Equals(object obj)
         {
+            var that = obj as CurriculumItem;
+            if (this is null && that is null) return true;
+            if (this is null || that is null) return false;
             if (this == that) return true;
             return this.Name == that.Name
                 && this.DayBegin == that.DayBegin

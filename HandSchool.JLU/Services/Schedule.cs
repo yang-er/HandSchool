@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 [assembly: RegisterService(typeof(Schedule))]
 namespace HandSchool.JLU.Services
 {
+    
     /// <summary>
     /// UIMS课程表解析服务。
     /// </summary>
@@ -24,8 +25,20 @@ namespace HandSchool.JLU.Services
 
         const string serviceResourceUrl = "service/res.do";
         const string schedulePostValue = "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
-        
-        static readonly string[] ClassBetween = { "8:00", "8:55", "10:00", "10:55", "13:30", "14:25", "15:30", "16:25", "18:30", "19:25", "20:20" };
+
+        static readonly (string begin, string over)[] ClassBetween = {
+            ("8:00", "8:45"),
+            ("8:55", "9:40"),
+            ("10:00", "10:45"),
+            ("10:55", "11:40"),
+            ("13:30", "14:15"),
+            ("14:25", "15:10"),
+            ("15:30", "16:15"),
+            ("16:25", "17:10"),
+            ("18:30", "19:15"),
+            ("19:25", "20:10"),
+            ("20:20", "21:05")
+        };
         
         public async Task Execute()
         {
@@ -90,14 +103,20 @@ namespace HandSchool.JLU.Services
             }
         }
 
-        public int GetClassNext()
+        public (int section, SectionState? state) GetCurrentClass()
         {
-            for (int i = 0; i < 11; i++)
-                if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(ClassBetween[i])) < 0)
-                    return i;
-            return 11;
+            var i = 10;
+            var now = DateTime.Now;
+            while (i >= 0)
+            {
+                if (now > Convert.ToDateTime(ClassBetween[i].begin))
+                    break;
+                i--;
+            }
+            if (i < 0) return (0, null);
+            return (i + 1, now > Convert.ToDateTime(ClassBetween[i].over) ? SectionState.ClassOver : SectionState.ClassOn);
         }
 
-        public int ClassNext => GetClassNext();
+        public (int section, SectionState? state) CurrentClass => GetCurrentClass();
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views" xmlns:internal="clr-namespace:HandSchool.Internal"
+              xmlns:w="clr-namespace:HandSchool.Views" xmlns:internal="clr-namespace:HandSchool.Internal" xmlns:controls="clr-namespace:HandSchool.Controls"
               x:Class="HandSchool.Views.IndexPage"
               Title="{Binding Title}">
 
@@ -10,36 +10,50 @@
      </w:ViewObject.ToolbarMenu>
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
-            <internal:TouchableFrame Margin="10,5" ClickedCommand="{Binding RequestLoginCommand}">
+                <internal:TouchableFrame Margin="10,5" Padding="20,0,0,20" ClickedCommand="{Binding RequestLoginCommand}">
                 <StackLayout>
-                    <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black" />
+                    <Label x:Name="dayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                    <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black"/>
                     <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
                     <Label Text="愿你拥有比阳光明媚的心情" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </internal:TouchableFrame>
-            <Frame Margin="10,5" IsVisible="{Binding NoClass}">
-                <StackLayout>
-                    <Label Text="现在" FontSize="Medium" TextColor="Accent" />
-                    <Label Text="无（没有课或未刷新）" FontSize="Medium" TextColor="Black" />
-                    <Label Text="享受美好的休息时光吧~" FontSize="Medium" TextColor="Black" />
-                </StackLayout>
-            </Frame>
-            <Frame Margin="10,5" IsVisible="{Binding CurrentHasClass}">
-                <StackLayout BindingContext="{Binding CurrentClass}">
-                    <Label Text="现在" FontSize="Medium" TextColor="Accent" />
-                    <Label Text="{Binding Name}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="Black" />
-                </StackLayout>
-            </Frame>
-            <Frame Margin="10,5" IsVisible="{Binding NextHasClass}">
-                <StackLayout BindingContext="{Binding NextClass}">
-                    <Label Text="接下来" FontSize="Medium" TextColor="Accent" />
-                    <Label Text="{Binding Name}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding Teacher}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding Classroom}" FontSize="Medium" TextColor="Black" />
-                </StackLayout>
-            </Frame>
+            <StackLayout>
+                <Label Margin="20,10,20,0" Text="今日份课程表" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+
+                <CarouselView x:Name="classTable"
+                          CurrentItemChanged="ClassTableCurrentItemChanged"
+                          ItemsSource="{Binding ClassToday}"
+                          Loop="False"
+                          PeekAreaInsets="60"
+                          HeightRequest="200"
+                          Margin="10,5"
+                          >
+                    <CarouselView.EmptyView>
+                        <StackLayout>
+                            <Label Text="看起来今天没有课哦(或者未加载)" Padding="0,30,0,0" FontSize="Medium"/>
+                            <Label Text="享受美好的休息时光吧~" FontSize="Medium"/>
+                        </StackLayout>
+                       
+                    </CarouselView.EmptyView>
+                <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                        <controls:IndexCurriculumAtom 
+                            ItemState = "{Binding State}"
+                            IsSelected="{Binding IsSelected}"
+                            Sections="{Binding SectionInfo}"
+                            Name="{Binding Name}"
+                            Teacher="{Binding Teacher}"
+                            ClassRoom="{Binding Classroom}"/>
+                    </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                           SnapPointsType="MandatorySingle"
+                           SnapPointsAlignment="Center"/>
+                </CarouselView.ItemsLayout>
+            </CarouselView>
+        </StackLayout>
         </FlexLayout>
     </ScrollView>
 </w:ViewObject>

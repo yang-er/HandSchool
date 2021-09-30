@@ -47,6 +47,7 @@ namespace HandSchool.JLU
 
         public void PostLoad()
         {
+            Core.Reflection.RegisterType<ClassInfoSimplifier, JLUClassSimplifier>();
             Ykt = new SchoolCard();
             SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(Loader).GetProperty(nameof(UseVpn))));
             switch (Xamarin.Forms.Device.RuntimePlatform)

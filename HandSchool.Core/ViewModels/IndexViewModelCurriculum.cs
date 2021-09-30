@@ -55,6 +55,9 @@ namespace HandSchool.ViewModels
         /// </summary>
         public bool NoClass => curriculum1 is null && curriculum2 is null;
 
+        public System.Collections.ObjectModel.ObservableCollection<CurriculumItem> ClassToday { get; set; }
+            = new System.Collections.ObjectModel.ObservableCollection<CurriculumItem>();
+
         /// <summary>
         /// 更新当前时间对应的课程。
         /// </summary>
@@ -63,9 +66,35 @@ namespace HandSchool.ViewModels
             var today = (int)DateTime.Now.DayOfWeek;
             if (today == 0) today = 7;
             var week = Core.App.Service.CurrentWeek;
-            var cor = Core.App.Schedule.GetClassNext();
-            NextClass = ScheduleViewModel.Instance.FindItem((obj) => obj.IfShow(week) && obj.WeekDay == today && obj.DayBegin > cor);
-            CurrentClass = ScheduleViewModel.Instance.FindLastItem((obj) => obj.IfShow(week) && obj.WeekDay == today && obj.DayBegin > cor - 3 && obj.DayEnd <= cor);
+            var ct = ScheduleViewModel.Instance.FindItems((obj) => obj.IfShow(week) && obj.WeekDay == today);
+            ClassToday.Clear();
+            foreach (var item in ct)
+            {
+                ClassToday.Add(item);
+            }
+
+            var cor = Core.App.Schedule.CurrentClass;
+            if (cor.section != 0)
+            {
+                CurrentClass = ScheduleViewModel.Instance.FindLastItem(
+                    obj =>
+                    {
+                        var res = obj.IfShow(week)
+                        && obj.WeekDay == today
+                        && obj.DayBegin <= cor.section
+                        && obj.DayEnd >= cor.section;
+                        if (res)
+                        {
+                            if (obj.DayEnd == cor.section)
+                            {
+                                if (cor.state == Services.SectionState.ClassOver)
+                                    res = false;
+                            }
+                        }
+                        return res;
+                    });
+            }
+            NextClass = ScheduleViewModel.Instance.FindItem(obj => obj.IfShow(week) && obj.WeekDay == today && obj.DayBegin > cor.section);
         }
     }
 }

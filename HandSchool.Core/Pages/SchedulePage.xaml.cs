@@ -75,7 +75,6 @@ namespace HandSchool.Views
             {
                 svm.RefreshComplete += LoadList;
             }
-
             if (invalidated || lastWeek != SchedViewModel.Week)
             {
                 LoadList();

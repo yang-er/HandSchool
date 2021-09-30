@@ -65,7 +65,10 @@ namespace HandSchool.Droid
 
         protected virtual void SetTransactionArguments(FragmentTransaction transition)
         {
-            transition.SetTransition(0x00001001);
+            transition.SetCustomAnimations(Resource.Animation.slide_right_in,
+                    Resource.Animation.slide_left_out,
+                    Resource.Animation.slide_left_in,
+                    Resource.Animation.slide_right_out);
         }
 
         protected void TransactionV3(SupportFragment fragment, IViewCore core)
@@ -107,7 +110,7 @@ namespace HandSchool.Droid
                 npc.PropertyChanged += HandBind;
             }
 
-            ReloadToolbarMenu(this, EventArgs.Empty);
+            ReloadToolbarMenu(this, EventArgs.Empty); 
         }
 
         protected void Transaction(SupportFragment fragment)

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HandSchool.Controls.IndexCurriculumAtom"
+       Scale="0.90">
+    <StackLayout>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="sections" Grid.Row="0" Grid.Column="0" FontSize="Title" FontAttributes="Bold" TextColor="DarkBlue" HorizontalOptions="Start"/>
+            <Label x:Name="desc" Grid.Row="0" Grid.Column="1" FontSize="Large" TextColor="Blue" HorizontalOptions="End"/>
+        </Grid>
+        <Label FontSize="1"/>
+        <Label x:Name="name" FontSize="Medium" FontAttributes="Bold" TextColor="DarkRed" HorizontalOptions="End"/>
+        <Label x:Name="teacher"  FontSize="Medium" TextColor="Black" HorizontalOptions="End"/>
+        <Label x:Name="classRoom" FontSize="Medium" TextColor="DarkSlateBlue" HorizontalOptions="End"/>
+    </StackLayout>
+</Frame>
