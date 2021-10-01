@@ -73,7 +73,10 @@ namespace HandSchool.Droid
 
         protected void TransactionV3(SupportFragment fragment, IViewCore core)
         {
-            ProgressBar.Visibility = ViewStates.Invisible;
+            if (ProgressBar != null)
+            {
+                ProgressBar.Visibility = ViewStates.Invisible;
+            }
             ClearOldStates();
 
             if (fragment is TabbedFragment tabbed)

@@ -140,9 +140,12 @@ namespace HandSchool.JLU
                     var loc = response.Location.Replace(UIMS.ServerUri, "");
                     loc = loc.Replace("/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/", "");
 
-                    if (loc == "error/dispatch.jsp?reason=loginError")
+                    if (loc == "userLogin.jsp?reason=loginError")
                     {
                         string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
+                        var html = new HtmlAgilityPack.HtmlDocument();
+                        html.LoadHtml(result);
+                        var msg = html.DocumentNode.SelectSingleNode("//span[@class='error_message' and @id='error_message']")?.InnerText?.Replace("登录错误：", "");
                         UIMS.IsLogin = false;
                         UIMS.NeedLogin = false;
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));

@@ -31,7 +31,7 @@
                               HorizontalScrollBarVisibility="Never"
                           >
                     <CarouselView.EmptyView>
-                        <Frame CornerRadius="30">
+                        <Frame CornerRadius="30" Scale="0.97" >
                         <StackLayout VerticalOptions="Center">
                             <Label Text="看起来今天没有课哦(或者未加载)" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
                             <Label Text="享受美好的休息时光吧~" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="#2F4F4F"/>
