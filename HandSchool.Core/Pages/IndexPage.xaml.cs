@@ -5,10 +5,14 @@ using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
+    public class ClassLoadEventArgs : System.EventArgs
+    {
+        public int resIndex = -1;
+        public System.Collections.Generic.IList<Models.CurriculumItem> classes;
+    }
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class IndexPage : ViewObject
-	{
-        
+    public partial class IndexPage : ViewObject
+    {
         public IndexPage()
         {
 
@@ -16,24 +20,28 @@ namespace HandSchool.Views
             var today = System.DateTime.Now;
             dayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
             ViewModel = IndexViewModel.Instance;
-            if (Core.Platform.RuntimeName == "Android")
+            Content.BackgroundColor = Color.FromRgb(241, 241, 241);
+            switch (Device.RuntimePlatform)
             {
-                Content.BackgroundColor = Color.FromRgb(241, 241, 241);
+                case "iOS":
+                    UseSafeArea = true;
+                    break;
             }
         }
 
-
-        protected override void OnAppearing()
+        private void CurrentClassLoadOver(object s, ClassLoadEventArgs e)
         {
-            base.OnAppearing();
-
-            //刷新课表之后定位到当前或者下一节课
-            System.Threading.Tasks.Task.Run(IndexViewModel.Instance.Refresh).ContinueWith(async (task) =>
+            var cur = 0;
+            var index = -1;
+            var vm = ViewModel as IndexViewModel;
+            Core.Platform.EnsureOnMainThread(() =>
             {
-                await task;
-                var cur = 0;
-                var index = -1;
-                var vm = ViewModel as IndexViewModel;
+                IndexViewModel.Instance.ClassToday.Clear();
+
+                foreach (var item in e.classes)
+                {
+                    IndexViewModel.Instance.ClassToday.Add(item);
+                }
 
                 if (!vm.NoClass)
                 {
@@ -63,31 +71,41 @@ namespace HandSchool.Views
                         else item.State = Models.ClassState.Other;
                         cur++;
                     }
+                }
+                Core.Platform.EnsureOnMainThread(async () =>
+                {
+                    await System.Threading.Tasks.Task.Yield();
                     if (index != -1)
                     {
-                        Core.Platform.EnsureOnMainThread(() =>
-                        {
-                            classTable.ScrollTo(index, position: ScrollToPosition.Center);
-                        });
+                        classTable.ScrollTo(index, position: ScrollToPosition.Center,animate:false);
                     }
-                };
+                });
             });
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            IndexViewModel.Instance.CurrentClassesLoadFinished += CurrentClassLoadOver;
+            System.Threading.Tasks.Task.Run(IndexViewModel.Instance.Refresh);
+        }
         protected override void OnDisappearing()
         {
             if ((classTable.ItemsSource as System.Collections.IList).Count != 0)
-                classTable.ScrollTo(0, position: ScrollToPosition.Center,animate:false);
+            {
+                classTable.CurrentItem = (ViewModel as IndexViewModel).ClassToday[0];
+            }
+            IndexViewModel.Instance.CurrentClassesLoadFinished -= CurrentClassLoadOver;
             base.OnDisappearing();
         }
         private void ClassTableCurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
         {
             var s = sender as CarouselView;
-            foreach(var item in s.VisibleViews)
+            foreach (var item in s.VisibleViews)
             {
                 var bc = item.BindingContext as Models.CurriculumItem;
                 if (bc == null) return;
-                if (bc.Equals(e.CurrentItem)) 
+                if (bc.Equals(e.CurrentItem))
                     bc.IsSelected = true;
                 else bc.IsSelected = false;
             }

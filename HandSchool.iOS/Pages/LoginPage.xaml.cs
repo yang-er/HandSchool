@@ -35,7 +35,7 @@ namespace HandSchool.Views
             switch (e.State)
             {
                 case LoginState.Processing:
-                    await DisplayAlert("正在登录", "正在登录中，请稍后……", "知道了");
+                    await DisplayAlert("正在登录", "正在登录中，请稍候……", "知道了");
                     break;
                 case LoginState.Succeeded:
                     await CloseAsync();

@@ -1,4 +1,4 @@
-﻿using HandSchool.Views;
+using HandSchool.Views;
 using System;
 using System.Diagnostics;
 using System.Threading;

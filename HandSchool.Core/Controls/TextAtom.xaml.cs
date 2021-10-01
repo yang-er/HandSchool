@@ -19,75 +19,49 @@ namespace HandSchool.Controls
         public double FirstProportion
         {
             get => (double)GetValue(FirstProportionProperty);
-            set
-            {
-                SetValue(FirstProportionProperty, value);
-            }
+            set => SetValue(FirstProportionProperty, value);
         }
         public bool HasSecond
         {
             get => (bool)GetValue(HasSecondProperty);
-            set
-            {
-                SetValue(HasSecondProperty, value);
-            }
+            set => SetValue(HasSecondProperty, value);
         }
         public string Title
         {
             get => (string)GetValue(TitleProperty);
-            set
-            {
-                SetValue(TitleProperty, value);
-            }
+            set => SetValue(TitleProperty, value);
         }
         public string AfterTitle
         {
             get => (string)GetValue(AfterTitleProperty);
-            set
-            {
-                SetValue(AfterTitleProperty, value);
-            }
+            set => SetValue(AfterTitleProperty, value);
         }
         public string ContentText
         {
             get => (string)GetValue(ContentTextProperty);
-            set
-            {
-                SetValue(ContentTextProperty, value);
-            }
+            set => SetValue(ContentTextProperty, value);
         }
         public string SecondTitle
         {
             get => (string)GetValue(SecondTitleProperty);
-            set
-            {
-                SetValue(SecondTitleProperty, value);
-            }
+            set => SetValue(SecondTitleProperty, value);
         }
         public string SecondContent
         {
             get => (string)GetValue(SecondContentProperty);
-            set
-            {
-                SetValue(SecondContentProperty, value);
-            }
+            set => SetValue(SecondContentProperty, value);
         }
         public Color SecondContentColor
         {
             get => (Color)GetValue(SecondContentColorProperty);
-            set
-            {
-                SetValue(SecondContentColorProperty, value);
-            }
+            set => SetValue(SecondContentColorProperty, value);
         }
         public Color SecondTitleColor
         {
             get => (Color)GetValue(SecondTitleColorProperty);
-            set
-            {
-                SetValue(SecondTitleColorProperty, value);
-            }
+            set => SetValue(SecondTitleColorProperty, value);
         }
+
         protected override void OnPropertyChanged([CallerMemberName] string n = null)
         {
             if (string.IsNullOrEmpty(n)) return;

@@ -28,12 +28,15 @@
                           PeekAreaInsets="60"
                           HeightRequest="200"
                           Margin="10,5"
+                              HorizontalScrollBarVisibility="Never"
                           >
                     <CarouselView.EmptyView>
-                        <StackLayout>
-                            <Label Text="看起来今天没有课哦(或者未加载)" Padding="0,30,0,0" FontSize="Medium"/>
-                            <Label Text="享受美好的休息时光吧~" FontSize="Medium"/>
+                        <Frame CornerRadius="30">
+                        <StackLayout VerticalOptions="Center">
+                            <Label Text="看起来今天没有课哦(或者未加载)" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                            <Label Text="享受美好的休息时光吧~" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="#2F4F4F"/>
                         </StackLayout>
+                        </Frame>
                        
                     </CarouselView.EmptyView>
                 <CarouselView.ItemTemplate>
@@ -44,7 +47,8 @@
                             Sections="{Binding SectionInfo}"
                             Name="{Binding Name}"
                             Teacher="{Binding Teacher}"
-                            ClassRoom="{Binding Classroom}"/>
+                            ClassRoom="{Binding Classroom}"
+                            CornerRadius="30"/>
                     </DataTemplate>
                         </CarouselView.ItemTemplate>
                 <CarouselView.ItemsLayout>

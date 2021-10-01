@@ -6,6 +6,7 @@ namespace HandSchool.Internals
     {
         public static void RegisterTypes()
         {
+            Core.Reflection.RegisterCtor<IndexPage>();
             Core.Reflection.RegisterCtor<GradePointPage>();
             Core.Reflection.RegisterCtor<FeedPage>();
             Core.Reflection.RegisterCtor<InfoQueryPage>();

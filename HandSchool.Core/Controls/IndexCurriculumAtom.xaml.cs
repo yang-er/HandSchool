@@ -21,9 +21,7 @@ namespace HandSchool.Controls
         public string Sections
         {
             get => GetValue(SectionsProperty) as string;
-            set {
-                SetValue(SectionsProperty, value);
-            }
+            set => SetValue(SectionsProperty, value);
         }
         public string Descreption
         {
@@ -33,26 +31,17 @@ namespace HandSchool.Controls
         public string Teacher
         {
             get => GetValue(TeacherProperty) as string;
-            set
-            {
-                SetValue(TeacherProperty, value);
-            }
+            set => SetValue(TeacherProperty, value);
         }
         public string ClassRoom
         {
             get => GetValue(ClassRoomProperty) as string;
-            set
-            {
-                SetValue(ClassRoomProperty, value);
-            }
+            set => SetValue(ClassRoomProperty, value);
         }
         public string Name
         {
             get => GetValue(NameProperty) as string;
-            set
-            {
-                SetValue(NameProperty, value);
-            }
+            set => SetValue(NameProperty, value);
         }
         public bool IsSelected
         {
@@ -64,29 +53,32 @@ namespace HandSchool.Controls
             switch (propertyName)
             {
                 case nameof(Name):
-                    name.Text = Name.Length < 20 ? Name : Name.Substring(0,18) + "..."; break;
+                    name.Text = Name.Length < 20 ? Name : Name.Substring(0, 18) + "..."; break;
                 case nameof(Sections):
-                    sections.Text = Sections;break;
+                    sections.Text = Sections; break;
                 case nameof(ClassRoom):
-                    classRoom.Text = ClassInfoSimplifier.Instance.SimplifyName(ClassRoom).Replace('\n', ' ');break;
+                    classRoom.Text = ClassInfoSimplifier.Instance.SimplifyName(ClassRoom).Replace('\n', ' '); break;
                 case nameof(Teacher):
-                    teacher.Text = Teacher;break;
+                    teacher.Text = Teacher; break;
                 case nameof(Descreption):
-                    desc.Text = Descreption;break;
+                    desc.Text = Descreption; break;
                 case nameof(ItemState):
                     switch (ItemState)
                     {
-                        case ClassState.Other:desc.Text = "";break;
-                        case ClassState.Current:desc.Text = "现在";break;
-                        case ClassState.Next:desc.Text = "接下来";break;
+                        case ClassState.Other: desc.Text = ""; break;
+                        case ClassState.Current: desc.Text = "现在"; break;
+                        case ClassState.Next: desc.Text = "接下来"; break;
                     }
                     break;
+
                 case nameof(IsSelected):
                     if (IsSelected)
                         ViewExtensions.ScaleTo(this, 0.97);
                     else ViewExtensions.ScaleTo(this, 0.90);
                     break;
-                default: base.OnPropertyChanged(propertyName);
+
+                default:
+                    base.OnPropertyChanged(propertyName);
                     break;
             }
         }

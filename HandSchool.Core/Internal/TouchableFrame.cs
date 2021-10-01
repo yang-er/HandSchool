@@ -9,6 +9,19 @@ namespace HandSchool.Internal
 {
     public class TouchableFrame : Frame
     {
+        public TouchableFrame()
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case "iOS":
+                    CornerRadius = 20;
+                    break;
+
+                default:
+                    CornerRadius = 15;
+                    break;
+            }
+        }
         public ICommand ClickedCommand
         {
             get => (ICommand)GetValue(ClickedCommandProperty);

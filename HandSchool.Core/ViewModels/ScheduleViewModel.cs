@@ -256,12 +256,12 @@ namespace HandSchool.ViewModels
             return Items.Find(pred);
         }
 
-        public IEnumerable<CurriculumItem> FindItems(Predicate<CurriculumItem> pred)
+        public IList<CurriculumItem> FindItems(Predicate<CurriculumItem> pred)
         {
             return
-                from item in Items
+                (from item in Items
                 where pred(item)
-                select item;
+                select item).ToList();
         }
 
         /// <summary>

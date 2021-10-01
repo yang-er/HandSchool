@@ -54,7 +54,6 @@ namespace HandSchool.Droid
             Core.InitPlatform(Instance = this);
 
             Core.Reflection.RegisterCtor<AboutPage>();
-            Core.Reflection.RegisterCtor<IndexPage>();
             Core.Reflection.RegisterCtor<WebViewPage>();
             Core.Reflection.RegisterCtor<LoginFragment>();
             Core.Reflection.RegisterCtor<HttpClientImpl>();
@@ -78,7 +77,7 @@ namespace HandSchool.Droid
             if (Instance is null)
                 new PlatformImplV2(context);
         }
-        
+
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
             NavigationItems.Add(new NavMenuItemV2(title, dest, category, icon));
