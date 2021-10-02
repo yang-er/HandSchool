@@ -53,7 +53,7 @@ namespace HandSchool.JLU.Models
                     domain = domain.Replace("https://oa.jlu.edu.cn/", "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/");
                 }
                 var data = await oa.WebClient.GetStringAsync(domain);
-                content = Tools.AnalyzeHTMLToPhara(data);
+                content = Tools.AnalyzeHtmlToOaDetail(data);
                 GC.Collect();
                 return content;
             }

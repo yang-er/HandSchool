@@ -12,6 +12,8 @@ namespace HandSchool.JLU
 {
     static class Tools
     {
+        public static string HtmlTrim(this string str) => str.Replace("&nbsp;", "").Replace("&nbsp", "").Trim();
+    
         public static List<RecordInfo> AnalyzeHTMLToRecordInfos(string htmlSources)
         {
             if (htmlSources.Contains("当前查询条件内没有流水记录")) return null;
@@ -68,51 +70,77 @@ namespace HandSchool.JLU
             }
             return sb.ToString();
         }
-        public static string AnalyzeHTMLToPhara(string htmlSources)
+
+        private static string _AnalyzeHtmlToOaDetail(HtmlDocument htmlDoc, string className)
         {
-            if (htmlSources.Contains("<table>")) return "通知含有表格，不支持表格解析";
-            var html = new HtmlDocument();
-            html.LoadHtml(htmlSources.Trim());
-            var spans = html.DocumentNode.SelectNodes("//div[@class='content_font fontsize immmge']//span");
-            var ps = html.DocumentNode.SelectNodes("//div[@class='content_font fontsize immmge']//p");
-            if (ps == null)
-            {
-                ps = html.DocumentNode.SelectNodes("//div[@class='content_font fontsize immmge']//text()");
-            }
+            var xpathAttr = $"@class='{className}'";
+            var spans = htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//span");
+            var ps = htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//p");
+            ps = ps ?? htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//text()");
             try
             {
-                var sb = new StringBuilder();
-                var sp = new StringBuilder();
-                foreach (var text in ps)
+                StringBuilder sb = null, sp = null;
+                if (ps != null)
                 {
-                    sb.Append(text.InnerText.Replace("&nbsp;", "").Replace("&nbsp", "").Trim()).Append('\n');
+                    sb = new StringBuilder();
+                    foreach (var text in ps)
+                    {
+                        sb.Append(text.InnerText.HtmlTrim()).Append('\n');
+                    }
                 }
-                foreach (var text in spans)
+
+                if (spans != null)
                 {
-                    sp.Append(text.InnerText.Replace("&nbsp;", "").Replace("&nbsp", "").Trim()).Append('\n');
+                    sp = new StringBuilder();
+                    foreach (var text in spans)
+                    {
+                        sp.Append(text.InnerText.HtmlTrim()).Append('\n');
+                    }
                 }
-                if (sb.Length < sp.Length / 4) return sp.ToString();
-                return sb.ToString().Trim();
+
+                if (sb == null || sp == null)
+                {
+                    if (sb == null && sp == null)
+                        throw new NullReferenceException("Failed to analyze");
+                    return (sb ?? sp).ToString().Trim();
+                }
+
+                return (sb.Length < sp.Length / 5) ? sp.ToString().Trim() : sb.ToString().Trim();
             }
             catch
             {
                 try
                 {
-                    var texts = html.DocumentNode.SelectNodes("//div[@class='content_font fontsize immmge']//node()[not(node())]");
+                    var texts = htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//node()[not(node())]");
                     var stringBuilder = new StringBuilder();
                     foreach (var i in texts)
                     {
-                        var text = i.InnerText.Replace("&nbsp;", "").Replace("&nbsp", "").Trim();
+                        var text = i.InnerText.HtmlTrim();
                         if (!string.IsNullOrEmpty(text))
-                            stringBuilder.Append(" ").Append(text).Append('\n');
+                            stringBuilder.Append(text).Append('\n');
                     }
                     return stringBuilder.ToString();
                 }
                 catch
                 {
-                    return "解析引擎出现错误";
+                    return null;
                 }
             }
+        }
+        
+        public static string AnalyzeHtmlToOaDetail(string htmlSources)
+        {
+            if (htmlSources.Contains("<table>")) return "通知含有表格，不支持表格解析";
+            var html = new HtmlDocument();
+            html.LoadHtml(htmlSources.Trim());
+            string[] classes = {"content_font fontsize immmge", "content_font"};
+            foreach (var @class in classes)
+            {
+                var res = _AnalyzeHtmlToOaDetail(html, @class);
+                if (res != null) return res;
+            }
+
+            return null;
         }
         public static Thread GetThreadAddVpnCookie(this IWebClient webClient)
         {
