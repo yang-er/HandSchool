@@ -129,37 +129,30 @@ namespace HandSchool.JLU
     }
     public class JLUClassSimplifier : ClassInfoSimplifier
     {
-
-        static Dictionary<string, int> chineseNums = null;
-        static void InitCnNums()
-        {
-            chineseNums = new Dictionary<string, int>();
-            chineseNums.Add("零", 0);
-            chineseNums.Add("一", 1);
-            chineseNums.Add("二", 2);
-            chineseNums.Add("三", 3);
-            chineseNums.Add("四", 4);
-            chineseNums.Add("五", 5);
-            chineseNums.Add("六", 6);
-            chineseNums.Add("七", 7);
-            chineseNums.Add("八", 8);
-            chineseNums.Add("九", 9);
-            chineseNums.Add("十", 10);
-            chineseNums.Add("十一", 11);
-            chineseNums.Add("十二", 12);
-            chineseNums.Add("十三", 13);
-            chineseNums.Add("十四", 14);
-            chineseNums.Add("十五", 15);
-        }
+        private static Dictionary<string, int> _chineseNums;
         static string ChineseToNum(string str)
         {
-            if (chineseNums == null) InitCnNums();
-            if (chineseNums.ContainsKey(str)) return chineseNums[str].ToString();
+            if (_chineseNums == null)
+            {
+                _chineseNums = new Dictionary<string, int>
+                {
+                    {"零", 0}, {"一", 1}, {"二", 2}, {"三", 3}, {"四", 4}, 
+                    {"五", 5}, {"六", 6}, {"七", 7}, {"八", 8}, {"九", 9},
+                    {"十", 10}, {"十一", 11}, {"十二", 12}, {"十三", 13}, {"十四", 14}, {"十五", 15}
+                };
+            }
+            if (_chineseNums.ContainsKey(str)) return _chineseNums[str].ToString();
             return str;
         }
-        public override string SimplifyName(string roomName)
+
+        /// <summary>
+        /// JLU版简化课程描述的方法
+        /// </summary>
+        /// <returns>简化后的描述</returns>
+        private string _SimplifyName(string roomName)
         {
-            var ruler = new Regex("第.+-.+周");
+            //首先判断是否是在”所有周“情况下，此时没有上课地点信息
+            var ruler = new Regex("第.+?-.+?周");
             string res = roomName;
 
             var m = ruler.Match(res);
@@ -176,17 +169,36 @@ namespace HandSchool.JLU
             {
                 return res;
             }
-
-
-            ruler = new Regex("[A-Za-z0-9]区第.+阶梯");
-            var room = ruler.Match(res);
+            
+            //接下来，简化教学楼的名称
+            ruler = new Regex("第.+?教学楼");
+            var room = ruler.Match(roomName);
             if (room.Length != 0)
             {
                 var str = room.Value;
-                char area = str[str.IndexOf("区") - 1];
-                var index1 = str.IndexOf("第");
-                var index2 = str.IndexOf("阶");
-                var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
+                var index1 = res.IndexOf(str, StringComparison.Ordinal);
+                var index2 = res.IndexOf("教学楼", index1, StringComparison.Ordinal);
+                
+                var area = res.Substring(index1 + 1, index2 - index1 - 1);
+                var str2 = area + "教";
+                res = res.Replace(str, str2);
+            }
+
+            res = res.Replace("教学楼", "楼");
+            
+            //最后，简化教室的名称
+            ruler = new Regex("[A-Za-z]区第.+阶梯");
+            room = ruler.Match(res);
+            if (room.Length != 0)
+            {
+                var str = room.Value;
+                var index = res.IndexOf(str, StringComparison.Ordinal);
+                var area = res[index];
+                
+                var index1 = index + 2;
+                var index2 = res.IndexOf("阶",index1, StringComparison.Ordinal);
+                
+                var area2 = res.Substring(index1 + 1, index2 - index1 - 1);
                 var str2 = area + ChineseToNum(area2);
                 res = res.Replace(str, str2);
             }
@@ -197,29 +209,30 @@ namespace HandSchool.JLU
                 if (room.Length != 0)
                 {
                     var str = room.Value;
-                    var index1 = str.IndexOf("第");
-                    var index2 = str.IndexOf("阶");
-                    var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
-                    var str2 = ChineseToNum(area2) + "阶";
+                    var index1 = res.IndexOf(str, StringComparison.Ordinal);
+                    var index2 = res.IndexOf("阶", index1, StringComparison.Ordinal);
+                    var area = res.Substring(index1 + 1, index2 - index1 - 1);
+                    var str2 = ChineseToNum(area) + "阶";
                     res = res.Replace(str, str2);
                 }
-                else
-                {
-                    ruler = new Regex("第.+?教学楼");
-                    room = ruler.Match(roomName);
-                    if (room.Length != 0)
-                    {
-                        var str = room.Value;
-                        var index1 = str.IndexOf("第");
-                        var index2 = str.IndexOf("教学楼");
-                        var area2 = str.Substring(index1 + 1, index2 - index1 - 1);
-                        var str2 = area2 + "教";
-                        res = res.Replace(str, str2);
-                    }
-                }
+                
             }
 
-            return res.Replace("教学楼", "楼").Replace('-', '\n').Replace('#', '\n');
+            return res.Replace('-', '\n').Replace('#', '\n');
+        }
+        public override string SimplifyName(string roomName)
+        {
+            string res;
+            try
+            {
+                res = _SimplifyName(roomName);
+            }
+            catch
+            {
+                res = roomName;
+            }
+
+            return res;
         }
     }
 }
