@@ -10,14 +10,16 @@
      </w:ViewObject.ToolbarMenu>
     <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
-                <internal:TouchableFrame Margin="10,5" Padding="20,0,0,20" ClickedCommand="{Binding RequestLoginCommand}">
+            <StackLayout>
+                <Label x:Name="dayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                <internal:TouchableFrame Margin="10,5" ClickedCommand="{Binding RequestLoginCommand}">
                 <StackLayout>
-                    <Label x:Name="dayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
                     <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black"/>
                     <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
                     <Label Text="愿你拥有比阳光明媚的心情" FontSize="Medium" TextColor="Black" />
                 </StackLayout>
             </internal:TouchableFrame>
+            </StackLayout>
             <StackLayout>
                 <Label Margin="20,10,20,0" Text="今日份课程表" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
 
@@ -28,8 +30,7 @@
                           PeekAreaInsets="60"
                           HeightRequest="200"
                           Margin="10,5"
-                              HorizontalScrollBarVisibility="Never"
-                          >
+                          HorizontalScrollBarVisibility="Never">
                     <CarouselView.EmptyView>
                         <Frame CornerRadius="30" Scale="0.97" >
                         <StackLayout VerticalOptions="Center">
