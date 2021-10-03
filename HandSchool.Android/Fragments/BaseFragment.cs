@@ -233,5 +233,7 @@ namespace HandSchool.Droid
             Core.Platform.ViewResponseImpl.ReqWebDiaAsync(this, args, additionalArgs);
             return args.Result.Task;
         }
+
+        public Task NoticeError(string error)=> RequestMessageAsync("错误", error, "好");
     }
 }

@@ -83,12 +83,12 @@ namespace HandSchool.ViewModels
         {
             if (IsBusy)
             {
-                Page.Response(this, new LoginStateEventArgs(LoginState.Processing));
+                Page.OnLoginStateChanged(this, new LoginStateEventArgs(LoginState.Processing));
                 return;
             }
 
             IsBusy = true;
-            Form.LoginStateChanged += Page.Response;
+            Form.LoginStateChanged += Page.OnLoginStateChanged;
 
             try
             {
@@ -97,7 +97,7 @@ namespace HandSchool.ViewModels
             finally
             {
                 IsBusy = false;
-                Form.LoginStateChanged -= Page.Response;
+                Form.LoginStateChanged -= Page.OnLoginStateChanged;
             }
         }
     }

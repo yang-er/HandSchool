@@ -90,16 +90,16 @@ namespace HandSchool.JLU
             GradePointViewModel.BeforeOperatingCheck = CheckVpn;
             ScheduleViewModel.BeforeOperatingCheck = CheckVpn;
         }
-        private async static Task<(bool, string)> CheckVpn()
+        private static async Task<TaskResp> CheckVpn()
         {
             if (UseVpn)
             {
                 if (!await Vpn.CheckLogin())
                 {
-                    return (false, "需登录校园Vpn");
+                    return new TaskResp(false, "需登录校园Vpn");
                 }
             }
-            return (true, null);
+            return new TaskResp(true, null);
         }
         public void PreLoad()
         {

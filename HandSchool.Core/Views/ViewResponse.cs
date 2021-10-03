@@ -59,6 +59,8 @@ namespace HandSchool.Views
         Task RequestChartAsync(Chart chart, string title = "", string close = "关闭");
         Task<string> RequestWebDialogAsync(string title, string description, string url, string cancel, string accept, bool navigation, bool hasInput, string inputHint, WebDialogAdditionalArgs additionalArgs);
         Task<string> RequestInputWithPicAsync(string title, string description, string cancel, string accept, byte[] sources);
+
+        Task NoticeError(string error); 
     }
 
     /// <summary>

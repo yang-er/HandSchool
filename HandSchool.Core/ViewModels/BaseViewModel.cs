@@ -77,6 +77,19 @@ namespace HandSchool.ViewModels
             if (View is null) return Task.FromResult<string>(null);
             return Core.Platform.EnsureOnMainThread(() => View.RequestWebDialogAsync(title, description, url, cancel, accept, navigation, hasInput, inputHint, additionalArgs));
         }
+
+        /// <summary>
+        /// 通知错误信息，并且将IsBusy属性置为false
+        /// </summary>
+        /// <param name="error">错误信息</param>
+        /// <returns></returns>
+        public Task NoticeError(string error)
+        {
+            var res = RequestMessageAsync("错误", error, "好");
+            IsBusy = false;
+            return res;
+        }
+
         #endregion
     }
 }

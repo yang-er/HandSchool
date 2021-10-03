@@ -71,12 +71,15 @@ namespace HandSchool.JLU
             return sb.ToString();
         }
 
-        private static string _AnalyzeHtmlToOaDetail(HtmlDocument htmlDoc, string className)
+        public static string AnalyzeHtmlToOaDetail(string htmlSources)
         {
-            var xpathAttr = $"@class='{className}'";
-            var spans = htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//span");
-            var ps = htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//p");
-            ps = ps ?? htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//text()");
+            if (htmlSources.Contains("<table>")) return "通知含有表格，不支持表格解析";
+            var html = new HtmlDocument();
+            html.LoadHtml(htmlSources.Trim());
+            var xpathBase = "//div[contains(@class,'content_font')]";
+            var spans = html.DocumentNode.SelectNodes(xpathBase + "//span");
+            var ps = html.DocumentNode.SelectNodes(xpathBase + "//p");
+            ps ??= html.DocumentNode.SelectNodes(xpathBase + "//text()");
             try
             {
                 StringBuilder sb = null, sp = null;
@@ -111,7 +114,7 @@ namespace HandSchool.JLU
             {
                 try
                 {
-                    var texts = htmlDoc.DocumentNode.SelectNodes($"//div[{xpathAttr}]//node()[not(node())]");
+                    var texts = html.DocumentNode.SelectNodes(xpathBase + "//node()[not(node())]");
                     var stringBuilder = new StringBuilder();
                     foreach (var i in texts)
                     {
@@ -126,21 +129,6 @@ namespace HandSchool.JLU
                     return null;
                 }
             }
-        }
-        
-        public static string AnalyzeHtmlToOaDetail(string htmlSources)
-        {
-            if (htmlSources.Contains("<table>")) return "通知含有表格，不支持表格解析";
-            var html = new HtmlDocument();
-            html.LoadHtml(htmlSources.Trim());
-            string[] classes = {"content_font fontsize immmge", "content_font"};
-            foreach (var @class in classes)
-            {
-                var res = _AnalyzeHtmlToOaDetail(html, @class);
-                if (res != null) return res;
-            }
-
-            return null;
         }
         public static Thread GetThreadAddVpnCookie(this IWebClient webClient)
         {
@@ -160,15 +148,13 @@ namespace HandSchool.JLU
         private static Dictionary<string, int> _chineseNums;
         static string ChineseToNum(string str)
         {
-            if (_chineseNums == null)
+            _chineseNums ??= new Dictionary<string, int>
             {
-                _chineseNums = new Dictionary<string, int>
-                {
-                    {"零", 0}, {"一", 1}, {"二", 2}, {"三", 3}, {"四", 4}, 
-                    {"五", 5}, {"六", 6}, {"七", 7}, {"八", 8}, {"九", 9},
-                    {"十", 10}, {"十一", 11}, {"十二", 12}, {"十三", 13}, {"十四", 14}, {"十五", 15}
-                };
-            }
+                {"零", 0}, {"一", 1}, {"二", 2}, {"三", 3}, {"四", 4},
+                {"五", 5}, {"六", 6}, {"七", 7}, {"八", 8}, {"九", 9},
+                {"十", 10}, {"十一", 11}, {"十二", 12}, {"十三", 13}, {"十四", 14}, {"十五", 15}
+            };
+            
             if (_chineseNums.ContainsKey(str)) return _chineseNums[str].ToString();
             return str;
         }
@@ -177,7 +163,7 @@ namespace HandSchool.JLU
         /// JLU版简化课程描述的方法
         /// </summary>
         /// <returns>简化后的描述</returns>
-        private string _SimplifyName(string roomName)
+        private static string _SimplifyName(string roomName)
         {
             //首先判断是否是在”所有周“情况下，此时没有上课地点信息
             var ruler = new Regex("第.+?-.+?周");

@@ -98,7 +98,7 @@ namespace HandSchool.ViewModels
         private Task ExecuteLoadItemsCommand() => LoadItems(false);
 
         private Task SearchByKeyWord() => SearchWord(false);
-        public static Func<Task<(bool, string)>> BeforeOperatingCheck { set; private get; }
+        public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
 
         /// <summary>
         /// 加载消息的方法。
@@ -111,9 +111,9 @@ namespace HandSchool.ViewModels
             if (BeforeOperatingCheck != null)
             {
                 var msg = await BeforeOperatingCheck();
-                if (!msg.Item1)
+                if (!msg.IsSuccess)
                 {
-                    await RequestMessageAsync("错误", msg.Item2);
+                    await RequestMessageAsync("错误", msg.ToString());
                     IsBusy = false;
                     return;
                 }
@@ -149,9 +149,9 @@ namespace HandSchool.ViewModels
             if (BeforeOperatingCheck != null)
             {
                 var msg = await BeforeOperatingCheck();
-                if (!msg.Item1)
+                if (!msg.IsSuccess)
                 {
-                    await RequestMessageAsync("错误", msg.Item2);
+                    await RequestMessageAsync("错误", msg.ToString());
                     IsBusy = false;
                     return;
                 }

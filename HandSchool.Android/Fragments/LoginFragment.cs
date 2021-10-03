@@ -63,7 +63,7 @@ namespace HandSchool.Droid
 
         private bool _navArgNotSet;
         
-        public async void Response(object sender, LoginStateEventArgs e)
+        public async void OnLoginStateChanged(object sender, LoginStateEventArgs e)
         {
             switch (e.State)
             {

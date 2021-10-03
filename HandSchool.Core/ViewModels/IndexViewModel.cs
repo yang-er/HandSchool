@@ -42,7 +42,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         public ICommand RequestLoginCommand { get; set; }
 
-        public static Func<Task<(bool, string)>> BeforeOperatingCheck { set; private get; }
+        public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
 
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）
@@ -57,9 +57,9 @@ namespace HandSchool.ViewModels
             if (BeforeOperatingCheck != null)
             {
                 var msg = await BeforeOperatingCheck();
-                if (!msg.Item1)
+                if (!msg.IsSuccess)
                 {
-                    await RequestMessageAsync("错误", msg.Item2);
+                    await RequestMessageAsync("错误", msg.ToString());
                     IsBusy = false;
                     return;
                 }

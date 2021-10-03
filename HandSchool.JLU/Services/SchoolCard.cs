@@ -109,25 +109,25 @@ namespace HandSchool.JLU.Services
                 { "checkcode", CaptchaCode },
                 { "isUsedKeyPad", "false" },
             };
-
+            string error = null;
             try
             {
                 var reqMeta = new WebRequestMeta("Account/MiniCheckIn", WebRequestMeta.All);
                 reqMeta.SetHeader("Referer", baseUrl);
                 var resp = await WebClient.PostAsync(reqMeta, post_value);
-                LastReport = await resp.ReadAsStringAsync();
+                error = await resp.ReadAsStringAsync();
 
-                if (LastReport.Equals("查询密码错误"))
+                if (error.Contains("查询密码错误"))
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "密码错误！"));
                     return false;
                 }
-                if (LastReport.Equals("验证码不正确"))
+                if (error.Contains("验证码不正确"))
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "验证码错误！"));
                     return false;
                 }
-                var result = new YktResult() { success = LastReport == "success|False" };
+                var result = new YktResult() { success = error == "success|False" };
                 if (!result.success)
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "未知问题"));
@@ -142,7 +142,7 @@ namespace HandSchool.JLU.Services
             }
             catch (JsonException)
             {
-                this.WriteLog("Unexpected value received <<<EOF\n" + LastReport + "\nEOF;");
+                this.WriteLog("Unexpected value received <<<EOF\n" + error + "\nEOF;");
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
                 return IsLogin = false;
             }
@@ -191,30 +191,41 @@ namespace HandSchool.JLU.Services
             }
             else return false;
         }
-        public async Task<object> PreChageMoney()
-        {
-            var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
-            var value_got = await WebClient.GetStringAsync("CardManage/CardInfo/Transfer");
-            var captcha_url = Regex.Match(value_got, @"name=""img_transCheckCode"" src=""/(\S+)""");
-            var reqUrl = (vpn ? "https://vpns.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
-            var reqMeta = new WebRequestMeta(reqUrl, "image/gif");
 
-            var reqMeta2 = new WebRequestMeta("Account/GetNumKeyPadImg", "image/jpeg");
-            var captcha_resp = await WebClient.GetAsync(reqMeta);
-            var source = await captcha_resp.ReadAsByteArrayAsync();
-            captcha_resp = await WebClient.GetAsync(reqMeta2);
-            var keyboard = await captcha_resp.ReadAsByteArrayAsync();
-            return (source, keyboard);
+        public async Task<TaskResp> PreChargeMoney()
+        {
+            try
+            {
+                var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
+                var value_got = await WebClient.GetStringAsync("CardManage/CardInfo/Transfer");
+                var captcha_url = Regex.Match(value_got, @"name=""img_transCheckCode"" src=""/(\S+)""");
+                var reqUrl = (vpn ? "https://vpns.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") +
+                             captcha_url.Groups[1].Value;
+                var reqMeta = new WebRequestMeta(reqUrl, "image/gif");
+
+                var reqMeta2 = new WebRequestMeta("Account/GetNumKeyPadImg", "image/jpeg");
+                var captcha_resp = await WebClient.GetAsync(reqMeta);
+                var source = await captcha_resp.ReadAsByteArrayAsync();
+                captcha_resp = await WebClient.GetAsync(reqMeta2);
+                var keyboard = await captcha_resp.ReadAsByteArrayAsync();
+                return new TaskResp(true, (source, keyboard));
+            }
+            catch (Exception e)
+            {
+                Core.Logger.WriteException(e, "SchoolCard.PreChageMoney");
+                return new TaskResp(false, e.Message);
+            }
+
         }
+
         /// <exception cref="OverflowException" />
         /// <exception cref="FormatException" />
         /// <exception cref="WebsException" />
         /// <exception cref="JsonException" />
-        public async Task<bool> ChargeMoney(double money, string code, string keyboard)
+        public async Task<TaskResp> ChargeMoney(double money, string code, string keyboard)
         {
             if (money > 200 || money < 0.01)
                 throw new OverflowException();
-
             var post_value = new KeyValueDict
             {
                 { "password",Tools.EncodingPwd(Password,keyboard) },
@@ -232,9 +243,13 @@ namespace HandSchool.JLU.Services
             var transferReport = await response.ReadAsStringAsync();
 
             if (transferReport.Contains("成功"))
-                return true;
-            LastReport = transferReport;
-            return false;
+                return new TaskResp(true, null);
+            try
+            {
+                transferReport = (JsonConvert.DeserializeObject<YktResult>(transferReport)?.msg) ?? transferReport;
+            }
+            catch{}
+            return new TaskResp(false, transferReport);
         }
         /// <exception cref="WebsException" />
         public async Task QueryCost()
@@ -246,8 +261,7 @@ namespace HandSchool.JLU.Services
 
             var now = DateTime.Now.AddDays(-1);
             var sevenDaysAgo = now.AddDays(-7);
-            var url = "CardManage/CardInfo/TrjnList?beginTime=" + Tools.DateFormatter(sevenDaysAgo) +
-                "&endTime=" + Tools.DateFormatter(now) + "&type=1";
+            var url = $"CardManage/CardInfo/TrjnList?beginTime={Tools.DateFormatter(sevenDaysAgo)}&endTime={Tools.DateFormatter(now)}&type=1";
             var resultWeek = await WebClient.GetStringAsync(url);
 
             if (resToday.Contains(noHistory) && resultWeek.Contains(noHistory))
@@ -308,7 +322,7 @@ namespace HandSchool.JLU.Services
                 }
             }
         }
-        public async Task<object> PreSetLost()
+        public async Task<TaskResp> PreSetLost()
         {
             // First, we should get our card number.
             var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
@@ -321,10 +335,10 @@ namespace HandSchool.JLU.Services
             var source = await captcha_resp.ReadAsByteArrayAsync();
             captcha_resp = await WebClient.GetAsync(reqMeta2);
             var keyboard = await captcha_resp.ReadAsByteArrayAsync();
-            return (source, keyboard);
+            return new TaskResp(true,(source, keyboard));
         }
         /// <exception cref="WebsException" />
-        public async Task<bool> SetLost(string code, string keyboard)
+        public async Task<TaskResp> SetLost(string code, string keyboard)
         {
             // Then, go ahead.
             var post_value = new KeyValueDict
@@ -339,16 +353,12 @@ namespace HandSchool.JLU.Services
             var cardLost = await response.ReadAsStringAsync();
 
             if (cardLost.Contains("挂失成功"))
-                return true;
-            LastReport = cardLost;
-            return false;
+                return new TaskResp(true, null);
+
+            return new TaskResp(false, cardLost);
         }
 
         public IWebClient WebClient { get; private set; }
-
-        /// <summary>
-        /// 上一个返回的错误
-        /// </summary>
-        public string LastReport { get; private set; }
+        
     }
 }

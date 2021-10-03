@@ -212,7 +212,9 @@ namespace HandSchool.Views
             Core.Platform.ViewResponseImpl.ReqChtAsync(this, args);
             return args.ReturnTask;
         }
-        
+
+        public Task NoticeError(string error) => RequestMessageAsync("错误", error, "好");
+
         #endregion
     }
 }

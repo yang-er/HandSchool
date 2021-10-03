@@ -25,7 +25,7 @@ namespace HandSchool.Views
         /// </summary>
         /// <param name="sender">发出者</param>
         /// <param name="e">登陆状态改变事件参数</param>
-        void Response(object sender, LoginStateEventArgs e);
+        void OnLoginStateChanged(object sender, LoginStateEventArgs e);
 
         /// <summary>
         /// 更新验证码信息。

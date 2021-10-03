@@ -69,7 +69,7 @@ namespace HandSchool.ViewModels
             Debug.Assert(sys != null);
             SetProperty(ref week, sys.CurrentWeek, nameof(CurrentWeek));
         }
-        public static Func<Task<(bool, string)>> BeforeOperatingCheck { private get; set; }
+        public static Func<Task<TaskResp>> BeforeOperatingCheck { private get; set; }
 
 
         #region 增删改查命令
@@ -85,9 +85,9 @@ namespace HandSchool.ViewModels
             if (BeforeOperatingCheck != null)
             {
                 var msg = await BeforeOperatingCheck();
-                if (!msg.Item1)
+                if (!msg.IsSuccess)
                 {
-                    await RequestMessageAsync("错误", msg.Item2);
+                    await RequestMessageAsync("错误", msg.ToString());
                     IsBusy = false;
                     return;
                 }
