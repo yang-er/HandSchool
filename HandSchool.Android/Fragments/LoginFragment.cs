@@ -77,7 +77,7 @@ namespace HandSchool.Droid
 
                 case LoginState.Failed:
                     await RequestMessageAsync("登录失败", $"登录失败，{e.InnerError}。", "知道了");
-                    UpdateCaptchaInfomation();
+                    UpdateCaptchaInformation();
                     break;
             }
         }
@@ -105,7 +105,7 @@ namespace HandSchool.Droid
             LoginViewModel.PropertyChanged += OnSwitchChanged;
             LoginButton.Click += OnLoginRequested;
 
-            if (_navArgNotSet) UpdateCaptchaInfomation();
+            if (_navArgNotSet) UpdateCaptchaInformation();
         }
 
         public override void SolveBindings()
@@ -178,12 +178,12 @@ namespace HandSchool.Droid
 
         public Bitmap CaptchaBitmap { get; set; }
 
-        public async void UpdateCaptchaInfomation()
+        public async void UpdateCaptchaInformation()
         {
             LoginViewModel.IsBusy = true;
             _navArgNotSet = false;
 
-            if (!await LoginViewModel.Form.PrepareLogin())
+            if (!(await LoginViewModel.Form.PrepareLogin()).IsSuccess)
             {
                 await RequestMessageAsync("登录失败", "登录失败，出现了一些问题。", "知道了");
             }

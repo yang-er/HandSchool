@@ -38,18 +38,18 @@ namespace HandSchool.Models
         /// 表单的名称
         /// </summary>
         string FormName { get; }
-
+        
         /// <summary>
         /// 登录操作，通过网络进行登录操作。
         /// </summary>
         /// <returns>是否登录成功。</returns>
-        Task<bool> Login();
+        Task<TaskResp> Login();
 
         /// <summary>
         /// 登录之前进行准备工作，例如加载验证码等内容。
         /// </summary>
         /// <returns>是否准备成功。</returns>
-        Task<bool> PrepareLogin();
+        Task<TaskResp> PrepareLogin();
 
         /// <summary>
         /// 验证码内容
@@ -80,10 +80,10 @@ namespace HandSchool.Models
         /// 在登录框弹出前需要做的事情
         /// </summary>
         /// <returns>是否有必要继续弹出</returns>
-        Task<bool> BeforeLoginForm();
+        Task<TaskResp> BeforeLoginForm();
 
         Task<bool> CheckLogin();
 
-        LoginTimeoutManager timeoutManager { get; set; }
+        LoginTimeoutManager TimeoutManager { get; set; }
     }
 }

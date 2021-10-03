@@ -69,7 +69,7 @@ namespace HandSchool.JLU
                     if (Vpn.AutoLogin)
                     {
                         var x = await Vpn.PrepareLogin();
-                        Vpn.timeoutManager.Login();
+                        Vpn.TimeoutManager.Refresh();
                     }
                     else
                     {
@@ -78,7 +78,7 @@ namespace HandSchool.JLU
                             if (await Vpn.RequestLogin() == RequestLoginState.FAILED) break;
                             Thread.Sleep(200);
                         }
-                        Vpn.timeoutManager.Login();
+                        Vpn.TimeoutManager.Refresh();
                     }
                 });
             }
@@ -99,7 +99,7 @@ namespace HandSchool.JLU
                     return new TaskResp(false, "需登录校园Vpn");
                 }
             }
-            return new TaskResp(true, null);
+            return TaskResp.True;
         }
         public void PreLoad()
         {

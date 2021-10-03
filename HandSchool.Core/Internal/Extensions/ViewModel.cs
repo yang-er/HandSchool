@@ -19,7 +19,7 @@ namespace HandSchool.Internals
         public static async Task<RequestLoginState> RequestLogin(this ILoginField form)
         {
             if (form.AutoLogin && !form.IsLogin) await form.Login();
-            if (!await form.BeforeLoginForm()) return RequestLoginState.FAILED;
+            if (!(await form.BeforeLoginForm()).IsSuccess) return RequestLoginState.FAILED;
             if (!form.IsLogin)
                 return await LoginViewModel.RequestAsync(form);
             return form.IsLogin ? RequestLoginState.SUCCESSED : RequestLoginState.FAILED;

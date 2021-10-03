@@ -24,7 +24,7 @@ namespace HandSchool.JLU.Services
         bool is_login = false;
         bool auto_login = false;
         bool save_password = false;
-        public LoginTimeoutManager timeoutManager { get; set; }
+        public LoginTimeoutManager TimeoutManager { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
@@ -38,7 +38,7 @@ namespace HandSchool.JLU.Services
         public string FormName => "学生VPN";
         public bool NeedLogin { get; set; } = true;
 
-        public Task<bool> BeforeLoginForm() => Task.FromResult(true);
+        public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
 
         public bool IsLogin
         {
@@ -69,20 +69,20 @@ namespace HandSchool.JLU.Services
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
         public async Task<bool> CheckLogin()
         {
-            if (!IsLogin || timeoutManager.IsTimeout())
+            if (!IsLogin || TimeoutManager.IsTimeout())
             {
                 IsLogin = false;
             }
             else return true;
-            if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+            if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
             {
-                timeoutManager.Login();
+                TimeoutManager.Refresh();
                 return true;
             }
             else return false;
         }
 
-        public async Task<bool> PrepareLogin()
+        public async Task<TaskResp> PrepareLogin()
         {
             try
             {
@@ -102,31 +102,31 @@ namespace HandSchool.JLU.Services
                         var reqMeta = new WebRequestMeta("/captcha/" + captcha_id + ".png", "image/png");
                         var captcha_resp = await WebClient.GetAsync(reqMeta);
                         CaptchaSource = await captcha_resp.ReadAsByteArrayAsync();
-                        return CaptchaSource != null;
+                        return new TaskResp(CaptchaSource != null);
                     }
                     else
                     {
                         captcha_id = null;
-                        return true;
+                        return TaskResp.True;
                     }
                 }
                 else
                 {
                     is_login = true;
-                    return true;
+                    return TaskResp.True;
                 }
             }
             catch (WebsException)
             {
-                return false;
+                return TaskResp.False;
             }
         }
 
-        public async Task<bool> Login()
+        public async Task<TaskResp> Login()
         {
             if (Username == "" || Password == "")
             {
-                return false;
+                return TaskResp.False;
             }
             else
             {
@@ -159,12 +159,12 @@ namespace HandSchool.JLU.Services
                 if (resp.Location == "/login?local_login=true")
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "用户名密码或验证码错误"));
-                    return false;
+                    return TaskResp.False;
                 }
                 else if (resp.Location != "/")
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "未知响应：" + resp.Location));
-                    return false;
+                    return TaskResp.False;
                 }
                 else
                 {
@@ -181,13 +181,14 @@ namespace HandSchool.JLU.Services
 
                     IsLogin = true;
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-                    return true;
+                    return TaskResp.True;
                 }
             }
             catch (WebsException ex)
             {
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
-                return IsLogin = false;
+                IsLogin = false;
+                return TaskResp.False;
             }
         }
 
@@ -200,7 +201,7 @@ namespace HandSchool.JLU.Services
             if (AutoLogin) remember_token = Core.Configure.Read(configRemember);
             if (string.IsNullOrWhiteSpace(remember_token)) remember_token = "aaaa";
             else NeedLogin = false;
-            timeoutManager = new LoginTimeoutManager(43200);
+            TimeoutManager = new LoginTimeoutManager(43200);
         }
 
         #endregion

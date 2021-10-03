@@ -25,7 +25,7 @@ namespace HandSchool.JLU
         public string Username { get; set; }
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
-        public LoginTimeoutManager timeoutManager { get; set; } = new LoginTimeoutManager(600);
+        public LoginTimeoutManager TimeoutManager { get; set; } = new LoginTimeoutManager(600);
         
         [Settings("提示", "保存使设置永久生效，部分设置重启后生效。")]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
@@ -46,14 +46,14 @@ namespace HandSchool.JLU
         }
         public async Task<bool> CheckLogin()
         {
-            if (!IsLogin || timeoutManager.IsTimeout())
+            if (!IsLogin || TimeoutManager.IsTimeout())
             {
                 IsLogin = false;
             }
             else return true;
-            if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+            if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
             {
-                timeoutManager.Login();
+                TimeoutManager.Refresh();
                 return true;
             }
             else return false;
@@ -156,12 +156,12 @@ namespace HandSchool.JLU
             UsingStrategy.OnLoad();
         }
 
-        public async Task<bool> Login()
+        public async Task<TaskResp> Login()
         {
             if (Username == "" || Password == "")
             {
                 NeedLogin = true;
-                return false;
+                return TaskResp.False;
             }
             else
             {
@@ -234,27 +234,27 @@ namespace HandSchool.JLU
         
         public void ResetSettings() { }
 
-        public Task<bool> PrepareLogin()
+        public Task<TaskResp> PrepareLogin()
         {
             return UsingStrategy.PrepareLogin();
         }
 
-        public Task<bool> BeforeLoginForm()
+        public Task<TaskResp> BeforeLoginForm()
         {
             if (Loader.UseVpn)
                 return UsingStrategy.PrepareLogin();
-            return Task.FromResult(true);
+            return Task.FromResult(TaskResp.True);
         }
 
         interface ISideSchoolStrategy
         {
             string TimeoutUrl { get; }
-            Task<bool> LoginSide();
+            Task<TaskResp> LoginSide();
             void OnLoad();
             string FormatArguments(string input);
             string WelcomeMessage { get; }
             string CurrentMessage { get; }
-            Task<bool> PrepareLogin();
+            Task<TaskResp> PrepareLogin();
         }
     }
 }

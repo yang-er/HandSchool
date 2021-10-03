@@ -42,7 +42,7 @@ namespace HandSchool.Views
                     break;
                 case LoginState.Failed:
                     await DisplayAlert("登录失败", $"登录失败，{e.InnerError}。", "知道了");
-                    UpdateCaptchaInfomation();
+                    UpdateCaptchaInformation();
                     break;
             }
         }
@@ -61,11 +61,11 @@ namespace HandSchool.Views
             base.OnDisappearing();
 
         }
-        public async void UpdateCaptchaInfomation()
+        public async void UpdateCaptchaInformation()
         {
             LoginViewModel.IsBusy = true;
 
-            if (!await LoginViewModel.Form.PrepareLogin())
+            if (!(await LoginViewModel.Form.PrepareLogin()).IsSuccess)
             {
                 await DisplayAlert("登录失败", "登录失败，出现了一些问题。", "知道了");
             }
@@ -93,7 +93,7 @@ namespace HandSchool.Views
         {
             LoginViewModel = lvm;
             On<_iOS_>().UseSafeArea().ShowLeftCancel();
-            UpdateCaptchaInfomation();
+            UpdateCaptchaInformation();
         }
     }
 }

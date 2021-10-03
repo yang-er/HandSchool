@@ -28,9 +28,9 @@ namespace HandSchool.Views
         void OnLoginStateChanged(object sender, LoginStateEventArgs e);
 
         /// <summary>
-        /// 更新验证码信息。
+        /// 更新验证码
         /// </summary>
-        void UpdateCaptchaInfomation();
+        void UpdateCaptchaInformation();
 
         /// <summary>
         /// 显示登录对话框。

@@ -9,16 +9,16 @@ namespace HandSchool
 {
     public class ClassInfoSimplifier
     {
-        private static Lazy<ClassInfoSimplifier> lazy = new Lazy<ClassInfoSimplifier>(() => Core.New<ClassInfoSimplifier>());
-        public static ClassInfoSimplifier Instance => lazy.Value;
+        private static readonly Lazy<ClassInfoSimplifier> Lazy = new (Core.New<ClassInfoSimplifier>);
+        public static ClassInfoSimplifier Instance => Lazy.Value;
         public virtual string SimplifyName(string str) => str;
     }
     public static class TextAtomScales
     {
-        public static readonly double Normal = 0.95;
-        public static readonly double Small = 0.95 * 0.90;
-        public static readonly double Large = 0.95 * 1.05;
-        public static readonly double SuperLarge = 0.95 * 1.1;
+        public const double Normal = 0.95;
+        public const double Small = 0.95 * 0.90;
+        public const double Large = 0.95 * 1.05;
+        public const double SuperLarge = 0.95 * 1.1;
     }
     public static class ColorExtend
     {
@@ -26,7 +26,7 @@ namespace HandSchool
         {
             return Color.FromRgb(rgb.Item1, rgb.Item2, rgb.Item3);
         }
-        static double GetColorNum(double org, double rate) => org * rate > 1 ? 1 : org * rate;
+        private static double GetColorNum(double org, double rate) => org * rate > 1 ? 1 : org * rate;
         public static Color ColorDelta(Color color, double rate)
         {
             var rgb = new (int i, double v)[] { (0, color.R), (1, color.G), (2, color.B) };
@@ -48,7 +48,7 @@ namespace HandSchool
     }
     public static class Extends
     {
-        public async static Task TappedAnimation(this VisualElement item, Func<Task> doing = null)
+        public static async Task TappedAnimation(this VisualElement item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.Small, 200);
@@ -56,7 +56,7 @@ namespace HandSchool
             await item.ScaleTo(TextAtomScales.Large, 200);
             await item.ScaleTo(TextAtomScales.Normal, 150);
         }
-        public async static Task LongPressAnimation(this VisualElement item, Func<Task> doing = null)
+        public static async Task LongPressAnimation(this VisualElement item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.SuperLarge, 200);
@@ -77,20 +77,20 @@ namespace HandSchool
     }
     public class LoginTimeoutManager
     {
-        public DateTime? LastLoginTime { get; protected set; }
-        public readonly int TimeoutSec;
+        private DateTime? _lastLoginTime;
+        private readonly int _timeoutSec;
         public LoginTimeoutManager(int timeoutSec)
         {
-            TimeoutSec = timeoutSec;
+            _timeoutSec = timeoutSec;
         }
         public bool IsTimeout()
         {
-            if (LastLoginTime == null) return false;
-            return (DateTime.Now - LastLoginTime.Value).TotalSeconds > TimeoutSec;
+            if (_lastLoginTime == null) return false;
+            return (DateTime.Now - _lastLoginTime.Value).TotalSeconds > _timeoutSec;
         }
-        public void Login()
+        public void Refresh()
         {
-            LastLoginTime = DateTime.Now;
+            _lastLoginTime = DateTime.Now;
         }
     }
 }

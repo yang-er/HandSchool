@@ -79,11 +79,11 @@ namespace HandSchool.JLU
 
             bool reinit = true;
 
-            public async Task<bool> PrepareLogin()
+            public async Task<TaskResp> PrepareLogin()
             {
                 if (reinit)
                 {
-                    if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
+                    UIMS.WebClient?.Dispose();
                     UIMS.WebClient = Core.New<IWebClient>();
 
                     UIMS.WebClient.BaseAddress = "https://uims.jlu.edu.cn/ntms/";
@@ -113,7 +113,7 @@ namespace HandSchool.JLU
                     try
                     {
                         var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do?vpn-1&s=1");
-                        if (captcha.StatusCode != HttpStatusCode.OK) return false;
+                        if (captcha.StatusCode != HttpStatusCode.OK) return TaskResp.False;
                         UIMS.CaptchaSource = await captcha.ReadAsByteArrayAsync();
                     }
                     catch (WebsException)
@@ -123,10 +123,10 @@ namespace HandSchool.JLU
                     }
                 }
 
-                return true;
+                return TaskResp.True;
             }
 
-            public async Task<bool> LoginSide()
+            public async Task<TaskResp> LoginSide()
             {
                 try
                 {
@@ -156,7 +156,7 @@ namespace HandSchool.JLU
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, msg));
                         UIMS.IsLogin = false;
                         UIMS.NeedLogin = false;
-                        return false;
+                        return TaskResp.False;
                     }
                     else if (loc == "index.do")
                     {
@@ -167,7 +167,7 @@ namespace HandSchool.JLU
                         // reqMeta.SetHeader("Referer", "https://uims.jlu.edu.cn/ntms/index.do");
                         var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
                         string resp = await webResp2.ReadAsStringAsync();
-                        if (resp.StartsWith("<!")) return false;
+                        if (resp.StartsWith("<!")) return TaskResp.False;
                         Core.Configure.Write(configUserCache, UIMS.SavePassword ? resp : "");
                         ParseLoginInfo(resp);
 
@@ -175,7 +175,7 @@ namespace HandSchool.JLU
                         reqMeta = new WebRequestMeta("service/res.do", WebRequestMeta.Json);
                         webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
                         resp = await webResp2.ReadAsStringAsync();
-                        if (resp.StartsWith("<!")) return false;
+                        if (resp.StartsWith("<!")) return TaskResp.False;
                         Core.Configure.Write(configTeachTerm, UIMS.SavePassword ? resp : "");
                         ParseTermInfo(resp);
                     }
@@ -192,13 +192,13 @@ namespace HandSchool.JLU
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(ex));
                     reinit = true;
                     UIMS.NeedLogin = true;
-                    return false;
+                    return TaskResp.False;
                 }
 
                 UIMS.IsLogin = true;
                 UIMS.NeedLogin = false;
                 UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));                
-                return true;
+                return TaskResp.True;
             }
 
             [ToFix("存在性能问题，瓶颈在JSON的解析上")]

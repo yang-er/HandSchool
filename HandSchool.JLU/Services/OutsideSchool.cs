@@ -26,7 +26,7 @@ namespace HandSchool.JLU
             public string CurrentMessage => "不在学校的第n天，想念暖气";
             public string FormatArguments(string input) => input;
 
-            public async Task<bool> LoginSide()
+            public async Task<TaskResp> LoginSide()
             {
                 if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
                 UIMS.WebClient = Core.New<IWebClient>();
@@ -53,25 +53,25 @@ namespace HandSchool.JLU
                         UIMS.IsLogin = true;
                         UIMS.NeedLogin = false;
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
-                        return true;
+                        return TaskResp.True;
                     }
                     else if (loginResult.Location == "../userLogin.php?reason=loginError")
                     {
                         string result = await UIMS.WebClient.GetStringAsync("../userLogin.php?reason=loginError", "text/html");
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误(\S+)</span>").Groups[1].Value));
                         UIMS.IsLogin = false;
-                        return false;
+                        return TaskResp.False;
                     }
                     else
                     {
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, loginResult.Location));
-                        return false;
+                        return TaskResp.False;
                     }
                 }
                 catch (WebsException ex)
                 {
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(ex));
-                    return false;
+                    return TaskResp.False;
                 }
             }
 
@@ -86,9 +86,9 @@ namespace HandSchool.JLU
                 Loader.InfoList.RemoveAll(t => !t.Title.Contains("图书"));
             }
 
-            public Task<bool> PrepareLogin()
+            public Task<TaskResp> PrepareLogin()
             {
-                return Task.FromResult(true);
+                return Task.FromResult(TaskResp.True);
             }
 
             class NullMsg : IMessageEntrance

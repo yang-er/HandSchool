@@ -35,13 +35,13 @@ namespace HandSchool.JLU.Services
         bool auto_login = false;
         bool save_password = false;
 
-        public Task<bool> BeforeLoginForm() => Task.FromResult(true);
+        public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
 
         public string Username { get; set; }
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
         public byte[] CaptchaSource { get; set; }
-        public LoginTimeoutManager timeoutManager { get; set; }
+        public LoginTimeoutManager TimeoutManager { get; set; }
         public string Tips => "校园卡查询密码默认为身份证最后六位数字。";
         public string FormName => "校园卡服务中心";
         public bool NeedLogin => !is_login;
@@ -50,7 +50,7 @@ namespace HandSchool.JLU.Services
         public bool SavePassword { get => save_password; set => SetProperty(ref save_password, value); }
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
-        public async Task<bool> PrepareLogin()
+        public async Task<TaskResp> PrepareLogin()
         {
             try
             {
@@ -71,18 +71,18 @@ namespace HandSchool.JLU.Services
                 var reqMeta = new WebRequestMeta(codeUrl, "image/gif");
                 var captcha_resp = await WebClient.GetAsync(reqMeta);
                 CaptchaSource = await captcha_resp.ReadAsByteArrayAsync();
-                return CaptchaSource != null;
+                return new TaskResp(CaptchaSource != null);
             }
             catch (WebsException)
             {
-                return false;
+                return new TaskResp(false);
             }
         }
-        public async Task<bool> Login()
+        public async Task<TaskResp> Login()
         {
             if (Username == "" || Password == "")
             {
-                return false;
+                return TaskResp.False;
             }
             else
             {
@@ -92,12 +92,12 @@ namespace HandSchool.JLU.Services
                 if (CaptchaCode.Equals(string.Empty))
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "验证码不能为空！"));
-                    return false;
+                    return TaskResp.False;
                 }
                 if (Username.Trim().Length != 11)
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "用户名不对劲！"));
-                    return false;
+                    return TaskResp.False;
                 }
 
             }
@@ -120,36 +120,37 @@ namespace HandSchool.JLU.Services
                 if (error.Contains("查询密码错误"))
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "密码错误！"));
-                    return false;
+                    return TaskResp.False;
                 }
                 if (error.Contains("验证码不正确"))
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "验证码错误！"));
-                    return false;
+                    return TaskResp.False;
                 }
                 var result = new YktResult() { success = error == "success|False" };
                 if (!result.success)
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "未知问题"));
-                    return false;
+                    return TaskResp.False;
                 }
 
             }
             catch (WebsException ex)
             {
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex));
-                return IsLogin = false;
+                return TaskResp.False;
             }
             catch (JsonException)
             {
                 this.WriteLog("Unexpected value received <<<EOF\n" + error + "\nEOF;");
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "服务器响应有问题。"));
-                return IsLogin = false;
+                IsLogin = false;
+                return TaskResp.False;
             }
 
             IsLogin = true;
             LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-            return true;
+            return TaskResp.True;
         }
 
         public SchoolCard()
@@ -158,7 +159,7 @@ namespace HandSchool.JLU.Services
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
             SavePassword = Password != "";
-            timeoutManager = new LoginTimeoutManager(900);
+            TimeoutManager = new LoginTimeoutManager(900);
         }
 
         #endregion
@@ -171,7 +172,7 @@ namespace HandSchool.JLU.Services
         }
         public async Task<bool> CheckLogin()
         {
-            if (!IsLogin || timeoutManager.IsTimeout())
+            if (!IsLogin || TimeoutManager.IsTimeout())
             {
                 if (IsLogin)
                 {
@@ -186,7 +187,7 @@ namespace HandSchool.JLU.Services
             else return true;
             if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
             {
-                timeoutManager.Login();
+                TimeoutManager.Refresh();
                 return true;
             }
             else return false;
@@ -243,7 +244,7 @@ namespace HandSchool.JLU.Services
             var transferReport = await response.ReadAsStringAsync();
 
             if (transferReport.Contains("成功"))
-                return new TaskResp(true, null);
+                return TaskResp.True;
             try
             {
                 transferReport = (JsonConvert.DeserializeObject<YktResult>(transferReport)?.msg) ?? transferReport;
@@ -353,7 +354,7 @@ namespace HandSchool.JLU.Services
             var cardLost = await response.ReadAsStringAsync();
 
             if (cardLost.Contains("挂失成功"))
-                return new TaskResp(true, null);
+                return TaskResp.True;
 
             return new TaskResp(false, cardLost);
         }

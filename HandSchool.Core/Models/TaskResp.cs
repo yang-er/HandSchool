@@ -1,8 +1,20 @@
 ﻿namespace HandSchool.Models
 {
+    /// <summary>
+    /// 一个任务返回值的包装类
+    /// </summary>
     public class TaskResp
     {
-        public TaskResp(bool isSuccess, object msg)
+        /// <summary>
+        /// 消息为空的“真”
+        /// </summary>
+        public static readonly TaskResp True = new(true);
+        
+        /// <summary>
+        /// 消息为空的“假”
+        /// </summary>
+        public static readonly TaskResp False = new(false);
+        public TaskResp(bool isSuccess, object msg = null)
         {
             IsSuccess = isSuccess;
             Msg = msg;

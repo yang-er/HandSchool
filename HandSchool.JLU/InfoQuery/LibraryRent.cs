@@ -111,18 +111,18 @@ namespace HandSchool.JLU.InfoQuery
                 Username = Core.Configure.Read(configUsername);
                 Password = Core.Configure.Read(configPassword);
             }
-            public LoginTimeoutManager timeoutManager { get; set; } = new LoginTimeoutManager(3600);
+            public LoginTimeoutManager TimeoutManager { get; set; } = new LoginTimeoutManager(3600);
 
             public async Task<bool> CheckLogin()
             {
-                if (!IsLogin || timeoutManager.IsTimeout())
+                if (!IsLogin || TimeoutManager.IsTimeout())
                 {
                     IsLogin = false;
                 }
                 else return true;
-                if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+                if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
                 {
-                    timeoutManager.Login();
+                    TimeoutManager.Refresh();
                     return true;
                 }
                 else return false;
@@ -130,14 +130,14 @@ namespace HandSchool.JLU.InfoQuery
 
             #endregion
 
-            public Task<bool> BeforeLoginForm() => Task.FromResult(true);
+            public Task<TaskResp> BeforeLoginForm() => Task.FromResult(new TaskResp(true));
 
-            public async Task<bool> Login()
+            public async Task<TaskResp> Login()
             {
                 if (Username == "" || Password == "")
                 {
                     NeedLogin = true;
-                    return false;
+                    return TaskResp.False;;
                 }
                 else
                 {
@@ -165,7 +165,7 @@ namespace HandSchool.JLU.InfoQuery
                         var eventArgs = new LoginStateEventArgs(LoginState.Failed, errMsg);
                         LoginStateChanged?.Invoke(this, eventArgs);
                         IsLogin = false;
-                        return false;
+                        return TaskResp.False;
                     }
                     
                     var resp2 = await WebClient.GetAsync(resp.Location, "*/*");
@@ -177,17 +177,17 @@ namespace HandSchool.JLU.InfoQuery
                     if (ex.Status == WebStatus.MimeNotMatch)
                         tips = "图书馆的服务器似乎出了点问题……\n服务器响应未知，请联系开发者。";
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(ex, tips));
-                    return false;
+                    return TaskResp.False;
                 }
 
                 IsLogin = true;
                 NeedLogin = false;
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Succeeded));
-                return true;
+                return TaskResp.True;
             }
-            public Task<bool> PrepareLogin()
+            public Task<TaskResp> PrepareLogin()
             {
-                return Task.FromResult(true);
+                return Task.FromResult(TaskResp.True);
             }
             
             public IUrlEntrance GetLibraryRent()
