@@ -58,9 +58,12 @@ namespace HandSchool.JLU.Services
                 FeedViewModel.Instance.Clear();
             }
 
-            FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
-            FeedViewModel.Instance.TotalPageCount = dataList.Item2;
-            this.WriteLog("Feed updated at " + dateString);
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
+                FeedViewModel.Instance.TotalPageCount = dataList.Item2;
+                this.WriteLog("Feed updated at " + dateString);
+            });
         }
         private async Task InnerExecute(int page, bool fp)
         {
@@ -83,9 +86,12 @@ namespace HandSchool.JLU.Services
                     FeedViewModel.Instance.Clear();
                 }
 
-                FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
-                FeedViewModel.Instance.TotalPageCount = dataList.Item2;
-                this.WriteLog("Feed updated at " + dateString);
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
+                    FeedViewModel.Instance.TotalPageCount = dataList.Item2;
+                    this.WriteLog("Feed updated at " + dateString);
+                });
             }
             catch (WebsException ex)
             {

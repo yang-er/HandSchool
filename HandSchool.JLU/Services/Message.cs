@@ -27,8 +27,11 @@ namespace HandSchool.JLU.Services
                 var lastReport = await Core.App.Service.Post(getMessageUrl, "{}");
                 Core.Configure.Write(configMsgBox, lastReport);
                 var ro = lastReport.ParseJSON<MessageBox>();
-                MessageViewModel.Instance.Clear();
-                MessageViewModel.Instance.AddRange(from asv in ro.items select new MessageItem(asv));
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    MessageViewModel.Instance.Clear();
+                    MessageViewModel.Instance.AddRange(from asv in ro.items select new MessageItem(asv));
+                });
             }
             catch (WebsException ex)
             {

@@ -55,7 +55,6 @@ namespace HandSchool.JLU.ViewModels
         private YktViewModel()
         {
             Title = "校园一卡通";
-            PickCardInfo = new ObservableCollection<PickCardInfo>();
             RecordInfo = new ObservableCollection<RecordInfo>();
             ChargeCreditCommand = new CommandAction(ProcessCharge);
             RecordFindCommand = new CommandAction(ProcessQuery);
@@ -67,11 +66,6 @@ namespace HandSchool.JLU.ViewModels
 
             BasicInfo = new CardBasicInfo();
         }
-
-        /// <summary>
-        /// 拾卡信息
-        /// </summary>
-        public ObservableCollection<PickCardInfo> PickCardInfo { get; set; }
 
         /// <summary>
         /// 名称信息

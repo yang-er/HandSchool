@@ -27,12 +27,15 @@ namespace HandSchool.JLU.Services
                 var ro = LastReport.ParseJSON<CJCXCJ>();
                 Core.Configure.Write(config_grade, LastReport);
 
-                GradePointViewModel.Instance.Items.Clear();
-
-                foreach (var asv in ro.items)
+                Core.Platform.EnsureOnMainThread(() =>
                 {
-                    GradePointViewModel.Instance.Items.Add(new CJCXGradeItem(asv));
-                }
+                    GradePointViewModel.Instance.Items.Clear();
+
+                    foreach (var asv in ro.items)
+                    {
+                        GradePointViewModel.Instance.Items.Add(new CJCXGradeItem(asv));
+                    }
+                });
             }
             catch (WebsException ex)
             {
@@ -54,7 +57,7 @@ namespace HandSchool.JLU.Services
         public void Parse()
         {
             var ro = LastReport.ParseJSON<CJCXCJ>();
-
+            
             GradePointViewModel.Instance.Items.Clear();
 
             foreach (var asv in ro.items)

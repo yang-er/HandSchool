@@ -314,14 +314,17 @@ namespace HandSchool.JLU.Services
                 else break;
             }
 
-            YktViewModel.Instance.RecordInfo.Clear();
-            foreach (var list in InfoLists)
+            Core.Platform.EnsureOnMainThread(() =>
             {
-                foreach (var item in list)
+                YktViewModel.Instance.RecordInfo.Clear();
+                foreach (var list in InfoLists)
                 {
-                    YktViewModel.Instance.RecordInfo.Add(item);
+                    foreach (var item in list)
+                    {
+                        YktViewModel.Instance.RecordInfo.Add(item);
+                    }
                 }
-            }
+            });
         }
         public async Task<TaskResp> PreSetLost()
         {

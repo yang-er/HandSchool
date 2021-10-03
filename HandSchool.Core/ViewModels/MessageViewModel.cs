@@ -74,8 +74,10 @@ namespace HandSchool.ViewModels
             {
                 await Core.App.Message.Delete(item.Id);
             }
-
-            Items.Clear();
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                Items.Clear();
+            });
         }
 
         /// <summary>

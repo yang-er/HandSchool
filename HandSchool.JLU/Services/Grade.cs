@@ -69,13 +69,15 @@ namespace HandSchool.JLU.Services
         public static async Task PreloadData()
         {
             await Task.Yield();
-            GradePointViewModel.Instance.Clear();
-
             var LastReportGPA = Core.Configure.Read(configGpa);
-            if (LastReportGPA != "") GradePointViewModel.Instance.Add(ParseGPA(LastReportGPA));
-
             var LastReport = Core.Configure.Read(configGrade);
-            if (LastReport != "") GradePointViewModel.Instance.AddRange(ParseASV(LastReport));
+
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                GradePointViewModel.Instance.Clear();
+                if (LastReportGPA != "") GradePointViewModel.Instance.Add(ParseGPA(LastReportGPA));
+                if (LastReport != "") GradePointViewModel.Instance.AddRange(ParseASV(LastReport));
+            });
         }
 
         static IEnumerable<InsideGradeItem> ParseASV(string lastRead)
