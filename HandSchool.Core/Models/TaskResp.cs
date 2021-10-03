@@ -8,12 +8,12 @@
         /// <summary>
         /// 消息为空的“真”
         /// </summary>
-        public static readonly TaskResp True = new(true);
+        public static readonly TaskResp True = new TaskResp(true);
         
         /// <summary>
         /// 消息为空的“假”
         /// </summary>
-        public static readonly TaskResp False = new(false);
+        public static readonly TaskResp False = new TaskResp(false);
         public TaskResp(bool isSuccess, object msg = null)
         {
             IsSuccess = isSuccess;

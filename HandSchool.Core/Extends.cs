@@ -9,7 +9,7 @@ namespace HandSchool
 {
     public class ClassInfoSimplifier
     {
-        private static readonly Lazy<ClassInfoSimplifier> Lazy = new (Core.New<ClassInfoSimplifier>);
+        private static readonly Lazy<ClassInfoSimplifier> Lazy = new Lazy<ClassInfoSimplifier>(Core.New<ClassInfoSimplifier>);
         public static ClassInfoSimplifier Instance => Lazy.Value;
         public virtual string SimplifyName(string str) => str;
     }

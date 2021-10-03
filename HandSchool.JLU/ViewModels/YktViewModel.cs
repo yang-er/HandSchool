@@ -229,7 +229,7 @@ namespace HandSchool.JLU.ViewModels
             var frq = new int[10];
             foreach (var i in keyboard)
             {
-                if (i is >= '0' and <= '9')
+                if (i>='0' && i <= '9')
                 {
                     frq[i - '0']++;
                 }
