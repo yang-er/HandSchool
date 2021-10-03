@@ -30,7 +30,7 @@ namespace HandSchool.Views
             }
         }
 
-        public async void Response(object sender, LoginStateEventArgs e)
+        public async void OnLoginStateChanged(object sender, LoginStateEventArgs e)
         {
             switch (e.State)
             {
