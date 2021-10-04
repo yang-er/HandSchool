@@ -5,7 +5,7 @@
               x:Class="HandSchool.Views.FeedPage"
               UseTabletMode="True"
               Title="{Binding Title}"
-              IsBusy="{Binding IsBusy}">
+              IsBusy="{Binding IsBusy, Mode=OneWay}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新" />
         <w:MenuEntry Command="{Binding SearchByKeyWordCommand}" Title="搜索"/>

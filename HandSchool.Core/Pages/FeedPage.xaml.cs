@@ -44,6 +44,8 @@ namespace HandSchool.Views
         {
 
             var vm = FeedViewModel.Instance;
+            vm.IsBusy = !vm.IsBusy;
+            vm.IsBusy = !vm.IsBusy;
             var now = DateTime.Now;
             if (vm.LastReload == null || (now - vm.LastReload.Value).TotalSeconds > 1800)
             {

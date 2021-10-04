@@ -13,11 +13,6 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             ViewModel = GradePointViewModel.Instance;
-
-            if (Core.Platform.RuntimeName == "Android")
-            {
-               
-            }
         }
 
         private async void Handle_ItemTapped(object sender, System.EventArgs e)

@@ -73,6 +73,9 @@ namespace HandSchool.Views
 
             if (SchedViewModel is ScheduleViewModel svm)
             {
+                //两次反转是因为如果当前页正忙时切出，加载条会强制隐藏，让属性改变来激活加载条
+                svm.IsBusy = !svm.IsBusy;
+                svm.IsBusy = !svm.IsBusy;
                 svm.RefreshComplete += LoadList;
             }
             if (invalidated || lastWeek != SchedViewModel.Week)
