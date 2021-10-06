@@ -1,6 +1,11 @@
-﻿using HandSchool.ViewModels;
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using HandSchool.ViewModels;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
@@ -83,12 +88,69 @@ namespace HandSchool.Views
             });
         }
 
+        private bool _isWorking = false;
+        private readonly TimeoutManager _weatherTimeoutManager = new TimeoutManager(3600);
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
             IndexViewModel.Instance.CurrentClassesLoadFinished += CurrentClassLoadOver;
-            System.Threading.Tasks.Task.Run(IndexViewModel.Instance.Refresh);
+            Task.Run(IndexViewModel.Instance.Refresh);
+            switch (Device.RuntimePlatform)
+            {
+                case "Android":
+                {
+                    if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
+                    {
+                        Task.Run(async () =>
+                        {
+                            await Task.Yield();
+                            _isWorking = true;
+
+                            try
+                            {
+                                var weatherClient = IndexViewModel.Instance.WeatherClient;
+                                await weatherClient.UpdateWeatherAsync();
+                                weather.Scale = 0.9;
+                                CurrentWeather.Text =
+                                    $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
+                                var report = weatherClient.WeatherDescriptions;
+                                TodayWeather.Text =
+                                    $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
+                                TomorrowWeather.Text =
+                                    $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
+                                Core.Platform.EnsureOnMainThread(() =>
+                                {
+                                    try
+                                    {
+                                        weather.IsVisible = true;
+                                        weather.ScaleTo(1);
+                                        _weatherTimeoutManager.Refresh();
+                                    }
+                                    catch
+                                    {
+                                        return;
+                                    }
+                                });
+                            }
+                            catch
+                            {
+                                return;
+                            }
+                            finally
+                            {
+                                _isWorking = false;
+                            }
+                        });
+                    }
+
+                    break;
+                }
+                default: return;
+
+            }
         }
+
         protected override void OnDisappearing()
         {
             if ((classTable.ItemsSource as System.Collections.IList).Count != 0)

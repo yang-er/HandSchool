@@ -59,6 +59,32 @@
                 </CarouselView.ItemsLayout>
             </CarouselView>
         </StackLayout>
+            <StackLayout x:Name="weather" IsVisible="False">
+                <Label Margin="20,5,20,0" Text="天气" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                <internal:TouchableFrame Margin="10,5">
+                    <StackLayout>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="现在" FontSize="Large" TextColor="DarkRed"></Label>
+                            <Label x:Name="CurrentWeather" Padding="0,0,0,10" FontSize="Large" TextColor="DarkBlue"/>
+                        </StackLayout>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="今天" FontSize="Medium" TextColor="DarkRed" Grid.Row="0" Grid.Column="0"></Label>
+                            <Label Text="明天" FontSize="Medium" TextColor="DarkRed" Grid.Row="1" Grid.Column="0"></Label>
+                            <Label x:Name="TodayWeather" FontSize="Medium" TextColor="Black" Grid.Row="0" Grid.Column="1"/>
+                            <Label x:Name="TomorrowWeather" FontSize="Medium" TextColor="Black" Grid.Row="1" Grid.Column="1"/>
+                        </Grid>
+                        <Label Text="数据来自：小米天气" FontSize="Micro" HorizontalOptions="EndAndExpand"></Label>
+                    </StackLayout>
+                </internal:TouchableFrame>
+            </StackLayout>
         </FlexLayout>
     </ScrollView>
 </w:ViewObject>

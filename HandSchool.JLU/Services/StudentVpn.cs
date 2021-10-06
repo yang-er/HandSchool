@@ -24,7 +24,7 @@ namespace HandSchool.JLU.Services
         bool is_login = false;
         bool auto_login = false;
         bool save_password = false;
-        public LoginTimeoutManager TimeoutManager { get; set; }
+        public TimeoutManager TimeoutManager { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
@@ -201,7 +201,7 @@ namespace HandSchool.JLU.Services
             if (AutoLogin) remember_token = Core.Configure.Read(configRemember);
             if (string.IsNullOrWhiteSpace(remember_token)) remember_token = "aaaa";
             else NeedLogin = false;
-            TimeoutManager = new LoginTimeoutManager(43200);
+            TimeoutManager = new TimeoutManager(43200);
         }
 
         #endregion

@@ -84,6 +84,6 @@ namespace HandSchool.Models
 
         Task<bool> CheckLogin();
 
-        LoginTimeoutManager TimeoutManager { get; set; }
+        TimeoutManager TimeoutManager { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace HandSchool.JLU
         public string Username { get; set; }
         public string Password { get; set; }
         public bool NeedLogin { get; private set; }
-        public LoginTimeoutManager TimeoutManager { get; set; } = new LoginTimeoutManager(600);
+        public TimeoutManager TimeoutManager { get; set; } = new TimeoutManager(600);
         
         [Settings("提示", "保存使设置永久生效，部分设置重启后生效。")]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";

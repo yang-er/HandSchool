@@ -72,11 +72,19 @@ namespace HandSchool.Controls
                     break;
 
                 case nameof(IsSelected):
-                    if (IsSelected)
-                        ViewExtensions.ScaleTo(this, 0.97);
-                    else ViewExtensions.ScaleTo(this, 0.90);
+                    switch (Device.RuntimePlatform)
+                    {
+                        case Device.Android:
+                            if (IsSelected)
+                                this.ScaleTo(0.97);
+                            else this.ScaleTo(0.90);
+                            break;
+                        default: 
+                            Scale = 0.97;
+                            break;
+                    }
                     break;
-
+                
                 default:
                     base.OnPropertyChanged(propertyName);
                     break;

@@ -3,6 +3,7 @@ using HandSchool.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HandSchool.Services;
 
 namespace HandSchool.ViewModels
 {
@@ -30,6 +31,7 @@ namespace HandSchool.ViewModels
             RefreshCommand = new CommandAction(Refresh);
             RequestLoginCommand = new CommandAction(RequestLogin);
             CheckUpdateCommand = new CommandAction(Core.Platform.CheckUpdate);
+            WeatherClient = new WeatherClient(Core.App.CityWeatherCode);
         }
         
         /// <summary>
@@ -43,6 +45,8 @@ namespace HandSchool.ViewModels
         public ICommand RequestLoginCommand { get; set; }
 
         public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
+        
+        public WeatherClient WeatherClient { get; set; }
 
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）
@@ -68,7 +72,7 @@ namespace HandSchool.ViewModels
 
             await LoginViewModel.RequestAsync(Core.App.Service);
         }
-       
+
 
         /// <summary>
         /// 与目前教务系统和课程表数据进行同步。
@@ -77,7 +81,7 @@ namespace HandSchool.ViewModels
         {
             if (IsBusy) return;
             IsBusy = true;
-            
+
             if (!ScheduleViewModel.Instance.ItemsLoaded)
             {
                 // This time, the main-cost service has not been created.
@@ -85,14 +89,16 @@ namespace HandSchool.ViewModels
                 // that won't block the enter of main page.
                 await Task.Yield();
             }
-            
+
             var res = UpdateTodayCurriculum();
             Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
 
-            var args = new Views.ClassLoadEventArgs();
-            args.classes = res;
-            CurrentClassesLoadFinished(this, args);
+            var args = new Views.ClassLoadEventArgs
+            {
+                classes = res
+            };
+            CurrentClassesLoadFinished?.Invoke(this, args);
         }
     }
 }

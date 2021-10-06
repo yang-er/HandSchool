@@ -111,7 +111,7 @@ namespace HandSchool.JLU.InfoQuery
                 Username = Core.Configure.Read(configUsername);
                 Password = Core.Configure.Read(configPassword);
             }
-            public LoginTimeoutManager TimeoutManager { get; set; } = new LoginTimeoutManager(3600);
+            public TimeoutManager TimeoutManager { get; set; } = new TimeoutManager(3600);
 
             public async Task<bool> CheckLogin()
             {

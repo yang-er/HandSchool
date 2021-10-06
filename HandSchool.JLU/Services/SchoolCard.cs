@@ -41,7 +41,7 @@ namespace HandSchool.JLU.Services
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
         public byte[] CaptchaSource { get; set; }
-        public LoginTimeoutManager TimeoutManager { get; set; }
+        public TimeoutManager TimeoutManager { get; set; }
         public string Tips => "校园卡查询密码默认为身份证最后六位数字。";
         public string FormName => "校园卡服务中心";
         public bool NeedLogin => !is_login;
@@ -159,7 +159,7 @@ namespace HandSchool.JLU.Services
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
             SavePassword = Password != "";
-            TimeoutManager = new LoginTimeoutManager(900);
+            TimeoutManager = new TimeoutManager(900);
         }
 
         #endregion

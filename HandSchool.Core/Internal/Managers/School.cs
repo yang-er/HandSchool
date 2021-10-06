@@ -62,5 +62,6 @@ namespace HandSchool.Internals
             Loader.NoticeChange = (s, e) => LoginStateChanged?.Invoke(s, e);
             Registry.RegisterTypes();
         }
+        public string CityWeatherCode { get; set; }
     }
 }

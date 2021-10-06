@@ -103,6 +103,7 @@ namespace HandSchool.JLU
         }
         public void PreLoad()
         {
+            Core.App.CityWeatherCode = "101060101";
             Core.App.DailyClassCount = 11;
             RegisteredFiles = new List<string>();
             Core.Reflection.RegisterFiles(this.GetAssembly(), "JLU", RegisteredFiles);
