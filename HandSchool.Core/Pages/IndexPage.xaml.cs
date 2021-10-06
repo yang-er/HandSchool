@@ -98,7 +98,7 @@ namespace HandSchool.Views
             Task.Run(IndexViewModel.Instance.Refresh);
             switch (Device.RuntimePlatform)
             {
-                case "Android":
+                default:
                 {
                     if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
                     {
@@ -111,18 +111,19 @@ namespace HandSchool.Views
                             {
                                 var weatherClient = IndexViewModel.Instance.WeatherClient;
                                 await weatherClient.UpdateWeatherAsync();
-                                weather.Scale = 0.9;
-                                CurrentWeather.Text =
-                                    $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
-                                var report = weatherClient.WeatherDescriptions;
-                                TodayWeather.Text =
-                                    $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
-                                TomorrowWeather.Text =
-                                    $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
+                            
                                 Core.Platform.EnsureOnMainThread(() =>
                                 {
                                     try
                                     {
+                                        weather.Scale = 0.9;
+                                        CurrentWeather.Text =
+                                            $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
+                                        var report = weatherClient.WeatherDescriptions;
+                                        TodayWeather.Text =
+                                            $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
+                                        TomorrowWeather.Text =
+                                            $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
                                         weather.IsVisible = true;
                                         weather.ScaleTo(1);
                                         _weatherTimeoutManager.Refresh();
@@ -133,8 +134,9 @@ namespace HandSchool.Views
                                     }
                                 });
                             }
-                            catch
+                            catch(Exception e)
                             {
+                                Core.Logger.WriteLine("更新天气错误", e.Message);
                                 return;
                             }
                             finally
@@ -146,7 +148,7 @@ namespace HandSchool.Views
 
                     break;
                 }
-                default: return;
+                //default: return;
 
             }
         }
