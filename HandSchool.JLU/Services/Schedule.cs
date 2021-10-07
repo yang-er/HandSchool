@@ -75,7 +75,7 @@ namespace HandSchool.JLU.Services
                         WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
                         WeekDay = int.Parse(time.timeBlock.dayOfWeek),
                         Classroom = time.classroom.fullName,
-                        CourseID = obj.teachClassMaster.name,
+                        CourseId = obj.teachClassMaster.name,
                         SelectDate = obj.dateAccept,
                         Name = obj.teachClassMaster.lessonSegment.fullName,
                     };

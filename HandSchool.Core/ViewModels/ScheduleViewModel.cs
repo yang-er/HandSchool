@@ -163,7 +163,7 @@ namespace HandSchool.ViewModels
             var item = new CurriculumItem
             {
                 IsCustom = true,
-                CourseID = "CUSTOM-" + DateTime.Now.ToString("s")
+                CourseId = "CUSTOM-" + DateTime.Now.ToString("s")
             };
 
             var page = Core.New<ICurriculumPage>();

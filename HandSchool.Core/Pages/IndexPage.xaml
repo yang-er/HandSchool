@@ -64,7 +64,7 @@
                 <internal:TouchableFrame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Vertical">
-                            <Label Text="现在" FontSize="Large" TextColor="DarkRed"></Label>
+                            <Label Text="现在" FontSize="Large" TextColor="Black"></Label>
                             <Label x:Name="CurrentWeather" Text="正在加载..." Padding="0,0,0,5" FontSize="Medium" TextColor="DarkBlue"/>
                         </StackLayout>
                         <Grid>

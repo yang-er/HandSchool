@@ -18,7 +18,7 @@ namespace HandSchool.Models
         private DateTime _selectDate;
         private bool _isCustom;
         private ClassState _state;
-        public static string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
+        public static readonly string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
         private bool _isSelected;
         public bool IsSelected
         {
@@ -52,7 +52,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 课程编号
         /// </summary>
-        public string CourseID
+        public string CourseId
         {
             get => _courseID;
             set => SetProperty(ref _courseID, value);
@@ -159,15 +159,22 @@ namespace HandSchool.Models
         /// <returns>比较结果。</returns>
         public override bool Equals(object obj)
         {
-            var that = obj as CurriculumItem;
-            if (that is null) return false;
-            if (this == that) return true;
+            if (!(obj is CurriculumItem that)) return false;
+            if (ReferenceEquals(this, that)) return true;
             return this.Name == that.Name
-                && this.DayBegin == that.DayBegin
-                && this.DayEnd == that.DayEnd
-                && this.Teacher == that.Teacher
-                && this.Classroom == that.Classroom
-                && this.WeekBegin == that.WeekBegin;
+                   && this.DayBegin == that.DayBegin
+                   && this.DayEnd == that.DayEnd
+                   && this.Teacher == that.Teacher
+                   && this.Classroom == that.Classroom
+                   && this.WeekBegin == that.WeekBegin
+                   && this.WeekEnd == that.WeekEnd;
+        }
+
+        public override int GetHashCode()
+        {
+            long hash = Name.GetHashCode() + DayBegin.GetHashCode() + DayEnd.GetHashCode() + Teacher.GetHashCode() +
+                        Classroom.GetHashCode() + WeekBegin.GetHashCode() + WeekEnd.GetHashCode();
+            return (int) (hash % int.MaxValue);
         }
     }
 }

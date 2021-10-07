@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using System.Threading;
+using System.Collections;
 using System.Threading.Tasks;
 using HandSchool.ViewModels;
-using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-    public class ClassLoadEventArgs : System.EventArgs
+    public class ClassLoadEventArgs : EventArgs
     {
-        public int resIndex = -1;
-        public System.Collections.Generic.IList<Models.CurriculumItem> classes;
+        public int ResIndex = -1;
+        public System.Collections.Generic.IList<Models.CurriculumItem> Classes;
     }
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndexPage : ViewObject
@@ -22,7 +19,7 @@ namespace HandSchool.Views
         {
 
             InitializeComponent();
-            var today = System.DateTime.Now;
+            var today = DateTime.Now;
             dayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
             ViewModel = IndexViewModel.Instance;
             Content.BackgroundColor = Color.FromRgb(241, 241, 241);
@@ -43,7 +40,7 @@ namespace HandSchool.Views
             {
                 IndexViewModel.Instance.ClassToday.Clear();
 
-                foreach (var item in e.classes)
+                foreach (var item in e.Classes)
                 {
                     IndexViewModel.Instance.ClassToday.Add(item);
                 }
@@ -53,7 +50,7 @@ namespace HandSchool.Views
                     foreach (var i in classTable.ItemsSource)
                     {
                         var item = (Models.CurriculumItem)i;
-                        if (item == vm.CurrentClass)
+                        if (ReferenceEquals(item, vm.CurrentClass))
                         {
                             item.State = Models.ClassState.Current;
                             if (index == -1)
@@ -63,7 +60,7 @@ namespace HandSchool.Views
                             }
                             else item.IsSelected = false;
                         }
-                        else if (item == vm.NextClass)
+                        else if (ReferenceEquals(item,vm.NextClass))
                         {
                             item.State = Models.ClassState.Next;
                             if (index == -1)
@@ -79,7 +76,7 @@ namespace HandSchool.Views
                 }
                 Core.Platform.EnsureOnMainThread(async () =>
                 {
-                    await System.Threading.Tasks.Task.Yield();
+                    await Task.Yield();
                     if (index != -1)
                     {
                         classTable.ScrollTo(index, position: ScrollToPosition.Center,animate:false);
@@ -153,23 +150,21 @@ namespace HandSchool.Views
 
         protected override void OnDisappearing()
         {
-            if ((classTable.ItemsSource as System.Collections.IList).Count != 0)
+            if (((IList) classTable.ItemsSource).Count != 0)
             {
-                classTable.CurrentItem = (ViewModel as IndexViewModel).ClassToday[0];
+                classTable.CurrentItem = ((IndexViewModel)ViewModel).ClassToday[0];
             }
             IndexViewModel.Instance.CurrentClassesLoadFinished -= CurrentClassLoadOver;
             base.OnDisappearing();
         }
         private void ClassTableCurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
         {
-            var s = sender as CarouselView;
+            var s = (CarouselView)sender;
             foreach (var item in s.VisibleViews)
             {
                 var bc = item.BindingContext as Models.CurriculumItem;
                 if (bc == null) return;
-                if (bc.Equals(e.CurrentItem))
-                    bc.IsSelected = true;
-                else bc.IsSelected = false;
+                bc.IsSelected = bc.Equals(e.CurrentItem);
             }
         }
     }

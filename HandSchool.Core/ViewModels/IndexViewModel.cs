@@ -96,7 +96,7 @@ namespace HandSchool.ViewModels
 
             var args = new Views.ClassLoadEventArgs
             {
-                classes = res
+                Classes = res
             };
             CurrentClassesLoadFinished?.Invoke(this, args);
         }
