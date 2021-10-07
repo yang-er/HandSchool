@@ -23,10 +23,10 @@ namespace HandSchool.Controls
             get => GetValue(SectionsProperty) as string;
             set => SetValue(SectionsProperty, value);
         }
-        public string Descreption
+        public string Description
         {
-            get => GetValue(DescreptionProperty) as string;
-            set => SetValue(DescreptionProperty, value);
+            get => GetValue(DescriptionProperty) as string;
+            set => SetValue(DescriptionProperty, value);
         }
         public string Teacher
         {
@@ -60,8 +60,8 @@ namespace HandSchool.Controls
                     classRoom.Text = ClassInfoSimplifier.Instance.SimplifyName(ClassRoom).Replace('\n', ' '); break;
                 case nameof(Teacher):
                     teacher.Text = Teacher; break;
-                case nameof(Descreption):
-                    desc.Text = Descreption; break;
+                case nameof(Description):
+                    desc.Text = Description; break;
                 case nameof(ItemState):
                     switch (ItemState)
                     {
@@ -75,9 +75,7 @@ namespace HandSchool.Controls
                     switch (Device.RuntimePlatform)
                     {
                         case Device.Android:
-                            if (IsSelected)
-                                this.ScaleTo(0.97);
-                            else this.ScaleTo(0.90);
+                            this.ScaleTo(IsSelected ? 0.97 : 0.90);
                             break;
                         default: 
                             Scale = 0.97;
@@ -90,7 +88,7 @@ namespace HandSchool.Controls
                     break;
             }
         }
-        public static BindableProperty SectionsProperty =
+        public static readonly BindableProperty SectionsProperty =
             BindableProperty.Create(
                 propertyName: nameof(Sections),
                 returnType: typeof(string),
@@ -99,15 +97,15 @@ namespace HandSchool.Controls
                 defaultBindingMode: BindingMode.OneWay
             );
 
-        public static BindableProperty DescreptionProperty =
+        public static readonly BindableProperty DescriptionProperty =
             BindableProperty.Create(
-                propertyName: nameof(Descreption),
+                propertyName: nameof(Description),
                 returnType: typeof(string),
                 defaultValue: string.Empty,
                 declaringType: typeof(IndexCurriculumAtom),
                 defaultBindingMode: BindingMode.OneWay
             );
-        public static BindableProperty NameProperty =
+        public static readonly BindableProperty NameProperty =
             BindableProperty.Create(
                 propertyName: nameof(Name),
                 returnType: typeof(string),
@@ -115,7 +113,7 @@ namespace HandSchool.Controls
                 declaringType: typeof(IndexCurriculumAtom),
                 defaultBindingMode: BindingMode.OneWay
             );
-        public static BindableProperty ClassRoomProperty =
+        public static readonly BindableProperty ClassRoomProperty =
             BindableProperty.Create(
                 propertyName: nameof(ClassRoom),
                 returnType: typeof(string),
@@ -123,7 +121,7 @@ namespace HandSchool.Controls
                 declaringType: typeof(IndexCurriculumAtom),
                 defaultBindingMode: BindingMode.OneWay
             );
-        public static BindableProperty TeacherProperty =
+        public static readonly BindableProperty TeacherProperty =
             BindableProperty.Create(
                 propertyName: nameof(Teacher),
                 returnType: typeof(string),
@@ -131,7 +129,7 @@ namespace HandSchool.Controls
                 declaringType: typeof(IndexCurriculumAtom),
                 defaultBindingMode: BindingMode.OneWay
             );
-        public static BindableProperty ItemStateProperty =
+        public static readonly BindableProperty ItemStateProperty =
             BindableProperty.Create(
                 propertyName: nameof(ItemState),
                 returnType: typeof(ClassState),
@@ -139,7 +137,7 @@ namespace HandSchool.Controls
                 defaultValue: ClassState.Other,
                 defaultBindingMode: BindingMode.OneWay
                 );
-        public static BindableProperty IsSelectedProperty =
+        public static readonly BindableProperty IsSelectedProperty =
             BindableProperty.Create(
                 propertyName: nameof(IsSelected),
                 returnType: typeof(bool),
@@ -149,6 +147,14 @@ namespace HandSchool.Controls
         public IndexCurriculumAtom()
         {
             InitializeComponent();
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    Scale = 0.90;
+                    break;
+                default: Scale = 0.97;
+                    break;
+            }
         }
     }
 }

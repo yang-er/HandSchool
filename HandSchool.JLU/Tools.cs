@@ -14,7 +14,7 @@ namespace HandSchool.JLU
     {
         public static string HtmlTrim(this string str) => str.Replace("&nbsp;", "").Replace("&nbsp", "").Trim();
     
-        public static List<RecordInfo> AnalyzeHTMLToRecordInfos(string htmlSources)
+        public static List<RecordInfo> AnalyzeHtmlToRecordInfos(string htmlSources)
         {
             if (htmlSources.Contains("当前查询条件内没有流水记录")) return null;
             var html = new HtmlDocument();
@@ -130,18 +130,6 @@ namespace HandSchool.JLU
                 }
             }
         }
-        public static Thread GetThreadAddVpnCookie(this IWebClient webClient)
-        {
-            return new Thread(new ThreadStart(() =>
-            {
-                if (!Loader.UseVpn) return;
-                while (Loader.Vpn == null || (Loader.Vpn != null && !Loader.Vpn.IsLogin))
-                    Thread.Sleep(100);
-                webClient.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
-            }));
-        }
-
-
     }
     public class JLUClassSimplifier : ClassInfoSimplifier
     {

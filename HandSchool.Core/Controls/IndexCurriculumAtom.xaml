@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Frame xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HandSchool.Controls.IndexCurriculumAtom"
-       Scale="0.90">
+             x:Class="HandSchool.Controls.IndexCurriculumAtom">
     <StackLayout>
         <Grid>
             <Grid.ColumnDefinitions>

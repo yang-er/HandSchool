@@ -6,15 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.ViewModels;
+using HandSchool.Models;
 
-[assembly: RegisterService(typeof(OA))]
+[assembly: RegisterService(typeof(Oa))]
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -22,67 +20,92 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IFeedEntrance" />
     [Entrance("JLU", "网上教务", "提供了吉林大学电子校务平台上的所有信息。")]
-    [UseStorage("JLU", configOa, configOaTime)]
-    internal sealed class OA : IFeedEntrance
+    [UseStorage("JLU", ConfigOa, ConfigOaTime)]
+    internal sealed class Oa : IFeedEntrance
     {
-        const string configOa = "jlu.oa.xml";
-        const string configOaTime = "jlu.oa.xml.time";
+        const string ConfigOa = "jlu.oa.xml";
+        const string ConfigOaTime = "jlu.oa.xml.time";
 
-        public IWebClient WebClient => Lazy.Value;
-        readonly Lazy<IWebClient> Lazy = new Lazy<IWebClient>(CreateWebClient);
+        public Oa()
+        {
+            _lazy = new Lazy<IWebClient>(() =>
+            {
+                var wc = CreateWebClient();
+                if (Loader.UseVpn && Loader.Vpn is {IsLogin: true})
+                {
+                    wc.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
+                }
+                else
+                {
+                    Loader.Vpn.LoginStateChanged += AfterVpnLogin;
+                }
 
+                return wc;
+            });
+        }
+        public IWebClient WebClient => _lazy.Value;
+        private readonly Lazy<IWebClient> _lazy;
+
+        private void AfterVpnLogin(object s, LoginStateEventArgs e)
+        {
+            WebClient.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
+            try
+            {
+                Loader.Vpn.LoginStateChanged -= AfterVpnLogin;
+            }
+            catch 
+            {
+                return;
+            }
+        }
         static IWebClient CreateWebClient()
         {
             var wc = Core.New<IWebClient>();
             wc.Timeout = 5000;
-            wc.GetThreadAddVpnCookie().Start();
             return wc;
         }
         
         private async Task SearchByWord(string word, int page, bool reload)
         {
-            string domain = "https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?searchId=" + word + "&startPage=" + page;
-            if (Loader.Vpn != null && Loader.Vpn.IsLogin)
+            var domain =
+                $"https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage{page}";
+            if (Loader.Vpn is {IsLogin: true})
             {
-                domain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/defaultroot/PortalInformation!jldxList.action?searchId=" + word + "&startPage=" + page;
+                domain =
+                    $"https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage={page}";
             }
-            var lastReport = await WebClient.GetStringAsync(domain);
-            var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-
-            var dataList = ParseOa(lastReport);
-
-            if (reload)
-            {
-                Core.Configure.Write(configOa, dataList.Serialize());
-                Core.Configure.Write(configOaTime, dateString);
-                FeedViewModel.Instance.Clear();
-            }
-
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
-                FeedViewModel.Instance.TotalPageCount = dataList.Item2;
-                this.WriteLog("Feed updated at " + dateString);
-            });
+            await InnerExecute(domain, reload);
         }
-        private async Task InnerExecute(int page, bool fp)
+
+        private async Task Execute(int page, bool fp)
+        {
+            var baseDomain = "https://oa.jlu.edu.cn";
+            if (Loader.Vpn is {IsLogin: true})
+            {
+                baseDomain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
+            }
+
+            await InnerExecute(
+                $"{baseDomain}/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage={page}", fp);
+        }
+
+        /// <summary>
+        /// 给定一个Oa通知列表页面地址，解析出其中的内容并同步到UI
+        /// </summary>
+        /// <param name="oaPageUrl">通知列表页面地址</param>
+        /// <param name="reload">是否清空已有项目</param>
+        private async Task InnerExecute(string oaPageUrl, bool reload)
         {
             try
             {
-                string domain = "https://oa.jlu.edu.cn";
-                if (Loader.Vpn != null && Loader.Vpn.IsLogin)
-                {
-                    domain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
-                }
-
-                var lastReport = await WebClient.GetStringAsync(domain + "/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage=" + page);
+                var lastReport = await WebClient.GetStringAsync(oaPageUrl);
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 
                 var dataList = ParseOa(lastReport);
-                if (fp)
+                if (reload)
                 {
-                    Core.Configure.Write(configOa, dataList.Serialize());
-                    Core.Configure.Write(configOaTime, dateString);
+                    Core.Configure.Write(ConfigOa, dataList.Serialize());
+                    Core.Configure.Write(ConfigOaTime, dateString);
                     FeedViewModel.Instance.Clear();
                 }
 
@@ -100,8 +123,8 @@ namespace HandSchool.JLU.Services
                 else throw;
             }
         }
-
-        public Task Execute() => InnerExecute(1, true);
+        
+        public Task Execute() => Execute(1, true);
 
         public Task Search(string word) => SearchByWord(word, 1, true);
 
@@ -109,7 +132,7 @@ namespace HandSchool.JLU.Services
         public async Task<int> Execute(int n)
         {
             if (n < 1) return 0;
-            await InnerExecute(n, n == 1);
+            await Execute(n, n == 1);
             return n;
         }
 
@@ -134,12 +157,14 @@ namespace HandSchool.JLU.Services
                     var title = item.SelectSingleNode("./a[@class='font14']");
                     var sender = item.SelectSingleNode("./a[@class='column']");
                     var time = item.SelectSingleNode("./span[@class='time']");
-                    var res = new DigResultValue();
-                    res.publishdate = time.InnerText.Replace("&nbsp;","");
-                    res.content = "";
-                    res.depart = sender.InnerText;
-                    res.title = title.InnerText.Replace("[置顶]","");
-                    res.link = "/defaultroot/" + title.GetAttributeValue("href", null);
+                    var res = new DigResultValue
+                    {
+                        publishdate = time.InnerText.Replace("&nbsp;",""),
+                        content = "",
+                        depart = sender.InnerText,
+                        title = title.InnerText.Replace("[置顶]",""),
+                        link = $"/defaultroot/{title.GetAttributeValue("href", null)}"
+                    };
                     var top = title.SelectSingleNode("./font");
                     res.flgtop = top != null;
                     ret.Add(res);
@@ -147,7 +172,7 @@ namespace HandSchool.JLU.Services
                 var page = html.DocumentNode.SelectNodes("//div[@class='pages']//a");
                 var x = page.Last();
                 var pa = x.GetAttributeValue("href", null);
-                pageCount = int.Parse(pa.SubStr(pa.LastIndexOf("startPage=") + 10, pa.Length));
+                pageCount = int.Parse(pa.SubStr(pa.LastIndexOf("startPage=", StringComparison.Ordinal) + 10, pa.Length));
             }
             catch
             {
@@ -157,6 +182,5 @@ namespace HandSchool.JLU.Services
             return (ret, pageCount);
 
         }
-
     }
 }

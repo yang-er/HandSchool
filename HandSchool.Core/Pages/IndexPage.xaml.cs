@@ -38,7 +38,7 @@ namespace HandSchool.Views
         {
             var cur = 0;
             var index = -1;
-            var vm = ViewModel as IndexViewModel;
+            var vm = (IndexViewModel)ViewModel;
             Core.Platform.EnsureOnMainThread(() =>
             {
                 IndexViewModel.Instance.ClassToday.Clear();
@@ -52,7 +52,7 @@ namespace HandSchool.Views
                 {
                     foreach (var i in classTable.ItemsSource)
                     {
-                        var item = i as Models.CurriculumItem;
+                        var item = (Models.CurriculumItem)i;
                         if (item == vm.CurrentClass)
                         {
                             item.State = Models.ClassState.Current;
@@ -98,7 +98,7 @@ namespace HandSchool.Views
             Task.Run(IndexViewModel.Instance.Refresh);
             switch (Device.RuntimePlatform)
             {
-                default:
+                case Device.Android:
                 {
                     if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
                     {
@@ -116,7 +116,6 @@ namespace HandSchool.Views
                                 {
                                     try
                                     {
-                                        weather.Scale = 0.9;
                                         CurrentWeather.Text =
                                             $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
                                         var report = weatherClient.WeatherDescriptions;
@@ -125,19 +124,19 @@ namespace HandSchool.Views
                                         TomorrowWeather.Text =
                                             $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
                                         weather.IsVisible = true;
-                                        weather.ScaleTo(1);
                                         _weatherTimeoutManager.Refresh();
                                     }
-                                    catch
+                                    catch(Exception error)
                                     {
-                                        return;
+                                        Core.Logger.WriteLine("天气信息与UI同步错误", error.Message);
+                                        weather.IsVisible = false;
                                     }
                                 });
                             }
                             catch(Exception e)
                             {
                                 Core.Logger.WriteLine("更新天气错误", e.Message);
-                                return;
+                                Core.Platform.EnsureOnMainThread(() => weather.IsVisible = false);
                             }
                             finally
                             {
@@ -145,11 +144,10 @@ namespace HandSchool.Views
                             }
                         });
                     }
-
                     break;
                 }
-                //default: return;
-
+                default: weather.IsVisible = false;
+                    break;
             }
         }
 

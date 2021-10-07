@@ -84,7 +84,7 @@ namespace HandSchool.JLU
 
                 if (reinit)
                 {
-                    if (UIMS.WebClient != null) UIMS.WebClient.Dispose();
+                    UIMS.WebClient?.Dispose();
 
                     UIMS.WebClient = Core.New<IWebClient>();
                     UIMS.proxy_server = "vpns.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";

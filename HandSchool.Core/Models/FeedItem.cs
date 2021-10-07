@@ -42,6 +42,8 @@ namespace HandSchool.Models
         /// </summary>
         public string Category { get; set; }
 
+        public abstract string SimplifiedCategory { get;}
+
         /// <summary>
         /// 获得信息描述。
         /// </summary>
@@ -64,6 +66,8 @@ namespace HandSchool.Models
         /// 信息描述
         /// </summary>
         public string Description { get; set; }
+
+        public override string SimplifiedCategory => Category;
 
         /// <summary>
         /// 获得信息描述。

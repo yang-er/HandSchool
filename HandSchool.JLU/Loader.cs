@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 [assembly: RegisterService(typeof(Loader))]
 [assembly: ExportSchool(typeof(Loader))]
@@ -50,22 +51,22 @@ namespace HandSchool.JLU
             Core.Reflection.RegisterType<ClassInfoSimplifier, JLUClassSimplifier>();
             Ykt = new SchoolCard();
             SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(Loader).GetProperty(nameof(UseVpn))));
-            switch (Xamarin.Forms.Device.RuntimePlatform)
+            switch (Device.RuntimePlatform)
             {
-                case "iOS":
+                case Device.iOS:
                     Core.Reflection.RegisterCtor<XykIOS>();
                     Core.Reflection.RegisterCtor<XykIOS_QandA>();
                     Core.Reflection.RegisterCtor<XykIOS_UserInfo>();
                     break;
-                case "Android": Core.Reflection.RegisterCtor<XykDroid>();break;
-
+                default: Core.Reflection.RegisterCtor<XykDroid>();break;
             }
             Core.Reflection.RegisterCtor<InitializePage>();
             NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIOS" : "XykDroid", "JLU", MenuIcon.CreditCard);
             if (UseVpn)
             {
                 Vpn = new StudentVpn();
-                Task.Run(async()=> {
+                Task.Run(async()=>
+                {
                     if (Vpn.AutoLogin)
                     {
                         var x = await Vpn.PrepareLogin();
@@ -116,7 +117,7 @@ namespace HandSchool.JLU
             Task.Run(GradeEntrance.PreloadData);
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
             Message = new Lazy<IMessageEntrance>(() => new MessageEntrance());
-            Feed = new Lazy<IFeedEntrance>(() => new OA());
+            Feed = new Lazy<IFeedEntrance>(() => new Oa());
 
             InfoList = new InfoEntranceGroup("公共信息查询")
             {

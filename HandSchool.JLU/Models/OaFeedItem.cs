@@ -39,11 +39,20 @@ namespace HandSchool.JLU.Models
             Top = rv.flgtop;
         }
 
+        public override string SimplifiedCategory
+        {
+            get
+            {
+                if (Category.Contains("、")) return Category.Replace('、', '\n');
+                return Category.Length > 11 ? $"{Category.Substring(0, 11)}..." : Category;
+            }
+        }
+
         public override async Task<string> GetDescriptionAsync()
         {
             if (!string.IsNullOrEmpty(content)) return content;
 
-            var oa = Core.App.Feed as OA;
+            var oa = Core.App.Feed as Oa;
             var domain = Link;
 
             try

@@ -7,16 +7,14 @@
               Title="{Binding Title}"
               IsBusy="{Binding IsBusy, Mode=OneWay}">
     <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新" />
         <w:MenuEntry Command="{Binding SearchByKeyWordCommand}" Title="搜索"/>
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.ToolbarItems>
-        <ToolbarItem Text="刷新" Command="{Binding LoadItemsCommand}"/>
         <ToolbarItem Command="{Binding SearchByKeyWordCommand}" Text="搜索"/>
 
     </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
-        <!--为啥不用RefreshView呢，有bug呗（ios）-->
+        <RefreshView IsRefreshing="{Binding IsRefreshing, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
             <CollectionView x:Name="collection_view"
                 ItemsSource="{Binding Items}"
                 ItemsUpdatingScrollMode="KeepScrollOffset"
@@ -35,7 +33,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <controls:TextAtom OnTop="{Binding Top}"
-                                           Title="{Binding Category}"
+                                           Title="{Binding SimplifiedCategory}"
                                            AfterTitle="{Binding PubDate}"
                                            ContentText="{Binding Title}" 
                                            HasSecond="False">
@@ -54,5 +52,6 @@
                     </StackLayout>
                 </CollectionView.Footer>
             </CollectionView>
+        </RefreshView>
     </w:ViewObject.Content>
 </w:ViewObject>

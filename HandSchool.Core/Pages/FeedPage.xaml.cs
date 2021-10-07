@@ -42,16 +42,16 @@ namespace HandSchool.Views
         
         protected override void OnAppearing()
         {
-
+            base.OnAppearing();
             var vm = FeedViewModel.Instance;
             vm.IsBusy = !vm.IsBusy;
             vm.IsBusy = !vm.IsBusy;
             var now = DateTime.Now;
+            
             if (vm.LastReload == null || (now - vm.LastReload.Value).TotalSeconds > 1800)
             {
                 FeedViewModel.Instance.LoadItemsCommand.Execute(null);
             }
-            base.OnAppearing();
         }
         async void ItemTapped(object sender, EventArgs args)
         {

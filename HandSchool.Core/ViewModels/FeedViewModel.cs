@@ -47,6 +47,13 @@ namespace HandSchool.ViewModels
         /// </summary>
         public static FeedViewModel Instance => Lazy.Value;
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            set => SetProperty(ref _isRefreshing, value, nameof(IsRefreshing));
+            get => _isRefreshing;
+        }
+        
         /// <summary>
         /// 将学校通知的数据源和刷新操作组织起来。
         /// </summary>
@@ -101,26 +108,47 @@ namespace HandSchool.ViewModels
         public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
 
         /// <summary>
+        /// 由于iOS平台中RefreshView的呈现特性(显示加载的转圈需要退回到最起始位置)，
+        /// "加载更多"功能，需要保持当前进度，所以不能直接使IsRefreshing绑定IsBusy。
+        /// Android平台无此限制，为了更加醒目，可以直接全部用小圈呈现
+        /// </summary>
+        void SetBusy(bool more, bool value)
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    IsRefreshing = value; 
+                    break;
+                case Device.iOS:
+                    if (more) IsBusy = value;
+                    else IsRefreshing = value;
+                    break;
+            }
+        }
+        bool GetBusy() => IsRefreshing || IsBusy;
+        
+        /// <summary>
         /// 加载消息的方法。
         /// </summary>
         public async Task LoadItems(bool more)
         {
-            if (IsBusy) return;
+            if (GetBusy()) return;
             WorkState = (FeedState.Normal, null);
-            IsBusy = true;
+            
+            SetBusy(more, true);
+
             if (BeforeOperatingCheck != null)
             {
                 var msg = await BeforeOperatingCheck();
                 if (!msg.IsSuccess)
                 {
                     await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
+                    SetBusy(more, false);
                     return;
                 }
             }
-            IsBusy = false;
-
-            IsBusy = true;
+            SetBusy(more, false);
+            SetBusy(more, true);
             int newcnt = 0;
             try
             {
@@ -136,7 +164,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                IsBusy = false;
+                SetBusy(more, false);
             }
 
             CurPageIndex = newcnt;
@@ -144,23 +172,25 @@ namespace HandSchool.ViewModels
         
         public async Task SearchWord(bool more, string word = null)
         {
-            if (IsBusy) return;
-            IsBusy = true;
+            if (GetBusy()) return;
+            
+            SetBusy(more, true);
+
             if (BeforeOperatingCheck != null)
             {
                 var msg = await BeforeOperatingCheck();
                 if (!msg.IsSuccess)
                 {
                     await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
+                    SetBusy(more, false);
                     return;
                 }
             }
-            IsBusy = false;
+            SetBusy(more, false);
 
-            IsBusy = true;
+            SetBusy(more, true);
+            
             int newcnt = 0;
-
             try
             {
                 string str;
@@ -170,7 +200,7 @@ namespace HandSchool.ViewModels
 
                 if (string.IsNullOrWhiteSpace(str))
                 {
-                    IsBusy = false;
+                    SetBusy(more, false);
                     return;
                 }
                 else
@@ -190,7 +220,7 @@ namespace HandSchool.ViewModels
             }
             finally
             {
-                IsBusy = false;
+                SetBusy(more, false);
             }
             curPageIndex = 0;
             CurPageIndex = newcnt;

@@ -155,13 +155,12 @@ namespace HandSchool.Models
         /// <summary>
         /// 比较是否为同一节课。
         /// </summary>
-        /// <param name="that">另一节课。</param>
+        /// <param name="obj">另一节课。</param>
         /// <returns>比较结果。</returns>
         public override bool Equals(object obj)
         {
             var that = obj as CurriculumItem;
-            if (this is null && that is null) return true;
-            if (this is null || that is null) return false;
+            if (that is null) return false;
             if (this == that) return true;
             return this.Name == that.Name
                 && this.DayBegin == that.DayBegin

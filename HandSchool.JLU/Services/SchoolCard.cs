@@ -274,7 +274,7 @@ namespace HandSchool.JLU.Services
             }
 
             var cnt = 0;
-            var today = Tools.AnalyzeHTMLToRecordInfos(resToday);
+            var today = Tools.AnalyzeHtmlToRecordInfos(resToday);
             if (today != null)
             {
                 InfoLists.Add(today);
@@ -285,7 +285,7 @@ namespace HandSchool.JLU.Services
             {
                 var todayUrl2 = todayUrl + "&pageindex=" + i;
                 var otherPage = await WebClient.GetStringAsync(todayUrl2);
-                var otherList = Tools.AnalyzeHTMLToRecordInfos(otherPage);
+                var otherList = Tools.AnalyzeHtmlToRecordInfos(otherPage);
                 if (otherList != null)
                 {
                     InfoLists.Add(otherList);
@@ -294,7 +294,7 @@ namespace HandSchool.JLU.Services
                 else break;
             }
 
-            var week = Tools.AnalyzeHTMLToRecordInfos(resultWeek);
+            var week = Tools.AnalyzeHtmlToRecordInfos(resultWeek);
             if (week != null)
             {
                 InfoLists.Add(week);
@@ -305,7 +305,7 @@ namespace HandSchool.JLU.Services
             {
                 var weekUrl2 = url + "&pageindex=" + i;
                 var otherPage = await WebClient.GetStringAsync(weekUrl2);
-                var otherList = Tools.AnalyzeHTMLToRecordInfos(otherPage);
+                var otherList = Tools.AnalyzeHtmlToRecordInfos(otherPage);
                 if (otherList != null)
                 {
                     InfoLists.Add(otherList);
