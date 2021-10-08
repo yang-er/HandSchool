@@ -15,7 +15,14 @@ namespace HandSchool.ViewModels
         public CurriculumItem NextClass
         {
             get => curriculum1;
-            set => SetProperty(ref curriculum1, value, onChanged: UpdateHasClass);
+            set
+            {
+                if (curriculum1 != null)
+                    curriculum1.State = ClassState.Other;
+                SetProperty(ref curriculum1, value, onChanged: UpdateHasClass,mode: SetPropertyMode.Reference);
+                if (curriculum1 != null)
+                    curriculum1.State = ClassState.Next;
+            }
         }
 
         /// <summary>
@@ -24,7 +31,14 @@ namespace HandSchool.ViewModels
         public CurriculumItem CurrentClass
         {
             get => curriculum2;
-            set => SetProperty(ref curriculum2, value, onChanged: UpdateHasClass);
+            set
+            {
+                if (curriculum2 != null)
+                    curriculum2.State = ClassState.Other;
+                SetProperty(ref curriculum2, value, onChanged: UpdateHasClass, mode: SetPropertyMode.Reference);
+                if (curriculum2 != null)
+                    curriculum2.State = ClassState.Current;
+            }
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -50,9 +51,8 @@ namespace HandSchool.Views
                     foreach (var i in classTable.ItemsSource)
                     {
                         var item = (Models.CurriculumItem)i;
-                        if (ReferenceEquals(item, vm.CurrentClass))
+                        if (item.State == ClassState.Current || item.State == ClassState.Next)
                         {
-                            item.State = Models.ClassState.Current;
                             if (index == -1)
                             {
                                 index = cur;
@@ -60,17 +60,6 @@ namespace HandSchool.Views
                             }
                             else item.IsSelected = false;
                         }
-                        else if (ReferenceEquals(item,vm.NextClass))
-                        {
-                            item.State = Models.ClassState.Next;
-                            if (index == -1)
-                            {
-                                index = cur;
-                                item.IsSelected = true;
-                            }
-                            else item.IsSelected = false;
-                        }
-                        else item.State = Models.ClassState.Other;
                         cur++;
                     }
                 }

@@ -24,10 +24,10 @@ namespace HandSchool.JLU.JsonObject
 
     class GPAValue
     {
-        public float avgScoreBest { get; set; }
-        public float avgScoreFirst { get; set; }
-        public float gpaFirst { get; set; }
-        public float gpaBest { get; set; }
+        public float? avgScoreBest { get; set; }
+        public float? avgScoreFirst { get; set; }
+        public float? gpaFirst { get; set; }
+        public float? gpaBest { get; set; }
     }
 
     class TeachClassMaster

@@ -43,7 +43,7 @@
                 <CarouselView.ItemTemplate>
                             <DataTemplate>
                         <controls:IndexCurriculumAtom 
-                            ItemState = "{Binding State}"
+                            ItemState = "{Binding State, Mode=OneWay}"
                             IsSelected="{Binding IsSelected}"
                             Sections="{Binding SectionInfo}"
                             Name="{Binding Name}"

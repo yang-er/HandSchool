@@ -91,6 +91,8 @@ namespace HandSchool.ViewModels
             }
 
             var res = UpdateTodayCurriculum();
+            
+            //UIMS加载完成，通知刷新周数信息等
             Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
 
