@@ -31,15 +31,17 @@ namespace HandSchool.JLU.Services
             _lazy = new Lazy<IWebClient>(() =>
             {
                 var wc = CreateWebClient();
-                if (Loader.UseVpn && Loader.Vpn is {IsLogin: true})
+                if (!Loader.UseVpn) return wc;
+                
+                if (Loader.Vpn is {IsLogin: true})
                 {
-                    wc.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
+                    wc.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"),
+                        new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
                 }
                 else
                 {
                     Loader.Vpn.LoginStateChanged += AfterVpnLogin;
                 }
-
                 return wc;
             });
         }

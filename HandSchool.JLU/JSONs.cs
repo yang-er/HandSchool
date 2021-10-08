@@ -24,10 +24,15 @@ namespace HandSchool.JLU.JsonObject
 
     class GPAValue
     {
-        public float? avgScoreBest { get; set; }
-        public float? avgScoreFirst { get; set; }
-        public float? gpaFirst { get; set; }
-        public float? gpaBest { get; set; }
+        public double? avgScoreBest { get; set; }
+        public double? avgScoreFirst { get; set; }
+        public double? gpaFirst { get; set; }
+        public double? gpaBest { get; set; }
+        
+        /// <summary>
+        /// 此属性指示条目中是否含有空值
+        /// </summary>
+        public bool HasNull => avgScoreBest == null || avgScoreFirst == null || gpaFirst == null || gpaBest == null;
     }
 
     class TeachClassMaster

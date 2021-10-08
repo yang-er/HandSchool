@@ -29,10 +29,10 @@ namespace HandSchool.Models
         /// <summary>
         /// 建立新的GPA项目。
         /// </summary>
-        /// <param name="to_show">将被展示的内容。</param>
-        public GPAItem(string to_show)
+        /// <param name="toShow">将被展示的内容。</param>
+        public GPAItem(string toShow)
         {
-            Detail = to_show;
+            Detail = toShow;
             Date = DateTime.Now;
         }
 

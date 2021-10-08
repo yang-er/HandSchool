@@ -53,7 +53,7 @@ namespace HandSchool.JLU.Services
                 lastReport = await Core.App.Service.Post(serviceResourceUrl, gpaPostValue);
                 Core.Configure.Write(configGpa, lastReport);
                 GradePointViewModel.Instance.Clear();
-                if (ro.value.Length > 0) GradePointViewModel.Instance.Add(ParseGPA(lastReport));
+                GradePointViewModel.Instance.Add(ParseGpa(lastReport));
 
                 // Save score details and add
                 Core.Configure.Write(configGrade, ro.Serialize());
@@ -75,7 +75,7 @@ namespace HandSchool.JLU.Services
             Core.Platform.EnsureOnMainThread(() =>
             {
                 GradePointViewModel.Instance.Clear();
-                if (LastReportGPA != "") GradePointViewModel.Instance.Add(ParseGPA(LastReportGPA));
+                if (LastReportGPA != "") GradePointViewModel.Instance.Add(ParseGpa(LastReportGPA));
                 if (LastReport != "") GradePointViewModel.Instance.AddRange(ParseASV(LastReport));
             });
         }
@@ -90,11 +90,12 @@ namespace HandSchool.JLU.Services
             return from asv in roAsv.value select new InsideGradeItem(asv);
         }
 
-        static GPAItem ParseGPA(string lastReport)
+        static GPAItem ParseGpa(string lastReport)
         {
             var ro = lastReport.ParseJSON<RootObject<GPAValue>>();
-            var str = string.Format("按首次成绩\n学分平均绩点 {0:N6}\n学分平均成绩 {1:N6}\n\n按最好成绩\n学分平均绩点 {2:N6}\n学分平均成绩 {3:N6}",
-                ro.value[0].gpaFirst, ro.value[0].avgScoreFirst, ro.value[0].gpaBest, ro.value[0].avgScoreBest);
+            var str = ro.value[0].HasNull ? 
+                "没有GPA信息（可能是新生）" :
+                $"按首次成绩\n学分平均绩点 {ro.value[0].gpaFirst ?? 0.0:N6}\n学分平均成绩 {ro.value[0].avgScoreFirst ?? 0.0:N6}\n\n按最好成绩\n学分平均绩点 {ro.value[0].gpaBest ?? 0.0:N6}\n学分平均成绩 {ro.value[0].avgScoreBest ?? 0.0:N6}";
             return new GPAItem(str);
         }
     }
