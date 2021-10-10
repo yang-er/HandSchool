@@ -301,5 +301,17 @@ namespace HandSchool.JLU.JsonObject
                 { "129", "2015-2016学年第1学期" },
             };
         }
+
+        public static string GetClassRoomUsage(string id)
+        {
+            return id switch
+            {
+                "O" => "其他用途",
+                "T" => "教学",
+                "X" => "已废弃",
+                _ => "未知"
+            };
+        }
+
     }
 }

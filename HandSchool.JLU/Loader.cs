@@ -122,13 +122,12 @@ namespace HandSchool.JLU
             InfoList = new InfoEntranceGroup("公共信息查询")
             {
                 TapEntranceWrapper.From<EhallFill>(),
-                InfoEntranceWrapper.From<EmptyRoom>(),
+                TapEntranceWrapper.From<EmptyRoomPageShell>(),
                 InfoEntranceWrapper.From<TeachEvaluate>(),
                 InfoEntranceWrapper.From<CollegeIntroduce>(),
                 InfoEntranceWrapper.From<ProgramMaster>(),
                 InfoEntranceWrapper.From<ClassSchedule>(),
                 InfoEntranceWrapper.From<SelectCourse>(),
-                InfoEntranceWrapper.From<LibrarySearch>(),
                 TapEntranceWrapper.From<LibraryZwyy>(),
                 InfoEntranceWrapper.From<AdviceSchedule>(),
             };
