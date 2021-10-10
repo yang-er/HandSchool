@@ -2,10 +2,13 @@
 using HandSchool.Models;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-    public class CurriculumLabel : StackLayout
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+
+    public partial class CurriculumLabel : Frame
     {
         public CurriculumItemBase Context { get; }
         public int ColorId { get; private set; }
@@ -138,17 +141,13 @@ namespace HandSchool.Views
 
             return formattedString;
         }
-
         public CurriculumLabel(CurriculumItemBase value, int id)
         {
-            BindingContext = Context = value;
+            InitializeComponent();
+            InnerLabel.BindingContext = Context = value;
             ColorId = id;
-            Padding = new Thickness(3);
-            VerticalOptions = LayoutOptions.FillAndExpand;
-            HorizontalOptions = LayoutOptions.FillAndExpand;
-            WidthRequest = 200;
 
-            Children.Add(new Label
+            InnerLabel.Children.Add(new Label
             {
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
@@ -186,7 +185,6 @@ namespace HandSchool.Views
 
         public Color GetColor()
         {
-            // thanks to brady
             return ColorExtend.ColorFromRgb(ScheduleColors[ColorId % 8]);
         }
 

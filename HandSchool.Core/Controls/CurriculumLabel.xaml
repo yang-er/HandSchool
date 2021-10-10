@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HandSchool.Views.CurriculumLabel"
+       HasShadow="False"
+       CornerRadius="10"
+       VerticalOptions="FillAndExpand"
+       HorizontalOptions="FillAndExpand"
+       Padding="3">
+    <StackLayout x:Name="InnerLabel"/>
+</Frame>
