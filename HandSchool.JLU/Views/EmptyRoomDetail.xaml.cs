@@ -1,0 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using HandSchool.JLU.ViewModels;
+using HandSchool.Views;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace HandSchool.JLU.Views
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class EmptyRoomDetail : ViewObject
+    {
+        public EmptyRoomDetail()
+        {
+            InitializeComponent();
+            ViewModel = EmptyRoomViewModel.Instance;
+        }
+    }
+}

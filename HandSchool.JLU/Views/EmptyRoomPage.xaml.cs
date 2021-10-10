@@ -21,6 +21,7 @@ namespace HandSchool.JLU.Views
         {
             InitializeComponent();
             ViewModel = _viewModel = EmptyRoomViewModel.Instance;
+            _viewModel.Clear();
             StartSection.ItemsSource = new ObservableCollection<int>();
             EndSection.ItemsSource = new ObservableCollection<int>();
             for (var i = 1; i <= Core.App.DailyClassCount; i++)
@@ -113,10 +114,44 @@ namespace HandSchool.JLU.Views
             Task.Run(LoadSchoolArea);
         }
 
-        private void Start(object sender, EventArgs e)
+        private async void Start(object sender, EventArgs e)
         {
-            Task.Run(async () => await _viewModel.GetEmptyRoomAsync((string) SchoolAreaPicker.SelectedItem,
-                (string) BuildingPicker.SelectedItem, (int?) StartSection.SelectedItem, (int?) EndSection.SelectedItem));
+            var schoolArea = (string) SchoolAreaPicker.SelectedItem;
+            var building = (string) BuildingPicker.SelectedItem;
+            var start = (int?) StartSection.SelectedItem;
+            var end = (int?) EndSection.SelectedItem;
+            if (schoolArea is null)
+            {
+                await NoticeError("校区不能为空");
+                return;
+            }
+
+            if (building is null)
+            {
+                await NoticeError("教学楼不能为空");
+                return;
+            }
+
+            if (start is null)
+            {
+                await NoticeError("起始节不能为空");
+                return;
+            }
+
+            if (end is null)
+            {
+                await NoticeError("结束节不能为空");
+                return;
+            }
+            var res = await _viewModel.GetEmptyRoomAsync(schoolArea,building,(int)start,(int)end);
+            if (res)
+            {
+                await Navigation.PushAsync(typeof(EmptyRoomDetail), null);
+            }
+            else
+            {
+                await NoticeError("加载失败");
+            }
         }
     }
 

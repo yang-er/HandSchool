@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
+              Title="空教室查询结果"
+              x:Class="HandSchool.JLU.Views.EmptyRoomDetail"
+              IsBusy="{Binding IsBusy}">
+    <StackLayout>
+        <CollectionView
+        BackgroundColor="#F4F4F4"
+        ItemsSource="{Binding Rooms}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <controls:TextAtom
+                    OnTop="False"
+                    HasSecond="False"
+                    Title="{Binding Name, Mode=OneWay}"
+                    ContentText="{Binding Description, Mode=OneWay}"/>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+    </StackLayout>
+</w:ViewObject>

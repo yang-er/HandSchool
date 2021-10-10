@@ -22,4 +22,11 @@
   <ItemGroup>
     <Folder Include="Views\FirstOpen\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\EmptyRoomDetail.xaml.cs">
+      <DependentUpon>EmptyRoomDetail.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

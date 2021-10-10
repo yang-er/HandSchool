@@ -4,14 +4,11 @@
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               Title="空教室查询"
-              x:Class="HandSchool.JLU.Views.EmptyRoomPage">
+              x:Class="HandSchool.JLU.Views.EmptyRoomPage"
+              IsBusy="{Binding IsBusy}">
     <w:ViewObject.Content>
-        <CollectionView 
-            BackgroundColor="#F4F4F4"
-            ItemsSource="{Binding Rooms}">
-            <CollectionView.Header>
-                <StackLayout>
-                <Frame Margin="10,5" IsEnabled="False">
+        <StackLayout>
+                <Frame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                             <Label Text="选择校区" FontSize="Medium" VerticalOptions="Center"/>
@@ -19,10 +16,10 @@
                         </StackLayout>
                         <Label Text="信息正在加载..." x:Name="SchoolAreaLoadingText"/>
                         <Picker x:Name="SchoolAreaPicker" ItemsSource="{Binding SchoolAreas}" IsVisible="False"></Picker>
-                        <Button Text="选定" Clicked="SchoolAreaSelectOk"></Button>
+                        <Button Text="加载教学楼" Clicked="SchoolAreaSelectOk"></Button>
                     </StackLayout>
                 </Frame>
-                <Frame x:Name="Buildings" Margin="10,5" IsVisible="False" IsEnabled="False">
+                <Frame x:Name="Buildings" Margin="10,5" IsVisible="False">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                             <Label Text="选择教学楼"  VerticalOptions="Center" FontSize="Medium"></Label>
@@ -32,7 +29,7 @@
                         <Picker ItemsSource="{Binding Building}" x:Name="BuildingPicker" IsVisible="False"></Picker>
                     </StackLayout>
                 </Frame>
-                <Frame Margin="10,5" IsEnabled="False">
+                <Frame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                             <Label Text="从第" FontSize="Medium" VerticalOptions="Center"></Label>
@@ -47,18 +44,6 @@
                         <Button Text="查询" Clicked="Start"></Button>
                     </StackLayout>
                 </Frame>
-                             </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <controls:TextAtom
-                                OnTop="False"
-                                HasSecond="False"
-                                Title="{Binding Name, Mode=OneWay}"
-                                ContentText="{Binding Description, Mode=OneWay}"/>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                    
-        </CollectionView>
+        </StackLayout>
     </w:ViewObject.Content>
 </w:ViewObject>

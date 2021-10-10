@@ -124,6 +124,12 @@ namespace HandSchool.JLU.ViewModels
             Rooms = new ObservableCollection<RoomInfo>();
         }
 
+        public void Clear()
+        {
+            SchoolAreas?.Clear();
+            Building?.Clear();
+            Rooms?.Clear();
+        }
         public async Task<bool> GetSchoolAreaAsync()
         {
             if (IsBusy) return false;
@@ -189,32 +195,8 @@ namespace HandSchool.JLU.ViewModels
             }
         }
 
-        public async Task<bool> GetEmptyRoomAsync(string schoolArea, string building, int? start, int? end)
+        public async Task<bool> GetEmptyRoomAsync(string schoolArea, string building, int start, int end)
         {
-            if (schoolArea is null)
-            {
-                await NoticeError("校区不能为空");
-                return false;
-            }
-
-            if (building is null)
-            {
-                await NoticeError("教学楼不能为空");
-                return false;
-            }
-
-            if (start is null)
-            {
-                await NoticeError("起始节不能为空");
-                return false;
-            }
-
-            if (end is null)
-            {
-                await NoticeError("结束节不能为空");
-                return false;
-            }
-            
             if (IsBusy) return false;
             IsBusy = true;
             await Task.Yield();
@@ -223,7 +205,7 @@ namespace HandSchool.JLU.ViewModels
                 var dateStr = DateTime.Now.ToString("yyyy-MM-dd");
                 var bdInfo = _buildingJson.value.Find(x => x.name == building);
                 var cs = 0;
-                for (var i = (int)start; i <= end; i++)
+                for (var i = start; i <= end; i++)
                 {
                     cs += (int) Math.Pow(i, 2);
                 }
