@@ -4,26 +4,23 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using HandSchool.JLU.ViewModels;
-using HandSchool.ViewModels;
 using HandSchool.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.JLU.Views
 {
-    public partial class XykIOS_UserInfo : ViewObject
+    public partial class XykIosMoreInfo : ViewObject
     {
-
-        public XykIOS_UserInfo()
+        public XykIosMoreInfo()
         {
             ViewModel = YktViewModel.Instance;
             InitializeComponent();
         }
-
-        async void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        private async void Refresh(object sender, System.EventArgs e)
         {
             if (sender == null) return;
-            await (ViewModel as YktViewModel)?.LoadTwoAsync();
+            await ((YktViewModel)ViewModel).LoadTwoAsync();
         }
     }
 }

@@ -54,14 +54,13 @@ namespace HandSchool.JLU
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    Core.Reflection.RegisterCtor<XykIOS>();
-                    Core.Reflection.RegisterCtor<XykIOS_QandA>();
-                    Core.Reflection.RegisterCtor<XykIOS_UserInfo>();
+                    Core.Reflection.RegisterCtor<XykIos>();
+                    Core.Reflection.RegisterCtor<XykIosMoreInfo>();
                     break;
                 default: Core.Reflection.RegisterCtor<XykDroid>();break;
             }
             Core.Reflection.RegisterCtor<InitializePage>();
-            NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIOS" : "XykDroid", "JLU", MenuIcon.CreditCard);
+            NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid", "JLU", MenuIcon.CreditCard);
             if (UseVpn)
             {
                 Vpn = new StudentVpn();

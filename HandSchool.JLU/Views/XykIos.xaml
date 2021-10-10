@@ -3,11 +3,8 @@
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               Title="校园卡"
-              x:Class="HandSchool.JLU.Views.XykIOS"
+              x:Class="HandSchool.JLU.Views.XykIos"
               IsBusy="{Binding IsBusy}">
-    <w:ViewObject.ToolbarItems>
-        <ToolbarItem Text="更多" Clicked="QandA_Clicked"/>
-    </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
                 <StackLayout>
                     <Grid HeightRequest="80" Padding="12,20,12,20">
@@ -24,7 +21,8 @@
                                 <ImageButton x:Name="charge" Grid.Column="0" Grid.Row="0" BackgroundColor="White" Source="money.png"></ImageButton>
                                 <ImageButton x:Name="lokc"  Grid.Column="1" Grid.Row="0" BackgroundColor="White" Source="lock.png"></ImageButton>
                                 <ImageButton x:Name="unlock"  Grid.Column="2" Grid.Row="0" BackgroundColor="White" Source="unlock.png"></ImageButton>
-                                <Button Text="刷新" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Command="{Binding LoadTwoInfoCommand}" TextColor="Blue"/>
+                                <Button Text="刷新" Grid.Column="3" Grid.Row="0" Command="{Binding LoadTwoInfoCommand}" TextColor="Blue"/>
+                                <Button Text="详情" Grid.Column="3" Grid.Row="1" Clicked="LoadMoreInfo" TextColor="Blue"/>
                                 <Label Text="充值" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Center" FontSize="Medium"/>
                                 <Label Text="挂失" Grid.Column="1" Grid.Row="1" TextColor="Black" HorizontalOptions="Center" FontSize="Medium"/>
                                 <Label Text="解挂" Grid.Column="2" Grid.Row="1" TextColor="Black" HorizontalOptions="Center" FontSize="Medium"></Label>

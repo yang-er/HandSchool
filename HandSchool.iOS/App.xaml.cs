@@ -7,7 +7,7 @@ namespace HandSchool.iOS
 {
     public partial class App : XApplication
     {
-        public static new App Current
+        public new static App Current
         {
             get => XApplication.Current as App;
         }
