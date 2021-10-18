@@ -107,8 +107,15 @@ namespace HandSchool.JLU.Views
                 Date = date, RoomType = type
             };
             var res = await _viewModel.GetRoomAsync(par);
-            if (!res.IsSuccess) return;
-            await Navigation.PushAsync(typeof(LibRoomResultPage), res.Msg);
+            if (!res.IsSuccess)
+            {
+                if (res.Msg is null) return;
+                await NoticeError(res.ToString());
+            }
+            else
+            {
+                await Navigation.PushAsync(typeof(LibRoomResultPage), res.Msg);
+            }
         }
         
         private async void CancelResv(object sender, EventArgs e)
@@ -116,14 +123,21 @@ namespace HandSchool.JLU.Views
             var info = (sender as BindableObject)?.BindingContext as ReservationInfo;
             if (info?.ResvInnerId is null) return;
             await _viewModel.CancelResvAsync(info.ResvInnerId);
-            _viewModel.RefreshInfosCommand.Execute(null);
+            RefreshUserInfo();
         }
 
+        private async void RefreshUserInfo(object sender = null, EventArgs e = null)
+        {
+            var res = await _viewModel.RefreshInfosAsync();
+            if (res.IsSuccess) return;
+            if (res.Msg is null) return;
+            await NoticeError(res.ToString());
+        }
         private void ClearUserInfo(object sender, EventArgs e)
         {
             _viewModel.ClearUserInfo();
             Core.Platform.EnsureOnMainThread(ClearScoreStack);
-            _viewModel.RefreshInfosCommand.Execute(null);
+            RefreshUserInfo();
         }
     }
 }

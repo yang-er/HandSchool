@@ -179,7 +179,7 @@ namespace HandSchool.JLU.Views
             Core.Platform.EnsureOnMainThread(_viewModel.Selected.Clear);
             await PopAsync();
             await _params.ResultPage.Refresh();
-            _viewModel.RefreshInfosCommand.Execute(null);
+            await _viewModel.RefreshInfosAsync();
         }
 
         public async Task PushAsync()

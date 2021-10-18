@@ -8,7 +8,7 @@
              Title="鼎新馆空间预约"
              IsBusy="{Binding IsBusy}"
              BackgroundColor="#F4F4F4">
-    <RefreshView Command="{Binding RefreshInfosCommand}" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
+    <RefreshView Refreshing="RefreshUserInfo" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
     <ScrollView>
     <StackLayout>
         <internal:TouchableFrame Margin="10,5" IsEnabled="False">

@@ -26,22 +26,15 @@ namespace HandSchool.JLU.ViewModels
     {
         private static readonly Lazy<LibRoomReservationViewModel> Lazy =
             new Lazy<LibRoomReservationViewModel>(() => new LibRoomReservationViewModel());
-
+        
         public static LibRoomReservationViewModel Instance => Lazy.Value;
+        public ObservableCollection<StudentLibBasicInfo> Recommends { get; set; } = new ObservableCollection<StudentLibBasicInfo>();
+        public ObservableCollection<Irregularities> IrregularitiesInfos { get; set; } = new ObservableCollection<Irregularities>();
+        public ObservableCollection<ReservationInfo> ReservationRecords { get; set; } = new ObservableCollection<ReservationInfo>();
+        public ObservableCollection<StudentLibBasicInfo> Selected { get; set; } = new ObservableCollection<StudentLibBasicInfo>();
+
         public LibRoomData UserInfo { get; set; }
         public string Name => UserInfo?.name??"你登陆呀";
-        public LibRoomReservationViewModel()
-        {
-            RefreshInfosCommand = new CommandAction(RefreshInfosAsync);
-
-            Task.Run(async () =>
-            {
-                if (await Loader.LibRoom.CheckLogin())
-                {
-                    RefreshInfosCommand.Execute(null);
-                }
-            });
-        }
 
         private bool _isRefreshing;
 
@@ -55,7 +48,17 @@ namespace HandSchool.JLU.ViewModels
         public string Dept => UserInfo?.dept??"看不清";
         public string Id => UserInfo?.id??"不清楚";
         public string Profession => UserInfo?.cls ?? "不知道";
-        public ICommand RefreshInfosCommand { get; set; }
+        public LibRoomReservationViewModel()
+        {
+            Task.Run(async () =>
+            {
+                if (await Loader.LibRoom.CheckLogin())
+                {
+                    await RefreshInfosAsync();
+                }
+            });
+        }
+
         public void InitUserInfo(LibRoomData info)
         {
             UserInfo = info;
@@ -65,8 +68,7 @@ namespace HandSchool.JLU.ViewModels
             OnPropertyChanged(nameof(Profession));
             OnPropertyChanged(nameof(Credits));
         }
-
-
+        
         /// <summary>
         /// 获取图书馆占用信息并展示
         /// </summary>
@@ -84,8 +86,8 @@ namespace HandSchool.JLU.ViewModels
             
             if (!await Loader.LibRoom.CheckLogin())
             {
-                await NoticeError("你先登录呀！(╯°Д°)╯︵ ┻━┻");
-                return TaskResp.False;
+                IsBusy = false;
+                return new TaskResp(false, "你先登录呀！(╯°Д°)╯︵ ┻━┻");
             }
             
             var now = DateTime.Now;
@@ -95,10 +97,9 @@ namespace HandSchool.JLU.ViewModels
             IsBusy = false;
             if (!res.IsSuccess)
             {
-                await NoticeError(res.Msg is null ? "服务器返回信息有问题" : res.Msg.ToString());
-                return TaskResp.False;
+                return new TaskResp(false, res.Msg is null ? "服务器返回信息有问题" : res.Msg.ToString());
             }
-
+            
             var resPageParams = new LibRoomResultPageParams
             {
                 GetRoomUsageParams = obj,
@@ -109,13 +110,7 @@ namespace HandSchool.JLU.ViewModels
             };
             return new TaskResp(true, resPageParams);
         }
-
-
-        public ObservableCollection<StudentLibBasicInfo> Recommends { get; set; } = new ObservableCollection<StudentLibBasicInfo>();
-        public ObservableCollection<Irregularities> IrregularitiesInfos { get; set; } = new ObservableCollection<Irregularities>();
-        public ObservableCollection<ReservationInfo> ReservationRecords { get; set; } = new ObservableCollection<ReservationInfo>();
-        public ObservableCollection<StudentLibBasicInfo> Selected { get; set; } = new ObservableCollection<StudentLibBasicInfo>();
-
+        
         public void ClearUserInfo()
         {
             Loader.LibRoom.DeleteUserInfo();
@@ -125,19 +120,16 @@ namespace HandSchool.JLU.ViewModels
             IrregularitiesInfos.Clear();
             ReservationRecords.Clear();
         }
-        public async Task RefreshInfosAsync()
+        public async Task<TaskResp> RefreshInfosAsync()
         {
-            if (IsRefreshing) return;
+            if (IsRefreshing) return TaskResp.False;
             IsRefreshing = true;
             if(!await Loader.LibRoom.CheckLogin())
             {
-                await Task.Yield();
-                await NoticeError("你先登录呀！(╯°Д°)╯︵ ┻━┻");
                 IsRefreshing = false;
-                return;
+                return new TaskResp(false, "你先登录呀！(╯°Д°)╯︵ ┻━┻");
             }
 
-            IsRefreshing = true;
             var resIrregularities = await Loader.LibRoom.GetIrregularitiesAsync();
             var resReservationRecords = await Loader.LibRoom.GetResvRecordsAsync();
             IsRefreshing = false;
@@ -158,7 +150,7 @@ namespace HandSchool.JLU.ViewModels
                         : resReservationRecords.ToString();
                 }
 
-                await NoticeError(error);
+                return new TaskResp(false, error);
             }
             
             if (resIrregularities.Msg is List<Irregularities> list)
@@ -184,6 +176,7 @@ namespace HandSchool.JLU.ViewModels
                     }
                 });
             }
+            return TaskResp.True;
         }
 
         public async Task<TaskResp> StartResvAsync(LibRoom libRoom, NearDays date,DateTime start, DateTime end)
