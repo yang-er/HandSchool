@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using HandSchool.Controls;
 using Xamarin.Forms;
 
 namespace HandSchool
@@ -48,7 +49,7 @@ namespace HandSchool
     }
     public static class Extends
     {
-        public static async Task TappedAnimation(this VisualElement item, Func<Task> doing = null)
+        public static async Task TappedAnimation(this TextAtom item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.Small, 200);
@@ -56,7 +57,7 @@ namespace HandSchool
             await item.ScaleTo(TextAtomScales.Large, 200);
             await item.ScaleTo(TextAtomScales.Normal, 150);
         }
-        public static async Task LongPressAnimation(this VisualElement item, Func<Task> doing = null)
+        public static async Task LongPressAnimation(this TextAtom item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(TextAtomScales.SuperLarge, 200);

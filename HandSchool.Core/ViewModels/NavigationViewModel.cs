@@ -58,7 +58,7 @@ namespace HandSchool.ViewModels
             if (Core.App.Loader.GradePoint != null)
                 AddMenuEntry("学分成绩", "GradePointPage", null, MenuIcon.GradeChart);
             if (Core.App.InfoEntrances.Count > 0 || Core.Platform.RuntimeName == "iOS")
-                AddMenuEntry("信息查询", "InfoQueryPage", null, MenuIcon.InfoQuery);
+                AddMenuEntry("其他功能", "InfoQueryPage", null, MenuIcon.InfoQuery);
         }
     }
 }

@@ -191,71 +191,71 @@ namespace HandSchool.JLU.JsonObject
         {
             return new List<BuildingOverview>
             {
-                new BuildingOverview("逸夫楼","96","1401"),
-                new BuildingOverview("第三教学楼","68","1401"),
-                new BuildingOverview("经信教学楼","117","1401"),
-                new BuildingOverview("李四光楼","84","1401"),
-                new BuildingOverview("外语楼","121","1401"),
-                new BuildingOverview("计算机新楼","107","1401"),
-                new BuildingOverview("萃文教学楼","100","1401"),
-                new BuildingOverview("体育馆","109","1401"),
-                new BuildingOverview("体育场","67","1401"),
-                new BuildingOverview("画室","123","1401"),
-                new BuildingOverview("新理化楼","120","1401"),
-                new BuildingOverview("数学楼","127","1401"),
-                new BuildingOverview("图书馆","87","1401"),
-                new BuildingOverview("文科实验楼","103","1401"),
-                new BuildingOverview("理化楼","122","1401"),
-                new BuildingOverview("实验楼","102","1401"),
-                new BuildingOverview("外语学院","74","1401"),
-                new BuildingOverview("游泳池","85","1401"),
-                new BuildingOverview("无机合成楼","98","1401"),
-                new BuildingOverview("行政学院","93","1401"),
-                new BuildingOverview("力学实验室","90","1401"),
-                new BuildingOverview("化学楼","92","1401"),
-                new BuildingOverview("公用机房","99","1401"),
-                new BuildingOverview("北区白楼","112","1401"),
-                new BuildingOverview("琴房","113","1401"),
-                new BuildingOverview("行政楼","60","1401"),
-                new BuildingOverview("逸夫楼","65","1402"),
+                new BuildingOverview("逸夫楼", "96", "1401"),
+                new BuildingOverview("第三教学楼", "68", "1401"),
+                new BuildingOverview("经信教学楼", "117", "1401"),
+                new BuildingOverview("李四光楼", "84", "1401"),
+                new BuildingOverview("外语楼", "121", "1401"),
+                new BuildingOverview("计算机新楼", "107", "1401"),
+                new BuildingOverview("萃文教学楼", "100", "1401"),
+                new BuildingOverview("体育馆", "109", "1401"),
+                new BuildingOverview("体育场", "67", "1401"),
+                new BuildingOverview("画室", "123", "1401"),
+                new BuildingOverview("新理化楼", "120", "1401"),
+                new BuildingOverview("数学楼", "127", "1401"),
+                new BuildingOverview("图书馆", "87", "1401"),
+                new BuildingOverview("文科实验楼", "103", "1401"),
+                new BuildingOverview("理化楼", "122", "1401"),
+                new BuildingOverview("实验楼", "102", "1401"),
+                new BuildingOverview("外语学院", "74", "1401"),
+                new BuildingOverview("游泳池", "85", "1401"),
+                new BuildingOverview("无机合成楼", "98", "1401"),
+                new BuildingOverview("行政学院", "93", "1401"),
+                new BuildingOverview("力学实验室", "90", "1401"),
+                new BuildingOverview("化学楼", "92", "1401"),
+                new BuildingOverview("公用机房", "99", "1401"),
+                new BuildingOverview("北区白楼", "112", "1401"),
+                new BuildingOverview("琴房", "113", "1401"),
+                new BuildingOverview("行政楼", "60", "1401"),
+                new BuildingOverview("逸夫楼", "65", "1402"),
                 //new BuildingOverview("(一)","73","1402"),
-               // new BuildingOverview("(二)","82","1402"),
-                new BuildingOverview("体育馆","91","1402"),
+                // new BuildingOverview("(二)","82","1402"),
+                new BuildingOverview("体育馆", "91", "1402"),
                 //new BuildingOverview("(五)","119","1402"),
-                new BuildingOverview("基础实验楼","124","1402"),
-                new BuildingOverview("汽车交通实验馆","111","1402"),
-                new BuildingOverview("公用机房","70","1402"),
-                new BuildingOverview("能源动力大楼","128","1402"),
+                new BuildingOverview("基础实验楼", "124", "1402"),
+                new BuildingOverview("汽车交通实验馆", "111", "1402"),
+                new BuildingOverview("公用机房", "70", "1402"),
+                new BuildingOverview("能源动力大楼", "128", "1402"),
                 //new BuildingOverview("","2","1402"),
-                new BuildingOverview("画室","110","1402"),
-                new BuildingOverview("车身教室","116","1402"),
-                new BuildingOverview("测试中心","86","1402"),
-                new BuildingOverview("实习","69","1402"),
+                new BuildingOverview("画室", "110", "1402"),
+                new BuildingOverview("车身教室", "116", "1402"),
+                new BuildingOverview("测试中心", "86", "1402"),
+                new BuildingOverview("实习", "69", "1402"),
                 //new BuildingOverview("（五）","97","1402"),
-                new BuildingOverview("造型室","114","1402"),
-                new BuildingOverview("第一教学楼","72","1403"),
-                new BuildingOverview("第二教学楼","322","1403"),
-                new BuildingOverview("新教学楼","77","1403"),
-                new BuildingOverview("公用机房","71","1403"),
-                new BuildingOverview("第二阶梯教室","78","1403"),
-                new BuildingOverview("第一阶梯教室","81","1403"),
-                new BuildingOverview("义和路","125","1403"),
-                new BuildingOverview("水工楼","94","1404"),
-                new BuildingOverview("鸽子楼","101","1404"),
-                new BuildingOverview("实验楼","95","1404"),
-                new BuildingOverview("地质宫","105","1404"),
-                new BuildingOverview("第1教学楼","89","1405"),
-                new BuildingOverview("第3教学楼","76","1405"),
-                new BuildingOverview("体育场馆","301","1405"),
-                new BuildingOverview("运动场","126","1405"),
-                new BuildingOverview("公用机房","75","1405"),
-                new BuildingOverview("第一教学楼","83","1405"),
-                new BuildingOverview("第2教学楼","106","1405"),
-                new BuildingOverview("风雨操场","108","1405"),
-                new BuildingOverview("体育场","61","1406"),
-                new BuildingOverview("公用机房","80","1406"),
-                new BuildingOverview("科学讲堂","200","1406"),
-                new BuildingOverview("兽医实验楼","201","1406"),
+                new BuildingOverview("造型室", "114", "1402"),
+                new BuildingOverview("第一教学楼", "72", "1403"),
+                new BuildingOverview("第二教学楼", "322", "1403"),
+                new BuildingOverview("新教学楼", "77", "1403"),
+                new BuildingOverview("公用机房", "71", "1403"),
+                new BuildingOverview("第二阶梯教室", "78", "1403"),
+                new BuildingOverview("第一阶梯教室", "81", "1403"),
+                new BuildingOverview("义和路", "125", "1403"),
+                new BuildingOverview("水工楼", "94", "1404"),
+                new BuildingOverview("鸽子楼", "101", "1404"),
+                new BuildingOverview("实验楼", "95", "1404"),
+                new BuildingOverview("地质宫", "105", "1404"),
+                new BuildingOverview("第1教学楼", "89", "1405"),
+                new BuildingOverview("第3教学楼", "76", "1405"),
+                new BuildingOverview("体育场馆", "301", "1405"),
+                new BuildingOverview("运动场", "126", "1405"),
+                new BuildingOverview("公用机房", "75", "1405"),
+                new BuildingOverview("第一教学楼", "83", "1405"),
+                new BuildingOverview("第2教学楼", "106", "1405"),
+                new BuildingOverview("风雨操场", "108", "1405"),
+                new BuildingOverview("体育场", "61", "1406"),
+                new BuildingOverview("公用机房", "80", "1406"),
+                new BuildingOverview("科学讲堂", "200", "1406"),
+                new BuildingOverview("兽医实验楼", "201", "1406"),
             };
         }
 
@@ -263,12 +263,12 @@ namespace HandSchool.JLU.JsonObject
         {
             return new KeyValueDict
             {
-                { "1401", "前卫校区" },
-                { "1402", "南岭校区" },
-                { "1403", "新民校区" },
-                { "1404", "朝阳校区" },
-                { "1405", "南湖校区" },
-                { "1406", "和平校区" }
+                {"1401", "前卫校区"},
+                {"1402", "南岭校区"},
+                {"1403", "新民校区"},
+                {"1404", "朝阳校区"},
+                {"1405", "南湖校区"},
+                {"1406", "和平校区"}
             };
         }
 
@@ -276,14 +276,14 @@ namespace HandSchool.JLU.JsonObject
         {
             return new KeyValueDict
             {
-                { "1420", "人文学部" },
-                { "1421", "社会科学学部" },
-                { "1422", "理学部" },
-                { "1423", "工学部" },
-                { "1424", "信息科学学部" },
-                { "1425", "地球科学学部" },
-                { "1426", "白求恩医学部" },
-                { "1428", "农学部" }
+                {"1420", "人文学部"},
+                {"1421", "社会科学学部"},
+                {"1422", "理学部"},
+                {"1423", "工学部"},
+                {"1424", "信息科学学部"},
+                {"1425", "地球科学学部"},
+                {"1426", "白求恩医学部"},
+                {"1428", "农学部"}
             };
         }
 
@@ -291,14 +291,14 @@ namespace HandSchool.JLU.JsonObject
         {
             return new Dict
             {
-                { "136", "2018-2019学年第2学期" },
-                { "135", "2018-2019学年第1学期" },
-                { "134", "2017-2018学年第2学期" },
-                { "133", "2017-2018学年第1学期" },
-                { "132", "2016-2017学年第2学期" },
-                { "131", "2016-2017学年第1学期" },
-                { "130", "2015-2016学年第2学期" },
-                { "129", "2015-2016学年第1学期" },
+                {"136", "2018-2019学年第2学期"},
+                {"135", "2018-2019学年第1学期"},
+                {"134", "2017-2018学年第2学期"},
+                {"133", "2017-2018学年第1学期"},
+                {"132", "2016-2017学年第2学期"},
+                {"131", "2016-2017学年第1学期"},
+                {"130", "2015-2016学年第2学期"},
+                {"129", "2015-2016学年第1学期"},
             };
         }
 
@@ -313,5 +313,13 @@ namespace HandSchool.JLU.JsonObject
             };
         }
 
+
+    }
+
+    public enum NearDays
+    {
+        Yesterday,
+        Today,
+        Tomorrow
     }
 }

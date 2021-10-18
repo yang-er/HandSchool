@@ -21,7 +21,7 @@ namespace HandSchool.Views
 
             InitializeComponent();
             var today = DateTime.Now;
-            dayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
+            DayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
             ViewModel = IndexViewModel.Instance;
             Content.BackgroundColor = Color.FromRgb(241, 241, 241);
             switch (Device.RuntimePlatform)
@@ -109,20 +109,20 @@ namespace HandSchool.Views
                                             $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
                                         TomorrowWeather.Text =
                                             $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
-                                        weather.IsVisible = true;
+                                        WeatherFrame.IsVisible = true;
                                         _weatherTimeoutManager.Refresh();
                                     }
                                     catch(Exception error)
                                     {
                                         Core.Logger.WriteLine("天气信息与UI同步错误", error.Message);
-                                        weather.IsVisible = false;
+                                        WeatherFrame.IsVisible = false;
                                     }
                                 });
                             }
                             catch(Exception e)
                             {
                                 Core.Logger.WriteLine("更新天气错误", e.Message);
-                                Core.Platform.EnsureOnMainThread(() => weather.IsVisible = false);
+                                Core.Platform.EnsureOnMainThread(() => WeatherFrame.IsVisible = false);
                             }
                             finally
                             {
@@ -132,7 +132,7 @@ namespace HandSchool.Views
                     }
                     break;
                 }
-                default: weather.IsVisible = false;
+                default: WeatherFrame.IsVisible = false;
                     break;
             }
         }
@@ -155,6 +155,11 @@ namespace HandSchool.Views
                 if (bc == null) return;
                 bc.IsSelected = bc.Equals(e.CurrentItem);
             }
+        }
+
+        private void WelcomeOnClick(object sender, EventArgs e)
+        {
+            ((sender as Frame)?.BindingContext as IndexViewModel)?.RequestLoginCommand?.Execute(null);
         }
     }
 }

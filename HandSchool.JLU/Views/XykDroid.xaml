@@ -21,11 +21,8 @@
                             AfterTitle="{Binding RecordTime}"
                             ContentText="{Binding DescriptionShow}"
                             SecondTitle="{Binding CostShow}"
-                            SecondContent="{Binding RemainMoneyShow}">
-                            <controls:TextAtom.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="ItemTappedHandler"/>
-                            </controls:TextAtom.GestureRecognizers>
-                        </controls:TextAtom>
+                            SecondContent="{Binding RemainMoneyShow}"
+                            Click="ItemTappedHandler"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Header>

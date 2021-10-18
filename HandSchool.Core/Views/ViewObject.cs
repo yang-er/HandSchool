@@ -19,6 +19,7 @@ namespace HandSchool.Views
 	[ContentProperty("Content")]
     public class ViewObject : ContentPage, IViewPage, IViewLifecycle
     {
+        public const string ExitSignal = "HandSchool.Views.ViewObject.Finish";
         #region Bindable Properties
         
         public static readonly BindableProperty UseTabletModeProperty =

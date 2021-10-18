@@ -101,7 +101,7 @@ namespace HandSchool.JLU.ViewModels
     public class RoomInfo
     {
         public string Name { get; set; }
-        public string Description => $"用途：{Usage} | 容量：{Vol}{(Notice is null ? string.Empty : $"\n备注：{Notice}")}";
+        public string Description => $"用途：{Usage}\n容量：{Vol}{(Notice is null ? string.Empty : $"\n备注：{Notice}")}";
         public string Usage { get; set; }
         public int? Vol { get; set; }
         public string Notice { get; set; }

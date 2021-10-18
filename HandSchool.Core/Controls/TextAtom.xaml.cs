@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TextAtom : Internal.TouchableFrame
+    public partial class TextAtom : TouchableFrame
     {
 
         ColumnDefinition second_col;
@@ -195,6 +195,5 @@ namespace HandSchool.Controls
             }
             second_col = grid.ColumnDefinitions[1];
         }
-
     }
 }

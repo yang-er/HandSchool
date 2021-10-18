@@ -1,6 +1,7 @@
 ﻿using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using System.Threading.Tasks;
+using HandSchool.Controls;
 using HandSchool.Internals;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -41,9 +42,9 @@ namespace HandSchool.JLU.Views
         }
 
         //点击之后啥也不干，就是玩
-        async void ItemTappedHandler(object sender, System.EventArgs args)
+        void ItemTappedHandler(object sender, System.EventArgs args)
         {
-            await(sender as VisualElement).TappedAnimation();
+            return;
         }
 
         private async void LoadMoreInfo(System.Object sender, System.EventArgs e)

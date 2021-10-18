@@ -22,7 +22,7 @@ namespace HandSchool.Droid
 
         public int DrawableId { get; }
 
-        public static readonly int[] IconList = new[]
+        public static readonly int[] IconList = 
         {
             Resource.Drawable.ic_nav_home,
             Resource.Drawable.ic_nav_sched,
@@ -33,6 +33,7 @@ namespace HandSchool.Droid
             Resource.Drawable.ic_nav_card,
             Resource.Drawable.ic_nav_settings,
             Resource.Drawable.ic_nav_about,
+            Resource.Drawable.ic_nav_libroom
         };
 
         public IViewPresenter CreatePresenter()

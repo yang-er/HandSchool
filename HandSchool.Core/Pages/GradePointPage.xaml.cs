@@ -1,5 +1,6 @@
 ﻿using HandSchool.Models;
 using HandSchool.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
@@ -15,14 +16,10 @@ namespace HandSchool.Views
 
         private async void Handle_ItemTapped(object sender, System.EventArgs e)
         {
-            var frame = sender as Controls.TextAtom;
-            await frame.TappedAnimation(async () =>
-            {
-                var iGi = frame.BindingContext as IGradeItem;
-                if (iGi is GPAItem) return;
-                await GradePointViewModel.Instance.ShowGradeDetailAsync(iGi);
-            });
-            
+            var iGi = (sender as BindableObject)?.BindingContext as IGradeItem;
+            if (iGi is null) return;
+            if (iGi is GPAItem) return;
+            await GradePointViewModel.Instance.ShowGradeDetailAsync(iGi);
         }
     }
 }

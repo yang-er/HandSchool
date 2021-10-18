@@ -65,5 +65,8 @@ namespace HandSchool.Models
         /// 删除消息
         /// </summary>
         ICommand Delete { get; }
+        
+        public ICommand ItemLongPressCommand { get;}
+        public ICommand ItemTappedCommand { get; }
     }
 }

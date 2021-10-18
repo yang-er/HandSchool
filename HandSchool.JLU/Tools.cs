@@ -1,19 +1,17 @@
-﻿using HandSchool.Internals;
-using HandSchool.JLU.Models;
-using HandSchool.JLU.ViewModels;
+﻿using HandSchool.JLU.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
+using ReadSharp;
+using System.IO;
 
 namespace HandSchool.JLU
 {
     static class Tools
     {
-        public static string HtmlTrim(this string str) => str.Replace("&nbsp;", "").Replace("&nbsp", "").Trim();
-    
         public static List<RecordInfo> AnalyzeHtmlToRecordInfos(string htmlSources)
         {
             if (htmlSources.Contains("当前查询条件内没有流水记录")) return null;
@@ -76,61 +74,32 @@ namespace HandSchool.JLU
             if (htmlSources.Contains("<table>")) return "通知含有表格，不支持表格解析";
             var html = new HtmlDocument();
             html.LoadHtml(htmlSources.Trim());
-            var xpathBase = "//div[contains(@class,'content_font')]";
-            var spans = html.DocumentNode.SelectNodes(xpathBase + "//span");
-            var ps = html.DocumentNode.SelectNodes(xpathBase + "//p");
-            ps ??= html.DocumentNode.SelectNodes(xpathBase + "//text()");
-            try
+            var content = html.DocumentNode.SelectSingleNode("//div[contains(@class,'content_font')]");
+            var text = HtmlUtilities.ConvertToPlainText(content.InnerHtml);
+            var texts = text.Split('\n').ToList();
+
+            while (texts.Count != 0 && string.IsNullOrWhiteSpace(texts[0]))
             {
-                StringBuilder sb = null, sp = null;
-                if (ps != null)
-                {
-                    sb = new StringBuilder();
-                    foreach (var text in ps)
-                    {
-                        sb.Append(text.InnerText.HtmlTrim()).Append('\n');
-                    }
-                }
-
-                if (spans != null)
-                {
-                    sp = new StringBuilder();
-                    foreach (var text in spans)
-                    {
-                        sp.Append(text.InnerText.HtmlTrim()).Append('\n');
-                    }
-                }
-
-                if (sb == null || sp == null)
-                {
-                    if (sb == null && sp == null)
-                        throw new NullReferenceException("Failed to analyze");
-                    return (sb ?? sp).ToString().Trim();
-                }
-
-                return (sb.Length < sp.Length / 5) ? sp.ToString().Trim() : sb.ToString().Trim();
+                texts.RemoveAt(0);
             }
-            catch
+            
+            var start = 0;
+            while (start < texts.Count - 1)
             {
-                try
-                {
-                    var texts = html.DocumentNode.SelectNodes(xpathBase + "//node()[not(node())]");
-                    var stringBuilder = new StringBuilder();
-                    foreach (var i in texts)
-                    {
-                        var text = i.InnerText.HtmlTrim();
-                        if (!string.IsNullOrEmpty(text))
-                            stringBuilder.Append(text).Append('\n');
-                    }
-                    return stringBuilder.ToString();
-                }
-                catch
-                {
-                    return null;
-                }
+                if (string.IsNullOrWhiteSpace(texts[start]) && string.IsNullOrWhiteSpace(texts[start + 1]))
+                    texts.RemoveAt(start + 1);
+                else start++;
             }
+            var sb = new StringBuilder();
+            foreach (var item in texts)
+            {
+                sb.Append(item.Trim()).Append('\n');
+            }
+
+            return sb.ToString();
         }
     }
+    
     public class JLUClassSimplifier : ClassInfoSimplifier
     {
         private static Dictionary<string, int> _chineseNums;
@@ -235,6 +204,114 @@ namespace HandSchool.JLU
             }
 
             return res;
+        }
+    }
+}
+
+//from https://github.com/ceee/ReadSharp
+namespace ReadSharp
+{
+    public class HtmlUtilities
+    {
+        /// <summary>
+        /// Converts HTML to plain text / strips tags.
+        /// </summary>
+        /// <param name="html">The HTML.</param>
+        /// <returns></returns>
+        public static string ConvertToPlainText(string html)
+        {
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            StringWriter sw = new StringWriter();
+            ConvertTo(doc.DocumentNode, sw);
+            sw.Flush();
+            return sw.ToString();
+        }
+
+
+        /// <summary>
+        /// Count the words.
+        /// The content has to be converted to plain text before (using ConvertToPlainText).
+        /// </summary>
+        /// <param name="plainText">The plain text.</param>
+        /// <returns></returns>
+        public static int CountWords(string plainText)
+        {
+            return !String.IsNullOrEmpty(plainText) ? plainText.Split(' ', '\n').Length : 0;
+        }
+
+
+        public static string Cut(string text, int length)
+        {
+            if (!String.IsNullOrEmpty(text) && text.Length > length)
+            {
+                text = text.Substring(0, length - 4) + " ...";
+            }
+            return text;
+        }
+
+
+        private static void ConvertContentTo(HtmlNode node, TextWriter outText)
+        {
+            foreach (HtmlNode subnode in node.ChildNodes)
+            {
+                ConvertTo(subnode, outText);
+            }
+        }
+
+
+        private static void ConvertTo(HtmlNode node, TextWriter outText)
+        {
+            string html;
+            switch (node.NodeType)
+            {
+                case HtmlNodeType.Comment:
+                    // don't output comments
+                    break;
+
+                case HtmlNodeType.Document:
+                    ConvertContentTo(node, outText);
+                    break;
+
+                case HtmlNodeType.Text:
+                    // script and style must not be output
+                    string parentName = node.ParentNode.Name;
+                    if ((parentName == "script") || (parentName == "style"))
+                        break;
+
+                    // get text
+                    html = ((HtmlTextNode)node).Text;
+
+                    // is it in fact a special closing node output as text?
+                    if (HtmlNode.IsOverlappedClosingElement(html))
+                        break;
+
+                    // check the text is meaningful and not a bunch of whitespaces
+                    if (html.Trim().Length > 0)
+                    {
+                        outText.Write(HtmlEntity.DeEntitize(html));
+                    }
+                    break;
+
+                case HtmlNodeType.Element:
+                    switch (node.Name)
+                    {
+                        case "p":
+                            // treat paragraphs as crlf
+                            outText.Write("\r\n");
+                            break;
+                        case "br":
+                            outText.Write("\r\n");
+                            break;
+                    }
+
+                    if (node.HasChildNodes)
+                    {
+                        ConvertContentTo(node, outText);
+                    }
+                    break;
+            }
         }
     }
 }

@@ -8,11 +8,11 @@
     <w:ViewObject.ToolbarMenu>
          <w:MenuEntry Title="检查更新" Command="{Binding CheckUpdateCommand}"/>
      </w:ViewObject.ToolbarMenu>
-    <ScrollView x:Name="scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
+    <ScrollView x:Name="Scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
             <StackLayout>
-                <Label x:Name="dayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
-                <internal:TouchableFrame Margin="10,5" ClickedCommand="{Binding RequestLoginCommand}">
+                <Label x:Name="DayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                <internal:TouchableFrame Margin="10,5" ClickCommand="{Binding RequestLoginCommand}">
                 <StackLayout>
                     <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black"/>
                     <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
@@ -59,7 +59,7 @@
                 </CarouselView.ItemsLayout>
             </CarouselView>
         </StackLayout>
-            <StackLayout x:Name="weather">
+            <StackLayout x:Name="WeatherFrame">
                 <Label Margin="20,5,20,0" Text="天气" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
                 <internal:TouchableFrame Margin="10,5">
                     <StackLayout>

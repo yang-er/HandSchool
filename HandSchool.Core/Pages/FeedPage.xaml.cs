@@ -53,23 +53,17 @@ namespace HandSchool.Views
                 FeedViewModel.Instance.LoadItemsCommand.Execute(null);
             }
         }
+
         async void ItemTapped(object sender, EventArgs args)
         {
-
-            var layout = sender as Controls.TextAtom;
-
-            await layout.TappedAnimation(async () =>
-            {
-                var e = layout.BindingContext as FeedItem;
-                if (e == null || e == LastItem || IsPushing)
-                    return;
-                IsPushing = true;
-                LastItem = e;
-                await Navigation.PushAsync<DetailPage>(LastItem);
-                LastItem = null;
-                IsPushing = false;
-            });
-            
+            var e = (sender as BindableObject)?.BindingContext as FeedItem;
+            if (e is null || e == LastItem || IsPushing)
+                return;
+            IsPushing = true;
+            LastItem = e;
+            await Navigation.PushAsync<DetailPage>(LastItem);
+            LastItem = null;
+            IsPushing = false;
         }
 
         private async void CollectionView_LoadMore(object sender, EventArgs e)

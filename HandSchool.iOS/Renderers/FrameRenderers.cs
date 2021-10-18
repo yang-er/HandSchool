@@ -6,10 +6,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Threading.Tasks;
+using HandSchool.Internal;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-[assembly: ExportRenderer(typeof(TextAtom), typeof(HandSchool.iOS.Renderers.TextAtomRenderer))]
 [assembly: ExportRenderer(typeof(Frame), typeof(HandSchool.iOS.Renderers.FrameRender))]
 [assembly: ExportRenderer(typeof(HandSchool.Internal.TouchableFrame), typeof(HandSchool.iOS.Renderers.TouchableFrameRenderer))]
 
@@ -31,70 +32,107 @@ namespace HandSchool.iOS.Renderers
             target.BorderColor = Color.LightGray;
         }
     }
-    public class TextAtomRenderer : FrameRender
+    
+    public class TouchableFrameRenderer : FrameRender
     {
-        protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
+        private List<UIGestureRecognizer> _userRecognizers = new List<UIGestureRecognizer>();
+        private void RefreshLongClick(TouchableFrame tf)
         {
-            base.OnElementChanged(e);
-            if (target == null) return;
-
-            var ta = target as TextAtom;
-            if (ta.ClickedCommand != null || ta.LongClickedCommand != null)
+            if (tf.HasLongClick)
             {
-                UserInteractionEnabled = true;
-                if (ta.ClickedCommand != null)
+                UILongPressGestureRecognizer recognizer;
+                if (tf is TextAtom)
                 {
-                    AddGestureRecognizer(new UITapGestureRecognizer(async () =>
+                    recognizer = new UILongPressGestureRecognizer(s =>
                     {
-                        await target.TappedAnimation(async () =>
+                        if (s.State == UIGestureRecognizerState.Began)
                         {
-                            await System.Threading.Tasks.Task.Yield();
-                            ta.ClickedCommand.Execute(null);
-                        });
-                    }));
-                }
-                if (ta.LongClickedCommand != null)
-                {
-                    AddGestureRecognizer(new UILongPressGestureRecognizer(
-                        async (s) =>
-                        {
-                            if (s.State == UIGestureRecognizerState.Began)
+                            ((TextAtom) tf).LongPressAnimation(async () =>
                             {
-                                await target.LongPressAnimation(async () =>
-                                {
-                                    await System.Threading.Tasks.Task.Yield();
-                                    ta.LongClickedCommand.Execute(null);
-                                });
-                            }
-                        }));
+                                await Task.Yield();
+                                tf.OnLongClick();
+                            });
+                        }
+                    });
+                }
+                else
+                {
+                    recognizer = new UILongPressGestureRecognizer((s) =>
+                    {
+                        if (s.State == UIGestureRecognizerState.Began)
+                        {
+                            tf.OnLongClick();
+                        }
+                    });
+                }
+                _userRecognizers.Add(recognizer);
+                AddGestureRecognizer(recognizer);
+            }
+            else
+            {
+                if (_userRecognizers.Count == 0) return;
+                foreach (var i in _userRecognizers.OfType<UILongPressGestureRecognizer>())
+                {
+                    RemoveGestureRecognizer(i);
                 }
             }
         }
-    }
-
-    public class TouchableFrameRenderer : FrameRender
-    {
+        private void RefreshClick(TouchableFrame tf)
+        {
+            if (tf.HasClick)
+            {
+                UITapGestureRecognizer recognizer;
+                if (tf is TextAtom)
+                {
+                    recognizer = new UITapGestureRecognizer(() =>
+                    {
+                        ((TextAtom) tf).TappedAnimation(async () =>
+                        {
+                            await Task.Yield();
+                            tf.OnClick();
+                        });
+                    });
+                }
+                else
+                {
+                    recognizer = new UITapGestureRecognizer(() => tf.OnClick());
+                }
+                AddGestureRecognizer(recognizer);
+                _userRecognizers.Add(recognizer);
+            }
+            else
+            {
+                if (_userRecognizers.Count == 0) return;
+                foreach (var i in _userRecognizers.OfType<UITapGestureRecognizer>())
+                {
+                    RemoveGestureRecognizer(i);
+                }
+            }
+        }
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            if (target == null) return;
-            var tf = target as Internal.TouchableFrame;
-            if (tf.ClickedCommand != null || tf.LongClickedCommand != null)
+            _userRecognizers.Clear();
+            if (target == null) 
             {
-                UserInteractionEnabled = true;
-                if (tf.ClickedCommand != null)
-                {
-                    AddGestureRecognizer(new UITapGestureRecognizer(() => { tf.ClickedCommand.Execute(null); }));
-                }
-                if (tf.LongClickedCommand != null)
-                {
-                    AddGestureRecognizer(new UILongPressGestureRecognizer(
-                        (s) =>
-                        {
-                            if (s.State == UIGestureRecognizerState.Began)
-                                tf.LongClickedCommand.Execute(null);
-                        }));
-                }
+                return;
+            }
+            var tf = (TouchableFrame)target;
+            RefreshClick(tf);
+            RefreshLongClick(tf);
+        }
+
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            switch (e.PropertyName)
+            {
+                case "HasClick":
+                    RefreshClick(target as TouchableFrame);
+                    break;
+                case "HasLongClick":
+                    RefreshLongClick(target as TouchableFrame);
+                    break;
             }
         }
     }

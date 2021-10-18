@@ -33,9 +33,8 @@
                             SecondTitle="●"
                             SecondTitleColor="{Binding ReadState}"
                             SecondContent="{Binding Date}"
-                            ClickedCommand="{Binding ItemTappedCommand}"
-                            LongClickedCommand="{Binding ItemLongPressCommand}">
-
+                            Click="MessageClicked"
+                            LongClick="MessageLongClicked">
                         </controls:TextAtom>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

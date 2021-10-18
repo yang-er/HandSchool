@@ -12,7 +12,7 @@ namespace HandSchool.Views
 		public InfoQueryPage()
 		{
             InitializeComponent();
-            ViewModel = new BaseViewModel { Title = "信息查询" };
+            ViewModel = new BaseViewModel { Title = "其他功能" };
             (Content as CollectionView).ItemsSource = Core.App.InfoEntrances;
         }
 
@@ -21,25 +21,22 @@ namespace HandSchool.Views
 
         public async void ItemTapped(object sender, System.EventArgs args)
         {
-            var frame = sender as Controls.TextAtom;
-            var e = frame.BindingContext;
-            await frame.TappedAnimation(async () =>
-            {
-                if (e == null || IsPushing)
-                    return;
-                IsPushing = true;
+            var e = (sender as BindableObject)?.BindingContext;
 
-                if (e is InfoEntranceWrapper iew)
-                {
-                    await Navigation.PushAsync<IWebViewPage>(iew.Load.Invoke());
-                }
-                else if (e is TapEntranceWrapper tew)
-                {
-                    await tew.Activate(Navigation);
-                }
-                IsPushing = false;
-            });
-            
+            if (e is null || IsPushing)
+                return;
+            IsPushing = true;
+
+            if (e is InfoEntranceWrapper iew)
+            {
+                await Navigation.PushAsync<IWebViewPage>(iew.Load.Invoke());
+            }
+            else if (e is TapEntranceWrapper tew)
+            {
+                await tew.Activate(Navigation);
+            }
+
+            IsPushing = false;
         }
     }
 }

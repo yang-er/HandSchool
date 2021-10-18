@@ -185,7 +185,7 @@ namespace HandSchool.JLU.Services
                 }
             }
             else return true;
-            if (await ViewModelExtensions.RequestLogin(this) == RequestLoginState.SUCCESSED)
+            if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
             {
                 TimeoutManager.Refresh();
                 return true;

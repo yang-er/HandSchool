@@ -28,11 +28,7 @@
                         HasSecond="False"
                         Title="{Binding Title}"
                         ContentText="{Binding Detail}"
-                        >
-                        <controls:TextAtom.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ItemTapped"/>
-                        </controls:TextAtom.GestureRecognizers>
-                    </controls:TextAtom>
+                        Click="ItemTapped"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

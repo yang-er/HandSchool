@@ -29,12 +29,9 @@
                             ContentText="{Binding Detail}" 
                             SecondTitle="●"
                             SecondTitleColor="{Binding TypeColor}"
-                            SecondContent="{Binding Type}"> 
-                        <controls:TextAtom.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Handle_ItemTapped"/>
-                            </controls:TextAtom.GestureRecognizers>
-                        </controls:TextAtom>
-                </DataTemplate>
+                            SecondContent="{Binding Type}"
+                            Click="Handle_ItemTapped"/> 
+                    </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
         </RefreshView>

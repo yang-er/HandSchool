@@ -1,6 +1,7 @@
 ﻿using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using System.Threading.Tasks;
+using HandSchool.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,9 +29,9 @@ namespace HandSchool.JLU.Views
             Task.Run(YktViewModel.Instance.FirstOpen);
         }
 
-        async void ItemTappedHandler(object sender, System.EventArgs args)
+        void ItemTappedHandler(object sender, System.EventArgs args)
         {
-            await(sender as VisualElement).TappedAnimation();
+            return;
         }
     }
 }

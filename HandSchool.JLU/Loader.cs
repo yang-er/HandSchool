@@ -38,6 +38,7 @@ namespace HandSchool.JLU
         public List<string> RegisteredFiles { get; private set; }
         public static SchoolCard Ykt;
         internal static StudentVpn Vpn;
+        public static LibRoomReservation LibRoom;
         public static InfoEntranceGroup InfoList;
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace HandSchool.JLU
         {
             Core.Reflection.RegisterType<ClassInfoSimplifier, JLUClassSimplifier>();
             Ykt = new SchoolCard();
+            LibRoom = new LibRoomReservation();
             SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(Loader).GetProperty(nameof(UseVpn))));
             switch (Device.RuntimePlatform)
             {
@@ -61,6 +63,8 @@ namespace HandSchool.JLU
             }
             Core.Reflection.RegisterCtor<InitializePage>();
             NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid", "JLU", MenuIcon.CreditCard);
+            NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU", MenuIcon.LibRoomResv);
+
             if (UseVpn)
             {
                 Vpn = new StudentVpn();
@@ -120,14 +124,13 @@ namespace HandSchool.JLU
 
             InfoList = new InfoEntranceGroup("公共信息查询")
             {
-                TapEntranceWrapper.From<EhallFill>(),
+                //TapEntranceWrapper.From<EhallFill>(),
                 TapEntranceWrapper.From<EmptyRoomPageShell>(),
                 InfoEntranceWrapper.From<TeachEvaluate>(),
-                InfoEntranceWrapper.From<CollegeIntroduce>(),
-                InfoEntranceWrapper.From<ProgramMaster>(),
-                InfoEntranceWrapper.From<ClassSchedule>(),
+                //InfoEntranceWrapper.From<CollegeIntroduce>(),
+                //InfoEntranceWrapper.From<ProgramMaster>(),
+                //InfoEntranceWrapper.From<ClassSchedule>(),
                 InfoEntranceWrapper.From<SelectCourse>(),
-                TapEntranceWrapper.From<LibraryZwyy>(),
                 InfoEntranceWrapper.From<AdviceSchedule>(),
             };
 

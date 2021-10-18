@@ -1,4 +1,6 @@
-﻿namespace HandSchool.Models
+﻿using System;
+
+namespace HandSchool.Models
 {
     /// <summary>
     /// 一个任务返回值的包装类
@@ -24,7 +26,7 @@
         public object Msg { get; }
         public override string ToString()
         {
-            return Msg.ToString();
+            return Msg?.ToString() ?? string.Empty;
         }
     }
 }

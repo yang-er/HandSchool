@@ -93,19 +93,19 @@
       <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Core">
-      <Version>1.6.0.1</Version>
+      <Version>1.6.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.GridLayout">
-      <Version>1.0.0.8</Version>
+      <Version>1.0.0.10</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.MediaRouter">
-      <Version>1.2.5</Version>
+      <Version>1.2.5.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Palette">
-      <Version>1.0.0.8</Version>
+      <Version>1.0.0.10</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.RecyclerView">
-      <Version>1.2.1.1</Version>
+      <Version>1.2.1.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
@@ -166,6 +166,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable\ic_nav_libroom.xml" />
     <AndroidResource Include="Resources\drawable\xamarin_logo.png" />
     <AndroidResource Include="Resources\drawable\side_bg.jpg" />
     <AndroidResource Include="Resources\drawable\splash.xml" />

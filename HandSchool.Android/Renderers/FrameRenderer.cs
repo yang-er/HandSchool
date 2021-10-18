@@ -1,17 +1,11 @@
 ﻿using Android.Content;
-using Android.Graphics;
-using Android.Views;
-using AndroidX.CardView.Widget;
-using HandSchool;
 using HandSchool.Controls;
 using HandSchool.Droid.Renderers;
 using HandSchool.Internal;
-using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Xamarin.Forms.Platform.Android.AppCompat;
 using FrameRenderer = Xamarin.Forms.Platform.Android.AppCompat.FrameRenderer;
 
 [assembly: ExportRenderer(typeof(Frame), typeof(SuperFrameRenderer))]
@@ -20,75 +14,111 @@ using FrameRenderer = Xamarin.Forms.Platform.Android.AppCompat.FrameRenderer;
 
 namespace HandSchool.Droid.Renderers
 {
+
     public class SuperFrameRenderer : FrameRenderer
     {
         public SuperFrameRenderer(Context context) : base(context) { }
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            using (var tv = new Android.Util.TypedValue())
-            {
-                Context.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, tv, true);
-                Foreground = Context.Theme.GetDrawable(tv.ResourceId);
-                Clickable = true;
-            }
+            using var tv = new Android.Util.TypedValue();
+            Context?.Theme?.ResolveAttribute(Resource.Attribute.selectableItemBackground, tv, true);
+            Foreground = Context?.Theme?.GetDrawable(tv.ResourceId);
+            Clickable = true;
         }
     }
 
     public class TouchableFrameRenderer : FrameRenderer
     {
-        TouchableFrame TouchableElement;
+        private TouchableFrame _touchableElement;
         public TouchableFrameRenderer(Context context) : base(context) { }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            using (var tv = new Android.Util.TypedValue())
+            _touchableElement = e.NewElement as TouchableFrame;
+            if (_touchableElement is null)
             {
-                Context.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, tv, true);
-                Foreground = Context.Theme.GetDrawable(tv.ResourceId);
-                Clickable = true;
+                _touchableElement = null;
+                SetOnClickListener(null);
+                SetOnLongClickListener(null);
             }
-            TouchableElement = e.NewElement as TouchableFrame;
-            var click = TouchableElement.ClickedCommand;
-            var long_click = TouchableElement.LongClickedCommand;
-            if (click != null)
+            else
             {
-                if (TouchableElement is TextAtom textAtom)
+                using (var tv = new Android.Util.TypedValue())
                 {
-                    Click += async (s, e) =>
+                    Context?.Theme?.ResolveAttribute(Resource.Attribute.selectableItemBackground, tv, true);
+                    Foreground = Context?.Theme?.GetDrawable(tv.ResourceId);
+                    Clickable = true;
+                }
+                RefreshOnClickListener();
+                RefreshOnLongClickListener();
+            }
+        }
+
+        private void RefreshOnClickListener()
+        {
+            if (_touchableElement.HasClick)
+            {
+                if (_touchableElement is TextAtom)
+                {
+                    SetOnClickListener(new ClickListener(async v =>
                     {
-                        await textAtom.TappedAnimation(async () =>
+                        await ((TextAtom) _touchableElement).TappedAnimation(async () =>
                         {
                             await Task.Yield();
-                            click.Execute(null);
+                            _touchableElement.OnClick();
                         });
-                    };
+                    }));
                 }
                 else
                 {
-                    Click += (s, e) => click.Execute(null);
+                    SetOnClickListener(new ClickListener(v => _touchableElement.OnClick()));
                 }
             }
-            else SetOnClickListener(null);
-            if (long_click != null)
+            else
             {
-                if (TouchableElement is TextAtom textAtom)
+                SetOnClickListener(null);
+            }
+        }
+
+        private void RefreshOnLongClickListener()
+        {
+            if (_touchableElement.HasLongClick)
+            {
+                if (_touchableElement is TextAtom)
                 {
-                    LongClick += async (s, e) =>
-                    {
-                        await textAtom.LongPressAnimation(async () =>
-                        {
-                            await Task.Yield();
-                            long_click.Execute(null);
-                        });
-                    };
+                    SetOnLongClickListener(new LongClickListener(
+                        async v =>
+                            await ((TextAtom) _touchableElement).LongPressAnimation(
+                                async () =>
+                                {
+                                    await Task.Yield();
+                                    _touchableElement.OnLongClick();
+                                })));
                 }
                 else
                 {
-                    LongClick += (s, e) => long_click.Execute(null);
+                    SetOnLongClickListener(new LongClickListener(v => _touchableElement.OnLongClick()));
                 }
             }
-            else SetOnLongClickListener(null);
+            else
+            {
+                SetOnLongClickListener(null);
+            }
+        }
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            switch (e.PropertyName)
+            {
+                case "HasClick":
+                    RefreshOnClickListener();
+                    break;
+                case "HasLongClick":
+                    RefreshOnLongClickListener();
+                    break;
+            }
         }
     }
 }

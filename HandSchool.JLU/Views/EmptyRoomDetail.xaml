@@ -19,6 +19,9 @@
                     ContentText="{Binding Description, Mode=OneWay}"/>
             </DataTemplate>
         </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2"/>
+            </CollectionView.ItemsLayout>
     </CollectionView>
     </StackLayout>
 </w:ViewObject>

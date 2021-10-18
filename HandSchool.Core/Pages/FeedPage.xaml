@@ -36,10 +36,8 @@
                                            Title="{Binding SimplifiedCategory}"
                                            AfterTitle="{Binding PubDate}"
                                            ContentText="{Binding Title}" 
-                                           HasSecond="False">
-                            <controls:TextAtom.GestureRecognizers>
-                                <TapGestureRecognizer Tapped = "ItemTapped"/>
-                            </controls:TextAtom.GestureRecognizers>
+                                           HasSecond="False"
+                                           Click="ItemTapped">
                         </controls:TextAtom>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

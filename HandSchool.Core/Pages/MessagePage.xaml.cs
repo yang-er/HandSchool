@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using System;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Internals;
 using Xamarin.Forms;
@@ -27,11 +28,17 @@ namespace HandSchool.Views
             base.OnAppearing();
             MessageViewModel.Instance.FirstOpen();
         }
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
 
         public bool IsPushing { get; set; } = false;
+
+        private void MessageClicked(object sender, EventArgs e)
+        {
+            ((sender as Frame)?.BindingContext as IMessageItem)?.ItemTappedCommand?.Execute(null);
+        }
+
+        private void MessageLongClicked(object sender, EventArgs e)
+        {
+            ((sender as Frame)?.BindingContext as IMessageItem)?.ItemLongPressCommand?.Execute(null);
+        }
     }
 }

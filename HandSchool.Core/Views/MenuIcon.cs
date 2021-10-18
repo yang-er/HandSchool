@@ -49,5 +49,6 @@
         /// 关于
         /// </summary>
         AboutUs,
+        LibRoomResv
     }
 }

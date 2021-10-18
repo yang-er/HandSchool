@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+             xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                  x:Class="HandSchool.JLU.Views.LibRoomReservationPage"
+             Title="鼎新馆空间预约"
+             IsBusy="{Binding IsBusy}"
+             BackgroundColor="#F4F4F4">
+    <RefreshView Command="{Binding RefreshInfosCommand}" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
+    <ScrollView>
+    <StackLayout>
+        <internal:TouchableFrame Margin="10,5" IsEnabled="False">
+            <StackLayout x:Name="InfoStack">
+                <StackLayout Orientation="Horizontal" Margin="0,5">
+                    <Label Text="个人信息" FontSize="Medium" VerticalTextAlignment="Center" TextColor="DarkRed" HorizontalOptions="FillAndExpand"/>
+                    <internal:TouchableFrame CornerRadius="20" Click="ClearUserInfo" Padding="10,0">
+                        <Label Text="清空账户信息" VerticalTextAlignment="Center"/>
+                    </internal:TouchableFrame>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                    <Label Text="姓名" FontSize="Medium" TextColor="DarkBlue"/>
+                    <Label Text="{Binding Name}" TextColor="Black" VerticalTextAlignment="Center"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                    <Label Text="校园卡账号" FontSize="Medium" TextColor="DarkBlue"/>
+                    <Label Text="{Binding Id}" TextColor="Black" VerticalTextAlignment="Center"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                    <Label Text="类别" FontSize="Medium" TextColor="DarkBlue"/>
+                    <Label Text="{Binding Dept}" TextColor="Black" VerticalTextAlignment="Center"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                    <Label Text="专业" FontSize="Medium" TextColor="DarkBlue"/>
+                    <Label Text="{Binding Profession}" TextColor="Black" VerticalTextAlignment="Center"/>
+                </StackLayout>
+            </StackLayout>
+        </internal:TouchableFrame>
+
+            <StackLayout Margin="10,5">
+                <Label Text="预约记录" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="DarkRed"/>
+                <CarouselView x:Name="ReservationRecordsView"
+                              ItemsSource="{Binding ReservationRecords}"
+                              Loop="False"
+                              HorizontalScrollBarVisibility="Never"
+                              PeekAreaInsets="40"
+                              HeightRequest="320">
+                
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:TextAtom
+                                OnTop="False"
+                                HasSecond="False" 
+                                Title="{Binding ResvType}"
+                                AfterTitle="{Binding RoomInfo}"
+                                ContentText="{Binding Description}"
+                                LongClick="CancelResv"/>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                            <CarouselView.EmptyView>
+                                <Frame IsEnabled="False" Scale="0.95" CornerRadius="30">
+                                    <Label Text="无预约记录" VerticalOptions="Center" FontSize="Large"></Label>
+                                </Frame>
+                            </CarouselView.EmptyView>
+                        </CarouselView>
+                <IndicatorView x:Name="ReservationRecordsIndicator"
+                               IndicatorColor="LightGray"
+                               SelectedIndicatorColor="DarkGray"
+                               HorizontalOptions="Center"/>
+            </StackLayout>
+        <internal:TouchableFrame Margin="10,5">
+            <StackLayout>
+                <Label Text="预约研讨间" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="DarkRed"/>
+                <Label Text="在弹出页面中点击绿色区域即可" FontSize="Medium" HorizontalTextAlignment="Center"/>
+                <Button x:Name="_3to6TodayButton" Text="3-6人研讨间 今日" Clicked="ResvClicked"/>
+                <Button x:Name="_3to6TomButton" Text="3-6人研讨间 明日" Clicked="ResvClicked"/>
+                <Button x:Name="_5to10TodayButton" Text="5-10人研讨间 今日" Clicked="ResvClicked"/>
+                <Button x:Name="_5to10TomButton" Text="5-10人研讨间 明日" Clicked="ResvClicked"/>
+            </StackLayout>
+        </internal:TouchableFrame>
+                    <StackLayout Margin="10,5">
+                        <Label Text="违规记录" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="DarkRed"/>
+                        <CarouselView x:Name="IrregularitiesView"
+                ItemsSource="{Binding IrregularitiesInfos}"
+                        Loop="False"
+                        HorizontalScrollBarVisibility="Never"
+                        PeekAreaInsets="40"
+                        HeightRequest="200">
+
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:TextAtom
+                            OnTop="False"
+                            HasSecond="False" 
+                            Title="{Binding Place}"
+                            ContentText="{Binding Description}"/>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                            <CarouselView.EmptyView>
+                                <Frame IsEnabled="False" Scale="0.95" CornerRadius="30">
+                                    <Label Text="无违规记录" FontSize="Large" VerticalOptions="Center"></Label>
+                                </Frame>
+                            </CarouselView.EmptyView>
+                        </CarouselView>
+                        <IndicatorView x:Name="IrregularitiesIndicator"
+                IndicatorColor="LightGray"
+                SelectedIndicatorColor="DarkGray"
+                HorizontalOptions="Center"/>
+                    </StackLayout>
+               
+            </StackLayout></ScrollView>
+    </RefreshView>
+</views:ViewObject>
