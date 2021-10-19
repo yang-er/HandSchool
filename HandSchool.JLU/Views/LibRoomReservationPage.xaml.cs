@@ -86,8 +86,11 @@ namespace HandSchool.JLU.Views
             );
         }
 
+        private bool _isSending = false;
         private async void ResvClicked(object sender, EventArgs e)
         {
+            if (_isSending) return;
+            _isSending = true;
             NearDays date;
             if (ReferenceEquals(sender, _3to6TodayButton) || ReferenceEquals(sender, _5to10TodayButton))
                 date = NearDays.Today;
@@ -109,6 +112,7 @@ namespace HandSchool.JLU.Views
             var res = await _viewModel.GetRoomAsync(par);
             if (!res.IsSuccess)
             {
+                _isSending = false;
                 if (res.Msg is null) return;
                 await NoticeError(res.ToString());
             }
@@ -116,14 +120,15 @@ namespace HandSchool.JLU.Views
             {
                 await Navigation.PushAsync(typeof(LibRoomResultPage), res.Msg);
             }
+            _isSending = false;
         }
-        
+
         private async void CancelResv(object sender, EventArgs e)
         {
             var info = (sender as BindableObject)?.BindingContext as ReservationInfo;
             if (info?.ResvInnerId is null) return;
-            await _viewModel.CancelResvAsync(info.ResvInnerId);
-            RefreshUserInfo();
+            if ((await _viewModel.CancelResvAsync(info.ResvInnerId)).IsSuccess)
+                RefreshUserInfo();
         }
 
         private async void RefreshUserInfo(object sender = null, EventArgs e = null)

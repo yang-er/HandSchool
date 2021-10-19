@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
@@ -433,8 +434,9 @@ namespace HandSchool.JLU.Services
                 if (data is null) return TaskResp.False;
                 var res = data.Select(item => new StudentLibBasicInfo
                 {
+                    SchoolCardId = schoolCardId,
                     Name = item["name"]?.ToString(),
-                    Tips = item["label"]?.ToString(),
+                    Tips = $"{item["name"]}({schoolCardId})",
                     InnerId = item["id"]?.ToString()
                 }).ToList();
 

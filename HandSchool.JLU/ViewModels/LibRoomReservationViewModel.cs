@@ -80,7 +80,7 @@ namespace HandSchool.JLU.ViewModels
         /// </param>
         public async Task<TaskResp> GetRoomAsync(GetRoomUsageParams obj)
         {
-            if (IsBusy) return TaskResp.False;
+            if (IsBusyOrRefreshing) return TaskResp.False;
             
             IsBusy = true;
             
@@ -110,19 +110,25 @@ namespace HandSchool.JLU.ViewModels
             };
             return new TaskResp(true, resPageParams);
         }
-        
+
         public void ClearUserInfo()
         {
+            if (IsBusyOrRefreshing) return;
+            IsBusy = true;
             Loader.LibRoom.DeleteUserInfo();
             InitUserInfo(null);
             Recommends.Clear();
             Selected.Clear();
             IrregularitiesInfos.Clear();
             ReservationRecords.Clear();
+            IsBusy = false;
         }
+
+        public bool IsBusyOrRefreshing => IsRefreshing || IsBusy;
+
         public async Task<TaskResp> RefreshInfosAsync()
         {
-            if (IsRefreshing) return TaskResp.False;
+            if (IsBusyOrRefreshing) return TaskResp.False;
             IsRefreshing = true;
             if(!await Loader.LibRoom.CheckLogin())
             {
@@ -152,39 +158,39 @@ namespace HandSchool.JLU.ViewModels
 
                 return new TaskResp(false, error);
             }
-            
-            if (resIrregularities.Msg is List<Irregularities> list)
+
+            Core.Platform.EnsureOnMainThread(() =>
             {
-                Core.Platform.EnsureOnMainThread(() =>
+                if (resIrregularities.Msg is List<Irregularities> list)
                 {
                     IrregularitiesInfos.Clear();
                     foreach (var item in list)
                     {
                         IrregularitiesInfos.Add(item);
                     }
-                });
-            } 
-            
-            if (resReservationRecords.Msg is List<ReservationInfo> list2)
-            {
-                Core.Platform.EnsureOnMainThread(() =>
+                }
+
+                if (resReservationRecords.Msg is List<ReservationInfo> list2)
                 {
+
                     ReservationRecords.Clear();
                     foreach (var item in list2)
                     {
                         ReservationRecords.Add(item);
                     }
-                });
-            }
+                }
+            });
             return TaskResp.True;
         }
 
         public async Task<TaskResp> StartResvAsync(LibRoom libRoom, NearDays date,DateTime start, DateTime end)
         {
+            if (IsBusyOrRefreshing) return TaskResp.False;
+            IsBusy = true;
             if (Selected.Count < libRoom.MinUser || Selected.Count > libRoom.MaxUser)
             {
-                await NoticeError($"人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
-                return TaskResp.False;
+                IsBusy = false;
+                return new TaskResp(false, "人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
             }
 
             var sb = new StringBuilder("$");
@@ -192,8 +198,8 @@ namespace HandSchool.JLU.ViewModels
             {
                 if (Selected[i].InnerId is null)
                 {
-                    await NoticeError("读取人员信息失败");
-                    return TaskResp.False;
+                    IsBusy = false;
+                    return new TaskResp(false, "读取人员信息失败");
                 }
                 if (i != Selected.Count - 1)
                 {
@@ -216,9 +222,37 @@ namespace HandSchool.JLU.ViewModels
                 var res = await Loader.LibRoom.SendResvAsync(libRoom, sb.ToString(), start, end);
                 if (!res.IsSuccess)
                 {
+                    return res;
+                }
+                else
+                {
+                    return TaskResp.True;
+                }
+            }
+            catch (WebsException we)
+            {
+                return new TaskResp(false, we.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task<TaskResp> CancelResvAsync(string resvId)
+        {
+            if (IsBusyOrRefreshing) return TaskResp.False;
+            IsBusy = true;
+            try
+            {
+                if (!await RequestAnswerAsync("确认操作", "是否取消这次预约？", "否", "是")) 
+                    return TaskResp.False;
+                var res = await Loader.LibRoom.CancelResvAsync(resvId);
+                if (!res.IsSuccess)
+                {
                     if (!(res.Msg is null))
                     {
-                        await NoticeError(res.Msg.ToString());
+                        await NoticeError(res.ToString());
                     }
                     else
                     {
@@ -228,43 +262,18 @@ namespace HandSchool.JLU.ViewModels
                 }
                 else
                 {
-                    await RequestMessageAsync("提示", "预约成功", "彳亍");
+                    await RequestMessageAsync("提示", "操作成功！", "好");
                     return TaskResp.True;
-                }
-            }
-            catch(WebsException we)
-            {
-                await NoticeError(we.Message);
-                return TaskResp.False;
-            }
-        }
-
-        public async Task CancelResvAsync(string resvId)
-        {
-            try
-            {
-                if (!await RequestAnswerAsync("确认操作", "是否取消这次预约？", "否", "是")) return;
-                var res = await Loader.LibRoom.CancelResvAsync(resvId);
-                if (!res.IsSuccess)
-                {
-                    if (!(res.Msg is null))
-                    {
-                        await NoticeError(res.ToString());
-                        return;
-                    }
-                    else
-                    {
-                        await NoticeError("服务器返回信息错误");
-                    }
-                }
-                else
-                {
-                    await RequestMessageAsync("提示","操作成功！", "好");
                 }
             }
             catch (Exception e)
             {
                 await NoticeError(e.Message);
+                return TaskResp.False;
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

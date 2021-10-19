@@ -12,6 +12,12 @@ namespace HandSchool.JLU.Views
 {
     public class StudentLibBasicInfo : NotifyPropertyChanged
     {
+        private string _schoolCardId;
+        public string SchoolCardId
+        {
+            get => _schoolCardId;
+            set => SetProperty(ref _schoolCardId, value);
+        }
         private string _name;
         public string Name
         {
@@ -36,14 +42,14 @@ namespace HandSchool.JLU.Views
             if (ReferenceEquals(this, obj)) return true;
             if (obj is StudentLibBasicInfo info)
             {
-                return _tips == info._tips;
+                return SchoolCardId == info.SchoolCardId;
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return Tips.GetHashCode();
+            return SchoolCardId.GetHashCode();
         }
     }
 
@@ -146,16 +152,33 @@ namespace HandSchool.JLU.Views
             InitStartPicker();
         }
         
-        private void NameSelected(object sender, EventArgs e)
+        private async void NameSelected(object sender, EventArgs e)
         {
+            if (IsBusy) return;
+            IsBusy = true;
             var frame = (Frame) sender;
             var label = frame.Content as Label;
             var info = label?.BindingContext as StudentLibBasicInfo;
-            SchoolCardNum.Text = "";
-            _viewModel.Recommends.Clear();
+            IsBusy = false;
+            if (_params.LibRoom.MaxUser is null)
+            {
+                await NoticeError("房间信息加载错误！");
+                return;
+            }
             if (string.IsNullOrWhiteSpace(info?.Name)) return;
             if (_viewModel.Selected.Contains(info)) return;
-            _viewModel.Selected.Add(info);
+            if (_viewModel.Selected.Count >= _params.LibRoom.MaxUser)
+            {
+                await NoticeError("人数超出房间限制！\n长按已选择的人员以移除列表。");
+                return;
+            }
+
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                SchoolCardNum.Text = "";
+                _viewModel.Recommends.Clear();
+                _viewModel.Selected.Add(info);
+            });
         }
 
         private async void DelUser(object sender, EventArgs e)
@@ -175,7 +198,14 @@ namespace HandSchool.JLU.Views
             var start = DateTime.Parse(StartTimePicker.SelectedItem as string);
             var end =  DateTime.Parse(EndTimePicker.SelectedItem as string);
             var res = await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
-            if (!res.IsSuccess) return;
+            if (!res.IsSuccess)
+            {
+                if (res.Msg is null) ;
+                else await NoticeError(res.ToString());
+                return;
+            }
+
+            await RequestMessageAsync("提示", "预约成功", "彳亍");
             Core.Platform.EnsureOnMainThread(_viewModel.Selected.Clear);
             await PopAsync();
             await _params.ResultPage.Refresh();

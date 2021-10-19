@@ -74,7 +74,7 @@
         <internal:TouchableFrame Margin="10,5">
             <StackLayout>
                 <Label Text="预约研讨间" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="DarkRed"/>
-                <Label Text="在弹出页面中点击绿色区域即可" FontSize="Medium" HorizontalTextAlignment="Center"/>
+                <Label Text="在弹出页面中点击空闲时段即可" FontSize="Medium" HorizontalTextAlignment="Center"/>
                 <Button x:Name="_3to6TodayButton" Text="3-6人研讨间 今日" Clicked="ResvClicked"/>
                 <Button x:Name="_3to6TomButton" Text="3-6人研讨间 明日" Clicked="ResvClicked"/>
                 <Button x:Name="_5to10TodayButton" Text="5-10人研讨间 今日" Clicked="ResvClicked"/>
