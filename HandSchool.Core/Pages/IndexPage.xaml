@@ -23,7 +23,7 @@
             <StackLayout>
                 <Label Margin="20,10,20,0" Text="今日份课程表" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
 
-                <CarouselView x:Name="classTable"
+                <CarouselView x:Name="ClassTable"
                           CurrentItemChanged="ClassTableCurrentItemChanged"
                           ItemsSource="{Binding ClassToday}"
                           Loop="False"
@@ -38,7 +38,6 @@
                             <Label Text="享受美好的休息时光吧~" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="#2F4F4F"/>
                         </StackLayout>
                         </Frame>
-                       
                     </CarouselView.EmptyView>
                 <CarouselView.ItemTemplate>
                             <DataTemplate>
@@ -58,7 +57,11 @@
                            SnapPointsAlignment="Center"/>
                 </CarouselView.ItemsLayout>
             </CarouselView>
-        </StackLayout>
+                <IndicatorView x:Name="ClassTableIndicator"
+                               IndicatorColor="LightGray"
+                               SelectedIndicatorColor="DarkGray"
+                               HorizontalOptions="Center"/>
+            </StackLayout>
             <StackLayout x:Name="WeatherFrame">
                 <Label Margin="20,5,20,0" Text="天气" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
                 <internal:TouchableFrame Margin="10,5">

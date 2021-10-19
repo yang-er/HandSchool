@@ -200,6 +200,7 @@ namespace HandSchool.JLU.Views
                     weight = (item.Times[i].End - item.Times[i].Start) / 5;
                     u = TimeLine.GetUsing(weight);
                     stack.Children.Add(u);
+                    SolveUsingTimeLine(u, item.Times[i]);
 
                     freeT = (item.Times[i + 1].Start - item.Times[i].End) / 5;
                     if (freeT == 0) continue;
@@ -216,6 +217,8 @@ namespace HandSchool.JLU.Views
                 weight = (item.Times[len].End - item.Times[len].Start) / 5;
                 u = TimeLine.GetUsing(weight, freeT <= 0 ? TimeLine.TimeLineState.End : TimeLine.TimeLineState.Mid);
                 stack.Children.Add(u);
+                
+                SolveUsingTimeLine(u, item.Times[len]);
 
                 if (freeT <= 0) continue;
                 f = TimeLine.GetFree(freeT, TimeLine.TimeLineState.End);
@@ -233,6 +236,18 @@ namespace HandSchool.JLU.Views
             line.Click += StartResvRoom;
         }
 
+        private void SolveUsingTimeLine(TimeLine line, TimeSlot times)
+        {
+            line.SetBindingMsg(times.Start, times.End, null);
+            line.TextMessage = $"{times.Msg}\n开始时间：{times.Start}\n结束时间：{times.End}";
+            line.Click += ShowMessage;
+        }
+        private async void ShowMessage(object sender, EventArgs e)
+        {
+            if (!(sender is TimeLine line)) return;
+            if (line.TextMessage is null) return;
+            await RequestMessageAsync("预约信息", line.TextMessage, "彳亍");
+        }
         private void OnSizeChanged(object sender, EventArgs e)
         {
             foreach (var item in _timeLineStack.Children)
@@ -261,15 +276,17 @@ namespace HandSchool.JLU.Views
                 }
             }
         }
-
+        private bool IsPushing { get; set; }
         private async void StartResvRoom(object sender, EventArgs e)
         {
+            if (IsPushing) return;
+            IsPushing = true;
             var timeLine = sender as TimeLine;
-            var libRoom = timeLine?.BindingContext as LibRoom;
-            if (libRoom is null) return;
+            if (!(timeLine?.BindingContext is LibRoom libRoom)) return;
             if (timeLine.End - timeLine.Start < libRoom.MinMins)
             {
                 await NoticeError($"该时间段小于{libRoom.MinMins}分钟");
+                IsPushing = false;
                 return;
             }
 
@@ -282,6 +299,7 @@ namespace HandSchool.JLU.Views
                 LibRoom = libRoom,
                 Date = Params.Date
             });
+            IsPushing = false;
         }
 
         private Time Now { get; set; }

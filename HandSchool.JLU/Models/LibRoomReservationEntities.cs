@@ -129,6 +129,7 @@ namespace HandSchool.JLU.Models
     {
         public Time Start { get; set; }
         public Time End { get; set; }
+        public string Msg { get; set; }
     }
     public class RoomUsageInfo
     {

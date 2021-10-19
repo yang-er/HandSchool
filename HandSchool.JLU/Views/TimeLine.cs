@@ -44,12 +44,12 @@ namespace HandSchool.JLU.Views
         }
         public static TimeLine GetFree(int weight, TimeLineState state = TimeLineState.Mid)
         {
-            var res = new TimeLine(weight,Color.FromHex("#66CC33"),state);
+            var res = new TimeLine(weight,Color.FromHex("#E8D2AA"),state);
             return res;
         }
         public static TimeLine GetUsing(int weight,TimeLineState state = TimeLineState.Mid)
         {
-            var res = new TimeLine(weight,Color.FromHex("#6699FF"), state);
+            var res = new TimeLine(weight,Color.FromHex("#4682b4"), state);
             return res;
         }
         public static TimeLine GetOutTime(int weight,TimeLineState state = TimeLineState.Mid)
@@ -62,5 +62,6 @@ namespace HandSchool.JLU.Views
             var res = new TimeLine(weight, Color.Black, state);
             return res;
         }
+        public string TextMessage { get; set; }
     }
 }

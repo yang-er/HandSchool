@@ -351,8 +351,11 @@ namespace HandSchool.JLU.Services
                 var dt = DateTime.Now;
                 var str = await WebClient.GetStringAsync(url);
                 var jo = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(str);
+                if (jo is null)
+                {
+                    return new TaskResp(false, "服务器返回数据错误");
+                }
                 var data = jo["data"];
-
                 if (data is null)
                 {
                     return new TaskResp(false, "服务器返回数据错误");
@@ -360,6 +363,9 @@ namespace HandSchool.JLU.Services
 
                 foreach (var i in data)
                 {
+                    if(i is null) continue;
+                    
+                    //从data提取出LibRoom的信息
                     var room = new LibRoom
                     {
                         Name = i["name"].ToString(),
@@ -381,21 +387,25 @@ namespace HandSchool.JLU.Services
                             : LibRoom.LibRoomState.NotClose
                     };
 
-                    var x = i["state"].ToString();
+                    //处理房间里面的预约
                     if (room.Ts.Count != 0)
                     {
                         room.Times = new List<TimeSlot>();
-                        foreach (var item in room.Ts)
-                        {
-                            if (item.start is null || item.end is null) continue;
-                            var ts = new TimeSlot
+                        foreach
+                        (var ts in
+                            from item in room.Ts
+                            where !(item.start is null) && !(item.end is null)
+                            select new TimeSlot
                             {
                                 Start = new Time(item.start.Value),
-                                End = new Time(item.end.Value)
-                            };
+                                End = new Time(item.end.Value),
+                                Msg = item.title
+                            }
+                        )
+                        {
                             room.Times.Add(ts);
-                            room.Times.Sort((a, b) => a.Start.CompareTo(b.Start));
                         }
+                        room.Times.Sort((a, b) => a.Start.CompareTo(b.Start));
                     }
 
                     res.Add(room);

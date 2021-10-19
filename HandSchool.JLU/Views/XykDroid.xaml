@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
               Title="校园卡"
               x:Class="HandSchool.JLU.Views.XykDroid">
     <w:ViewObject.Content>
@@ -26,7 +26,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Header>
-                    <Frame Margin="8,8,8,4" Padding="0,20,0,20" Scale="0.95" IsEnabled="False">
+                    <internal:TouchableFrame Margin="8,8,8,4" Padding="0,20,0,20" Scale="0.95" IsEnabled="False">
                         <StackLayout BindingContext="{Binding BasicInfo}">
                             <Grid Padding="20,0,20,0">
                                 <Grid.ColumnDefinitions>
@@ -97,10 +97,10 @@
                                 <Label Text="解挂" Grid.Column="2" Grid.Row="1" TextColor="Black" HorizontalOptions="Center" FontSize="Medium"></Label>
                             </Grid>
                         </StackLayout>
-                    </Frame>
+                    </internal:TouchableFrame>
                 </CollectionView.Header>
                 <CollectionView.Footer>
-                    <Frame Margin="8,4,8,8" Padding="20" Scale="0.95">
+                    <internal:TouchableFrame Margin="8,4,8,8" Padding="20" Scale="0.95">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ItemTappedHandler"/>
                         </Frame.GestureRecognizers>
@@ -113,7 +113,7 @@
                             <Label Text="Q: 你们这个App靠不靠谱啊，会不会有后门？" TextColor="Black" />
                             <Label Text="A: 亲亲，没有的。如果不放心不敢使用的话，您可以不用或者卸载哦。在将来如果报道上有偏差，你要负责。" />
                         </StackLayout>
-                    </Frame>
+                    </internal:TouchableFrame>
                 </CollectionView.Footer>
             </CollectionView>
         </RefreshView>

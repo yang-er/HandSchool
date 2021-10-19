@@ -24,9 +24,10 @@ namespace HandSchool.Views
             DayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
             ViewModel = IndexViewModel.Instance;
             Content.BackgroundColor = Color.FromRgb(241, 241, 241);
+            ClassTable.IndicatorView = ClassTableIndicator;
             switch (Device.RuntimePlatform)
             {
-                case "iOS":
+                case Device.iOS:
                     UseSafeArea = true;
                     break;
             }
@@ -48,7 +49,7 @@ namespace HandSchool.Views
 
                 if (!vm.NoClass)
                 {
-                    foreach (var i in classTable.ItemsSource)
+                    foreach (var i in ClassTable.ItemsSource)
                     {
                         var item = (Models.CurriculumItem)i;
                         if (item.State == ClassState.Current || item.State == ClassState.Next)
@@ -68,7 +69,7 @@ namespace HandSchool.Views
                     await Task.Yield();
                     if (index != -1)
                     {
-                        classTable.ScrollTo(index, position: ScrollToPosition.Center,animate:false);
+                        ClassTable.ScrollTo(index, position: ScrollToPosition.Center,animate:false);
                     }
                 });
             });
@@ -139,9 +140,9 @@ namespace HandSchool.Views
 
         protected override void OnDisappearing()
         {
-            if (((IList) classTable.ItemsSource).Count != 0)
+            if (((IList) ClassTable.ItemsSource).Count != 0)
             {
-                classTable.CurrentItem = ((IndexViewModel)ViewModel).ClassToday[0];
+                ClassTable.CurrentItem = ((IndexViewModel)ViewModel).ClassToday[0];
             }
             IndexViewModel.Instance.CurrentClassesLoadFinished -= CurrentClassLoadOver;
             base.OnDisappearing();
