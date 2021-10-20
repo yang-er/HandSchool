@@ -165,8 +165,17 @@ namespace HandSchool.JLU.Views
                 await NoticeError("房间信息加载错误！");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(info?.Name)) return;
-            if (_viewModel.Selected.Contains(info)) return;
+
+            if (string.IsNullOrWhiteSpace(info?.Name) || _viewModel.Selected.Contains(info))
+            {
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    SchoolCardNum.Text = "";
+                    _viewModel.Recommends.Clear();
+                });
+                return;
+            }
+            
             if (_viewModel.Selected.Count >= _params.LibRoom.MaxUser)
             {
                 await NoticeError("人数超出房间限制！\n长按已选择的人员以移除列表。");
@@ -200,8 +209,10 @@ namespace HandSchool.JLU.Views
             var res = await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
             if (!res.IsSuccess)
             {
-                if (res.Msg is null) ;
-                else await NoticeError(res.ToString());
+                if (!(res.Msg is null))
+                {
+                    await NoticeError(res.ToString());
+                }
                 return;
             }
 
