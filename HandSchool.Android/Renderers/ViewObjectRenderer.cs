@@ -49,7 +49,7 @@ namespace HandSchool.Droid.Renderers
             {
                 var nav = Element.Navigation;
                 
-                if (nav?.NavigationStack != null && nav.NavigationStack.Count > 0 && Element == nav.NavigationStack[nav.NavigationStack.Count - 1])
+                if (nav?.NavigationStack != null && nav.NavigationStack.Count > 0 && Element == nav.NavigationStack[^1])
                 {
                     RequestLayout();
                 }

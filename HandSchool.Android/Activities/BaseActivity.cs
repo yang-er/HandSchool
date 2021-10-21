@@ -206,6 +206,14 @@ namespace HandSchool.Droid
             return Task.CompletedTask;
         }
 
+        public Task<bool> PopAsync()
+        {
+            var topActivity = (Core.Platform as PlatformImplV2)?.PeekContext(false) as BaseActivity;
+            if (topActivity is null) return Task.FromResult(false);
+            PlatformImplV2.Instance.RemoveContext(this);
+            topActivity.Finish();
+            return Task.FromResult(true);
+        }
         #endregion
         
         protected override void OnCreate(Bundle savedInstanceState)
@@ -251,8 +259,8 @@ namespace HandSchool.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            ClearOldStates();
             PlatformImplV2.Instance.RemoveContext(this);
+            ClearOldStates();
         }
 
         public virtual void SolveBindings() { }

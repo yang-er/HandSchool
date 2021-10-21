@@ -245,31 +245,20 @@ namespace HandSchool.JLU.ViewModels
             IsBusy = true;
             try
             {
-                if (!await RequestAnswerAsync("确认操作", "是否取消这次预约？", "否", "是")) 
-                    return TaskResp.False;
                 var res = await Loader.LibRoom.CancelResvAsync(resvId);
                 if (!res.IsSuccess)
                 {
-                    if (!(res.Msg is null))
-                    {
-                        await NoticeError(res.ToString());
-                    }
-                    else
-                    {
-                        await NoticeError("服务器返回信息错误");
-                    }
-                    return TaskResp.False;
+                    return res.Msg is null ? new TaskResp(false, "服务器返回信息异常") : res;
                 }
                 else
                 {
-                    await RequestMessageAsync("提示", "操作成功！", "好");
                     return TaskResp.True;
                 }
             }
             catch (Exception e)
             {
                 await NoticeError(e.Message);
-                return TaskResp.False;
+                return new TaskResp(false, e.Message);
             }
             finally
             {

@@ -4,6 +4,7 @@ using HandSchool.Internals;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
 using SysEnv = System.Environment;
 
 namespace HandSchool.Droid
@@ -14,7 +15,7 @@ namespace HandSchool.Droid
         
         public UpdateManager UpdateManager { get; }
 
-        private List<Context> ContextStack { get; }
+        public List<Context> ContextStack { get; }
 
         public static List<NavMenuItemV2> NavigationItems { get; } = new List<NavMenuItemV2>();
 
@@ -43,12 +44,12 @@ namespace HandSchool.Droid
         {
             if (force && ContextStack.Count == 0)
                 throw new InvalidOperationException("No context");
-            return ContextStack.Count == 0 ? null : ContextStack[ContextStack.Count - 1];
+            return ContextStack.Count == 0 ? null : ContextStack[^1];
         }
 
         private PlatformImplV2(Context context)
         {
-            RuntimeName = "Android";
+            RuntimeName = Device.Android;
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
             ConfigureDirectory = SysEnv.GetFolderPath(SysEnv.SpecialFolder.Personal);
             Core.InitPlatform(Instance = this);

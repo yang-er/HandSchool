@@ -147,7 +147,7 @@ namespace HandSchool.JLU.Views
         {
             base.SetNavigationArguments(param);
             _params = param as LibRoomRequestParams;
-            TitleLabel.Text = "预约" + _params?.LibRoom.Name;
+            Title = "预约" + _params?.LibRoom.Name;
             StartTimePicker.SelectedIndexChanged += InitEndPicker;
             InitStartPicker();
         }
@@ -205,7 +205,7 @@ namespace HandSchool.JLU.Views
         private async void SelectedOk(object sender, EventArgs e)
         {
             var start = DateTime.Parse(StartTimePicker.SelectedItem as string);
-            var end =  DateTime.Parse(EndTimePicker.SelectedItem as string);
+            var end = DateTime.Parse(EndTimePicker.SelectedItem as string);
             var res = await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
             if (!res.IsSuccess)
             {
@@ -213,28 +213,20 @@ namespace HandSchool.JLU.Views
                 {
                     await NoticeError(res.ToString());
                 }
+
                 return;
             }
 
             await RequestMessageAsync("提示", "预约成功", "彳亍");
             Core.Platform.EnsureOnMainThread(_viewModel.Selected.Clear);
-            await PopAsync();
+            await Navigation.PopAsync();
             await _params.ResultPage.Refresh();
             await _viewModel.RefreshInfosAsync();
         }
 
-        public async Task PushAsync()
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(this);
-        }
-
-        public static async Task PopAsync()
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
         private async void ReSelectOnClicked(object sender, EventArgs e)
         {
-            await PopAsync();
+            await Navigation.PopAsync();
         }
     }
 }

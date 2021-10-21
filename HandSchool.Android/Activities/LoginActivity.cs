@@ -1,9 +1,10 @@
 ﻿using Android.App;
+using Android.Content.PM;
 using Android.OS;
 
 namespace HandSchool.Droid
 {
-    [Activity(Theme = "@style/AppTheme.NoActionBar")]
+    [Activity(Theme = "@style/AppTheme.NoActionBar", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [BindView(Resource.Layout.activity_login)]
     public class LoginActivity : BaseActivity
     {

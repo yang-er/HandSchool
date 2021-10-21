@@ -127,8 +127,22 @@ namespace HandSchool.JLU.Views
         {
             var info = (sender as BindableObject)?.BindingContext as ReservationInfo;
             if (info?.ResvInnerId is null) return;
-            if ((await _viewModel.CancelResvAsync(info.ResvInnerId)).IsSuccess)
+            if (!await RequestAnswerAsync("确认", "取消此次预约？", "否", "是"))
+            {
+                return;
+            }
+
+            var res = await _viewModel.CancelResvAsync(info.ResvInnerId);
+            if (res.IsSuccess)
+            {
                 RefreshUserInfo();
+                await RequestMessageAsync("提示","成功取消", "彳亍");
+            }
+            else
+            {
+                if (res.Msg is null) return;
+                await NoticeError(res.ToString());
+            }
         }
 
         private async void RefreshUserInfo(object sender = null, EventArgs e = null)

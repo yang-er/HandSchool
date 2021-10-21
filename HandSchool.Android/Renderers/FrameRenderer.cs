@@ -30,16 +30,12 @@ namespace HandSchool.Droid.Renderers
 
     public class TouchableFrameRenderer : FrameRenderer
     {
-        private TouchableFrame _touchableElement;
         public TouchableFrameRenderer(Context context) : base(context) { }
-
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            _touchableElement = e.NewElement as TouchableFrame;
-            if (_touchableElement is null)
+            if (!(e.NewElement is TouchableFrame touchableElement))
             {
-                _touchableElement = null;
                 SetOnClickListener(null);
                 SetOnLongClickListener(null);
             }
@@ -51,29 +47,35 @@ namespace HandSchool.Droid.Renderers
                     Foreground = Context?.Theme?.GetDrawable(tv.ResourceId);
                     Clickable = true;
                 }
-                RefreshOnClickListener();
-                RefreshOnLongClickListener();
+                RefreshOnClickListener(touchableElement);
+                RefreshOnLongClickListener(touchableElement);
             }
         }
-
-        private void RefreshOnClickListener()
+        protected override void Dispose(bool disposing)
         {
-            if (_touchableElement.HasClick)
+            base.Dispose(disposing);
+            SetOnClickListener(null);
+            SetOnLongClickListener(null);
+        }
+        private void RefreshOnClickListener(TouchableFrame touchableElement)
+        {
+            if (touchableElement is null) return;
+            if (touchableElement.HasClick)
             {
-                if (_touchableElement is TextAtom)
+                if (touchableElement is TextAtom)
                 {
                     SetOnClickListener(new ClickListener(async v =>
                     {
-                        await ((TextAtom) _touchableElement).TappedAnimation(async () =>
+                        await ((TextAtom) touchableElement).TappedAnimation(async () =>
                         {
                             await Task.Yield();
-                            _touchableElement.OnClick();
+                            touchableElement.OnClick();
                         });
                     }));
                 }
                 else
                 {
-                    SetOnClickListener(new ClickListener(v => _touchableElement.OnClick()));
+                    SetOnClickListener(new ClickListener(v => touchableElement.OnClick()));
                 }
             }
             else
@@ -82,24 +84,25 @@ namespace HandSchool.Droid.Renderers
             }
         }
 
-        private void RefreshOnLongClickListener()
+        private void RefreshOnLongClickListener(TouchableFrame touchableElement)
         {
-            if (_touchableElement.HasLongClick)
+            if (touchableElement is null) return;
+            if (touchableElement.HasLongClick)
             {
-                if (_touchableElement is TextAtom)
+                if (touchableElement is TextAtom)
                 {
                     SetOnLongClickListener(new LongClickListener(
                         async v =>
-                            await ((TextAtom) _touchableElement).LongPressAnimation(
+                            await ((TextAtom) touchableElement).LongPressAnimation(
                                 async () =>
                                 {
                                     await Task.Yield();
-                                    _touchableElement.OnLongClick();
+                                    touchableElement.OnLongClick();
                                 })));
                 }
                 else
                 {
-                    SetOnLongClickListener(new LongClickListener(v => _touchableElement.OnLongClick()));
+                    SetOnLongClickListener(new LongClickListener(v => touchableElement.OnLongClick()));
                 }
             }
             else
@@ -113,10 +116,10 @@ namespace HandSchool.Droid.Renderers
             switch (e.PropertyName)
             {
                 case "HasClick":
-                    RefreshOnClickListener();
+                    RefreshOnClickListener(sender as TouchableFrame);
                     break;
                 case "HasLongClick":
-                    RefreshOnLongClickListener();
+                    RefreshOnLongClickListener(sender as TouchableFrame);
                     break;
             }
         }

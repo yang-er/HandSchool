@@ -7,12 +7,6 @@
             <ScrollView>
                 <StackLayout Margin="10,5" Padding="10">
                     <StackLayout Orientation="Horizontal">
-                        <internal:TouchableFrame CornerRadius="20" Padding="10,0" Click="ReSelectOnClicked">
-                            <Label Text="重新选择房间或时段" TextColor="Blue" VerticalTextAlignment="Center"/>
-                        </internal:TouchableFrame>
-                        <Label x:Name="TitleLabel" FontSize="Medium" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="Black"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
                     <Label Text="校园卡号" VerticalTextAlignment="Center"></Label>
                 <Entry x:Name="SchoolCardNum" IsPassword="False" TextChanged="SchoolCardIdChanged" HorizontalOptions="FillAndExpand"/>
                 </StackLayout>

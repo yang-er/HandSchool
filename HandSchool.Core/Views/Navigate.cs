@@ -16,5 +16,6 @@ namespace HandSchool.Views
         /// <param name="pageType">页面类型</param>
         /// <param name="param">传入参数</param>
         Task PushAsync(Type pageType, object param);
+        Task<bool> PopAsync();
     }
 }

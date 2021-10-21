@@ -1,11 +1,13 @@
 ﻿using Android.App;
 using HandSchool.Views;
 using System;
+using Android.Content.PM;
 using SupportFragment = AndroidX.Fragment.App.Fragment;
+using Android.OS;
 
 namespace HandSchool.Droid
 {
-    [Activity(Theme = "@style/AppTheme.NoActionBar")]
+    [Activity(Theme = "@style/AppTheme.NoActionBar", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [BindView(Resource.Layout.activity_popup)]
     public class SecondActivity : BaseActivity
     {
@@ -51,7 +53,6 @@ namespace HandSchool.Droid
                         break;
                 }
             }
-            
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
         }

@@ -55,15 +55,12 @@ namespace HandSchool.JLU.Views
                 _timeTable.ColumnDefinitions.Clear();
             }
 
-            if (!(_timeLineStack is null))
-            {
-                _timeLineStack.Children.Clear();
-            }
+            _timeLineStack?.Children?.Clear();
             _timeTable = null;
             _timeLineStack = null;
             Content = null;
         }
-
+        
         private void InitTimeLabel(int start, int end, int startRow)
         {
             var curRow = startRow;
@@ -289,10 +286,8 @@ namespace HandSchool.JLU.Views
                 IsPushing = false;
                 return;
             }
-
-            var requPage = new LibRoomRequestPage();
-            await requPage.PushAsync();
-            requPage.SetNavigationArguments(new LibRoomRequestParams
+            
+            await Navigation.PushAsync(typeof(LibRoomRequestPage), new LibRoomRequestParams
             {
                 ResultPage = this,
                 TimeSlot = new TimeSlot {Start = timeLine.Start, End = timeLine.End},

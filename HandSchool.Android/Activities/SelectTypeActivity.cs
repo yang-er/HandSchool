@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using HandSchool.Views;
 using System;
@@ -9,7 +10,7 @@ using MessagingCenter = Xamarin.Forms.MessagingCenter;
 
 namespace HandSchool.Droid
 {
-    [Activity(Theme = "@style/AppTheme.NoActionBar")]
+    [Activity(Theme = "@style/AppTheme.NoActionBar", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [BindView(Resource.Layout.activity_selecttype)]
     public class SelectTypeActivity : BaseActivity
     {
