@@ -56,5 +56,15 @@ namespace HandSchool.Droid
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetHomeButtonEnabled(true);
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            foreach(var fragment in SupportFragmentManager.Fragments)
+            {
+                fragment.OnDestroy();
+                fragment.Dispose();
+            }
+        }
     }
 }

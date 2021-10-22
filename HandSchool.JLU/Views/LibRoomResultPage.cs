@@ -13,6 +13,8 @@ namespace HandSchool.JLU.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public class LibRoomResultPage : ViewObject
     {
+        public const string RequestFinishedSignal = "HandSchool.JlU.Views.LibRoomResultPage.RequestFinished";
+
         public static Time StartTime { get; } = new Time("6:30");
         public static Time EndTime { get; } = new Time("21:30");
 
@@ -289,14 +291,18 @@ namespace HandSchool.JLU.Views
             
             await Navigation.PushAsync(typeof(LibRoomRequestPage), new LibRoomRequestParams
             {
-                ResultPage = this,
                 TimeSlot = new TimeSlot {Start = timeLine.Start, End = timeLine.End},
                 LibRoom = libRoom,
                 Date = Params.Date
             });
+            MessagingCenter.Subscribe<LibRoomRequestPage>(this, RequestFinishedSignal, OnRequestFinsished);
             IsPushing = false;
         }
-
+        private async void OnRequestFinsished(LibRoomRequestPage p)
+        {
+            await Navigation.PopAsync();
+            MessagingCenter.Unsubscribe<LibRoomRequestPage>(this, RequestFinishedSignal);
+        }
         private Time Now { get; set; }
 
         public override void SetNavigationArguments(object param)

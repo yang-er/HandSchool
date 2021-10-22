@@ -88,7 +88,6 @@ namespace HandSchool.JLU.Models
     }
     public class LibRoomRequestParams
     {
-        public LibRoomResultPage ResultPage { get; set; }
         public NearDays Date { get; set; }
         public TimeSlot TimeSlot { get; set; }
         public LibRoom LibRoom { get; set; }

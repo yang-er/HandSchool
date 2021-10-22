@@ -230,7 +230,9 @@ namespace HandSchool.Droid
             {
                 // notice that this activity conveys an argument.
                 var guid = new Guid(Intent.GetByteArrayExtra(BroadcastedArgument));
-                OnNavigatedParameter(ArgumentBroadcastSource[guid]);
+                var param = ArgumentBroadcastSource[guid];
+                ArgumentBroadcastSource.Remove(guid);
+                OnNavigatedParameter(param);
             }
         }
 

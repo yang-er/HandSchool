@@ -53,9 +53,13 @@ namespace HandSchool.Droid.Renderers
         }
         protected override void Dispose(bool disposing)
         {
+            try
+            {
+                SetOnClickListener(null);
+                SetOnLongClickListener(null);
+            }
+            catch{}
             base.Dispose(disposing);
-            SetOnClickListener(null);
-            SetOnLongClickListener(null);
         }
         private void RefreshOnClickListener(TouchableFrame touchableElement)
         {

@@ -7,7 +7,8 @@
               x:Class="HandSchool.JLU.Views.EmptyRoomPage"
               IsBusy="{Binding IsBusy}">
     <w:ViewObject.Content>
-        <StackLayout>
+        <ScrollView>
+            <StackLayout>
                 <Frame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
@@ -45,5 +46,6 @@
                     </StackLayout>
                 </Frame>
         </StackLayout>
+        </ScrollView>
     </w:ViewObject.Content>
 </w:ViewObject>

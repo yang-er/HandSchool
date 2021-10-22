@@ -220,7 +220,7 @@ namespace HandSchool.JLU.Views
             await RequestMessageAsync("提示", "预约成功", "彳亍");
             Core.Platform.EnsureOnMainThread(_viewModel.Selected.Clear);
             await Navigation.PopAsync();
-            await _params.ResultPage.Refresh();
+            MessagingCenter.Send(this, LibRoomResultPage.RequestFinishedSignal);
             await _viewModel.RefreshInfosAsync();
         }
 

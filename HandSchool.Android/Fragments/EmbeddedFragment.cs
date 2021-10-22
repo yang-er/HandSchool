@@ -5,14 +5,13 @@ using HandSchool.Internals;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using System.ComponentModel;
-using Page = Xamarin.Forms.ContentPage;
 using XForms = Xamarin.Forms.Platform.Android.PageExtensions;
 
 namespace HandSchool.Droid
 {
     public class EmbeddedFragment : ViewFragment, INotifyPropertyChanged
     {
-        public ViewObject ViewObject { get; }
+        public ViewObject ViewObject { get; private set; }
         public AndroidX.Fragment.App.Fragment Renderer { get; set; }
         public bool SelfControl { get; }
 
@@ -67,14 +66,16 @@ namespace HandSchool.Droid
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Renderer = Renderer != null ? Renderer : XForms.CreateSupportFragment(ViewObject, Context);
+            Renderer ??= XForms.CreateSupportFragment(ViewObject, Context);
             return Renderer.OnCreateView(inflater, container, savedInstanceState);
         }
 
         protected override void Dispose(bool disposing)
         {
             Renderer?.Dispose();
+            Renderer = null;
             ViewObject.BindingContext = null;
+            ViewObject = null;
             base.Dispose(disposing);
         }
 

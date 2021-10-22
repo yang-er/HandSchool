@@ -190,7 +190,7 @@ namespace HandSchool.JLU.ViewModels
             if (Selected.Count < libRoom.MinUser || Selected.Count > libRoom.MaxUser)
             {
                 IsBusy = false;
-                return new TaskResp(false, "人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
+                return new TaskResp(false, $"人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
             }
 
             var sb = new StringBuilder("$");
