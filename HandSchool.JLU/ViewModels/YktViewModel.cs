@@ -285,6 +285,7 @@ namespace HandSchool.JLU.ViewModels
                         await NoticeError("键盘位识别不正确");
                     }
 
+                    IsBusy = true;
                     keyboard = await RequestInputWithPicAsync("你好", "请输入图中键盘的数字布局", "取消", "完成", msg.Item2);
                     if (keyboard == null)
                     {
@@ -293,6 +294,7 @@ namespace HandSchool.JLU.ViewModels
                     }
                 }
 
+                IsBusy = true;
                 var res2 = await afterVerification(code, keyboard);
                 if (!res2.IsSuccess)
                 {

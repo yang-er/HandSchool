@@ -18,18 +18,20 @@ namespace HandSchool.iOS.Renderers
 {
     public class FrameRender : FrameRenderer
     {
-        protected Frame target = null;
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            target = e.NewElement;
-            if (target == null)
+            if (e.NewElement is null)
             {
                 GestureRecognizers = null;
                 return;
             }
-            target.HasShadow = false;
-            target.BorderColor = Color.LightGray;
+
+            if (e.NewElement.HasShadow)
+            {
+                e.NewElement.HasShadow = false;
+                e.NewElement.BorderColor = Color.LightGray;
+            }
         }
     }
     
@@ -113,11 +115,8 @@ namespace HandSchool.iOS.Renderers
         {
             base.OnElementChanged(e);
             _userRecognizers.Clear();
-            if (target == null) 
-            {
-                return;
-            }
-            var tf = (TouchableFrame)target;
+            if (e.NewElement is null) return;
+            var tf = (TouchableFrame)e.NewElement;
             RefreshClick(tf);
             RefreshLongClick(tf);
         }
@@ -128,10 +127,10 @@ namespace HandSchool.iOS.Renderers
             switch (e.PropertyName)
             {
                 case "HasClick":
-                    RefreshClick(target as TouchableFrame);
+                    RefreshClick(sender as TouchableFrame);
                     break;
                 case "HasLongClick":
-                    RefreshLongClick(target as TouchableFrame);
+                    RefreshLongClick(sender as TouchableFrame);
                     break;
             }
         }

@@ -11,7 +11,7 @@
     <RefreshView Refreshing="RefreshUserInfo" IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
     <ScrollView>
     <StackLayout>
-        <internal:TouchableFrame Margin="10,5" IsEnabled="False">
+        <internal:TouchableFrame Margin="10,5">
             <StackLayout x:Name="InfoStack">
                 <StackLayout Orientation="Horizontal" Margin="0,5">
                     <Label Text="个人信息" FontSize="Medium" VerticalTextAlignment="Center" TextColor="DarkRed" HorizontalOptions="FillAndExpand"/>

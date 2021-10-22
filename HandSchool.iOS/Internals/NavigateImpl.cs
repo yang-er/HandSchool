@@ -53,5 +53,18 @@ namespace HandSchool.iOS
                 throw new InvalidOperationException();
             }
         }
+
+        public Task<bool> PopAsync()
+        {
+            try
+            {
+                InnerNavigation.PopAsync();
+                return Task.FromResult(true);
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace HandSchool.iOS
             null,
             null,
             null,
+            null,
         };
 
         public FileImageSource Icon { get; }
