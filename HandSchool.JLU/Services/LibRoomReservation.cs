@@ -111,21 +111,15 @@ namespace HandSchool.JLU.Services
         public LibRoomReservation()
         {
             WebClient = Core.New<IWebClient>();
+            WebClient.Timeout = 5000;
             WebClient.BaseAddress = baseUrl;
 
             IsLogin = false;
             Username = Core.Configure.Read(ConfigUsername);
-            if (!string.IsNullOrWhiteSpace(Username)) Password = Core.Configure.Read(ConfigPassword);
+            if (!string.IsNullOrWhiteSpace(Username)) 
+                Password = Core.Configure.Read(ConfigPassword);
             SavePassword = !string.IsNullOrEmpty(Password);
-            if (bool.TryParse(Core.Configure.Read(ConfigAutoLogin), out var al))
-            {
-                AutoLogin = al;
-            }
-            else
-            {
-                AutoLogin = false;
-            }
-
+            AutoLogin = bool.TryParse(Core.Configure.Read(ConfigAutoLogin), out var al) && al;
             TimeoutManager = new TimeoutManager(900);
         }
 

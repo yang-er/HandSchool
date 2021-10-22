@@ -128,7 +128,15 @@ namespace HandSchool.JLU.ViewModels
 
         public async Task<TaskResp> RefreshInfosAsync()
         {
-            if (IsBusyOrRefreshing) return TaskResp.False;
+            if (IsBusyOrRefreshing)
+            {
+                if (IsBusy)
+                {
+                    IsRefreshing = true;
+                    IsRefreshing = false;
+                }
+                return TaskResp.False;
+            }
             IsRefreshing = true;
             if(!await Loader.LibRoom.CheckLogin())
             {
@@ -192,7 +200,16 @@ namespace HandSchool.JLU.ViewModels
                 IsBusy = false;
                 return new TaskResp(false, $"人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
             }
-
+            
+            if (Selected.All(info => info.SchoolCardId.Trim() != Loader.LibRoom.Username.Trim()))
+            {
+                if (!await RequestAnswerAsync("提示", "人员列表中不包含预约人，如果继续预约，则该条预约无法取消，是否继续？", "否", "是"))
+                {
+                    IsBusy = false;
+                    return TaskResp.False;
+                }
+            }
+            
             var sb = new StringBuilder("$");
             for (var i = 0; i < Selected.Count; i++)
             {
@@ -220,14 +237,7 @@ namespace HandSchool.JLU.ViewModels
             try
             {
                 var res = await Loader.LibRoom.SendResvAsync(libRoom, sb.ToString(), start, end);
-                if (!res.IsSuccess)
-                {
-                    return res;
-                }
-                else
-                {
-                    return TaskResp.True;
-                }
+                return !res.IsSuccess ? res : TaskResp.True;
             }
             catch (WebsException we)
             {

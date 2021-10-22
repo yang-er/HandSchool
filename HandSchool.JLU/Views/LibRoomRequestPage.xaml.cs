@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HandSchool.Internals;
 using HandSchool.JLU.Models;
@@ -204,24 +205,28 @@ namespace HandSchool.JLU.Views
 
         private async void SelectedOk(object sender, EventArgs e)
         {
+            if (IsBusy) return;
+            IsBusy = true;
             var start = DateTime.Parse(StartTimePicker.SelectedItem as string);
             var end = DateTime.Parse(EndTimePicker.SelectedItem as string);
             var res = await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
+            IsBusy = false;
             if (!res.IsSuccess)
             {
                 if (!(res.Msg is null))
                 {
                     await NoticeError(res.ToString());
                 }
-
                 return;
             }
 
+            IsBusy = true;
             await RequestMessageAsync("提示", "预约成功", "彳亍");
             Core.Platform.EnsureOnMainThread(_viewModel.Selected.Clear);
             await Navigation.PopAsync();
             MessagingCenter.Send(this, LibRoomResultPage.RequestFinishedSignal);
             await _viewModel.RefreshInfosAsync();
+            IsBusy = false;
         }
 
         private async void ReSelectOnClicked(object sender, EventArgs e)
