@@ -68,7 +68,7 @@ namespace HandSchool.iOS
             }
 
             toReturn.Title = Title;
-            toReturn.Icon = Icon;
+            toReturn.IconImageSource = Icon;
             return toReturn;
         }
 

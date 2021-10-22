@@ -9,7 +9,7 @@ namespace HandSchool.iOS
             
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
-            UIKit.UIApplication.Main(args, null, "AppDelegate");
+            UIKit.UIApplication.Main(args, null, typeof(AppDelegate));
         }
     }
 }
