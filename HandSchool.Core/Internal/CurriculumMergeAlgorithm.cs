@@ -1,4 +1,5 @@
-﻿using HandSchool.Models;
+﻿using System;
+using HandSchool.Models;
 using System.Collections.Generic;
 
 namespace HandSchool.Internals
@@ -6,80 +7,88 @@ namespace HandSchool.Internals
     /// <summary>
     /// 合并课程表的算法。
     /// </summary>
-    /// <author>miasakachenmo</author>
+    /// <author>miasakachenmo & Xhl</author>
     internal sealed class CurriculumMergeAlgorithm
     {
-        readonly List<CurriculumSet>[] ItemGrid;
-        readonly int cnt;
-        bool merged = false;
+        private int _classCount;
+        private List<CurriculumSet>[] _mergeCache;
+        //把所有加入的课程展开成一个7*课程数的表格
+        private readonly CurriculumSet[,] _curriculumSetGrid;
 
-        public CurriculumMergeAlgorithm()
+        public CurriculumMergeAlgorithm(int classCount)
         {
-            ItemGrid = new List<CurriculumSet>[8];
-            cnt = Core.App.DailyClassCount;
-
-            for (int i = 1; i <= 7; i++)
+            _classCount = classCount;
+            _curriculumSetGrid = new CurriculumSet[7 + 1, classCount + 1];
+        }
+        public void AddClass(CurriculumItem item)
+        {
+            _mergeCache = null;
+            for (var i = item.DayBegin;  i <= item.DayEnd; i++)
             {
-                ItemGrid[i] = new List<CurriculumSet>(cnt + 1);
-
-                for (int j = 0; j <= cnt; j++)
-                {
-                    ItemGrid[i].Add(new CurriculumSet());
-                }
+                _curriculumSetGrid[item.WeekDay, i] ??= new CurriculumSet {DayBegin = i, DayEnd = i, WeekDay = item.WeekDay};
+                _curriculumSetGrid[item.WeekDay, i].Add(item);
             }
         }
-
-        public void AddClass(CurriculumItem newItem)
+        
+        private List<CurriculumSet>[] Merge()
         {
-            if (newItem.WeekDay == 0 || newItem.DayBegin < 1 || newItem.DayEnd > cnt) return;
-            for (int i = newItem.DayBegin; i <= newItem.DayEnd; i++)
+            try
             {
-                ItemGrid[newItem.WeekDay][i].Add(newItem);
-                ItemGrid[newItem.WeekDay][i].DayBegin = i;
-            }
-        }
-
-        public void MergeClassSet()
-        {
-            foreach (var dayList in ItemGrid)
-            {
-                if (dayList is null) continue;
-
-                foreach (var classSet in dayList)
+                var res = new List<CurriculumSet>[8];
+                for (var i = 1; i <= 7; i++)
                 {
-                    classSet.MergeClasses();
-                }
-
-                dayList.RemoveAt(0);
-
-                for (int i = 0; i < dayList.Count - 1; i++)
-                {
-                    if (dayList[i].CompareTo(dayList[i + 1]) || dayList[i + 1].DayEnd == 0)
+                    int s = 1, e = 2;
+                    res[i] = new List<CurriculumSet>();
+                    while (s <= _classCount && e <= _classCount)
                     {
-                        if (dayList[i + 1].DayBegin != 0)
-                            dayList[i].DayEnd = dayList[i + 1].DayBegin;
-                        dayList.RemoveAt(i + 1);
-                        i--;
+                        if (_curriculumSetGrid[i, s] is null) break;
+                        if (_curriculumSetGrid[i, s].SameAs(_curriculumSetGrid[i, e]))
+                        {
+                            e++;
+                        }
+                        else
+                        {
+                            var set = new CurriculumSet
+                            {
+                                DayBegin = s, DayEnd = e - 1, WeekDay = i
+                            };
+                            set.Add(_curriculumSetGrid[i, s]);
+                            res[i].Add(set);
+                            
+                            s = e;
+                            while (s <= _classCount && _curriculumSetGrid[i, s] is null)
+                            {
+                                s++;
+                            }
+                            e = s + 1;
+                        }
+                    }
+
+                    if (s < _classCount && !(_curriculumSetGrid[i, s] is null))
+                    {
+                        var curriculumSet = new CurriculumSet();
+                        curriculumSet.Add(_curriculumSetGrid[i, s]);
+                        curriculumSet.DayBegin = s;
+                        curriculumSet.DayEnd = e - 1;
+                        curriculumSet.WeekDay = i;
+                        res[i].Add(curriculumSet);
                     }
                 }
-
-                if (dayList[0].DayEnd == 0)
-                {
-                    dayList.RemoveAt(0);
-                }
+                return res;
             }
-
-            merged = true;
+            catch (Exception e)
+            {
+                Core.Logger.WriteLine("error", e.Message);
+                return Array.Empty<List<CurriculumSet>>();
+            }
         }
-
+        
         public IEnumerable<CurriculumSet> ToList()
         {
-            if (!merged) MergeClassSet();
-
-            foreach (var itemList in ItemGrid)
+            _mergeCache ??= Merge();
+            for (var i = 1; i <= 7; i++)
             {
-                if (itemList is null) continue;
-                foreach (var item in itemList)
+                foreach (var item in _mergeCache[i])
                 {
                     yield return item;
                 }

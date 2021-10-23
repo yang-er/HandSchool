@@ -24,8 +24,7 @@ namespace HandSchool.ViewModels
 
         public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
         {
-            if (ItemsSet is null)
-                ItemsSet = FetchItemsSet(Items);
+            ItemsSet ??= FetchItemsSet(Items);
             list = ItemsSet;
         }
     }

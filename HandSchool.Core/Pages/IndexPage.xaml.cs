@@ -154,7 +154,7 @@ namespace HandSchool.Views
             {
                 var bc = item.BindingContext as Models.CurriculumItem;
                 if (bc == null) return;
-                bc.IsSelected = bc.Equals(e.CurrentItem);
+                bc.IsSelected = bc.SameAs(e.CurrentItem as CurriculumItemBase);
             }
         }
 

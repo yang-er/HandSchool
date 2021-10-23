@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HandSchool.Models
 {
@@ -27,13 +28,14 @@ namespace HandSchool.Models
         /// <param name="item">将要被添加的课程项目。</param>
         public void Add(CurriculumItem item)
         {
-            InnerList.Add(item);
+            if (!Contains(item))
+                InnerList.Add(item);
         }
 
         /// <summary>
         /// 合并别的课程集合进入此集合。
         /// </summary>
-        /// <param name="item">将要被合并的课程集合。</param>
+        /// <param name="set">将要被合并的课程集合。</param>
         public void Add(CurriculumSet set)
         {
             InnerList.AddRange(set.InnerList);
@@ -42,18 +44,20 @@ namespace HandSchool.Models
         /// <summary>
         /// 比较是否为同一节课。
         /// </summary>
-        /// <param name="that">另一节课。</param>
+        /// <param name="other">另一节课。</param>
         /// <returns>比较结果。</returns>
-        public bool CompareTo(CurriculumSet that)
+        public override bool SameAs(CurriculumItemBase other)
         {
-            if (that is null || InnerList.Count != that.InnerList.Count)
+            if (!(other is CurriculumSet that)) return false;
+            if (InnerList.Count != that.InnerList.Count)
                 return false;
-            for (int i = 0; i < InnerList.Count; i++)
-                if (!InnerList[i].Equals(that.InnerList[i]))
-                    return false;
-            return true;
+            return !InnerList.Where((t, i) => !t.SameAs(that.InnerList[i])).Any();
         }
 
+        public bool Contains(CurriculumItem item)
+        {
+            return InnerList.Any(i => i.SameAs(item));
+        }
         /// <summary>
         /// 处理内部的列表，进行合并。
         /// </summary>
@@ -71,7 +75,7 @@ namespace HandSchool.Models
             {
                 for (int j = i + 1; j < InnerList.Count; j++)
                 {
-                    if (InnerList[i].Equals(InnerList[j]))
+                    if (InnerList[i].SameAs(InnerList[j]))
                         InnerList.RemoveAt(j);
                 }
             }
@@ -88,7 +92,7 @@ namespace HandSchool.Models
         /// </summary>
         public override IEnumerable<CurriculumDescription> ToDescription()
         {
-            InnerList.Sort((a, b) => a.Name.CompareTo(b.Name));
+            InnerList.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
 
             for (int i = 0; i < InnerList.Count; i++)
             {

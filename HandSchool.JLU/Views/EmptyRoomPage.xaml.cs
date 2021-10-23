@@ -5,6 +5,7 @@ using HandSchool.Internal;
 using HandSchool.Views;
 using Xamarin.Forms;
 using HandSchool.Internals;
+using HandSchool.JLU.InfoQuery;
 using HandSchool.JLU.ViewModels;
 using HandSchool.Models;
 using Xamarin.Forms.Xaml;
@@ -16,7 +17,6 @@ namespace HandSchool.JLU.Views
     public partial class EmptyRoomPage : ViewObject
     {
         private EmptyRoomViewModel _viewModel;
-
         public EmptyRoomPage()
         {
             InitializeComponent();
@@ -143,7 +143,7 @@ namespace HandSchool.JLU.Views
                 await NoticeError("结束节不能为空");
                 return;
             }
-            var res = await _viewModel.GetEmptyRoomAsync(schoolArea,building,(int)start,(int)end);
+            var res = await _viewModel.GetEmptyRoomAsync(building,(int)start,(int)end);
             if (res)
             {
                 await Navigation.PushAsync(typeof(EmptyRoomDetail), null);
@@ -153,9 +153,34 @@ namespace HandSchool.JLU.Views
                 await NoticeError("加载失败");
             }
         }
+
+        private async void ClassRoomCurriculumQuery(object sender, EventArgs e)
+        {
+            var schoolArea = (string) SchoolAreaPicker.SelectedItem;
+            var building = (string) BuildingPicker.SelectedItem;
+            if (schoolArea is null)
+            {
+                await NoticeError("校区不能为空");
+                return;
+            }
+
+            if (building is null)
+            {
+                await NoticeError("教学楼不能为空");
+                return;
+            }
+
+            var bdInfo = _viewModel.FindBuilding(building);
+            if (bdInfo.compus is null || bdInfo.buildingId is null)
+            {
+                await NoticeError("服务器返回信息错误");
+                return;
+            }
+            await Navigation.PushAsync<IWebViewPage>(new RoomSchedule((int)bdInfo.compus,(int)bdInfo.buildingId));
+        }
     }
 
-    [Entrance("JLU", "查空教室", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
+    [Entrance("JLU", "空教室及教室课程表查询", "没地方自习？试试这个吧。", EntranceType.InfoEntrance)]
     public class EmptyRoomPageShell : ITapEntrace
     {
         public Task Action(INavigate navigate)

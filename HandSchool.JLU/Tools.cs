@@ -12,6 +12,20 @@ namespace HandSchool.JLU
 {
     static class Tools
     {
+        public static int? GetTermId()
+        {
+            //{"129", "2015-2016学年第1学期"},
+            var now = DateTime.Now;
+            if (now.Year < 2015) return null;
+            var res = 129;
+            for (var i = 2015; i < now.Year; i++)
+            {
+                res += 2;
+            }
+
+            if (now.Month < 9) res -= 1;
+            return res;
+        }
         public static List<RecordInfo> AnalyzeHtmlToRecordInfos(string htmlSources)
         {
             if (htmlSources.Contains("当前查询条件内没有流水记录")) return null;

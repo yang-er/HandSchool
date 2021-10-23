@@ -18,7 +18,7 @@ namespace HandSchool.JLU.Services
     /// <inheritdoc cref="IScheduleEntrance" />
     [Entrance("JLU", "课程表", "提供解析UIMS课程表的功能。")]
     [UseStorage("JLU", configKcb, configKcbOrig)]
-    internal class Schedule : IScheduleEntrance
+    public class Schedule : IScheduleEntrance
     {
         const string configKcbOrig = "jlu.kcb.json";
         const string configKcb = "jlu.kcb2.json";
@@ -103,6 +103,40 @@ namespace HandSchool.JLU.Services
             }
         }
 
+        public static IEnumerable<CurriculumItem> ParseEnumer(IEnumerable<LessonSchedule> tableValue)
+        {
+            foreach (var obj in tableValue)
+            {
+                var item = new CurriculumItem
+                {
+                    WeekBegin = int.Parse(obj.timeBlock.beginWeek ?? "1"),
+                    WeekEnd = int.Parse(obj.timeBlock.endWeek ?? "19"),
+                    WeekOen = (WeekOddEvenNone) (obj.timeBlock.weekOddEven == null
+                        ? 2
+                        : (obj.timeBlock.weekOddEven == "O" ? 1 : 0)),
+                    WeekDay = int.Parse(obj.timeBlock.dayOfWeek),
+                    Classroom = obj.classroom.fullName,
+                    Name = obj.teachClassMaster.lessonSegment.fullName
+                };
+                foreach (var t in obj.teachClassMaster.lessonTeachers)
+                    item.Teacher += t.teacher.name + " ";
+                item.Teacher = item.Teacher.Trim();
+                var tmp = int.Parse(obj.timeBlock.classSet);
+                var tmp2 = tmp & (-tmp);
+                while (tmp != 0)
+                {
+                    tmp >>= 1;
+                    tmp2 >>= 1;
+                    if (tmp2 > 1)
+                        item.DayBegin++;
+                    else if (tmp2 == 1)
+                        item.DayEnd = ++item.DayBegin;
+                    else if (tmp >= 1)
+                        item.DayEnd++;
+                }
+                yield return item;
+            }
+        }
         public (int section, SectionState? state) GetCurrentClass()
         {
             var i = 10;

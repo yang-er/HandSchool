@@ -12,10 +12,10 @@ namespace HandSchool.Models
     /// </summary>
     public class CurriculumItem : CurriculumItemBase
     {
-        private string _name, _teacher, _courseID, _classroom;
+        private string _name, _teacher, _courseId, _classroom;
         private int _weekBegin, _weekEnd;
         private WeekOddEvenNone _weekOen;
-        private DateTime _selectDate;
+        private DateTime? _selectDate;
         private bool _isCustom;
         private ClassState _state;
         public static readonly string[] WeekEvenOddToString = new string[3] { "双周", "单周", "" };
@@ -54,8 +54,8 @@ namespace HandSchool.Models
         /// </summary>
         public string CourseId
         {
-            get => _courseID;
-            set => SetProperty(ref _courseID, value);
+            get => _courseId;
+            set => SetProperty(ref _courseId, value);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace HandSchool.Models
         /// <summary>
         /// 选课日期
         /// </summary>
-        public DateTime SelectDate
+        public DateTime? SelectDate
         {
             get => _selectDate;
             set => SetProperty(ref _selectDate, value);
@@ -117,7 +117,7 @@ namespace HandSchool.Models
         /// </summary>
         public CurriculumItem()
         {
-            _name = _teacher = _courseID = _classroom = string.Empty;
+            _name = _teacher = _courseId = _classroom = string.Empty;
             _weekBegin = _weekEnd = 0;
             _weekOen = WeekOddEvenNone.None;
             _selectDate = DateTime.Now;
@@ -155,11 +155,11 @@ namespace HandSchool.Models
         /// <summary>
         /// 比较是否为同一节课。
         /// </summary>
-        /// <param name="obj">另一节课。</param>
+        /// <param name="other">另一节课。</param>
         /// <returns>比较结果。</returns>
-        public override bool Equals(object obj)
+        public override bool SameAs(CurriculumItemBase other)
         {
-            if (!(obj is CurriculumItem that)) return false;
+            if (!(other is CurriculumItem that)) return false;
             if (ReferenceEquals(this, that)) return true;
             return this.Name == that.Name
                    && this.DayBegin == that.DayBegin
@@ -168,13 +168,6 @@ namespace HandSchool.Models
                    && this.Classroom == that.Classroom
                    && this.WeekBegin == that.WeekBegin
                    && this.WeekEnd == that.WeekEnd;
-        }
-
-        public override int GetHashCode()
-        {
-            long hash = Name.GetHashCode() + DayBegin.GetHashCode() + DayEnd.GetHashCode() + Teacher.GetHashCode() +
-                        Classroom.GetHashCode() + WeekBegin.GetHashCode() + WeekEnd.GetHashCode();
-            return (int) (hash % int.MaxValue);
         }
     }
 }

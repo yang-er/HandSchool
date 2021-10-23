@@ -195,7 +195,9 @@ namespace HandSchool.JLU.ViewModels
             }
         }
 
-        public async Task<bool> GetEmptyRoomAsync(string schoolArea, string building, int start, int end)
+        public BuildingValueItem FindBuilding(string building)
+            => _buildingJson.value.Find(x => x.name == building);
+        public async Task<bool> GetEmptyRoomAsync(string building, int start, int end)
         {
             if (IsBusy) return false;
             IsBusy = true;

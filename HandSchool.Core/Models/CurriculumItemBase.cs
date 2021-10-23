@@ -42,5 +42,7 @@ namespace HandSchool.Models
         /// </summary>
         /// <returns>描述课程的信息。</returns>
         public abstract IEnumerable<CurriculumDescription> ToDescription();
+
+        public abstract bool SameAs(CurriculumItemBase other);
     }
 }

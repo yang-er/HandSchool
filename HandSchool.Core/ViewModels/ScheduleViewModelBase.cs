@@ -53,7 +53,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         protected static IEnumerable<CurriculumSet> FetchItemsSet(IEnumerable<CurriculumItem> list)
         {
-            var controller = new CurriculumMergeAlgorithm();
+            var controller = new CurriculumMergeAlgorithm(Core.App.DailyClassCount);
             foreach (var i in list)
                 controller.AddClass(i);
             return controller.ToList();
