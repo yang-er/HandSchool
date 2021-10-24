@@ -38,7 +38,7 @@ namespace HandSchool.JLU.InfoQuery
             sb.Append("<th class=\"head\">星期日</th>");
             sb.Append("</tr></thead><tbody id=\"currTableBody\">");
             foreach (var classes in numList)
-                sb.Append($"<tr><th class=\"left\">第{classes}节</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+                sb.Append($"<tr><th class=\"left\">{classes}</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
             sb.Append("</tbody></table></div>");
             var orig_table = sb.ToRawHtml();
             
@@ -198,7 +198,7 @@ namespace HandSchool.JLU.InfoQuery
 
             for (int i = 0; i < 11; i++)
             {
-                sb.Append($"<tr><th class=\"left\">第{numList[i]}节</th>");
+                sb.Append($"<tr><th class=\"left\">{numList[i]}</th>");
                 for (int j = 0; j < 7; j++)
                     sb.Append(strTable[j, i]);
                 sb.Append("</tr>");

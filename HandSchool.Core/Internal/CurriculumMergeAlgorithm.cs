@@ -37,8 +37,10 @@ namespace HandSchool.Internals
                 var res = new List<CurriculumSet>[8];
                 for (var i = 1; i <= 7; i++)
                 {
-                    int s = 1, e = 2;
                     res[i] = new List<CurriculumSet>();
+                    var s = 1;
+                    while (s <= _classCount && _curriculumSetGrid[i, s] is null) s++;
+                    var e = s + 1;
                     while (s <= _classCount && e <= _classCount)
                     {
                         if (_curriculumSetGrid[i, s] is null) break;
@@ -56,10 +58,7 @@ namespace HandSchool.Internals
                             res[i].Add(set);
                             
                             s = e;
-                            while (s <= _classCount && _curriculumSetGrid[i, s] is null)
-                            {
-                                s++;
-                            }
+                            while (s <= _classCount && _curriculumSetGrid[i, s] is null) s++;
                             e = s + 1;
                         }
                     }

@@ -198,7 +198,7 @@ namespace HandSchool.JLU.InfoQuery
             }
             catch (JsonException)
             {
-                await RequestMessageAsync("提示", "加载推荐课表失败。");
+                await RequestMessageAsync("提示", "加载教室课程表失败。");
             }
             catch (WebsException ex)
             {
