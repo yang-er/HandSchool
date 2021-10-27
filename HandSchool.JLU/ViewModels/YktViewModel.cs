@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HandSchool.Models;
+using Xamarin.Forms;
 using JsonException = Newtonsoft.Json.JsonException;
 namespace HandSchool
 {
@@ -429,7 +430,7 @@ namespace HandSchool.JLU.ViewModels
         public async Task ProcessCancelLost()
         {
             if (IsBusy) return;
-            
+
             if (!await BeforeOperatingCheckAsync()) return;
 
             IsBusy = true;
@@ -438,6 +439,7 @@ namespace HandSchool.JLU.ViewModels
                 await NoticeError("尚未登录校园卡系统\n请下拉刷新以登录");
                 return;
             }
+
             if (BasicInfo.Lost.Description.Contains("正常"))
             {
                 await RequestMessageAsync("提示", "卡片没有挂失，无需解挂");
@@ -445,36 +447,61 @@ namespace HandSchool.JLU.ViewModels
                 return;
             }
 
-            if (!await RequestAnswerAsync("提示",
-                "校园卡找到了？(滑稽)", "否", "是"))
+            switch (Device.RuntimePlatform)
             {
-                IsBusy = false;
-                return;
-            }
-            
-            try
-            {
-                IsBusy = true;
-                var vpn = Loader.Vpn is {IsLogin: true};
-                var url = vpn ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action" 
-                    : "http://xyk.jlu.edu.cn/homeLogin.action";
-
-                if (Core.Platform.RuntimeName == "Android")
-                {
-                    if (vpn)
+                case Device.Android:
+                    if (!await RequestAnswerAsync("提示",
+                        "校园卡找到了？(滑稽)", "否", "是"))
                     {
-                        CancelLostWebAdditionalArgs.Cookies.Add(("https://vpns.jlu.edu.cn", new System.Net.Cookie("remember_token", HandSchool.JLU.Loader.Vpn.RememberToken, "/")));
+                        IsBusy = false;
+                        return;
                     }
-                    await RequestWebDialogAsync("请在网页操作","", url, "", "退出", false, false, null, CancelLostWebAdditionalArgs);
-                }
-                IsBusy = false;
-            }
-            catch (Exception error)
-            {
-                await NoticeError(error.Message);
+
+                    try
+                    {
+                        IsBusy = true;
+                        var vpn = Loader.Vpn is {IsLogin: true};
+                        var url = vpn
+                            ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action"
+                            : "http://xyk.jlu.edu.cn/homeLogin.action";
+
+                        if (Core.Platform.RuntimeName == "Android")
+                        {
+                            if (vpn)
+                            {
+                                CancelLostWebAdditionalArgs.Cookies.Add(("https://vpns.jlu.edu.cn",
+                                    new System.Net.Cookie("remember_token", HandSchool.JLU.Loader.Vpn.RememberToken,
+                                        "/")));
+                            }
+
+                            await RequestWebDialogAsync("请在网页操作", "", url, "", "退出", false, false, null,
+                                CancelLostWebAdditionalArgs);
+                        }
+
+                        IsBusy = false;
+                    }
+                    catch (Exception error)
+                    {
+                        await NoticeError(error.Message);
+                    }
+
+                    break;
+                
+                case Device.iOS:
+                    IsBusy = false;
+                    if (await RequestAnswerAsync("提示", "请选择你现在的网络环境，稍后在跳转的网页中操作", "校园网", "公共网络"))
+                    {
+                        Core.Platform.OpenUrl(
+                            "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action");
+                    }
+                    else
+                    {
+                        Core.Platform.OpenUrl("http://xyk.jlu.edu.cn");
+                    }
+                    break;
             }
         }
-        
+
         /// <summary>
         /// 解析基础信息
         /// </summary>

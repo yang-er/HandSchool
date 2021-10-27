@@ -35,7 +35,7 @@ namespace HandSchool.JLU.Views
             _timeLineStack = timeLineStack;
             Content = mainStack;
             
-            _timeTable.ColumnDefinitions.Add(new ColumnDefinition {Width = 40});
+            _timeTable.ColumnDefinitions.Add(new ColumnDefinition {Width = Device.RuntimePlatform == Device.iOS ? 50 : 40});
             _timeTable.RowDefinitions.Add(new RowDefinition {Height = 20});
             for (var i = 0; i < 16; i++)
             {

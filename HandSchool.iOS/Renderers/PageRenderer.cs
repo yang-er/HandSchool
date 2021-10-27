@@ -3,6 +3,7 @@ using HandSchool.iOS;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
+using HandSchool.JLU.Views;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -16,7 +17,6 @@ namespace HandSchool.iOS
     {
         private UIActivityIndicatorView Spinner;
         private List<MenuEntry> RealMenu { get; set; }
-
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
@@ -47,11 +47,14 @@ namespace HandSchool.iOS
                     (nfloat)1.0, (nfloat)100));
             }
 
-            MessagingCenter.Unsubscribe<Page, bool>(this, Page.BusySetSignalName);
+            if (e.OldElement is ViewObject)
+            {
+                ((ViewObject) e.OldElement).IsBusyChanged -= SetIsBusy;
+            }
 
             if (e.NewElement is ViewObject page)
             {
-                MessagingCenter.Subscribe<Page, bool>(this, Page.BusySetSignalName, SetIsBusy, page);
+                page.IsBusyChanged += SetIsBusy;
 
                 if (page.Navigation == null)
                 {
@@ -66,7 +69,7 @@ namespace HandSchool.iOS
                     if (entry.HiddenForPull) continue;
                     RealMenu.Add(entry);
                     if (entry.Order == ToolbarItemOrder.Primary)
-                        main = main ?? entry;
+                        main ??= entry;
                 }
 
                 if (main != null && RealMenu.Count == 1)
@@ -82,10 +85,10 @@ namespace HandSchool.iOS
                 }
             }
         }
-        
-        private void SetIsBusy(Page page, bool isBusy)
+
+        private void SetIsBusy(object sender, IsBusyEventArgs isBusy)
         {
-            if (Element is ViewObject pg && isBusy)
+            if (Element is ViewObject pg && isBusy.IsBusy)
             {
                 Spinner.StartAnimating();
             }

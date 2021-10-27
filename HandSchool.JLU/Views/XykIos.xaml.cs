@@ -19,19 +19,7 @@ namespace HandSchool.JLU.Views
             ViewModel = YktViewModel.Instance;
             charge.Command = YktViewModel.Instance.ChargeCreditCommand;
             lokc.Command = YktViewModel.Instance.SetUpLostStateCommand;
-            unlock.Command = new CommandAction(
-                async () =>
-                {
-                    if (await ViewModel.RequestAnswerAsync("提示", "请选择你现在的网络环境，稍后在跳转的网页中操作", "校园网", "公共网络"))
-                    {
-                        Core.Platform.OpenUrl(
-                            "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action");
-                    }
-                    else
-                    {
-                        Core.Platform.OpenUrl("http://xyk.jlu.edu.cn");
-                    }
-                });
+            unlock.Command = YktViewModel.Instance.CancelLostStateCommand;
         }
         protected override void OnAppearing()
         {

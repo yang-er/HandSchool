@@ -13,13 +13,16 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace HandSchool.Views
 {
+    public class IsBusyEventArgs : EventArgs
+    {
+        public bool IsBusy { get; set; }
+    }
     /// <summary>
     /// 一个既可以在Xamarin.Forms环境中使用，也可以在本机环境下使用的视图基类。
     /// </summary>
 	[ContentProperty("Content")]
     public class ViewObject : ContentPage, IViewPage, IViewLifecycle
     {
-        public const string ExitSignal = "HandSchool.Views.ViewObject.Finish";
         #region Bindable Properties
         
         public static readonly BindableProperty UseTabletModeProperty =
@@ -49,6 +52,7 @@ namespace HandSchool.Views
             protected set => SetValue(UseTabletModeProperty, value);
         }
 
+        public EventHandler<IsBusyEventArgs> IsBusyChanged;
         /// <summary>
         /// 是否开启在iOS下的边界安全
         /// </summary>
@@ -64,9 +68,24 @@ namespace HandSchool.Views
         public BaseViewModel ViewModel
         {
             get => BindingContext as BaseViewModel;
-            set { BindingContext = value; if (value != null) value.View = this; }
+            set
+            {
+                if (ReferenceEquals(BindingContext, value)) return;
+                BindingContext = value;
+                if (value != null) value.View = this;
+            }
         }
-        
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            switch (propertyName)
+            {
+                case nameof(IsBusy):
+                    IsBusyChanged?.Invoke(this, new IsBusyEventArgs{IsBusy = IsBusy});
+                    break;
+            }
+        }
+
         /// <summary>
         /// 工具栏的菜单
         /// </summary>

@@ -8,6 +8,9 @@
     <w:ViewObject.ToolbarMenu>
          <w:MenuEntry Title="检查更新" Command="{Binding CheckUpdateCommand}"/>
      </w:ViewObject.ToolbarMenu>
+    <w:ViewObject.ToolbarItems>
+          <ToolbarItem Text="检查更新" Command="{Binding CheckUpdateCommand}"/>
+    </w:ViewObject.ToolbarItems>
     <ScrollView x:Name="Scroller" VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
             <StackLayout>
