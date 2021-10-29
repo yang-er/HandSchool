@@ -36,14 +36,31 @@ namespace HandSchool.JLU.Views
                 {
                     Core.Platform.EnsureOnMainThread(() =>
                     {
+                        var oldSelection = EndSection.SelectedItem as int? ?? -1;
                         EndSection.ItemsSource.Clear();
                         for (var i = startSec; i <= Core.App.DailyClassCount; i++)
                         {
                             EndSection.ItemsSource.Add(i);
                         }
+
+                        if (oldSelection >= startSec)
+                        {
+                            EndSection.SelectedItem = oldSelection;
+                        }
+                        else
+                        {
+                            if (EndSection.ItemsSource.Count != 0)
+                            {
+                                EndSection.SelectedIndex = 0;
+                            }
+                        }
                     });
                 }
             };
+            if (StartSection.ItemsSource.Count != 0)
+            {
+                StartSection.SelectedIndex = 0;
+            }
             SchoolAreaPicker.SelectedIndexChanged += (s, e) =>
             {
                 Core.Platform.EnsureOnMainThread(() =>
@@ -53,6 +70,10 @@ namespace HandSchool.JLU.Views
                     Buildings.IsVisible = false;
                 });
             };
+            var now = DateTime.Now;
+            DatePicker.MinimumDate = now;
+            DatePicker.MaximumDate = DatePicker.MinimumDate.AddDays(30);
+            DatePicker.Date = DatePicker.MinimumDate;
             Task.Run(LoadSchoolArea);
         }
 
@@ -143,7 +164,7 @@ namespace HandSchool.JLU.Views
                 await NoticeError("结束节不能为空");
                 return;
             }
-            var res = await _viewModel.GetEmptyRoomAsync(building,(int)start,(int)end);
+            var res = await _viewModel.GetEmptyRoomAsync(DatePicker.Date, building,(int)start,(int)end);
             if (res)
             {
                 await Navigation.PushAsync(typeof(EmptyRoomDetail), null);

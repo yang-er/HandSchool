@@ -3,36 +3,39 @@
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
+              xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
               Title="空教室及教室课程表查询"
               x:Class="HandSchool.JLU.Views.EmptyRoomPage"
               IsBusy="{Binding IsBusy}">
     <w:ViewObject.Content>
         <ScrollView>
             <StackLayout>
-                <Frame Margin="10,5">
+                <internal:TouchableFrame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                             <Label Text="选择校区" FontSize="Medium" VerticalOptions="Center"/>
-                            <Button Text="刷新" IsVisible="False" x:Name="SchoolAreaReload" Clicked="ReloadSchoolArea"></Button>
+                            <w:BorderlessButton Text="刷新" IsVisible="False" x:Name="SchoolAreaReload" Clicked="ReloadSchoolArea"></w:BorderlessButton>
                         </StackLayout>
                         <Label Text="信息正在加载..." x:Name="SchoolAreaLoadingText"/>
                         <Picker x:Name="SchoolAreaPicker" ItemsSource="{Binding SchoolAreas}" IsVisible="False"></Picker>
                         <Button Text="加载教学楼" Clicked="SchoolAreaSelectOk"></Button>
                     </StackLayout>
-                </Frame>
-                <Frame x:Name="Buildings" Margin="10,5" IsVisible="False">
+                </internal:TouchableFrame>
+                <internal:TouchableFrame x:Name="Buildings" Margin="10,5" IsVisible="False">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                             <Label Text="选择教学楼"  VerticalOptions="Center" FontSize="Medium"></Label>
-                            <Button Text="刷新" IsVisible="False" x:Name="BuildingReload" Clicked="ReloadBuilding"></Button>
+                            <w:BorderlessButton Text="刷新" IsVisible="False" x:Name="BuildingReload" Clicked="ReloadBuilding"></w:BorderlessButton>
                         </StackLayout>
                         <Label Text="楼信息正在加载..." x:Name="BuildingsLoadingText"/>
                         <Picker ItemsSource="{Binding Building}" x:Name="BuildingPicker" IsVisible="False"></Picker>
                         <Button Text="查询教室课程表" Clicked="ClassRoomCurriculumQuery"></Button>
                     </StackLayout>
-                </Frame>
-                <Frame Margin="10,5">
+                </internal:TouchableFrame>
+                <internal:TouchableFrame Margin="10,5">
                     <StackLayout>
+                        <Label Text="选择日期" FontSize="Medium"/>
+                        <DatePicker x:Name="DatePicker" Format="yyyy-MM-dd"/>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                             <Label Text="从第" FontSize="Medium" VerticalOptions="Center"></Label>
                             <Picker x:Name="StartSection"></Picker>
@@ -45,7 +48,10 @@
                         </StackLayout>
                         <Button Text="查询空教室" Clicked="Start"></Button>
                     </StackLayout>
-                </Frame>
+                </internal:TouchableFrame>
+                <StackLayout Margin="10,5" Padding="10">
+                    <Label Text="注：空教室信息来自于uims，不保证准确，建议配合教室当天课程表食用"></Label>
+                </StackLayout>
         </StackLayout>
         </ScrollView>
     </w:ViewObject.Content>

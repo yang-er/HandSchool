@@ -197,14 +197,14 @@ namespace HandSchool.JLU.ViewModels
 
         public BuildingValueItem FindBuilding(string building)
             => _buildingJson.value.Find(x => x.name == building);
-        public async Task<bool> GetEmptyRoomAsync(string building, int start, int end)
+        public async Task<bool> GetEmptyRoomAsync(DateTime date, string building, int start, int end)
         {
             if (IsBusy) return false;
             IsBusy = true;
             await Task.Yield();
             try
             {
-                var dateStr = DateTime.Now.ToString("yyyy-MM-dd");
+                var dateStr = date.ToString("yyyy-MM-dd");
                 var bdInfo = _buildingJson.value.Find(x => x.name == building);
                 var cs = 0;
                 for (var i = start; i <= end; i++)
