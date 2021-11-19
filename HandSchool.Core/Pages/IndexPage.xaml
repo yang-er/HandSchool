@@ -50,6 +50,7 @@
                             Sections="{Binding SectionInfo}"
                             Name="{Binding Name}"
                             Teacher="{Binding Teacher}"
+                            IsCustom="{Binding IsCustom}"
                             ClassRoom="{Binding Classroom}"
                             CornerRadius="30"/>
                     </DataTemplate>

@@ -5,10 +5,11 @@
     /// </summary>
     public class CurriculumDescription
     {
-        internal CurriculumDescription(string tit, string desc)
+        internal CurriculumDescription(string tit, string desc, bool isCustom = false)
         {
             Title = tit;
             Description = desc;
+            IsCustom = isCustom;
         }
 
         /// <summary>
@@ -20,5 +21,7 @@
         /// 课程的描述，如操作地点和时间等。
         /// </summary>
         public readonly string Description;
+        
+        public bool IsCustom { get; set; }
     }
 }
