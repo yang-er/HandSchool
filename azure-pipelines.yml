@@ -17,7 +17,7 @@ jobs:
   displayName: "Build for Android"
 
   pool:
-    vmImage: 'macos-latest'
+    vmImage: 'macos-10.15'
 
   variables:
     buildConfiguration: 'Release'
@@ -31,13 +31,6 @@ jobs:
     inputs:
       restoreSolution: 'HandSchool.sln'
     displayName: 'Restore NuGet Packages'
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'restore'
-      projects: 'HandSchool.sln'
-      feedsToUse: 'select'
-    displayName: 'Restore NuGet Packages V2'
 
   - task: XamarinAndroid@1
     inputs:
@@ -74,7 +67,7 @@ jobs:
   displayName: "Build for iOS"
 
   pool:
-    vmImage: 'macos-latest'
+    vmImage: 'macos-10.15'
 
   variables:
     buildConfiguration: 'Release'
@@ -96,13 +89,6 @@ jobs:
     inputs:
       restoreSolution: 'HandSchool.sln'
     displayName: 'Restore NuGet Packages'
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'restore'
-      projects: 'HandSchool.sln'
-      feedsToUse: 'select'
-    displayName: 'Restore NuGet Packages V2'
 
   - task: InstallAppleCertificate@2
     inputs:
