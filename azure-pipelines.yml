@@ -32,6 +32,12 @@ jobs:
       restoreSolution: 'HandSchool.sln'
     displayName: 'Restore NuGet Packages'
 
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
+      feedsToUse: 'select'
+    displayName: 'Restore NuGet Packages V2'
+
   - task: XamarinAndroid@1
     inputs:
       projectFile: 'HandSchool.Android/HandSchool.Android.csproj'
@@ -89,6 +95,12 @@ jobs:
     inputs:
       restoreSolution: 'HandSchool.sln'
     displayName: 'Restore NuGet Packages'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
+      feedsToUse: 'select'
+    displayName: 'Restore NuGet Packages V2'
 
   - task: InstallAppleCertificate@2
     inputs:
