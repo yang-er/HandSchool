@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
-using HandSchool.Internal;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms;

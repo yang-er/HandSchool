@@ -4,7 +4,6 @@ using HandSchool.Models;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using HandSchool.Internal;
 
 [assembly: RegisterService(typeof(StudentVpn))]
 namespace HandSchool.JLU.Services
