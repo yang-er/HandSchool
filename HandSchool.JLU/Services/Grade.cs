@@ -24,10 +24,15 @@ namespace HandSchool.JLU.Services
         const string configGpa = "jlu.gpa.json";
 
         const string gpaPostValue = "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":`studId`}}";
-        const string scorePostValue = "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\"}";
-        const string gradeDistributeUrl = "score/course-score-stat-stud.do";
+        const string scorePostValue = "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\",\"params\":{},\"rowLimit\":25}";
+        const string gradeDistributeUrl = "score/course-score-stat.do";
         const string serviceResourceUrl = "service/res.do";
 
+        /// <summary>
+        /// 成绩读取限制条数。在 scorePostValue 中修改。
+        /// </summary>
+        public int RowLimit { get; set; } = 25;
+        
         [ToFix("将获取GPA成绩改为并发逻辑")]
         public async Task Execute()
         {
