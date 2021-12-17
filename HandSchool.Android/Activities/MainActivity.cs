@@ -12,6 +12,7 @@ using HandSchool.Droid.Internals;
 using HandSchool.Internals;
 using System;
 using System.IO;
+using HandSchool.Internal;
 
 
 namespace HandSchool.Droid
@@ -21,12 +22,10 @@ namespace HandSchool.Droid
     [BindView(Resource.Layout.activity_main)]
     public class MainActivity : BaseActivity
     {
-        [BindView(Resource.Id.nav_view)]
-        public NavigationView NavigationView { get; set; }
+        [BindView(Resource.Id.nav_view)] public NavigationView NavigationView { get; set; }
 
-        [BindView(Resource.Id.drawer_layout)]
-        public DrawerLayout DrawerLayout { get; set; }
-        
+        [BindView(Resource.Id.drawer_layout)] public DrawerLayout DrawerLayout { get; set; }
+
         int lastItemId = 0;
 
         public bool NavigationItemSelected(NavMenuItemV2 menuItem, IMenuItem menuItem2)
@@ -43,7 +42,7 @@ namespace HandSchool.Droid
             }
             finally
             {
-                System.Threading.Tasks.Task.Delay(100).ContinueWith(t => 
+                System.Threading.Tasks.Task.Delay(100).ContinueWith(t =>
                 {
                     RunOnUiThread(() => DrawerLayout.CloseDrawer(GravityCompat.Start));
                 });
@@ -55,7 +54,8 @@ namespace HandSchool.Droid
             Xamarin.Forms.Forms.Init(this, bundle);
             base.OnCreate(bundle);
             PlatformImplV2.Register(this);
-            var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+            var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open,
+                Resource.String.navigation_drawer_close);
             DrawerLayout.AddDrawerListener(toggle);
             toggle.SyncState();
 
@@ -67,18 +67,19 @@ namespace HandSchool.Droid
             NavigationView.Menu.GetItem(0).SetChecked(true);
 
             var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
-            
+
             TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
 
-            
+
             NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
 
-            var x = new AndroidWebDialogAdditionalArgs { WebChromeClient = new CancelLostWebChromeClient(this) };
-            x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient)x.WebChromeClient);
+            var x = new AndroidWebDialogAdditionalArgs {WebChromeClient = new CancelLostWebChromeClient(this)};
+            x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient) x.WebChromeClient);
             x.Cookies = new System.Collections.Generic.List<(string, System.Net.Cookie)>();
             JLU.Loader.CancelLostWebAdditionalArgs = x;
+            backHandler.Refresh();
         }
-        
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -97,18 +98,25 @@ namespace HandSchool.Droid
                 {
                     File.Delete(item);
                 }
-                catch { }
+                catch
+                {
+                }
             }
+
             foreach (var item in dirs)
             {
                 RmDir(item);
             }
+
             try
             {
                 Directory.Delete(path);
             }
-            catch { }
+            catch
+            {
+            }
         }
+
         public static void ClearWebViewCache()
         {
             var path = Directory.GetParent(Core.Configure.Directory).FullName;
@@ -117,7 +125,7 @@ namespace HandSchool.Droid
             RmDir(path + "/shared_prefs");
         }
 
-        BackHandler backHandler = new BackHandler();
+        TimeoutManager backHandler = new TimeoutManager(1);
 
         public override void OnBackPressed()
         {
@@ -127,43 +135,17 @@ namespace HandSchool.Droid
             }
             else
             {
-                if (backHandler.IsDoubleBack())
+                if (backHandler.IsTimeout())
+                {
+                    Toast.MakeText(this, "再按一次退出", ToastLength.Short).Show();
+                }
+                else
                 {
                     ClearWebViewCache();
                     base.OnBackPressed();
                 }
-                else
-                {
-                    Toast.MakeText(this, "再按一次退出", ToastLength.Short).Show();
-                }
+                backHandler.Refresh();
             }
-        }
-
-        private void FabOnClick(object sender, EventArgs eventArgs)
-        {
-            View view = (View)sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (s) => this.PushAsync<DemoFragment>()).Show();
-        }
-    }
-    class BackHandler
-    {
-        DateTime? lastBack = null;
-        public bool IsDoubleBack()
-        {
-            bool res = false;
-            var now = DateTime.Now;
-            TimeSpan? timeSpan = null;
-            if (lastBack != null)
-            {
-                timeSpan = now - lastBack.Value;
-            }
-            if (lastBack != null && timeSpan.Value.TotalMilliseconds > 0 && timeSpan.Value.TotalMilliseconds < 1000)
-            {
-                res = true;
-            }
-            lastBack = now;
-            return res;
         }
     }
 }

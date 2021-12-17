@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using HandSchool.Internal;
 
 [assembly: RegisterService(typeof(SchoolCard))]
 namespace HandSchool.JLU.Services

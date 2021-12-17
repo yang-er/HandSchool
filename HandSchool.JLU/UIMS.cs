@@ -5,6 +5,7 @@ using HandSchool.Services;
 using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
+using HandSchool.Internal;
 
 [assembly: RegisterService(typeof(UIMS))]
 namespace HandSchool.JLU
