@@ -143,7 +143,7 @@ namespace HandSchool.Models
         /// <returns>描述课程的信息。</returns>
         public override IEnumerable<CurriculumDescription> ToDescription()
         {
-            yield return new CurriculumDescription(Name, Classroom, IsCustom);
+            yield return new CurriculumDescription(Name, Classroom);
         }
 
         /// <summary>

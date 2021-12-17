@@ -48,13 +48,6 @@ namespace HandSchool.Controls
             get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
         }
-
-        public bool IsCustom
-        {
-            get => (bool) GetValue(IsCustomProperty);
-            set => SetValue(IsCustomProperty, value);
-        }
-        
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             switch (propertyName)
@@ -64,7 +57,7 @@ namespace HandSchool.Controls
                 case nameof(Sections):
                     sections.Text = Sections; break;
                 case nameof(ClassRoom):
-                    classRoom.Text = (IsCustom ? ClassRoom : ClassInfoSimplifier.Instance.SimplifyName(ClassRoom)).Replace('\n', ' '); break;
+                    classRoom.Text = ClassInfoSimplifier.Instance.SimplifyName(ClassRoom).Replace('\n', ' '); break;
                 case nameof(Teacher):
                     teacher.Text = Teacher; break;
                 case nameof(Description):
@@ -147,14 +140,6 @@ namespace HandSchool.Controls
         public static readonly BindableProperty IsSelectedProperty =
             BindableProperty.Create(
                 propertyName: nameof(IsSelected),
-                returnType: typeof(bool),
-                defaultValue: false,
-                declaringType: typeof(IndexCurriculumAtom),
-                defaultBindingMode: BindingMode.OneWay);
-        
-        public static readonly BindableProperty IsCustomProperty =
-            BindableProperty.Create(
-                propertyName: nameof(IsCustom),
                 returnType: typeof(bool),
                 defaultValue: false,
                 declaringType: typeof(IndexCurriculumAtom),

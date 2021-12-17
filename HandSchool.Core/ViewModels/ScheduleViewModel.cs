@@ -159,7 +159,7 @@ namespace HandSchool.ViewModels
         /// </summary>
         private async Task Create()
         {
-            await RequestMessageAsync("提示", "刷新课程表不会影响自定义课程；课程时间冲突时，显示可能不正常。");
+            await RequestMessageAsync("提示", "刷新课表会导致修改失效");
             var item = new CurriculumItem
             {
                 IsCustom = true,
