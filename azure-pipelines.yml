@@ -17,7 +17,7 @@ jobs:
   displayName: "Build for Android"
 
   pool:
-    vmImage: 'macos-10.15'
+    vmImage: 'macos-latest'
 
   variables:
     buildConfiguration: 'Release'
@@ -67,7 +67,7 @@ jobs:
   displayName: "Build for iOS"
 
   pool:
-    vmImage: 'macos-10.15'
+    vmImage: 'macos-latest'
 
   variables:
     buildConfiguration: 'Release'
