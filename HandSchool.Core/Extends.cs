@@ -47,6 +47,7 @@ namespace HandSchool
             return Color.FromRgb(rgb[0].v, rgb[1].v, rgb[2].v);
         }
     }
+
     public static class Extends
     {
         public static async Task TappedAnimation(this TextAtom item, Func<Task> doing = null)
@@ -57,6 +58,7 @@ namespace HandSchool
             await item.ScaleTo(TextAtomScales.Large, 200);
             await item.ScaleTo(TextAtomScales.Normal, 150);
         }
+
         public static async Task LongPressAnimation(this TextAtom item, Func<Task> doing = null)
         {
             if (item == null) return;
@@ -64,6 +66,7 @@ namespace HandSchool
             if (doing != null) await doing();
             await item.ScaleTo(TextAtomScales.Normal, 200);
         }
+
         public static Page GetViewObjInstance(Type type, object arg)
         {
             var pageType = Core.Reflection.TryGetType(type);
@@ -73,27 +76,8 @@ namespace HandSchool
                 vo.SetNavigationArguments(arg);
                 return vo;
             }
-            return Core.Reflection.CreateInstance<Page>(pageType);
-        }
-    }
-    public class TimeoutManager
-    {
-        private DateTime? _lastRefreshTime;
-        private readonly int _timeoutSec;
-        public TimeoutManager(int timeoutSec)
-        {
-            _timeoutSec = timeoutSec;
-        }
-        public bool IsTimeout()
-        {
-            if (_lastRefreshTime == null) return false;
-            return (DateTime.Now - _lastRefreshTime.Value).TotalSeconds > _timeoutSec;
-        }
 
-        public bool NotInit => _lastRefreshTime == null;
-        public void Refresh()
-        {
-            _lastRefreshTime = DateTime.Now;
+            return Core.Reflection.CreateInstance<Page>(pageType);
         }
     }
 }

@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.39" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
   </ItemGroup>
 
   <ItemGroup>

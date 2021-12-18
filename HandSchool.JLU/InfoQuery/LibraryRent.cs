@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using HandSchool.Internal;
 
 [assembly: RegisterService(typeof(LibraryRent))]
 namespace HandSchool.JLU.InfoQuery
