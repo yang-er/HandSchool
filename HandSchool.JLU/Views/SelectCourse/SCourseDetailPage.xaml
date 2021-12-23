@@ -4,7 +4,8 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
                x:Class="HandSchool.JLU.Views.SCourseDetailPage"
                IsBusy="{Binding IsBusy, Mode=OneWay}">
-        <CollectionView ItemsSource="{Binding Details}">
+        <CollectionView ItemsSource="{Binding Details}"
+                         BackgroundColor="#F4F4F4">
             <CollectionView.EmptyView>
                 <ContentView>
                     <internal:NoDataView/>
