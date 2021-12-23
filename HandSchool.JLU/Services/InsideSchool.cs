@@ -155,7 +155,7 @@ namespace HandSchool.JLU
                         var msg = html.DocumentNode.SelectSingleNode("//span[@class='error_message' and @id='error_message']")?.InnerText?.Replace("登录错误：","");
                         UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, msg));
                         UIMS.IsLogin = false;
-                        UIMS.NeedLogin = false;
+                        UIMS.NeedLogin = true;
                         return TaskResp.False;
                     }
                     else if (loc == "index.do")
