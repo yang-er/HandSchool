@@ -2,6 +2,7 @@
 using HandSchool.Views;
 using System;
 using System.Windows.Input;
+using HandSchool.Internals;
 
 namespace HandSchool.Droid
 {
@@ -16,7 +17,10 @@ namespace HandSchool.Droid
         /// <param name="item"></param>
         public MenuEntryClickedListener(MenuEntry item)
         {
-            Reference = new WeakReference<ICommand>(item.Command);
+            Reference = 
+                item.HasClickedEvent 
+                ? new WeakReference<ICommand>(item.CommandAdapter) 
+                : new WeakReference<ICommand>(item.Command);
         }
 
         /// <summary>

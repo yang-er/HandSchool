@@ -49,6 +49,10 @@ namespace HandSchool.Views
 
         #endregion
 
+        public MenuEntry()
+        {
+            _command = new Lazy<ICommand>(() => new CommandAction(() => OnClick()));
+        }
         /// <summary>
         /// 菜单项承载运行的命令
         /// </summary>
@@ -58,6 +62,15 @@ namespace HandSchool.Views
             set => SetValue(CommandProperty, value);
         }
 
+        public event Action<object, EventArgs> Clicked;
+        public bool HasClickedEvent => Clicked != null;
+        public void OnClick(object sender = null, EventArgs args = null)
+        {
+            Clicked?.Invoke(sender, args);
+        }
+
+        private readonly Lazy<ICommand> _command;
+        public ICommand CommandAdapter => _command.Value;
         /// <summary>
         /// 菜单项的标题
         /// </summary>

@@ -53,18 +53,32 @@ namespace HandSchool
         public static async Task TappedAnimation(this TextAtom item, Func<Task> doing = null)
         {
             if (item == null) return;
-            await item.ScaleTo(TextAtomScales.Small, 200);
-            if (doing != null) await doing();
-            await item.ScaleTo(TextAtomScales.Large, 200);
-            await item.ScaleTo(TextAtomScales.Normal, 150);
+            if (item.UseScaleAnimation)
+            {
+                await item.ScaleTo(TextAtomScales.Small, 200);
+                if (doing != null) await doing();
+                await item.ScaleTo(TextAtomScales.Large, 200);
+                await item.ScaleTo(TextAtomScales.Normal, 150);
+            }
+            else
+            {
+                if (doing != null) await doing();
+            }
         }
 
         public static async Task LongPressAnimation(this TextAtom item, Func<Task> doing = null)
         {
             if (item == null) return;
-            await item.ScaleTo(TextAtomScales.SuperLarge, 200);
-            if (doing != null) await doing();
-            await item.ScaleTo(TextAtomScales.Normal, 200);
+            if (item.UseScaleAnimation)
+            {
+                await item.ScaleTo(TextAtomScales.SuperLarge, 200);
+                if (doing != null) await doing();
+                await item.ScaleTo(TextAtomScales.Normal, 200);
+            }
+            else
+            {
+                if (doing != null) await doing();
+            }
         }
 
         public static Page GetViewObjInstance(Type type, object arg)

@@ -1,5 +1,4 @@
 ﻿using HandSchool.Internal;
-using System;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,11 +8,10 @@ namespace HandSchool.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TextAtom : TouchableFrame
     {
-
-        ColumnDefinition second_col;
+        readonly ColumnDefinition _secondCol;
         public bool OnTop
         {
-            get => (bool)base.GetValue(OnTopProperty);
+            get => (bool)GetValue(OnTopProperty);
             set => SetValue(OnTopProperty, value);
         }
         public double FirstProportion
@@ -26,11 +24,17 @@ namespace HandSchool.Controls
             get => (bool)GetValue(HasSecondProperty);
             set => SetValue(HasSecondProperty, value);
         }
+        public bool UseScaleAnimation
+        {
+            get => (bool)GetValue(UseScaleAnimationProperty);
+            set => SetValue(UseScaleAnimationProperty, value);
+        }
         public string Title
         {
             get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
+        
         public string AfterTitle
         {
             get => (string)GetValue(AfterTitleProperty);
@@ -99,7 +103,7 @@ namespace HandSchool.Controls
                         {
                             if (HasSecond)
                             {
-                                grid.ColumnDefinitions.Add(second_col);
+                                grid.ColumnDefinitions.Add(_secondCol);
                                 grid.ColumnDefinitions[0].Width = new GridLength(FirstProportion, GridUnitType.Star);
                                 grid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
                             }
@@ -180,6 +184,13 @@ namespace HandSchool.Controls
                 returnType: typeof(bool),
                 declaringType: typeof(TextAtom),
                 defaultValue: true);
+        
+        public static readonly BindableProperty UseScaleAnimationProperty=
+            BindableProperty.Create(
+                propertyName: nameof(UseScaleAnimation),
+                returnType: typeof(bool),
+                declaringType: typeof(TextAtom),
+                defaultValue: true);
         public TextAtom()
         {
             InitializeComponent();
@@ -193,7 +204,7 @@ namespace HandSchool.Controls
                     HasShadow = true;
                     break;
             }
-            second_col = grid.ColumnDefinitions[1];
+            _secondCol = grid.ColumnDefinitions[1];
         }
     }
 }

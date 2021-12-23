@@ -130,7 +130,8 @@ namespace HandSchool.JLU
                 //InfoEntranceWrapper.From<CollegeIntroduce>(),
                 //InfoEntranceWrapper.From<ProgramMaster>(),
                 //InfoEntranceWrapper.From<ClassSchedule>(),
-                InfoEntranceWrapper.From<SelectCourse>(),
+                //InfoEntranceWrapper.From<SelectCourse>(),
+                TapEntranceWrapper.From<SelectCourseShell>(),
                 InfoEntranceWrapper.From<AdviceSchedule>(),
             };
 

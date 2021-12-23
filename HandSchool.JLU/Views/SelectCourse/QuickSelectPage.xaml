@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<views:ViewObject xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                  x:Class="HandSchool.JLU.Views.QuickSelectPage"
+                  Title="快捷选课"
+                  IsBusy="{Binding IsBusy}">
+    <views:ViewObject.ToolbarMenu>
+        <views:MenuEntry Clicked="SelectAll" Title="快捷全选"/>
+        <views:MenuEntry Clicked="Refresh" Title="刷新"/>
+    </views:ViewObject.ToolbarMenu>
+    <views:ViewObject.ToolbarItems>
+        <ToolbarItem Clicked="SelectAll" Text="快捷全选"/>
+        <ToolbarItem Clicked="Refresh" Text="刷新"/>
+    </views:ViewObject.ToolbarItems>
+    <CollectionView 
+        ItemsSource="{Binding QuickSelect}"
+        BackgroundColor="#F4F4F4">
+        <CollectionView.EmptyView>
+            <ContentView>
+                <internal:NoDataView/>
+            </ContentView>       
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <internal:TouchableFrame Scale="0.95" CornerRadius="15" Click="QuickSelectClicked">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding lessonSelectLog.lesson.courseInfo.courName}" FontSize="20" TextColor="Blue" VerticalOptions="CenterAndExpand"/>
+                            <Label Text="{Binding Teachers}" TextColor="Black" FontSize="18" VerticalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                             <Label Text="{Binding StuCount}" TextColor="DarkSlateBlue" FontSize="18"/>
+                             <Label Text="{Binding Selected}" TextColor ="DarkSlateGray" FontSize="18"/>
+                        </StackLayout>
+                        <Label Text="{Binding TimeAndLocation}" TextColor="DarkSlateGray" FontSize="16"/>
+                    </StackLayout>
+                </internal:TouchableFrame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</views:ViewObject>

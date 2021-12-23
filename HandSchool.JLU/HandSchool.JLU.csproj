@@ -24,15 +24,45 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\EmptyRoomDetail.xaml.cs">
+    <Compile Update="Views\SelectCourse\SCourseDetailPage.xaml.cs">
+      <DependentUpon>SCourseDetailPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SelectCourse\QuickSelectPage.xaml.cs">
+      <DependentUpon>QuickSelectPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SelectCourse\SelectCoursePage.xaml.cs">
+      <DependentUpon>SelectCoursePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EmptyRoom\EmptyRoomDetail.xaml.cs">
       <DependentUpon>EmptyRoomDetail.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Views\LibRoomRequestPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <Compile Update="Views\EmptyRoom\EmptyRoomPage.xaml.cs">
+      <DependentUpon>EmptyRoomPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LibRoomResv\LibRoomRequestPage.xaml.cs">
+      <DependentUpon>LibRoomRequestPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LibRoomResv\LibRoomReservationPage.xaml.cs">
+      <DependentUpon>LibRoomReservationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\XykManage\XykDroid.xaml.cs">
+      <DependentUpon>XykDroid.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\XykManage\XykIos.xaml.cs">
+      <DependentUpon>XykIos.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\XykManage\XykIosMoreInfo.xaml.cs">
+      <DependentUpon>XykIosMoreInfo.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

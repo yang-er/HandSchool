@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewObject  xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+                   xmlns="http://xamarin.com/schemas/2014/forms"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                   xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                   x:Class="HandSchool.JLU.Views.SelectCoursePage"
+                   Title="线上选课"
+                   IsBusy="{Binding IsBusy, Mode=OneWay}">
+    <views:ViewObject.ToolbarMenu>
+        <views:MenuEntry Clicked="ShowQuickSelect" Title="快捷选课"/>
+    </views:ViewObject.ToolbarMenu>
+    <views:ViewObject.ToolbarItems>
+        <ToolbarItem Clicked="ShowQuickSelect" Text="快捷选课"/>
+    </views:ViewObject.ToolbarItems>
+    <ScrollView BackgroundColor="#F4F4F4">
+        <StackLayout>
+            <Frame
+                CornerRadius="15" 
+                Scale="0.95">
+                <StackLayout>
+                    <Label>选择选课计划</Label>
+                    <Picker x:Name="SelectCoursePicker" ItemsSource="{Binding SelectCoursePlanValues}"></Picker>
+                    <Button Text="刷新选课条目" Command="{Binding LoadCourseCommand}"/>
+                </StackLayout>
+            </Frame>
+            <CollectionView 
+                ItemsSource="{Binding Courses}">
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <internal:NoDataView/>
+                    </ContentView>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="4" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <internal:TouchableFrame Scale="0.95" CornerRadius="15" Click="ShowDetail">
+                            <StackLayout>
+                                <Label Text="{Binding lesson.courseInfo.courName}" TextColor="DarkBlue" FontSize="20"/>
+                                <Label Text="{Binding SelectResult}" TextColor="{Binding IsSelectColor}" FontSize="18"/>
+                                <Label Text="{Binding CreditAndHour}" TextColor="Black" FontSize="16"/>
+                                <Label Text="{Binding SchoolName}" TextColor="Black" FontSize="16"/>
+                                <Label Text="{Binding Type}" TextColor="Black" FontSize="16"/>
+                                <Label Text="{Binding IsReselect}" TextColor="Black" FontSize="16"/>
+                            </StackLayout>
+                        </internal:TouchableFrame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</views:ViewObject>

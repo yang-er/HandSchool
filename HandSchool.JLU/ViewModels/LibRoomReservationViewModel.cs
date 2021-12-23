@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
-using HandSchool.JLU.Services;
 using HandSchool.JLU.Views;
 using HandSchool.Models;
 using HandSchool.ViewModels;
-using HandSchool.Views;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Xamarin.Forms;
 
 namespace HandSchool.JLU.ViewModels
 {

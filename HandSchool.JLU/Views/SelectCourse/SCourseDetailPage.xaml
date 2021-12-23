@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject  xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+               xmlns="http://xamarin.com/schemas/2014/forms"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+               x:Class="HandSchool.JLU.Views.SCourseDetailPage"
+               IsBusy="{Binding IsBusy, Mode=OneWay}">
+        <CollectionView ItemsSource="{Binding Details}">
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <internal:NoDataView/>
+                </ContentView>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <internal:TouchableFrame Scale="0.95" Click="ClassSelected">
+                    <StackLayout>
+                        <Label Text="{Binding Teachers}" TextColor="Black" FontSize="20"></Label>
+                        <Label Text="{Binding teachClassMaster.name}" TextColor="Gray" FontSize="14"/>
+                        <Label Text="{Binding StuCount}" TextColor="DarkSlateBlue" FontSize="18"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Advice}" TextColor="DarkSlateGray" FontSize="16"/>
+                            <Label Text="{Binding Selected}" TextColor ="DarkSlateGray" FontSize="16"/>
+                        </StackLayout>
+                        <Label Text="{Binding SchoolArea}" FontSize="16"  TextColor="Black"/>
+                        <Label Text="{Binding TimeAndLocation}" TextColor="DarkSlateGray" FontSize="16"/>
+                        
+                    </StackLayout>
+                </internal:TouchableFrame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
+        </CollectionView.ItemsLayout>
+    </CollectionView>
+</w:ViewObject>
