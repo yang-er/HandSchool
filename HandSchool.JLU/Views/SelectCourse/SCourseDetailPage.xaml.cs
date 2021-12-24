@@ -11,7 +11,7 @@ namespace HandSchool.JLU.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SCourseDetailPage : ViewObject
     {
-        private readonly SelectCourseViewModel _viewModel; 
+        private readonly SelectCourseViewModel _viewModel;
         public SCourseDetailPage()
         {
             ViewModel = _viewModel = SelectCourseViewModel.Instance;
@@ -28,52 +28,51 @@ namespace HandSchool.JLU.Views
 
         private async void ClassSelected(object sender, EventArgs e)
         {
-            if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) > 0)
-            {
-                await NoticeError("选课还未开始\n开始时间：" + _viewModel.CurrentPlan.StartTime);
-                return;
-            }
             if ((_viewModel.CurrentPlan.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
             {
                 await NoticeError("选课已结束\n结束时间：" + _viewModel.CurrentPlan.EndTime);
                 return;
-            }
+            }               
             var detail = (sender as BindableObject)?.BindingContext as SCCourseDetail;
             if (detail is null) return;
-            if (detail.selectTag?.Trim() == "G")
-            {
-                await RequestMessageAsync("提示", "该教学班被固定，无法操作", "好");
-                return;
-            }
             var list = new List<string>();
-            var courseSelected = _curCourse?.selectResult?.Trim() == "Y";
-            var classSelected = detail.selectTag?.Trim() switch
+            if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) <= 0)
             {
-                "Y" => true,
-                "G" => true,
-                _=>false
-            };
-            var isQuick = detail.isQuick?.Trim() == "Y";
-            if (courseSelected)
-            {
-                if (classSelected)
+
+                if (detail.selectTag?.Trim() == "G")
                 {
-                    list.Add("退课");
+                    await RequestMessageAsync("提示", "该教学班被固定，无法操作", "好");
+                    return;
+                }
+                var courseSelected = _curCourse?.selectResult?.Trim() == "Y";
+                var classSelected = detail.selectTag?.Trim() switch
+                {
+                    "Y" => true,
+                    "G" => true,
+                    _ => false
+                };
+
+
+                if (courseSelected)
+                {
+                    if (classSelected)
+                    {
+                        list.Add("退课");
+                    }
+                    else
+                    {
+                        await RequestMessageAsync("提示", "本门课已选其它教学班", "好");
+                        return;
+                    }
                 }
                 else
                 {
-                    await RequestMessageAsync("提示", "本门课已选其它教学班", "好");
-                    return;
+                    list.Add("选课");
                 }
             }
-            else
-            {
-                list.Add("选课");
-            }
-
+            var isQuick = detail.isQuick?.Trim() == "Y";
             list.Add(isQuick ? "移除快捷选课" : "加入快捷选课");
-            
-            var res = await RequestActionAsync("选择操作", "取消",null, list.ToArray());
+            var res = await RequestActionAsync("选择操作", "取消", null, list.ToArray());
             switch (res)
             {
                 case null: return;
@@ -84,49 +83,49 @@ namespace HandSchool.JLU.Views
                     await _viewModel.SetQuickSelect(detail.lsltId, QuickSelectOperator.Add).ContinueWith(async t => { if ((await t).IsSuccess) detail.isQuick = "Y"; });
                     break;
                 case "选课":
-                {
-                    var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.Select);
-                    if (taskResp.IsSuccess)
                     {
-                        await RequestMessageAsync("提示", "选课成功", "好");
-                        detail.selectTag = "Y";
-                        _curCourse.selectResult = "Y";
-                        await Navigation.PopAsync();
-                        var index = _viewModel.Courses.IndexOf(_curCourse);
-                        if (index < 0) return;
-                        Core.Platform.EnsureOnMainThread(() =>
+                        var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.Select);
+                        if (taskResp.IsSuccess)
                         {
-                            _viewModel.Courses.Remove(_curCourse);
-                        });
-                        Core.Platform.EnsureOnMainThread(() =>
-                        {
-                            _viewModel.Courses.Insert(index, _curCourse);
-                        });
+                            await RequestMessageAsync("提示", "选课成功", "好");
+                            detail.selectTag = "Y";
+                            _curCourse.selectResult = "Y";
+                            await Navigation.PopAsync();
+                            var index = _viewModel.Courses.IndexOf(_curCourse);
+                            if (index < 0) return;
+                            Core.Platform.EnsureOnMainThread(() =>
+                            {
+                                _viewModel.Courses.Remove(_curCourse);
+                            });
+                            Core.Platform.EnsureOnMainThread(() =>
+                            {
+                                _viewModel.Courses.Insert(index, _curCourse);
+                            });
+                        }
+                        break;
                     }
-                    break;
-                }
                 case "退课":
-                {
-                    var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.UnSelect);
-                    if (taskResp.IsSuccess)
                     {
-                        await RequestMessageAsync("提示", "退课成功", "好");
-                        detail.selectTag = "N";
-                        _curCourse.selectResult = "N";
-                        await Navigation.PopAsync();
-                        var index = _viewModel.Courses.IndexOf(_curCourse);
-                        if (index < 0) return;
-                        Core.Platform.EnsureOnMainThread(() =>
+                        var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.UnSelect);
+                        if (taskResp.IsSuccess)
                         {
-                            _viewModel.Courses.Remove(_curCourse);
-                        });
-                        Core.Platform.EnsureOnMainThread(() =>
-                        {
-                            _viewModel.Courses.Insert(index, _curCourse);
-                        });
+                            await RequestMessageAsync("提示", "退课成功", "好");
+                            detail.selectTag = "N";
+                            _curCourse.selectResult = "N";
+                            await Navigation.PopAsync();
+                            var index = _viewModel.Courses.IndexOf(_curCourse);
+                            if (index < 0) return;
+                            Core.Platform.EnsureOnMainThread(() =>
+                            {
+                                _viewModel.Courses.Remove(_curCourse);
+                            });
+                            Core.Platform.EnsureOnMainThread(() =>
+                            {
+                                _viewModel.Courses.Insert(index, _curCourse);
+                            });
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
     }

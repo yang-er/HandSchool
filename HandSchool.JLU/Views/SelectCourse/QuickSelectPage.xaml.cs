@@ -20,29 +20,28 @@ namespace HandSchool.JLU.Views
 
         private async void QuickSelectClicked(object sender, EventArgs args)
         {
-            if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) > 0)
-            {
-                await NoticeError("选课还未开始\n开始时间：" + _viewModel.CurrentPlan.StartTime);
-                return;
-            }
             if ((_viewModel.CurrentPlan.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
             {
                 await NoticeError("选课已结束\n结束时间：" + _viewModel.CurrentPlan.EndTime);
                 return;
             }
             var detail = (sender as BindableObject)?.BindingContext as SCCourseDetail;
-            if (detail is null) return;
+            if (detail is null) return; 
             var list = new List<string>();
-            var classSelected = detail.selectTag?.Trim() switch
+
+            if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) <= 0)
             {
-                "Y" => true,
-                "G" => true,
-                _=>false
-            };
-            list.Add(classSelected ? "退课" : "选课");
+                var classSelected = detail.selectTag?.Trim() switch
+                {
+                    "Y" => true,
+                    "G" => true,
+                    _ => false
+                };
+                list.Add(classSelected ? "退课" : "选课");
+            }
             list.Add("移除快捷选课");
-            
-            var res = await RequestActionAsync("选择操作", "取消",null, list.ToArray());
+
+            var res = await RequestActionAsync("选择操作", "取消", null, list.ToArray());
             switch (res)
             {
                 case null: return;
@@ -54,27 +53,27 @@ namespace HandSchool.JLU.Views
                     });
                     break;
                 case "选课":
-                {
-                    var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.Select);
-                    if (taskResp.IsSuccess)
                     {
-                        await RequestMessageAsync("提示", "选课成功", "好");
-                        await Navigation.PopAsync();
-                        await _viewModel.GetCourses();
+                        var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.Select);
+                        if (taskResp.IsSuccess)
+                        {
+                            await RequestMessageAsync("提示", "选课成功", "好");
+                            await Navigation.PopAsync();
+                            await _viewModel.GetCourses();
+                        }
+                        break;
                     }
-                    break;
-                }
                 case "退课":
-                {
-                    var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.UnSelect);
-                    if (taskResp.IsSuccess)
                     {
-                        await RequestMessageAsync("提示", "退课成功", "好");
-                        await Navigation.PopAsync();
-                        await _viewModel.GetCourses();
+                        var taskResp = await _viewModel.SelectCourse(detail.lsltId, SelectCourseOperator.UnSelect);
+                        if (taskResp.IsSuccess)
+                        {
+                            await RequestMessageAsync("提示", "退课成功", "好");
+                            await Navigation.PopAsync();
+                            await _viewModel.GetCourses();
+                        }
+                        break;
                     }
-                    break;
-                }
             }
         }
 

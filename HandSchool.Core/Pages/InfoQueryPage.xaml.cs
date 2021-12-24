@@ -16,7 +16,6 @@ namespace HandSchool.Views
             (Content as CollectionView).ItemsSource = Core.App.InfoEntrances;
         }
 
-        object LastItem = null;
         bool IsPushing = false;
 
         public async void ItemTapped(object sender, System.EventArgs args)
