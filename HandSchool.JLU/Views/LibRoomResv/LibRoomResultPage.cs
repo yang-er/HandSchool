@@ -317,13 +317,6 @@ namespace HandSchool.JLU.Views
         public async Task Refresh()
         {
             var res = await LibRoomReservationViewModel.Instance.GetRoomAsync(Params.GetRoomUsageParams);
-            if (!res.IsSuccess)
-            {
-                if (res.Msg is null) return;
-                await NoticeError(res.ToString());
-                return;
-            }
-
             Params = res.Msg as LibRoomResultPageParams;
             ClearView();
             InitTable();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.ViewModels;
@@ -86,7 +87,7 @@ namespace HandSchool.JLU.Views
             );
         }
 
-        private bool _isSending = false;
+        private bool _isSending;
         private async void ResvClicked(object sender, EventArgs e)
         {
             if (_isSending) return;
@@ -110,13 +111,8 @@ namespace HandSchool.JLU.Views
                 Date = date, RoomType = type
             };
             var res = await _viewModel.GetRoomAsync(par);
-            if (!res.IsSuccess)
-            {
-                _isSending = false;
-                if (res.Msg is null) return;
-                await NoticeError(res.ToString());
-            }
-            else
+            
+            if (res.IsSuccess)
             {
                 await Navigation.PushAsync(typeof(LibRoomResultPage), res.Msg);
             }
@@ -126,37 +122,15 @@ namespace HandSchool.JLU.Views
         private async void CancelResv(object sender, EventArgs e)
         {
             var info = (sender as BindableObject)?.BindingContext as ReservationInfo;
-            if (info?.ResvInnerId is null) return;
-            if (!await RequestAnswerAsync("确认", "取消此次预约？", "否", "是"))
-            {
-                return;
-            }
-
-            var res = await _viewModel.CancelResvAsync(info.ResvInnerId);
-            if (res.IsSuccess)
-            {
-                RefreshUserInfo();
-                await RequestMessageAsync("提示","成功取消", "彳亍");
-            }
-            else
-            {
-                if (res.Msg is null) return;
-                await NoticeError(res.ToString());
-            }
+            if (info?.ResvInnerId is null) return; 
+            await _viewModel.CancelResvAsync(info.ResvInnerId);
         }
 
-        private async void RefreshUserInfo(object sender = null, EventArgs e = null)
-        {
-            var res = await _viewModel.RefreshInfosAsync();
-            if (res.IsSuccess) return;
-            if (res.Msg is null) return;
-            await NoticeError(res.ToString());
-        }
         private void ClearUserInfo(object sender, EventArgs e)
         {
             _viewModel.ClearUserInfo();
             Core.Platform.EnsureOnMainThread(ClearScoreStack);
-            RefreshUserInfo();
+            Task.Run(_viewModel.RefreshInfosAsync);
         }
     }
 }

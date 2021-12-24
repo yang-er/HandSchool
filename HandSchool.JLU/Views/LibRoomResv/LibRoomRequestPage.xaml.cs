@@ -76,21 +76,7 @@ namespace HandSchool.JLU.Views
                 }
                 return;
             }
-
-            if (IsBusy) return;
-            IsBusy = true;
-            var res = await Loader.LibRoom.GetUserInfoAsync(e.NewTextValue.Trim());
-            if (!res.IsSuccess) await NoticeError("查询用户信息失败");
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                _viewModel.Recommends.Clear();
-                if (!(res.Msg is IEnumerable<StudentLibBasicInfo> list)) return;
-                foreach (var info in list)
-                {
-                    _viewModel.Recommends.Add(info);
-                }
-            });
-            IsBusy = false;
+            await _viewModel.GetStuInfoByCardId(e.NewTextValue.Trim());
         }
 
         private void InitStartPicker()
@@ -155,83 +141,34 @@ namespace HandSchool.JLU.Views
         
         private async void NameSelected(object sender, EventArgs e)
         {
-            if (IsBusy) return;
-            IsBusy = true;
             var frame = (Frame) sender;
             var label = frame.Content as Label;
             var info = label?.BindingContext as StudentLibBasicInfo;
-            IsBusy = false;
             if (_params.LibRoom.MaxUser is null)
             {
                 await NoticeError("房间信息加载错误！");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(info?.Name) || _viewModel.Selected.Contains(info))
+            if ((await _viewModel.AddUser(info, (int)_params.LibRoom.MaxUser)).IsSuccess)
             {
-                Core.Platform.EnsureOnMainThread(() =>
-                {
-                    SchoolCardNum.Text = "";
-                    _viewModel.Recommends.Clear();
-                });
-                return;
+                SchoolCardNum.Text = string.Empty;
             }
-            
-            if (_viewModel.Selected.Count >= _params.LibRoom.MaxUser)
-            {
-                await NoticeError("人数超出房间限制！\n长按已选择的人员以移除列表。");
-                return;
-            }
-
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                SchoolCardNum.Text = "";
-                _viewModel.Recommends.Clear();
-                _viewModel.Selected.Add(info);
-            });
         }
 
         private async void DelUser(object sender, EventArgs e)
         {
-            if (IsBusy) return;
-            IsBusy = true;
-            var info = (sender as BindableObject)?.BindingContext as StudentLibBasicInfo;
-            if (info is null) return;
-            var res = await RequestAnswerAsync("取消选定", info.Tips, "否", "是");
-            IsBusy = false;
-            if (!res) return;
-            Core.Platform.EnsureOnMainThread(() => _viewModel.Selected.Remove(info));
+            await _viewModel.DelUser((sender as BindableObject)?.BindingContext as StudentLibBasicInfo);
         }
 
         private async void SelectedOk(object sender, EventArgs e)
         {
-            if (IsBusy) return;
-            IsBusy = true;
             var start = DateTime.Parse(StartTimePicker.SelectedItem as string);
             var end = DateTime.Parse(EndTimePicker.SelectedItem as string);
-            var res = await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
-            IsBusy = false;
-            if (!res.IsSuccess)
-            {
-                if (!(res.Msg is null))
-                {
-                    await NoticeError(res.ToString());
-                }
-                return;
-            }
-
-            IsBusy = true;
-            await RequestMessageAsync("提示", "预约成功", "彳亍");
-            Core.Platform.EnsureOnMainThread(_viewModel.Selected.Clear);
+            await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
             await Navigation.PopAsync();
             MessagingCenter.Send(this, LibRoomResultPage.RequestFinishedSignal);
             await _viewModel.RefreshInfosAsync();
-            IsBusy = false;
-        }
-
-        private async void ReSelectOnClicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync();
         }
     }
 }

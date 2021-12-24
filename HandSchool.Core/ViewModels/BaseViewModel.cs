@@ -43,9 +43,9 @@ namespace HandSchool.ViewModels
         public void AddView(IViewResponse v)
         {
             var index = _views.IndexOf(v);
-            if (index == _views.Count - 1) return;
             if (index >= 0)
             {
+                if (index == _views.Count - 1) return;
                 _views.RemoveAt(index);
             }
             _views.Add(v);

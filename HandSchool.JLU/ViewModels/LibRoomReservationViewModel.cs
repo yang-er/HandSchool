@@ -4,12 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Views;
 using HandSchool.Models;
 using HandSchool.ViewModels;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.JLU.ViewModels
 {
@@ -39,8 +41,11 @@ namespace HandSchool.JLU.ViewModels
         public string Dept => UserInfo?.dept??"看不清";
         public string Id => UserInfo?.id??"不清楚";
         public string Profession => UserInfo?.cls ?? "不知道";
+        public bool IsBusyOrRefreshing => IsRefreshing || IsBusy;
+        public ICommand RefreshUserInfoCommand { get; }
         public LibRoomReservationViewModel()
         {
+            RefreshUserInfoCommand = new CommandAction(RefreshInfosAsync);
             Task.Run(async () =>
             {
                 if (await Loader.LibRoom.CheckLogin())
@@ -64,8 +69,7 @@ namespace HandSchool.JLU.ViewModels
         /// 获取图书馆占用信息并展示
         /// </summary>
         /// <param name="obj">
-        /// 一个object的列表。
-        /// 其中，第一个是元素是要查询的日子，
+        /// 第一个是元素是要查询的日子，
         /// 第二个元素是查询的类型 0：3-6人间， 1：5-10人间，
         /// 第三个是导航参数，用以推出页面
         /// </param>
@@ -77,8 +81,8 @@ namespace HandSchool.JLU.ViewModels
             
             if (!await Loader.LibRoom.CheckLogin())
             {
-                IsBusy = false;
-                return new TaskResp(false, "你先登录呀！(╯°Д°)╯︵ ┻━┻");
+                await NoticeError("你先登录呀！(╯°Д°)╯︵ ┻━┻");
+                return TaskResp.False;
             }
             
             var now = DateTime.Now;
@@ -88,7 +92,8 @@ namespace HandSchool.JLU.ViewModels
             IsBusy = false;
             if (!res.IsSuccess)
             {
-                return new TaskResp(false, res.Msg is null ? "服务器返回信息有问题" : res.Msg.ToString());
+                await NoticeError(res.Msg is null ? "服务器返回信息有问题" : res.Msg.ToString());
+                return TaskResp.False;
             }
             
             var resPageParams = new LibRoomResultPageParams
@@ -101,7 +106,22 @@ namespace HandSchool.JLU.ViewModels
             };
             return new TaskResp(true, resPageParams);
         }
-
+        public async Task GetStuInfoByCardId(string schoolCardId)
+        {
+            if (IsBusyOrRefreshing) return;
+            IsBusy = true;
+            var res = await Loader.LibRoom.GetUserInfoAsync(schoolCardId);
+            if (!res.IsSuccess) await NoticeError("查询用户信息失败");
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                Recommends.Clear();
+                if (res.Msg is IEnumerable<StudentLibBasicInfo> list)
+                {
+                    list.ForEach(info => Recommends.Add(info));
+                }
+            });
+            IsBusy = false;
+        }
         public void ClearUserInfo()
         {
             if (IsBusyOrRefreshing) return;
@@ -114,9 +134,6 @@ namespace HandSchool.JLU.ViewModels
             ReservationRecords.Clear();
             IsBusy = false;
         }
-
-        public bool IsBusyOrRefreshing => IsRefreshing || IsBusy;
-
         public async Task<TaskResp> RefreshInfosAsync()
         {
             if (IsBusyOrRefreshing)
@@ -132,7 +149,8 @@ namespace HandSchool.JLU.ViewModels
             if(!await Loader.LibRoom.CheckLogin())
             {
                 IsRefreshing = false;
-                return new TaskResp(false, "你先登录呀！(╯°Д°)╯︵ ┻━┻");
+                await NoticeError("你先登录呀！(╯°Д°)╯︵ ┻━┻");
+                return TaskResp.False;
             }
 
             var resIrregularities = await Loader.LibRoom.GetIrregularitiesAsync();
@@ -155,7 +173,8 @@ namespace HandSchool.JLU.ViewModels
                         : resReservationRecords.ToString();
                 }
 
-                return new TaskResp(false, error);
+                await NoticeError(error);
+                return TaskResp.False;
             }
 
             Core.Platform.EnsureOnMainThread(() =>
@@ -163,33 +182,25 @@ namespace HandSchool.JLU.ViewModels
                 if (resIrregularities.Msg is List<Irregularities> list)
                 {
                     IrregularitiesInfos.Clear();
-                    foreach (var item in list)
-                    {
-                        IrregularitiesInfos.Add(item);
-                    }
+                    list.ForEach(i => IrregularitiesInfos.Add(i));
                 }
 
                 if (resReservationRecords.Msg is List<ReservationInfo> list2)
                 {
-
                     ReservationRecords.Clear();
-                    foreach (var item in list2)
-                    {
-                        ReservationRecords.Add(item);
-                    }
+                    list2.ForEach(i => ReservationRecords.Add(i));
                 }
             });
             return TaskResp.True;
         }
-
-        public async Task<TaskResp> StartResvAsync(LibRoom libRoom, NearDays date,DateTime start, DateTime end)
+        public async Task StartResvAsync(LibRoom libRoom, NearDays date, DateTime start, DateTime end)
         {
-            if (IsBusyOrRefreshing) return TaskResp.False;
+            if (IsBusyOrRefreshing) return;
             IsBusy = true;
             if (Selected.Count < libRoom.MinUser || Selected.Count > libRoom.MaxUser)
             {
-                IsBusy = false;
-                return new TaskResp(false, $"人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
+                await NoticeError($"人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
+                return;
             }
             
             if (Selected.All(info => info.SchoolCardId.Trim() != Loader.LibRoom.Username.Trim()))
@@ -197,7 +208,7 @@ namespace HandSchool.JLU.ViewModels
                 if (!await RequestAnswerAsync("提示", "人员列表中不包含预约人，如果继续预约，则该条预约无法取消，是否继续？", "否", "是"))
                 {
                     IsBusy = false;
-                    return TaskResp.False;
+                    return;
                 }
             }
             
@@ -206,8 +217,8 @@ namespace HandSchool.JLU.ViewModels
             {
                 if (Selected[i].InnerId is null)
                 {
-                    IsBusy = false;
-                    return new TaskResp(false, "读取人员信息失败");
+                    await NoticeError("读取人员信息失败");
+                    return;
                 }
                 if (i != Selected.Count - 1)
                 {
@@ -228,43 +239,100 @@ namespace HandSchool.JLU.ViewModels
             try
             {
                 var res = await Loader.LibRoom.SendResvAsync(libRoom, sb.ToString(), start, end);
-                return !res.IsSuccess ? res : TaskResp.True;
+                if (res.IsSuccess)
+                {
+                    await RequestMessageAsync("提示", "预约成功", "彳亍");
+                    Core.Platform.EnsureOnMainThread(Selected.Clear);
+                }
+                else
+                {
+                    if (res.Msg != null)
+                    {
+                        await NoticeError(res.ToString());
+                    }
+                }
             }
             catch (WebsException we)
             {
-                return new TaskResp(false, we.Message);
+                await NoticeError(we.Message);
             }
             finally
             {
                 IsBusy = false;
             }
         }
-
-        public async Task<TaskResp> CancelResvAsync(string resvId)
+        public async Task DelUser(StudentLibBasicInfo info)
         {
-            if (IsBusyOrRefreshing) return TaskResp.False;
+            if (info is null) return;
+            if (IsBusyOrRefreshing) return;
             IsBusy = true;
+            var res = await RequestAnswerAsync("取消选定", info.Tips, "否", "是");
+            IsBusy = false;
+            if (!res) return;
+            Core.Platform.EnsureOnMainThread(() => Selected.Remove(info));
+        }
+        public async Task<TaskResp> AddUser(StudentLibBasicInfo info, int maxUser)
+        {
+            if (string.IsNullOrWhiteSpace(info?.Name) || Selected.Contains(info))
+            {
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    Recommends.Clear();
+                });
+                return TaskResp.True;
+            }
+            
+            if (Selected.Count >= maxUser)
+            {
+                await NoticeError("人数超出房间限制！\n长按已选择的人员以移除列表。");
+                return TaskResp.False;
+            }
+
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                Recommends.Clear();
+                Selected.Add(info);
+            });
+            return TaskResp.True;
+        }
+        public async Task CancelResvAsync(string resvId)
+        {
+            if (IsBusyOrRefreshing) return;
+            IsBusy = true;
+            if (!await RequestAnswerAsync("确认", "取消此次预约？", "否", "是"))
+            {
+                IsBusy = false;
+                return;
+            }
             try
             {
                 var res = await Loader.LibRoom.CancelResvAsync(resvId);
                 if (!res.IsSuccess)
                 {
-                    return res.Msg is null ? new TaskResp(false, "服务器返回信息异常") : res;
-                }
-                else
-                {
-                    return TaskResp.True;
+                    if (res.Msg is null)
+                    {
+                        await NoticeError("服务器返回信息异常");
+                    }
+                    else
+                    {
+                        await NoticeError(res.ToString());
+                    }
+
+                    return;
                 }
             }
             catch (Exception e)
             {
-                await NoticeError(e.Message);
-                return new TaskResp(false, e.Message);
+                await NoticeError("出错了" + e.Message);
+                return;
             }
             finally
             {
                 IsBusy = false;
             }
+
+            await RefreshInfosAsync();
+            await RequestMessageAsync("提示","成功取消", "彳亍");
         }
     }
 }

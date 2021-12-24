@@ -3,7 +3,8 @@
                    xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
-             x:Class="HandSchool.JLU.Views.LibRoomRequestPage">
+             x:Class="HandSchool.JLU.Views.LibRoomRequestPage"
+                   IsBusy="{Binding IsBusy}">
             <ScrollView>
                 <StackLayout Margin="10,5" Padding="10">
                     <StackLayout Orientation="Horizontal">
