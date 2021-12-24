@@ -50,7 +50,7 @@ namespace HandSchool.JLU.Views
                     await _viewModel.SetQuickSelect(detail.lsltId, QuickSelectOperator.Delete).ContinueWith(async t =>
                     {
                         if ((await t).IsSuccess) detail.isQuick = "N";
-                        Core.Platform.EnsureOnMainThread(() => _viewModel.Details.Remove(detail));
+                        Core.Platform.EnsureOnMainThread(() => _viewModel.QuickSelect.Remove(detail));
                     });
                     break;
                 case "选课":
