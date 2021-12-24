@@ -10,6 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using WebView = Android.Webkit.WebView;
 
 namespace HandSchool.Views
 {
@@ -48,7 +50,8 @@ namespace HandSchool.Views
         public override void SetNavigationArguments(object param)
         {
             Controller = param as BaseController;
-            Controller.View = this;
+            if (Controller == null) return;
+            Controller.AddView(this);
             Controller.PropertyChanged += WeakBind;
             var meta = Controller.GetType().Get<EntranceAttribute>();
             Title = meta.Title;
@@ -135,6 +138,18 @@ namespace HandSchool.Views
         protected virtual void OnEntranceRequested(IWebEntrance ent)
         {
             Navigation.PushAsync<WebViewPage>(ent);
+        }
+
+        public override void OnPause()
+        {
+            Controller?.RemoveView(this);
+            base.OnPause();
+        }
+
+        public override void OnResume()
+        {
+            Controller?.AddView(this);
+            base.OnResume();
         }
     }
 }

@@ -71,8 +71,9 @@ namespace HandSchool.Views
             set
             {
                 if (ReferenceEquals(BindingContext, value)) return;
+                ViewModel?.RemoveView(this);
                 BindingContext = value;
-                if (value != null) value.View = this;
+                value?.AddView(this);
             }
         }
         protected override void OnPropertyChanged(string propertyName = null)
@@ -106,12 +107,6 @@ namespace HandSchool.Views
             ToolbarMenu.Add(item);
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            var safeInsets = On<iOS>().SafeAreaInsets();
-            Padding = safeInsets;
-        }
         public ViewObject()
         {
             ToolbarTracker = new ToolbarMenuTracker();
@@ -132,7 +127,22 @@ namespace HandSchool.Views
         /// 是否为模态页面
         /// </summary>
         public bool IsModal { get; set; }
-        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            var safeInsets = On<iOS>().SafeAreaInsets();
+            Padding = safeInsets;
+            ViewModel?.AddView(this);
+        }
+
+        protected override void OnDisappearing()
+        {
+            ViewModel?.RemoveView(this);
+            base.OnDisappearing();
+        }
+
+
         /// <summary>
         /// 处理导航的参数，在页面显示之前调用。
         /// </summary>
@@ -146,7 +156,7 @@ namespace HandSchool.Views
         {
             Navigation = navigate;
         }
-
+        
         #region 视图的响应：通过 MessagingCenter 传递
 
         /// <summary>

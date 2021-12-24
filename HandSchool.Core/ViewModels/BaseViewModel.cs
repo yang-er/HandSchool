@@ -2,6 +2,7 @@
 using HandSchool.Views;
 using Microcharts;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HandSchool.ViewModels
@@ -35,8 +36,23 @@ namespace HandSchool.ViewModels
         }
 
         #region IViewResponse 实现
-        
-        public IViewResponse View { get; set; }
+
+        private List<IViewResponse> _views = new List<IViewResponse>();
+        public IViewResponse View => _views.Count > 0 ? _views[_views.Count - 1] : null;
+
+        public void AddView(IViewResponse v)
+        {
+            var index = _views.IndexOf(v);
+            if (index == _views.Count - 1) return;
+            if (index >= 0)
+            {
+                _views.RemoveAt(index);
+            }
+            _views.Add(v);
+        }
+
+        public void PopView() => _views.RemoveAt(_views.Count - 1);
+        public void RemoveView(IViewResponse v) => _views.Remove(v);
         
         public Task<string> RequestActionAsync(string title, string cancel, string destruction, params string[] buttons)
         {
