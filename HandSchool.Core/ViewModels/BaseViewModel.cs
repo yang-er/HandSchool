@@ -56,42 +56,42 @@ namespace HandSchool.ViewModels
         
         public Task<string> RequestActionAsync(string title, string cancel, string destruction, params string[] buttons)
         {
-            if (View is null) return Task.FromResult<string>(null);
-            return Core.Platform.EnsureOnMainThread(() => View.RequestActionAsync(title, cancel, destruction, buttons));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestActionAsync(title, cancel, destruction, buttons) ?? Task.FromResult<string>(null));
         }
         
         public Task<bool> RequestAnswerAsync(string title, string description, string cancel, string accept)
         {
-            if (View is null) return Task.FromResult(false);
-            return Core.Platform.EnsureOnMainThread(() => View.RequestAnswerAsync(title, description, cancel, accept));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestAnswerAsync(title, description, cancel, accept) ?? Task.FromResult(false));
         }
 
         public Task<string> RequestInputAsync(string title, string description, string cancel, string accept)
         {
-            if (View is null) return Task.FromResult<string>(null);
-            return Core.Platform.EnsureOnMainThread(() => View.RequestInputAsync(title, description, cancel, accept));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestInputAsync(title, description, cancel, accept) ?? Task.FromResult<string>(null));
         }
         public Task<string> RequestInputWithPicAsync(string title, string description, string cancel, string accept,byte[]sources)
         {
-            if (View is null) return Task.FromResult<string>(null);
-            return Core.Platform.EnsureOnMainThread(() => View.RequestInputWithPicAsync(title, description, cancel, accept,sources));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestInputWithPicAsync(title, description, cancel, accept,sources) ?? Task.FromResult<string>(null));
         }
 
         public Task RequestMessageAsync(string title, string message, string button = "知道了")
         {
-            if (View is null) return Task.CompletedTask;
-            return Core.Platform.EnsureOnMainThread(() => View.RequestMessageAsync(title, message, button));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestMessageAsync(title, message, button) ?? Task.CompletedTask);
         }
 
         public Task RequestChartAsync(Chart chart, string title = "", string close = "关闭")
         {
-            if (View is null) return Task.CompletedTask;
-            return Core.Platform.EnsureOnMainThread(() => View.RequestChartAsync(chart, title, close));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestChartAsync(chart, title, close) ?? Task.CompletedTask);
         }
         public Task<string> RequestWebDialogAsync(string title, string description, string url, string cancel, string accept, bool navigation, bool hasInput, string inputHint, WebDialogAdditionalArgs additionalArgs)
         {
-            if (View is null) return Task.FromResult<string>(null);
-            return Core.Platform.EnsureOnMainThread(() => View.RequestWebDialogAsync(title, description, url, cancel, accept, navigation, hasInput, inputHint, additionalArgs));
+            return Core.Platform.EnsureOnMainThread(() => 
+                View?.RequestWebDialogAsync(title, description, url, cancel, accept, navigation, hasInput, inputHint, additionalArgs) ?? Task.FromResult<string>(null));
         }
 
         /// <summary>
