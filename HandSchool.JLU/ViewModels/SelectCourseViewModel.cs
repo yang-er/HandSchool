@@ -227,7 +227,6 @@ namespace HandSchool.ViewModels
                         _ => false
                     })
                 {
-                    count++;
                     continue;
                 }
 

@@ -47,7 +47,11 @@ namespace HandSchool.JLU.Views
             {
                 case null: return;
                 case "移除快捷选课":
-                    await _viewModel.SetQuickSelect(detail.lsltId, QuickSelectOperator.Delete).ContinueWith(async t => { if ((await t).IsSuccess) detail.isQuick = "N"; });
+                    await _viewModel.SetQuickSelect(detail.lsltId, QuickSelectOperator.Delete).ContinueWith(async t =>
+                    {
+                        if ((await t).IsSuccess) detail.isQuick = "N";
+                        Core.Platform.EnsureOnMainThread(() => _viewModel.Details.Remove(detail));
+                    });
                     break;
                 case "选课":
                 {
