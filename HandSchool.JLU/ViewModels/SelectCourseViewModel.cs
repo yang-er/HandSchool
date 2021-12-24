@@ -35,7 +35,20 @@ namespace HandSchool.ViewModels
             "{\"tag\": \"lessonSelectLogTcm@selectGlobalStore\",\"branch\": \"self\",\"params\": {\"lslId\": " + lslId +
             ",\"myCampus\": \"Y\"}}";
 
-        public SelectCoursePlanValue CurrentPlan { get; set; }
+        private SelectCoursePlanValue _currentPlan;
+
+        public SelectCoursePlanValue CurrentPlan
+        {
+            get => _currentPlan;
+            set
+            {
+                _currentPlan = value;
+                OnPropertyChanged(nameof(CurPlanEnd));
+                OnPropertyChanged(nameof(CurPlanStart));
+            }
+        }
+        public string CurPlanStart => CurrentPlan?.StartTime?.ToString() ?? "开始时间";
+        public string CurPlanEnd => CurrentPlan?.EndTime?.ToString() ?? "结束时间";
         private string UserId { get; set; }
         public ICommand LoadCourseCommand { get; set; }
 
@@ -191,6 +204,16 @@ namespace HandSchool.ViewModels
 
         public async Task<int> SelectAll()
         {
+            if ((CurrentPlan?.StartTime?.CompareTo(DateTime.Now) ?? 1) > 0)
+            {
+                await NoticeError("选课还未开始\n开始时间：" + CurrentPlan?.StartTime);
+                return -1;
+            }
+            if ((CurrentPlan?.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
+            {
+                await NoticeError("选课已结束\n结束时间：" + CurrentPlan?.EndTime);
+                return -1;
+            }
             if (IsBusy) return 0;
             IsBusy = true;
             var count = 0;

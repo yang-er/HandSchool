@@ -13,16 +13,32 @@
         <ToolbarItem Clicked="ShowQuickSelect" Text="快捷选课"/>
     </views:ViewObject.ToolbarItems>
     <ScrollView BackgroundColor="#F4F4F4">
-        <StackLayout>
+        <StackLayout Spacing="0">
             <Frame
                 CornerRadius="15" 
-                Scale="0.95">
+                Scale="0.95"
+                Padding="20,15">
                 <StackLayout>
-                    <Label>选择选课计划</Label>
-                    <Picker x:Name="SelectCoursePicker" ItemsSource="{Binding SelectCoursePlanValues}"></Picker>
-                    <Button Text="刷新选课条目" Command="{Binding LoadCourseCommand}"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="选课计划：" VerticalOptions="CenterAndExpand" TextColor="DarkSlateGray"/>
+                        <Picker x:Name="SelectCoursePicker"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                ItemsSource="{Binding SelectCoursePlanValues}"/>
+                    </StackLayout>
+                    <Label HorizontalOptions="CenterAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding CurPlanStart}"/>
+                                <Span Text=" ~ "/>
+                                <Span Text="{Binding CurPlanEnd}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </StackLayout>
             </Frame>
+            <views:BorderlessButton Text="刷新选课条目" Command="{Binding LoadCourseCommand}"/>
+
             <CollectionView 
                 ItemsSource="{Binding Courses}">
                 <CollectionView.EmptyView>

@@ -28,6 +28,16 @@ namespace HandSchool.JLU.Views
 
         private async void ClassSelected(object sender, EventArgs e)
         {
+            if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) > 0)
+            {
+                await NoticeError("选课还未开始\n开始时间：" + _viewModel.CurrentPlan.StartTime);
+                return;
+            }
+            if ((_viewModel.CurrentPlan.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
+            {
+                await NoticeError("选课已结束\n结束时间：" + _viewModel.CurrentPlan.EndTime);
+                return;
+            }
             var detail = (sender as BindableObject)?.BindingContext as SCCourseDetail;
             if (detail is null) return;
             if (detail.selectTag?.Trim() == "G")

@@ -42,16 +42,6 @@ namespace HandSchool.JLU.Views
 
         private async void ShowDetail(object sender, EventArgs e)
         {
-            if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) > 0)
-            {
-                await NoticeError("选课还未开始\n开始时间：" + _viewModel.CurrentPlan.StartTime);
-                return;
-            }
-            if ((_viewModel.CurrentPlan.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
-            {
-                await NoticeError("选课已结束\n结束时间：" + _viewModel.CurrentPlan.EndTime);
-                return;
-            }
             var course = (sender as BindableObject)?.BindingContext as SCCourses;
             if (course is null) return;
             if (!(await _viewModel.GetDetail(course.lslId.ToString())).IsSuccess)

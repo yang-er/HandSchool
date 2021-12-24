@@ -82,6 +82,7 @@ namespace HandSchool.JLU.Views
         private async void SelectAll(object sender, EventArgs args)
         {
             var x = await _viewModel.SelectAll();
+            if (x == -1) return;
             await RequestMessageAsync("提示", "操作完成，成功选了" + x + "门课", "好");
             await Navigation.PopAsync();
             await _viewModel.GetCourses();
