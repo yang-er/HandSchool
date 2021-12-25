@@ -27,7 +27,7 @@ namespace HandSchool.JLU.ViewModels
         public ObservableCollection<StudentLibBasicInfo> Selected { get; set; } = new ObservableCollection<StudentLibBasicInfo>();
 
         public LibRoomData UserInfo { get; set; }
-        public string Name => UserInfo?.name??"你登陆呀";
+        public string Name => UserInfo?.name??"你登录呀";
 
         private bool _isRefreshing;
 
