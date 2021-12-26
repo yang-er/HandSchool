@@ -148,6 +148,7 @@ namespace HandSchool.JLU.Models
 
     public class ReservationInfo
     {
+        public bool IsUsing { get; set; }
         public string Start { get; set; }
         public string End { get; set; }
         public DateTime? ResvTime { get; set; }

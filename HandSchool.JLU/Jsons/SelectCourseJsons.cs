@@ -61,7 +61,14 @@ namespace HandSchool.JLU.JsonObject
             new Dictionary<int, string>
             {
                 {3060, "必修课"},
-                {3061, "选修课"}
+                {3061, "选修课"},
+                {3062, "限选课"},
+                {3064, "体育课"},
+                {3065, "校选修课"},
+                {3066, "跨专业"},
+                {3067, "通过再修"},
+                {3068, "补修"},
+                {3099, "绑定公选"}
             };
         public class SCApplyPlanLesson
         {

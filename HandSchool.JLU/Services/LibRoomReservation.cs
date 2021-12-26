@@ -311,6 +311,7 @@ namespace HandSchool.JLU.Services
 
                             var item = new ReservationInfo
                             {
+                                IsUsing = false,
                                 Kind = floor?.InnerText,
                                 Start = times[0].InnerText,
                                 End = times[1].InnerText,
@@ -322,6 +323,23 @@ namespace HandSchool.JLU.Services
                                 ResvType = type.InnerText,
                                 ResvInnerId = ops?.GetAttributeValue("rsvid", null)
                             };
+                            if(item.ResvInnerId is null)
+                            {
+                                var usingRoomId = ops?.GetAttributeValue("onclick", null);
+                                if (!string.IsNullOrWhiteSpace(usingRoomId))
+                                {
+                                    var match = Regex.Match(usingRoomId, "\\(.*\\)");
+                                    if (match.Length > 0)
+                                    {
+                                        var realId = match.Value.Replace("(", "").Replace(")", "");
+                                        if (long.TryParse(realId, out var numId))
+                                        {
+                                            item.ResvInnerId = numId.ToString();
+                                            item.IsUsing = true;
+                                        }
+                                    }
+                                }
+                            }
                             list.Add(item);
                         }
                         catch
@@ -458,7 +476,25 @@ namespace HandSchool.JLU.Services
                 return new TaskResp(false, jo["msg"]?.ToString());
             }
 
-            return TaskResp.True;
+            return new TaskResp(true, jo["msg"]);
+        }
+
+        public async Task<TaskResp> EndResvAsync(string resvId)
+        {
+            var getUrl = $"ClientWeb/pro/ajax/reserve.aspx?act=resv_leave&type=2&resv_id={resvId}";
+            var str = await Loader.LibRoom.WebClient.GetStringAsync(getUrl);
+            var jo = JsonConvert.DeserializeObject<JObject>(str);
+            if (jo == null)
+            {
+                return new TaskResp(false, "操作失败！请前往网站尝试");
+            }
+
+            if (jo["ret"]?.ToString() != "1")
+            {
+                return new TaskResp(false, jo["msg"]?.ToString());
+            }
+
+            return new TaskResp(true, jo["msg"]);
         }
 
         public async Task<TaskResp> SendResvAsync(LibRoom libRoom, string mbList, DateTime start, DateTime end)

@@ -121,9 +121,7 @@ namespace HandSchool.JLU.Views
 
         private async void CancelResv(object sender, EventArgs e)
         {
-            var info = (sender as BindableObject)?.BindingContext as ReservationInfo;
-            if (info?.ResvInnerId is null) return; 
-            await _viewModel.CancelResvAsync(info.ResvInnerId);
+            await _viewModel.CancelOrEndResvAsync((sender as BindableObject)?.BindingContext as ReservationInfo);
         }
 
         private void ClearUserInfo(object sender, EventArgs e)

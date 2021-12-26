@@ -295,18 +295,27 @@ namespace HandSchool.JLU.ViewModels
             });
             return TaskResp.True;
         }
-        public async Task CancelResvAsync(string resvId)
+        public async Task CancelOrEndResvAsync(ReservationInfo resvInfo)
         {
+            if(resvInfo is null) return;
             if (IsBusyOrRefreshing) return;
             IsBusy = true;
-            if (!await RequestAnswerAsync("确认", "取消此次预约？", "否", "是"))
+            var msg = resvInfo.IsUsing ? "提前结束？" : "取消此次预约？";
+            var resvId = resvInfo.ResvInnerId;
+            if (!await RequestAnswerAsync("确认", msg, "否", "是"))
             {
                 IsBusy = false;
                 return;
             }
+
             try
             {
-                var res = await Loader.LibRoom.CancelResvAsync(resvId);
+                var res = resvInfo.IsUsing switch
+                {
+                    true => await Loader.LibRoom.EndResvAsync(resvId),
+                    false => await Loader.LibRoom.CancelResvAsync(resvId)
+                };
+
                 if (!res.IsSuccess)
                 {
                     if (res.Msg is null)
@@ -320,6 +329,11 @@ namespace HandSchool.JLU.ViewModels
 
                     return;
                 }
+                else
+                {
+                    await RefreshInfosAsync();
+                    await RequestMessageAsync("提示", res.ToString(), "彳亍");
+                }
             }
             catch (Exception e)
             {
@@ -329,10 +343,7 @@ namespace HandSchool.JLU.ViewModels
             finally
             {
                 IsBusy = false;
-            }
-
-            await RefreshInfosAsync();
-            await RequestMessageAsync("提示","成功取消", "彳亍");
+            }    
         }
     }
 }
