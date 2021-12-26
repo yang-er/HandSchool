@@ -297,7 +297,7 @@ namespace HandSchool.JLU.ViewModels
         }
         public async Task CancelOrEndResvAsync(ReservationInfo resvInfo)
         {
-            if(resvInfo is null) return;
+            if(resvInfo?.ResvInnerId is null) return;
             if (IsBusyOrRefreshing) return;
             IsBusy = true;
             var msg = resvInfo.IsUsing ? "提前结束？" : "取消此次预约？";
