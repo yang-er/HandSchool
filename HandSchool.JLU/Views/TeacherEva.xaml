@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<w:ViewObject  
+    xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+    x:Class="HandSchool.JLU.Views.TeacherEva"
+    Title="一键教评">
+    <w:ViewObject.ToolbarMenu>
+        <w:MenuEntry Title="一键好评" Command="{Binding EvaCommand}"/>
+    </w:ViewObject.ToolbarMenu>
+    <w:ViewObject.ToolbarItems>
+        <ToolbarItem Text="一键好评" Command="{Binding EvaCommand}"/>
+    </w:ViewObject.ToolbarItems>
+
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 Command="{Binding RefreshCommand}">
+        <CollectionView ItemsSource="{Binding EvaItems}"
+                        BackgroundColor="#F4F4F4">
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <internal:NoDataView/>
+                </ContentView>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="4" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <controls:TextAtom
+                        OnTop="False"
+                        HasSecond="True"
+                        Title="{Binding TeacherName}"
+                        ContentText="{Binding TeachCourse}"
+                        SecondTitle="●"
+                        SecondTitleColor="{Binding Color}"
+                        SecondContent="{Binding Detail}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</w:ViewObject>

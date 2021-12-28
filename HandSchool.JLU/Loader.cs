@@ -133,6 +133,7 @@ namespace HandSchool.JLU
                 //InfoEntranceWrapper.From<SelectCourse>(),
                 TapEntranceWrapper.From<SelectCourseShell>(),
                 InfoEntranceWrapper.From<AdviceSchedule>(),
+                TapEntranceWrapper.From<TeacherEvaShell>()
             };
 
             Core.App.InfoEntrances.Add(InfoList);
