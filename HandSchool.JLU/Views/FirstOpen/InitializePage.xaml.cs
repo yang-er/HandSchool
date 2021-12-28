@@ -69,7 +69,8 @@ namespace HandSchool.JLU.Views
 
                     gradeCheck.Text = "";
                     gradeProgress.IsRunning = true;
-                    await GradePointViewModel.Instance.ExecuteLoadItemsCommand();
+                    await GradePointViewModel.Instance.ExecuteLoadNewerItemsCommand();
+                    await GradePointViewModel.Instance.ExecuteLoadAllItemsCommand();
                     gradeProgress.IsRunning = false;
                     gradeCheck.Text = "√";
                     gradeCheck.TextColor = Color.DarkGreen;

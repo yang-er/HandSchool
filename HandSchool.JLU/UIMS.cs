@@ -151,9 +151,9 @@ namespace HandSchool.JLU
             if (Username != "") Password = Core.Configure.Read(configPassword);
             if (Password == "") SavePassword = false;
 
-            if (OutsideSchool) UsingStrategy = new OutsideSchoolStrategy(this);
-            else if (Loader.UseVpn) UsingStrategy = new VpnSchoolStrategy(this);
-            else UsingStrategy = new InsideSchoolStrategy(this);
+            UsingStrategy = Loader.UseVpn 
+                ? (ISideSchoolStrategy)new VpnSchoolStrategy(this) 
+                : new InsideSchoolStrategy(this);
             UsingStrategy.OnLoad();
         }
 

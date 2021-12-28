@@ -12,15 +12,16 @@ namespace HandSchool.Models
     public class GPAItem : IGradeItem
     {
         public string Title => "GPA统计";
-
-        public string Score => "";
-        public string Point => "";
+        public string FirstScore => "";
+        public string HighestScore => "";
+        public string FirstPoint => "";
+        public string HightestPoint => "";
         public string Type => "";
         public Color TypeColor => Color.Transparent;
         public string Credit => "";
         public string Term => "";
         public bool ReSelect => false;
-        public bool Pass => true;
+        public bool IsPassed => true;
         public NameValueCollection Attach => null;
 
         public DateTime Date { get; }

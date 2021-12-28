@@ -92,7 +92,7 @@ namespace HandSchool.JLU.JsonObject
         public Course course { get; set; }
         public string isReselect { get; set; }
         public string scoreNum { get; set; }
-        public Student student { get; set; }
+        public StudentBasic student { get; set; }
         public string asId { get; set; }
         public string type5 { get; set; }
         public string gpoint { get; set; }
@@ -101,6 +101,42 @@ namespace HandSchool.JLU.JsonObject
         public string selectType { get; set; }
         public GradeDetails distribute { get; set; }
     }
+
+    public class QueryScoreValue
+    {
+        public class FirstTerm
+        {
+            public int? termId { get; set; }
+            public string termName { get; set; }
+        }
+
+        public int? passScoreNum { get; set; }
+        public Student student { get; set; }
+        public string bestXkkh { get; set; }
+        public string hasReselect { get; set; }
+        public int? scoreSign { get; set; }
+        public string firstXkkh { get; set; }
+        public string bestGpoint { get; set; }
+        public FirstTerm firstTerm { get; set; }
+        public string passGpoint { get; set; }
+        public string planDetail { get; set; }
+        public CourseBasic course { get; set; }
+        public string classHour { get; set; }
+        public string credit { get; set; }
+        public string type5 { get; set; }
+        public string firstGpoint { get; set; }
+        public string bestScore { get; set; }
+        public string passScore { get; set; }
+        public string isMinor { get; set; }
+        public int? firstScoreNum { get; set; }
+        public string passXkkh { get; set; }
+        public string studyCnt { get; set; }
+        public string firstScore { get; set; }
+        public string isPass { get; set; }
+        public int? bestScoreNum { get; set; }
+        public string sbId { get; set; }
+    }
+    
 
     public class GradeDetails
     {
@@ -170,7 +206,14 @@ namespace HandSchool.JLU.JsonObject
         public string courName { get; set; }
     }
 
-    public class Course
+    public class CourseBasic
+    {
+        public string extCourseNo { get; set; }
+
+        public int courseId { get; set; }
+        public string courName { get; set; }
+    }
+    public class Course : CourseBasic
     {
         public string englishName { get; set; }
         public SchoolInfo school { get; set; }
@@ -179,9 +222,6 @@ namespace HandSchool.JLU.JsonObject
         public string batch { get; set; }
         public string activeStatus { get; set; }
         public string type5 { get; set; }
-        public string extCourseNo { get; set; }
-        public string courName { get; set; }
-        public string courseId { get; set; }
         public string courType1 { get; set; }
         public string adviceCredit { get; set; }
         public string courType2 { get; set; }
@@ -248,15 +288,18 @@ namespace HandSchool.JLU.JsonObject
         public string termId { get; set; }
         public string egrade { get; set; }
     }
-
-    public class Student
+    public class StudentBasic
     {
-        public string studId { get; set; }
+        public string studNo { get; set; }
         public string name { get; set; }
+        public int studId { get; set; }
+    }
+
+    public class Student : StudentBasic
+    {
         public AdminClass adminClass { get; set; }
         public string admissionYear { get; set; }
         public string studStatus { get; set; }
-        public string studNo { get; set; }
         public string egrade { get; set; }
     }
 

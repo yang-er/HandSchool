@@ -1,6 +1,7 @@
 ﻿using HandSchool.Views;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HandSchool.Controls;
@@ -50,6 +51,26 @@ namespace HandSchool
 
     public static class Extends
     {
+        public static void AddRange<T>(this IList<T> list, IEnumerable<T> enumerable)
+        {
+            if (enumerable is null) return;
+            foreach(var i in enumerable) list.Add(i);
+        }
+        public static IEnumerable<T> GetReverse<T>(this IEnumerable<T> enumerable)
+        {
+            var l = enumerable is IList<T> ? (IList<T>)enumerable : enumerable.ToList();
+            for (var i = l.Count - 1; i >= 0; i--)
+            {
+                yield return l[i];
+            }
+        }
+
+        public static void AddReverse<T>(this IList<T> list, IEnumerable<T> enumerable)
+        {
+            if (enumerable is null) return;
+            list.AddRange(enumerable.Reverse());
+        }
+        
         public static async Task TappedAnimation(this TextAtom item, Func<Task> doing = null)
         {
             if (item == null) return;

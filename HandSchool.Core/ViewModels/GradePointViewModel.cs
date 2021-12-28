@@ -16,22 +16,27 @@ namespace HandSchool.ViewModels
     /// </summary>
     /// <inheritdoc cref="BaseViewModel" />
     /// <inheritdoc cref="ICollection{T}" />
-    public sealed class GradePointViewModel : BaseViewModel, ICollection<IGradeItem>
+    public sealed class GradePointViewModel : BaseViewModel
     {
         private static readonly Lazy<GradePointViewModel> Lazy =
             new Lazy<GradePointViewModel>(() => new GradePointViewModel());
 
-        private bool lockedView;
+        private bool _lockedView;
 
         /// <summary>
         /// 绩点成绩列表
         /// </summary>
-        public ObservableCollection<IGradeItem> Items { get; set; }
+        public ObservableCollection<IGradeItem> NewerGradeItems { get; set; }
+        
+        public ObservableCollection<IBasicGradeItem> AllGradeItems { get; set; }
 
         /// <summary>
         /// 加载绩点的命令
         /// </summary>
-        public ICommand LoadItemsCommand { get; set; }
+        public ICommand LoadNewerItemsCommand { get; set; }
+        
+        public ICommand LoadAllItemsCommand { get; set; }
+
 
         /// <summary>
         /// 视图模型的实例
@@ -46,15 +51,17 @@ namespace HandSchool.ViewModels
         /// </summary>
         private GradePointViewModel()
         {
-            Title = "学分成绩";
-            Items = new ObservableCollection<IGradeItem>();
-            LoadItemsCommand = new CommandAction(ExecuteLoadItemsCommand);
+            Title = "最新成绩";
+            NewerGradeItems = new ObservableCollection<IGradeItem>();
+            AllGradeItems = new ObservableCollection<IBasicGradeItem>();
+            LoadNewerItemsCommand = new CommandAction(ExecuteLoadNewerItemsCommand);
+            LoadAllItemsCommand = new CommandAction(ExecuteLoadAllItemsCommand);
         }
 
         /// <summary>
         /// 加载绩点的具体函数。
         /// </summary>
-        public async Task ExecuteLoadItemsCommand()
+        public async Task ExecuteLoadNewerItemsCommand()
         {
             if (IsBusy) return; IsBusy = true;
 
@@ -85,7 +92,38 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
         }
+        
+        public async Task ExecuteLoadAllItemsCommand()
+        {
+            if (IsBusy) return; IsBusy = true;
 
+            IsBusy = true;
+            if (BeforeOperatingCheck != null)
+            {
+                var msg = await BeforeOperatingCheck();
+                if (!msg.IsSuccess)
+                {
+                    await RequestMessageAsync("错误", msg.ToString());
+                    IsBusy = false;
+                    return;
+                }
+            }
+            IsBusy = false;
+
+            IsBusy = true;
+            try
+            {
+                await Core.App.GradePoint.EntranceAll();
+            }
+            catch (Exception ex)
+            {
+                this.WriteLog(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
         /// <summary>
         /// 展示成绩详情。
         /// </summary>
@@ -93,14 +131,11 @@ namespace HandSchool.ViewModels
         public async Task ShowGradeDetailAsync(IGradeItem iGi)
         {
             if (iGi is GPAItem) return;
-            if (lockedView) return;
-            lockedView = true;
+            if (_lockedView) return;
+            _lockedView = true;
 
-            var info = string.Format(
-                "名称：{0}\n类型：{1}\n学期：{2}\n发布日期：{3}\n" +
-                "学分：{4}\n分数：{5}\n绩点：{6}\n通过：{7}\n重修：{8}",
-                iGi.Title, iGi.Type, iGi.Term, iGi.Date.ToString(),
-                iGi.Credit, iGi.Score, iGi.Point, iGi.Pass ? "是" : "否", iGi.ReSelect ? "是" : "否");
+            var info = $"名称：{iGi.Title}\n类型：{iGi.Type}\n学期：{iGi.Term}\n发布日期：{iGi.Date.ToString()}\n" +
+                       $"学分：{iGi.Credit}\n分数：{iGi.FirstScore}\n绩点：{iGi.FirstPoint}\n通过：{(iGi.IsPassed ? "是" : "否")}\n重修：{(iGi.ReSelect ? "是" : "否")}";
 
             foreach (var key in iGi.Attach.Keys)
             {
@@ -116,27 +151,7 @@ namespace HandSchool.ViewModels
                 await RequestChartAsync(pie, "成绩分布");
             }
 
-            lockedView = false;
+            _lockedView = false;
         }
-
-        #region ICollection<T> Implements
-
-        public int Count => Items.Count;
-        public void Add(IGradeItem item) => Items.Add(item);
-        public void Clear() => Items.Clear();
-
-        bool ICollection<IGradeItem>.IsReadOnly => ((ICollection<IGradeItem>)Items).IsReadOnly;
-        IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
-        IEnumerator<IGradeItem> IEnumerable<IGradeItem>.GetEnumerator() => Items.GetEnumerator();
-        bool ICollection<IGradeItem>.Contains(IGradeItem item) => Items.Contains(item);
-        void ICollection<IGradeItem>.CopyTo(IGradeItem[] array, int arrayIndex) => Items.CopyTo(array, arrayIndex);
-        bool ICollection<IGradeItem>.Remove(IGradeItem item) => Items.Remove(item);
-        
-        public void AddRange(IEnumerable<IGradeItem> toAdd)
-        {
-            foreach (var item in toAdd) Items.Add(item);
-        }
-        
-        #endregion
     }
 }
