@@ -227,9 +227,9 @@ namespace HandSchool.JLU
             public string FormatArguments(string args)
             {
                 return args
-                    .Replace("`term`", term)
-                    .Replace("`studId`", studId)
-                    .Replace("`adcId`", adcId);
+                    ?.Replace("`term`", term)
+                    ?.Replace("`studId`", studId)
+                    ?.Replace("`adcId`", adcId);
             }
 
             public string WelcomeMessage => UIMS.NeedLogin ? "请登录" : $"欢迎，{studName}。";

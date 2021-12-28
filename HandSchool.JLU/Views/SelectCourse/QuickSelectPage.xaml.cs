@@ -14,8 +14,8 @@ namespace HandSchool.JLU.Views
         private readonly SelectCourseViewModel _viewModel;
         public QuickSelectPage()
         {
+            InitializeComponent();            
             ViewModel = _viewModel = SelectCourseViewModel.Instance;
-            InitializeComponent();
         }
 
         private async void QuickSelectClicked(object sender, EventArgs args)

@@ -17,10 +17,7 @@ namespace HandSchool.Droid
         /// <param name="item"></param>
         public MenuEntryClickedListener(MenuEntry item)
         {
-            Reference = 
-                item.HasClickedEvent 
-                ? new WeakReference<ICommand>(item.CommandAdapter) 
-                : new WeakReference<ICommand>(item.Command);
+            Reference = new WeakReference<ICommand>(item.Command);
         }
 
         /// <summary>

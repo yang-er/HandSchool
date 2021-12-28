@@ -18,8 +18,9 @@ namespace HandSchool.JLU.Views
 
         public SelectCoursePage()
         {
+            InitializeComponent();          
             ViewModel = _viewModel = SelectCourseViewModel.Instance;          
-            InitializeComponent();
+
 
             SelectCoursePicker.SelectedIndexChanged += (s, e) =>
             {
@@ -54,7 +55,10 @@ namespace HandSchool.JLU.Views
         private async void ShowQuickSelect(object sender, EventArgs args)
         {
             await _viewModel.GetQuickSelect();
-            await Navigation.PushAsync<QuickSelectPage>();
+            if (_viewModel.CurrentPlan != null)
+            {
+                await Navigation.PushAsync<QuickSelectPage>();
+            }
         }
     }
 

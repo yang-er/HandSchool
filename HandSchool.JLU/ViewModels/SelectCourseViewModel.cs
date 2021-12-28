@@ -282,6 +282,11 @@ namespace HandSchool.ViewModels
         public async Task GetQuickSelect()
         {
             if (IsBusy) return;
+            if (CurrentPlan is null)
+            {
+                await NoticeError("暂无选课计划");
+                return;
+            }
             IsBusy = true;
             Core.Platform.EnsureOnMainThread(() => { QuickSelect.Clear(); });
             try

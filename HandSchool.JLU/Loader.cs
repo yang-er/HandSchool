@@ -126,7 +126,7 @@ namespace HandSchool.JLU
             {
                 //TapEntranceWrapper.From<EhallFill>(),
                 TapEntranceWrapper.From<EmptyRoomPageShell>(),
-                InfoEntranceWrapper.From<TeachEvaluate>(),
+                //InfoEntranceWrapper.From<TeachEvaluate>(),
                 //InfoEntranceWrapper.From<CollegeIntroduce>(),
                 //InfoEntranceWrapper.From<ProgramMaster>(),
                 //InfoEntranceWrapper.From<ClassSchedule>(),

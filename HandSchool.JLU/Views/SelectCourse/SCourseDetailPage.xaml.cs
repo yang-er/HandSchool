@@ -14,8 +14,9 @@ namespace HandSchool.JLU.Views
         private readonly SelectCourseViewModel _viewModel;
         public SCourseDetailPage()
         {
+            InitializeComponent();        
             ViewModel = _viewModel = SelectCourseViewModel.Instance;
-            InitializeComponent();
+
         }
 
         private SCCourses _curCourse;
