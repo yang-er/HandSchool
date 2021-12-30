@@ -44,7 +44,7 @@ namespace HandSchool.JLU
         /// <summary>
         /// 设置是否使用Vpn
         /// </summary>
-        [Settings("使用学生VPN", "使用学生VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        //[Settings("使用学生VPN", "使用学生VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
         public static bool UseVpn { get; set; }
 
         public void PostLoad()
@@ -114,7 +114,7 @@ namespace HandSchool.JLU
             
             var lp = Core.Configure.Read(configFile);
             SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
-            Loader.UseVpn = config.UseVpn;
+            Loader.UseVpn = false;//config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
             Task.Run(GradeEntrance.PreloadData);
