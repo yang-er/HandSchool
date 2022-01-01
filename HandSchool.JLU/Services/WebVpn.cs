@@ -74,10 +74,18 @@ namespace HandSchool.JLU.Services
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
         private async Task<bool> CheckIsLogin()
         {
-            AddCookie(WebClient);
-            var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
-            var res = await response.ReadAsStringAsync();
-            return res.Contains("注销");
+            try
+            {
+                AddCookie(WebClient);
+                var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
+                var res = await response.ReadAsStringAsync();
+                return res.Contains("注销");
+            }
+            catch(WebsException ex)
+            {
+                Core.Logger.WriteException(ex);
+                return false;
+            }
         }
         public async Task<bool> CheckLogin()
         {
@@ -135,7 +143,7 @@ namespace HandSchool.JLU.Services
             };
             Events.WebViewEvents.Navigated += OnNavigated;
             Events.WebViewEvents.Navigating += OnNavigating;
-            TimeoutManager = new TimeoutManager(60);
+            TimeoutManager = new TimeoutManager(30);
             WebClient = Core.New<IWebClient>();
             if (!string.IsNullOrWhiteSpace(_ticket) && !string.IsNullOrWhiteSpace(_rememberToken))
             {
