@@ -178,10 +178,18 @@ namespace HandSchool.JLU
                 UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
                 return TaskResp.True;
             }
-            
+
             public async Task LogoutSide()
             {
-                await UIMS.WebClient.GetAsync("logout.do?reason=M");
+                try
+                {
+                    await UIMS.WebClient.GetAsync("logout.do?reason=M");
+                    UIMS.IsLogin = false;
+                }
+                catch (WebsException ex)
+                {
+                    Core.Logger.WriteException(ex);
+                }
             }
 
             [ToFix("存在性能问题，瓶颈在JSON的解析上")]

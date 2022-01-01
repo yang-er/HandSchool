@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using HandSchool.JLU;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -82,7 +83,19 @@ namespace HandSchool.JLU.Services
             }
         }
 
-        public Task Logout() => WebClient.GetAsync($"{base8050Url}Account/SignOff");
+        public async Task Logout()
+        {
+            try
+            {
+                await WebClient.GetAsync($"{base8050Url}Account/SignOff");
+                IsLogin = false;
+            }
+            catch (WebsException ex)
+            {
+                Core.Logger.WriteException(ex);
+            }
+        }
+
         public async Task<TaskResp> Login()
         {
             if (Username == "" || Password == "")

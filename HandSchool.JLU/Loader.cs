@@ -37,7 +37,7 @@ namespace HandSchool.JLU
 
         public List<string> RegisteredFiles { get; private set; }
         public static SchoolCard Ykt;
-        internal static StudentVpn Vpn;
+        internal static WebVpn Vpn;
         public static LibRoomReservation LibRoom;
         public static InfoEntranceGroup InfoList;
 
@@ -65,7 +65,7 @@ namespace HandSchool.JLU
             NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid", "JLU", MenuIcon.CreditCard);
             NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU", MenuIcon.LibRoomResv);
 
-            Vpn = UseVpn ? new StudentVpn() : null;
+            Vpn = UseVpn ? new WebVpn() : null;
 
             FeedViewModel.BeforeOperatingCheck = CheckVpn;
             IndexViewModel.BeforeOperatingCheck = CheckVpn;

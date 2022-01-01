@@ -110,7 +110,6 @@ namespace HandSchool.Droid
                 else
                 {
                     base.OnBackPressed();
-                    CookieManager.Instance.RemoveAllCookies(new ObjectRes());
                 }
                 backHandler.Refresh();
             }

@@ -8,11 +8,11 @@ using HandSchool.Internal;
 using HandSchool.ViewModels;
 using Xamarin.Forms;
 
-[assembly: RegisterService(typeof(StudentVpn))]
+[assembly: RegisterService(typeof(WebVpn))]
 namespace HandSchool.JLU.Services
 {
     [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigRemember, ConfigTicket)]
-    internal sealed class StudentVpn : NotifyPropertyChanged, IWebLoginField
+    internal sealed class WebVpn : NotifyPropertyChanged, IWebLoginField
     {
         const string ConfigUsername = "jlu.vpn.username.txt";
         const string ConfigPassword = "jlu.vpn.password.txt";
@@ -20,14 +20,11 @@ namespace HandSchool.JLU.Services
         const string ConfigTicket = "jlu.vpn.ticket.txt";
         
         #region Login Fields
-        public string LoginUrl => "https://webvpn.jlu.edu.cn/login";
-        bool _isLogin = false;
-        bool _autoLogin = false;
-        bool _savePassword = false;
+        public string LoginUrl => "https://webvpn.jlu.edu.cn/logout";
+        bool _isLogin;
         public TimeoutManager TimeoutManager { get; set; }
         public string Username { get; set; }
         public bool IsWeb => true;
-
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
         public byte[] CaptchaSource { get; set; }
@@ -87,12 +84,19 @@ namespace HandSchool.JLU.Services
             if (TimeoutManager.NotInit || TimeoutManager.IsTimeout())
             {
                 AddCookie(WebClient);
-                var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
-                var res = await response.ReadAsStringAsync();
-                if (res.Contains("注销"))
+                try
                 {
-                    TimeoutManager.Refresh();
-                    return true;
+                    var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
+                    var res = await response.ReadAsStringAsync();
+                    if (res.Contains("注销"))
+                    {
+                        TimeoutManager.Refresh();
+                        return true;
+                    }
+                }
+                catch (WebsException e)
+                {
+                    Core.Logger.WriteException(e);
                 }
             }
             else
@@ -106,11 +110,19 @@ namespace HandSchool.JLU.Services
         }
         public async Task Logout()
         {
-            await WebClient.GetAsync("https://webvpn.jlu.edu.cn/logout");
+            try
+            {
+                await WebClient.GetAsync("https://webvpn.jlu.edu.cn/logout");
+                IsLogin = false;
+            }
+            catch (WebsException ex)
+            {
+                Core.Logger.WriteException(ex);
+            }
         }
         public Task<TaskResp> PrepareLogin() => Task.FromResult(TaskResp.True);
         public Task<TaskResp> Login() => Events?.Result?.Task ?? Task.FromResult(TaskResp.False);
-        public StudentVpn()
+        public WebVpn()
         {
             IsLogin = false;
             Username = Core.Configure.Read(ConfigUsername);
