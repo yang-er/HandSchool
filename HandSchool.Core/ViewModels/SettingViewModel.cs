@@ -3,6 +3,7 @@ using HandSchool.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace HandSchool.ViewModels
@@ -15,7 +16,7 @@ namespace HandSchool.ViewModels
     {
         static readonly Lazy<SettingViewModel> Lazy = 
             new Lazy<SettingViewModel>(() => new SettingViewModel());
-
+        public static event Func<Task> OnResetSettings;
         /// <summary>
         /// 视图模型的实例
         /// </summary>
@@ -56,6 +57,7 @@ namespace HandSchool.ViewModels
                 select new SettingWrapper(@void)
             ).ToList();
             Items.Add(new SettingWrapper(GetType().GetMethod(nameof(ResetSettings))));
+           
             //Items.Add(new SettingWrapper(GetType().GetMethod(nameof(TestBindingCounts))));
 
             SaveConfigures = new CommandAction(async () =>
@@ -77,7 +79,7 @@ namespace HandSchool.ViewModels
                 Core.Configure.Remove(fileName);
             Core.Configure.Remove("hs.school.bin");
             Core.App.Service.ResetSettings();
-
+            await (OnResetSettings.Invoke() ?? Task.CompletedTask);
             await Instance.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
         }
 

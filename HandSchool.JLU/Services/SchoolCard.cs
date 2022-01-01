@@ -30,12 +30,13 @@ namespace HandSchool.JLU.Services
         const string configUsername = "jlu.schoolcard.username.txt";
         const string configPassword = "jlu.schoolcard.password.txt";
         string baseUrl = "http://dsf.jlu.edu.cn/";
+        private string base8050Url = "http://dsf.jlu.edu.cn:8050";
 
         #region Login Fields
         bool is_login = false;
         bool auto_login = false;
         bool save_password = false;
-
+        public bool IsWeb => false;
         public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
 
         public string Username { get; set; }
@@ -55,30 +56,33 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                var VPN = Loader.Vpn != null && Loader.Vpn.IsLogin;
+                var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
                 WebClient = Core.New<IWebClient>();
                 WebClient.BaseAddress = baseUrl;
-                if (VPN)
+                if (vpn)
                 {
-                    baseUrl = "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/";
+                    baseUrl = "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/";
+                    base8050Url =
+                        "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/";
                     WebClient.BaseAddress = baseUrl;
-                    WebClient.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
+                    Loader.Vpn.AddCookie(WebClient);
                 }
-                await WebClient.GetAsync("");
-
+                await Logout();
                 var login_str = await WebClient.GetStringAsync("");
                 var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
-                var codeUrl = (VPN ? "https://vpns.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
+                var codeUrl = (vpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(codeUrl, "image/gif");
                 var captcha_resp = await WebClient.GetAsync(reqMeta);
                 CaptchaSource = await captcha_resp.ReadAsByteArrayAsync();
                 return new TaskResp(CaptchaSource != null);
             }
-            catch (WebsException)
+            catch (WebsException e)
             {
                 return new TaskResp(false);
             }
         }
+
+        public Task Logout() => WebClient.GetAsync($"{base8050Url}Account/SignOff");
         public async Task<TaskResp> Login()
         {
             if (Username == "" || Password == "")
@@ -179,14 +183,14 @@ namespace HandSchool.JLU.Services
                 {
                     string url;
                     if (Loader.UseVpn && Loader.Vpn.IsLogin)
-                        url = "https://vpns.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/Account/SignOff";
+                        url = "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/Account/SignOff";
                     else url = "http://dsf.jlu.edu.cn:8050/Account/SignOff";
                     await WebClient.GetAsync(url);
                     IsLogin = false;
                 }
             }
             else return true;
-            if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
+            if (await this.RequestLogin() == RequestLoginState.Success)
             {
                 TimeoutManager.Refresh();
                 return true;
@@ -201,7 +205,7 @@ namespace HandSchool.JLU.Services
                 var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
                 var value_got = await WebClient.GetStringAsync("CardManage/CardInfo/Transfer");
                 var captcha_url = Regex.Match(value_got, @"name=""img_transCheckCode"" src=""/(\S+)""");
-                var reqUrl = (vpn ? "https://vpns.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") +
+                var reqUrl = (vpn ? "https://webvpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") +
                              captcha_url.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(reqUrl, "image/gif");
 
@@ -333,7 +337,7 @@ namespace HandSchool.JLU.Services
             var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
             var value_got = await WebClient.GetStringAsync("CardManage/CardInfo/LossCard");
             var captcha_url = Regex.Match(value_got, @"id=""imgCheckCode"" src=""/(\S+)""");
-            var reqUrl = (vpn ? "https://vpns.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
+            var reqUrl = (vpn ? "https://webvpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
             var reqMeta = new WebRequestMeta(reqUrl, "image/gif");
             var reqMeta2 = new WebRequestMeta("Account/GetNumKeyPadImg", "image/jpeg");
             var captcha_resp = await WebClient.GetAsync(reqMeta);

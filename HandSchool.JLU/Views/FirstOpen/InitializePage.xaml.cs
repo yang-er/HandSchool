@@ -37,7 +37,7 @@ namespace HandSchool.JLU.Views
                 await System.Threading.Tasks.Task.Delay(1200);
                 vpnCheck.Text = "";
                 vpnProgress.IsRunning = true;
-                result2 = await LoginViewModel.RequestAsync(Loader.Vpn) == RequestLoginState.SUCCESSED;
+                result2 = await LoginViewModel.RequestAsync(Loader.Vpn) == RequestLoginState.Success;
                 vpnProgress.IsRunning = false;
                 vpnCheck.Text = result2 ? "√" : "×";
                 vpnCheck.TextColor = result2 ? Color.DarkGreen : Color.Red;
@@ -53,7 +53,7 @@ namespace HandSchool.JLU.Views
 
                 jwxtCheck.Text = "";
                 jwxtProgress.IsRunning = true;
-                var result = await LoginViewModel.RequestAsync(Core.App.Service) == RequestLoginState.SUCCESSED;
+                var result = await LoginViewModel.RequestAsync(Core.App.Service) == RequestLoginState.Success;
                 jwxtProgress.IsRunning = false;
                 jwxtCheck.Text = result ? "√" : "×";
                 jwxtCheck.TextColor = result ? Color.DarkGreen : Color.Red;

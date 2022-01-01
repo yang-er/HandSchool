@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using HandSchool.Controls;
 using HandSchool.Internal;
+using HandSchool.Pages;
 
 namespace HandSchool.Models
 {
@@ -46,6 +48,8 @@ namespace HandSchool.Models
         /// <returns>是否登录成功。</returns>
         Task<TaskResp> Login();
 
+        Task Logout();
+
         /// <summary>
         /// 登录之前进行准备工作，例如加载验证码等内容。
         /// </summary>
@@ -86,5 +90,13 @@ namespace HandSchool.Models
         Task<bool> CheckLogin();
 
         TimeoutManager TimeoutManager { get; set; }
+        
+        bool IsWeb { get; }
+    }
+
+    public interface IWebLoginField : ILoginField
+    {
+        public WebLoginPageEvents Events { get; }
+        public string LoginUrl { get; }
     }
 }

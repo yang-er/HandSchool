@@ -166,7 +166,7 @@ namespace HandSchool.Internals
 
     public class WebDialogAdditionalArgs
     {
-        public System.Collections.Generic.IList<(string, System.Net.Cookie)> Cookies { get; set; }
+        public System.Collections.Generic.IEnumerable<System.Net.Cookie> Cookies { get; set; }
     }
 
 

@@ -462,16 +462,14 @@ namespace HandSchool.JLU.ViewModels
                         IsBusy = true;
                         var vpn = Loader.Vpn is {IsLogin: true};
                         var url = vpn
-                            ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action"
+                            ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action"
                             : "http://xyk.jlu.edu.cn/homeLogin.action";
 
                         if (Core.Platform.RuntimeName == "Android")
                         {
                             if (vpn)
                             {
-                                CancelLostWebAdditionalArgs.Cookies.Add(("https://vpns.jlu.edu.cn",
-                                    new System.Net.Cookie("remember_token", HandSchool.JLU.Loader.Vpn.RememberToken,
-                                        "/")));
+                                CancelLostWebAdditionalArgs.Cookies = Loader.Vpn.GetLoginCookies();
                             }
 
                             await RequestWebDialogAsync("请在网页操作", "", url, "", "退出", false, false, null,

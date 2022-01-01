@@ -26,14 +26,6 @@ namespace HandSchool.JLU
             public string TimeoutUrl => "error/dispatch.jsp?reason=nologin";
 
             const string getTermInfo = "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":`term`}}";
-            const string MousePath = "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACK" +
-                "TIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMd" +
-                "SQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3da" +
-                "wG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghg" +
-                "HRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQH" +
-                "lhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwID" +
-                "lvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj" +
-                "0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL";
 
             #region LoginInfo
 
@@ -135,9 +127,7 @@ namespace HandSchool.JLU
                     {
                         { "username", UIMS.Username },
                         { "password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "j_username", UIMS.Username },
-                        { "j_password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "mousePath", MousePath },
+                        { "mousePath", "" },
                         { "vcode", UIMS.CaptchaCode }
                     };
 
@@ -199,6 +189,11 @@ namespace HandSchool.JLU
                 UIMS.NeedLogin = false;
                 UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));                
                 return TaskResp.True;
+            }
+
+            public async Task LogoutSide()
+            {
+                await UIMS.WebClient.GetAsync("logout.do?reason=M");
             }
 
             [ToFix("存在性能问题，瓶颈在JSON的解析上")]

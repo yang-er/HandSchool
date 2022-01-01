@@ -67,6 +67,7 @@ namespace HandSchool.JLU.Services
         bool _savePassword = false;
         public string Username { get; set; }
         public string Password { get; set; }
+        public bool IsWeb => false;
         public string Tips => "登录名/密码均与校园卡相同";
         public bool NeedLogin => !_isLogin;
 
@@ -180,7 +181,7 @@ namespace HandSchool.JLU.Services
             }
         }
 
-        public async Task LoginOut()
+        public async Task Logout()
         {
             try
             {
@@ -213,13 +214,13 @@ namespace HandSchool.JLU.Services
             {
                 if (IsLogin)
                 {
-                    await LoginOut();
+                    await Logout();
                     IsLogin = false;
                 }
             }
             else return true;
 
-            if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
+            if (await this.RequestLogin() == RequestLoginState.Success)
             {
                 TimeoutManager.Refresh();
                 return true;

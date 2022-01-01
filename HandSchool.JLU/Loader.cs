@@ -44,7 +44,7 @@ namespace HandSchool.JLU
         /// <summary>
         /// 设置是否使用Vpn
         /// </summary>
-        //[Settings("使用学生VPN", "使用学生VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        [Settings("使用学生VPN", "使用学生VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
         public static bool UseVpn { get; set; }
 
         public void PostLoad()
@@ -65,27 +65,7 @@ namespace HandSchool.JLU
             NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid", "JLU", MenuIcon.CreditCard);
             NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU", MenuIcon.LibRoomResv);
 
-            if (UseVpn)
-            {
-                Vpn = new StudentVpn();
-                Task.Run(async()=>
-                {
-                    if (Vpn.AutoLogin)
-                    {
-                        var x = await Vpn.PrepareLogin();
-                        Vpn.TimeoutManager.Refresh();
-                    }
-                    else
-                    {
-                        while (!Vpn.IsLogin)
-                        {
-                            if (await Vpn.RequestLogin() == RequestLoginState.FAILED) break;
-                            Thread.Sleep(200);
-                        }
-                        Vpn.TimeoutManager.Refresh();
-                    }
-                });
-            }
+            Vpn = UseVpn ? new StudentVpn() : null;
 
             FeedViewModel.BeforeOperatingCheck = CheckVpn;
             IndexViewModel.BeforeOperatingCheck = CheckVpn;
@@ -100,7 +80,7 @@ namespace HandSchool.JLU
             {
                 if (!await Vpn.CheckLogin())
                 {
-                    return new TaskResp(false, "需登录校园Vpn");
+                    return new TaskResp(false, "需登录Vpn");
                 }
             }
             return TaskResp.True;
@@ -114,7 +94,7 @@ namespace HandSchool.JLU
             
             var lp = Core.Configure.Read(configFile);
             SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
-            Loader.UseVpn = false;//config.UseVpn;
+            Loader.UseVpn = config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
             Task.Run(GradeEntrance.PreloadData);
@@ -133,7 +113,7 @@ namespace HandSchool.JLU
                 //InfoEntranceWrapper.From<SelectCourse>(),
                 TapEntranceWrapper.From<SelectCourseShell>(),
                 InfoEntranceWrapper.From<AdviceSchedule>(),
-                TapEntranceWrapper.From<TeacherEvaShell>()
+                TapEntranceWrapper.From<TeacherEvaShell>(),
             };
 
             Core.App.InfoEntrances.Add(InfoList);

@@ -3,11 +3,13 @@ using HandSchool.Models;
 using HandSchool.Views;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HandSchool.Pages;
+
 namespace HandSchool
 {
     public enum RequestLoginState
     {
-        FAILED = -1, VIEW_MODEL_ERROR = 0, SUCCESSED = 1
+        Failed = -1, ViewModelError = 0, Success = 1
     }
 }
 namespace HandSchool.ViewModels
@@ -53,26 +55,48 @@ namespace HandSchool.ViewModels
         {
             return Core.Platform.EnsureOnMainThread(async () =>
             {
-                var viewModel = new LoginViewModel(form);
-                viewModel.LoginCommand = new CommandAction(viewModel.Login);
-                viewModel.Page = Core.New<ILoginPage>();
-                viewModel.Page.SetNavigationArguments(viewModel);
-
+                LoginViewModel viewModel;
+                if (form.IsWeb)
+                {
+                    var page = Core.New<WebLoginPage>();
+                    if (page is ViewObject obj)
+                    {
+                        obj.SetNavigationArguments(form as IWebLoginField);
+                    }
+                    viewModel = new LoginViewModel(form)
+                    {
+                        Page = page,
+                    };
+                    viewModel.Page.SetNavigationArguments(viewModel);
+                    
+                }
+                else
+                {
+                    viewModel = new LoginViewModel(form);
+                    viewModel.LoginCommand = new CommandAction(viewModel.Login);
+                    viewModel.Page = Core.New<ILoginPage>();
+                    viewModel.Page.SetNavigationArguments(viewModel);
+                }
                 if (CurrentTask != null) await CurrentTask;
-                if (form.IsLogin) return RequestLoginState.SUCCESSED;
+                if (form.IsLogin) return RequestLoginState.Success;
                 var cts = new TaskCompletionSource<bool>();
                 CurrentTask = cts.Task;
                 try
                 {
                     await viewModel.Page.ShowAsync();
+                    if (form.IsWeb)
+                    {
+                        await form.Login();
+                    }
                 }
                 catch (System.InvalidOperationException)
                 {
                     cts.SetResult(true);
-                    return RequestLoginState.VIEW_MODEL_ERROR; 
+                    return RequestLoginState.ViewModelError;
                 }
+
                 cts.SetResult(true);
-                return form.IsLogin ? RequestLoginState.SUCCESSED : RequestLoginState.FAILED;
+                return form.IsLogin ? RequestLoginState.Success : RequestLoginState.Failed;
             });
         }
         

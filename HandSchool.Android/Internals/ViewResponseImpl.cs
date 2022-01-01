@@ -203,7 +203,8 @@ namespace HandSchool.Droid
                 var cm = CookieManager.Instance;
                 foreach(var item in addArgs.Cookies)
                 {
-                    cm.SetCookie(item.Item1, item.Item2.ToString());
+                    var pre = args.Url.ToLower().StartsWith("https://") ? "https://" : "http://";
+                    cm.SetCookie(pre + item.Domain + item.Path, item.ToString());
                 }
             }
             var edit = webView.FindViewById(Resource.Id.web_dia_resp) as EditText;

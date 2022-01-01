@@ -13,7 +13,9 @@ using HandSchool.Internals;
 using System;
 using System.IO;
 using HandSchool.Internal;
-
+using HandSchool.ViewModels;
+using System.Threading.Tasks;
+using Android.Webkit;
 
 namespace HandSchool.Droid
 {
@@ -42,7 +44,7 @@ namespace HandSchool.Droid
             }
             finally
             {
-                System.Threading.Tasks.Task.Delay(100).ContinueWith(t =>
+                Task.Delay(100).ContinueWith(t =>
                 {
                     RunOnUiThread(() => DrawerLayout.CloseDrawer(GravityCompat.Start));
                 });
@@ -75,8 +77,12 @@ namespace HandSchool.Droid
 
             var x = new AndroidWebDialogAdditionalArgs {WebChromeClient = new CancelLostWebChromeClient(this)};
             x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient) x.WebChromeClient);
-            x.Cookies = new System.Collections.Generic.List<(string, System.Net.Cookie)>();
             JLU.Loader.CancelLostWebAdditionalArgs = x;
+            SettingViewModel.OnResetSettings += () =>
+            {
+                CookieManager.Instance.RemoveAllCookies(new ObjectRes());
+                return Task.CompletedTask;
+            };
             backHandler.Refresh();
         }
 
@@ -86,45 +92,7 @@ namespace HandSchool.Droid
             NavHeadViewHolder.Instance.CleanBind();
             this.CleanBind();
         }
-
-        static void RmDir(string path)
-        {
-            if (!Directory.Exists(path)) return;
-            var dirs = Directory.GetDirectories(path);
-            var files = Directory.GetFiles(path);
-            foreach (var item in files)
-            {
-                try
-                {
-                    File.Delete(item);
-                }
-                catch
-                {
-                }
-            }
-
-            foreach (var item in dirs)
-            {
-                RmDir(item);
-            }
-
-            try
-            {
-                Directory.Delete(path);
-            }
-            catch
-            {
-            }
-        }
-
-        public static void ClearWebViewCache()
-        {
-            var path = Directory.GetParent(Core.Configure.Directory).FullName;
-            RmDir(path + "/app_textures");
-            RmDir(path + "/app_webview");
-            RmDir(path + "/shared_prefs");
-        }
-
+        
         TimeoutManager backHandler = new TimeoutManager(1);
 
         public override void OnBackPressed()
@@ -141,8 +109,8 @@ namespace HandSchool.Droid
                 }
                 else
                 {
-                    ClearWebViewCache();
                     base.OnBackPressed();
+                    CookieManager.Instance.RemoveAllCookies(new ObjectRes());
                 }
                 backHandler.Refresh();
             }

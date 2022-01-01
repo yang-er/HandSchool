@@ -52,7 +52,7 @@ namespace HandSchool.JLU
                 IsLogin = false;
             }
             else return true;
-            if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
+            if (await this.RequestLogin() == RequestLoginState.Success)
             {
                 TimeoutManager.Refresh();
                 return true;
@@ -124,6 +124,7 @@ namespace HandSchool.JLU
         public IWebClient WebClient { get; set; }
         public string ServerUri => $"http{(use_https ? "s" : "")}://{proxy_server}/ntms/";
         public string WeatherLocation => "101060101";
+        public bool IsWeb => false;
         public int CurrentWeek { get; set; }
         public string CaptchaCode { get; set; } = "";
         public byte[] CaptchaSource { get; set; } = null;
@@ -171,6 +172,11 @@ namespace HandSchool.JLU
             }
 
             return await UsingStrategy.LoginSide();
+        }
+
+        public async Task Logout()
+        {
+            await UsingStrategy.LogoutSide();
         }
         
         public string FormatArguments(string args)
@@ -251,6 +257,7 @@ namespace HandSchool.JLU
         {
             string TimeoutUrl { get; }
             Task<TaskResp> LoginSide();
+            Task LogoutSide();
             void OnLoad();
             string FormatArguments(string input);
             string WelcomeMessage { get; }

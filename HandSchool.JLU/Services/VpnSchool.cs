@@ -24,14 +24,6 @@ namespace HandSchool.JLU
             public string TimeoutUrl => "error/dispatch.jsp?reason=nologin";
 
             const string getTermInfo = "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":`term`}}";
-            const string MousePath = "NCgABNAQBgNAwBjNBQBkNBgBqNBwBtNBwB1NDAB6OEACCPFQCHRHACK" +
-                "TIQCUTJQCXWLwCbXNACeYOgClaOgCmcPwCpcQQCqcQwCxcQwC0cRQC2cRgC4cRwC7dRwDPdSAGMd" +
-                "SQGNdTAGQdTAGRdTgGUdTwGZdUAGfdVQGidWQGkdWgGpdYgGvdYwGwdZwGzdZwG0daAG0daQG3da" +
-                "wG4dbAG6dbwG7dbwG8dcQG8dcgG9ddAHAddQHBddgHCdeAHDdeAHKdfgHLfgQHNfgwHOfhAHPghg" +
-                "HRghwHRghwHTgigHUgjAHYgjQHYgjwHZgjwHagkAHagkwHcgkwHdhlgHfhlwHihmAHihmgHihnQH" +
-                "lhngHnjoAHpjogHyjqQHzjqwH0jrAH0jrgH3lrwH5lsgH6ltAH7ltwH8ltwH+luQIBluwICluwID" +
-                "lvQIIlvwIKlwAILlwgINlxAIPlxAIQlxgISlxwIXlyAIlkyQJ6kygJ+kzQKJkzQKMkzwKPk0QKVj" +
-                "0QKaj1gKdj2gKoj2wKrj4QKuj5wKzIqgFL";
 
             #region LoginInfo
 
@@ -87,10 +79,9 @@ namespace HandSchool.JLU
                     UIMS.WebClient?.Dispose();
 
                     UIMS.WebClient = Core.New<IWebClient>();
-                    UIMS.proxy_server = "vpns.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";
-                    UIMS.WebClient.Cookie.Add(Loader.Vpn.WebClient.Cookie.GetCookies(new Uri("https://vpns.jlu.edu.cn")));
+                    UIMS.proxy_server = "webvpn.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";
                     UIMS.WebClient.BaseAddress = UIMS.ServerUri;
-
+                    Loader.Vpn.AddCookie(UIMS.WebClient);
                     UIMS.WebClient.Timeout = 15000;
                     reinit = false;
                 }
@@ -99,7 +90,7 @@ namespace HandSchool.JLU
                 {
                     try
                     {
-                        var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do?vpn-1&s=1");
+                        var captcha = await UIMS.WebClient.GetAsync("open/get-captcha-image.do");
                         if (captcha.StatusCode != HttpStatusCode.OK) return TaskResp.False;
                         UIMS.CaptchaSource = await captcha.ReadAsByteArrayAsync();
                     }
@@ -123,16 +114,9 @@ namespace HandSchool.JLU
                     {
                         { "username", UIMS.Username },
                         { "password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "j_username", UIMS.Username },
-                        { "j_password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "mousePath", MousePath },
+                        { "mousePath", "" },
                         { "vcode", UIMS.CaptchaCode }
                     };
-
-                    var o1 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "pwdStrength%3D1", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
-                    var o2 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "alu%3D" + UIMS.Username, UIMS.ServerUri + "userLogin.jsp?reason=nologin");
-                    var o3 = await Loader.Vpn.SetCookieAsync("uims.jlu.edu.cn", true, "/ntms/", "loginPage%3DuserLogin.jsp", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
-                    //var str = await Loader.Vpn.WebClient.GetStringAsync("/wengine-vpn/cookie?method=get&host=uims.jlu.edu.cn&scheme=https&path=/ntms/&vpn_timestamp=" + (DateTimeOffset.Now.ToUnixTimeSeconds()));
 
                     var reqMeta = new WebRequestMeta("j_spring_security_check", WebRequestMeta.All);
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
@@ -193,6 +177,11 @@ namespace HandSchool.JLU
                 UIMS.NeedLogin = false;
                 UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
                 return TaskResp.True;
+            }
+            
+            public async Task LogoutSide()
+            {
+                await UIMS.WebClient.GetAsync("logout.do?reason=M");
             }
 
             [ToFix("存在性能问题，瓶颈在JSON的解析上")]

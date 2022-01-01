@@ -20,11 +20,9 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IFeedEntrance" />
     [Entrance("JLU", "网上教务", "提供了吉林大学电子校务平台上的所有信息。")]
-    [UseStorage("JLU", ConfigOa, ConfigOaTime)]
+    [UseStorage("JLU")]
     internal sealed class Oa : IFeedEntrance
     {
-        const string ConfigOa = "jlu.oa.xml";
-        const string ConfigOaTime = "jlu.oa.xml.time";
 
         public Oa()
         {
@@ -35,8 +33,7 @@ namespace HandSchool.JLU.Services
                 
                 if (Loader.Vpn is {IsLogin: true})
                 {
-                    wc.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"),
-                        new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
+                    Loader.Vpn.AddCookie(wc);
                 }
                 else
                 {
@@ -74,7 +71,7 @@ namespace HandSchool.JLU.Services
             if (Loader.Vpn is {IsLogin: true})
             {
                 domain =
-                    $"https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage={page}";
+                    $"https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage={page}";
             }
             await InnerExecute(domain, reload);
         }
@@ -84,7 +81,7 @@ namespace HandSchool.JLU.Services
             var baseDomain = "https://oa.jlu.edu.cn";
             if (Loader.Vpn is {IsLogin: true})
             {
-                baseDomain = "https://vpns.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
+                baseDomain = "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
             }
 
             await InnerExecute(
@@ -104,15 +101,13 @@ namespace HandSchool.JLU.Services
                 var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                 
                 var dataList = ParseOa(lastReport);
-                if (reload)
-                {
-                    Core.Configure.Write(ConfigOa, dataList.Serialize());
-                    Core.Configure.Write(ConfigOaTime, dateString);
-                    FeedViewModel.Instance.Clear();
-                }
 
                 Core.Platform.EnsureOnMainThread(() =>
                 {
+                    if (reload)
+                    {
+                        FeedViewModel.Instance.Clear();
+                    }
                     FeedViewModel.Instance.AddRange(from d in dataList.Item1 select new OaFeedItem(d));
                     FeedViewModel.Instance.TotalPageCount = dataList.Item2;
                     this.WriteLog("Feed updated at " + dateString);

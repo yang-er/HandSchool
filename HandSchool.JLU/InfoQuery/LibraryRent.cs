@@ -76,6 +76,7 @@ namespace HandSchool.JLU.InfoQuery
             public string Password { get; set; }
             public bool IsLogin { get; private set; }
             public bool NeedLogin { get; private set; }
+            public bool IsWeb => false;
             private string RedirectUrl { get; set; } = "";
 
             private bool auto_login = true;
@@ -121,7 +122,7 @@ namespace HandSchool.JLU.InfoQuery
                     IsLogin = false;
                 }
                 else return true;
-                if (await this.RequestLogin() == RequestLoginState.SUCCESSED)
+                if (await this.RequestLogin() == RequestLoginState.Success)
                 {
                     TimeoutManager.Refresh();
                     return true;
@@ -129,6 +130,10 @@ namespace HandSchool.JLU.InfoQuery
                 else return false;
             }
 
+            public Task Logout()
+            {
+                throw new NotImplementedException();
+            }
             #endregion
 
             public Task<TaskResp> BeforeLoginForm() => Task.FromResult(new TaskResp(true));

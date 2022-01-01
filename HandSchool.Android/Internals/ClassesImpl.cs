@@ -6,11 +6,43 @@ using HtmlAgilityPack;
 using System;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Android.Content;
+using HandSchool.Pages;
+using HandSchool.Views;
 using AppActivity = AndroidX.AppCompat.App.AppCompatActivity;
 
 
 namespace HandSchool.Droid.Internals
 {
+    class ObjectRes : Java.Lang.Object, IValueCallback
+    {
+        public object Value { get; set; }
+
+        public void OnReceiveValue(Java.Lang.Object value)
+        {
+            Value = value;
+        }
+    }
+    public class WebLoginPageImpl : WebLoginPage
+    {
+        public override Task CloseAsync()
+        {
+            var context  = PlatformImplV2.Instance.PeekContext(false);
+            if (context is WebLoginActivity)
+            {
+                return Navigation.PopAsync();
+            }
+            return Task.CompletedTask;
+        }
+
+        public override Task ShowAsync()
+        {
+            var context  = PlatformImplV2.Instance.PeekContext();
+            var navigate = context as INavigate;
+            return navigate.PushAsync<WebLoginActivity>(this);
+        }
+    }
     public class AndroidWebDialogAdditionalArgs : WebDialogAdditionalArgs
     {
         public WebViewClient WebViewClient { get; set; }
@@ -19,7 +51,6 @@ namespace HandSchool.Droid.Internals
     public class JSNoResult : Java.Lang.Object, IValueCallback
     {
         public void OnReceiveValue(Java.Lang.Object value) { return; }
-
     }
     public class CancelLostWebChromeClient : BaseWebChromeClient
     {
@@ -104,7 +135,7 @@ namespace HandSchool.Droid.Internals
         public override void OnPageFinished(WebView view, string url)
         {
             var Vpn = JLU.Loader.UseVpn;
-            if (url.Contains(Vpn ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action" : "http://xyk.jlu.edu.cn/homeLogin.action"))//登录页面加载完成, 填密码
+            if (url.Contains(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action" : "http://xyk.jlu.edu.cn/homeLogin.action"))//登录页面加载完成, 填密码
             {
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码
                 AnalyzeHtmlThread(view, () =>
@@ -113,13 +144,13 @@ namespace HandSchool.Droid.Internals
                     view.EvaluateJavascript("document.FormPost.passwd.value = " + JLU.Loader.Ykt.Password, new JSNoResult());
                 }).Start();
             }
-            else if (url.Contains(Vpn ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/loginstudent.action" : "http://xyk.jlu.edu.cn/loginstudent.action"))//登录成功
+            else if (url.Contains(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/loginstudent.action" : "http://xyk.jlu.edu.cn/loginstudent.action"))//登录成功
             {
                 view.Clickable = false;
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码
-                AnalyzeHtmlThread(view, () => { view.LoadUrl(Vpn ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"); }).Start();
+                AnalyzeHtmlThread(view, () => { view.LoadUrl(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"); }).Start();
             }
-            else if (url.Contains(Vpn ? "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"))//解挂页面加载完成，自动操作
+            else if (url.Contains(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"))//解挂页面加载完成，自动操作
             {
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码
                 AnalyzeHtmlThread(view, () =>
