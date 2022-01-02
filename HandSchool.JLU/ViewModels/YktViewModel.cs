@@ -373,7 +373,10 @@ namespace HandSchool.JLU.ViewModels
             {
                 var moneyNum = double.Parse(money);
                 if (moneyNum > 200 || moneyNum < 0.01)
+                {
                     await NoticeError("单笔充值限定在0.01~200.00之间。");
+                    return;
+                }
             }
             catch (FormatException)
             {

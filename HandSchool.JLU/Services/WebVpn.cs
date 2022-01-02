@@ -147,7 +147,7 @@ namespace HandSchool.JLU.Services
                     return IsLogin = true;
                 }
             }
-
+            IsLogin = false;
             return IsLogin = await LoginViewModel.RequestAsync(this) == RequestLoginState.Success;
         }
 
