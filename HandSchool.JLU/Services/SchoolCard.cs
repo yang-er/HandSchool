@@ -31,7 +31,7 @@ namespace HandSchool.JLU.Services
         const string configUsername = "jlu.schoolcard.username.txt";
         const string configPassword = "jlu.schoolcard.password.txt";
         string baseUrl = "http://dsf.jlu.edu.cn/";
-        private string base8050Url = "http://dsf.jlu.edu.cn:8050";
+        private string base8050Url = "http://dsf.jlu.edu.cn:8050/";
 
         #region Login Fields
         bool is_login = false;
@@ -57,21 +57,10 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
-                WebClient = Core.New<IWebClient>();
-                WebClient.BaseAddress = baseUrl;
-                if (vpn)
-                {
-                    baseUrl = "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/";
-                    base8050Url =
-                        "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/";
-                    WebClient.BaseAddress = baseUrl;
-                    Loader.Vpn.AddCookie(WebClient);
-                }
                 await Logout();
                 var login_str = await WebClient.GetStringAsync("");
                 var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
-                var codeUrl = (vpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
+                var codeUrl = (Loader.UseVpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(codeUrl, "image/gif");
                 var captcha_resp = await WebClient.GetAsync(reqMeta);
                 CaptchaSource = await captcha_resp.ReadAsByteArrayAsync();
@@ -87,7 +76,7 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                await WebClient.GetAsync($"{base8050Url}Account/SignOff");
+                await WebClient.GetAsync($"{Loader.GetRealUrl(base8050Url)}Account/SignOff");
                 IsLogin = false;
             }
             catch (WebsException ex)
@@ -173,15 +162,19 @@ namespace HandSchool.JLU.Services
 
         public SchoolCard()
         {
+            WebVpn.Instance.RegisterUrl(baseUrl, "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
+            WebVpn.Instance.RegisterUrl(base8050Url, "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
             IsLogin = false;
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
             SavePassword = Password != "";
             TimeoutManager = new TimeoutManager(900);
+            WebClient = Core.New<IWebClient>();
+            WebClient.BaseAddress = baseUrl;
         }
 
         #endregion
-
+        
         /// <exception cref="WebsException" />
         public async Task BasicInfoAsync()
         {
@@ -194,11 +187,7 @@ namespace HandSchool.JLU.Services
             {
                 if (IsLogin)
                 {
-                    string url;
-                    if (Loader.UseVpn && Loader.Vpn.IsLogin)
-                        url = "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/Account/SignOff";
-                    else url = "http://dsf.jlu.edu.cn:8050/Account/SignOff";
-                    await WebClient.GetAsync(url);
+                    await Logout();
                     IsLogin = false;
                 }
             }
@@ -257,7 +246,7 @@ namespace HandSchool.JLU.Services
             };
 
             var reqMeta = new WebRequestMeta("CardManage/CardInfo/TransferAccount", WebRequestMeta.All);
-            reqMeta.SetHeader("Referer", baseUrl + "Backend/Management/Index");
+            reqMeta.SetHeader("Referer", WebClient.BaseAddress + "Backend/Management/Index");
             var response = await WebClient.PostAsync(reqMeta, post_value);
             var transferReport = await response.ReadAsStringAsync();
 
@@ -370,7 +359,7 @@ namespace HandSchool.JLU.Services
             };
 
             var reqMeta = new WebRequestMeta("CardManage/CardInfo/SetCardLost", WebRequestMeta.All);
-            reqMeta.SetHeader("Referer", "baseUrl/Backend/Management/Index");
+            reqMeta.SetHeader("Referer", $"{WebClient.BaseAddress}/Backend/Management/Index");
             var response = await WebClient.PostAsync(reqMeta, post_value);
             var cardLost = await response.ReadAsStringAsync();
 

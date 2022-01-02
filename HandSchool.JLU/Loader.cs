@@ -26,14 +26,13 @@ namespace HandSchool.JLU
         const string configFile = "jlu.config.json";
         public Type HelloPage => typeof(HelloPage);
         public const string FileBaseUrl = "https://gitee.com/tlylz99/HandSchool/raw/new-2/HandSchool.JLU";
-
         public Lazy<ISchoolSystem> Service { get; set; }
         public Lazy<IGradeEntrance> GradePoint { get; set; }
         public Lazy<IScheduleEntrance> Schedule { get; set; }
         public Lazy<IMessageEntrance> Message { get; set; }
         public Lazy<IFeedEntrance> Feed { get; set; }
         public EventHandler<LoginStateEventArgs> NoticeChange { get; set; }
-        public static WebDialogAdditionalArgs CancelLostWebAdditionalArgs { set { ViewModels.YktViewModel.CancelLostWebAdditionalArgs = value; } }
+        public static WebDialogAdditionalArgs CancelLostWebAdditionalArgs { set => YktViewModel.CancelLostWebAdditionalArgs = value; }
 
         public List<string> RegisteredFiles { get; private set; }
         public static SchoolCard Ykt;
@@ -44,12 +43,22 @@ namespace HandSchool.JLU
         /// <summary>
         /// 设置是否使用Vpn
         /// </summary>
-        [Settings("使用学生VPN", "使用学生VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        [Settings("使用VPN", "使用VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
         public static bool UseVpn { get; set; }
 
+        public static string GetRealUrl(string ori)
+        {
+            if (!UseVpn)
+            {
+                return ori;
+            }
+            return WebVpn.Instance.GetProxyUrl(ori);
+        }
         public void PostLoad()
         {
             Core.Reflection.RegisterType<ClassInfoSimplifier, JLUClassSimplifier>();
+            Core.Reflection.RegisterType<IWebClient, WebVpn.VpnHttpClient>();
+            
             Ykt = new SchoolCard();
             LibRoom = new LibRoomReservation();
             SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(Loader).GetProperty(nameof(UseVpn))));
@@ -65,7 +74,7 @@ namespace HandSchool.JLU
             NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid", "JLU", MenuIcon.CreditCard);
             NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU", MenuIcon.LibRoomResv);
 
-            Vpn = UseVpn ? new WebVpn() : null;
+            Vpn = UseVpn ? WebVpn.Instance : null;
 
             FeedViewModel.BeforeOperatingCheck = CheckVpn;
             IndexViewModel.BeforeOperatingCheck = CheckVpn;

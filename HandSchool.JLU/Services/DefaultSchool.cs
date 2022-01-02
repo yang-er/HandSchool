@@ -1,24 +1,28 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
+using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using HandSchool.JLU.Services;
 
 namespace HandSchool.JLU
 {
     partial class UIMS
     {
-        class VpnSchoolStrategy : ISideSchoolStrategy
+        class DefaultSchoolStrategy : ISideSchoolStrategy
         {
             UIMS UIMS { get; }
 
-            public VpnSchoolStrategy(UIMS handle)
+            public DefaultSchoolStrategy(UIMS handle)
             {
                 UIMS = handle;
+                WebVpn.Instance.RegisterUrl(_baseUrl, "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/");
             }
 
             public string TimeoutUrl => "error/dispatch.jsp?reason=nologin";
@@ -68,21 +72,29 @@ namespace HandSchool.JLU
             #endregion
 
             bool reinit = true;
-
+            private readonly string _baseUrl = "https://uims.jlu.edu.cn/ntms/";
             public async Task<TaskResp> PrepareLogin()
             {
-                if (Loader.Vpn.WebClient == null || !Loader.Vpn.IsLogin)
-                    return TaskResp.False;
-
                 if (reinit)
                 {
                     UIMS.WebClient?.Dispose();
-
                     UIMS.WebClient = Core.New<IWebClient>();
-                    UIMS.proxy_server = "webvpn.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d";
-                    UIMS.WebClient.BaseAddress = UIMS.ServerUri;
-                    Loader.Vpn.AddCookie(UIMS.WebClient);
-                    UIMS.WebClient.Timeout = 15000;
+
+                    UIMS.WebClient.BaseAddress = _baseUrl;
+                    for (int i = 0; i < 15; i++)
+                    {
+                        try
+                        {
+                            await UIMS.WebClient.GetAsync("", "*/*");
+                            break;
+                        }
+                        catch (WebsException)
+                        {
+                            Core.Logger.WriteLine("UIMS", "Timeout #" + i);
+                            // continue;
+                        }
+                    }
+
                     reinit = false;
                 }
 
@@ -106,7 +118,6 @@ namespace HandSchool.JLU
 
             public async Task<TaskResp> LoginSide()
             {
-                // Access Main Page To Create a JSESSIONID
                 try
                 {
                     // Set Login Session
@@ -122,47 +133,48 @@ namespace HandSchool.JLU
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
                     var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
                     var loc = response.Location.Replace(UIMS.ServerUri, "");
-                    loc = loc.Replace("/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/", "");
 
-                    if (loc == "userLogin.jsp?reason=loginError")
+                    switch (loc)
                     {
-                        string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
-                        var html = new HtmlAgilityPack.HtmlDocument();
-                        html.LoadHtml(result);
-                        var msg = html.DocumentNode.SelectSingleNode("//span[@class='error_message' and @id='error_message']")?.InnerText?.Replace("登录错误：", "");
-                        UIMS.IsLogin = false;
-                        UIMS.NeedLogin = false;
-                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, Regex.Match(result, @"<span class=""error_message"" id=""error_message"">登录错误：(\S+)</span>").Groups[1].Value));
-                        return TaskResp.False;
-                    }
-                    else if (loc == "index.do")
-                    {
-                        studId = studName = adcId = schoolId = term = null;
+                        case "userLogin.jsp?reason=loginError":
+                        {
+                            string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
+                            var html = new HtmlAgilityPack.HtmlDocument();
+                            html.LoadHtml(result);
+                            var msg = html.DocumentNode.SelectSingleNode("//span[@class='error_message' and @id='error_message']")?.InnerText?.Replace("登录错误：","");
+                            UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, msg));
+                            UIMS.IsLogin = false;
+                            UIMS.NeedLogin = true;
+                            return TaskResp.False;
+                        }
+                        case "index.do":
+                        {
+                            studId = studName = adcId = schoolId = term = null;
+                            // Get User Info
+                            reqMeta = new WebRequestMeta("action/getCurrentUserInfo.do", WebRequestMeta.Json);
+                            // reqMeta.SetHeader("Referer", "https://uims.jlu.edu.cn/ntms/index.do");
+                            var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
+                            string resp = await webResp2.ReadAsStringAsync();
+                            if (resp.StartsWith("<!")) return TaskResp.False;
+                            Core.Configure.Write(configUserCache, UIMS.SavePassword ? resp : "");
+                            ParseLoginInfo(resp);
 
-                        // Get User Info
-                        reqMeta = new WebRequestMeta("action/getCurrentUserInfo.do", WebRequestMeta.Json);
-                        // reqMeta.SetHeader("Referer", "https://uims.jlu.edu.cn/ntms/index.do");
-                        var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
-                        string resp = await webResp2.ReadAsStringAsync();
-                        if (resp.StartsWith("<!")) return TaskResp.False;
-                        Core.Configure.Write(configUserCache, UIMS.SavePassword ? resp : "");
-                        ParseLoginInfo(resp);
-
-                        // Get term info
-                        reqMeta = new WebRequestMeta("service/res.do", WebRequestMeta.Json);
-                        webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
-                        resp = await webResp2.ReadAsStringAsync();
-                        if (resp.StartsWith("<!")) return TaskResp.False;
-                        Core.Configure.Write(configTeachTerm, UIMS.SavePassword ? resp : "");
-                        ParseTermInfo(resp);
-                    }
-                    else
-                    {
-                        var opt = await UIMS.WebClient.GetStringAsync(loc);
-                        var error = "UIMS服务器似乎出了点问题……\n";
-                        if (response.StatusCode == HttpStatusCode.Redirect)
-                            error += "服务器未知响应：" + response.Location + "，请联系开发者。";
-                        throw new WebsException(error, WebStatus.UnknownError);
+                            // Get term info
+                            reqMeta = new WebRequestMeta("service/res.do", WebRequestMeta.Json);
+                            webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
+                            resp = await webResp2.ReadAsStringAsync();
+                            if (resp.StartsWith("<!")) return TaskResp.False;
+                            Core.Configure.Write(configTeachTerm, UIMS.SavePassword ? resp : "");
+                            ParseTermInfo(resp);
+                            break;
+                        }
+                        default:
+                        {
+                            var error = "UIMS服务器似乎出了点问题……\n";
+                            if (response.StatusCode == HttpStatusCode.Redirect)
+                                error += "服务器未知响应：" + response.Location + "，请联系开发者。";
+                            throw new WebsException(error, WebStatus.UnknownError);
+                        }
                     }
                 }
                 catch (WebsException ex)
@@ -175,7 +187,7 @@ namespace HandSchool.JLU
 
                 UIMS.IsLogin = true;
                 UIMS.NeedLogin = false;
-                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
+                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));                
                 return TaskResp.True;
             }
 
@@ -183,7 +195,7 @@ namespace HandSchool.JLU
             {
                 try
                 {
-                    await UIMS.WebClient.GetAsync("logout.do?reason=M");
+                    await UIMS.WebClient.GetAsync("logout.do?reason=M"); 
                     UIMS.IsLogin = false;
                 }
                 catch (WebsException ex)

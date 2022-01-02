@@ -134,8 +134,8 @@ namespace HandSchool.Droid.Internals
         }
         public override void OnPageFinished(WebView view, string url)
         {
-            var Vpn = JLU.Loader.UseVpn;
-            if (url.Contains(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action" : "http://xyk.jlu.edu.cn/homeLogin.action"))//登录页面加载完成, 填密码
+            var vpn = JLU.Loader.UseVpn;
+            if (url.Contains(vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action" : "http://xyk.jlu.edu.cn/homeLogin.action"))//登录页面加载完成, 填密码
             {
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码
                 AnalyzeHtmlThread(view, () =>
@@ -144,13 +144,13 @@ namespace HandSchool.Droid.Internals
                     view.EvaluateJavascript("document.FormPost.passwd.value = " + JLU.Loader.Ykt.Password, new JSNoResult());
                 }).Start();
             }
-            else if (url.Contains(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/loginstudent.action" : "http://xyk.jlu.edu.cn/loginstudent.action"))//登录成功
+            else if (url.Contains(vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/loginstudent.action" : "http://xyk.jlu.edu.cn/loginstudent.action"))//登录成功
             {
                 view.Clickable = false;
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码
-                AnalyzeHtmlThread(view, () => { view.LoadUrl(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"); }).Start();
+                AnalyzeHtmlThread(view, () => { view.LoadUrl(vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"); }).Start();
             }
-            else if (url.Contains(Vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"))//解挂页面加载完成，自动操作
+            else if (url.Contains(vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action" : "http://xyk.jlu.edu.cn/accountreloss.action"))//解挂页面加载完成，自动操作
             {
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码
                 AnalyzeHtmlThread(view, () =>

@@ -57,16 +57,16 @@ namespace HandSchool.JLU.Models
 
             try
             {
-                if (Loader.Vpn != null && Loader.Vpn.IsLogin)
-                {
-                    domain = domain.Replace("https://oa.jlu.edu.cn/", "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/");
-                }
+                domain = domain.Replace("https://oa.jlu.edu.cn/", "");
                 var data = await oa.WebClient.GetStringAsync(domain);
                 content = Tools.AnalyzeHtmlToOaDetail(data);
                 GC.Collect();
                 return content;
             }
-            catch(Exception error) { return error.Message; }
+            catch (Exception error)
+            {
+                return error.Message;
+            }
         }
     }
 }

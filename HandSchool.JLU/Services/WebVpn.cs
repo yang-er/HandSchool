@@ -2,23 +2,31 @@
 using HandSchool.JLU.Services;
 using HandSchool.Models;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using HandSchool.Internal;
 using HandSchool.ViewModels;
 using Xamarin.Forms;
 
 [assembly: RegisterService(typeof(WebVpn))]
+
 namespace HandSchool.JLU.Services
 {
     [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigRemember, ConfigTicket)]
-    internal sealed class WebVpn : NotifyPropertyChanged, IWebLoginField
+    public sealed class WebVpn : NotifyPropertyChanged, IWebLoginField
     {
         const string ConfigUsername = "jlu.vpn.username.txt";
         const string ConfigPassword = "jlu.vpn.password.txt";
         const string ConfigRemember = "jlu.vpn.remember_token.txt";
         const string ConfigTicket = "jlu.vpn.ticket.txt";
-        
+        public static WebVpn Instance => _lazy.Value;
+        private static Lazy<WebVpn> _lazy = new Lazy<WebVpn>(() => new WebVpn());
+
         #region Login Fields
         public string LoginUrl => "https://webvpn.jlu.edu.cn/logout";
         bool _isLogin;
@@ -29,16 +37,17 @@ namespace HandSchool.JLU.Services
         public string CaptchaCode { get; set; }
         public byte[] CaptchaSource { get; set; }
         public string RememberToken => _rememberToken;
-
         private string _rememberToken;
+        
+        private string _ticket;
+        public string Ticket => _ticket;
         public string Tips => "账号为吉林大学学生邮箱的用户名(不包含@mails.jlu.edu.cn）和密码。";
         public string FormName => "VPN";
         public bool NeedLogin => !IsLogin;
         public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
-
         public void AddCookie(IWebClient webClient)
         {
-            foreach(var cookie in GetLoginCookies())
+            foreach (var cookie in GetLoginCookies())
             {
                 webClient.Cookie.Add(cookie);
             }
@@ -54,24 +63,47 @@ namespace HandSchool.JLU.Services
         public bool IsLogin
         {
             get => _isLogin;
-            private set => SetProperty(ref _isLogin, value);
+            private set
+            {
+                if (_isLogin != value)
+                {
+                    if (value)
+                    {
+                        _proxyClients.ForEach(w => AddCookie(w));
+                    }
+                }
+
+                SetProperty(ref _isLogin, value);
+            }
+        }
+        private void AddClient(IWebClient client)
+        {
+            if (IsLogin)
+            {
+                AddCookie(client);
+            }
+
+            _proxyClients.Add(client);
+        }
+        private void RemoveClient(IWebClient client)
+        {
+            _proxyClients.Remove(client);
         }
 
         public bool AutoLogin
         {
             get => true;
-            set{}
+            set { }
         }
 
         public bool SavePassword
         {
             get => true;
-            set {}
+            set { }
         }
-        private string _ticket;
-        public string Ticket => _ticket;
-
+        
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
+
         private async Task<bool> CheckIsLogin()
         {
             try
@@ -79,14 +111,15 @@ namespace HandSchool.JLU.Services
                 AddCookie(WebClient);
                 var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
                 var res = await response.ReadAsStringAsync();
-                return res.Contains("注销");
+                return IsLogin = res.Contains("注销");
             }
-            catch(WebsException ex)
+            catch (WebsException ex)
             {
                 Core.Logger.WriteException(ex);
-                return false;
+                return IsLogin = false;
             }
         }
+
         public async Task<bool> CheckLogin()
         {
             if (TimeoutManager.NotInit || TimeoutManager.IsTimeout())
@@ -99,7 +132,7 @@ namespace HandSchool.JLU.Services
                     if (res.Contains("注销"))
                     {
                         TimeoutManager.Refresh();
-                        return true;
+                        return IsLogin = true;
                     }
                 }
                 catch (WebsException e)
@@ -111,11 +144,13 @@ namespace HandSchool.JLU.Services
             {
                 if (!TimeoutManager.IsTimeout())
                 {
-                    return true;
+                    return IsLogin = true;
                 }
             }
-            return await LoginViewModel.RequestAsync(this) == RequestLoginState.Success;
+
+            return IsLogin = await LoginViewModel.RequestAsync(this) == RequestLoginState.Success;
         }
+
         public async Task Logout()
         {
             try
@@ -128,9 +163,21 @@ namespace HandSchool.JLU.Services
                 Core.Logger.WriteException(ex);
             }
         }
+
         public Task<TaskResp> PrepareLogin() => Task.FromResult(TaskResp.True);
         public Task<TaskResp> Login() => Events?.Result?.Task ?? Task.FromResult(TaskResp.False);
-        public WebVpn()
+
+        public string GetProxyUrl(string ori)
+        {
+            if (_proxyUrl.ContainsKey(ori))
+            {
+                return _proxyUrl[ori];
+            }
+
+            return ori;
+        }
+
+        private WebVpn()
         {
             IsLogin = false;
             Username = Core.Configure.Read(ConfigUsername);
@@ -144,20 +191,19 @@ namespace HandSchool.JLU.Services
             Events.WebViewEvents.Navigated += OnNavigated;
             Events.WebViewEvents.Navigating += OnNavigating;
             TimeoutManager = new TimeoutManager(30);
-            WebClient = Core.New<IWebClient>();
+            WebClient = new HttpClientImpl();
             if (!string.IsNullOrWhiteSpace(_ticket) && !string.IsNullOrWhiteSpace(_rememberToken))
             {
                 WebClient.Cookie.Add(new Cookie("remember_token", _rememberToken, "/login", "webvpn.jlu.edu.cn"));
-                WebClient.Cookie.Add(new Cookie("wengine_vpn_ticketwebvpn_jlu_edu_cn", _ticket, "/login", "webvpn.jlu.edu.cn"));
+                WebClient.Cookie.Add(new Cookie("wengine_vpn_ticketwebvpn_jlu_edu_cn", _ticket, "/login",
+                    "webvpn.jlu.edu.cn"));
             }
-            Task.Run(async () =>
-            {
-                IsLogin = await CheckIsLogin();
-            });
+
+            Task.Run(async () => { IsLogin = await CheckIsLogin(); });
         }
 
         #endregion
-        
+
         public IWebClient WebClient { get; private set; }
         public WebLoginPageEvents Events { get; }
 
@@ -165,8 +211,10 @@ namespace HandSchool.JLU.Services
         {
             if (e.Url == "https://webvpn.jlu.edu.cn/")
             {
-                Username = await Events.WebViewEvents.EvaluateJavaScriptAsync("document.getElementById('user_name').value");
-                Password = await Events.WebViewEvents.EvaluateJavaScriptAsync("document.getElementsByName('password')[0].value");
+                Username = await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                    "document.getElementById('user_name').value");
+                Password = await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                    "document.getElementsByName('password')[0].value");
                 Core.Configure.Write(ConfigUsername, Username);
                 Core.Configure.Write(ConfigPassword, Password);
             }
@@ -178,15 +226,16 @@ namespace HandSchool.JLU.Services
                 await Events.WebViewEvents.EvaluateJavaScriptAsync(
                     "let a = document.getElementsByName('remember_cookie')[0]; " +
                     "a.checked=true; " +
-                    "document.getElementsByClassName('remember-field')[0].hidden=true;") ;
+                    "document.getElementsByClassName('remember-field')[0].hidden=true;");
                 if (!string.IsNullOrWhiteSpace(Username))
                 {
-                    await Events.WebViewEvents.EvaluateJavaScriptAsync($"document.getElementById('user_name').value='{Username}'");
+                    await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                        $"document.getElementById('user_name').value='{Username}'");
                     await Events.WebViewEvents.EvaluateJavaScriptAsync(
                         $"document.getElementsByName('password')[0].value='{Password}'");
                 }
             }
-            
+
             if (e.Url == "https://webvpn.jlu.edu.cn/")
             {
                 var updated = false;
@@ -217,13 +266,142 @@ namespace HandSchool.JLU.Services
                     Core.Configure.Write(ConfigRemember, _rememberToken);
                     Core.Configure.Write(ConfigTicket, _ticket);
                 }
-                IsLogin = await CheckIsLogin();
+
+                await CheckIsLogin();
                 if (IsLogin)
                 {
                     await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
                     Events?.Result?.TrySetResult(TaskResp.True);
                 }
             }
+        }
+
+        private readonly Dictionary<string, string> _proxyUrl = new Dictionary<string, string>();
+        private readonly List<IWebClient> _proxyClients = new List<IWebClient>();
+
+        private static void CheckUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new UriFormatException("url cannot be null or blank");
+            }
+
+            if (!url.StartsWith("https://") && !url.StartsWith("http://"))
+            {
+                throw new UriFormatException("url must start with \"https://\" or \"http://\"");
+            }
+        }
+        public void RegisterUrl(string oriUrl, string proxyUrl)
+        {
+            CheckUrl(oriUrl);
+            CheckUrl(proxyUrl);
+            _proxyUrl[oriUrl] = proxyUrl;
+        }
+
+        public enum VpnHttpClientMode
+        {
+            VpnAuto,
+            VpnOff,
+            VpnOn
+        }
+
+        public class VpnHttpClient : IWebClient
+        {
+            private IWebClient _innerClient;
+
+            public void Dispose() => _innerClient.Dispose();
+            public CookieContainer Cookie => _innerClient.Cookie;
+
+            public VpnHttpClient()
+            {
+                _innerClient = new HttpClientImpl();
+                if (UsingVpn)
+                {
+                    Instance.AddClient(_innerClient);
+                }
+            }
+
+            public VpnHttpClientMode Mode
+            {
+                get => _mode;
+                set
+                {
+                    if (_mode != value)
+                    {
+                        var vpnState = UsingVpn;
+                        _mode = value;
+                        if (vpnState == UsingVpn) return;
+                        if (string.IsNullOrWhiteSpace(BaseAddress)) return;
+                        if (vpnState)
+                        {
+                            Instance.RemoveClient(_innerClient);
+                        }
+                        var address = _oriBaseUrl;
+                        _innerClient.Dispose();
+                        _innerClient = new HttpClientImpl();
+                        Instance.AddClient(_innerClient);
+                        BaseAddress = address;
+                    }
+                }
+            }
+
+            private string _oriBaseUrl;
+            private VpnHttpClientMode _mode;
+
+            public bool UsingVpn =>
+                Loader.UseVpn && Mode != VpnHttpClientMode.VpnOff;
+
+            public bool AllowAutoRedirect
+            {
+                get => _innerClient.AllowAutoRedirect;
+                set => _innerClient.AllowAutoRedirect = value;
+            }
+
+            public Encoding Encoding
+            {
+                get => _innerClient.Encoding;
+                set => _innerClient.Encoding = value;
+            }
+
+            public string BaseAddress
+            {
+                get => _innerClient.BaseAddress;
+                set
+                {
+                    if (UsingVpn)
+                    {
+                        if (Instance._proxyUrl.ContainsKey(value))
+                        {
+                            _innerClient.BaseAddress = Instance._proxyUrl[value];
+                        }
+                        else
+                        {
+                            throw new UriFormatException($"You should register \"{value}\" in WebVpn before");
+                        }
+                    }
+                    else
+                    {
+                        _innerClient.BaseAddress = value;
+                    }
+
+                    _oriBaseUrl = value;
+                }
+            }
+
+            public int Timeout
+            {
+                get => _innerClient.Timeout;
+                set => _innerClient.Timeout = value;
+            }
+
+            public Task<IWebResponse> PostAsync(WebRequestMeta req, KeyValueDict value) =>
+                _innerClient.PostAsync(req, value);
+
+            public Task<IWebResponse> PostAsync(WebRequestMeta req, string value, string contentType)
+                => _innerClient.PostAsync(req, value, contentType);
+
+            public Task<IWebResponse> GetAsync(WebRequestMeta req)
+                => _innerClient.GetAsync(req);
         }
     }
 }

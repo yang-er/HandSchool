@@ -23,69 +23,31 @@ namespace HandSchool.JLU.Services
     [UseStorage("JLU")]
     internal sealed class Oa : IFeedEntrance
     {
-
+        private string _baseUrl = "https://oa.jlu.edu.cn/";
         public Oa()
         {
+            WebVpn.Instance.RegisterUrl(_baseUrl, "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/");
             _lazy = new Lazy<IWebClient>(() =>
             {
-                var wc = CreateWebClient();
-                if (!Loader.UseVpn) return wc;
-                
-                if (Loader.Vpn is {IsLogin: true})
-                {
-                    Loader.Vpn.AddCookie(wc);
-                }
-                else
-                {
-                    Loader.Vpn.LoginStateChanged += AfterVpnLogin;
-                }
+                var wc = Core.New<IWebClient>();
+                wc.Timeout = 5000;
+                wc.BaseAddress = _baseUrl;
                 return wc;
             });
         }
         public IWebClient WebClient => _lazy.Value;
         private readonly Lazy<IWebClient> _lazy;
-
-        private void AfterVpnLogin(object s, LoginStateEventArgs e)
-        {
-            WebClient.Cookie.Add(new Uri("https://vpns.jlu.edu.cn"), new System.Net.Cookie("remember_token", Loader.Vpn.RememberToken, "/"));
-            try
-            {
-                Loader.Vpn.LoginStateChanged -= AfterVpnLogin;
-            }
-            catch 
-            {
-                return;
-            }
-        }
-        static IWebClient CreateWebClient()
-        {
-            var wc = Core.New<IWebClient>();
-            wc.Timeout = 5000;
-            return wc;
-        }
         
         private async Task SearchByWord(string word, int page, bool reload)
         {
-            var domain =
-                $"https://oa.jlu.edu.cn/defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage{page}";
-            if (Loader.Vpn is {IsLogin: true})
-            {
-                domain =
-                    $"https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage={page}";
-            }
-            await InnerExecute(domain, reload);
+            await InnerExecute(
+                $"defaultroot/PortalInformation!jldxList.action?searchId={word}&startPage={page}", reload);
         }
 
         private async Task Execute(int page, bool fp)
         {
-            var baseDomain = "https://oa.jlu.edu.cn";
-            if (Loader.Vpn is {IsLogin: true})
-            {
-                baseDomain = "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96";
-            }
-
             await InnerExecute(
-                $"{baseDomain}/defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage={page}", fp);
+                $"defaultroot/PortalInformation!jldxList.action?1=1&channelId=179577&startPage={page}", fp);
         }
 
         /// <summary>
@@ -98,8 +60,7 @@ namespace HandSchool.JLU.Services
             try
             {
                 var lastReport = await WebClient.GetStringAsync(oaPageUrl);
-                var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-                
+                var dateString = DateTime.Now.ToString("yyyy/MM/dd-hh:mm:ss");
                 var dataList = ParseOa(lastReport);
 
                 Core.Platform.EnsureOnMainThread(() =>

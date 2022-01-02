@@ -196,12 +196,27 @@ namespace HandSchool.Internals
                 InnerResponse = resp;
                 StatusCode = resp.StatusCode;
                 Location = resp.Headers.Location?.OriginalString ?? "";
-                if (!string.IsNullOrEmpty(baseUrl))
-                    Location = Location.Replace(baseUrl, "");
+                Location = ProcessLocation(baseUrl, Location);
                 ContentType = resp.Content.Headers.ContentType?.MediaType ?? "*/*";
                 Status = stat;
             }
 
+            public static string ProcessLocation(string baseUrl, string location)
+            {
+                if (string.IsNullOrWhiteSpace(baseUrl)) return location;
+                if (string.IsNullOrWhiteSpace(location)) return location;
+                var @base = baseUrl.Trim();
+                var loc = location.Trim();
+                var https = @base.StartsWith("https://");
+                var domain = https ? @base.Substring(8) : @base.Substring(7);
+                var index = domain.IndexOf('/');
+                if (index != -1)
+                {
+                    domain = domain.Substring(0, index);
+                }
+
+                return ((https?"https://" : "http://") + domain + loc).Replace(@base, "");
+            }
             public WebResponse(WebRequestMeta meta, WebStatus stat)
             {
                 Request = meta;
@@ -211,7 +226,7 @@ namespace HandSchool.Internals
                 Status = stat;
             }
 
-            private HttpResponseMessage InnerResponse { get; }
+            public HttpResponseMessage InnerResponse { get; }
             
             public WebRequestMeta Request { get; }
 

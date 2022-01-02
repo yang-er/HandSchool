@@ -122,7 +122,7 @@ namespace HandSchool.JLU
         #endregion
         
         public IWebClient WebClient { get; set; }
-        public string ServerUri => $"http{(use_https ? "s" : "")}://{proxy_server}/ntms/";
+        public string ServerUri => WebClient.BaseAddress;
         public string WeatherLocation => "101060101";
         public bool IsWeb => false;
         public int CurrentWeek { get; set; }
@@ -151,10 +151,7 @@ namespace HandSchool.JLU
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
             if (Password == "") SavePassword = false;
-
-            UsingStrategy = Loader.UseVpn 
-                ? (ISideSchoolStrategy)new VpnSchoolStrategy(this) 
-                : new InsideSchoolStrategy(this);
+            UsingStrategy = new DefaultSchoolStrategy(this);
             UsingStrategy.OnLoad();
         }
 

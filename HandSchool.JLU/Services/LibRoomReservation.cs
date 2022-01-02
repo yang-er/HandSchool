@@ -78,6 +78,10 @@ namespace HandSchool.JLU.Services
         public LibRoomReservation()
         {
             WebClient = Core.New<IWebClient>();
+            if (WebClient is WebVpn.VpnHttpClient vpnHttpClient)
+            {
+                vpnHttpClient.Mode = WebVpn.VpnHttpClientMode.VpnOff;
+            }
             WebClient.Timeout = 5000;
             WebClient.BaseAddress = baseUrl;
 

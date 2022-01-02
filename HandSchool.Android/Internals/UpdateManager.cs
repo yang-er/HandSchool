@@ -4,6 +4,7 @@ using Android.Content.PM;
 using HandSchool.Internals;
 using System;
 using System.Threading.Tasks;
+using HandSchool.JLU.Services;
 
 namespace HandSchool.Droid
 {
@@ -33,6 +34,10 @@ namespace HandSchool.Droid
         public void GetUpdateClient()
         {
             UpdateClient = Core.New<IWebClient>();
+            if (UpdateClient is WebVpn.VpnHttpClient vpnHttpClient)
+            {
+                vpnHttpClient.Mode = WebVpn.VpnHttpClientMode.VpnOff;
+            }
             UpdateClient.Timeout = 5000;
         }
         public async Task<AlertDialog> CheckUpdate()
