@@ -21,7 +21,7 @@ namespace HandSchool.JLU.Services
         const string ConfigPassword = "jlu.vpn.password.txt";
         const string ConfigRemember = "jlu.vpn.remember_token.txt";
         const string ConfigTicket = "jlu.vpn.ticket.txt";
-        public static WebVpn Instance => Lazy.Value;
+        public static WebVpn Instance => Loader.UseVpn ? Lazy.Value : null;
         private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
 
         #region Login Fields

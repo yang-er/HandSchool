@@ -162,8 +162,8 @@ namespace HandSchool.JLU.Services
 
         public SchoolCard()
         {
-            WebVpn.Instance.RegisterUrl(baseUrl, "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
-            WebVpn.Instance.RegisterUrl(base8050Url, "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
+            WebVpn.Instance?.RegisterUrl(baseUrl, "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
+            WebVpn.Instance?.RegisterUrl(base8050Url, "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
             IsLogin = false;
             Username = Core.Configure.Read(configUsername);
             if (Username != "") Password = Core.Configure.Read(configPassword);
