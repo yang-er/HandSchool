@@ -3,10 +3,7 @@ using HandSchool.JLU.Services;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using HandSchool.Internal;
@@ -24,10 +21,11 @@ namespace HandSchool.JLU.Services
         const string ConfigPassword = "jlu.vpn.password.txt";
         const string ConfigRemember = "jlu.vpn.remember_token.txt";
         const string ConfigTicket = "jlu.vpn.ticket.txt";
-        public static WebVpn Instance => _lazy.Value;
-        private static Lazy<WebVpn> _lazy = new Lazy<WebVpn>(() => new WebVpn());
+        public static WebVpn Instance => Lazy.Value;
+        private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
 
         #region Login Fields
+
         public string LoginUrl => "https://webvpn.jlu.edu.cn/logout";
         bool _isLogin;
         public TimeoutManager TimeoutManager { get; set; }
@@ -36,15 +34,71 @@ namespace HandSchool.JLU.Services
         public string Password { get; set; }
         public string CaptchaCode { get; set; }
         public byte[] CaptchaSource { get; set; }
-        public string RememberToken => _rememberToken;
-        private string _rememberToken;
-        
-        private string _ticket;
-        public string Ticket => _ticket;
+
         public string Tips => "账号为吉林大学学生邮箱的用户名(不包含@mails.jlu.edu.cn）和密码。";
         public string FormName => "VPN";
         public bool NeedLogin => !IsLogin;
         public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
+
+        #region 处理登录所需的Cookie
+        /// <summary>
+        /// Cookie的缓存，获取的时候如果没有被更新过就直接返回
+        /// </summary>
+        private Cookie[] _cookieCache;
+        
+        /// <summary>
+        /// 表示RememberToken和Ticket被更新了多少次
+        /// </summary>
+        private long _cookieGen;
+        
+        /// <summary>
+        /// 表示_cookieCache的“代”数，与_cookieGen对比可以知道是否需要更新缓存
+        /// </summary>
+        private long _cookieCacheGen;
+        
+        private string _rememberToken;
+
+        public string RememberToken
+        {
+            get => _rememberToken;
+            private set
+            {
+                var trimmed = value?.Trim();
+                if (_rememberToken == trimmed) return;
+                _rememberToken = trimmed;
+                _cookieGen++;
+            }
+        }
+        
+        private string _ticket;
+
+        public string Ticket
+        {
+            get => _ticket;
+            private set
+            {
+                var trimmed = value?.Trim();
+                if (_ticket == trimmed) return;
+                _ticket = trimmed;
+                _cookieGen++;
+            }
+        }
+
+        public Cookie[] GetLoginCookies()
+        {
+            if (_cookieCacheGen != _cookieGen)
+            {
+                _cookieCacheGen = _cookieGen;
+                _cookieCache = new[]
+                {
+                    new Cookie("remember_token", RememberToken, "/", "webvpn.jlu.edu.cn"),
+                    new Cookie("wengine_vpn_ticketwebvpn_jlu_edu_cn", Ticket, "/", "webvpn.jlu.edu.cn")
+                };
+            }
+
+            return _cookieCache;
+        }
+        
         public void AddCookie(IWebClient webClient)
         {
             foreach (var cookie in GetLoginCookies())
@@ -52,14 +106,9 @@ namespace HandSchool.JLU.Services
                 webClient.Cookie.Add(cookie);
             }
         }
-        public Cookie[] GetLoginCookies()
-        {
-            return new[]
-            {
-                new Cookie("remember_token", Loader.Vpn.RememberToken, "/", "webvpn.jlu.edu.cn"),
-                new Cookie("wengine_vpn_ticketwebvpn_jlu_edu_cn", Loader.Vpn.Ticket, "/", "webvpn.jlu.edu.cn")
-            };
-        }
+
+        #endregion
+
         public bool IsLogin
         {
             get => _isLogin;
@@ -69,13 +118,14 @@ namespace HandSchool.JLU.Services
                 {
                     if (value)
                     {
-                        _proxyClients.ForEach(w => AddCookie(w));
+                        _proxyClients.ForEach(AddCookie);
                     }
                 }
 
                 SetProperty(ref _isLogin, value);
             }
         }
+
         private void AddClient(IWebClient client)
         {
             if (IsLogin)
@@ -85,6 +135,7 @@ namespace HandSchool.JLU.Services
 
             _proxyClients.Add(client);
         }
+
         private void RemoveClient(IWebClient client)
         {
             _proxyClients.Remove(client);
@@ -101,7 +152,7 @@ namespace HandSchool.JLU.Services
             get => true;
             set { }
         }
-        
+
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
         private async Task<bool> CheckIsLogin()
@@ -147,6 +198,7 @@ namespace HandSchool.JLU.Services
                     return IsLogin = true;
                 }
             }
+
             IsLogin = false;
             return IsLogin = await LoginViewModel.RequestAsync(this) == RequestLoginState.Success;
         }
@@ -182,8 +234,8 @@ namespace HandSchool.JLU.Services
             IsLogin = false;
             Username = Core.Configure.Read(ConfigUsername);
             if (Username != "") Password = Core.Configure.Read(ConfigPassword);
-            _rememberToken = Core.Configure.Read(ConfigRemember);
-            _ticket = Core.Configure.Read(ConfigTicket);
+            RememberToken = Core.Configure.Read(ConfigRemember);
+            Ticket = Core.Configure.Read(ConfigTicket);
             Events = new WebLoginPageEvents
             {
                 WebViewEvents = new HSWebViewEvents()
@@ -192,14 +244,12 @@ namespace HandSchool.JLU.Services
             Events.WebViewEvents.Navigating += OnNavigating;
             TimeoutManager = new TimeoutManager(30);
             WebClient = new HttpClientImpl();
-            if (!string.IsNullOrWhiteSpace(_ticket) && !string.IsNullOrWhiteSpace(_rememberToken))
-            {
-                WebClient.Cookie.Add(new Cookie("remember_token", _rememberToken, "/login", "webvpn.jlu.edu.cn"));
-                WebClient.Cookie.Add(new Cookie("wengine_vpn_ticketwebvpn_jlu_edu_cn", _ticket, "/login",
-                    "webvpn.jlu.edu.cn"));
-            }
 
-            Task.Run(async () => { IsLogin = await CheckIsLogin(); });
+            Task.Run(async () =>
+            {
+                AddCookie(WebClient);
+                IsLogin = await CheckIsLogin();
+            });
         }
 
         #endregion
@@ -211,14 +261,20 @@ namespace HandSchool.JLU.Services
         {
             if (e.Url == "https://webvpn.jlu.edu.cn/")
             {
-                Username = await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                var uid = await Events.WebViewEvents.EvaluateJavaScriptAsync(
                     "document.getElementById('user_name').value");
-                Password = await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                var pwd = await Events.WebViewEvents.EvaluateJavaScriptAsync(
                     "document.getElementsByName('password')[0].value");
-                Core.Configure.Write(ConfigUsername, Username);
-                Core.Configure.Write(ConfigPassword, Password);
+                if (!string.IsNullOrWhiteSpace(uid) && !string.IsNullOrWhiteSpace(pwd))
+                {
+                    Username = uid;
+                    Password = pwd;
+                    Core.Configure.Write(ConfigUsername, Username);
+                    Core.Configure.Write(ConfigPassword, Password);
+                }
             }
         }
+
         private async void OnNavigated(object s, WebNavigatedEventArgs e)
         {
             if (e.Url == "https://webvpn.jlu.edu.cn/login")
@@ -244,18 +300,18 @@ namespace HandSchool.JLU.Services
                 {
                     if (cookie[i].Name == "remember_token")
                     {
-                        if (_rememberToken != cookie[i].Value)
+                        if (RememberToken != cookie[i].Value)
                         {
-                            _rememberToken = cookie[i].Value;
+                            RememberToken = cookie[i].Value;
                             updated = true;
                         }
                     }
 
                     if (cookie[i].Name == "wengine_vpn_ticketwebvpn_jlu_edu_cn")
                     {
-                        if (_ticket != cookie[i].Value)
+                        if (Ticket != cookie[i].Value)
                         {
-                            _ticket = cookie[i].Value;
+                            Ticket = cookie[i].Value;
                             updated = true;
                         }
                     }
@@ -263,8 +319,8 @@ namespace HandSchool.JLU.Services
 
                 if (updated)
                 {
-                    Core.Configure.Write(ConfigRemember, _rememberToken);
-                    Core.Configure.Write(ConfigTicket, _ticket);
+                    Core.Configure.Write(ConfigRemember, RememberToken);
+                    Core.Configure.Write(ConfigTicket, Ticket);
                 }
 
                 await CheckIsLogin();
@@ -291,6 +347,7 @@ namespace HandSchool.JLU.Services
                 throw new UriFormatException("url must start with \"https://\" or \"http://\"");
             }
         }
+
         public void RegisterUrl(string oriUrl, string proxyUrl)
         {
             CheckUrl(oriUrl);
@@ -336,6 +393,7 @@ namespace HandSchool.JLU.Services
                         {
                             Instance.RemoveClient(_innerClient);
                         }
+
                         var address = _oriBaseUrl;
                         _innerClient.Dispose();
                         _innerClient = new HttpClientImpl();

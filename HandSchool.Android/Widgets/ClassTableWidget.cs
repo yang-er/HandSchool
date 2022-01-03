@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace HandSchool.Droid
 {
-    [BroadcastReceiver(Label = "课程表")]
+    [BroadcastReceiver(Label = "课程表", Exported =true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/classtablewidgetprovider")]
     public class ClassTableWidget: AppWidgetProvider
@@ -63,7 +63,7 @@ namespace HandSchool.Droid
             intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
 
             // Register click event for the Background
-            var piBackground = PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+            var piBackground = PendingIntent.GetBroadcast(context, 0, intent, (int)PendingIntentFlags.UpdateCurrent + PendingIntentFlags.Immutable);
             widgetView.SetOnClickPendingIntent(Resource.Id.lastrefreshtime, piBackground);
             widgetView.SetOnClickPendingIntent(Resource.Id.ClassGrid, piBackground);
 
