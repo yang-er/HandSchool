@@ -17,13 +17,20 @@ namespace HandSchool.JLU.Services
     [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigRemember, ConfigTicket)]
     public sealed class WebVpn : NotifyPropertyChanged, IWebLoginField
     {
+        /// <summary>
+        /// 设置是否使用Vpn
+        /// </summary>
+        [Settings("使用VPN", "使用VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        public static bool UseVpn { get; set; }
+
         const string ConfigUsername = "jlu.vpn.username.txt";
         const string ConfigPassword = "jlu.vpn.password.txt";
         const string ConfigRemember = "jlu.vpn.remember_token.txt";
         const string ConfigTicket = "jlu.vpn.ticket.txt";
-        public static WebVpn Instance => Loader.UseVpn ? Lazy.Value : null;
+        public static WebVpn Instance => UseVpn ? Lazy.Value : null;
         private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
 
+        
         #region Login Fields
 
         public string LoginUrl => "https://webvpn.jlu.edu.cn/logout";
@@ -221,7 +228,7 @@ namespace HandSchool.JLU.Services
 
         public string GetProxyUrl(string ori)
         {
-            if (_proxyUrl.ContainsKey(ori))
+            if (UseVpn && _proxyUrl.ContainsKey(ori))
             {
                 return _proxyUrl[ori];
             }
@@ -407,7 +414,7 @@ namespace HandSchool.JLU.Services
             private VpnHttpClientMode _mode;
 
             public bool UsingVpn =>
-                Loader.UseVpn && Mode != VpnHttpClientMode.VpnOff;
+                UseVpn && Mode != VpnHttpClientMode.VpnOff;
 
             public bool AllowAutoRedirect
             {

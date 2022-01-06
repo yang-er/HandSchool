@@ -60,7 +60,7 @@ namespace HandSchool.JLU.Services
                 await Logout();
                 var login_str = await WebClient.GetStringAsync("");
                 var captcha_url = Regex.Match(login_str, @"id=""imgCheckCode"" src=""/(\S+)""");
-                var codeUrl = (Loader.UseVpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
+                var codeUrl = (WebVpn.UseVpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captcha_url.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(codeUrl, "image/gif");
                 var captcha_resp = await WebClient.GetAsync(reqMeta);
                 CaptchaSource = await captcha_resp.ReadAsByteArrayAsync();

@@ -7,9 +7,11 @@ using System.Text;
 using Foundation;
 using HandSchool.Internal;
 using HandSchool.Internals;
+using HandSchool.iOS.Internals;
 using HandSchool.iOS.Pages;
 using HandSchool.JLU.Views;
 using HandSchool.Models;
+using HandSchool.Pages;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using UIKit;
@@ -48,6 +50,7 @@ namespace HandSchool.iOS
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
             Core.Reflection.RegisterType<ILoginPage, LoginPage>();
+            Core.Reflection.RegisterType<WebLoginPage, WebLoginPageImpl>();
             Core.Reflection.RegisterType<ICurriculumPage, CurriculumPage>();
         }
 

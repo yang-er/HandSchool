@@ -126,6 +126,7 @@
     <Compile Include="Controls\PickerCell.cs" />
     <Compile Include="Internals\NavigateImpl.cs" />
     <Compile Include="Internals\PlatformExtensions.cs" />
+    <Compile Include="Internals\WebLoginPageImpl.cs" />
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Content;
+using HandSchool.JLU.Services;
 using HandSchool.Pages;
 using HandSchool.Views;
 using AppActivity = AndroidX.AppCompat.App.AppCompatActivity;
@@ -134,7 +135,7 @@ namespace HandSchool.Droid.Internals
         }
         public override void OnPageFinished(WebView view, string url)
         {
-            var vpn = JLU.Loader.UseVpn;
+            var vpn = WebVpn.UseVpn;
             if (url.Contains(vpn ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action" : "http://xyk.jlu.edu.cn/homeLogin.action"))//登录页面加载完成, 填密码
             {
                 CancelLostWebChromeClient.GetSources(view);//获取页面源码

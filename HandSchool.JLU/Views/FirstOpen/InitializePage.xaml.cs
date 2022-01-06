@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internals;
+using HandSchool.JLU.Services;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -30,7 +31,7 @@ namespace HandSchool.JLU.Views
 
         private async void ExcuteLogic()
         {
-            var vpn = Loader.UseVpn;
+            var vpn = WebVpn.UseVpn;
             var result2 = false;
             if (vpn)
             {

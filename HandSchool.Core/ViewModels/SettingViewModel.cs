@@ -79,7 +79,7 @@ namespace HandSchool.ViewModels
                 Core.Configure.Remove(fileName);
             Core.Configure.Remove("hs.school.bin");
             Core.App.Service.ResetSettings();
-            await (OnResetSettings.Invoke() ?? Task.CompletedTask);
+            await (OnResetSettings?.Invoke() ?? Task.CompletedTask);
             await Instance.RequestMessageAsync("清除数据", "重置应用成功！重启应用后生效。", "好的");
         }
 

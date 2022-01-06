@@ -1,5 +1,10 @@
-﻿using HandSchool.iOS.Pages;
+﻿using System;
+using System.Threading.Tasks;
+using Foundation;
+using HandSchool.iOS.Pages;
+using HandSchool.ViewModels;
 using HandSchool.Views;
+using WebKit;
 using Xamarin.Forms;
 using XApplication = Xamarin.Forms.Application;
 
@@ -18,7 +23,8 @@ namespace HandSchool.iOS
             Forwarder.NormalWay.Begin();
             InitializeComponent();
             Core.Initialize();
-
+            SettingViewModel.OnResetSettings += DeleteWKWebViewCookies;
+            
             if (Core.Initialized)
             {
                 SetMainPage<MainPage>();
@@ -31,6 +37,18 @@ namespace HandSchool.iOS
             }
         }
 
+        private static async Task DeleteWKWebViewCookies()
+        {
+            var dataStore = WKWebsiteDataStore.DefaultDataStore;
+            var types = await dataStore.FetchDataRecordsOfTypesAsync(WKWebsiteDataStore.AllWebsiteDataTypes);
+            var i = new nuint(0);
+            while (i < types.Count)
+            {
+                var item = types.GetItem<WKWebsiteDataRecord>(i);
+                await dataStore.RemoveDataOfTypesAsync(item.DataTypes, new []{item});
+                i++;
+            }
+        }
         public void SetMainPage<T>()
             where T : Page, new()
         {
