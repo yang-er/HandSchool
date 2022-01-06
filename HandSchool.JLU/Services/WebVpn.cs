@@ -295,7 +295,7 @@ namespace HandSchool.JLU.Services
             if (e.Url == "https://webvpn.jlu.edu.cn/")
             {
                 var updated = false;
-                var cookie = Events.WebViewEvents.WebView.HSCookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));
+                var cookie = Events.WebViewEvents.WebView.Cookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));
                 for (var i = 0; i < cookie.Count; i++)
                 {
                     if (cookie[i].Name == "remember_token")

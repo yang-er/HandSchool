@@ -8,10 +8,9 @@ namespace HandSchool.Controls
 {
     public class HSWebView : WebView
     {
-        public CookieContainer HSCookies { get; }
         public HSWebView()
         {
-            HSCookies = new CookieContainer();
+            Cookies = new CookieContainer();
         }
         public TaskCompletionSource<TaskResp> Result = new TaskCompletionSource<TaskResp>();
         private HSWebViewEvents _events;
