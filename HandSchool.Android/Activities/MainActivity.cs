@@ -19,7 +19,8 @@ using Android.Webkit;
 
 namespace HandSchool.Droid
 {
-    [Activity(Label = "掌上校园", Icon = "@drawable/icon", Theme = "@style/AppTheme.NoActionBar",
+    [Activity(Label = "掌上校园", Icon = "@mipmap/ic_launcher",
+        RoundIcon = "@mipmap/ic_launcher_round", Theme = "@style/AppTheme.NoActionBar",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [BindView(Resource.Layout.activity_main)]
     public class MainActivity : BaseActivity
@@ -92,7 +93,7 @@ namespace HandSchool.Droid
             NavHeadViewHolder.Instance.CleanBind();
             this.CleanBind();
         }
-        
+
         TimeoutManager backHandler = new TimeoutManager(1);
 
         public override void OnBackPressed()
@@ -111,6 +112,7 @@ namespace HandSchool.Droid
                 {
                     base.OnBackPressed();
                 }
+
                 backHandler.Refresh();
             }
         }
