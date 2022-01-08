@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HandSchool.Internal;
 using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
-    public enum FeedState
+    public enum FeedMode
     {
         Normal, Search
     }
@@ -24,11 +25,14 @@ namespace HandSchool.ViewModels
         static readonly Lazy<FeedViewModel> Lazy = 
             new Lazy<FeedViewModel>(() => new FeedViewModel());
 
-        private int curPageIndex;
-        
+        private int _curPageIndex;
 
-        public DateTime? LastReload = null;
-        public (FeedState, string) WorkState = (FeedState.Normal, null);
+        public bool IsFeedOutOfTime => _timeoutManager.NotInit || _timeoutManager.IsTimeout();
+
+        private readonly TimeoutManager _timeoutManager
+            = new TimeoutManager(900);
+
+        public (FeedMode, string) WorkState = (FeedMode.Normal, null);
 
         /// <summary>
         /// 消息内容列表
@@ -71,8 +75,8 @@ namespace HandSchool.ViewModels
         /// </summary>
         public int CurPageIndex
         {
-            get => curPageIndex;
-            set => SetProperty(ref curPageIndex, value, onChanged: _leftPageCountChanged);
+            get => _curPageIndex;
+            set => SetProperty(ref _curPageIndex, value, onChanged: _leftPageCountChanged);
         }
 
         public int TotalPageCount = 0;
@@ -133,7 +137,7 @@ namespace HandSchool.ViewModels
         public async Task LoadItems(bool more)
         {
             if (GetBusy()) return;
-            WorkState = (FeedState.Normal, null);
+            WorkState = (FeedMode.Normal, null);
             
             SetBusy(more, true);
 
@@ -155,7 +159,7 @@ namespace HandSchool.ViewModels
                 newcnt = await Core.App.Feed.Execute(more ? CurPageIndex + 1 : 1);
                 if (!more)
                 {
-                    LastReload = DateTime.Now;
+                    _timeoutManager.Refresh();
                 }
             }
             catch (Exception ex)
@@ -190,7 +194,7 @@ namespace HandSchool.ViewModels
 
             SetBusy(more, true);
             
-            int newcnt = 0;
+            var newCnt = 0;
             try
             {
                 string str;
@@ -205,13 +209,13 @@ namespace HandSchool.ViewModels
                 }
                 else
                 {
-                    newcnt = await Core.App.Feed.Search(str, more ? CurPageIndex + 1 : 1);
-                    WorkState = (FeedState.Search, str);
+                    newCnt = await Core.App.Feed.Search(str, more ? CurPageIndex + 1 : 1);
+                    WorkState = (FeedMode.Search, str);
                 }
 
                 if (!more)
                 {
-                    LastReload = DateTime.Now;
+                    _timeoutManager.Refresh();
                 }
             }
             catch (Exception ex)
@@ -222,8 +226,8 @@ namespace HandSchool.ViewModels
             {
                 SetBusy(more, false);
             }
-            curPageIndex = 0;
-            CurPageIndex = newcnt;
+            _curPageIndex = 0;
+            CurPageIndex = newCnt;
         }
         #region ICollection<T> Implements
 

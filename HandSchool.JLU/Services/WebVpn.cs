@@ -43,7 +43,7 @@ namespace HandSchool.JLU.Services
         public byte[] CaptchaSource { get; set; }
 
         public string Tips => "账号为吉林大学学生邮箱的用户名(不包含@mails.jlu.edu.cn）和密码。";
-        public string FormName => "VPN";
+        public string FormName => "WebVPN";
         public bool NeedLogin => !IsLogin;
         public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
 
@@ -299,7 +299,7 @@ namespace HandSchool.JLU.Services
                 }
             }
 
-            if (e.Url == "https://webvpn.jlu.edu.cn/")
+            if (e.Url == "https://webvpn.jlu.edu.cn/" || e.Url == "https://webvpn.jlu.edu.cn/m/portal")
             {
                 var updated = false;
                 var cookie = Events.WebViewEvents.WebView.Cookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));

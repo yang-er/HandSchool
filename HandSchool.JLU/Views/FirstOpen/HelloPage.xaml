@@ -45,8 +45,8 @@
                     <Label>
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="关于“学生Vpn”：&#10;" ForegroundColor="DarkBlue"/>
-                                <Span Text="&#9;开启与否取决于你的网络环境。处于校园网环境时，建议关闭学生Vpn；而处于4G/5G环境时，需开启学生Vpn。"/>
+                                <Span Text="关于“WebVpn”：&#10;" ForegroundColor="DarkBlue"/>
+                                <Span Text="&#9;开启与否取决于你的网络环境。处于校园网环境时，建议关闭WebVpn；而处于4G/5G环境时，需开启WebVpn。"/>
                             </FormattedString>
                             </Label.FormattedText>
                     </Label>
@@ -54,7 +54,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="注意事项：&#10;" ForegroundColor="DarkBlue"></Span>
-                                <Span Text="&#9;关闭“学生Vpn”时，只能在校园网环境中才能正常连接。"/>
+                                <Span Text="&#9;关闭“WebVpn”时，只能在校园网环境中才能正常连接。"/>
                                 <Span Text="即连接了有线网、JLU-PC、JLU-TEST(5G)或JLU-NET(5G)的环境中。&#10;"/>
                                 <Span Text="&#9;打开uims过慢时，会提示连接超时。" ForegroundColor="Black" />
                                 <Span Text="当你在浏览器中可以正常打开uims，但App无法连接时，敬请告知开发者。&#10;" />
@@ -65,7 +65,7 @@
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal" x:Name="settingsPanel">
-                    <Label Text="使用学生VPN" HorizontalOptions="FillAndExpand" TextColor="Black" />
+                    <Label Text="使用WebVPN" HorizontalOptions="FillAndExpand" TextColor="Black" />
                     <Switch x:Name="outOfSchool" IsToggled="True" />
                 </StackLayout>
 

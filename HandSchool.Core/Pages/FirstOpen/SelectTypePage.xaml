@@ -20,7 +20,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                    <!--<ColumnDefinition Width="Auto" />-->
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackLayout Orientation="Vertical" Grid.Column="1" Padding="15">

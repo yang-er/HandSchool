@@ -73,16 +73,6 @@ namespace HandSchool.Controls
             {
                 switch (n)
                 {
-                    case nameof(HasShadow):
-                        if (Device.RuntimePlatform == Device.iOS)
-                        {
-                            BorderColor = HasShadow ? Color.FromRgb(230, 230, 230) : BackgroundColor;
-                            HasShadow = false;
-                            break;
-                        }
-
-                        base.OnPropertyChanged(n);
-                        break;
                     case nameof(OnTop):
                         if (OnTopIcon != null) OnTopIcon.IsVisible = OnTop;
                         break;
@@ -138,7 +128,7 @@ namespace HandSchool.Controls
                 propertyName: nameof(OnTop),
                 returnType: typeof(bool),
                 declaringType: typeof(TextAtom),
-                defaultValue: false);
+                defaultValue: true);
         public static readonly BindableProperty FirstProportionProperty =
             BindableProperty.Create(
                 propertyName: nameof(FirstProportion),

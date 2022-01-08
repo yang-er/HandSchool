@@ -15,13 +15,13 @@
     </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
         <RefreshView IsRefreshing="{Binding IsRefreshing, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
-            <CollectionView x:Name="collection_view"
+            <CollectionView
                 ItemsSource="{Binding Items}"
                 ItemsUpdatingScrollMode="KeepScrollOffset"
                 ItemSizingStrategy ="MeasureAllItems"
                 BackgroundColor="#F4F4F4"
                 RemainingItemsThreshold ="0"
-                RemainingItemsThresholdReached ="CollectionView_LoadMore">
+                RemainingItemsThresholdReached ="LoadMore">
                 <CollectionView.EmptyView>
                     <ContentView>
                         <internal:NoDataView/>

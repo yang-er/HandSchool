@@ -17,7 +17,7 @@
             <StackLayout x:Name="InfoStack">
                 <StackLayout Orientation="Horizontal" Margin="0,5">
                     <Label Text="个人信息" FontSize="Medium" VerticalTextAlignment="Center" TextColor="DarkRed" HorizontalOptions="FillAndExpand"/>
-                    <internal:TouchableFrame CornerRadius="20" Click="ClearUserInfo" Padding="10,0">
+                    <internal:TouchableFrame CornerRadius="10" Click="ClearUserInfo" Padding="10,0">
                         <Label Text="清空账户信息" VerticalTextAlignment="Center"/>
                     </internal:TouchableFrame>
                 </StackLayout>

@@ -1,18 +1,15 @@
-﻿using Foundation;
-using HandSchool.Controls;
-using System;
+﻿using HandSchool.Controls;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Threading.Tasks;
 using HandSchool.Internal;
 using UIKit;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(Frame), typeof(HandSchool.iOS.Renderers.FrameRender))]
-[assembly: ExportRenderer(typeof(HandSchool.Internal.TouchableFrame), typeof(HandSchool.iOS.Renderers.TouchableFrameRenderer))]
+[assembly: ExportRenderer(typeof(TouchableFrame), typeof(HandSchool.iOS.Renderers.TouchableFrameRenderer))]
 
 namespace HandSchool.iOS.Renderers
 {
@@ -21,104 +18,106 @@ namespace HandSchool.iOS.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            if (e.NewElement is null)
+            if (e.NewElement?.HasShadow == true)
             {
-                GestureRecognizers = null;
-                return;
+                Layer.ShadowRadius = 3;
+                Layer.ShadowOpacity = 0.2f;
             }
+        }
 
-            if (e.NewElement.HasShadow)
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            switch (e.PropertyName)
             {
-                e.NewElement.HasShadow = false;
-                e.NewElement.BorderColor = Color.LightGray;
+                case "HasShadow":
+                {
+                    if (Element.HasShadow)
+                    {
+                        Layer.ShadowRadius = 3;
+                        Layer.ShadowOpacity = 0.2f;
+                    }
+                    break;
+                }
             }
         }
     }
     
     public class TouchableFrameRenderer : FrameRender
     {
-        private List<UIGestureRecognizer> _userRecognizers = new List<UIGestureRecognizer>();
+        private readonly List<UIGestureRecognizer> _customRecognizers = new List<UIGestureRecognizer>();
         private void RefreshLongClick(TouchableFrame tf)
         {
             if (tf.HasLongClick)
             {
-                UILongPressGestureRecognizer recognizer;
-                if (tf is TextAtom)
+                var recognizer = new UILongPressGestureRecognizer(s =>
                 {
-                    recognizer = new UILongPressGestureRecognizer(s =>
+                    if (s.State != UIGestureRecognizerState.Began) return;
+                    if (tf is TextAtom ta)
                     {
-                        if (s.State == UIGestureRecognizerState.Began)
-                        {
-                            ((TextAtom) tf).LongPressAnimation(async () =>
-                            {
-                                await Task.Yield();
-                                tf.OnLongClick();
-                            });
-                        }
-                    });
-                }
-                else
-                {
-                    recognizer = new UILongPressGestureRecognizer((s) =>
-                    {
-                        if (s.State == UIGestureRecognizerState.Began)
+                        ta.LongPressAnimation(() =>
                         {
                             tf.OnLongClick();
-                        }
-                    });
-                }
-                _userRecognizers.Add(recognizer);
+                            return Task.CompletedTask;
+                        });
+                    }
+                    else
+                    {
+                        tf.OnLongClick();
+                    }
+                });
+                _customRecognizers.Add(recognizer);
                 AddGestureRecognizer(recognizer);
             }
             else
             {
-                if (_userRecognizers.Count == 0) return;
-                foreach (var i in _userRecognizers.OfType<UILongPressGestureRecognizer>())
-                {
-                    RemoveGestureRecognizer(i);
-                }
+                if (_customRecognizers.Count == 0) return;
+                _customRecognizers.OfType<UILongPressGestureRecognizer>().ForEach(RemoveGestureRecognizer);
             }
         }
         private void RefreshClick(TouchableFrame tf)
         {
             if (tf.HasClick)
             {
-                UITapGestureRecognizer recognizer;
-                if (tf is TextAtom)
+                var recognizer = new UITapGestureRecognizer(() =>
                 {
-                    recognizer = new UITapGestureRecognizer(() =>
+                    if (tf is TextAtom ta)
                     {
-                        ((TextAtom) tf).TappedAnimation(async () =>
+                        ta.TappedAnimation(() =>
                         {
-                            await Task.Yield();
                             tf.OnClick();
+                            return Task.CompletedTask;
                         });
-                    });
-                }
-                else
-                {
-                    recognizer = new UITapGestureRecognizer(() => tf.OnClick());
-                }
+                    }
+                    else
+                    {
+                        tf.OnClick();
+                    }
+                });
                 AddGestureRecognizer(recognizer);
-                _userRecognizers.Add(recognizer);
+                _customRecognizers.Add(recognizer);
             }
             else
             {
-                if (_userRecognizers.Count == 0) return;
-                foreach (var i in _userRecognizers.OfType<UITapGestureRecognizer>())
-                {
-                    RemoveGestureRecognizer(i);
-                }
+                if (_customRecognizers.Count == 0) return;
+                _customRecognizers.OfType<UITapGestureRecognizer>().ForEach(RemoveGestureRecognizer);
             }
         }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
+            if (e.OldElement != null)
+            {
+                _customRecognizers.ForEach(RemoveGestureRecognizer);
+                _customRecognizers.Clear();
+            }
             base.OnElementChanged(e);
-            _userRecognizers.Clear();
-            if (e.NewElement is null) return;
-            var tf = (TouchableFrame)e.NewElement;
-            RefreshClick(tf);
-            RefreshLongClick(tf);
+            if (e.NewElement != null)
+            {
+                var tf = (TouchableFrame) e.NewElement;
+                RefreshClick(tf);
+                RefreshLongClick(tf);
+            }
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
