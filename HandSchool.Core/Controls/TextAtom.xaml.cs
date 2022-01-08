@@ -73,48 +73,58 @@ namespace HandSchool.Controls
             {
                 switch (n)
                 {
+                    case nameof(HasShadow):
+                        if (Device.RuntimePlatform == Device.iOS)
+                        {
+                            BorderColor = HasShadow ? Color.FromRgb(230, 230, 230) : BackgroundColor;
+                            HasShadow = false;
+                            break;
+                        }
+
+                        base.OnPropertyChanged(n);
+                        break;
                     case nameof(OnTop):
-                        if (on_top != null) on_top.IsVisible = OnTop;
+                        if (OnTopIcon != null) OnTopIcon.IsVisible = OnTop;
                         break;
                     case nameof(Title):
-                        if (title != null) title.Text = Title;
+                        if (TitleLabel != null) TitleLabel.Text = Title;
                         break;
                     case nameof(ContentText):
-                        if (content_text != null) content_text.Text = ContentText;
+                        if (ContentTextLabel != null) ContentTextLabel.Text = ContentText;
                         break;
                     case nameof(AfterTitle):
-                        if (after_title != null) after_title.Text = AfterTitle;
+                        if (AfterTitleLabel != null) AfterTitleLabel.Text = AfterTitle;
                         break;
                     case nameof(SecondContent):
-                        if (second_content != null) second_content.Text = SecondContent;
+                        if (SecondContentLabel != null) SecondContentLabel.Text = SecondContent;
                         break;
                     case nameof(SecondTitle):
-                        if (second_title != null) second_title.Text = SecondTitle;
+                        if (SecondTitleLabel != null) SecondTitleLabel.Text = SecondTitle;
                         break;
                     case nameof(SecondContentColor):
-                        if (second_content != null) second_content.TextColor = SecondContentColor;
+                        if (SecondContentLabel != null) SecondContentLabel.TextColor = SecondContentColor;
                         break;
                     case nameof(SecondTitleColor):
-                        if (second_title != null) 
-                            second_title.TextColor = SecondTitleColor;
+                        if (SecondTitleLabel != null) 
+                            SecondTitleLabel.TextColor = SecondTitleColor;
                         break;
                     case nameof(HasSecond):
-                        if (second_content != null && second_title != null)
+                        if (SecondContentLabel != null && SecondTitleLabel != null)
                         {
                             if (HasSecond)
                             {
-                                grid.ColumnDefinitions.Add(_secondCol);
-                                grid.ColumnDefinitions[0].Width = new GridLength(FirstProportion, GridUnitType.Star);
-                                grid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+                                MainGrid.ColumnDefinitions.Add(_secondCol);
+                                MainGrid.ColumnDefinitions[0].Width = new GridLength(FirstProportion, GridUnitType.Star);
+                                MainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
                             }
-                            second_title.IsVisible = second_content.IsVisible = HasSecond;
-                            if (!HasSecond) { grid.RowDefinitions.RemoveAt(1);
-                                grid.ColumnDefinitions[0].Width = new GridLength(1,GridUnitType.Auto);
+                            SecondTitleLabel.IsVisible = SecondContentLabel.IsVisible = HasSecond;
+                            if (!HasSecond) { MainGrid.RowDefinitions.RemoveAt(1);
+                                MainGrid.ColumnDefinitions[0].Width = new GridLength(1,GridUnitType.Auto);
                             }
                         }
                         break;
                     case nameof(FirstProportion):
-                        grid.ColumnDefinitions[0].Width = new GridLength(FirstProportion, GridUnitType.Star);
+                        MainGrid.ColumnDefinitions[0].Width = new GridLength(FirstProportion, GridUnitType.Star);
                         break;
                     default:
                         base.OnPropertyChanged(n);
@@ -128,7 +138,7 @@ namespace HandSchool.Controls
                 propertyName: nameof(OnTop),
                 returnType: typeof(bool),
                 declaringType: typeof(TextAtom),
-                defaultValue: true);
+                defaultValue: false);
         public static readonly BindableProperty FirstProportionProperty =
             BindableProperty.Create(
                 propertyName: nameof(FirstProportion),
@@ -194,17 +204,7 @@ namespace HandSchool.Controls
         public TextAtom()
         {
             InitializeComponent();
-            switch (Device.RuntimePlatform)
-            {
-                case "iOS":
-                    HasShadow = false;
-                    BorderColor = Color.FromRgb(230, 230, 230);
-                    break;
-                default:
-                    HasShadow = true;
-                    break;
-            }
-            _secondCol = grid.ColumnDefinitions[1];
+            _secondCol = MainGrid.ColumnDefinitions[1];
         }
     }
 }

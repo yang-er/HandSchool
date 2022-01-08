@@ -5,7 +5,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        x:Class="HandSchool.Controls.TextAtom"
        Padding="20,15,20,15" Scale="0.95">
-    <Grid x:Name = "grid">
+    <Grid x:Name = "MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -15,12 +15,12 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0" VerticalOptions="Center">
-            <Image Source="on_top" x:Name="on_top" HeightRequest="20" WidthRequest="20" VerticalOptions="Center"/>
-            <Label x:Name="title" FontSize="18" TextColor="Blue" VerticalOptions="Center"/>
-            <Label x:Name="after_title" TextColor="Gray" VerticalOptions="Center"/>
+            <Image Source="on_top" x:Name="OnTopIcon" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" IsVisible="False"/>
+            <Label x:Name="TitleLabel" FontSize="18" TextColor="Blue" VerticalOptions="Center"/>
+            <Label x:Name="AfterTitleLabel" TextColor="Gray" VerticalOptions="Center"/>
         </StackLayout>
-        <Label x:Name="content_text" FontSize="16" TextColor="Black" Grid.Column="0" Grid.Row="1"/>
-        <Label x:Name="second_title" FontSize="Large" TextColor="Red" Grid.Row="0" Grid.Column="1" HorizontalOptions="End"/>
-        <Label x:Name="second_content" FontSize="Default" TextColor="Gray" Grid.Row="1" Grid.Column="1"  HorizontalOptions="End"/>
+        <Label x:Name="ContentTextLabel" FontSize="16" TextColor="Black" Grid.Column="0" Grid.Row="1"/>
+        <Label x:Name="SecondTitleLabel" FontSize="Large" TextColor="Red" Grid.Row="0" Grid.Column="1" HorizontalOptions="End"/>
+        <Label x:Name="SecondContentLabel" FontSize="Default" TextColor="Gray" Grid.Row="1" Grid.Column="1"  HorizontalOptions="End"/>
     </Grid>
 </internal:TouchableFrame>

@@ -20,7 +20,7 @@ namespace HandSchool.JLU.Services
         /// <summary>
         /// 设置是否使用Vpn
         /// </summary>
-        [Settings("使用VPN", "使用VPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
+        [Settings("使用WebVPN", "使用WebVPN连接各种系统，不稳定，建议在内网时不使用此选项。切换后需要重启本应用程序。")]
         public static bool UseVpn { get; set; }
 
         const string ConfigUsername = "jlu.vpn.username.txt";
@@ -228,12 +228,12 @@ namespace HandSchool.JLU.Services
 
         public string GetProxyUrl(string ori)
         {
-            if (UseVpn && _proxyUrl.ContainsKey(ori))
+            if (_proxyUrl.ContainsKey(ori))
             {
                 return _proxyUrl[ori];
             }
 
-            return ori;
+            throw new KeyNotFoundException($"url {ori} has not registered");
         }
 
         private WebVpn()
@@ -365,8 +365,7 @@ namespace HandSchool.JLU.Services
         public enum VpnHttpClientMode
         {
             VpnAuto,
-            VpnOff,
-            VpnOn
+            VpnOff
         }
 
         public class VpnHttpClient : IWebClient

@@ -42,7 +42,11 @@ namespace HandSchool.JLU
         
         public static string GetRealUrl(string ori)
         {
-            return WebVpn.Instance.GetProxyUrl(ori);
+            if (WebVpn.UseVpn)
+            {
+                return WebVpn.Instance.GetProxyUrl(ori);
+            }
+            return ori;
         }
         public void PostLoad()
         {
@@ -79,7 +83,7 @@ namespace HandSchool.JLU
             {
                 if (!await Vpn.CheckLogin())
                 {
-                    return new TaskResp(false, "需登录Vpn");
+                    return new TaskResp(false, "需登录WebVpn");
                 }
             }
             return TaskResp.True;
