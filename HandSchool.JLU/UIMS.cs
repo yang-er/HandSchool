@@ -186,7 +186,7 @@ namespace HandSchool.JLU
         {
             if (!await this.CheckLogin())
             {
-                throw new WebsException("登录超时。", WebStatus.Timeout);
+                throw new WebsException("登录失败。", WebStatus.Timeout);
             }
 
             try

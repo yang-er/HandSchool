@@ -42,7 +42,7 @@ namespace HandSchool.Droid
         }
         public async Task<AlertDialog> CheckUpdate()
         {
-            if (UpdateClient != null) UpdateClient.Dispose();
+            UpdateClient?.Dispose();
             GetUpdateClient();
             try
             {

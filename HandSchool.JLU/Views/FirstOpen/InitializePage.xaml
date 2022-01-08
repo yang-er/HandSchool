@@ -41,7 +41,7 @@
             <Label Grid.ColumnSpan="2" Text="正在初始化" FontSize="36" Margin="0,0,0,15" TextColor="Black" />
             <ActivityIndicator Grid.Row="1" x:Name="vpnProgress" Style="{StaticResource ProgBar}" />
             <Label Grid.Row="1" Text="…" x:Name="vpnCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
-            <Label Grid.Row="1" Grid.Column="1" Text="登录学生VPN" Style="{StaticResource ProgText}" />
+            <Label Grid.Row="1" Grid.Column="1" Text="登录WebVPN" Style="{StaticResource ProgText}" />
             <ActivityIndicator Grid.Row="2" x:Name="jwxtProgress" Style="{StaticResource ProgBar}" />
             <Label Grid.Row="2" Text="…" x:Name="jwxtCheck" TextColor="Accent" Style="{StaticResource ProgLab}" />
             <Label Grid.Row="2" Grid.Column="1" Text="登录教务系统" Style="{StaticResource ProgText}" />
