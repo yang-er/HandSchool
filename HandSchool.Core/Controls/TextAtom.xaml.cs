@@ -128,7 +128,7 @@ namespace HandSchool.Controls
                 propertyName: nameof(OnTop),
                 returnType: typeof(bool),
                 declaringType: typeof(TextAtom),
-                defaultValue: true);
+                defaultValue: false);
         public static readonly BindableProperty FirstProportionProperty =
             BindableProperty.Create(
                 propertyName: nameof(FirstProportion),
