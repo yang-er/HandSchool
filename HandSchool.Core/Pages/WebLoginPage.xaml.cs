@@ -58,7 +58,7 @@ namespace HandSchool.Pages
             if (_events != null)
             {
                 _events.Page = null;
-                Result = null;
+                Result = _events.Result = null;
             }
 
             LoginView.Source = null;

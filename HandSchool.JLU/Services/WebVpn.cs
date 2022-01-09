@@ -29,8 +29,8 @@ namespace HandSchool.JLU.Services
         const string ConfigTicket = "jlu.vpn.ticket.txt";
         public static WebVpn Instance => UseVpn ? Lazy.Value : null;
         private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
+        private bool _pageClosed;
 
-        
         #region Login Fields
 
         public string LoginUrl => "https://webvpn.jlu.edu.cn/logout";
@@ -224,7 +224,11 @@ namespace HandSchool.JLU.Services
         }
 
         public Task<TaskResp> PrepareLogin() => Task.FromResult(TaskResp.True);
-        public Task<TaskResp> Login() => Events?.Result?.Task ?? Task.FromResult(TaskResp.False);
+        public Task<TaskResp> Login()
+        {
+            _pageClosed = false;
+            return Events?.Result?.Task ?? Task.FromResult(TaskResp.False);
+        }
 
         public string GetProxyUrl(string ori)
         {
@@ -333,8 +337,12 @@ namespace HandSchool.JLU.Services
                 await CheckIsLogin();
                 if (IsLogin)
                 {
-                    await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
-                    Events?.Result?.TrySetResult(TaskResp.True);
+                    if (!_pageClosed)
+                    {
+                        _pageClosed = true;
+                        await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
+                        Events?.Result?.TrySetResult(TaskResp.True);
+                    }
                 }
             }
         }
