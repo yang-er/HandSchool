@@ -92,6 +92,9 @@
     <PackageReference Include="SkiaSharp.Views">
       <Version>2.80.3</Version>
     </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.8.116</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Core">
       <Version>1.6.0.3</Version>
     </PackageReference>

@@ -11,13 +11,13 @@ namespace HandSchool.Internals
 {
     public class HttpClientImpl : IWebClient
     {
-        HttpClient HttpClient { get; }
-        HttpClientHandler Handler { get; }
+        private HttpClient HttpClient { get; }
+        private HttpClientHandler Handler { get; }
 
         /// <summary>
         /// Cookie的容器
         /// </summary>
-        public CookieContainer Cookie { get; }
+        public CookieContainer Cookie => Handler?.CookieContainer;
 
         /// <summary>
         /// 默认字符编码
@@ -58,13 +58,11 @@ namespace HandSchool.Internals
 
         public HttpClientImpl()
         {
-            Cookie = new CookieContainer();
-
             Handler = new HttpClientHandler
             {
                 AllowAutoRedirect = false,
                 UseCookies = true,
-                CookieContainer = Cookie,
+                CookieContainer = new CookieContainer(),
             };
 
             try

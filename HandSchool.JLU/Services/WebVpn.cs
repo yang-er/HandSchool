@@ -3,18 +3,20 @@ using HandSchool.JLU.Services;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using HandSchool.Internal;
 using HandSchool.ViewModels;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 [assembly: RegisterService(typeof(WebVpn))]
 
 namespace HandSchool.JLU.Services
 {
-    [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigRemember, ConfigTicket)]
+    [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigCookies)]
     public sealed class WebVpn : NotifyPropertyChanged, IWebLoginField
     {
         /// <summary>
@@ -25,8 +27,7 @@ namespace HandSchool.JLU.Services
 
         const string ConfigUsername = "jlu.vpn.username.txt";
         const string ConfigPassword = "jlu.vpn.password.txt";
-        const string ConfigRemember = "jlu.vpn.remember_token.txt";
-        const string ConfigTicket = "jlu.vpn.ticket.txt";
+        const string ConfigCookies = "jlu.vpn.logincookies.json";
         public static WebVpn Instance => UseVpn ? Lazy.Value : null;
         private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
         private bool _pageClosed;
@@ -48,64 +49,63 @@ namespace HandSchool.JLU.Services
         public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
 
         #region 处理登录所需的Cookie
-        /// <summary>
-        /// Cookie的缓存，获取的时候如果没有被更新过就直接返回
-        /// </summary>
-        private Cookie[] _cookieCache;
-        
-        /// <summary>
-        /// 表示RememberToken和Ticket被更新了多少次
-        /// </summary>
-        private long _cookieGen;
-        
-        /// <summary>
-        /// 表示_cookieCache的“代”数，与_cookieGen对比可以知道是否需要更新缓存
-        /// </summary>
-        private long _cookieCacheGen;
-        
-        private string _rememberToken;
+        private const string TokenName = "remember_token";
+        private const string TicketName = "wengine_vpn_ticketwebvpn_jlu_edu_cn";
 
-        public string RememberToken
+        /// <summary>
+        /// 用来方便序列化Cookie
+        /// </summary>
+        private class CookieLite
+        {
+            private readonly Cookie _innerCookie;
+            public CookieLite(Cookie c)
+            {
+                _innerCookie = c;
+            }
+
+            public string Domain => _innerCookie?.Domain;
+            public string Path => _innerCookie?.Path;
+            public string Name => _innerCookie?.Name;
+            public string Value => _innerCookie?.Value;
+        }
+
+        /// <summary>
+        /// 用来标识WebVpn的WebClient中的Cookie是不是最新的
+        /// </summary>
+        private bool _loginCookiesChanged;
+        public Cookie RememberToken
         {
             get => _rememberToken;
-            private set
+            set
             {
-                var trimmed = value?.Trim();
-                if (_rememberToken == trimmed) return;
-                _rememberToken = trimmed;
-                _cookieGen++;
+                if (_rememberToken?.Value == value?.Value) return;
+                _rememberToken = value;
+                _loginCookiesChanged = true;
             }
         }
-        
-        private string _ticket;
+        private Cookie _rememberToken;
 
-        public string Ticket
+        public Cookie Ticket
         {
             get => _ticket;
-            private set
+            set
             {
-                var trimmed = value?.Trim();
-                if (_ticket == trimmed) return;
-                _ticket = trimmed;
-                _cookieGen++;
+                if (_ticket?.Value == value?.Value) return;
+                _ticket = value;
+                _loginCookiesChanged = true;
             }
         }
+        private Cookie _ticket;
 
-        public Cookie[] GetLoginCookies()
+        public IEnumerable<Cookie> GetLoginCookies()
         {
-            if (_cookieCacheGen != _cookieGen)
-            {
-                _cookieCacheGen = _cookieGen;
-                _cookieCache = new[]
-                {
-                    new Cookie("remember_token", RememberToken, "/", "webvpn.jlu.edu.cn"),
-                    new Cookie("wengine_vpn_ticketwebvpn_jlu_edu_cn", Ticket, "/", "webvpn.jlu.edu.cn")
-                };
-            }
+            if (Ticket != null)
+                yield return Ticket;
 
-            return _cookieCache;
+            if (RememberToken != null)
+                yield return RememberToken;
         }
-        
+
         public void AddCookie(IWebClient webClient)
         {
             foreach (var cookie in GetLoginCookies())
@@ -166,9 +166,17 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                AddCookie(WebClient);
+                if (_loginCookiesChanged)
+                {
+                    WebClient?.Dispose();
+                    WebClient = new HttpClientImpl();
+                    AddCookie(WebClient);
+                }
+                if (WebClient == null) return IsLogin = false;
+                _loginCookiesChanged = false;
                 var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
                 var res = await response.ReadAsStringAsync();
+                response.Dispose();
                 return IsLogin = res.Contains("注销");
             }
             catch (WebsException ex)
@@ -182,21 +190,7 @@ namespace HandSchool.JLU.Services
         {
             if (TimeoutManager.NotInit || TimeoutManager.IsTimeout())
             {
-                AddCookie(WebClient);
-                try
-                {
-                    var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
-                    var res = await response.ReadAsStringAsync();
-                    if (res.Contains("注销"))
-                    {
-                        TimeoutManager.Refresh();
-                        return IsLogin = true;
-                    }
-                }
-                catch (WebsException e)
-                {
-                    Core.Logger.WriteException(e);
-                }
+                if (await CheckIsLogin()) return true;
             }
             else
             {
@@ -245,8 +239,23 @@ namespace HandSchool.JLU.Services
             IsLogin = false;
             Username = Core.Configure.Read(ConfigUsername);
             if (Username != "") Password = Core.Configure.Read(ConfigPassword);
-            RememberToken = Core.Configure.Read(ConfigRemember);
-            Ticket = Core.Configure.Read(ConfigTicket);
+            var logins = Core.Configure.Read(ConfigCookies);
+            if (!string.IsNullOrWhiteSpace(logins))
+            {
+                JsonConvert.DeserializeObject<List<Cookie>>(logins)
+                    ?.ForEach(c =>
+                    {
+                        switch (c.Name)
+                        {
+                            case TicketName:
+                                Ticket = c;
+                                break;
+                            case TokenName:
+                                RememberToken = c;
+                                break;
+                        }
+                    });
+            }
             Events = new WebLoginPageEvents
             {
                 WebViewEvents = new HSWebViewEvents()
@@ -254,12 +263,10 @@ namespace HandSchool.JLU.Services
             Events.WebViewEvents.Navigated += OnNavigated;
             Events.WebViewEvents.Navigating += OnNavigating;
             TimeoutManager = new TimeoutManager(30);
-            WebClient = new HttpClientImpl();
 
             Task.Run(async () =>
             {
-                AddCookie(WebClient);
-                IsLogin = await CheckIsLogin();
+                await CheckIsLogin();
             });
         }
 
@@ -288,60 +295,66 @@ namespace HandSchool.JLU.Services
 
         private async void OnNavigated(object s, WebNavigatedEventArgs e)
         {
-            if (e.Url == "https://webvpn.jlu.edu.cn/login")
+            if (!_pageClosed)
             {
-                await Events.WebViewEvents.EvaluateJavaScriptAsync(
-                    "let a = document.getElementsByName('remember_cookie')[0]; " +
-                    "a.checked=true; " +
-                    "document.getElementsByClassName('remember-field')[0].hidden=true;");
-                if (!string.IsNullOrWhiteSpace(Username))
+                if (e.Url == "https://webvpn.jlu.edu.cn/login")
                 {
                     await Events.WebViewEvents.EvaluateJavaScriptAsync(
-                        $"document.getElementById('user_name').value='{Username}'");
-                    await Events.WebViewEvents.EvaluateJavaScriptAsync(
-                        $"document.getElementsByName('password')[0].value='{Password}'");
-                }
-            }
-
-            if (e.Url == "https://webvpn.jlu.edu.cn/" || e.Url == "https://webvpn.jlu.edu.cn/m/portal")
-            {
-                var updated = false;
-                var cookie = Events.WebViewEvents.WebView.Cookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));
-                for (var i = 0; i < cookie.Count; i++)
-                {
-                    if (cookie[i].Name == "remember_token")
+                        "let a = document.getElementsByName('remember_cookie')[0]; " +
+                        "a.checked=true; " +
+                        "document.getElementsByClassName('remember-field')[0].hidden=true;");
+                    if (!string.IsNullOrWhiteSpace(Username))
                     {
-                        if (RememberToken != cookie[i].Value)
-                        {
-                            RememberToken = cookie[i].Value;
-                            updated = true;
-                        }
-                    }
-
-                    if (cookie[i].Name == "wengine_vpn_ticketwebvpn_jlu_edu_cn")
-                    {
-                        if (Ticket != cookie[i].Value)
-                        {
-                            Ticket = cookie[i].Value;
-                            updated = true;
-                        }
+                        await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                            $"document.getElementById('user_name').value='{Username}'");
+                        await Events.WebViewEvents.EvaluateJavaScriptAsync(
+                            $"document.getElementsByName('password')[0].value='{Password}'");
                     }
                 }
 
-                if (updated)
+                if (e.Url == "https://webvpn.jlu.edu.cn/" || e.Url == "https://webvpn.jlu.edu.cn/m/portal")
                 {
-                    Core.Configure.Write(ConfigRemember, RememberToken);
-                    Core.Configure.Write(ConfigTicket, Ticket);
-                }
 
-                await CheckIsLogin();
-                if (IsLogin)
-                {
-                    if (!_pageClosed)
+                    var updated = false;
+                    var cookie = Events.WebViewEvents.WebView.HSCookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));
+                    for (var i = 0; i < cookie.Count; i++)
                     {
-                        _pageClosed = true;
-                        await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
-                        Events?.Result?.TrySetResult(TaskResp.True);
+                        if (cookie[i].Name == TokenName)
+                        {
+                            if (RememberToken?.Value != cookie[i].Value)
+                            {
+                                RememberToken = cookie[i];
+                                updated = true;
+                            }
+                        }
+
+                        if (cookie[i].Name == TicketName)
+                        {
+                            if (Ticket?.Value != cookie[i].Value)
+                            {
+                                Ticket = cookie[i];
+                                updated = true;
+                            }
+                        }
+                    }
+
+                    if (updated)
+                    {
+                        Core.Configure.Write(ConfigCookies,
+                            GetLoginCookies()
+                                .Select(c => new CookieLite(c))
+                                .Serialize());
+                    }
+
+                    await CheckIsLogin();
+                    if (IsLogin)
+                    {
+                        if (!_pageClosed)
+                        {
+                            _pageClosed = true;
+                            await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
+                            Events?.Result?.TrySetResult(TaskResp.True);
+                        }
                     }
                 }
             }

@@ -16,7 +16,9 @@ namespace HandSchool.Internals
         {
             using (var resp = await webClient.GetAsync(url, accept))
             {
-                return await resp.ReadAsStringAsync();
+                var res = await resp.ReadAsStringAsync();
+                resp.Dispose();
+                return res;
             }
         }
 

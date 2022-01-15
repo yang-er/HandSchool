@@ -21,6 +21,8 @@ namespace HandSchool.Droid
 {
     public class BaseActivity : AppCompatActivity, INavigate, IBindTarget
     {
+        public static string InternalFileRootPath { get; private set; }
+
         #region UI Elements
 
         /// <summary>
@@ -221,7 +223,8 @@ namespace HandSchool.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(ContentViewResource);
             this.SolveView(this);
-            
+            InternalFileRootPath ??= DataDir?.AbsolutePath;
+
             SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
             PlatformImplV2.Instance.SetContext(this);
