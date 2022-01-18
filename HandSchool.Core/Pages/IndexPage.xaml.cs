@@ -12,14 +12,14 @@ namespace HandSchool.Views
     public class ClassLoadEventArgs : EventArgs
     {
         public int ResIndex = -1;
-        public System.Collections.Generic.IList<Models.CurriculumItem> Classes;
+        public System.Collections.Generic.IList<CurriculumItem> Classes;
     }
+    
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndexPage : ViewObject
     {
         public IndexPage()
         {
-
             InitializeComponent();
             var today = DateTime.Now;
             DayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
@@ -42,7 +42,7 @@ namespace HandSchool.Views
             Core.Platform.EnsureOnMainThread(() =>
             {
                 IndexViewModel.Instance.ClassToday.Clear();
-
+                
                 foreach (var item in e.Classes)
                 {
                     IndexViewModel.Instance.ClassToday.Add(item);
@@ -52,7 +52,7 @@ namespace HandSchool.Views
                 {
                     foreach (var i in ClassTable.ItemsSource)
                     {
-                        var item = (Models.CurriculumItem)i;
+                        var item = (CurriculumItem)i;
                         if (item.State == ClassState.Current || item.State == ClassState.Next)
                         {
                             if (index == -1)
@@ -76,67 +76,66 @@ namespace HandSchool.Views
             });
         }
 
-        private bool _isWorking = false;
+        private bool _isWorking;
         private readonly TimeoutManager _weatherTimeoutManager = new TimeoutManager(3600);
+
+        private async Task SyncWeather()
+        {
+            if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
+            {
+                _isWorking = true;
+                try
+                {
+                    var weatherClient = IndexViewModel.Instance.WeatherClient;
+                    await weatherClient.UpdateWeatherAsync();
+
+                    Core.Platform.EnsureOnMainThread(() =>
+                    {
+                        try
+                        {
+                            CurrentWeather.Text =
+                                $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
+                            var report = weatherClient.WeatherDescriptions;
+                            TodayWeather.Text =
+                                $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
+                            TomorrowWeather.Text =
+                                $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
+                            WeatherFrame.IsVisible = true;
+                            _weatherTimeoutManager.Refresh();
+                        }
+                        catch (Exception error)
+                        {
+                            Core.Logger.WriteLine("天气信息与UI同步错误", error.Message);
+                            WeatherFrame.IsVisible = false;
+                        }
+                    });
+                }
+                catch (Exception e)
+                {
+                    Core.Logger.WriteLine("更新天气错误", e.Message);
+                    Core.Platform.EnsureOnMainThread(() => WeatherFrame.IsVisible = false);
+                }
+                finally
+                {
+                    _isWorking = false;
+                }
+            }
+        }
 
         protected override void OnAppearing()
         {
-            base.OnAppearing();
             IndexViewModel.Instance.CurrentClassesLoadFinished += CurrentClassLoadOver;
             Task.Run(IndexViewModel.Instance.Refresh);
             switch (Device.RuntimePlatform)
             {
                 case Device.Android:
-                {
-                    if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
-                    {
-                        Task.Run(async () =>
-                        {
-                            await Task.Yield();
-                            _isWorking = true;
-
-                            try
-                            {
-                                var weatherClient = IndexViewModel.Instance.WeatherClient;
-                                await weatherClient.UpdateWeatherAsync();
-                            
-                                Core.Platform.EnsureOnMainThread(() =>
-                                {
-                                    try
-                                    {
-                                        CurrentWeather.Text =
-                                            $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
-                                        var report = weatherClient.WeatherDescriptions;
-                                        TodayWeather.Text =
-                                            $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
-                                        TomorrowWeather.Text =
-                                            $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
-                                        WeatherFrame.IsVisible = true;
-                                        _weatherTimeoutManager.Refresh();
-                                    }
-                                    catch(Exception error)
-                                    {
-                                        Core.Logger.WriteLine("天气信息与UI同步错误", error.Message);
-                                        WeatherFrame.IsVisible = false;
-                                    }
-                                });
-                            }
-                            catch(Exception e)
-                            {
-                                Core.Logger.WriteLine("更新天气错误", e.Message);
-                                Core.Platform.EnsureOnMainThread(() => WeatherFrame.IsVisible = false);
-                            }
-                            finally
-                            {
-                                _isWorking = false;
-                            }
-                        });
-                    }
+                    Task.Run(SyncWeather);
                     break;
-                }
-                default: WeatherFrame.IsVisible = false;
+                default: 
+                    WeatherFrame.IsVisible = false;
                     break;
             }
+            base.OnAppearing();
         }
 
         protected override void OnDisappearing()
@@ -157,11 +156,6 @@ namespace HandSchool.Views
                 if (bc == null) return;
                 bc.IsSelected = bc.SameAs(e.CurrentItem as CurriculumItemBase);
             }
-        }
-
-        private void WelcomeOnClick(object sender, EventArgs e)
-        {
-            ((sender as Frame)?.BindingContext as IndexViewModel)?.RequestLoginCommand?.Execute(null);
         }
     }
 }

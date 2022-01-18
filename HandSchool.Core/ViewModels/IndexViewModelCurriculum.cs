@@ -1,27 +1,28 @@
 ﻿using HandSchool.Models;
 using System;
-using Xamarin.Forms;
+using System.Collections.Generic;
+using HandSchool.Services;
 
 namespace HandSchool.ViewModels
 {
     public sealed partial class IndexViewModel
     {
-        CurriculumItem curriculum2;
-        CurriculumItem curriculum1;
+        CurriculumItem _curriculum2;
+        CurriculumItem _curriculum1;
 
         /// <summary>
         /// 接下来的课
         /// </summary>
         public CurriculumItem NextClass
         {
-            get => curriculum1;
+            get => _curriculum1;
             set
             {
-                if (curriculum1 != null)
-                    curriculum1.State = ClassState.Other;
-                SetProperty(ref curriculum1, value, onChanged: UpdateHasClass,mode: SetPropertyMode.Reference);
-                if (curriculum1 != null)
-                    curriculum1.State = ClassState.Next;
+                if (_curriculum1 != null)
+                    _curriculum1.State = ClassState.Other;
+                SetProperty(ref _curriculum1, value, onChanged: UpdateHasClass,mode: SetPropertyMode.Reference);
+                if (_curriculum1 != null)
+                    _curriculum1.State = ClassState.Next;
             }
         }
 
@@ -30,14 +31,14 @@ namespace HandSchool.ViewModels
         /// </summary>
         public CurriculumItem CurrentClass
         {
-            get => curriculum2;
+            get => _curriculum2;
             set
             {
-                if (curriculum2 != null)
-                    curriculum2.State = ClassState.Other;
-                SetProperty(ref curriculum2, value, onChanged: UpdateHasClass, mode: SetPropertyMode.Reference);
-                if (curriculum2 != null)
-                    curriculum2.State = ClassState.Current;
+                if (_curriculum2 != null)
+                    _curriculum2.State = ClassState.Other;
+                SetProperty(ref _curriculum2, value, onChanged: UpdateHasClass, mode: SetPropertyMode.Reference);
+                if (_curriculum2 != null)
+                    _curriculum2.State = ClassState.Current;
             }
         }
 
@@ -57,17 +58,17 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 当前是否有课
         /// </summary>
-        public bool CurrentHasClass => curriculum2 != null;
+        public bool CurrentHasClass => _curriculum2 != null;
 
         /// <summary>
         /// 接下来是否有课
         /// </summary>
-        public bool NextHasClass => curriculum1 != null;
+        public bool NextHasClass => _curriculum1 != null;
 
         /// <summary>
         /// 当前是否没有课
         /// </summary>
-        public bool NoClass => curriculum1 is null && curriculum2 is null;
+        public bool NoClass =>  _curriculum1 is null && _curriculum2 is null;
 
         public System.Collections.ObjectModel.ObservableCollection<CurriculumItem> ClassToday { get; set; }
             = new System.Collections.ObjectModel.ObservableCollection<CurriculumItem>();
@@ -75,8 +76,13 @@ namespace HandSchool.ViewModels
         /// <summary>
         /// 更新当前时间对应的课程。
         /// </summary>
-        private System.Collections.Generic.IList<CurriculumItem> UpdateTodayCurriculum()
+        private IList<CurriculumItem> UpdateTodayCurriculum()
         {
+            if (Core.App.Service.SchoolState != SchoolState.Normal)
+            {
+                _curriculum1 = _curriculum2 = null;
+                return new List<CurriculumItem>();
+            }
             var today = (int)DateTime.Now.DayOfWeek;
             if (today == 0) today = 7;
             var week = Core.App.Service.CurrentWeek;
@@ -96,7 +102,7 @@ namespace HandSchool.ViewModels
                        {
                            if (obj.DayEnd == cor.section)
                            {
-                               if (cor.state == Services.SectionState.ClassOver)
+                               if (cor.state == SectionState.ClassOver)
                                    res = false;
                            }
                        }

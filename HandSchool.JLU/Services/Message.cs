@@ -6,16 +6,15 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
+using HandSchool.Models;
 
 [assembly: RegisterService(typeof(MessageEntrance))]
 namespace HandSchool.JLU.Services
 {
     [Entrance("JLU", "系统收件箱", "提供了UIMS的收件箱功能，可以查看成绩发布通知等。")]
-    [UseStorage("JLU", configMsgBox)]
+    [UseStorage("JLU")]
     internal sealed class MessageEntrance : IMessageEntrance
     {
-        const string configMsgBox = "jlu.msgbox.json";
-
         const string getMessageUrl = "siteMessages/get-message-in-box.do";
         const string messageReadUrl = "siteMessages/read-message.do";
         const string messageDeleteUrl = "siteMessages/delete-recv-message.do";
@@ -25,7 +24,6 @@ namespace HandSchool.JLU.Services
             try
             {
                 var lastReport = await Core.App.Service.Post(getMessageUrl, "{}");
-                Core.Configure.Write(configMsgBox, lastReport);
                 var ro = lastReport.ParseJSON<MessageBox>();
                 Core.Platform.EnsureOnMainThread(() =>
                 {

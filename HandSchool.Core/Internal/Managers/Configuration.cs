@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using HandSchool.Models;
 
 namespace HandSchool.Internals
 {
@@ -17,6 +20,11 @@ namespace HandSchool.Internals
         {
             Directory = directory;
         }
+        
+        public SQLiteTableManager<UserAccount> AccountManager { get; set; }
+        
+        public SQLiteTableManager<ServerJson> JsonManager { get; set; }
+
 
         /// <summary>
         /// 数据基础目录
@@ -48,6 +56,25 @@ namespace HandSchool.Internals
         [DebuggerStepThrough]
         public void Write(string config, string value)
         {
+            if (string.IsNullOrWhiteSpace(config))
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+            var paths = 
+                config.Split(Path.DirectorySeparatorChar)
+                .Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
+            if (paths.Length != 1)
+            {
+                var cur = Directory;
+                for (var i = 0; i < paths.Length - 1;i++)
+                {
+                    cur = Path.Combine(cur, paths[i]);
+                    if (!System.IO.Directory.Exists(cur))
+                    {
+                        System.IO.Directory.CreateDirectory(cur);
+                    }
+                }
+            }
             File.WriteAllText(Path.Combine(Directory, config), value);
         }
 
@@ -58,8 +85,34 @@ namespace HandSchool.Internals
         [DebuggerStepThrough]
         public void Remove(string config)
         {
-            var fileName = Path.Combine(Directory, config);
-            if (File.Exists(fileName)) File.Delete(fileName);
+            if (string.IsNullOrWhiteSpace(config))
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            var paths =
+                config.Split(Path.DirectorySeparatorChar)
+                    .Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
+            paths[0] = Path.Combine(Directory, paths[0]);
+            for (var i = 1; i < paths.Length; i++)
+            {
+                paths[i] = Path.Combine(paths[i - 1], paths[i]);
+            }
+
+            var fileName = paths[paths.Length - 1];
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+                for (var i = paths.Length - 2; i >= 0; i--)
+                {
+                    var dirs = System.IO.Directory.GetDirectories(paths[i]);
+                    var files = System.IO.Directory.GetFiles(paths[i]);
+                    if (dirs.Length + files.Length == 0)
+                    {
+                        System.IO.Directory.Delete(paths[i]);
+                    }
+                }
+            }
         }
     }
 }

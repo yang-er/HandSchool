@@ -14,12 +14,8 @@ namespace HandSchool.Internals
 
         public static async Task<string> GetStringAsync(this IWebClient webClient, string url, string accept = WebRequestMeta.All)
         {
-            using (var resp = await webClient.GetAsync(url, accept))
-            {
-                var res = await resp.ReadAsStringAsync();
-                resp.Dispose();
-                return res;
-            }
+            using var resp = await webClient.GetAsync(url, accept);
+            return await resp.ReadAsStringAsync();
         }
 
         public static void Add(this WebRequestMeta webRequestMeta, KeyValuePair<string, string> item)

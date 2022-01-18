@@ -23,13 +23,11 @@ namespace HandSchool.JLU.Services
     /// <inheritdoc cref="NotifyPropertyChanged" />
     /// <inheritdoc cref="ILoginField" />
     [Entrance("JLU", "校园一卡通", "提供校园卡的查询、充值、挂失等功能。")]
-    [UseStorage("JLU", configUsername, configPassword)]
 
     //Android版本2.4.5.5以后，SchoolCard相关逻辑不再检查是否登录，此操作应在ViewModel中进行以保证窗口顺序正确
     public sealed class SchoolCard : NotifyPropertyChanged, ILoginField
     {
-        const string configUsername = "jlu.schoolcard.username.txt";
-        const string configPassword = "jlu.schoolcard.password.txt";
+        private const string ServerName = "SchoolCard";
         string baseUrl = "http://dsf.jlu.edu.cn/";
         private string base8050Url = "http://dsf.jlu.edu.cn:8050/";
 
@@ -93,9 +91,13 @@ namespace HandSchool.JLU.Services
             }
             else
             {
+                Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+                {
+                    ServerName = ServerName,
+                    UserName = Username,
+                    Password = SavePassword ? Password : string.Empty,
+                });
                 
-                Core.Configure.Write(configUsername, Username);
-                Core.Configure.Write(configPassword, SavePassword ? Password : "");
                 if (CaptchaCode.Equals(string.Empty))
                 {
                     LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "验证码不能为空！"));
@@ -165,8 +167,12 @@ namespace HandSchool.JLU.Services
             WebVpn.Instance?.RegisterUrl(baseUrl, "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
             WebVpn.Instance?.RegisterUrl(base8050Url, "https://webvpn.jlu.edu.cn/http-8050/77726476706e69737468656265737421f4e447d22d3c7d1e7b0c9ce29b5b/");
             IsLogin = false;
-            Username = Core.Configure.Read(configUsername);
-            if (Username != "") Password = Core.Configure.Read(configPassword);
+            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            if (acc != null)
+            {
+                Username = acc.UserName;
+                Password = acc.Password;
+            }
             SavePassword = Password != "";
             TimeoutManager = new TimeoutManager(900);
             WebClient = Core.New<IWebClient>();

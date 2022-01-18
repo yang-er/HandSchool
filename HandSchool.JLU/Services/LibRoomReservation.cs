@@ -19,12 +19,10 @@ using Newtonsoft.Json.Linq;
 namespace HandSchool.JLU.Services
 {
     [Entrance("JLU", "图书馆座位预约", "鼎新馆研讨间预约")]
-    [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigAutoLogin)]
+    [UseStorage("JLU")]
     public class LibRoomReservation : NotifyPropertyChanged, ILoginField
     {
-        const string ConfigUsername = "jlu.libroom.username.txt";
-        const string ConfigPassword = "jlu.libroom.password.txt";
-        const string ConfigAutoLogin = "jlu.libroom.autologin.txt";
+        private const string ServerName = "LibZwyy";
 
         string baseUrl = "http://libzwyy.jlu.edu.cn/";
         bool _isLogin = false;
@@ -68,9 +66,7 @@ namespace HandSchool.JLU.Services
 
         public void DeleteUserInfo()
         {
-            Core.Configure.Remove(ConfigPassword);
-            Core.Configure.Remove(ConfigUsername);
-            Core.Configure.Remove(ConfigAutoLogin);
+            Core.Configure.AccountManager.DeleteItemWithPrimaryKey(ServerName);
             SavePassword = AutoLogin = IsLogin = false;
             Username = Password = "";
         }
@@ -86,11 +82,14 @@ namespace HandSchool.JLU.Services
             WebClient.BaseAddress = baseUrl;
 
             IsLogin = false;
-            Username = Core.Configure.Read(ConfigUsername);
-            if (!string.IsNullOrWhiteSpace(Username)) 
-                Password = Core.Configure.Read(ConfigPassword);
+            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            if (acc != null)
+            {
+                Username = acc.UserName;
+                Password = acc.Password;
+                AutoLogin = acc.AutoLogin;
+            }
             SavePassword = !string.IsNullOrEmpty(Password);
-            AutoLogin = bool.TryParse(Core.Configure.Read(ConfigAutoLogin), out var al) && al;
             TimeoutManager = new TimeoutManager(900);
         }
 
@@ -103,9 +102,14 @@ namespace HandSchool.JLU.Services
                 return TaskResp.False;
             }
 
-            Core.Configure.Write(ConfigUsername, Username);
-            Core.Configure.Write(ConfigPassword, SavePassword ? Password : "");
-            Core.Configure.Write(ConfigAutoLogin, AutoLogin.ToString());
+            Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+            {
+                ServerName = ServerName,
+                UserName = Username,
+                Password = SavePassword ? Password : string.Empty,
+                AutoLogin = AutoLogin
+            });
+
             if (Username.Trim().Length != 11)
             {
                 LoginStateChanged?.Invoke(this, new LoginStateEventArgs(LoginState.Failed, "用户名不对劲！"));

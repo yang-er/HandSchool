@@ -81,7 +81,7 @@ namespace HandSchool.Droid
             JLU.Loader.CancelLostWebAdditionalArgs = x;
             SettingViewModel.OnResetSettings += () =>
             {
-                CookieManager.Instance.RemoveAllCookies(new ObjectRes());
+                CookieManager.Instance?.RemoveAllCookies(new ObjectRes());
                 return Task.CompletedTask;
             };
             backHandler.Refresh();

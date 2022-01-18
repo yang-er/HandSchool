@@ -2,6 +2,7 @@
 using HandSchool.Models;
 using System.Collections.Generic;
 using System.Windows.Input;
+using HandSchool.Services;
 
 namespace HandSchool.ViewModels
 {
@@ -20,13 +21,16 @@ namespace HandSchool.ViewModels
         /// 从周的条件渲染课程表。
         /// </summary>
         /// <param name="week">第几周。</param>
-        /// <param name="list">输出列表的迭代器。</param>
-        public abstract void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list);
+        /// <param name="state">是不是寒暑假。</para>
+        /// <param name="list">输出列表的枚举器。</param>
+        public abstract void RenderWeek(int week, SchoolState state, out IEnumerable<CurriculumItemBase> list);
 
         /// <summary>
         /// 当前周
         /// </summary>
         public abstract int Week { get; set; }
+        
+        public abstract SchoolState SchoolState { get; set; }
 
         /// <summary>
         /// 添加课程的命令

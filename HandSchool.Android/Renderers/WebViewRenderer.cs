@@ -6,6 +6,7 @@ using Android.Content;
 using Android.Webkit;
 using HandSchool.Controls;
 using HandSchool.Droid.Renderers;
+using HandSchool.Internals;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using WebView = Xamarin.Forms.WebView;
@@ -17,32 +18,64 @@ using Path = System.IO.Path;
 
 namespace HandSchool.Droid.Renderers
 {
+    [Table("cookies")]
     internal class AndroidCookieEntity
     {
-        public string host_key { get; set; }
-        public string name { get; set; }
-        public string value { get; set; }
-        public string path { get; set; }
-        public string expires_utc { get; set; }
-        public string is_secure { get; set; }
-        public string is_httponly { get; set; }
-        public string last_access_utc { get; set; }
-        public string has_expires { get; set; }
-        public string is_persistent { get; set; }
-        public string priority { get; set; }
-        public string samesite { get; set; }
-        public string source_scheme { get; set; }
-        public string creation_utc { get; set; }
+        [Column("host_key")]
+        public string HostKey { get; set; }
+        
+        [Column("name")]
+        public string Name { get; set; }
+        
+        [Column("value")]
+        public string Value { get; set; }
+        
+        [Column("path")]
+        public string Path { get; set; }
+        
+        [Column("expires_utc")]
+        public string ExpiresUtc { get; set; }
+        
+        [Column("is_secure")]
+        public bool IsSecure { get; set; }
+        
+        [Column("is_httponly")]
+        public bool IsHttpOnly { get; set; }
+        
+        [Column("last_access_utc")]
+        public string LastAccessUtc { get; set; }
+        
+        [Column("has_expires")]
+        public bool HasExpires { get; set; }
+        
+        [Column("is_persistent")]
+        public bool IsPersistent { get; set; }
+        
+        [Column("priority")]
+        public string Priority { get; set; }
+        
+        [Column("samesite")]
+        public string SameSite { get; set; }
+        
+        [Column("source_scheme")]
+        public string SourceScheme { get; set; }
+        
+        [Column("creation_utc")]
+        public string CreationUtc { get; set; }
     }
 
     public class HSWebViewClient : FormsWebViewClient
     {
         private CookieManager _manager = CookieManager.Instance; 
+        private SQLiteTableManager<AndroidCookieEntity> _cookieSql;
+
         public HSWebView WebView { get; set; }
 
         public HSWebViewClient(WebViewRenderer renderer, HSWebView v) : base(renderer)
         {
             WebView = v;
+            _cookieSql = new SQLiteTableManager<AndroidCookieEntity>(false, BaseActivity.InternalFileRootPath,
+                "app_webview", "Default", "Cookies");
         }
 
         private DateTime? _lastUpdate;
@@ -51,23 +84,20 @@ namespace HandSchool.Droid.Renderers
         {
             //_manager?.RemoveExpiredCookie();
             _manager?.Flush();
-            var cookieDbPath = Path.Combine(BaseActivity.InternalFileRootPath, "app_webview", "Default", "Cookies");
-            if (!File.Exists(cookieDbPath)) return;
-            var updateTime = File.GetLastWriteTime(cookieDbPath);
+            if (!_cookieSql.HasTable()) return;
+            var updateTime = File.GetLastWriteTime(_cookieSql.DataBasePath);
             if (_lastUpdate == updateTime) return;
             _lastUpdate = updateTime;
-            var connect = new SQLiteConnection(cookieDbPath);
-            var list = connect.Query<AndroidCookieEntity>("select * from cookies");
+            var list = _cookieSql.GetItems();
             list.Select(ac => new Cookie
             {
-                Name = ac.name,
-                Domain = ac.host_key,
-                Path = ac.path,
-                HttpOnly = ac.is_httponly == "1",
-                Secure = ac.is_secure == "1",
-                Value = ac.value
+                Name = ac.Name,
+                Value = ac.Value,
+                Domain = ac.HostKey,
+                Path = ac.Path,
+                HttpOnly = ac.IsHttpOnly,
+                Secure = ac.IsSecure,
             }).ForEach(c => WebView?.HSCookies?.Add(c));
-            connect.Close();
         }
         public override void OnPageFinished(Android.Webkit.WebView view, string url)
         {

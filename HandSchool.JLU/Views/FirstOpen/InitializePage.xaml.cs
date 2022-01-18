@@ -21,15 +21,15 @@ namespace HandSchool.JLU.Views
             base.SetNavigationArguments(param);
 
             var sch = param as ISchoolWrapper;
-            Core.Configure.Write("hs.school.bin", sch.SchoolId);
+            Core.Configure.Write(Core.ConfigSchool, sch.SchoolId);
 
             Core.App.InjectService(sch);
             sch.PreLoad();
             sch.PostLoad();
-            ExcuteLogic();
+            ExecuteLogic();
         }
 
-        private async void ExcuteLogic()
+        private async void ExecuteLogic()
         {
             var vpn = WebVpn.UseVpn;
             var result2 = false;

@@ -17,11 +17,10 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IScheduleEntrance" />
     [Entrance("JLU", "课程表", "提供解析UIMS课程表的功能。")]
-    [UseStorage("JLU", configKcb, configKcbOrig)]
+    [UseStorage("JLU")]
     public class Schedule : IScheduleEntrance
     {
-        const string configKcbOrig = "jlu.kcb.json";
-        const string configKcb = "jlu.kcb2.json";
+        const string ConfigKcbOrig = "uims.kcb";
 
         const string serviceResourceUrl = "service/res.do";
         const string schedulePostValue = "{\"tag\":\"teachClassStud@schedule\",\"branch\":\"default\",\"params\":{\"termId\":`term`,\"studId\":`studId`}}";
@@ -45,7 +44,11 @@ namespace HandSchool.JLU.Services
             try
             {
                 var scheduleValue = await Core.App.Service.Post(serviceResourceUrl, schedulePostValue);
-                Core.Configure.Write(configKcbOrig, scheduleValue);
+                Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                {
+                    JsonName = ConfigKcbOrig,
+                    Json = scheduleValue
+                });
                 var table = scheduleValue.ParseJSON<RootObject<ScheduleValue>>();
                 ScheduleViewModel.Instance.RemoveAllItem(obj => !obj.IsCustom);
                 var iterator = ParseEnumer(table.value);

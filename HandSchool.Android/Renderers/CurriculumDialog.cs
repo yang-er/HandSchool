@@ -108,6 +108,13 @@ namespace HandSchool.Droid
             Model = item;
             IsCreate = isCreate;
         }
+
+        public async Task<bool> IsSuccess()
+        {
+            await ShowAsync();
+            return await ControlSource.Task;
+        }
+
         private (bool legal, string msg) IsLegal()
         {
             if (WeekDay.SelectedIndex == 0) return (false, "星期几不能为空");
@@ -165,7 +172,7 @@ namespace HandSchool.Droid
             ControlSource.TrySetResult(false);
         }
 
-        public Task<bool> ShowAsync()
+        public Task ShowAsync()
         {
             var context = PlatformImplV2.Instance.PeekContext();
 
@@ -180,7 +187,7 @@ namespace HandSchool.Droid
             var dialog = builder.Show();
 
             this.SolveView(dialog);
-            return ControlSource.Task;
+            return Task.CompletedTask;
         }
     }
 }

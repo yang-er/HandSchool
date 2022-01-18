@@ -1,5 +1,4 @@
-﻿using System;
-using HandSchool.Internals;
+﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
@@ -22,12 +21,12 @@ namespace HandSchool.JLU.Services
     /// </summary>
     /// <inheritdoc cref="IGradeEntrance" />
     [Entrance("JLU", "成绩查询", "提供内网的成绩查询和查看成绩分布功能。")]
-    [UseStorage("JLU", ConfigGpa, ConfigGrade, ConfigAllGrade)]
+    [UseStorage("JLU")]
     internal sealed class GradeEntrance : IGradeEntrance
     {
-        const string ConfigGrade = "jlu.grade.json";
-        const string ConfigGpa = "jlu.gpa.json";
-        private const string ConfigAllGrade = "jlu.gpa.all_grade.json";
+        const string ConfigGrade = "uims.grade";
+        const string ConfigGpa = "uims.gpa"; 
+        const string ConfigAllGrade = "uims.all_grade";
 
         const string GpaPostValue = "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":`studId`}}";
         const string NewerScorePostValue = "{\"tag\":\"archiveScore@queryCourseScore\",\"branch\":\"latest\"}";
@@ -53,7 +52,11 @@ namespace HandSchool.JLU.Services
                     asv.distribute = lastDetail.ParseJSON<GradeDetails>();
                 }
                 // Save score details and add
-                Core.Configure.Write(ConfigGrade, ro.Serialize());
+                Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                {
+                    JsonName = ConfigGrade,
+                    Json = ro.Serialize()
+                });
                 var newerGradeItems = ParseNewerScore(ro);
 
                 Core.Platform.EnsureOnMainThread(() =>
@@ -74,7 +77,7 @@ namespace HandSchool.JLU.Services
             try
             {
                 var gpaInfo = await Core.App.Service.Post(ServiceResourceUrl, GpaPostValue);
-                Core.Configure.Write(ConfigGpa, gpaInfo);
+
                 var gpaItem = ParseGpa(gpaInfo);
                 Core.Platform.EnsureOnMainThread(() =>
                 {
@@ -84,12 +87,23 @@ namespace HandSchool.JLU.Services
                 });
 
                 var allScore = await Core.App.Service.Post(ServiceResourceUrl, AllScorePostValue);
-                Core.Configure.Write(ConfigAllGrade, allScore);
                 var allScoreItems = ParseAllScore(allScore)?.ToList();
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     GradePointViewModel.Instance.AllGradeItems.AddReverse(allScoreItems);
                 });
+
+                Core.Configure.JsonManager.InsertOrUpdateTable(
+                    new ServerJson
+                    {
+                        JsonName = ConfigGpa,
+                        Json = gpaInfo
+                    },
+                    new ServerJson
+                    {
+                        JsonName = ConfigAllGrade,
+                        Json = allScore
+                    });
             }
 
             catch (WebsException ex)
@@ -102,11 +116,11 @@ namespace HandSchool.JLU.Services
         public static async Task PreloadData()
         {
             await Task.Yield();
-            var gpaCache = Core.Configure.Read(ConfigGpa);
+            var gpaCache = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigGpa)?.Json ?? "";
             var gpaItem = ParseGpa(gpaCache);
-            var newerScoreCache = Core.Configure.Read(ConfigGrade);
+            var newerScoreCache = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigGrade)?.Json ?? "";
             var newerScoreItems = ParseNewerScore(newerScoreCache);
-            var allScoreCache = Core.Configure.Read(ConfigAllGrade);
+            var allScoreCache = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigAllGrade)?.Json ?? "";
             var allScoreItems = ParseAllScore(allScoreCache)?.ToList();
             
             Core.Platform.EnsureOnMainThread(() =>
@@ -132,18 +146,18 @@ namespace HandSchool.JLU.Services
 
         class QueryGradeItem : IBasicGradeItem
         {
-            private readonly QueryScoreValue asv;
+            private readonly QueryScoreValue _asv;
 
-            public string Title => asv.course.courName;
-            public string FirstScore => asv.firstScore;
-            public string HighestScore => asv.bestScore;
-            public string FirstPoint => asv.firstGpoint;
-            public string HightestPoint => asv.bestGpoint;
-            public string Type => AlreadyKnownThings.Type5Name(asv.type5);
-            public string Credit => asv.credit;
-            public bool IsPassed => asv.isPass == "Y";
-            public string Term => asv.firstTerm.termName;
-            public Color TypeColor => AlreadyKnownThings.Type5Color(asv.type5);
+            public string Title => _asv.course.courName;
+            public string FirstScore => _asv.firstScore;
+            public string HighestScore => _asv.bestScore;
+            public string FirstPoint => _asv.firstGpoint;
+            public string HightestPoint => _asv.bestGpoint;
+            public string Type => AlreadyKnownThings.Type5Name(_asv.type5);
+            public string Credit => _asv.credit;
+            public bool IsPassed => _asv.isPass == "Y";
+            public string Term => _asv.firstTerm.termName;
+            public Color TypeColor => AlreadyKnownThings.Type5Color(_asv.type5);
 
             public override string ToString()
             {
@@ -155,13 +169,13 @@ namespace HandSchool.JLU.Services
                     .Append("最好成绩：").Append(HighestScore)
                     .Append($"{(int.TryParse(FirstScore, out var ____) ? "分" : "")} | ").Append("绩点：")
                     .AppendLine(HightestPoint)
-                    .Append("学时：").Append(asv.classHour).Append(" | 学分：").Append(Credit);
+                    .Append("学时：").Append(_asv.classHour).Append(" | 学分：").Append(Credit);
                 return sb.ToString();
             }
 
             private string _detail;
             public string Detail => _detail ??= ToString();
-            public QueryGradeItem(QueryScoreValue asv) => this.asv = asv;
+            public QueryGradeItem(QueryScoreValue asv) => this._asv = asv;
         }
         static IEnumerable<IBasicGradeItem> ParseAllScore(string allScoreJson)
         {

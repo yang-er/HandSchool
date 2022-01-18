@@ -179,7 +179,7 @@ namespace HandSchool.Views
             var page = Core.New<ICurriculumPage>();
             page.SetNavigationArguments(Context as CurriculumItem, false);
 
-            if (await page.ShowAsync())
+            if (await page.IsSuccess())
                 ViewModels.ScheduleViewModel.Instance.SendRefreshComplete();
         }
 

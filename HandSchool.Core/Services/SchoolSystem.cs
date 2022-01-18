@@ -4,12 +4,21 @@ using System.Threading.Tasks;
 
 namespace HandSchool.Services
 {
+    public enum SchoolState
+    {
+        Normal, Vacation
+    }
     /// <summary>
     /// 学校教务系统接口
     /// </summary>
     /// <inheritdoc cref="ILoginField"/>
     public interface ISchoolSystem : ILoginField
     {
+        /// <summary>
+        /// 标识现在是否是寒暑假
+        /// </summary>
+        SchoolState SchoolState { get; }
+        
         /// <summary>
         /// 服务器基地址
         /// </summary>
@@ -24,6 +33,11 @@ namespace HandSchool.Services
         /// 当前周
         /// </summary>
         int CurrentWeek { get; set; }
+        
+        /// <summary>
+        /// 学期共有多少周
+        /// </summary>
+        int TotalWeek { get; }
 
         /// <summary>
         /// 欢迎信息

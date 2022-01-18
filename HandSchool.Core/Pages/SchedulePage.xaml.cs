@@ -1,7 +1,7 @@
 ﻿using HandSchool.Internals;
 using HandSchool.ViewModels;
 using System;
-using System.Windows.Input;
+using HandSchool.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,20 +10,18 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SchedulePage : ViewObject
 	{
-        public static SchedulePage Instance = null;
-        private readonly ScrollView scrollView;
-        private readonly Grid scheduleGrid;
-        private readonly RowDefinition defRow;
-        private readonly ColumnDefinition defCol;
-        private readonly GridLength rowHeight;
-        private readonly GridLength colWidth;
+        private readonly RowDefinition _defRow;
+        private readonly ColumnDefinition _defCol;
+        private readonly GridLength _rowHeight;
+        private readonly GridLength _colWidth;
 
-        private bool isWider = false;
-        private bool forceSize = true;
-        private bool invalidated = true;
-        private int lastWeek = -666;
-        
-        public ScheduleViewModelBase SchedViewModel
+        private bool _isWider;
+        private bool _forceSize = true;
+        private bool _invalidated = true;
+        private int _lastWeek = -666;
+        private SchoolState _lastState = SchoolState.Normal;
+
+        private ScheduleViewModelBase SchedViewModel
         {
             get => (ScheduleViewModelBase)ViewModel;
             set => ViewModel = value;
@@ -32,38 +30,35 @@ namespace HandSchool.Views
         public SchedulePage()
         {
             InitializeComponent();
-            Instance = this;
-            scrollView = Content as ScrollView;
-            scheduleGrid = scrollView.Content as Grid;
             
-            colWidth = new GridLength(55, GridUnitType.Absolute);
-            rowHeight = new GridLength(Device.RuntimePlatform == "iOS" ? 100 : 90, GridUnitType.Absolute);
+            _colWidth = new GridLength(55, GridUnitType.Absolute);
+            _rowHeight = new GridLength(Device.RuntimePlatform == Device.iOS ? 100 : 90, GridUnitType.Absolute);
 
-            defCol = new ColumnDefinition { Width = GridLength.Star };
-            defRow = new RowDefinition { Height = rowHeight };
+            _defCol = new ColumnDefinition { Width = GridLength.Star };
+            _defRow = new RowDefinition { Height = _rowHeight };
             
-            for (int day = 1; day <= 7; day++)
+            for (var day = 1; day <= 7; day++)
             {
-                scheduleGrid.ColumnDefinitions.Add(defCol);
+                ScheduleGrid.ColumnDefinitions.Add(_defCol);
             }
             
             for (int cls = 1; cls <= Core.App.DailyClassCount; cls++)
             {
-                scheduleGrid.RowDefinitions.Add(defRow);
-                scheduleGrid.Children.Add(new Label()
+                ScheduleGrid.RowDefinitions.Add(_defRow);
+                ScheduleGrid.Children.Add(new Label
                 {
                     Text = cls.ToString(),
                     TextColor = Color.Gray
                 }, 0, cls);
             }
             
-            isWider = false;
-            forceSize = true;
+            _isWider = false;
+            _forceSize = true;
         }
 
         public override void SetNavigationArguments(object param)
         {
-            if (param is null) param = ScheduleViewModel.Instance;
+            param ??= ScheduleViewModel.Instance;
             SchedViewModel = (ScheduleViewModelBase)param;
         }
 
@@ -78,7 +73,7 @@ namespace HandSchool.Views
                 svm.IsBusy = !svm.IsBusy;
                 svm.RefreshComplete += LoadList;
             }
-            if (invalidated || lastWeek != SchedViewModel.Week)
+            if (_invalidated || _lastWeek != SchedViewModel.Week || _lastState != SchedViewModel.SchoolState)
             {
                 LoadList();
                 this.WriteLog("OnAppearing. Redrawing class table");
@@ -97,75 +92,78 @@ namespace HandSchool.Views
         
         public void LoadList()
         {
-            invalidated = false;
-            lastWeek = SchedViewModel.Week;
-            scheduleGrid.BatchBegin();
+            _invalidated = false;
+            _lastWeek = SchedViewModel.Week;
+            _lastState = SchedViewModel.SchoolState;
+            ScheduleGrid.BatchBegin();
 
-            for (int i = scheduleGrid.Children.Count;
+            for (int i = ScheduleGrid.Children.Count;
                 i > 7 + Core.App.DailyClassCount; i--)
             {
-                scheduleGrid.Children.RemoveAt(i - 1);
+                ScheduleGrid.Children.RemoveAt(i - 1);
             }
 
             // Render classes
-            SchedViewModel.RenderWeek(SchedViewModel.Week, out var list);
+            SchedViewModel.RenderWeek(SchedViewModel.Week, SchedViewModel.SchoolState,out var list);
 
-            int count = 0;
+            var count = 0;
             foreach (var item in list)
             {
-                scheduleGrid.Children.Add(new CurriculumLabel(item, count++));
+                ScheduleGrid.Children.Add(new CurriculumLabel(item, count++));
             }
 
-            scheduleGrid.BatchCommit();
+            ScheduleGrid.BatchCommit();
         }
 
         private void SetTileSize(object sender, EventArgs e)
         {
             if (Core.Platform.Idiom != TargetIdiom.Phone)
             {
-                if (forceSize)
+                if (_forceSize)
                 {
-                    forceSize = false;
-                    defRow.Height = GridLength.Star;
-                    defCol.Width = GridLength.Star;
-                    scrollView.Orientation = ScrollOrientation.Vertical;
+                    _forceSize = false;
+                    _defRow.Height = GridLength.Star;
+                    _defCol.Width = GridLength.Star;
+                    ScrollView.Orientation = ScrollOrientation.Vertical;
                     UseSafeArea = true;
                 }
             }
-            else if (scrollView.Width > scrollView.Height && (!isWider || forceSize))
+            else if (ScrollView.Width > ScrollView.Height && (!_isWider || _forceSize))
             {
-                forceSize = false;
-                isWider = true;
-                defRow.Height = new GridLength(60, GridUnitType.Absolute);
-                defCol.Width = GridLength.Star;
-                scrollView.Orientation = ScrollOrientation.Vertical;
+                _forceSize = false;
+                _isWider = true;
+                _defRow.Height = new GridLength(60, GridUnitType.Absolute);
+                _defCol.Width = GridLength.Star;
+                ScrollView.Orientation = ScrollOrientation.Vertical;
                 UseSafeArea = true;
             }
-            else if (scrollView.Width < scrollView.Height && (isWider || forceSize))
+            else if (ScrollView.Width < ScrollView.Height && (_isWider || _forceSize))
             {
-                forceSize = false;
-                isWider = false;
-                defRow.Height = rowHeight;
-                defCol.Width = GridLength.Star;
-                scrollView.Orientation = ScrollOrientation.Vertical;
+                _forceSize = false;
+                _isWider = false;
+                _defRow.Height = _rowHeight;
+                _defCol.Width = GridLength.Star;
+                ScrollView.Orientation = ScrollOrientation.Vertical;
                 UseSafeArea = true;
             }
         }
 
-        async void iOS_Menu_Clicked(object sender, EventArgs e)
+        private async void iOS_MenuClicked(object sender, EventArgs e)
         {
             if (sender == null) return;
-            var names = new string[] { "刷新课表", "添加课程", "查看任意周" };
-            var vm = BindingContext as ScheduleViewModel;
-            var commands = new ICommand[] { vm.RefreshCommand, vm.AddCommand, vm.ChangeWeekCommand };
-            var resp = await RequestActionAsync("更多", "取消", null, names);
-            if (string.IsNullOrWhiteSpace(resp)) return;
-            for(int i = 0; i < names.Length; i++)
+            var names = new[] {"查看任意周", "刷新课程表", "添加课程"};
+            if (BindingContext is ScheduleViewModel vm)
             {
-                if (resp.Contains(names[i]))
+                var commands = new[] {vm.ChangeWeekCommand, vm.RefreshCommand, vm.AddCommand};
+                var resp = await RequestActionAsync("更多", "取消", null, names);
+                if (string.IsNullOrWhiteSpace(resp)) return;
+                for (var i = 0; i < names.Length; i++)
                 {
-                    commands[i].Execute(null);
-                    return;
+                    if (resp.Contains(names[i]))
+                    {
+                        commands[i].Execute(null);
+                        return;
+                    }
                 }
             }
         }

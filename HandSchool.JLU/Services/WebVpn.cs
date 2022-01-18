@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.Services
 {
-    [UseStorage("JLU", ConfigUsername, ConfigPassword, ConfigCookies)]
+    [UseStorage("JLU")]
     public sealed class WebVpn : NotifyPropertyChanged, IWebLoginField
     {
         /// <summary>
@@ -25,9 +25,8 @@ namespace HandSchool.JLU.Services
         [Settings("使用WebVPN", "使用WebVPN连接各种系统，建议在内网时关闭此选项。切换后需要重启APP。")]
         public static bool UseVpn { get; set; }
 
-        const string ConfigUsername = "jlu.vpn.username.txt";
-        const string ConfigPassword = "jlu.vpn.password.txt";
-        const string ConfigCookies = "jlu.vpn.logincookies.json";
+        private const string ServerName = "WebVpn";
+        const string ConfigCookies = "webvpn.logincookies";
         public static WebVpn Instance => UseVpn ? Lazy.Value : null;
         private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
         private bool _pageClosed;
@@ -237,9 +236,14 @@ namespace HandSchool.JLU.Services
         private WebVpn()
         {
             IsLogin = false;
-            Username = Core.Configure.Read(ConfigUsername);
-            if (Username != "") Password = Core.Configure.Read(ConfigPassword);
-            var logins = Core.Configure.Read(ConfigCookies);
+            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            if (acc != null)
+            {
+                Username = acc.UserName;
+                Password = acc.Password;
+            }
+
+            var logins = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigCookies)?.Json;
             if (!string.IsNullOrWhiteSpace(logins))
             {
                 JsonConvert.DeserializeObject<List<Cookie>>(logins)
@@ -277,6 +281,10 @@ namespace HandSchool.JLU.Services
 
         private async void OnNavigating(object s, WebNavigatingEventArgs e)
         {
+            if (!e.Url.Contains("webvpn.jlu.edu.cn"))
+            {
+                Events.WebViewEvents.WebView.Source = LoginUrl;
+            }
             if (e.Url == "https://webvpn.jlu.edu.cn/")
             {
                 var uid = await Events.WebViewEvents.EvaluateJavaScriptAsync(
@@ -287,8 +295,12 @@ namespace HandSchool.JLU.Services
                 {
                     Username = uid;
                     Password = pwd;
-                    Core.Configure.Write(ConfigUsername, Username);
-                    Core.Configure.Write(ConfigPassword, Password);
+                    Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+                    {
+                        ServerName = ServerName,
+                        UserName = Username,
+                        Password = Password
+                    });
                 }
             }
         }
@@ -340,10 +352,13 @@ namespace HandSchool.JLU.Services
 
                     if (updated)
                     {
-                        Core.Configure.Write(ConfigCookies,
-                            GetLoginCookies()
+                        Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                        {
+                            JsonName = ConfigCookies,
+                            Json = GetLoginCookies()
                                 .Select(c => new CookieLite(c))
-                                .Serialize());
+                                .Serialize()
+                        });
                     }
 
                     await CheckIsLogin();
@@ -352,8 +367,8 @@ namespace HandSchool.JLU.Services
                         if (!_pageClosed)
                         {
                             _pageClosed = true;
-                            await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
                             Events?.Result?.TrySetResult(TaskResp.True);
+                            await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
                         }
                     }
                 }

@@ -23,6 +23,6 @@ namespace HandSchool.Views
         /// <summary>
         /// 显示登录对话框。
         /// </summary>
-        Task<bool> ShowAsync();
+        Task<bool> IsSuccess();
     }
 }

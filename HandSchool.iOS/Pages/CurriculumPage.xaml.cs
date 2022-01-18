@@ -60,6 +60,8 @@ namespace HandSchool.Views
             Model.Classroom = classroom.Text;
             Model.Teacher = teacher.Text;
         }
+
+        private bool _res;
         private async Task SaveCommand()
         {
             var check = IsLegal();
@@ -71,10 +73,8 @@ namespace HandSchool.Views
             {
                 Sync();
                 ScheduleViewModel.Instance.SaveToFile();
-                Awaiter.SetResult(true);
+                _res = true;
                 await CloseAsync();
-                if (SchedulePage.Instance != null)
-                    SchedulePage.Instance.LoadList();
             }
         }
 
@@ -82,10 +82,8 @@ namespace HandSchool.Views
         {
             ScheduleViewModel.Instance.RemoveItem(Model);
             ScheduleViewModel.Instance.SaveToFile();
-            Awaiter.SetResult(true);
+            _res = true;
             await CloseAsync();
-            if (SchedulePage.Instance != null)
-                SchedulePage.Instance.LoadList();
         }
 
         private async Task CreateCommand()
@@ -100,10 +98,8 @@ namespace HandSchool.Views
                 Sync();
                 ScheduleViewModel.Instance.AddItem(Model);
                 ScheduleViewModel.Instance.SaveToFile();
-                Awaiter.SetResult(true);
+                _res = true;
                 await CloseAsync();
-                if (SchedulePage.Instance != null)
-                    SchedulePage.Instance.LoadList();
             }
 
         }
@@ -129,7 +125,7 @@ namespace HandSchool.Views
                 Title = "编辑课程";
             }
 
-            for (int i = 1; i <= Core.App.DailyClassCount; i++)
+            for (var i = 1; i <= Core.App.DailyClassCount; i++)
             {
                 startDay.Items.Add($"第{i}节");
                 endDay.Items.Add($"第{i}节");
@@ -139,16 +135,21 @@ namespace HandSchool.Views
             endDay.SetBinding(PickerCell.SelectedIndexProperty, new Binding("DayEnd", BindingMode.OneTime));
         }
 
+        public async Task<bool> IsSuccess()
+        {
+            await ShowAsync();
+            return await Awaiter.Task;
+        }
+        
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            Awaiter.TrySetResult(false);
+            Awaiter.TrySetResult(_res);
         }
 
-        public Task<bool> ShowAsync()
+        public Task ShowAsync()
         {
-            Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
-            return Awaiter.Task;
+            return Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
         }
 
         private Task CloseAsync() => Application.Current.MainPage.Navigation.PopModalAsync();

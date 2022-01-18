@@ -15,8 +15,8 @@ namespace HandSchool.Views
             InitializeComponent();
             switch (Device.RuntimePlatform)
             {
-                case "iOS":return;
-                case "Android":
+                case Device.iOS:return;
+                case Device.Android:
                     enter_main.IsVisible = false;
                     Appearing += (s, e) =>
                     {

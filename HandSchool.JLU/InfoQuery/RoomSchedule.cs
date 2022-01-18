@@ -213,7 +213,7 @@ namespace HandSchool.JLU.InfoQuery
             await SolveClassDetail();
             var vm = new TemplateScheduleViewModel($"{_roomId}");
             vm.Items = Schedule.ParseEnumer(_scheduleList);
-            vm.RenderWeek(0, out var currList);
+            vm.RenderWeek(0, SchoolState.Normal, out var currList);
             var strTable = new string[7, 11];
             for (var i = 0; i < 7; i++)
             for (var j = 0; j < 11; j++)

@@ -167,7 +167,7 @@ namespace HandSchool.JLU.InfoQuery
             await SolveClassDetail();
             var vm = new TemplateScheduleViewModel("学生班级推荐课表");
             vm.Items = Schedule.ParseEnumer(scheduleList.value);
-            vm.RenderWeek(0, out var currList);
+            vm.RenderWeek(0, SchoolState.Normal, out var currList);
 
             var strTable = new string[7, 11];
             for (int i = 0; i < 7; i++)

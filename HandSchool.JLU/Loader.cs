@@ -18,12 +18,15 @@ using Xamarin.Forms;
 [assembly: ExportSchool(typeof(Loader))]
 namespace HandSchool.JLU
 {
-    [UseStorage("JLU", configFile)]
     public class Loader : ISchoolWrapper
     {
         public string SchoolName => "吉林大学";
+        public string DataBaseName => DataBase;
+
+        public const string DataBase = "jlu_user_data.db";
         public string SchoolId => "jlu";
-        const string configFile = "jlu.config.json";
+        
+        const string ConfigName = "uims.config";
         public Type HelloPage => typeof(HelloPage);
         public const string FileBaseUrl = "https://gitee.com/tlylz99/HandSchool/raw/new-2/HandSchool.JLU";
         public Lazy<ISchoolSystem> Service { get; set; }
@@ -48,35 +51,42 @@ namespace HandSchool.JLU
             }
             return ori;
         }
+
         public void PostLoad()
         {
             Core.Reflection.RegisterType<ClassInfoSimplifier, JLUClassSimplifier>();
             Core.Reflection.RegisterType<IWebClient, WebVpn.VpnHttpClient>();
-            
-            Ykt = new SchoolCard();
-            LibRoom = new LibRoomReservation();
-            SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(WebVpn).GetProperty("UseVpn")));
+            Core.Reflection.RegisterCtor<InitializePage>();
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
                     Core.Reflection.RegisterCtor<XykIos>();
                     Core.Reflection.RegisterCtor<XykIosMoreInfo>();
                     break;
-                default: Core.Reflection.RegisterCtor<XykDroid>();break;
+                default:
+                    Core.Reflection.RegisterCtor<XykDroid>();
+                    break;
             }
-            Core.Reflection.RegisterCtor<InitializePage>();
-            NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid", "JLU", MenuIcon.CreditCard);
-            NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU", MenuIcon.LibRoomResv);
+
+            SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(WebVpn).GetProperty("UseVpn")));
+
+            NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid",
+                "JLU", MenuIcon.CreditCard);
+            NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU",
+                MenuIcon.LibRoomResv);
 
             Vpn = WebVpn.Instance;
-
-            FeedViewModel.BeforeOperatingCheck = CheckVpn;
-            IndexViewModel.BeforeOperatingCheck = CheckVpn;
-            YktViewModel.BeforeOperatingCheck = CheckVpn;
-            MessageViewModel.BeforeOperatingCheck = CheckVpn;
-            GradePointViewModel.BeforeOperatingCheck = CheckVpn;
+            Ykt = new SchoolCard();
+            LibRoom = new LibRoomReservation();
+            
+            FeedViewModel.BeforeOperatingCheck = 
+            IndexViewModel.BeforeOperatingCheck = 
+            YktViewModel.BeforeOperatingCheck = 
+            MessageViewModel.BeforeOperatingCheck = 
+            GradePointViewModel.BeforeOperatingCheck = 
             ScheduleViewModel.BeforeOperatingCheck = CheckVpn;
         }
+
         private static async Task<TaskResp> CheckVpn()
         {
             if (WebVpn.UseVpn)
@@ -88,15 +98,28 @@ namespace HandSchool.JLU
             }
             return TaskResp.True;
         }
+
+        public Loader()
+        {
+            Core.Configure.AccountManager = 
+                new SQLiteTableManager<UserAccount>(true, Core.Platform.ConfigureDirectory, SchoolId, DataBaseName);
+            Core.Configure.JsonManager =
+                new SQLiteTableManager<ServerJson>(true, Core.Platform.ConfigureDirectory, SchoolId, DataBaseName);
+        }
+        
         public void PreLoad()
         {
             Core.App.CityWeatherCode = "101060101";
             Core.App.DailyClassCount = 11;
-            RegisteredFiles = new List<string>();
+            RegisteredFiles = new List<string>
+            {
+                SchoolId + System.IO.Path.DirectorySeparatorChar + DataBaseName
+            };
             Core.Reflection.RegisterFiles(this.GetAssembly(), "JLU", RegisteredFiles);
+
+            var lp = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigName)?.Json;
             
-            var lp = Core.Configure.Read(configFile);
-            SettingsJSON config = lp != "" ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
+            SettingsJSON config = !string.IsNullOrWhiteSpace(lp) ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
             WebVpn.UseVpn = config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
@@ -162,7 +185,11 @@ namespace HandSchool.JLU
 
         public void SaveSettings(SettingsJSON json)
         {
-            Core.Configure.Write(configFile, json.Serialize());
+            Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+            {
+                JsonName = ConfigName,
+                Json = json.Serialize()
+            });
         }
     }
 }

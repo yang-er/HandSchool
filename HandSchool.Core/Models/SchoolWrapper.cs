@@ -9,6 +9,8 @@ namespace HandSchool.Services
     /// </summary>
     public interface ISchoolWrapper
     {
+        string DataBaseName { get; }
+
         /// <summary>
         /// 学校的教务中心服务
         /// </summary>

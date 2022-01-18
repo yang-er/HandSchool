@@ -1,15 +1,13 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
-using HandSchool.Services;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Specialized;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HandSchool.JLU.Services;
+using HandSchool.Services;
 
 namespace HandSchool.JLU
 {
@@ -57,15 +55,20 @@ namespace HandSchool.JLU
                 }
 
                 var ro = rot.value[0];
+                int.TryParse(ro.weeks, out var ws);
+                UIMS.TotalWeek = ws;
+                
                 if (ro.vacationDate < DateTime.Now)
                 {
                     Nick = ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假");
                     UIMS.CurrentWeek = (int)Math.Ceiling((decimal)((DateTime.Now - ro.vacationDate).Days + 1) / 7);
+                    UIMS.SchoolState = SchoolState.Vacation;
                 }
                 else
                 {
                     Nick = ro.year + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期"));
                     UIMS.CurrentWeek = (int)Math.Ceiling((decimal)((DateTime.Now - ro.startDate).Days + 1) / 7);
+                    UIMS.SchoolState = SchoolState.Normal;
                 }
             }
 
@@ -156,7 +159,11 @@ namespace HandSchool.JLU
                             var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
                             string resp = await webResp2.ReadAsStringAsync();
                             if (resp.StartsWith("<!")) return TaskResp.False;
-                            Core.Configure.Write(configUserCache, UIMS.SavePassword ? resp : "");
+                            Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                            {
+                                JsonName = UserCacheColName,
+                                Json = UIMS.SavePassword ? resp : ""
+                            });
                             ParseLoginInfo(resp);
 
                             // Get term info
@@ -164,7 +171,12 @@ namespace HandSchool.JLU
                             webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
                             resp = await webResp2.ReadAsStringAsync();
                             if (resp.StartsWith("<!")) return TaskResp.False;
-                            Core.Configure.Write(configTeachTerm, UIMS.SavePassword ? resp : "");
+                            Core.Configure.JsonManager.InsertOrUpdateTable(
+                                new ServerJson
+                                {
+                                    JsonName = TeachTermColName,
+                                    Json = UIMS.SavePassword ? resp : ""
+                                });
                             ParseTermInfo(resp);
                             break;
                         }
@@ -209,19 +221,21 @@ namespace HandSchool.JLU
             {
                 try
                 {
-                    ParseLoginInfo(Core.Configure.Read(configUserCache));
-                    ParseTermInfo(Core.Configure.Read(configTeachTerm));
+                    var loginInfo = Core.Configure.JsonManager.GetItemWithPrimaryKey(UserCacheColName)?.Json;
+                    var termInfo = Core.Configure.JsonManager.GetItemWithPrimaryKey(TeachTermColName)?.Json;
+                    if (string.IsNullOrWhiteSpace(loginInfo) || string.IsNullOrWhiteSpace(termInfo))
+                    {
+                        UIMS.AutoLogin = false;
+                        UIMS.NeedLogin = true;
+                        return;
+                    }
+
+                    ParseLoginInfo(loginInfo);
+                    ParseTermInfo(termInfo);
                     UIMS.NeedLogin = !UIMS.SavePassword;
                 }
                 catch (JsonException)
                 {
-                    UIMS.AutoLogin = false;
-                    UIMS.NeedLogin = true;
-                }
-                catch (NullReferenceException)
-                {
-                    Core.Configure.Write(configUserCache, "");
-                    Core.Configure.Write(configTeachTerm, "");
                     UIMS.AutoLogin = false;
                     UIMS.NeedLogin = true;
                 }

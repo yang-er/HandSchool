@@ -63,6 +63,7 @@ namespace HandSchool
             Logger = new Logger();
         }
 
+        public const string ConfigSchool = "hs.school.inf";
         /// <summary>
         /// 初始化核心程序
         /// </summary>
@@ -72,8 +73,8 @@ namespace HandSchool
             if (App != null) return Initialized;
             App = new SchoolApplication();
             
-            var type = Configure.Read("hs.school.bin");
-            if (type == "") return false;
+            var type = Configure.Read(ConfigSchool);
+            if (string.IsNullOrWhiteSpace(type)) return false;
             var current = Schools.Find((sw) => sw.SchoolId == type);
             if (current is null) return false;
             App.InjectService(current);

@@ -1,6 +1,8 @@
-﻿using HandSchool.Internals;
+﻿using System;
+using HandSchool.Internals;
 using HandSchool.Models;
 using System.Collections.Generic;
+using HandSchool.Services;
 
 namespace HandSchool.ViewModels
 {
@@ -21,9 +23,20 @@ namespace HandSchool.ViewModels
             set => this.WriteLog("Error value was requested to be set: " + value);
         }
 
-
-        public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
+        public override SchoolState SchoolState 
         {
+            get => SchoolState.Normal;
+            set => this.WriteLog("Error value was requested to be set: " + value);
+        }
+
+
+        public override void RenderWeek(int week,SchoolState state, out IEnumerable<CurriculumItemBase> list)
+        {
+            if (state != SchoolState.Normal)
+            {
+                list = Array.Empty<CurriculumItemBase>();
+                return;
+            }
             ItemsSet ??= FetchItemsSet(Items);
             list = ItemsSet;
         }

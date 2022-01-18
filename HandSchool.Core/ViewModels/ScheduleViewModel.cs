@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.ViewModels
 {
@@ -16,8 +17,8 @@ namespace HandSchool.ViewModels
     /// <inheritdoc cref="ScheduleViewModelBase" />
     public sealed class ScheduleViewModel : ScheduleViewModelBase
     {
-        private int week;
-        const string storageFile = "jlu.kcb2.json";
+        private int _week;
+        private const string JsonName = "core.kcb";
 
         static readonly Lazy<ScheduleViewModel> Lazy =
             new Lazy<ScheduleViewModel>(() => new ScheduleViewModel());
@@ -33,7 +34,7 @@ namespace HandSchool.ViewModels
         private ScheduleViewModel()
         {
             Core.App.LoginStateChanged += SyncData;
-            ItemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
+            _itemsLoader = new Lazy<List<CurriculumItem>>(LoadFromFile);
             RefreshCommand = new CommandAction(Refresh);
             AddCommand = new CommandAction(Create);
             ChangeWeekCommand = new CommandAction(ChangeWeek);
@@ -45,14 +46,23 @@ namespace HandSchool.ViewModels
 
         public override int Week
         {
-            get => week;
-            set => SetProperty(ref week, value, nameof(CurrentWeek));
+            get => _week;
+            set => SetProperty(ref _week, value, nameof(CurrentWeek));
         }
+
+        private SchoolState _schoolState;
+        public override SchoolState SchoolState
+        {
+            get => _schoolState;
+            set => SetProperty(ref _schoolState, value, nameof(CurrentWeek));
+        }
+        
+        public int TotalWeek { get; set; }
 
         /// <summary>
         /// 当前周的文字描述
         /// </summary>
-        public string CurrentWeek => week == 0 ? "所有周" : $"第{week}周";
+        public string CurrentWeek => SchoolState != SchoolState.Normal ? "假期" : (_week == 0 ? "所有周" : $"第{_week}周");
 
         /// <summary>
         /// 课程表刷新完成的事件
@@ -67,8 +77,11 @@ namespace HandSchool.ViewModels
             if (e.State != LoginState.Succeeded) return;
             var sys = sender as ISchoolSystem;
             Debug.Assert(sys != null);
-            SetProperty(ref week, sys.CurrentWeek, nameof(CurrentWeek));
+            Week = sys.CurrentWeek;
+            SchoolState = sys.SchoolState;
+            TotalWeek = sys.TotalWeek;
         }
+        
         public static Func<Task<TaskResp>> BeforeOperatingCheck { private get; set; }
 
 
@@ -105,27 +118,58 @@ namespace HandSchool.ViewModels
         /// </summary>
         private async Task QuickSwitchWeek()
         {
+            if (SchoolState != SchoolState.Normal)
+            {
+                return;
+            }
             var now = Core.App.Service.CurrentWeek;
-            var week2 = week == 0 ? now : week;
-            var paramList = new[] { "所有周", "当前周 (" + now + ")", "上一周 (" + Math.Max(1, week2 - 1) + ")", "下一周 (" + Math.Min(24, week2 + 1) + ")" };
-            var ret = await RequestActionAsync("显示周", "取消", null, paramList);
+            var va = Core.App.Service.SchoolState != SchoolState.Normal;
+            int week2;
+            if (_week == 0)
+            {
+                week2 = va ? 0 : now;
+            }
+            else
+            {
+                week2 = _week;
+            }
+            
+            var @params = new List<string> {"所有周"};
+            var pre = week2 - 1;
+            if (pre > 0)
+            {
+                @params.Add($"上一周 ({pre})");
+            }
+            @params.Add($"当前周 ({(va ? "假期" : now.ToString())})");
+            var po = week2 + 1;
+            if (po <= TotalWeek)
+            {
+                @params.Add($"下一周 ({po})");
+            }
+            
+            var ret = await RequestActionAsync("跳转周", "取消", null, @params.ToArray());
             if (ret == "取消" || ret == null) return;
 
-            if (ret == "所有周")
+            if (ret.StartsWith("当前周"))
             {
-                SetProperty(ref week, 0, nameof(CurrentWeek));
+                SchoolState = Core.App.Service.SchoolState;
+                Week = Core.App.Service.CurrentWeek;
             }
-            else if (ret.StartsWith("当前周"))
+            else
             {
-                SetProperty(ref week, Core.App.Service.CurrentWeek, nameof(CurrentWeek));
-            }
-            else if (ret.StartsWith("上一周"))
-            {
-                SetProperty(ref week, Math.Max(1, week2 - 1), nameof(CurrentWeek));
-            }
-            else if (ret.StartsWith("下一周"))
-            {
-                SetProperty(ref week, Math.Min(24, week2 + 1), nameof(CurrentWeek));
+                SchoolState = SchoolState.Normal;
+                if (ret == "所有周")
+                {
+                    Week = 0;
+                }
+                else if (ret.StartsWith("上一周"))
+                {
+                    Week = pre;
+                }
+                else if (ret.StartsWith("下一周"))
+                {
+                    Week = po;
+                }
             }
 
             SendRefreshComplete();
@@ -136,21 +180,18 @@ namespace HandSchool.ViewModels
         /// </summary>
         private async Task ChangeWeek()
         {
-            var paramList = new string[25];
+            var paramList = new string[TotalWeek + 1];
             paramList[0] = "所有周";
-            for (int i = 1; i < 25; i++)
+            for (var i = 1; i <= TotalWeek; i++)
                 paramList[i] = $"第{i}周";
 
-            var ret = await RequestActionAsync("显示周", "取消", null, paramList);
+            var ret = await RequestActionAsync("跳转周", "取消", null, paramList);
             if (ret == "取消") return;
 
-            for (int i = 0; i < 25; i++)
-            {
-                if (ret != paramList[i]) continue;
-                SetProperty(ref week, i, nameof(CurrentWeek));
-                break;
-            }
-
+            var index = paramList.IndexOf(ret);
+            SchoolState = SchoolState.Normal;
+            SetProperty(ref _week, index, nameof(CurrentWeek));
+            
             SendRefreshComplete();
         }
 
@@ -170,7 +211,7 @@ namespace HandSchool.ViewModels
             page.SetNavigationArguments(item, true);
 
             
-            if (await page.ShowAsync())
+            if (await page.IsSuccess())
                 SendRefreshComplete();
         }
 
@@ -183,28 +224,33 @@ namespace HandSchool.ViewModels
 
         #region 数据源及操作
 
-        private readonly Lazy<List<CurriculumItem>> ItemsLoader;
+        private readonly Lazy<List<CurriculumItem>> _itemsLoader;
 
         /// <summary>
         /// 是否已经完成加载
         /// </summary>
-        public bool ItemsLoaded => ItemsLoader.IsValueCreated;
+        public bool ItemsLoaded => _itemsLoader.IsValueCreated;
 
         /// <summary>
         /// 所有的课程表内容
         /// </summary>
-        private List<CurriculumItem> Items => ItemsLoader.Value;
+        private List<CurriculumItem> Items => _itemsLoader.Value;
 
         /// <summary>
         /// 课程表合并状态内容
         /// </summary>
         private IEnumerable<CurriculumSet> ItemsSet { get; set; }
 
-        public override void RenderWeek(int week, out IEnumerable<CurriculumItemBase> list)
+        public override void RenderWeek(int week, SchoolState state, out IEnumerable<CurriculumItemBase> list)
         {
+            if (state != SchoolState.Normal)
+            {
+                list = Array.Empty<CurriculumItemBase>();
+                return;
+            }
             if (week == 0)
             {
-                if (ItemsSet is null) ItemsSet = FetchItemsSet(Items);
+                ItemsSet ??= FetchItemsSet(Items);
                 list = ItemsSet;
             }
             else
@@ -292,7 +338,11 @@ namespace HandSchool.ViewModels
         public void SaveToFile()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.Configure.Write(storageFile, Items.Serialize());
+            Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+            {
+                JsonName = JsonName,
+                Json = Items.Serialize()
+            });
         }
 
         /// <summary>
@@ -301,8 +351,8 @@ namespace HandSchool.ViewModels
         /// <returns>课程表内容</returns>
         private static List<CurriculumItem> LoadFromFile()
         {
-            var LastReport = Core.Configure.Read(storageFile);
-            return LastReport != "" ? LastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
+            var lastReport = Core.Configure.JsonManager.GetItemWithPrimaryKey(JsonName)?.Json;
+            return !string.IsNullOrWhiteSpace(lastReport)? lastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
         }
 
         #endregion

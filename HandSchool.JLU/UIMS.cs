@@ -12,13 +12,12 @@ using HandSchool.JLU.Services;
 namespace HandSchool.JLU
 {
     [Entrance("JLU", "吉林大学", "提供了与UIMS交互的接口。", EntranceType.SchoolEntrance)]
-    [UseStorage("JLU", configUsername, configPassword, configUserCache, configTeachTerm)]
+    [UseStorage("JLU")]
     sealed partial class UIMS : NotifyPropertyChanged, ISchoolSystem
     {
-        const string configUsername = "jlu.uims.username.txt";
-        const string configPassword = "jlu.uims.password.txt";
-        const string configUserCache = "jlu.user.json";
-        const string configTeachTerm = "jlu.teachingterm.json";
+        private const string ServerName = "UIMS";
+        const string UserCacheColName = "uims.user";
+        const string TeachTermColName = "uims.teachingterm";
 
         private ISideSchoolStrategy UsingStrategy { get; set; }
 
@@ -117,6 +116,7 @@ namespace HandSchool.JLU
             }
         }
 
+        public int TotalWeek { get; private set; }
         public string WelcomeMessage => UsingStrategy.WelcomeMessage;
         public string CurrentMessage => UsingStrategy.CurrentMessage;
 
@@ -125,6 +125,8 @@ namespace HandSchool.JLU
         public IWebClient WebClient { get; set; }
         public string ServerUri => WebClient.BaseAddress;
         public string WeatherLocation => "101060101";
+        
+        public SchoolState SchoolState { get; set; }
         public bool IsWeb => false;
         public int CurrentWeek { get; set; }
         public string CaptchaCode { get; set; } = "";
@@ -149,8 +151,12 @@ namespace HandSchool.JLU
 
             IsLogin = false;
             NeedLogin = true;
-            Username = Core.Configure.Read(configUsername);
-            if (Username != "") Password = Core.Configure.Read(configPassword);
+            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            if (acc != null)
+            {
+                Username = acc.UserName;
+                Password = acc.Password;
+            }
             if (Password == "") SavePassword = false;
             UsingStrategy = new DefaultSchoolStrategy(this);
             UsingStrategy.OnLoad();
@@ -165,8 +171,12 @@ namespace HandSchool.JLU
             }
             else
             {
-                Core.Configure.Write(configUsername, Username);
-                Core.Configure.Write(configPassword, SavePassword ? Password : "");
+                Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+                {
+                    ServerName = ServerName,
+                    UserName = Username,
+                    Password = SavePassword ? Password : string.Empty
+                });
             }
 
             return await UsingStrategy.LoginSide();
