@@ -29,7 +29,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                    <internal:TouchableFrame Margin="5" Padding="5" HasShadow="False" BorderColor="Gray" Click="NameSelected">
+                                    <internal:TouchableFrame CornerRadius="10" Margin="5" Padding="5" HasShadow="False" BorderColor="Gray" Click="NameSelected">
                                         <Label Text="{Binding Tips}" HorizontalTextAlignment="Center"/>
                                     </internal:TouchableFrame>
                                 </StackLayout>
@@ -43,7 +43,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                <internal:TouchableFrame Margin="5" Padding="5" HasShadow="False" BorderColor="Gray" LongClick="DelUser">
+                                <internal:TouchableFrame CornerRadius="10" Margin="5" Padding="5" HasShadow="False" BorderColor="Gray" LongClick="DelUser">
                                     <Label Text="{Binding Tips}" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand"/>
                                 </internal:TouchableFrame>
                                 </StackLayout>

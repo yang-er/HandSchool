@@ -110,6 +110,7 @@ namespace HandSchool.JLU.Views
         {
             if (_isPushing) return;
             _isPushing = true;
+            MessagingCenter.Subscribe<LibRoomRequestPage>(this, RequestFinishedSignal, OnRequestFinished);
             var timeLine = sender as TimeLine.TimeSpanFrame;
             if (!(timeLine?.BindingContext is LibRoom libRoom)) return;
             if (timeLine.MinuteSpan < libRoom.MinMins)
@@ -136,10 +137,17 @@ namespace HandSchool.JLU.Views
                     $"{timeLine.TaskName}\n开始时间：{timeLine.TimeSlot.Start}\n结束时间：{timeLine.TimeSlot.End}", "彳亍");
             }
         }
+
         private async void OnRequestFinished(LibRoomRequestPage p)
         {
-            await Navigation.PopAsync();
+            MessagingCenter.Unsubscribe<LibRoomRequestPage>(this, RequestFinishedSignal);
+
+            if (p.Success)
+            {
+                await Navigation.PopAsync();
+            }
         }
+
         private Time Now { get; set; }
 
         public override void SetNavigationArguments(object param)
@@ -149,19 +157,6 @@ namespace HandSchool.JLU.Views
             if (Params is null) return;
             Title = Params.Title;
             InitTimeLine();
-        }
-
-        protected override void OnDisappearing()
-        {
-            MessagingCenter.Unsubscribe<LibRoomRequestPage>(this, RequestFinishedSignal);
-            _mainStack.ClearView();
-            base.OnDisappearing();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            MessagingCenter.Subscribe<LibRoomRequestPage>(this, RequestFinishedSignal, OnRequestFinished);
         }
 
         public async Task Refresh()

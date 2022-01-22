@@ -57,6 +57,7 @@ namespace HandSchool.JLU.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LibRoomRequestPage : ViewObject
     {
+        public bool Success { get; private set; }
         private LibRoomRequestParams _params;
         private LibRoomReservationViewModel _viewModel;
         public LibRoomRequestPage()
@@ -167,8 +168,14 @@ namespace HandSchool.JLU.Views
             var end = DateTime.Parse(EndTimePicker.SelectedItem as string);
             if (!(await _viewModel.SendResvAsync(_params.LibRoom, _params.Date, start, end)).IsSuccess) return;
             await Navigation.PopAsync();
-            MessagingCenter.Send(this, LibRoomResultPage.RequestFinishedSignal);
+            Success = true;
             await _viewModel.RefreshInfosAsync();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Send(this, LibRoomResultPage.RequestFinishedSignal);
         }
     }
 }
