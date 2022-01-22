@@ -31,7 +31,7 @@ namespace HandSchool.Droid
             var builder = new AlertDialog.Builder(context);
             builder.SetTitle(args.Title);
 
-            string[] items = args.Buttons.ToArray();
+            var items = args.Buttons.ToArray();
             builder.SetItems(items, (o, fargs) => args.Result.TrySetResult(items[fargs.Which]));
 
             if (args.Cancel != null)
@@ -40,11 +40,11 @@ namespace HandSchool.Droid
             if (args.Destruction != null)
                 builder.SetNegativeButton(args.Destruction, (o, e) => args.Result.TrySetResult(args.Destruction));
 
-            AlertDialog dialog = builder.Create();
+            var dialog = builder.Create();
             builder.Dispose();
 
             dialog.SetCanceledOnTouchOutside(true);
-            dialog.CancelEvent += (o, e) => args.SetResult(null);
+            dialog.CancelEvent += (o, e) => args.SetResult(args.Cancel);
             dialog.Show();
         }
 

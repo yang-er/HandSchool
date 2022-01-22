@@ -53,7 +53,7 @@ namespace HandSchool.Droid
         {
             RuntimeName = Device.Android;
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
-            ConfigureDirectory = SysEnv.GetFolderPath(SysEnv.SpecialFolder.Personal);
+            ConfigureDirectory = context.FilesDir.AbsolutePath;
             Core.InitPlatform(Instance = this);
 
             Core.Reflection.RegisterCtor<AboutPage>();

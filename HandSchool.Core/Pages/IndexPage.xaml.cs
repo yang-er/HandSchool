@@ -76,52 +76,6 @@ namespace HandSchool.Views
             });
         }
 
-        private bool _isWorking;
-        private readonly TimeoutManager _weatherTimeoutManager = new TimeoutManager(3600);
-
-        private async Task SyncWeather()
-        {
-            if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
-            {
-                _isWorking = true;
-                try
-                {
-                    var weatherClient = IndexViewModel.Instance.WeatherClient;
-                    await weatherClient.UpdateWeatherAsync();
-
-                    Core.Platform.EnsureOnMainThread(() =>
-                    {
-                        try
-                        {
-                            CurrentWeather.Text =
-                                $"{weatherClient.CurrentTemperature.value}{weatherClient.CurrentTemperature.unit} {weatherClient.WeatherDescription}";
-                            var report = weatherClient.WeatherDescriptions;
-                            TodayWeather.Text =
-                                $"{weatherClient.ForecastTemperature.value[0].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[0].to}{weatherClient.ForecastTemperature.unit} {(report[0].IsFromEqualsTo() ? report[0].@from : $"{report[0].@from}转{report[0].to}")}";
-                            TomorrowWeather.Text =
-                                $"{weatherClient.ForecastTemperature.value[1].@from}{weatherClient.ForecastTemperature.unit} ~ {weatherClient.ForecastTemperature.value[1].to}{weatherClient.ForecastTemperature.unit} {(report[1].IsFromEqualsTo() ? report[1].@from : $"{report[1].@from}转{report[1].to}")}";
-                            WeatherFrame.IsVisible = true;
-                            _weatherTimeoutManager.Refresh();
-                        }
-                        catch (Exception error)
-                        {
-                            Core.Logger.WriteLine("天气信息与UI同步错误", error.Message);
-                            WeatherFrame.IsVisible = false;
-                        }
-                    });
-                }
-                catch (Exception e)
-                {
-                    Core.Logger.WriteLine("更新天气错误", e.Message);
-                    Core.Platform.EnsureOnMainThread(() => WeatherFrame.IsVisible = false);
-                }
-                finally
-                {
-                    _isWorking = false;
-                }
-            }
-        }
-
         protected override void OnAppearing()
         {
             IndexViewModel.Instance.CurrentClassesLoadFinished += CurrentClassLoadOver;
@@ -129,7 +83,17 @@ namespace HandSchool.Views
             switch (Device.RuntimePlatform)
             {
                 case Device.Android:
-                    Task.Run(SyncWeather);
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            await IndexViewModel.Instance.RefreshWeather();
+                        }
+                        catch
+                        {
+                            WeatherFrame.IsVisible = false;
+                        }
+                    });
                     break;
                 default: 
                     WeatherFrame.IsVisible = false;

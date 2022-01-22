@@ -193,14 +193,14 @@ namespace HandSchool.JLU.ViewModels
             });
             return TaskResp.True;
         }
-        public async Task StartResvAsync(LibRoom libRoom, NearDays date, DateTime start, DateTime end)
+        public async Task<TaskResp> SendResvAsync(LibRoom libRoom, NearDays date, DateTime start, DateTime end)
         {
-            if (IsBusyOrRefreshing) return;
+            if (IsBusyOrRefreshing) return TaskResp.False;
             IsBusy = true;
             if (Selected.Count < libRoom.MinUser || Selected.Count > libRoom.MaxUser)
             {
                 await NoticeError($"人数必须在{libRoom.MinUser}~{libRoom.MaxUser}之间");
-                return;
+                return TaskResp.False;
             }
             
             if (Selected.All(info => info.SchoolCardId.Trim() != Loader.LibRoom.Username.Trim()))
@@ -208,7 +208,7 @@ namespace HandSchool.JLU.ViewModels
                 if (!await RequestAnswerAsync("提示", "人员列表中不包含预约人，如果继续预约，则该条预约无法取消，是否继续？", "否", "是"))
                 {
                     IsBusy = false;
-                    return;
+                    return TaskResp.False;
                 }
             }
             
@@ -218,7 +218,7 @@ namespace HandSchool.JLU.ViewModels
                 if (Selected[i].InnerId is null)
                 {
                     await NoticeError("读取人员信息失败");
-                    return;
+                    return TaskResp.False;
                 }
                 if (i != Selected.Count - 1)
                 {
@@ -260,6 +260,7 @@ namespace HandSchool.JLU.ViewModels
             {
                 IsBusy = false;
             }
+            return TaskResp.True;
         }
         public async Task DelUser(StudentLibBasicInfo info)
         {

@@ -51,6 +51,21 @@ namespace HandSchool
 
     public static class Extends
     {
+        public static int IndexOf<T>(this IList<T> list, Predicate<T> predicate)
+        {
+            if (list is null || predicate is null) return -1;
+            var i = 0;
+            foreach (var item in list)
+            {
+                if (predicate(item))
+                {
+                    return i;
+                }
+                i++;
+            }
+
+            return -1;
+        }
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> enumerable)
         {
             if (enumerable is null) return;

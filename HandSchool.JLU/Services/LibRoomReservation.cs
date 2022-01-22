@@ -367,7 +367,8 @@ namespace HandSchool.JLU.Services
                         RoomId = i["roomId"].ToString(),
                         DevId = i["devId"].ToString(),
                         KindId = i["kindId"].ToString(),
-                        OpenTimes = i["open"].ToObject<List<string>>(),
+                        OpenStart = new Time(i["openStart"].ToObject<string>()),
+                        OpenEnd = new Time(i["openEnd"].ToObject<string>()),
                         Ts = i["ts"].ToObject<List<RoomUsageInfo>>(),
                         Cls = i["cls"].ToObject<List<RoomUsageInfo>>(),
                         Ops = i["ops"].ToObject<List<RoomUsageInfo>>(),
@@ -375,26 +376,32 @@ namespace HandSchool.JLU.Services
                             ? LibRoom.LibRoomState.Close
                             : LibRoom.LibRoomState.NotClose
                     };
-
+                    if (room.OpenEnd - room.OpenStart <= 0)
+                    {
+                        room.State = LibRoom.LibRoomState.Close;
+                    }
                     //处理房间里面的预约
                     if (room.Ts.Count != 0)
                     {
-                        room.Times = new List<TimeSlot>();
+                        room.Times = new List<RoomUsingSpan>();
                         foreach
                         (var ts in
                             from item in room.Ts
                             where !(item.start is null) && !(item.end is null)
-                            select new TimeSlot
+                            select new RoomUsingSpan
                             {
-                                Start = new Time(item.start.Value),
-                                End = new Time(item.end.Value),
-                                Msg = item.title
+                                TimeSlot = new TimeSlot
+                                {
+                                    Start = new Time(item.start.Value),
+                                    End = new Time(item.end.Value)
+                                },
+                                UserInfo = item.title
                             }
                         )
                         {
                             room.Times.Add(ts);
                         }
-                        room.Times.Sort((a, b) => a.Start.CompareTo(b.Start));
+                        room.Times.Sort((a, b) => a.TimeSlot.Start.CompareTo(b.TimeSlot.Start));
                     }
 
                     res.Add(room);

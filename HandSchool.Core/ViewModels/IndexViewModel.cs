@@ -3,6 +3,7 @@ using HandSchool.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using HandSchool.Internal;
 using HandSchool.Services;
 
 namespace HandSchool.ViewModels
@@ -31,7 +32,11 @@ namespace HandSchool.ViewModels
             RefreshCommand = new CommandAction(Refresh);
             RequestLoginCommand = new CommandAction(RequestLogin);
             CheckUpdateCommand = new CommandAction(Core.Platform.CheckUpdate);
-            WeatherClient = new WeatherClient(Core.App.CityWeatherCode);
+            WeatherReport = Core.New<IWeatherReport>();
+            WeatherReport.CityCode = Core.App.Service.WeatherLocation;
+            _currentWeather = _todayWeather = _tomorrowWeather = "正在加载...";
+            _weatherProvider = "数据来自：";
+            _weatherNotice = "愿你拥有比阳光明媚的心情";
         }
         
         /// <summary>
@@ -46,7 +51,7 @@ namespace HandSchool.ViewModels
 
         public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
         
-        public WeatherClient WeatherClient { get; set; }
+        public IWeatherReport WeatherReport { get; set; }
 
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）
@@ -73,6 +78,48 @@ namespace HandSchool.ViewModels
             await LoginViewModel.RequestAsync(Core.App.Service);
         }
 
+        private bool _isWorking;
+        private readonly TimeoutManager _weatherTimeoutManager = new TimeoutManager(3600);
+
+        public async Task RefreshWeather()
+        {
+            if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
+            {
+                _isWorking = true;
+                try
+                {
+                    WeatherProvider = $"数据来自：{WeatherReport.Provider}";
+                    await WeatherReport.UpdateWeatherAsync();
+                    if (!string.IsNullOrWhiteSpace(WeatherReport.CurrentTemperature.Notice))
+                    {
+                        WeatherNotice = WeatherReport.CurrentTemperature.Notice;
+                    }
+                    CurrentWeather =
+                        $"{WeatherReport.CurrentTemperature} {WeatherReport.CurrentTemperature.Description}";
+                    var report = WeatherReport.ForecastTemperature;
+                    if (report.Count < 2)
+                    {
+                        TodayWeather = TomorrowWeather = "未知 ~ 未知";
+                        return;
+                    }
+
+                    TodayWeather =
+                        $"{report[0].From} ~ {report[0].To} {(report[0].From.Description == report[0].To.Description ? report[0].From.Description : $"{report[0].From.Description}转{report[0].To.Description}")}";
+                    TomorrowWeather =
+                        $"{report[1].From} ~ {report[1].To} {(report[1].From.Description == report[1].To.Description ? report[1].From.Description : $"{report[1].From.Description}转{report[1].To.Description}")}";
+                    _weatherTimeoutManager.Refresh();
+                }
+                catch (Exception e)
+                {
+                    Core.Logger.WriteLine("更新天气错误", e.Message);
+                    throw;
+                }
+                finally
+                {
+                    _isWorking = false;
+                }
+            }
+        }
 
         /// <summary>
         /// 与目前教务系统和课程表数据进行同步。

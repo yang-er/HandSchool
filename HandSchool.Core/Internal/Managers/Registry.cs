@@ -1,4 +1,5 @@
-﻿using HandSchool.Views;
+﻿using HandSchool.Services;
+using HandSchool.Views;
 
 namespace HandSchool.Internals
 {
@@ -17,6 +18,7 @@ namespace HandSchool.Internals
             Core.Reflection.RegisterCtor<WelcomePage>();
             Core.Reflection.RegisterCtor<SelectTypePage>();
             Core.Reflection.RegisterCtor<ClassInfoSimplifier>();
+            Core.Reflection.RegisterType<IWeatherReport, DefaultWeatherReport>();
         }
     }
 }

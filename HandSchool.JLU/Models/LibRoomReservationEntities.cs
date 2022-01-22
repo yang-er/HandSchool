@@ -1,91 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using HandSchool.JLU.JsonObject;
-using HandSchool.JLU.Views;
 
 namespace HandSchool.JLU.Models
 {
     //相对时间，相对于当天0:00的时间
-    public class Time : IComparable<Time>
+    public struct Time: IComparable<Time>
     {
-        public int Hour { get; private set; }
-        public int Min { get; private set; }
-        private int _addedDays;
-
+        private TimeSpan _inner;
+        public int Hour => _inner.Hours;
+        public int Min => _inner.Minutes;
         public Time(string time)
         {
             var t = time.Split(':');
-            Hour = int.Parse(t[0]);
-            Min = int.Parse(t[1]);
+            _inner = new TimeSpan(int.Parse(t[0]), int.Parse(t[1]), 0);
         }
+        
         public Time(DateTime time)
         {
-            Hour = time.Hour;
-            Min = time.Minute;
+            _inner = new TimeSpan(time.Hour, time.Minute, 0);
         }
-
-        private Time() { }
+        
         public int CompareTo(Time other)
         {
-            if (ReferenceEquals(this, other)) return 0;
-            if (other is null) return 1;
-            if (_addedDays > other._addedDays) return 1;
-            if (_addedDays < other._addedDays) return -1;
-            if (Hour > other.Hour) return 1;
-            if (Hour < other.Hour) return -1;
-            if (Min > other.Min) return 1;
-            if (Min < other.Min) return -1;
-            return 0;
+            return _inner.CompareTo(other._inner);
         }
-
+        
         public static int operator -(Time b, Time a)
         {
-            return b.Min - a.Min + (b.Hour - a.Hour) * 60 + (b._addedDays - a._addedDays) * 24 * 60;
+            return (int)(b._inner - a._inner).TotalMinutes;
         }
+        
         public override string ToString()
         {
             return $"{Hour:00}:{Min:00}";
         }
-
+        
         public static Time operator -(Time a, int minute)
         {
-            var min = a.Min - minute;
-            var hour = a.Hour;
-            var addDays = 0;
-            if (min < 0)
-            {
-                var d = -min;
-                var n = d / 60;
-                hour -= n + 1;
-                min = 60 - d + n;
-                while (hour < 0)
-                {
-                    addDays--;
-                    hour += 24;
-                }
-            }
-
-            return new Time
-            {
-                Hour = hour,
-                Min = min,
-                _addedDays = addDays
-            };
+            return new Time {_inner = a._inner.Add(new TimeSpan(0, -minute, 0))};
         }
 
         public static Time operator +(Time a, int minute)
         {
-            var min = a.Min + minute;
-            var hour = a.Hour + min / 60;
-            var addDays = 0;
-            while (hour >= 24)
-            {
-                addDays++;
-                hour -= 24;
-            }
-            return new Time { Hour = hour % 24, Min = min % 60, _addedDays = addDays };
+            return new Time {_inner = a._inner.Add(new TimeSpan(0, minute, 0))};
         }
     }
+
     public class LibRoomRequestParams
     {
         public NearDays Date { get; set; }
@@ -106,11 +67,12 @@ namespace HandSchool.JLU.Models
         public string RoomId { get; set; }
         public string DevId { get; set; }
         public string KindId { get; set; }
-        public List<string> OpenTimes { get; set; }
+        public Time OpenStart { get; set; }
+        public Time OpenEnd { get; set; }
         public List<RoomUsageInfo> Ts { get; set; }
         public List<RoomUsageInfo> Cls { get; set; }
         public List<RoomUsageInfo> Ops { get; set; }
-        public List<TimeSlot> Times { get; set; }
+        public List<RoomUsingSpan> Times { get; set; }
     }
     public class GetRoomUsageParams
     {
@@ -124,11 +86,20 @@ namespace HandSchool.JLU.Models
         public NearDays Date { get; set; }
         public IList<LibRoom> Rooms { get; set; }
     }
-    public class TimeSlot
+    public class TimeSlot : ICloneable
     {
         public Time Start { get; set; }
         public Time End { get; set; }
-        public string Msg { get; set; }
+        public object Clone()
+        {
+            return new TimeSlot {Start = Start, End = End};
+        }
+    }
+
+    public struct RoomUsingSpan
+    {
+        public TimeSlot TimeSlot { get; set; }
+        public string UserInfo { get; set; }
     }
     public class RoomUsageInfo
     {

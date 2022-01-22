@@ -27,6 +27,42 @@ namespace HandSchool.ViewModels
             private set => SetProperty(ref _currentMessage, value);
         }
 
+        private string _weatherNotice;
+        public string WeatherNotice
+        {
+            get => _weatherNotice;
+            set => SetProperty(ref _weatherNotice, value);
+        }
+
+        private string _currentWeather;
+        private string _todayWeather;
+        private string _tomorrowWeather;
+        private string _weatherProvider;
+        
+        public string CurrentWeather
+        {
+            get => _currentWeather;
+            set => SetProperty(ref _currentWeather, value);
+        }
+
+        public string TodayWeather
+        {
+            get => _todayWeather;
+            set => SetProperty(ref _todayWeather, value);
+        }
+
+        public string TomorrowWeather
+        {
+            get => _tomorrowWeather;
+            set => SetProperty(ref _tomorrowWeather, value);
+        }
+
+        public string WeatherProvider
+        {
+            get => _weatherProvider;
+            set => SetProperty(ref _weatherProvider, value);
+        }
+
         /// <summary>
         /// 当教务系统服务状态更改时，同步欢迎消息。
         /// </summary>

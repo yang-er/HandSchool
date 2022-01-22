@@ -1,134 +1,146 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
+using HandSchool.Internals;
+using Newtonsoft.Json.Linq;
 
 namespace HandSchool.Services
 {
-
-    #region Json解析需要
-    public class TemperatureSingle
+    public enum TemperatureUnit
     {
-        public string unit { get; set; }
-        public double value { get; set; }
+        Celsius,
+        Fahrenheit,
+        Kelvin
     }
-
-    public class TemperatureDouble
+    public struct Temperature
     {
-        public string unit { get; set; }
-        public List<Value<double>> value { get; set; }
-    }
+        public double Value { get; set; }
+        public TemperatureUnit Unit { get; set; }
 
-    public class Current
-    {
-        public TemperatureSingle temperature { get; set; }
-        public string weather { get; set; }
-    }
+        public string Description { get; set; }
 
-    public class Value<T>
-    {
-        public T @from { get; set; }
-        public T to { get; set; }
+        public string Notice { get; set; }
 
-        public bool IsFromEqualsTo()
+        public override string ToString()
         {
-            return @from.Equals(to);
-        }
-    }
-
-    public class ForecastDaily
-    {
-        public TemperatureDouble temperature { get; set; }
-        public Weather weather { get; set; }
-
-    }
-
-    public class Weather
-    {
-        public List<Value<int>> value { get; set; }
-    }
-
-    public class WeatherReport
-    {
-
-        public Current current { get; set; }
-        public ForecastDaily forecastDaily { get; set; }
-    }
-
-    public class WeatherStatus
-    {
-        private static readonly string[] _weatherStatus =
-        {
-            "晴", "多云", "阴", "阵雨", "雷阵雨", "雷阵雨并伴有冰雹", "雨夹雪", "小雨",
-            "中雨", "大雨", "暴雨", "大暴雨", "特大暴雨", "阵雪", "小雪", "中雪", "大雪", "暴雪", "雾", "冻雨",
-            "沙尘暴", "小雨-中雨", "中雨-大雨", "大雨-暴雨", "暴雨-大暴雨", "大暴雨-特大暴雨", "小雪-中雪", "中雪-大雪",
-            "大雪-暴雪", "浮沉", "扬沙", "强沙尘暴", "飑", "龙卷风", "若高吹雪", "轻雾"
-        };
-
-        public string this[int index]
-        {
-            get
+            var unit = Unit switch
             {
-                switch (index)
-                {
-                    case 53: return "霾";
-                    case 99: return "未知";
-                    default: return _weatherStatus[index];
-                }
-            }
+                TemperatureUnit.Celsius => '℃',
+                TemperatureUnit.Fahrenheit => '℉',
+                TemperatureUnit.Kelvin => 'K',
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            return $"{Value}{unit}";
         }
     }
-    #endregion
+    public struct TemperatureInfo
+    {
+        public Temperature From { get; set; }
+        public Temperature To { get; set; }
+    }
     
-
-    public class WeatherClient
+    public static class WeatherUtil
     {
-        public WeatherClient(string cityNum) => _cityNum = cityNum;
-
-        private readonly string _cityNum;
-        private HttpClient _httpClient;
-        private readonly WeatherStatus _weatherStatus = new WeatherStatus();
-        private WeatherReport _weatherReport;
-        
-        //当前的天气描述
-        public string WeatherDescription => _weatherStatus[int.Parse(_weatherReport.current.weather)];
-        //15天内天气描述
-        public IList<Value<string>> WeatherDescriptions
+        public static double GetDefaultValue(TemperatureUnit unit)
         {
-            get
+            return unit switch
             {
-                var res = new Value<string>[_weatherReport.forecastDaily.weather.value.Count];
-                for (var i = 0; i < res.Length; i++)
-                {
-                    res[i] = new Value<string>
-                    {
-                        @from = _weatherStatus[_weatherReport.forecastDaily.weather.value[i].@from],
-                        to = _weatherStatus[_weatherReport.forecastDaily.weather.value[i].to]
-                    };
-                }
-
-                return res;
-            }
+                TemperatureUnit.Celsius => -273.15,
+                TemperatureUnit.Fahrenheit => -459.67,
+                TemperatureUnit.Kelvin => 0,
+                _ => throw new InvalidOperationException()
+            };
         }
-        
+    }
+    public interface IWeatherReport
+    {
+        public string CityCode { get; set; }
+        public string Provider { get; }
         //当前温度
-        public TemperatureSingle CurrentTemperature => _weatherReport.current.temperature;
+        public Temperature CurrentTemperature { get;}
         //15天内温度情况
-        public TemperatureDouble ForecastTemperature => _weatherReport.forecastDaily.temperature;
+        public List<TemperatureInfo> ForecastTemperature { get; }
+        public Task UpdateWeatherAsync();
+    }
+    
+    public class DefaultWeatherReport : IWeatherReport
+    {
+        public string Provider => "SOJOSN";
+        public DefaultWeatherReport()
+        {
+            ForecastTemperature = new List<TemperatureInfo>();
+        }
 
-        private bool _isUpdating = false;
-        //异步更新天气
+        public string CityCode { get; set; }
+
+        //当前温度
+        public Temperature CurrentTemperature { get; private set; }
+
+        //15天内温度情况
+        public List<TemperatureInfo> ForecastTemperature { get; }
+
+        private bool _isUpdating;
+
+        private void ParseWeather(JObject jObject)
+        {
+            var data = jObject?["data"];
+            var curTemp = data?["wendu"]?.ToObject<double?>();
+            var curT = new Temperature
+            {
+                Value = curTemp ?? WeatherUtil.GetDefaultValue(TemperatureUnit.Celsius),
+                Unit = TemperatureUnit.Celsius,
+            };
+            var fores = data?["forecast"]?.ToObject<List<JObject>>();
+            if ((fores?.Count ?? 0) > 0)
+            {
+                curT.Notice = fores[0]["notice"]?.ToString();
+            }
+            CurrentTemperature = curT;
+
+            fores?.ForEach(j =>
+            {
+                var high = j?["high"]?.ToString().Replace("高温 ", "").Replace("℃", "");
+                double.TryParse(high, out var heightNum);
+                var low = j?["low"]?.ToString().Replace("低温 ", "").Replace("℃", "");
+                double.TryParse(low, out var lowNum);
+                var dec = j?["type"]?.ToString();
+                ForecastTemperature.Add(new TemperatureInfo
+                {
+                    From = new Temperature
+                    {
+                        Value = heightNum,
+                        Unit = TemperatureUnit.Celsius,
+                        Description = dec,
+                    },
+                    To = new Temperature
+                    {
+                        Value = lowNum,
+                        Unit = TemperatureUnit.Celsius,
+                        Description = dec,
+                    }
+                });
+            });
+        }
+
         public async Task UpdateWeatherAsync()
         {
             if (_isUpdating) return;
             _isUpdating = true;
-            _httpClient ??= new HttpClient();
-            _httpClient.Timeout = new TimeSpan(0, 0, 0, 2);
-            var json = await _httpClient.GetStringAsync(
-                $"https://weatherapi.market.xiaomi.com/wtr-v3/weather/all?latitude=0&longitude=0&locale=zh-cn&isGlobal=false&locationKey=weathercn:{_cityNum}&appKey=weathercn:{_cityNum}&sign=zUFJoAR2ZVrDy1vF3D07&days=15");
-            _weatherReport = Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherReport>(json);
-            _httpClient.Dispose();
-            _httpClient = null;
+            string json = null;
+            using (var httpClient = new HttpClientImpl())
+            {
+                httpClient.Timeout = 2000;
+                httpClient.BaseAddress = "http://t.weather.sojson.com/api/weather/city/";
+                json = await httpClient.GetStringAsync(CityCode);
+            }
+
+            if (string.IsNullOrEmpty(json))
+            {
+                _isUpdating = false;
+                return;
+            }
+            var jo = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(json);
+            ParseWeather(jo);
             _isUpdating = false;
         }
     }

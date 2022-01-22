@@ -9,13 +9,11 @@ using AndroidX.AppCompat.App;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using HandSchool.Droid.Internals;
-using HandSchool.Internals;
-using System;
-using System.IO;
 using HandSchool.Internal;
 using HandSchool.ViewModels;
 using System.Threading.Tasks;
 using Android.Webkit;
+using HandSchool.Services;
 
 namespace HandSchool.Droid
 {
@@ -25,21 +23,22 @@ namespace HandSchool.Droid
     [BindView(Resource.Layout.activity_main)]
     public class MainActivity : BaseActivity
     {
-        [BindView(Resource.Id.nav_view)] public NavigationView NavigationView { get; set; }
+        [BindView(Resource.Id.nav_view)] 
+        public NavigationView NavigationView { get; set; }
 
-        [BindView(Resource.Id.drawer_layout)] public DrawerLayout DrawerLayout { get; set; }
+        [BindView(Resource.Id.drawer_layout)] 
+        public DrawerLayout DrawerLayout { get; set; }
 
-        int lastItemId = 0;
+        int _lastItemId;
 
         public bool NavigationItemSelected(NavMenuItemV2 menuItem, IMenuItem menuItem2)
         {
             try
             {
-                if (lastItemId == menuItem2.Order) return false;
-                NavigationView.Menu.GetItem(lastItemId).SetChecked(false);
+                if (_lastItemId == menuItem2.Order) return false;
+                NavigationView.Menu.GetItem(_lastItemId)?.SetChecked(false);
                 menuItem2.SetChecked(true);
-                lastItemId = menuItem2.Order;
-
+                _lastItemId = menuItem2.Order;
                 TransactionV3(menuItem.FragmentV3.Item1, menuItem.FragmentV3.Item2);
                 return true;
             }
@@ -56,6 +55,10 @@ namespace HandSchool.Droid
         {
             Xamarin.Forms.Forms.Init(this, bundle);
             base.OnCreate(bundle);
+            if (Weather.IsMi())
+            {
+                Core.Reflection.RegisterType<IWeatherReport, MiWeatherReport>();
+            }
             PlatformImplV2.Register(this);
             var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open,
                 Resource.String.navigation_drawer_close);
@@ -67,15 +70,12 @@ namespace HandSchool.Droid
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);
             NavigationView.SetNavigationItemSelectedListener(listHandler);
-            NavigationView.Menu.GetItem(0).SetChecked(true);
+            NavigationView.Menu.GetItem(0)?.SetChecked(true);
 
             var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
-
             TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
-
-
             NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
-
+            
             var x = new AndroidWebDialogAdditionalArgs {WebChromeClient = new CancelLostWebChromeClient(this)};
             x.WebViewClient = new CancelLostWebClient((CancelLostWebChromeClient) x.WebChromeClient);
             JLU.Loader.CancelLostWebAdditionalArgs = x;
@@ -84,7 +84,7 @@ namespace HandSchool.Droid
                 CookieManager.Instance?.RemoveAllCookies(new ObjectRes());
                 return Task.CompletedTask;
             };
-            backHandler.Refresh();
+            _backHandler.Refresh();
         }
 
         protected override void OnDestroy()
@@ -94,7 +94,7 @@ namespace HandSchool.Droid
             this.CleanBind();
         }
 
-        TimeoutManager backHandler = new TimeoutManager(1);
+        private readonly TimeoutManager _backHandler = new TimeoutManager(1);
 
         public override void OnBackPressed()
         {
@@ -104,7 +104,7 @@ namespace HandSchool.Droid
             }
             else
             {
-                if (backHandler.IsTimeout())
+                if (_backHandler.IsTimeout())
                 {
                     Toast.MakeText(this, "再按一次退出", ToastLength.Short).Show();
                 }
@@ -113,7 +113,7 @@ namespace HandSchool.Droid
                     base.OnBackPressed();
                 }
 
-                backHandler.Refresh();
+                _backHandler.Refresh();
             }
         }
     }

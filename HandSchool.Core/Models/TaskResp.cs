@@ -5,7 +5,7 @@ namespace HandSchool.Models
     /// <summary>
     /// 一个任务返回值的包装类
     /// </summary>
-    public class TaskResp
+    public readonly struct TaskResp
     {
         /// <summary>
         /// 消息为空的“真”
@@ -16,6 +16,7 @@ namespace HandSchool.Models
         /// 消息为空的“假”
         /// </summary>
         public static readonly TaskResp False = new TaskResp(false);
+        
         public TaskResp(bool isSuccess, object msg = null)
         {
             IsSuccess = isSuccess;

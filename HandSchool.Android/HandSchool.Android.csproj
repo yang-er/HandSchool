@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>HandSchool.Droid</RootNamespace>
     <AssemblyName>HandSchool.Android</AssemblyName>
-    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -84,7 +84,7 @@
       <Version>2.4.2.2</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.39</Version>
+      <Version>1.11.40</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

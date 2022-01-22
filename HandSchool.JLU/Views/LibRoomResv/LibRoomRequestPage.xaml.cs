@@ -165,7 +165,7 @@ namespace HandSchool.JLU.Views
         {
             var start = DateTime.Parse(StartTimePicker.SelectedItem as string);
             var end = DateTime.Parse(EndTimePicker.SelectedItem as string);
-            await _viewModel.StartResvAsync(_params.LibRoom, _params.Date, start, end);
+            if (!(await _viewModel.SendResvAsync(_params.LibRoom, _params.Date, start, end)).IsSuccess) return;
             await Navigation.PopAsync();
             MessagingCenter.Send(this, LibRoomResultPage.RequestFinishedSignal);
             await _viewModel.RefreshInfosAsync();
