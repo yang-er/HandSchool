@@ -32,7 +32,7 @@ namespace HandSchool.JLU.Views
             {
                 //添加标题
                 var line = _mainStack.CreateAndAddLine(item.Name);
-                line.BindingContext = false;
+                line.BindingContext = item;
                 line.FreeTimeClicked += StartResvRoom;
                 line.BusyTimeClicked += ShowResvInfo;
                 #region 处理一些特殊情况
