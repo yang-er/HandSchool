@@ -95,7 +95,7 @@ namespace HandSchool.JLU.Views
 
                     _innerLine.Color = value switch
                     {
-                        TimeLineState.NotAvail => Color.Black,
+                        TimeLineState.NotAvail => Color.DimGray,
                         TimeLineState.Timeout => Color.FromHex("#BEBEBE"),
                         TimeLineState.Busy => Color.FromHex("#4682b4"),
                         TimeLineState.Free => Color.FromHex("#E8D2AA"),

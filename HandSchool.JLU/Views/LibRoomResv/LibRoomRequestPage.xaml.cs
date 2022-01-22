@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using HandSchool.Internals;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.JLU.Views
@@ -122,13 +121,28 @@ namespace HandSchool.JLU.Views
             var maxEnd = start + (_params.LibRoom.MaxMins ?? 0);
             if (maxEnd.CompareTo(end) < 0) end = maxEnd;
             start += _params.LibRoom.MinMins ?? 0;
+
+            //获取上次选定的项目
+            var selected = EndTimePicker.SelectedIndex;
+            var selectedItem = selected != -1 ? EndTimePicker.Items[selected] : null;
+            
             EndTimePicker.Items.Clear();
             for (var i = start; i.CompareTo(end) <= 0; i += 5)
             {
                 EndTimePicker.Items.Add(i.ToString());
             }
             if (StartTimePicker.Items.Count == 0) return;
-            EndTimePicker.SelectedIndex = 0;
+            
+            //设置选定的项目
+            if (selectedItem is null)
+            { 
+                EndTimePicker.SelectedIndex = 0;
+            }
+            else
+            {
+                var index = EndTimePicker.Items.IndexOf(item => item == selectedItem);
+                EndTimePicker.SelectedIndex = index == -1 ? 0 : index;
+            }
         }
 
         public override void SetNavigationArguments(object param)

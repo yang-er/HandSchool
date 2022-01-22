@@ -316,6 +316,7 @@ namespace HandSchool.JLU.ViewModels
                     true => await Loader.LibRoom.EndResvAsync(resvId),
                     false => await Loader.LibRoom.CancelResvAsync(resvId)
                 };
+                IsBusy = false;
 
                 if (!res.IsSuccess)
                 {
@@ -330,21 +331,14 @@ namespace HandSchool.JLU.ViewModels
 
                     return;
                 }
-                else
-                {
-                    await RefreshInfosAsync();
-                    await RequestMessageAsync("提示", res.ToString(), "彳亍");
-                }
+
+                await RefreshInfosAsync();
+                await RequestMessageAsync("提示", res.ToString(), "彳亍");
             }
             catch (Exception e)
             {
                 await NoticeError("出错了" + e.Message);
-                return;
             }
-            finally
-            {
-                IsBusy = false;
-            }    
         }
     }
 }
