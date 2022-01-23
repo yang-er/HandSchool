@@ -66,7 +66,8 @@ namespace HandSchool.Droid.Renderers
 
     public class HSWebViewClient : FormsWebViewClient
     {
-        private CookieManager _manager = CookieManager.Instance; 
+        private static string _webViewFilesPath;
+        private readonly CookieManager _manager = CookieManager.Instance;
         private SQLiteTableManager<AndroidCookieEntity> _cookieSql;
 
         public HSWebView WebView { get; set; }
@@ -74,17 +75,33 @@ namespace HandSchool.Droid.Renderers
         public HSWebViewClient(WebViewRenderer renderer, HSWebView v) : base(renderer)
         {
             WebView = v;
-            _cookieSql = new SQLiteTableManager<AndroidCookieEntity>(false, BaseActivity.InternalFileRootPath,
-                "app_webview", "Default", "Cookies");
+            TryGetCookies();
+        }
+
+        private void TryGetCookies()
+        {
+            if (_cookieSql != null) return;
+            _webViewFilesPath ??= Directory.GetDirectories(BaseActivity.InternalFileRootPath)
+                .Where(d => d.ToLower().Contains("webview"))
+                .FirstOrDefault(d =>
+                {
+                    var current = Path.Combine(BaseActivity.InternalFileRootPath, d);
+                    var dft = Path.Combine(current, "Default");
+                    return Directory.GetDirectories(current).Contains(dft);
+                });
+
+            if (_webViewFilesPath is null) return;
+            _cookieSql = new SQLiteTableManager<AndroidCookieEntity>(false,
+                _webViewFilesPath, "Default", "Cookies");
         }
 
         private DateTime? _lastUpdate;
         //默认的Cookie在安卓平台不能正常工作，进行Cookie同步
         private void SyncCookiesFromStorage()
         {
-            //_manager?.RemoveExpiredCookie();
             _manager?.Flush();
-            if (!_cookieSql.HasTable()) return;
+            TryGetCookies();
+            if (_cookieSql?.HasTable() != true) return;
             var updateTime = File.GetLastWriteTime(_cookieSql.DataBasePath);
             if (_lastUpdate == updateTime) return;
             _lastUpdate = updateTime;
@@ -108,7 +125,7 @@ namespace HandSchool.Droid.Renderers
 
     public class HSWebViewRenderer : WebViewRenderer
     {
-        public HSWebViewRenderer(Context context):base(context){}
+        public HSWebViewRenderer(Context context) : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
         {
@@ -126,7 +143,7 @@ namespace HandSchool.Droid.Renderers
 
             if (e.NewElement != null)
             {
-                var hsWebView = (HSWebView) e.NewElement;
+                var hsWebView = (HSWebView)e.NewElement;
                 Control.Settings.JavaScriptEnabled = true;
                 var c = new HSWebViewClient(this, hsWebView);
                 Control.SetWebViewClient(c);
