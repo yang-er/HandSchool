@@ -29,7 +29,7 @@ namespace HandSchool.Droid.Renderers
 
         private static string _cookiesDataBase;
         private DateTime? _lastUpdate;
-        
+        private string _lastUrl;
         //默认的Cookie在安卓平台不能正常工作，进行Cookie同步
         private void SyncCookiesFromStorage(string url)
         {
@@ -43,7 +43,8 @@ namespace HandSchool.Droid.Renderers
             if (System.IO.File.Exists(_cookiesDataBase))
             {
                 var update = System.IO.File.GetLastWriteTime(_cookiesDataBase);
-                if (update == _lastUpdate) return;
+                if (update == _lastUpdate && _lastUrl == url) return;
+                _lastUrl = url;
                 _lastUpdate = update;
             }
             
