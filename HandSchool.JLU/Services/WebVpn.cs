@@ -243,23 +243,22 @@ namespace HandSchool.JLU.Services
                 Password = acc.Password;
             }
 
-            var logins = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigCookies)?.Json;
-            if (!string.IsNullOrWhiteSpace(logins))
-            {
-                JsonConvert.DeserializeObject<List<Cookie>>(logins)
-                    ?.ForEach(c =>
+            Core.Configure.JsonManager
+                .GetItemWithPrimaryKey(ConfigCookies)
+                ?.ToObject<List<Cookie>>()
+                ?.ForEach(c =>
+                {
+                    switch (c.Name)
                     {
-                        switch (c.Name)
-                        {
-                            case TicketName:
-                                Ticket = c;
-                                break;
-                            case TokenName:
-                                RememberToken = c;
-                                break;
-                        }
-                    });
-            }
+                        case TicketName:
+                            Ticket = c;
+                            break;
+                        case TokenName:
+                            RememberToken = c;
+                            break;
+                    }
+                });
+            
             Events = new WebLoginPageEvents
             {
                 WebViewEvents = new HSWebViewEvents()

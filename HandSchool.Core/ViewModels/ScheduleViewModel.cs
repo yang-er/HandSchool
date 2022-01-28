@@ -351,8 +351,10 @@ namespace HandSchool.ViewModels
         /// <returns>课程表内容</returns>
         private static List<CurriculumItem> LoadFromFile()
         {
-            var lastReport = Core.Configure.JsonManager.GetItemWithPrimaryKey(JsonName)?.Json;
-            return !string.IsNullOrWhiteSpace(lastReport)? lastReport.ParseJSON<List<CurriculumItem>>() : new List<CurriculumItem>();
+            return Core.Configure.JsonManager
+                       .GetItemWithPrimaryKey(JsonName)
+                       ?.ToObject<List<CurriculumItem>>()
+                   ?? new List<CurriculumItem>();
         }
 
         #endregion

@@ -116,9 +116,11 @@ namespace HandSchool.JLU
             };
             Core.Reflection.RegisterFiles(this.GetAssembly(), "JLU", RegisteredFiles);
 
-            var lp = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigName)?.Json;
+            var config = Core.Configure.JsonManager
+                             .GetItemWithPrimaryKey(ConfigName)
+                             ?.ToObject<SettingsJSON>()
+                         ?? new SettingsJSON();
             
-            SettingsJSON config = !string.IsNullOrWhiteSpace(lp) ? lp.ParseJSON<SettingsJSON>() : new SettingsJSON();
             WebVpn.UseVpn = config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
