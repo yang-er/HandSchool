@@ -68,8 +68,8 @@ namespace HandSchool.Internals
                     where p.GetCustomAttribute(typeof(PrimaryKeyAttribute)) != null
                     select p).FirstOrDefault();
             PrimaryKey = pkInfo?.Name;
-            var pkc = pkInfo?.GetCustomAttribute(typeof(ColumnAttribute)) as CollationAttribute;
-            PrimaryKeyColName = pkc?.Value ?? PrimaryKey;
+            var pkc = pkInfo?.GetCustomAttribute(typeof(ColumnAttribute)) as ColumnAttribute;
+            PrimaryKeyColName = pkc?.Name ?? PrimaryKey;
             
             //计算SQLite文件的路径
             _rootDir = rootDir;
