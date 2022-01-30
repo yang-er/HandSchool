@@ -1,11 +1,9 @@
 ﻿using Android.Content;
-using Android.Graphics.Drawables;
 using Android.Views;
 using HandSchool.Droid.Renderers;
 using HandSchool.Views;
 using System;
 using System.ComponentModel;
-using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 

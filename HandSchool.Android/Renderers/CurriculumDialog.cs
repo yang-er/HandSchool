@@ -1,12 +1,13 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.Support.Design.Widget;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using Jaredrummler.MaterialSpinner;
 using System.Threading.Tasks;
-using JObject = Java.Lang.Object;
+using Android.Views;
+using Android.Widget;
+using JavaObject = Java.Lang.Object;
 
 namespace HandSchool.Droid
 {
@@ -55,47 +56,57 @@ namespace HandSchool.Droid
 
         [BindView(Resource.Id.classname)]
         public TextInputEditText ClassName { get; set; }
-
+        
+        [BindView(Resource.Id.curriculum_delete)]
+        public Button ButtonDelete { get; set; }
+        
+        [BindView(Resource.Id.curriculum_cancel)]
+        public Button ButtonCancel { get; set; }
+        
+        [BindView(Resource.Id.curriculum_save)]
+        public Button ButtonSave { get; set; }
+        private bool _shouldDismiss;
+        private AlertDialog _dialog;
         #endregion
         
-        private readonly JObject[] WeekDaySelection;
-        private readonly JObject[] WeekOenSelection;
-        private readonly JObject[] WeekStartSelection;
-        private readonly JObject[] DayStartSelection;
+        private readonly JavaObject[] _weekDaySelection;
+        private readonly JavaObject[] _weekOenSelection;
+        private readonly JavaObject[] _weekStartSelection;
+        private readonly JavaObject[] _dayStartSelection;
 
         public CurriculumDialog()
         {
             ControlSource = new TaskCompletionSource<bool>();
-            WeekDaySelection = new JObject[] { "请选择", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天" };
-            WeekOenSelection = new JObject[] { "双周", "单周", "单双周" };
-            DayStartSelection = new JObject[Core.App.DailyClassCount + 1];
-            WeekStartSelection = new JObject[24];
-            DayStartSelection[0] = WeekStartSelection[0] = WeekDaySelection[0];
-            for (int i = 1; i <= Core.App.DailyClassCount; i++)
-                DayStartSelection[i] = $"第{i}节";
-            for (int i = 1; i <= 23; i++)
-                WeekStartSelection[i] = $"第{i}周";
+            _weekDaySelection = new JavaObject[] { "请选择", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天" };
+            _weekOenSelection = new JavaObject[] { "双周", "单周", "单双周" };
+            _dayStartSelection = new JavaObject[Core.App.DailyClassCount + 1];
+            _weekStartSelection = new JavaObject[24];
+            _dayStartSelection[0] = _weekStartSelection[0] = _weekDaySelection[0];
+            for (var i = 1; i <= Core.App.DailyClassCount; i++)
+                _dayStartSelection[i] = $"第{i}节";
+            for (var i = 1; i <= 23; i++)
+                _weekStartSelection[i] = $"第{i}周";
         }
         
         public void SolveBindings()
         {
             // Set data sources
-            StartNum.SetItems(DayStartSelection);
+            StartNum.SetItems(_dayStartSelection);
             StartNum.SelectedIndex = Model.DayBegin;
 
-            EndNum.SetItems(DayStartSelection);
+            EndNum.SetItems(_dayStartSelection);
             EndNum.SelectedIndex = Model.DayEnd;
 
-            StartWeek.SetItems(WeekStartSelection);
+            StartWeek.SetItems(_weekStartSelection);
             StartWeek.SelectedIndex = Model.WeekBegin;
 
-            EndWeek.SetItems(WeekStartSelection);
+            EndWeek.SetItems(_weekStartSelection);
             EndWeek.SelectedIndex = Model.WeekEnd;
 
-            WeekDay.SetItems(WeekDaySelection);
+            WeekDay.SetItems(_weekDaySelection);
             WeekDay.SelectedIndex = Model.WeekDay;
 
-            WeekOen.SetItems(WeekOenSelection);
+            WeekOen.SetItems(_weekOenSelection);
             WeekOen.SelectedIndex = (int)Model.WeekOen;
 
             ClassName.Text = Model.Name;
@@ -115,32 +126,35 @@ namespace HandSchool.Droid
             return await ControlSource.Task;
         }
 
-        private (bool legal, string msg) IsLegal()
+        private (bool, string) IsLegal()
         {
-            if (WeekDay.SelectedIndex == 0) return (false, "星期几不能为空");
-            if (StartNum.SelectedIndex == 0) return (false, "起始节不能为空");
-            if (EndNum.SelectedIndex == 0) return (false, "结束节不能为空");
             if (StartWeek.SelectedIndex == 0) return (false, "起始周不能为空");
-            if (EndWeek.SelectedIndex == 0) return (false, "结束周不能为空");
-
             if (StartWeek.SelectedIndex > EndWeek.SelectedIndex) return (false, "起始周不能晚于结束周");
+            if (EndWeek.SelectedIndex == 0) return (false, "结束周不能为空");
+            if (StartNum.SelectedIndex == 0) return (false, "起始节不能为空");
             if (StartNum.SelectedIndex > EndNum.SelectedIndex) return (false, "起始节不能晚于结束节");
+            if (EndNum.SelectedIndex == 0) return (false, "结束节不能为空");
+            if (WeekDay.SelectedIndex == 0) return (false, "星期几不能为空");
             return (true, null);
-
         }
-        private void OnFinishEditing(object sender, DialogClickEventArgs args)
+        
+        private void OnFinishEditing()
         {
-            var check = IsLegal();
-            if (!check.legal)
+            var (legal, msg) = IsLegal();
+            if (!legal)
             {
-                var ac = new AlertDialog.Builder((Core.Platform as PlatformImplV2).PeekContext())
-                    .SetTitle("失败")
-                    .SetMessage(check.msg)
-                    .SetPositiveButton("好", listener: null).Create();
-                Core.Platform.EnsureOnMainThread(() =>
+                if (PlatformImplV2.Instance.PeekContext() is BaseActivity topActivity)
                 {
-                    ac.Show();
-                });
+                    topActivity.RunOnUiThread(() =>
+                    {
+                        new AlertDialog.Builder(topActivity)
+                            .SetTitle("失败")
+                            !.SetMessage(msg)
+                            !.SetPositiveButton("好", listener: null)
+                            !.Show();
+                    });
+                }
+                _shouldDismiss = false;
             }
             else
             {
@@ -156,38 +170,80 @@ namespace HandSchool.Droid
 
                 if (IsCreate) ScheduleViewModel.Instance.AddItem(Model);
                 ScheduleViewModel.Instance.SaveToFile();
+                ControlSource.TrySetResult(true);
+                _shouldDismiss = true;
             }
-            ControlSource.TrySetResult(true);
         }
 
-        private void OnDeleted(object sender, DialogClickEventArgs args)
+        private void OnDeleted()
         {
             ScheduleViewModel.Instance.RemoveItem(Model);
             ScheduleViewModel.Instance.SaveToFile();
             ControlSource.TrySetResult(true);
+            _shouldDismiss = true;
         }
 
-        private void OnCancelEditing(object sender, DialogClickEventArgs args)
+        private void OnCancelEditing()
         {
             ControlSource.TrySetResult(false);
+            _shouldDismiss = true;
         }
 
-        public Task ShowAsync()
+        private Task ShowAsync()
         {
             var context = PlatformImplV2.Instance.PeekContext();
 
             var builder = new AlertDialog.Builder(context);
             builder.SetView(Resource.Layout.dialog_curriculum);
             builder.SetTitle(IsCreate ? "创建课程" : "修改课程信息");
-            builder.SetPositiveButton("保存", OnFinishEditing);
-            if (!IsCreate)
-                builder.SetNeutralButton("删除", OnDeleted);
-            builder.SetNegativeButton("取消", OnCancelEditing);
             builder.SetCancelable(false);
-            var dialog = builder.Show();
+            _dialog = builder.Show();
+            this.SolveView(_dialog);
 
-            this.SolveView(dialog);
+            ButtonSave.SetOnClickListener(new ClickListener(v =>
+            {
+                OnFinishEditing();
+                if (_shouldDismiss)
+                {
+                    RemoveListeners();
+                    _dialog.Dismiss();
+                }
+            }));
+            
+            ButtonCancel.SetOnClickListener(new ClickListener(v =>
+            {
+                OnCancelEditing();
+                if (_shouldDismiss)
+                {
+                    RemoveListeners();
+                    _dialog.Dismiss();
+                }
+            }));
+
+            if (!IsCreate)
+            {
+                ButtonDelete.SetOnClickListener(new ClickListener(v =>
+                {
+                    OnDeleted();
+                    if (_shouldDismiss)
+                    {
+                        RemoveListeners();
+                        _dialog.Dismiss();
+                    }
+                }));
+            }
+            else
+            {
+                ButtonDelete.Visibility = ViewStates.Invisible;
+            }
             return Task.CompletedTask;
+        }
+
+        private void RemoveListeners()
+        {
+            ButtonSave.SetOnClickListener(null);
+            ButtonCancel.SetOnClickListener(null);
+            ButtonDelete.SetOnClickListener(null);
         }
     }
 }

@@ -210,7 +210,6 @@ namespace HandSchool.ViewModels
             var page = Core.New<ICurriculumPage>();
             page.SetNavigationArguments(item, true);
 
-            
             if (await page.IsSuccess())
                 SendRefreshComplete();
         }

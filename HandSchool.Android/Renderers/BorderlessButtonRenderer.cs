@@ -5,8 +5,6 @@ using HandSchool.Droid.Renderers;
 using HandSchool.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Xamarin.Forms.Platform.Android.AppCompat;
-using Xamarin.Forms.Platform.Android.FastRenderers;
 using AView = Android.Views.View;
 
 [assembly: ExportRenderer(typeof(BorderlessButton), typeof(BorderlessButtonRenderer))]

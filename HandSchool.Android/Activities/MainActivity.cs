@@ -94,7 +94,7 @@ namespace HandSchool.Droid
             this.CleanBind();
         }
 
-        private readonly TimeoutManager _backHandler = new TimeoutManager(1);
+        private readonly TimeoutManager _backHandler = new TimeoutManager(1.3);
 
         public override void OnBackPressed()
         {

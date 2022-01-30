@@ -5,8 +5,8 @@ namespace HandSchool.Internal
     public class TimeoutManager
     {
         private DateTime? _lastRefreshTime;
-        private readonly int _timeoutSec;
-        public TimeoutManager(int timeoutSec)
+        private readonly double _timeoutSec;
+        public TimeoutManager(double timeoutSec)
         {
             _timeoutSec = timeoutSec;
         }
