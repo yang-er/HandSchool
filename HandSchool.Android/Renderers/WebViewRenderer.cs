@@ -6,11 +6,11 @@ using Android.Content;
 using Android.Webkit;
 using HandSchool.Controls;
 using HandSchool.Droid.Renderers;
+using HandSchool.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using WebView = Xamarin.Forms.WebView;
 using Xamarin.Forms.Internals;
-using Path = System.IO.Path;
 
 [assembly: ExportRenderer(typeof(HSWebView), typeof(HSWebViewRenderer))]
 
@@ -18,128 +18,101 @@ namespace HandSchool.Droid.Renderers
 {
     public class HSWebViewClient : FormsWebViewClient
     {
-        private readonly CookieManager _manager = CookieManager.Instance;
+        private const string WebViewCookieStrategyConfig = "webview_cookie_strategy";
 
         public HSWebView WebView { get; set; }
 
         public HSWebViewClient(WebViewRenderer renderer, HSWebView v) : base(renderer)
         {
             WebView = v;
-        }
-
-        private static string _cookiesDataBase;
-        private DateTime? _lastUpdate;
-        private string _lastUrl;
-        //默认的Cookie在安卓平台不能正常工作，进行Cookie同步
-        private void SyncCookiesFromStorage(string url)
-        {
-            if (_manager is null) return;
-            if (!_manager.HasCookies) return;
-            _manager.Flush();
-            
-            //首先检测Cookie是否被更新，此步骤可能不可用
-            //因为这是安卓默认的WebView Cookie存放位置，若厂商有自己的WebView实现，则不可用
-            _cookiesDataBase ??= Path.Combine(BaseActivity.InternalFileRootPath, "app_webview", "Default", "Cookies");
-            if (System.IO.File.Exists(_cookiesDataBase))
+            var strategy = Core.Configure.Configs.GetItemWithPrimaryKey(WebViewCookieStrategyConfig)?.Value;
+            if (strategy is null)
             {
-                var update = System.IO.File.GetLastWriteTime(_cookiesDataBase);
-                if (update == _lastUpdate && _lastUrl == url) return;
-                _lastUrl = url;
-                _lastUpdate = update;
-            }
-            
-            var uri = new Uri(url);
-            
-            //将路径拆开
-            var ps = new List<string>{""};
-            uri.AbsolutePath.Trim()
-                .Split('/')
-                .Where(p => !string.IsNullOrWhiteSpace(p))
-                .ForEach(p => ps.Add($"{ps[^1]}/{p}"));
-            
-            //将域名拆开
-            var hosts = uri.Host.Trim().Split('.');
-            var dps = new List<(string, string)>();
-
-            //将所有带有点前缀的父域名加入查询队列
-            var superHost = hosts[^1];
-            for (var i = hosts.Length - 2; i >= 0; i--)
-            {
-                superHost = $"{hosts[i]}.{superHost}";
-                ps.ForEach(p => dps.Add(($".{superHost}", p)));
-            }
-            
-            //将域名本身加入查询队列
-            ps.ForEach(p => dps.Add(($"{uri.Host}", p)));
-            var res = new Dictionary<string, List<Cookie>>();
-            
-            //查询所有的domain-path对，并进行合并处理
-            dps.ForEach(dp =>
-            {
-                var (domain, path) = dp;
-                ParseCookies(
-                    domain, 
-                    path == "" ? "/" : path,
-                    _manager.GetCookie($"{uri.Scheme}://{domain}{path}"))
-                    .ForEach(c => AddCookie(res, c));
-            });
-            
-            //将结果同步到HSCookies
-            res.Values.ForEach(cs => cs.ForEach(WebView.HSCookies.Add));
-        }
-
-#nullable enable
-        private static void AddCookie(IDictionary<string, List<Cookie>> dic, Cookie c)
-        {
-            if (dic.ContainsKey(c.Name))
-            {
-                var cur = dic[c.Name];
-                if (!cur.Any(cookie => c.Name == cookie.Name && c.Value == cookie.Value))
-                {
-                    cur.Add(c);
-                }
+                _getCookiesStrategy = new SelectStrategy(this);
             }
             else
             {
-                dic[c.Name] = new List<Cookie> {c};
+                var type = Type.GetType(strategy);
+                _getCookiesStrategy = type is null
+                    ? new SelectStrategy(this)
+                    : (IGetCookiesStrategy) Activator.CreateInstance(type);
             }
         }
-        private static IEnumerable<Cookie> ParseCookies(string domain, string path, string? str)
-        {
-            return str?.Split(";")
-                ?.Select(s => s?.Trim().Split("="))
-                .Where(ss =>
-                {
-                    if (ss is null) return false;
-                    return ss.Length != 0 && ss.Length <= 2;
-                })
-                .Select(ss =>
-                {
-                    var res = new Cookie
-                    {
-                        Domain = domain,
-                        Path = path
-                    };
-                    switch (ss!.Length)
-                    {
-                        case 1:
-                            res.Name = ss[0];
-                            break;
-                        case 2:
-                            res.Name = ss[0];
-                            res.Value = ss[1];
-                            break;
-                    }
 
-                    return res;
-                }) ?? Array.Empty<Cookie>();
-        }
-#nullable disable
-        
+        private IGetCookiesStrategy _getCookiesStrategy;
+
         public override void OnPageFinished(Android.Webkit.WebView view, string url)
         {
-            SyncCookiesFromStorage(url);
+            CookieManager.Instance?.RemoveExpiredCookie();
+            CookieManager.Instance?.Flush();
+            _getCookiesStrategy.GetCookiesFromNative(url).ForEach(WebView.HSCookies.Add);
             base.OnPageFinished(view, url);
+        }
+
+        /// <summary>
+        /// 此策略是第一次启动时的默认策略，通过判断来确定使用的策略
+        /// </summary>
+        private class SelectStrategy : IGetCookiesStrategy
+        {
+            private readonly HSWebViewClient _father;
+            private readonly CookieManager _manager;
+            public SelectStrategy(HSWebViewClient renderer)
+            {
+                _father = renderer;
+                _manager = CookieManager.Instance;
+            }
+
+            public IEnumerable<Cookie> GetCookiesFromNative(string url)
+            {
+                string strategy = null;
+                var db = new DataBaseStrategy();
+                var dbRes = db.GetCookiesFromNative(url).ToList();
+                IEnumerable<Cookie> res;
+
+                //用数据库策略查询，若得到Cookie的个数为0，
+                //可能是：
+                //1、此时确实没有Cookie（先不选策略）；
+                //2、本机的WebView实现没有将Cookie存储在已知路径（选择纯CookieManager策略）。
+                if (dbRes.Count == 0)
+                {
+                    if (_manager.HasCookies)
+                    {
+                        strategy = typeof(CookieManagerStrategy).FullName;
+                        res = (_father._getCookiesStrategy = new CookieManagerStrategy()).GetCookiesFromNative(url);
+                    }
+                    else
+                    {
+                        res = ArraySegment<Cookie>.Empty;
+                    }
+                }
+                //若得到的Cookie数量不是0，则检查数据是否被加密；
+                //若未加密，则选用数据库模式，否则选用CookieManager策略。
+                else
+                {
+                    if (dbRes.TrueForAll(c => string.IsNullOrWhiteSpace(c.Value)))
+                    {
+                        strategy = typeof(CookieManagerStrategy).FullName;
+                        res = (_father._getCookiesStrategy = new CookieManagerStrategy()).GetCookiesFromNative(url);
+                    }
+                    else
+                    {
+                        strategy = typeof(DataBaseStrategy).FullName;
+                        _father._getCookiesStrategy = db;
+                        res = dbRes;
+                    }
+                }
+
+                if (strategy != null)
+                {
+                    Core.Configure.Configs.InsertOrUpdateTable(new Config
+                    {
+                        ConfigName = WebViewCookieStrategyConfig,
+                        Value = strategy
+                    });
+                }
+
+                return res;
+            }
         }
     }
 

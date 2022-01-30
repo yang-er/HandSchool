@@ -110,6 +110,8 @@ namespace HandSchool.Models
         [PrimaryKey]
         [Column("config_name")]
         public string ConfigName { get; set; }
+
+        [Column("value")]
         public string Value { get; set; }
     }
 }

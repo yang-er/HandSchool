@@ -92,7 +92,7 @@ namespace HandSchool
                 }
             }
             if (string.IsNullOrWhiteSpace(type)) return false;
-            var current = Schools.Find((sw) => sw.SchoolId == type);
+            var current = Schools.Find(sw => sw.SchoolId == type);
             if (current is null) return false;
             App.InjectService(current);
             current.PreLoad();
