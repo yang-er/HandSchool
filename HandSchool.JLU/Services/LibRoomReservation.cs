@@ -66,7 +66,7 @@ namespace HandSchool.JLU.Services
 
         public void DeleteUserInfo()
         {
-            Core.Configure.AccountManager.DeleteItemWithPrimaryKey(ServerName);
+            Core.App.Loader.AccountManager.DeleteItemWithPrimaryKey(ServerName);
             SavePassword = AutoLogin = IsLogin = false;
             Username = Password = "";
         }
@@ -82,7 +82,7 @@ namespace HandSchool.JLU.Services
             WebClient.BaseAddress = baseUrl;
 
             IsLogin = false;
-            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);
             if (acc != null)
             {
                 Username = acc.UserName;
@@ -102,7 +102,7 @@ namespace HandSchool.JLU.Services
                 return TaskResp.False;
             }
 
-            Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+            Core.App.Loader.AccountManager.InsertOrUpdateTable(new UserAccount
             {
                 ServerName = ServerName,
                 UserName = Username,

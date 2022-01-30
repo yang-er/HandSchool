@@ -338,7 +338,7 @@ namespace HandSchool.ViewModels
         public void SaveToFile()
         {
             Items.Sort((x, y) => (x.WeekDay * 100 + x.DayBegin).CompareTo(y.WeekDay * 100 + y.DayBegin));
-            Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+            Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
             {
                 JsonName = JsonName,
                 Json = Items.Serialize()
@@ -351,7 +351,7 @@ namespace HandSchool.ViewModels
         /// <returns>课程表内容</returns>
         private static List<CurriculumItem> LoadFromFile()
         {
-            return Core.Configure.JsonManager
+            return Core.App.Loader.JsonManager
                        .GetItemWithPrimaryKey(JsonName)
                        ?.ToObject<List<CurriculumItem>>()
                    ?? new List<CurriculumItem>();

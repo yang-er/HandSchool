@@ -1,6 +1,7 @@
 ﻿using HandSchool.Models;
 using System;
 using System.Collections.Generic;
+using HandSchool.Internals;
 
 namespace HandSchool.Services
 {
@@ -40,6 +41,17 @@ namespace HandSchool.Services
         /// 登录状态更改的事件传递
         /// </summary>
         EventHandler<LoginStateEventArgs> NoticeChange { get; set; }
+        
+        /// <summary>
+        /// 账户管理器
+        /// </summary>
+        
+        public SQLiteTableManager<UserAccount> AccountManager { get;}
+        
+        /// <summary>
+        /// Json管理器
+        /// </summary>
+        public SQLiteTableManager<ServerJson> JsonManager { get; }
 
         /// <summary>
         /// 在加载之前运行

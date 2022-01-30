@@ -151,7 +151,7 @@ namespace HandSchool.JLU
 
             IsLogin = false;
             NeedLogin = true;
-            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);
             if (acc != null)
             {
                 Username = acc.UserName;
@@ -171,7 +171,7 @@ namespace HandSchool.JLU
             }
             else
             {
-                Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+                Core.App.Loader.AccountManager.InsertOrUpdateTable(new UserAccount
                 {
                     ServerName = ServerName,
                     UserName = Username,

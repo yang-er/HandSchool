@@ -44,7 +44,7 @@ namespace HandSchool.JLU.Services
             try
             {
                 var scheduleValue = await Core.App.Service.Post(serviceResourceUrl, schedulePostValue);
-                Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
                 {
                     JsonName = ConfigKcbOrig,
                     Json = scheduleValue

@@ -159,7 +159,7 @@ namespace HandSchool.JLU
                             var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
                             string resp = await webResp2.ReadAsStringAsync();
                             if (resp.StartsWith("<!")) return TaskResp.False;
-                            Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                            Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
                             {
                                 JsonName = UserCacheColName,
                                 Json = UIMS.SavePassword ? resp : ""
@@ -171,7 +171,7 @@ namespace HandSchool.JLU
                             webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
                             resp = await webResp2.ReadAsStringAsync();
                             if (resp.StartsWith("<!")) return TaskResp.False;
-                            Core.Configure.JsonManager.InsertOrUpdateTable(
+                            Core.App.Loader.JsonManager.InsertOrUpdateTable(
                                 new ServerJson
                                 {
                                     JsonName = TeachTermColName,
@@ -221,8 +221,8 @@ namespace HandSchool.JLU
             {
                 try
                 {
-                    var loginInfo = Core.Configure.JsonManager.GetItemWithPrimaryKey(UserCacheColName)?.Json;
-                    var termInfo = Core.Configure.JsonManager.GetItemWithPrimaryKey(TeachTermColName)?.Json;
+                    var loginInfo = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(UserCacheColName)?.Json;
+                    var termInfo = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(TeachTermColName)?.Json;
                     if (string.IsNullOrWhiteSpace(loginInfo) || string.IsNullOrWhiteSpace(termInfo))
                     {
                         UIMS.AutoLogin = false;

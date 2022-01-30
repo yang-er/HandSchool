@@ -52,7 +52,7 @@ namespace HandSchool.JLU.Services
                     asv.distribute = lastDetail.ParseJSON<GradeDetails>();
                 }
                 // Save score details and add
-                Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
                 {
                     JsonName = ConfigGrade,
                     Json = ro.Serialize()
@@ -93,7 +93,7 @@ namespace HandSchool.JLU.Services
                     GradePointViewModel.Instance.AllGradeItems.AddReverse(allScoreItems);
                 });
 
-                Core.Configure.JsonManager.InsertOrUpdateTable(
+                Core.App.Loader.JsonManager.InsertOrUpdateTable(
                     new ServerJson
                     {
                         JsonName = ConfigGpa,
@@ -116,11 +116,11 @@ namespace HandSchool.JLU.Services
         public static async Task PreloadData()
         {
             await Task.Yield();
-            var gpaCache = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigGpa)?.Json ?? "";
+            var gpaCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigGpa)?.Json ?? "";
             var gpaItem = ParseGpa(gpaCache);
-            var newerScoreCache = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigGrade)?.Json ?? "";
+            var newerScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigGrade)?.Json ?? "";
             var newerScoreItems = ParseNewerScore(newerScoreCache);
-            var allScoreCache = Core.Configure.JsonManager.GetItemWithPrimaryKey(ConfigAllGrade)?.Json ?? "";
+            var allScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigAllGrade)?.Json ?? "";
             var allScoreItems = ParseAllScore(allScoreCache)?.ToList();
             
             Core.Platform.EnsureOnMainThread(() =>

@@ -236,14 +236,14 @@ namespace HandSchool.JLU.Services
         private WebVpn()
         {
             IsLogin = false;
-            var acc = Core.Configure.AccountManager.GetItemWithPrimaryKey(ServerName);
+            var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);
             if (acc != null)
             {
                 Username = acc.UserName;
                 Password = acc.Password;
             }
 
-            Core.Configure.JsonManager
+            Core.App.Loader.JsonManager
                 .GetItemWithPrimaryKey(ConfigCookies)
                 ?.ToObject<List<Cookie>>()
                 ?.ForEach(c =>
@@ -294,7 +294,7 @@ namespace HandSchool.JLU.Services
                 {
                     Username = uid;
                     Password = pwd;
-                    Core.Configure.AccountManager.InsertOrUpdateTable(new UserAccount
+                    Core.App.Loader.AccountManager.InsertOrUpdateTable(new UserAccount
                     {
                         ServerName = ServerName,
                         UserName = Username,
@@ -351,7 +351,7 @@ namespace HandSchool.JLU.Services
 
                     if (updated)
                     {
-                        Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+                        Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
                         {
                             JsonName = ConfigCookies,
                             Json = GetLoginCookies()

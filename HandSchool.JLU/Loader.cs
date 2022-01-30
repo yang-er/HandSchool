@@ -35,6 +35,8 @@ namespace HandSchool.JLU
         public Lazy<IMessageEntrance> Message { get; set; }
         public Lazy<IFeedEntrance> Feed { get; set; }
         public EventHandler<LoginStateEventArgs> NoticeChange { get; set; }
+        public SQLiteTableManager<UserAccount> AccountManager { get; set; }
+        public SQLiteTableManager<ServerJson> JsonManager { get; set; }
         public static WebDialogAdditionalArgs CancelLostWebAdditionalArgs { set => YktViewModel.CancelLostWebAdditionalArgs = value; }
 
         public List<string> RegisteredFiles { get; private set; }
@@ -101,9 +103,9 @@ namespace HandSchool.JLU
 
         public Loader()
         {
-            Core.Configure.AccountManager = 
+            AccountManager = 
                 new SQLiteTableManager<UserAccount>(true, Core.Platform.ConfigureDirectory, SchoolId, DataBaseName);
-            Core.Configure.JsonManager =
+            JsonManager =
                 new SQLiteTableManager<ServerJson>(true, Core.Platform.ConfigureDirectory, SchoolId, DataBaseName);
         }
         
@@ -116,7 +118,7 @@ namespace HandSchool.JLU
             };
             Core.Reflection.RegisterFiles(this.GetAssembly(), "JLU", RegisteredFiles);
 
-            var config = Core.Configure.JsonManager
+            var config = JsonManager
                              .GetItemWithPrimaryKey(ConfigName)
                              ?.ToObject<SettingsJSON>()
                          ?? new SettingsJSON();
@@ -186,7 +188,7 @@ namespace HandSchool.JLU
 
         public void SaveSettings(SettingsJSON json)
         {
-            Core.Configure.JsonManager.InsertOrUpdateTable(new ServerJson
+            JsonManager.InsertOrUpdateTable(new ServerJson
             {
                 JsonName = ConfigName,
                 Json = json.Serialize()

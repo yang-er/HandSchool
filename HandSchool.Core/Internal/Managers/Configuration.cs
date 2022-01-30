@@ -19,17 +19,17 @@ namespace HandSchool.Internals
         public ConfigurationManager(string directory)
         {
             Directory = directory;
+            Configs = new SQLiteTableManager<Config>(true, Directory, ConfigPath);
         }
         
-        public SQLiteTableManager<UserAccount> AccountManager { get; set; }
-        
-        public SQLiteTableManager<ServerJson> JsonManager { get; set; }
-
+        public const string ConfigPath = "config.db";
 
         /// <summary>
         /// 数据基础目录
         /// </summary>
         public string Directory { get; }
+        
+        public SQLiteTableManager<Config> Configs { get; }
 
         /// <summary>
         /// 目前的配置上下文

@@ -1,5 +1,6 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.Services;
+using HandSchool.Models;
 using HandSchool.Services;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -20,9 +21,12 @@ namespace HandSchool.JLU.Views
         {
             base.SetNavigationArguments(param);
 
-            var sch = param as ISchoolWrapper;
-            Core.Configure.Write(Core.ConfigSchool, sch.SchoolId);
-
+            var sch = (ISchoolWrapper) param;
+            Core.Configure.Configs.InsertOrUpdateTable(new Config
+            {
+                ConfigName = "school",
+                Value = sch.SchoolId
+            });
             Core.App.InjectService(sch);
             sch.PreLoad();
             sch.PostLoad();

@@ -1,7 +1,9 @@
-﻿using HandSchool.Internals;
+﻿using System;
+using HandSchool.Internals;
 using HandSchool.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
+using HandSchool.Models;
 
 namespace HandSchool
 {
@@ -14,12 +16,12 @@ namespace HandSchool
         /// 单例的加载了当前学校的App
         /// </summary>
         public static SchoolApplication App { get; private set; }
-
+        
         /// <summary>
         /// 配置管理
         /// </summary>
         public static ConfigurationManager Configure { get; private set; }
-
+        
         /// <summary>
         /// 反射处理
         /// </summary>
@@ -63,17 +65,32 @@ namespace HandSchool
             Logger = new Logger();
         }
 
+        [Obsolete]
         public const string ConfigSchool = "hs.school.inf";
+        
         /// <summary>
         /// 初始化核心程序
         /// </summary>
         /// <returns>是否已经加载对应学校</returns>
+        [ToFix("时间足够长时，应删除旧式配置管理")]
         public static bool Initialize()
         {
             if (App != null) return Initialized;
             App = new SchoolApplication();
-            
-            var type = Configure.Read(ConfigSchool);
+
+            var type = Configure.Configs.GetItemWithPrimaryKey("school")?.Value;
+            if (string.IsNullOrWhiteSpace(type))
+            {
+                type = Configure.Read(ConfigSchool);
+                if (!string.IsNullOrWhiteSpace(type))
+                {
+                    Configure.Configs.InsertOrUpdateTable(new Config
+                    {
+                        ConfigName = "school",
+                        Value = type
+                    });
+                }
+            }
             if (string.IsNullOrWhiteSpace(type)) return false;
             var current = Schools.Find((sw) => sw.SchoolId == type);
             if (current is null) return false;
