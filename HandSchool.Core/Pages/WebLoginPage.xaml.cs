@@ -39,8 +39,10 @@ namespace HandSchool.Pages
                 _events.Page = this;
             }
         }
+        
         public void SetNavigationArguments(LoginViewModel lvm)
         {
+            SetNavigationArguments(lvm.Form);
             LoginViewModel = lvm;
             UpdateCaptchaInformation();
         }
@@ -84,6 +86,11 @@ namespace HandSchool.Pages
         public void UpdateCaptchaInformation()
         {
             LoginView.Source = LoginUrl;
+        }
+
+        public Task LoginAsync()
+        {
+            return Form.Login();
         }
     }
 }

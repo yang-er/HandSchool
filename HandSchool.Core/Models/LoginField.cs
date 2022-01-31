@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using HandSchool.Controls;
 using HandSchool.Internal;
-using HandSchool.Pages;
 
 namespace HandSchool.Models
 {

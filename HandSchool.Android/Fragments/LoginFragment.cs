@@ -3,7 +3,6 @@ using Android.Graphics;
 using Android.OS;
 using HandSchool.Internals;
 using Android.Support.Design.Widget;
-using Android.Text;
 using Android.Views;
 using Android.Widget;
 using HandSchool.Models;
@@ -12,8 +11,6 @@ using HandSchool.Views;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using CharSequence = Java.Lang.ICharSequence;
-using System.Threading;
 
 namespace HandSchool.Droid
 {
@@ -94,8 +91,13 @@ namespace HandSchool.Droid
             Context context  = PlatformImplV2.Instance.PeekContext();
             var navigate = context as INavigate;
             navigate.PushAsync<LoginActivity>(this);
-            return Completed;
+            return Task.CompletedTask;
         }
+
+        public Task LoginAsync()
+        {
+            return Completed;
+        } 
         
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {

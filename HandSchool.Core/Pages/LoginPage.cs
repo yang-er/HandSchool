@@ -36,5 +36,11 @@ namespace HandSchool.Views
         /// 显示登录对话框。
         /// </summary>
         Task ShowAsync();
+
+        /// <summary>
+        /// 等待用户在登录页面的操作
+        /// </summary>
+        /// <returns></returns>
+        Task LoginAsync();
     }
 }

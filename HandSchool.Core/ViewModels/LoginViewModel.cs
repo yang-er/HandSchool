@@ -9,16 +9,17 @@ namespace HandSchool
 {
     public enum RequestLoginState
     {
-        Failed = -1, ViewModelError = 0, Success = 1
+        Failed = -1, PageError = 0, Success = 1
     }
 }
+
 namespace HandSchool.ViewModels
 {
     /// <summary>
     /// 用于帮助填写表单登录的视图模型。
     /// </summary>
     /// <inheritdoc cref="BaseViewModel" />
-    public  class LoginViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
         /// <summary>
         /// 登录命令
@@ -55,51 +56,35 @@ namespace HandSchool.ViewModels
         {
             return Core.Platform.EnsureOnMainThread(async () =>
             {
-                LoginViewModel viewModel;
-                if (form.IsWeb)
-                {
-                    var page = Core.New<WebLoginPage>();
-                    if (page is ViewObject obj)
-                    {
-                        obj.SetNavigationArguments(form as IWebLoginField);
-                    }
-                    viewModel = new LoginViewModel(form)
-                    {
-                        Page = page,
-                    };
-                    viewModel.Page.SetNavigationArguments(viewModel);
-                    
-                }
-                else
-                {
-                    viewModel = new LoginViewModel(form);
-                    viewModel.LoginCommand = new CommandAction(viewModel.Login);
-                    viewModel.Page = Core.New<ILoginPage>();
-                    viewModel.Page.SetNavigationArguments(viewModel);
-                }
+                var page = form.IsWeb ? Core.New<WebLoginPage>() : Core.New<ILoginPage>();
+                var viewModel = new LoginViewModel(form) {Page = page};
+                viewModel.LoginCommand = form.IsWeb ? null : new CommandAction(viewModel.Login);
+                viewModel.Page.SetNavigationArguments(viewModel);
+
                 if (CurrentTask != null) await CurrentTask;
                 if (form.IsLogin) return RequestLoginState.Success;
+
                 var cts = new TaskCompletionSource<bool>();
                 CurrentTask = cts.Task;
+
                 try
                 {
                     await viewModel.Page.ShowAsync();
-                    if (form.IsWeb)
-                    {
-                        await form.Login();
-                    }
                 }
-                catch (System.InvalidOperationException)
+                catch (System.InvalidOperationException) //抛出这个异常时说明APP还没初始化完成
                 {
-                    cts.SetResult(true);
-                    return RequestLoginState.ViewModelError;
+                    cts.SetResult(false);
+                    return RequestLoginState.PageError;
                 }
 
+                await viewModel.Page.LoginAsync();
                 cts.SetResult(true);
-                return form.IsLogin ? RequestLoginState.Success : RequestLoginState.Failed;
+                return form.IsLogin
+                    ? RequestLoginState.Success
+                    : RequestLoginState.Failed;
             });
         }
-        
+
         /// <summary>
         /// 执行登录操作，并设置状态。
         /// </summary>
