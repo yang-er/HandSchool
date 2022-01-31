@@ -74,15 +74,15 @@ namespace HandSchool.Droid.Internals
 
     public class WebLoginPageImpl : WebLoginPage
     {
-        public override Task CloseAsync()
+        public override async Task CloseAsync()
         {
             var context = PlatformImplV2.Instance.PeekContext(false);
             if (context is WebLoginActivity)
             {
-                return Navigation.PopAsync();
+                await Navigation.PopAsync();
             }
 
-            return Task.CompletedTask;
+            await base.CloseAsync();
         }
 
         public override Task ShowAsync()

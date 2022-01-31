@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -48,14 +47,11 @@ namespace HandSchool.Pages
         }
 
         private IWebLoginField Form { get; set; }
-        public abstract Task CloseAsync();
-        protected override void OnDisappearing()
+        private bool _closed;
+        private void StopWait()
         {
-            if (!Form.IsLogin)
-            {
-                Result.TrySetResult(TaskResp.False);
-            }
-
+            if (_closed) return;
+            Result?.TrySetResult(new TaskResp(Form?.IsLogin == true));
             Form = null;
             if (_events != null)
             {
@@ -64,9 +60,23 @@ namespace HandSchool.Pages
             }
 
             LoginView.Source = null;
+            _closed = true;
         }
 
         public abstract Task ShowAsync();
+        
+        public virtual Task CloseAsync()
+        {
+            StopWait();
+            return Task.CompletedTask;
+        }
+
+        protected override void OnDisappearing()
+        {
+            StopWait();
+            base.OnDisappearing();
+        }
+
         public async void OnLoginStateChanged(object sender, LoginStateEventArgs e)
         {
             switch (e.State)

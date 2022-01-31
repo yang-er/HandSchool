@@ -11,13 +11,13 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ViewObject, ILoginPage
     {
-        MemoryStream image_mem;
-        readonly TaskCompletionSource<bool> finished;
+        private MemoryStream _imageMem;
+        private readonly TaskCompletionSource<bool> _finished;
         
         public LoginPage()
         {
             InitializeComponent();
-            finished = new TaskCompletionSource<bool>();
+            _finished = new TaskCompletionSource<bool>();
         }
 
         public LoginViewModel LoginViewModel
@@ -50,16 +50,18 @@ namespace HandSchool.Views
 
         public Task ShowAsync()
         {
+            return Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
+        }
 
-            Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
-            return finished.Task;
+        public Task LoginAsync()
+        {
+            return _finished.Task;
         }
 
         protected override void OnDisappearing()
         {
-            finished.TrySetResult(true);
+            _finished.TrySetResult(true);
             base.OnDisappearing();
-
         }
         public async void UpdateCaptchaInformation()
         {
@@ -80,10 +82,10 @@ namespace HandSchool.Views
                 CaptchaBox.IsVisible = true;
                 AutoLoginBox.IsVisible = false;
 
-                if (image_mem != null)
-                    image_mem.Close();
-                image_mem = new MemoryStream(LoginViewModel.Form.CaptchaSource, false);
-                CaptchaImage.Source = ImageSource.FromStream(() => image_mem);
+                if (_imageMem != null)
+                    _imageMem.Close();
+                _imageMem = new MemoryStream(LoginViewModel.Form.CaptchaSource, false);
+                CaptchaImage.Source = ImageSource.FromStream(() => _imageMem);
             }
 
             LoginViewModel.IsBusy = false;

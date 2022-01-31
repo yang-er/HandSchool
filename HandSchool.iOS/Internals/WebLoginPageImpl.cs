@@ -11,9 +11,11 @@ namespace HandSchool.iOS.Internals
         {
             SetValue(PlatformExtensions.ShowLeftCancelProperty, true);
         }
-        public override Task CloseAsync()
+
+        public override async Task CloseAsync()
         {
-            return Xamarin.Forms.Application.Current.MainPage.Navigation.PopModalAsync();
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopModalAsync();
+            await base.CloseAsync();
         }
 
         public override Task ShowAsync()

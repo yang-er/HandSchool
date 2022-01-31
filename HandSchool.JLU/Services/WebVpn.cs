@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HandSchool.Internal;
 using HandSchool.ViewModels;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 
 [assembly: RegisterService(typeof(WebVpn))]
@@ -366,7 +365,6 @@ namespace HandSchool.JLU.Services
                         if (!_pageClosed)
                         {
                             _pageClosed = true;
-                            Events?.Result?.TrySetResult(TaskResp.True);
                             await (Events?.Page?.CloseAsync() ?? Task.CompletedTask);
                         }
                     }
