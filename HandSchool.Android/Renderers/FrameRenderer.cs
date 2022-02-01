@@ -30,6 +30,7 @@ namespace HandSchool.Droid.Renderers
 
     public class TouchableFrameRenderer : FrameRenderer
     {
+        private bool _disposed;
         public TouchableFrameRenderer(Context context) : base(context) { }
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
@@ -53,12 +54,10 @@ namespace HandSchool.Droid.Renderers
         }
         protected override void Dispose(bool disposing)
         {
-            try
-            {
-                SetOnClickListener(null);
-                SetOnLongClickListener(null);
-            }
-            catch{}
+            if (_disposed) return;
+            SetOnClickListener(null);
+            SetOnLongClickListener(null);
+            _disposed = true;
             base.Dispose(disposing);
         }
         private void RefreshOnClickListener(TouchableFrame touchableElement)
