@@ -2,15 +2,8 @@
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls" xmlns:internal="clr-namespace:HandSchool.Internal"
-              x:Class="HandSchool.Views.GradePointPage"
+              x:Class="HandSchool.Views.NewGradePage"
               Title="{Binding Title}">
-    <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Clicked="PushAllScorePage" Title="全部成绩"/>
-    </w:ViewObject.ToolbarMenu>
-    <w:ViewObject.ToolbarItems>
-        <ToolbarItem Text="全部成绩" Clicked="PushAllScorePage"></ToolbarItem>
-    </w:ViewObject.ToolbarItems>
-    
     <w:ViewObject.Content>
         <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadNewerItemsCommand}">
         <CollectionView ItemsSource="{Binding NewerGradeItems}"
@@ -34,7 +27,7 @@
                             SecondTitle="●"
                             SecondTitleColor="{Binding TypeColor}"
                             SecondContent="{Binding Type}"
-                            Click="Handle_ItemTapped"/> 
+                            Click="ShowDetail"/> 
                     </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

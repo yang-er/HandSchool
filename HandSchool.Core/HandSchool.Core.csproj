@@ -51,6 +51,12 @@
   <ItemGroup>
     <Folder Include="Pages\FirstOpen\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\GradePoint\NewGradePage.xaml.cs">
+      <DependentUpon>NewGradePage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarHandSchoolCoreHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
