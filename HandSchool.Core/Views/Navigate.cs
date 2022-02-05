@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace HandSchool.Views
 {
@@ -16,6 +14,12 @@ namespace HandSchool.Views
         /// <param name="pageType">页面类型</param>
         /// <param name="param">传入参数</param>
         Task PushAsync(Type pageType, object param);
+        
+        /// <summary>
+        /// 在导航栈中推入页面，页面实例已创建
+        /// </summary>
+        Task PushAsync(object page, object param);
+        
         Task<bool> PopAsync();
     }
 }

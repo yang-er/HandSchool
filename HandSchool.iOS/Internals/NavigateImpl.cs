@@ -36,6 +36,20 @@ namespace HandSchool.iOS
         }
 
         private INavigation InnerNavigation { get; set; }
+
+        public Task PushAsync(object view, object param)
+        {
+            if (view is Page page)
+            {
+                if (page is IViewLifecycle vlc)
+                    vlc.SetNavigationArguments(param);
+                return InnerNavigation.PushAsync(page);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
         
         public Task PushAsync(Type pageType, object param)
         {

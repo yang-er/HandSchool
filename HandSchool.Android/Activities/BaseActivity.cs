@@ -1,21 +1,20 @@
 ﻿using Android.OS;
-using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
 using HandSchool.Internals;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Xamarin.Forms.Platform.Android;
 using SupportFragment  = AndroidX.Fragment.App.Fragment;
 using FragmentTransaction = AndroidX.Fragment.App.FragmentTransaction;
-using AToolbar = AndroidX.AppCompat.Widget.Toolbar; 
-using Android.Widget;
+using AToolbar = AndroidX.AppCompat.Widget.Toolbar;
 using Android.Content;
 using Android.Views;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.Tabs;
+using Xamarin.Forms;
+using ProgressBar = Android.Widget.ProgressBar;
 
 namespace HandSchool.Droid
 {
@@ -145,7 +144,7 @@ namespace HandSchool.Droid
 
                     var menuItem = menu.Add(entry.Title);
                     
-                    if (entry.Order != Xamarin.Forms.ToolbarItemOrder.Secondary)
+                    if (entry.Order != ToolbarItemOrder.Secondary)
                         menuItem.SetShowAsAction(ShowAsAction.Always);
                     menuItem.SetOnMenuItemClickListener(new MenuEntryClickedListener(entry));
                 }
@@ -205,6 +204,17 @@ namespace HandSchool.Droid
                 StartActivity(intent);
             }
             
+            return Task.CompletedTask;
+        }
+
+        public Task PushAsync(object page, object param)
+        {
+            var intent = new Intent(this, typeof(SecondActivity));
+            var guid = Guid.NewGuid();
+            var param2 = (page, param);
+            ArgumentBroadcastSource.Add(guid, param2);
+            intent.PutExtra(BroadcastedArgument, guid.ToByteArray());
+            StartActivity(intent);
             return Task.CompletedTask;
         }
 
