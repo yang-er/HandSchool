@@ -43,12 +43,7 @@ namespace HandSchool.Internals
         /// 应用商店链接
         /// </summary>
         public string StoreLink { get; protected set; }
-
-        /// <summary>
-        /// 运行时名称
-        /// </summary>
-        public string RuntimeName { get; protected set; }
-
+        
         /// <summary>
         /// 设置文件夹
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace HandSchool.Internals.HtmlObject
 {
@@ -23,7 +24,7 @@ namespace HandSchool.Internals.HtmlObject
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">");
             sb.Append("<script>{invokeCSharpAction_script}</script>");
             sb.Append($"<link rel=\"stylesheet\" href=\"bootstrap.css\"><style>{Css}</style><title>{Title}</title></head>");
-            sb.Append($"<body class=\"{Core.Platform.RuntimeName}\"><div class=\"container-fluid\">");
+            sb.Append($"<body class=\"{Device.RuntimePlatform}\"><div class=\"container-fluid\">");
             Children.ForEach((obj) => obj.ToHtml(sb));
             sb.Append("</div><script src=\"jquery.js\"></script>");
             JavaScript.ForEach((obj) => sb.Append("<script>" + obj + "</script>"));

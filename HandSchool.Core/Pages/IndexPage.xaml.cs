@@ -80,25 +80,17 @@ namespace HandSchool.Views
         {
             IndexViewModel.Instance.CurrentClassesLoadFinished += CurrentClassLoadOver;
             Task.Run(IndexViewModel.Instance.Refresh);
-            switch (Device.RuntimePlatform)
+            Task.Run(async () =>
             {
-                case Device.Android:
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            await IndexViewModel.Instance.RefreshWeather();
-                        }
-                        catch
-                        {
-                            WeatherFrame.IsVisible = false;
-                        }
-                    });
-                    break;
-                default: 
+                try
+                {
+                    await IndexViewModel.Instance.RefreshWeather();
+                }
+                catch
+                {
                     WeatherFrame.IsVisible = false;
-                    break;
-            }
+                }
+            });
             base.OnAppearing();
         }
 

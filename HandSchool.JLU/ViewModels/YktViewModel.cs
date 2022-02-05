@@ -468,7 +468,7 @@ namespace HandSchool.JLU.ViewModels
                             ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action"
                             : "http://xyk.jlu.edu.cn/homeLogin.action";
 
-                        if (Core.Platform.RuntimeName == "Android")
+                        if (Device.RuntimePlatform == Device.Android)
                         {
                             if (vpn)
                             {

@@ -174,12 +174,9 @@ namespace HandSchool.Views
                 case SettingTypes.Boolean:
                     BooleanValue = (bool)Wrapper.Value;
                     break;
-                    
-                default:
-                    break;
             }
 
-            if (Core.Platform.RuntimeName == "UWP") return;
+            if (Device.RuntimePlatform == Device.UWP) return;
             SetControl(wrapper);
         }
 

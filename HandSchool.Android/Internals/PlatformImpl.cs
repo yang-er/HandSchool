@@ -51,7 +51,6 @@ namespace HandSchool.Droid
 
         private PlatformImplV2(Context context)
         {
-            RuntimeName = Device.Android;
             StoreLink = "https://www.coolapk.com/apk/com.x90yang.HandSchool";
             ConfigureDirectory = context.FilesDir.AbsolutePath;
             Core.InitPlatform(Instance = this);

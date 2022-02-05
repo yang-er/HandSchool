@@ -1,10 +1,13 @@
-﻿using HandSchool.iOS;
+﻿using System;
+using System.ComponentModel;
+using HandSchool.iOS;
 using HandSchool.Views;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(MainPage), typeof(MainPageRenderer))]
+
 namespace HandSchool.iOS
 {
     public class MainPageRenderer : TabbedRenderer
@@ -20,7 +23,7 @@ namespace HandSchool.iOS
             HidesBottomBarWhenPushed = true;
             TabBar.Translucent = true;
             
-            if ((e.NewElement as MainPage).Children.Count == 1)
+            if ((e.NewElement as MainPage)?.Children.Count == 1)
             {
                 TabBar.Hidden = true;
             }

@@ -4,23 +4,16 @@ using HandSchool.ViewModels;
 using HandSchool.Internals;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Windows.Input;
 
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MessagePage : ViewObject
     {
-        public static MessagePage Instance;
         public MessagePage()
         {
             InitializeComponent();
             ViewModel = MessageViewModel.Instance;
-            Instance = this;
-
-            if (Core.Platform.RuntimeName == "Android")
-            {
-            }
         }
 
         protected override void OnAppearing()
@@ -29,16 +22,36 @@ namespace HandSchool.Views
             MessageViewModel.Instance.FirstOpen();
         }
 
-        public bool IsPushing { get; set; } = false;
+        private bool _isPushing;
 
-        private void MessageClicked(object sender, EventArgs e)
+        private async void MessageClicked(object sender, EventArgs e)
         {
-            ((sender as Frame)?.BindingContext as IMessageItem)?.ItemTappedCommand?.Execute(null);
+            var item = (sender as BindableObject)?.BindingContext as IMessageItem;
+            if (_isPushing) return;
+            _isPushing = true;
+            item?.SetRead.Execute(null);
+            await Navigation.PushAsync<DetailPage>(item);
+            _isPushing = false;
         }
 
-        private void MessageLongClicked(object sender, EventArgs e)
+        private async void MessageLongClicked(object sender, EventArgs e)
         {
-            ((sender as Frame)?.BindingContext as IMessageItem)?.ItemLongPressCommand?.Execute(null);
+            var item = (sender as Frame)?.BindingContext as IMessageItem;
+            var opts = new[] {"设为已读", "设为未读", "删除"};
+            var opt = await RequestActionAsync("你要将此消息", "取消", null, opts);
+            if (string.IsNullOrEmpty(opt)) return;
+            if (opt == opts[0])
+            {
+                item?.SetRead.Execute(null);
+            }
+            else if (opt == opts[1])
+            {
+                item?.SetUnread.Execute(null);
+            }
+            else if (opt == opts[2])
+            {
+                item?.Delete.Execute(null);
+            }
         }
     }
 }

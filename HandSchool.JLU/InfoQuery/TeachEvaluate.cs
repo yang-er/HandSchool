@@ -3,6 +3,7 @@ using HandSchool.Internals.HtmlObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
+using Xamarin.Forms;
 
 namespace HandSchool.JLU.InfoQuery
 {
@@ -26,7 +27,7 @@ namespace HandSchool.JLU.InfoQuery
                 "蓝色代表可以评价，黄色代表需要手动登录网页评价，绿色代表评价完成。");
             
             var table = new Table(false, "evalItemList") { "教师", "学院" };
-            if (Core.Platform.RuntimeName == "UWP") table.Add("教学任务");
+            if (Device.RuntimePlatform == Device.UWP) table.Add("教学任务");
 
             HtmlDocument = new Bootstrap
             {
@@ -34,7 +35,7 @@ namespace HandSchool.JLU.InfoQuery
                 JavaScript =
                 {
                     $"var list = []; var i = 0, len = 0; " +
-                    $"var uwp = {(Core.Platform.RuntimeName == "UWP" ? "true" : "false")};",
+                    $"var uwp = {(Device.RuntimePlatform == Device.UWP ? "true" : "false")};",
                     HotfixAttribute.ReadContent(this)
                 }
             };

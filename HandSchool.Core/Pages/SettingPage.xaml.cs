@@ -22,10 +22,10 @@ namespace HandSchool.Views
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (Core.Platform.RuntimeName != "UWP")
+            if (Device.RuntimePlatform != Device.UWP)
             {
                 var sw = e.Item as SettingWrapper;
-                sw.ExcuteAction?.Execute(null);
+                sw?.ExcuteAction?.Execute(null);
             }
         }
     }

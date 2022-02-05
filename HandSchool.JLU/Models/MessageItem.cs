@@ -2,7 +2,6 @@
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
-using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,32 +16,27 @@ namespace HandSchool.JLU.Models
     /// <inheritdoc cref="IMessageItem" />
     internal class MessageItem : NotifyPropertyChanged, IMessageItem
     {
-        private readonly MessagePiece piece;
+        private readonly MessagePiece _piece;
         private bool _unread;
         public Xamarin.Forms.Color ReadState => Unread ? Xamarin.Forms.Color.Red : Xamarin.Forms.Color.Gray;
-        public int Id => int.Parse(piece.msgInboxId);
-        public string Title => piece.message.title;
-        public string Body => piece.message.body;
-        public string Detail => piece.message.body;
-        public DateTime Time => piece.message.dateCreate;
-        public string Sender => (piece.message.sender is null ? "系统" : piece.message.sender.name);
-        public string Date => Core.Platform.RuntimeName == "Android" ? piece.message.dateCreate.ToString("yyyy/MM/dd\nhh:ss:ss") : piece.message.dateCreate.ToString("d");
+        public int Id => int.Parse(_piece.msgInboxId);
+        public string Title => _piece.message.title;
+        public string Body => _piece.message.body;
+        public string Detail => _piece.message.body;
+        public DateTime Time => _piece.message.dateCreate;
+        public string Sender => (_piece.message.sender is null ? "系统" : _piece.message.sender.name);
+        public string Date => Device.RuntimePlatform == Device.Android ? _piece.message.dateCreate.ToString("yyyy/MM/dd\nhh:ss:ss") : _piece.message.dateCreate.ToString("d");
         public bool Unread { get => _unread; set => SetProperty(ref _unread, value); }
         public ICommand SetRead { get; }
         public ICommand SetUnread { get; }
         public ICommand Delete { get; }
-        public ICommand ItemLongPressCommand { get;}
-        public ICommand ItemTappedCommand { get; }
-
         public MessageItem(MessagePiece p)
         {
-            piece = p;
-            _unread = piece.hasReaded == "N";
+            _piece = p;
+            _unread = _piece.hasReaded == "N";
             SetRead = new CommandAction(SetReadAsync);
             SetUnread = new CommandAction(SetUnreadAsync);
             Delete = new CommandAction(DeleteAsync);
-            ItemLongPressCommand = new CommandAction(ItemLongPress);
-            ItemTappedCommand = new CommandAction(ItemTapped);
         }
 
         private async Task SetReadAsync()
@@ -61,33 +55,6 @@ namespace HandSchool.JLU.Models
         {
             await Core.App.Message.Delete(Id);
             MessageViewModel.Instance.Remove(this);
-        }
-
-        private async Task ItemLongPress()
-        {
-            string[] opts = new string[] { "设为已读", "设为未读", "删除" };
-            var opt = await MessageViewModel.Instance.RequestActionAsync("你要将此消息", "取消", null,opts);
-            if (string.IsNullOrEmpty(opt)) return;
-            if(opt == opts[0])
-            {
-                SetRead.Execute(null);
-            }
-            else if(opt == opts[1])
-            {
-                SetUnread.Execute(null);
-            }
-            else if(opt == opts[2])
-            {
-                Delete.Execute(null);
-            }
-        }
-        private async Task ItemTapped()
-        {
-            if (this == null || MessagePage.Instance.IsPushing) return;
-            MessagePage.Instance.IsPushing = true;
-            SetRead.Execute(null);
-            await MessagePage.Instance.Navigation.PushAsync<DetailPage>(this);
-            MessagePage.Instance.IsPushing = false;
         }
     }
 }

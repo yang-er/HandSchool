@@ -72,7 +72,7 @@ namespace HandSchool.JLU
 
             SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(WebVpn).GetProperty("UseVpn")));
 
-            NavigationViewModel.Instance.AddMenuEntry("校园卡", Core.Platform.RuntimeName == "iOS" ? "XykIos" : "XykDroid",
+            NavigationViewModel.Instance.AddMenuEntry("校园卡", Device.RuntimePlatform == Device.iOS ? "XykIos" : "XykDroid",
                 "JLU", MenuIcon.CreditCard);
             NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU",
                 MenuIcon.LibRoomResv);
