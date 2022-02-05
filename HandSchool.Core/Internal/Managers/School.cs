@@ -8,6 +8,16 @@ namespace HandSchool.Internals
     public class SchoolApplication
     {
         /// <summary>
+        /// 加载开始时执行
+        /// </summary>
+        public static event EventHandler<EventArgs> Loading;
+        
+        /// <summary>
+        /// 加载结束后执行
+        /// </summary>
+        public static event EventHandler<EventArgs> Loaded;
+        
+        /// <summary>
         /// 最终使用的加载器
         /// </summary>
         public ISchoolWrapper Loader { get; set; }
@@ -62,5 +72,8 @@ namespace HandSchool.Internals
             Loader.NoticeChange = (s, e) => LoginStateChanged?.Invoke(s, e);
             Registry.RegisterTypes();
         }
+
+        public static void OnLoading(ISchoolWrapper loader, EventArgs args) => Loading?.Invoke(loader, args);
+        public static void OnLoaded(ISchoolWrapper loader, EventArgs args) => Loaded?.Invoke(loader, args);
     }
 }

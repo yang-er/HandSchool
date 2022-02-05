@@ -87,6 +87,7 @@ namespace HandSchool.JLU
             MessageViewModel.BeforeOperatingCheck = 
             GradePointViewModel.BeforeOperatingCheck = 
             ScheduleViewModel.BeforeOperatingCheck = CheckVpn;
+            SchoolApplication.OnLoaded(this, EventArgs.Empty);
         }
 
         private static async Task<TaskResp> CheckVpn()
@@ -111,6 +112,7 @@ namespace HandSchool.JLU
         
         public void PreLoad()
         {
+            SchoolApplication.OnLoading(this, EventArgs.Empty);
             Core.App.DailyClassCount = 11;
             RegisteredFiles = new List<string>
             {
