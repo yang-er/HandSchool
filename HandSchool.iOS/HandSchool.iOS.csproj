@@ -121,6 +121,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ViewPresenterConverter.cs" />
     <Compile Include="Converters\OenConverter.cs" />
     <Compile Include="Controls\HybridWebView.cs" />
     <Compile Include="Controls\PickerCell.cs" />
@@ -155,7 +156,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\NavigationRenderer.cs" />
     <Compile Include="Renderers\PickerCellRenderer.cs" />
-    <Compile Include="Renderers\TabletPage.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Pages\FirstOpen\WelcomeIOSPage.cs" />
   </ItemGroup>

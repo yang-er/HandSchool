@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Foundation;
 using HandSchool.iOS.Pages;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using WebKit;
 using Xamarin.Forms;
-using XApplication = Xamarin.Forms.Application;
+using XApp = Xamarin.Forms.Application;
 
 namespace HandSchool.iOS
 {
-    public partial class App : XApplication
+    public partial class App : XApp
     {
-        public new static App Current
-        {
-            get => XApplication.Current as App;
-        }
-
+        public new static App Current => XApp.Current as App;
+        
         public App()
         {
             PlatformImpl.Register();
@@ -24,7 +20,6 @@ namespace HandSchool.iOS
             InitializeComponent();
             Core.Initialize();
             SettingViewModel.OnResetSettings += DeleteWKWebViewCookies;
-            
             if (Core.Initialized)
             {
                 SetMainPage<MainPage>();
@@ -49,12 +44,13 @@ namespace HandSchool.iOS
                 i++;
             }
         }
-        public void SetMainPage<T>()
+
+        private void SetMainPage<T>()
             where T : Page, new()
         {
             MainPage = new T();
         }
-        
+
         protected override void OnStart()
 		{
             // Handle when your app starts

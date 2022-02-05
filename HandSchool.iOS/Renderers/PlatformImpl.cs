@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,9 +75,10 @@ namespace HandSchool.iOS
 
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
-            string ios = NavMenuItemImpl.IconList[(int)icon];
-            if (ios is null) InfoQueryMenu.Add(new NavMenuItemImpl(title, dest, category, icon).AsEntrance());
-            else NavigationMenu.Add(new NavMenuItemImpl(title, dest, category, icon));
+            var ios = NavMenuItemImpl.IconList[(int)icon];
+            if (ios is null) 
+                InfoQueryMenu.Add(new NavMenuItemImpl(title, dest, category, icon){IsSingleInstance = false}.AsEntrance());
+            else NavigationMenu.Add(new NavMenuItemImpl(title, dest, category, icon){IsSingleInstance = true});
         }
     }
 }

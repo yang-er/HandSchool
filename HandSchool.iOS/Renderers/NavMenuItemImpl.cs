@@ -1,5 +1,4 @@
-﻿using HandSchool.Internal;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
@@ -9,8 +8,7 @@ namespace HandSchool.iOS
 {
     public class NavMenuItemImpl : NavigationMenuItem
     {
-        public static readonly string[] IconList = new[]
-        {
+        public static readonly string[] IconList = {
             "tab_rec.png",
             "tab_sched.png",
             "tab_feed.png",
@@ -25,56 +23,98 @@ namespace HandSchool.iOS
 
         public FileImageSource Icon { get; }
         private IViewPresenter Presenter { get; }
-        private readonly Lazy<TapEntranceWrapper> Wrapper;
-        private readonly Lazy<ViewObject> LazyCorePage;
-        private readonly Lazy<Page> LazyFullPage;
+        private readonly Lazy<TapEntranceWrapper> _wrapper;
+        public TapEntranceWrapper AsEntrance() => _wrapper.Value;
+        private readonly Func<Page> _getPage;
+        private readonly Func<ViewObject> _getViewObj;
+        private (Page, NavigationPage) _instances;
+        private bool _used;
+        private bool _singleInstance;
+        public bool IsSingleInstance
+        {
+            get => _singleInstance;
+            set
+            {
+                lock (this)
+                {
+                    if (_used)
+                    {
+                        throw new InvalidOperationException("Instance has been created! ");
+                    }
+                    _singleInstance = value;
+                }
+            }
+        }
 
-        public TapEntranceWrapper AsEntrance() => Wrapper.Value;
+        public Page GetPageInstance()
+        {
+            lock (this)
+            {
+                _used = true;
 
-        public Page Page => LazyFullPage.Value;
+                if (!_singleInstance)
+                {
+                    return _getViewObj?.Invoke() ?? _getPage.Invoke();
+                }
+                
+                _instances.Item1 ??= _getViewObj?.Invoke() ?? _getPage.Invoke();
+                return _instances.Item1;
+            }
+        }
+
+        public NavigationPage GetNavigationPage(Page page = null)
+        {
+            lock (this)
+            {
+                _used = true;
+                if (!_singleInstance)
+                {
+                    return new NavigationPage(page ?? GetPageInstance())
+                    {
+                        Title = Title,
+                        IconImageSource = Icon
+                    };
+                }
+
+                _instances.Item2 ??= new NavigationPage(page ?? GetPageInstance())
+                {
+                    Title = Title,
+                    IconImageSource = Icon
+                };
+                return _instances.Item2;
+            }
+        }
 
         public NavMenuItemImpl(string title, string dest, string category, MenuIcon icon2) : base(title, dest, category)
         {
             var icon = IconList[(int)icon2];
             if (!string.IsNullOrEmpty(icon)) Icon = new FileImageSource { File = icon };
-            Wrapper = new Lazy<TapEntranceWrapper>(() => CreateEntrance());
+            _wrapper = new Lazy<TapEntranceWrapper>(CreateEntrance);
             
             if (typeof(IViewPresenter).IsAssignableFrom(PageType))
             {
                 Presenter = Core.Reflection.CreateInstance<IViewPresenter>(PageType);
-                if (Presenter.PageCount != 1) throw new NotImplementedException("Not designed");
-                LazyCorePage = new Lazy<ViewObject>(Create1);
+                _getPage = ConvertPresenter;
             }
             else
             {
-                LazyCorePage = new Lazy<ViewObject>(Create3);
+                _getViewObj = Create3;
             }
-
-            LazyFullPage = new Lazy<Page>(CreateFull);
         }
-
-        private Page CreateFull()
+        
+        private Page ConvertPresenter()
         {
-            var page = LazyCorePage.Value;
-            Page toReturn;
-
-            if ((bool)page.GetValue(PlatformExtensions.UseTabletModeProperty))
+            if (Presenter.PageCount == 1)
             {
-                toReturn = new TabletPageImpl(page, null);
+                return (ViewObject) Presenter.GetAllPages()[0];
             }
             else
             {
-                toReturn = new NavigationPage(page);
+                return new ViewPresenterConverter(Presenter)
+                {
+                    Title = Presenter.Title
+                };
             }
-
-            toReturn.Title = Title;
-            toReturn.IconImageSource = Icon;
-            return toReturn;
-        }
-
-        private ViewObject Create1()
-        {
-            return Presenter.GetAllPages()[0] as ViewObject;
         }
 
         private ViewObject Create3()
@@ -86,7 +126,7 @@ namespace HandSchool.iOS
 
         private async Task ExecuteAsEntrance(INavigate navigate)
         {
-            await navigate.PushAsync(PageType, null);
+            await navigate.PushAsync(GetPageInstance(), null);
         }
 
         private TapEntranceWrapper CreateEntrance()
