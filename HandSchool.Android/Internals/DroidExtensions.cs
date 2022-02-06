@@ -50,7 +50,7 @@ namespace HandSchool.Droid
             }
             else
             {
-                return PlatformImplV2.Instance.PeekContext(false);
+                return PlatformImplV2.Instance.PeekAliveActivity(false);
             }
         }
     }

@@ -143,17 +143,15 @@ namespace HandSchool.Droid
             var (legal, msg) = IsLegal();
             if (!legal)
             {
-                if (PlatformImplV2.Instance.PeekContext() is BaseActivity topActivity)
+                var topActivity = PlatformImplV2.Instance.PeekAliveActivity();
+                topActivity.RunOnUiThread(() =>
                 {
-                    topActivity.RunOnUiThread(() =>
-                    {
-                        new AlertDialog.Builder(topActivity)
-                            .SetTitle("失败")
-                            !.SetMessage(msg)
-                            !.SetPositiveButton("好", listener: null)
-                            !.Show();
-                    });
-                }
+                    new AlertDialog.Builder(topActivity)
+                        .SetTitle("失败")
+                        !.SetMessage(msg)
+                        !.SetPositiveButton("好", listener: null)
+                        !.Show();
+                });
                 _shouldDismiss = false;
             }
             else
@@ -191,7 +189,7 @@ namespace HandSchool.Droid
 
         private Task ShowAsync()
         {
-            var context = PlatformImplV2.Instance.PeekContext();
+            var context = PlatformImplV2.Instance.PeekAliveActivity();
 
             var builder = new AlertDialog.Builder(context);
             builder.SetView(Resource.Layout.dialog_curriculum);

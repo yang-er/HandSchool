@@ -220,14 +220,14 @@ namespace HandSchool.Droid
 
         public Task<bool> PopAsync()
         {
-            var topActivity = (Core.Platform as PlatformImplV2)?.PeekContext(false) as BaseActivity;
+            var topActivity = PlatformImplV2.Instance.PeekAliveActivity(false);
             if (topActivity is null) return Task.FromResult(false);
-            PlatformImplV2.Instance.RemoveContext(this);
+            PlatformImplV2.Instance.RemoveActivity(this);
             topActivity.Finish();
             return Task.FromResult(true);
         }
         #endregion
-        
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -237,7 +237,7 @@ namespace HandSchool.Droid
 
             SetSupportActionBar(Toolbar);
             Toolbar.SetNavigationOnClickListener(new ToolbarBackListener(this));
-            PlatformImplV2.Instance.SetContext(this);
+            PlatformImplV2.Instance.RegisterActivity(this);
 
             if (Intent.HasExtra(BroadcastedArgument))
             {
@@ -259,9 +259,9 @@ namespace HandSchool.Droid
 
             foreach (var fg in SupportFragmentManager.Fragments)
             {
-                if (fg is INotifyPropertyChanged inpc)
+                if (fg is INotifyPropertyChanged propertyChanged)
                 {
-                    inpc.PropertyChanged -= HandBind;
+                    propertyChanged.PropertyChanged -= HandBind;
                 }
 
                 if (fg is TabbedFragment tabbed)
@@ -273,8 +273,8 @@ namespace HandSchool.Droid
 
         protected override void OnDestroy()
         {
+            PlatformImplV2.Instance.RemoveActivity(this);
             base.OnDestroy();
-            PlatformImplV2.Instance.RemoveContext(this);
             ClearOldStates();
         }
 

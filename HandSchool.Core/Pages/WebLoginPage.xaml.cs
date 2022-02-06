@@ -73,8 +73,8 @@ namespace HandSchool.Pages
 
         protected override void OnDisappearing()
         {
-            StopWait();
             base.OnDisappearing();
+            StopWait();
         }
 
         public async void OnLoginStateChanged(object sender, LoginStateEventArgs e)

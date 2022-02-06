@@ -2,13 +2,11 @@
 using Android.OS;
 using Android.Views;
 using AndroidX.Fragment.App;
-using HandSchool.Droid;
 using HandSchool.Internals;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using Microcharts;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;

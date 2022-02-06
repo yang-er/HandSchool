@@ -5,9 +5,8 @@ using HandSchool.Internals;
 using HandSchool.Pages;
 using HandSchool.Views;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using Xamarin.Forms;
-using SysEnv = System.Environment;
 
 namespace HandSchool.Droid
 {
@@ -16,8 +15,7 @@ namespace HandSchool.Droid
         public static PlatformImplV2 Instance { get; private set; }
         
         public UpdateManager UpdateManager { get; }
-
-        public List<Context> ContextStack { get; }
+        
 
         public static List<NavMenuItemV2> NavigationItems { get; } = new List<NavMenuItemV2>();
 
@@ -30,23 +28,53 @@ namespace HandSchool.Droid
 
         public static List<NavMenuItemV2> NavigationItemsSec => LazySec.Value;
 
+        private readonly List<Android.App.Activity> _activityStack;
 
-        public void SetContext(Context impl)
+        public IReadOnlyList<Android.App.Activity> ActivityStack
         {
-            ContextStack.Add(impl);
+            get
+            {
+                lock (((ICollection) _activityStack).SyncRoot)
+                {
+                    return _activityStack;
+                }
+            }
         }
 
-        public void RemoveContext(Context impl)
+        public void RegisterActivity(Android.App.Activity activity)
         {
-            if (ContextStack.Contains(impl))
-                ContextStack.Remove(impl);
+            lock (((ICollection) _activityStack).SyncRoot)
+            {
+                RemoveActivity(activity);
+                _activityStack.Add(activity);
+            }
         }
 
-        public Context PeekContext(bool force = true)
+        public void RemoveActivity(Android.App.Activity activity)
         {
-            if (force && ContextStack.Count == 0)
-                throw new InvalidOperationException("No context");
-            return ContextStack.Count == 0 ? null : ContextStack[^1];
+            lock (((ICollection) _activityStack).SyncRoot)
+            {
+                if (_activityStack.Contains(activity))
+                    _activityStack.Remove(activity);
+            }
+        }
+
+        public Android.App.Activity PeekAliveActivity(bool force = true)
+        {
+            lock (((ICollection) _activityStack).SyncRoot)
+            {
+                int i;
+                for (i = _activityStack.Count - 1; i >= 0; i--)
+                {
+                    var act = _activityStack[i];
+                    if (act.IsDestroyed || act.IsFinishing) continue;
+                    break;
+                }
+
+                if (i >= 0) return _activityStack[i];
+                if(force) throw new InvalidOperationException("No context");
+                return null;
+            }
         }
 
         private PlatformImplV2(Context context)
@@ -65,7 +93,7 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
             Core.Reflection.RegisterType<WebLoginPage, WebLoginPageImpl>();
-            ContextStack = new List<Context>();
+            _activityStack = new List<Android.App.Activity>();
             UpdateManager = new UpdateManager(context.ApplicationContext);
             ViewResponseImpl = new ViewResponseImpl();
             Density = context.Resources.DisplayMetrics.Density;
@@ -75,8 +103,7 @@ namespace HandSchool.Droid
 
         public static void Register(Context context)
         {
-            if (Instance is null)
-                new PlatformImplV2(context);
+            Instance ??= new PlatformImplV2(context);
         }
 
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
@@ -86,18 +113,17 @@ namespace HandSchool.Droid
 
         public override void CheckUpdate()
         {
-            if (ContextStack.Count == 0) return;
-            var MainAct = PeekContext();
-            if (MainAct == null) return;
-            var waiting = Android.Views.View.Inflate(MainAct, Resource.Layout.alert_waiting, null);
-            var alert = new AlertDialog.Builder(MainAct)
+            var topAct = PeekAliveActivity(false);
+            if (topAct == null) return;
+            var waiting = Android.Views.View.Inflate(topAct, Resource.Layout.alert_waiting, null);
+            var alert = new AlertDialog.Builder(topAct)
                 .SetTitle("正在检查更新")
                 .SetCancelable(false)
                 .SetView(waiting)
                 .Create();
             alert.Show();
 
-            new UpdateManager(MainAct)
+            new UpdateManager(topAct)
                 .CheckUpdate()
                 .ContinueWith(async (x) =>
                 {
@@ -108,7 +134,6 @@ namespace HandSchool.Droid
                         res.Show();
                     });
                 });
-            return;
         }
     }
 }

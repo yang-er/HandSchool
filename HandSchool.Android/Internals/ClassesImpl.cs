@@ -76,7 +76,7 @@ namespace HandSchool.Droid.Internals
     {
         public override async Task CloseAsync()
         {
-            var context = PlatformImplV2.Instance.PeekContext(false);
+            var context = PlatformImplV2.Instance.PeekAliveActivity(false);
             if (context is WebLoginActivity)
             {
                 await Navigation.PopAsync();
@@ -87,7 +87,7 @@ namespace HandSchool.Droid.Internals
 
         public override Task ShowAsync()
         {
-            var context = PlatformImplV2.Instance.PeekContext();
+            var context = PlatformImplV2.Instance.PeekAliveActivity();
             var navigate = context as INavigate;
             return navigate.PushAsync<WebLoginActivity>(this);
         }
