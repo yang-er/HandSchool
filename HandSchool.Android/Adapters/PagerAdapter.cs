@@ -1,69 +1,48 @@
-﻿using Android.Content;
+﻿using System;
 using AndroidX.Fragment.App;
 using HandSchool.Internals;
 using HandSchool.Views;
-using Google.Android.Material.Tabs;
-using Java.Lang;
+using AndroidX.ViewPager2.Adapter;
 
 namespace HandSchool.Droid
 {
-    public class TabbedPagerAdapter : FragmentPagerAdapter, TabLayout.IOnTabSelectedListener
+    public class TabbedPagerAdapter : FragmentStateAdapter
     {
-        public IViewPresenter Presenter { get; }
         public INavigate Navigate { get; }
-        public IViewPage[] AllPages { get; }
-        public EmbeddedFragment[] Fragments { get; }
         public ToolbarMenuTracker Tracker { get; }
+        
+        public ValueTuple<IViewPage, Fragment>[] Pages { get; }
 
-        public Context Context { get; }
+        public override int ItemCount => Pages?.Length ?? 0;
 
-        public override int Count => Presenter?.PageCount ?? 0;
-
-        public TabbedPagerAdapter(Context context, TabbedFragment fm)
-            : base(fm.ChildFragmentManager)
+        public TabbedPagerAdapter(TabbedFragment fm):base(fm)
         {
-            Context = context;
             Navigate = fm.Navigation;
-            Presenter = fm.Presenter;
-            AllPages = Presenter.GetAllPages();
-            Fragments = new EmbeddedFragment[Presenter.PageCount];
+            Pages = fm.Pages;
             Tracker = fm.ToolbarMenu;
         }
 
-        public override Fragment GetItem(int i)
+        public override Fragment CreateFragment(int i)
         {
-            if (Fragments[i] is null)
+            var (page, fragment) = Pages[i];
+            if (fragment is null)
             {
-                ((IViewLifecycle)AllPages[i]).RegisterNavigation(Navigate);
-                Fragments[i] = new EmbeddedFragment((ViewObject)AllPages[i], true);
-                if (i == 0) (AllPages[0] as IViewLifecycle)?.SendAppearing();
+                if (page is IViewLifecycle lifecycle)
+                {
+                    lifecycle.RegisterNavigation(Navigate);
+                }
+                if (page is Fragment ori)
+                {
+                    fragment = ori;
+                }
+                else if (page is ViewObject viewObject)
+                {
+                    fragment = new EmbeddedFragment(viewObject, true);
+                }
             }
-            
-            return Fragments[i];
-        }
 
-        public void ClearBindings(TabLayout tl)
-        {
-            tl.RemoveOnTabSelectedListener(this);
-            tl.SetupWithViewPager(null);
-        }
-        
-        public override ICharSequence GetPageTitleFormatted(int position)
-        {
-            return new String(AllPages[position].Title);
-        }
-
-        public void OnTabReselected(TabLayout.Tab tab) { }
-
-        public void OnTabSelected(TabLayout.Tab tab)
-        {
-            Tracker.List = AllPages[tab.Position].ToolbarTracker.List;
-            (AllPages[tab.Position] as IViewLifecycle)?.SendAppearing();
-        }
-
-        public void OnTabUnselected(TabLayout.Tab tab)
-        {
-            (AllPages[tab.Position] as IViewLifecycle)?.SendDisappearing();
+            Pages[i] = (page, fragment);
+            return fragment;
         }
     }
 }

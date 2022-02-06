@@ -266,7 +266,7 @@ namespace HandSchool.Droid
 
                 if (fg is TabbedFragment tabbed)
                 {
-                    Tabbar.RemoveOnTabSelectedListener(tabbed.Adapter);
+                    tabbed.ClearReference();
                 }
             }
         }
