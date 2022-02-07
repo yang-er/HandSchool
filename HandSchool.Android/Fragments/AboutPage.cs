@@ -1,6 +1,5 @@
 ﻿using Android.Content;
 using Android.OS;
-using Android.Support.Design.Widget;
 using Android.Views;
 using DanielStone.MaterialAbout;
 using DanielStone.MaterialAbout.Items;

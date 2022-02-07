@@ -25,7 +25,7 @@
                     android:textColor="@color/black"
                     android:text="课程信息" />
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="课程名称"
@@ -34,7 +34,7 @@
                     android:singleLine="true"
                     android:id="@+id/classname" />
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="上课地点"
@@ -43,7 +43,7 @@
                     android:singleLine="true"
                     android:id="@+id/classroom" />
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="任课老师"

@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Support.Design.Widget;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 using Android.Views;
 using Android.Widget;
 using JavaObject = Java.Lang.Object;
+using Google.Android.Material.TextField;
 
 namespace HandSchool.Droid
 {

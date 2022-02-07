@@ -2,7 +2,6 @@
 using Android.Graphics;
 using Android.OS;
 using HandSchool.Internals;
-using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using HandSchool.Models;
@@ -11,6 +10,7 @@ using HandSchool.Views;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Google.Android.Material.TextField;
 
 namespace HandSchool.Droid
 {

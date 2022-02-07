@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.Design.Widget;
 
 using Android.Views;
 using Android.Widget;
@@ -14,6 +13,7 @@ using HandSchool.ViewModels;
 using System.Threading.Tasks;
 using Android.Webkit;
 using HandSchool.Services;
+using Google.Android.Material.Navigation;
 
 namespace HandSchool.Droid
 {
