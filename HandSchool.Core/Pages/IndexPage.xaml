@@ -1,92 +1,100 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views" xmlns:internal="clr-namespace:HandSchool.Internal" xmlns:controls="clr-namespace:HandSchool.Controls"
+              xmlns:w="clr-namespace:HandSchool.Views" xmlns:internal="clr-namespace:HandSchool.Internal"
+              xmlns:controls="clr-namespace:HandSchool.Controls"
               x:Class="HandSchool.Views.IndexPage"
               Title="{Binding Title}">
 
     <w:ViewObject.ToolbarMenu>
-         <w:MenuEntry Title="检查更新" Command="{Binding CheckUpdateCommand}"/>
-     </w:ViewObject.ToolbarMenu>
+        <w:MenuEntry Title="检查更新" Command="{Binding CheckUpdateCommand}" />
+    </w:ViewObject.ToolbarMenu>
     <w:ViewObject.ToolbarItems>
-          <ToolbarItem Text="检查更新" Command="{Binding CheckUpdateCommand}"/>
+        <ToolbarItem Text="检查更新" Command="{Binding CheckUpdateCommand}" />
     </w:ViewObject.ToolbarItems>
     <ScrollView VerticalScrollBarVisibility="Never" Orientation="Vertical">
         <FlexLayout Margin="0,5" Direction="Column">
             <StackLayout>
-                <Label x:Name="DayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                <Label x:Name="DayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium"
+                       HorizontalOptions="End" />
                 <internal:TouchableFrame Margin="10,5" ClickCommand="{Binding RequestLoginCommand}">
-                <StackLayout>
-                    <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black"/>
-                    <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
-                    <Label Text="{Binding WeatherNotice}" FontSize="Medium" TextColor="Black" />
-                </StackLayout>
-            </internal:TouchableFrame>
+                    <StackLayout>
+                        <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black" />
+                        <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
+                        <Label Text="{Binding WeatherNotice}" FontSize="Medium" TextColor="Black" />
+                    </StackLayout>
+                </internal:TouchableFrame>
             </StackLayout>
             <StackLayout>
-                <Label Margin="20,10,20,0" Text="今日份课程表" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                <Label Margin="20,10,20,0" Text="今日份课程表" TextColor="Black" FontSize="Medium" HorizontalOptions="End" />
 
                 <CarouselView x:Name="ClassTable"
-                          CurrentItemChanged="ClassTableCurrentItemChanged"
-                          ItemsSource="{Binding ClassToday}"
-                          Loop="False"
-                          PeekAreaInsets="60"
-                          HeightRequest="200"
-                          Margin="10,5"
-                          HorizontalScrollBarVisibility="Never">
+                              CurrentItemChanged="ClassTableCurrentItemChanged"
+                              ItemsSource="{Binding ClassToday}"
+                              Loop="False"
+                              PeekAreaInsets="60"
+                              HeightRequest="200"
+                              Margin="10,5"
+                              HorizontalScrollBarVisibility="Never">
                     <CarouselView.EmptyView>
-                        <Frame CornerRadius="30" Scale="0.97" >
-                        <StackLayout VerticalOptions="Center">
-                            <Label Text="看起来今天没有课哦(或者未加载)" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
-                            <Label Text="享受美好的休息时光吧~" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="#2F4F4F"/>
-                        </StackLayout>
+                        <Frame CornerRadius="30" Scale="0.97">
+                            <StackLayout VerticalOptions="Center">
+                                <Label Text="看起来今天没有课哦(或者未加载)" FontSize="Medium" HorizontalOptions="CenterAndExpand"
+                                       TextColor="Black" />
+                                <Label Text="享受美好的休息时光吧~" FontSize="Medium" HorizontalOptions="CenterAndExpand"
+                                       TextColor="#2F4F4F" />
+                            </StackLayout>
                         </Frame>
                     </CarouselView.EmptyView>
-                <CarouselView.ItemTemplate>
-                            <DataTemplate>
-                        <controls:IndexCurriculumAtom 
-                            ItemState = "{Binding State, Mode=OneWay}"
-                            IsSelected="{Binding IsSelected}"
-                            Sections="{Binding SectionInfo}"
-                            Name="{Binding Name}"
-                            Teacher="{Binding Teacher}"
-                            IsCustom="{Binding IsCustom}"
-                            ClassRoom="{Binding Classroom}"
-                            CornerRadius="30"/>
-                    </DataTemplate>
-                        </CarouselView.ItemTemplate>
-                <CarouselView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal"
-                           SnapPointsType="MandatorySingle"
-                           SnapPointsAlignment="Center"/>
-                </CarouselView.ItemsLayout>
-            </CarouselView>
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:IndexCurriculumAtom
+                                ItemState="{Binding State, Mode=OneWay}"
+                                IsSelected="{Binding IsSelected}"
+                                Sections="{Binding SectionInfo}"
+                                Name="{Binding Name}"
+                                Teacher="{Binding Teacher}"
+                                IsCustom="{Binding IsCustom}"
+                                ClassRoom="{Binding Classroom}"
+                                CornerRadius="30" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                    <CarouselView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal"
+                                           SnapPointsType="MandatorySingle"
+                                           SnapPointsAlignment="Center" />
+                    </CarouselView.ItemsLayout>
+                </CarouselView>
                 <IndicatorView x:Name="ClassTableIndicator"
                                IndicatorColor="LightGray"
                                SelectedIndicatorColor="DarkGray"
-                               HorizontalOptions="Center"/>
+                               HorizontalOptions="Center" />
             </StackLayout>
             <StackLayout x:Name="WeatherFrame">
-                <Label Margin="20,5,20,0" Text="天气" TextColor="Black" FontSize="Medium" HorizontalOptions="End"/>
+                <Label Margin="20,5,20,0" Text="天气" TextColor="Black" FontSize="Medium" HorizontalOptions="End" />
                 <internal:TouchableFrame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Vertical">
                             <Label Text="现在" FontSize="Large" TextColor="Black"></Label>
-                            <Label Text="{Binding CurrentWeather}" Padding="0,0,0,5" FontSize="Medium" TextColor="DarkBlue"/>
+                            <Label Text="{Binding CurrentWeather}" Padding="0,0,0,5" FontSize="Medium"
+                                   TextColor="DarkBlue" />
                         </StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
                             <Label Text="今天" FontSize="Medium" TextColor="DarkRed" Grid.Row="0" Grid.Column="0"></Label>
                             <Label Text="明天" FontSize="Medium" TextColor="DarkRed" Grid.Row="1" Grid.Column="0"></Label>
-                            <Label Text="{Binding TodayWeather}" FontSize="Medium" TextColor="Black" Grid.Row="0" Grid.Column="1"/>
-                            <Label Text = "{Binding TomorrowWeather}" FontSize="Medium" TextColor="Black" Grid.Row="1" Grid.Column="1"/>
+                            <Label Text="{Binding TodayWeather}" FontSize="Medium" TextColor="Black" Grid.Row="0"
+                                   Grid.Column="1" />
+                            <Label Text="{Binding TomorrowWeather}" FontSize="Medium" TextColor="Black" Grid.Row="1"
+                                   Grid.Column="1" />
                         </Grid>
                         <Label Text="{Binding WeatherProvider}" FontSize="Micro" HorizontalOptions="EndAndExpand"></Label>
                     </StackLayout>

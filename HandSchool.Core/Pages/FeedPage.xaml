@@ -1,43 +1,47 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views" xmlns:controls="clr-namespace:HandSchool.Controls" xmlns:internal="clr-namespace:HandSchool.Internal"
+              xmlns:w="clr-namespace:HandSchool.Views"
+              xmlns:controls="clr-namespace:HandSchool.Controls"
+              xmlns:internal="clr-namespace:HandSchool.Internal"
               x:Class="HandSchool.Views.FeedPage"
               UseTabletMode="True"
               Title="{Binding Title}"
               IsBusy="{Binding IsBusy, Mode=OneWay}">
     <w:ViewObject.ToolbarMenu>
-        <w:MenuEntry Command="{Binding SearchByKeyWordCommand}" Title="搜索"/>
+        <w:MenuEntry Command="{Binding SearchByKeyWordCommand}" Title="搜索" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.ToolbarItems>
-        <ToolbarItem Command="{Binding SearchByKeyWordCommand}" Text="搜索"/>
+        <ToolbarItem Command="{Binding SearchByKeyWordCommand}" Text="搜索" />
 
     </w:ViewObject.ToolbarItems>
     <w:ViewObject.Content>
         <RefreshView IsRefreshing="{Binding IsRefreshing, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
-            <CollectionView
+            <controls:TappableCollectionView
                 ItemsSource="{Binding Items}"
                 ItemsUpdatingScrollMode="KeepScrollOffset"
-                ItemSizingStrategy ="MeasureAllItems"
+                ItemSizingStrategy="MeasureAllItems"
                 BackgroundColor="#F4F4F4"
-                RemainingItemsThreshold ="0"
-                RemainingItemsThresholdReached ="LoadMore">
+                RemainingItemsThreshold="0"
+                RemainingItemsThresholdReached="LoadMore"
+                UseScaleAnimation="True"
+                ItemTapped="ItemTapped">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <internal:NoDataView/>
+                        <internal:NoDataView />
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <controls:TextAtom OnTop="{Binding Top}"
                                            Title="{Binding SimplifiedCategory}"
                                            AfterTitle="{Binding PubDate}"
-                                           ContentText="{Binding Title}" 
-                                           HasSecond="False"
-                                           Click="ItemTapped">
+                                           ContentText="{Binding Title}"
+                                           HasSecond="False">
                         </controls:TextAtom>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -45,11 +49,11 @@
                 <CollectionView.Footer>
                     <StackLayout>
                         <Label Margin="16" Text="{Binding FooterTip}"
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center" />
+                               HorizontalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center" />
                     </StackLayout>
                 </CollectionView.Footer>
-            </CollectionView>
+            </controls:TappableCollectionView>
         </RefreshView>
     </w:ViewObject.Content>
 </w:ViewObject>

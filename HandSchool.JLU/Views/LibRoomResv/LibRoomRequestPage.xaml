@@ -1,64 +1,69 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:ViewObject  xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
-                   xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
-             x:Class="HandSchool.JLU.Views.LibRoomRequestPage"
-                   IsBusy="{Binding IsBusy}">
-            <ScrollView>
-                <StackLayout Margin="10,5" Padding="10">
-                    <StackLayout Orientation="Horizontal">
-                    <Label Text="校园卡号" VerticalTextAlignment="Center"></Label>
-                <Entry x:Name="SchoolCardNum" IsPassword="False" TextChanged="SchoolCardIdChanged" HorizontalOptions="FillAndExpand"/>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Picker Title="开始时间" x:Name="StartTimePicker" HorizontalOptions="CenterAndExpand"/>
-                    <Picker Title="结束时间" x:Name="EndTimePicker" HorizontalOptions="CenterAndExpand"/>
-                </StackLayout>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="300"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackLayout Grid.Column="0" Grid.Row="0">
-                        <Label Text="选择使用人" HorizontalTextAlignment="Center" FontSize="Medium" TextColor="DarkRed"></Label>
-                        <CollectionView ItemsSource="{Binding Recommends}">
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:ViewObject xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                  x:Class="HandSchool.JLU.Views.LibRoomRequestPage"
+                  IsBusy="{Binding IsBusy}">
+    <ScrollView>
+        <StackLayout Margin="10,5" Padding="10">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="校园卡号" VerticalTextAlignment="Center"></Label>
+                <Entry x:Name="SchoolCardNum" IsPassword="False" TextChanged="SchoolCardIdChanged"
+                       HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Picker Title="开始时间" x:Name="StartTimePicker" HorizontalOptions="CenterAndExpand" />
+                <Picker Title="结束时间" x:Name="EndTimePicker" HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Column="0" Grid.Row="0">
+                    <Label Text="选择使用人" HorizontalTextAlignment="Center" FontSize="Medium" TextColor="DarkRed"></Label>
+                    <CollectionView ItemsSource="{Binding Recommends}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                    <internal:TouchableFrame CornerRadius="10" Margin="5" Padding="5" HasShadow="False" BorderColor="Gray" Click="NameSelected">
-                                        <Label Text="{Binding Tips}" HorizontalTextAlignment="Center"/>
+                                    <internal:TouchableFrame CornerRadius="10" Margin="0,5,0,5" Padding="5"
+                                                             HasShadow="False" BorderColor="Gray" Click="NameSelected">
+                                        <Label Text="{Binding Tips}" HorizontalTextAlignment="Center" />
                                     </internal:TouchableFrame>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    </StackLayout>
-                    <StackLayout Grid.Column="1" Grid.Row="0" >
-                        <Label Text="已选定" HorizontalTextAlignment="Center" FontSize="Medium" TextColor="DarkBlue"></Label>
-                        <CollectionView ItemsSource="{Binding Selected}">
+                </StackLayout>
+                <StackLayout Grid.Column="1" Grid.Row="0">
+                    <Label Text="已选定" HorizontalTextAlignment="Center" FontSize="Medium" TextColor="DarkBlue"></Label>
+                    <CollectionView ItemsSource="{Binding Selected}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                <internal:TouchableFrame CornerRadius="10" Margin="5" Padding="5" HasShadow="False" BorderColor="Gray" LongClick="DelUser">
-                                    <Label Text="{Binding Tips}" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand"/>
-                                </internal:TouchableFrame>
+                                    <internal:TouchableFrame CornerRadius="10" Margin="0,5,0,5" Padding="5"
+                                                             HasShadow="False" BorderColor="Gray" LongClick="DelUser">
+                                        <Label Text="{Binding Tips}" HorizontalTextAlignment="Center"
+                                               VerticalOptions="CenterAndExpand" />
+                                    </internal:TouchableFrame>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                    </StackLayout>
-                </Grid>
-                <Button Text="预约" Clicked="SelectedOk"/>
-                <Label Text="输入卡号后点击出现的条目即可选定"></Label>
-                <Label Text="如果没有出现条目请：" VerticalTextAlignment="Center"></Label>
-                <Label Text="1.检查卡号" VerticalTextAlignment="Center"></Label>
-                <Label Text="2.删除最后一位重新输入(起到刷新的作用)" VerticalTextAlignment="Center"></Label>
-                <StackLayout Padding="0,10,0,10">
                 </StackLayout>
+            </Grid>
+            <Button Text="预约" Clicked="SelectedOk" />
+            <Label Text="输入卡号后点击出现的条目即可选定"></Label>
+            <Label Text="如果没有出现条目请：" VerticalTextAlignment="Center"></Label>
+            <Label Text="1.检查卡号" VerticalTextAlignment="Center"></Label>
+            <Label Text="2.删除最后一位重新输入(起到刷新的作用)" VerticalTextAlignment="Center"></Label>
+            <StackLayout Padding="0,10,0,10">
             </StackLayout>
-            </ScrollView>
+        </StackLayout>
+    </ScrollView>
 </views:ViewObject>

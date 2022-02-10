@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:w="clr-namespace:HandSchool.Views" xmlns:controls="clr-namespace:HandSchool.Controls"
@@ -6,31 +7,29 @@
               UseTabletMode="True"
               Title="{Binding Title}">
     <w:ViewObject.Content>
-        <CollectionView
+        <controls:TappableCollectionView
             VerticalOptions="FillAndExpand"
             ItemSizingStrategy="MeasureAllItems"
             BackgroundColor="#F4F4F4"
-            IsGrouped="True">
+            IsGrouped="True"
+            ItemTapped="ItemTapped">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding GroupTitle}" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding GroupTitle}" TextColor="Black" FontSize="18" HorizontalTextAlignment="Center" />
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
             </CollectionView.ItemsLayout>
-            
-
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <controls:TextAtom
                         OnTop="False"
                         HasSecond="False"
                         Title="{Binding Title}"
-                        ContentText="{Binding Detail}"
-                        Click="ItemTapped"/>
+                        ContentText="{Binding Detail}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </controls:TappableCollectionView>
     </w:ViewObject.Content>
 </w:ViewObject>

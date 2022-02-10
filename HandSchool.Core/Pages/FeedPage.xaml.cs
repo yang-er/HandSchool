@@ -31,9 +31,9 @@ namespace HandSchool.Views
             }
         }
 
-        async void ItemTapped(object sender, EventArgs args)
+        async void ItemTapped(object sender, ItemTappedEventArgs args)
         {
-            var e = (sender as BindableObject)?.BindingContext as FeedItem;
+            var e = args.Item as FeedItem;
             if (e is null || _isPushing)
                 return;
             _isPushing = true;

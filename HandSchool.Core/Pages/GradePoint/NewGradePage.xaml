@@ -1,36 +1,39 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls" xmlns:internal="clr-namespace:HandSchool.Internal"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls"
+              xmlns:internal="clr-namespace:HandSchool.Internal"
               x:Class="HandSchool.Views.NewGradePage"
               Title="{Binding Title}">
     <w:ViewObject.Content>
         <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadNewerItemsCommand}">
-        <CollectionView ItemsSource="{Binding NewerGradeItems}"
-                  BackgroundColor="#F4F4F4">
+            <controls:TappableCollectionView ItemsSource="{Binding NewerGradeItems}"
+                                             BackgroundColor="#F4F4F4"
+                                             UseScaleAnimation="True"
+                                             ItemTapped="ShowDetail">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <internal:NoDataView/>
+                        <internal:NoDataView />
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="4" Orientation="Vertical"/>
+                    <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:TextAtom 
+                        <controls:TextAtom
                             OnTop="False"
                             HasSecond="True"
                             FirstProportion="5"
-                            Title="{Binding Title}" 
-                            ContentText="{Binding Detail}" 
+                            Title="{Binding Title}"
+                            ContentText="{Binding Detail}"
                             SecondTitle="●"
                             SecondTitleColor="{Binding TypeColor}"
-                            SecondContent="{Binding Type}"
-                            Click="ShowDetail"/> 
+                            SecondContent="{Binding Type}" />
                     </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                </CollectionView.ItemTemplate>
+            </controls:TappableCollectionView>
         </RefreshView>
     </w:ViewObject.Content>
 </w:ViewObject>

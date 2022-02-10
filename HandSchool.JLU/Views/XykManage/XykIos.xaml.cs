@@ -30,7 +30,7 @@ namespace HandSchool.JLU.Views
         }
 
         //点击之后啥也不干，就是玩
-        void ItemTappedHandler(object sender, System.EventArgs args)
+        void ItemTappedHandler(object sender, ItemTappedEventArgs args)
         {
             return;
         }

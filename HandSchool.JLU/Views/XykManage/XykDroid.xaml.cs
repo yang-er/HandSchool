@@ -28,10 +28,5 @@ namespace HandSchool.JLU.Views
             base.OnAppearing();
             Task.Run(YktViewModel.Instance.FirstOpen);
         }
-
-        void ItemTappedHandler(object sender, System.EventArgs args)
-        {
-            return;
-        }
     }
 }

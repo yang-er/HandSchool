@@ -27,9 +27,10 @@
                                 <Label Text="挂失" Grid.Column="1" Grid.Row="1" TextColor="Black" HorizontalOptions="Center" FontSize="Medium"/>
                                 <Label Text="解挂" Grid.Column="2" Grid.Row="1" TextColor="Black" HorizontalOptions="Center" FontSize="Medium"></Label>
                             </Grid>
-            <CollectionView
+            <controls:TappableCollectionView
                   BackgroundColor="#F4F4F4"
-                  ItemsSource="{Binding RecordInfo}">
+                  ItemsSource="{Binding RecordInfo}"
+                  ItemTapped="ItemTappedHandler">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
@@ -42,13 +43,12 @@
                             AfterTitle="{Binding RecordTime}"
                             ContentText="{Binding DescriptionShow}"
                             SecondTitle="{Binding CostShow}"
-                            SecondContent="{Binding RemainMoneyShow}"
-                            Click="ItemTappedHandler"/>
+                            SecondContent="{Binding RemainMoneyShow}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 
             
-            </CollectionView>
+            </controls:TappableCollectionView>
                 
             </StackLayout>
     </w:ViewObject.Content>

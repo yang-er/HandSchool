@@ -24,9 +24,9 @@ namespace HandSchool.Views
 
         private bool _isPushing;
 
-        private async void MessageClicked(object sender, EventArgs e)
+        private async void MessageClicked(object sender, ItemTappedEventArgs e)
         {
-            var item = (sender as BindableObject)?.BindingContext as IMessageItem;
+            var item = e.Item as IMessageItem;
             if (_isPushing) return;
             _isPushing = true;
             item?.SetRead.Execute(null);
@@ -34,9 +34,9 @@ namespace HandSchool.Views
             _isPushing = false;
         }
 
-        private async void MessageLongClicked(object sender, EventArgs e)
+        private async void MessageLongClicked(object sender, ItemTappedEventArgs e)
         {
-            var item = (sender as Frame)?.BindingContext as IMessageItem;
+            var item = e.Item as IMessageItem;
             var opts = new[] {"设为已读", "设为未读", "删除"};
             var opt = await RequestActionAsync("你要将此消息", "取消", null, opts);
             if (string.IsNullOrEmpty(opt)) return;

@@ -47,6 +47,11 @@ namespace HandSchool.JLU.Views
         public LibRoomReservationPage()
         {
             InitializeComponent();
+            UInfo.CornerRadius = RoomResv.CornerRadius = Device.RuntimePlatform switch
+            {
+                Device.iOS => 20,
+                _ => 15
+            };
             Loader.LibRoom.LoginStateChanged += (s, e) =>
             {
                 if (e.State == LoginState.Succeeded)

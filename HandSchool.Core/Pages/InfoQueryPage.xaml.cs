@@ -16,15 +16,15 @@ namespace HandSchool.Views
             (Content as CollectionView).ItemsSource = Core.App.InfoEntrances;
         }
 
-        bool IsPushing = false;
+        private bool _isPushing;
 
-        public async void ItemTapped(object sender, System.EventArgs args)
+        public async void ItemTapped(object sender, ItemTappedEventArgs args)
         {
-            var e = (sender as BindableObject)?.BindingContext;
+            var e = args.Item;
 
-            if (e is null || IsPushing)
+            if (e is null || _isPushing)
                 return;
-            IsPushing = true;
+            _isPushing = true;
 
             if (e is InfoEntranceWrapper iew)
             {
@@ -35,7 +35,7 @@ namespace HandSchool.Views
                 await tew.Activate(Navigation);
             }
 
-            IsPushing = false;
+            _isPushing = false;
         }
     }
 }
