@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,34 +8,39 @@ namespace HandSchool.Internal
     {
         public TouchableFrame()
         {
-            switch (Device.RuntimePlatform)
+            CornerRadius = Device.RuntimePlatform switch
             {
-                case "iOS":
-                    CornerRadius = 20;
-                    break;
-
-                default:
-                    CornerRadius = 15;
-                    break;
-            }
+                Device.iOS => 20,
+                _ => 15
+            };
         }
 
         private EventHandler<EventArgs> _click;
+
         public event EventHandler<EventArgs> Click
         {
             add
             {
+                var notice = _click == null;
                 _click += value;
-                OnPropertyChanged(nameof(HasClick));
+                if (notice)
+                {
+                    OnPropertyChanged(nameof(HasClick));
+                }
             }
             remove
             {
+                var notice = _click != null;
                 _click -= value;
-                OnPropertyChanged(nameof(HasClick));
+                if (notice && _click == null)
+                {
+                    OnPropertyChanged(nameof(HasClick));
+                }
             }
         }
 
         private EventHandler<EventArgs> _longClick;
+
         public event EventHandler<EventArgs> LongClick
         {
             add
@@ -52,46 +54,51 @@ namespace HandSchool.Internal
                 OnPropertyChanged(nameof(HasLongClick));
             }
         }
+
         public ICommand ClickCommand
         {
-            get => (ICommand)GetValue(ClickCommandProperty);
+            get => (ICommand) GetValue(ClickCommandProperty);
             set
             {
                 SetValue(ClickCommandProperty, value);
                 OnPropertyChanged(nameof(HasClick));
             }
         }
+
         public ICommand LongClickCommand
         {
-            get => (ICommand)GetValue(LongClickCommandProperty);
+            get => (ICommand) GetValue(LongClickCommandProperty);
             set
             {
                 SetValue(LongClickCommandProperty, value);
                 OnPropertyChanged(nameof(HasLongClick));
             }
         }
+
         public static readonly BindableProperty ClickCommandProperty = BindableProperty.Create(
             propertyName: nameof(ClickCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(TouchableFrame));
+
         public static readonly BindableProperty LongClickCommandProperty = BindableProperty.Create(
             propertyName: nameof(LongClickCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(TouchableFrame));
 
-        public bool HasClick => ClickCommand != null || (_click != null && _click.GetInvocationList().Length != 0);
-        public bool HasLongClick => LongClickCommand != null || (_longClick != null && _longClick.GetInvocationList().Length != 0);
+        public bool HasClick => ClickCommand is { } || _click is { };
 
-        public void OnClick(object sender = null, EventArgs args = null)
+        public bool HasLongClick => LongClickCommand is { } || _longClick is { };
+
+        public void OnClick(EventArgs args = null)
         {
             ClickCommand?.Execute(null);
-            _click?.Invoke(sender??this, args);
+            _click?.Invoke(this, args);
         }
 
-        public void OnLongClick(object sender = null, EventArgs args = null)
+        public void OnLongClick(EventArgs args = null)
         {
             LongClickCommand?.Execute(null);
-            _longClick?.Invoke(sender??this, args);
+            _longClick?.Invoke(this, args);
         }
     }
 }

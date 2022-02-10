@@ -4,7 +4,7 @@
        xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        x:Class="HandSchool.Controls.TextAtom"
-       Padding="20,15,20,15" Scale="0.95">
+       Padding="20,15,20,15">
     <Grid x:Name = "MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

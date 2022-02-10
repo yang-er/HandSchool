@@ -124,6 +124,7 @@
     <Compile Include="Adapters\NavHeadViewHolder.cs" />
     <Compile Include="Adapters\WebViewClient.cs" />
     <Compile Include="Internals\ClassesImpl.cs" />
+    <Compile Include="Internals\ViewExtends.cs" />
     <Compile Include="Renderers\BorderlessButtonRenderer.cs" />
     <Compile Include="Renderers\FrameRenderer.cs" />
     <Compile Include="Renderers\GetCookiesStrategy.cs" />
@@ -144,6 +145,9 @@
     <Compile Include="Fragments\AboutPage.cs" />
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Renderers\TappableCollectionView\TappableCollectionViewAdapter.cs" />
+    <Compile Include="Renderers\TappableCollectionView\TappableCollectionViewEventHandlers.cs" />
+    <Compile Include="Renderers\TappableCollectionView\TappableCollectionViewRenderer.cs" />
     <Compile Include="Renderers\ViewObjectRenderer.cs" />
     <Compile Include="Renderers\WebViewRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

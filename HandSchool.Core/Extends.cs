@@ -2,39 +2,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using HandSchool.Controls;
 using Xamarin.Forms;
 
 namespace HandSchool
 {
     public class ClassInfoSimplifier
     {
-        private static readonly Lazy<ClassInfoSimplifier> Lazy = new Lazy<ClassInfoSimplifier>(Core.New<ClassInfoSimplifier>);
+        private static readonly Lazy<ClassInfoSimplifier> Lazy =
+            new Lazy<ClassInfoSimplifier>(Core.New<ClassInfoSimplifier>);
+
         public static ClassInfoSimplifier Instance => Lazy.Value;
         public virtual string SimplifyName(string str) => str;
     }
-    public static class TextAtomScales
-    {
-        public const double Normal = 0.95;
-        public const double Small = 0.95 * 0.90;
-        public const double Large = 0.95 * 1.05;
-        public const double SuperLarge = 0.95 * 1.1;
-    }
+
     public static class ColorExtend
     {
         public static Color ColorFromRgb((int, int, int) rgb)
         {
             return Color.FromRgb(rgb.Item1, rgb.Item2, rgb.Item3);
         }
+
         private static double GetColorNum(double org, double rate) => org * rate > 1 ? 1 : org * rate;
+
         public static Color ColorDelta(Color color, double rate)
         {
-            var rgb = new (int i, double v)[] { (0, color.R), (1, color.G), (2, color.B) };
+            var rgb = new (int i, double v)[] {(0, color.R), (1, color.G), (2, color.B)};
             Array.Sort(rgb, (a, b) =>
             {
-                if (a.v == b.v) return 0;
+                if (Math.Abs(a.v - b.v) < 1e-6) return 0;
                 return a.v < b.v ? -1 : 1;
             });
             rgb[0].v = GetColorNum(rgb[0].v, rate * 0.83);
@@ -61,19 +57,22 @@ namespace HandSchool
                 {
                     return i;
                 }
+
                 i++;
             }
 
             return -1;
         }
+
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> enumerable)
         {
             if (enumerable is null) return;
-            foreach(var i in enumerable) list.Add(i);
+            foreach (var i in enumerable) list.Add(i);
         }
+
         public static IEnumerable<T> GetReverse<T>(this IEnumerable<T> enumerable)
         {
-            var l = enumerable is IList<T> ? (IList<T>)enumerable : enumerable.ToList();
+            var l = enumerable is IList<T> list ? list : enumerable.ToList();
             for (var i = l.Count - 1; i >= 0; i--)
             {
                 yield return l[i];
@@ -84,37 +83,6 @@ namespace HandSchool
         {
             if (enumerable is null) return;
             list.AddRange(enumerable.Reverse());
-        }
-        
-        public static async Task TappedAnimation(this TextAtom item, Func<Task> doing = null)
-        {
-            if (item == null) return;
-            if (item.UseScaleAnimation)
-            {
-                await item.ScaleTo(TextAtomScales.Small, 200);
-                if (doing != null) await doing();
-                await item.ScaleTo(TextAtomScales.Large, 200);
-                await item.ScaleTo(TextAtomScales.Normal, 150);
-            }
-            else
-            {
-                if (doing != null) await doing();
-            }
-        }
-
-        public static async Task LongPressAnimation(this TextAtom item, Func<Task> doing = null)
-        {
-            if (item == null) return;
-            if (item.UseScaleAnimation)
-            {
-                await item.ScaleTo(TextAtomScales.SuperLarge, 200);
-                if (doing != null) await doing();
-                await item.ScaleTo(TextAtomScales.Normal, 200);
-            }
-            else
-            {
-                if (doing != null) await doing();
-            }
         }
 
         public static Page GetViewObjInstance(Type type, object arg)
@@ -128,6 +96,34 @@ namespace HandSchool
             }
 
             return Core.Reflection.CreateInstance<Page>(pageType);
+        }
+    }
+
+    public static class VisualElementExtends
+    {
+        private static class Scales
+        {
+            public const double Normal = 1;
+            public const double Small = 0.90;
+            public const double Large = 1.05;
+            public const double SuperLarge = 1.1;
+        }
+
+        public static async Task TappedAnimation(this VisualElement item, Func<Task> doing = null)
+        {
+            if (item == null) return;
+            await item.ScaleTo(Scales.Small, 200);
+            if (doing != null) await doing();
+            await item.ScaleTo(Scales.Large, 200);
+            await item.ScaleTo(Scales.Normal, 150);
+        }
+
+        public static async Task LongPressAnimation(this VisualElement item, Func<Task> doing = null)
+        {
+            if (item == null) return;
+            await item.ScaleTo(Scales.SuperLarge, 200);
+            if (doing != null) await doing();
+            await item.ScaleTo(Scales.Normal, 200);
         }
     }
 }

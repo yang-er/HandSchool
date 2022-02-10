@@ -28,7 +28,6 @@
                         HasSecond="False"
                         Title="{Binding Title}"
                         ContentText="{Binding Detail}"
-                        UseScaleAnimation="False"
                         Click="ItemTapped"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
