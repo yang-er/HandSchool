@@ -28,7 +28,6 @@ namespace HandSchool.JLU
         public bool NeedLogin { get; private set; }
         public TimeoutManager TimeoutManager { get; set; } = new TimeoutManager(600);
         
-        [Settings("提示", "保存使设置永久生效，部分设置重启后生效。")]
         public string Tips => "用户名为教学号，新生默认密码为身份证后六位（x小写）。";
 
         public string FormName => "UIMS教务管理系统";

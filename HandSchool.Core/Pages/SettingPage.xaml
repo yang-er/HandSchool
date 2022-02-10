@@ -2,21 +2,31 @@
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:w="clr-namespace:HandSchool.Views"
+              xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               x:Class="HandSchool.Views.SettingPage"
               Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" Order="Primary" UWPIcon="&#xE74E;" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
-        <ListView ItemsSource="{Binding Items}"
-                  HasUnevenRows="True"
-                  ItemTapped="ListView_ItemTapped"
-                  ItemSelected="ListView_ItemSelected">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <w:ValueCell Wrapper="{Binding Self}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout>
+            <StackLayout Padding="0, 10, 0, 0" Spacing="0">
+                <Label Text="提示" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
+                <Label HorizontalOptions="Center" Text = "设置会在保存并重启后生效"></Label>
+            </StackLayout>
+            <controls:TappableCollectionView
+                ItemsSource="{Binding Items}"
+                ItemSizingStrategy="MeasureAllItems"
+                ItemTapped="ListView_ItemTapped">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="8" Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <w:SettingAtom Wrapper="{Binding Self}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </controls:TappableCollectionView>
+        </StackLayout>
     </w:ViewObject.Content>
 </w:ViewObject>

@@ -5,13 +5,13 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ValueCell : ViewCell
+    public partial class SettingAtom
     {
         public static readonly BindableProperty WrapperProperty =
             BindableProperty.Create(
                 propertyName: nameof(Wrapper),
                 returnType: typeof(SettingWrapper),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: default(SettingWrapper),
                 defaultBindingMode: BindingMode.OneWay,
                 propertyChanged: WrapperChanged);
@@ -20,7 +20,7 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(NumericValue),
                 returnType: typeof(int),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: 0,
                 defaultBindingMode: BindingMode.TwoWay,
                 propertyChanged: ValueChanged);
@@ -29,7 +29,7 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(StringValue),
                 returnType: typeof(string),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: "",
                 defaultBindingMode: BindingMode.TwoWay,
                 propertyChanged: ValueChanged);
@@ -38,7 +38,7 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(BooleanValue),
                 returnType: typeof(bool),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: false,
                 defaultBindingMode: BindingMode.TwoWay,
                 propertyChanged: ValueChanged);
@@ -47,7 +47,7 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(Title),
                 returnType: typeof(string),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: "",
                 defaultBindingMode: BindingMode.OneWay);
 
@@ -55,7 +55,7 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(Description),
                 returnType: typeof(string),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: "",
                 defaultBindingMode: BindingMode.OneWay);
 
@@ -63,18 +63,18 @@ namespace HandSchool.Views
             BindableProperty.Create(
                 propertyName: nameof(Type),
                 returnType: typeof(SettingTypes),
-                declaringType: typeof(ValueCell),
+                declaringType: typeof(SettingAtom),
                 defaultValue: SettingTypes.Unknown,
                 defaultBindingMode: BindingMode.OneWay);
 
         private static void WrapperChanged(BindableObject bind, object old, object @new)
         {
-            ((ValueCell)bind).SetWrapper((SettingWrapper)@new);
+            ((SettingAtom)bind).SetWrapper((SettingWrapper)@new);
         }
 
         private static void ValueChanged(BindableObject bind, object old, object @new)
         {
-            ((ValueCell)bind).Wrapper.Value = @new;
+            ((SettingAtom)bind).Wrapper.Value = @new;
         }
 
         /// <summary>
@@ -139,14 +139,15 @@ namespace HandSchool.Views
             get => (SettingWrapper)GetValue(WrapperProperty);
             set => SetValue(WrapperProperty, value);
         }
-
-        private Grid BoxGrid { get; }
-
-        public ValueCell()
+        
+        public SettingAtom()
         {
             InitializeComponent();
-            var stackLayout = (StackLayout)View;
-            BoxGrid = (Grid)stackLayout.Children[1];
+            CornerRadius = Device.RuntimePlatform switch
+            {
+                Device.iOS => 15,
+                _ => 10
+            };
         }
 
         private void SetBinding(BindableObject bind, BindableProperty prop, string name)
