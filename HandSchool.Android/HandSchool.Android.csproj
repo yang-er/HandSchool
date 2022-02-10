@@ -126,6 +126,7 @@
     <Compile Include="Internals\ClassesImpl.cs" />
     <Compile Include="Internals\ViewExtends.cs" />
     <Compile Include="Renderers\BorderlessButtonRenderer.cs" />
+    <Compile Include="Renderers\CollectionViewRenderer.cs" />
     <Compile Include="Renderers\FrameRenderer.cs" />
     <Compile Include="Renderers\GetCookiesStrategy.cs" />
     <Compile Include="Renderers\ListViewRenderer.cs" />

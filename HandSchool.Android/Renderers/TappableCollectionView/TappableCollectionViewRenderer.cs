@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Android.Content;
 using Android.Views;
-using AndroidX.RecyclerView.Widget;
 using HandSchool.Controls;
 using HandSchool.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
-using Rect = Android.Graphics.Rect;
 using View = Android.Views.View;
 
 [assembly:ExportRenderer(typeof(TappableCollectionView), typeof(TappableCollectionViewRenderer))]
@@ -61,14 +59,10 @@ namespace HandSchool.Droid.Renderers
     /// 默认的CollectionViewRenderer会把ClickListener施加在ItemContentView上，而不是前景；
     /// 导致当前景启用Ripple特效时，Selection功能失效；
     /// </summary>
-    public sealed partial class TappableCollectionViewRenderer : CollectionViewRenderer
+    public sealed partial class TappableCollectionViewRenderer : CollectionViewRenderer2
     {
         public TappableCollectionViewRenderer(Context context) : base(context)
         {
-            AddItemDecoration(new TappableCollectionViewRendererItemDecoration());
-            SetClipChildren(false);
-            SetClipToPadding(false);
-            SetPadding(0, PlatformImplV2.Instance.Dip2Px(5), 0, 0);
             _managedListeners = new Dictionary<TappableItemContentView, (IOnClickListener?, IOnLongClickListener?)>();
         }
 
@@ -77,15 +71,6 @@ namespace HandSchool.Droid.Renderers
         protected override GroupableItemsViewAdapter<GroupableItemsView, IGroupableItemsViewSource> CreateAdapter()
         {
             return new TappableCollectionViewAdapter(Element);
-        }
-
-        private class TappableCollectionViewRendererItemDecoration : ItemDecoration
-        {
-            public override void GetItemOffsets(Rect outRect, View view, RecyclerView parent, State state)
-            {
-                base.GetItemOffsets(outRect, view, parent, state);
-                outRect.Left = outRect.Right = PlatformImplV2.Instance.Dip2Px(10);
-            }
         }
 
         public override void AddView(View? child, int width, int height)
