@@ -20,6 +20,7 @@ namespace HandSchool.Droid.Renderers
                 Padding = padding;
             }
             public Rect Padding { get; set; }
+            
             public override void GetItemOffsets(Rect outRect, View view, RecyclerView parent, State state)
             {
                 base.GetItemOffsets(outRect, view, parent, state);
@@ -29,26 +30,12 @@ namespace HandSchool.Droid.Renderers
                 outRect.Bottom = Padding.Bottom;
             }
         }
-
-        protected ItemDecoration2? Decoration;
-
+        
         public CollectionViewRenderer2(Context context) : base(context)
         {
             SetClipChildren(false);
             SetClipToPadding(false);
-            SetPadding(0, PlatformImplV2.Instance.Dip2Px(5), 0, PlatformImplV2.Instance.Dip2Px(3));
-        }
-
-        protected override void OnSizeChanged(int w, int h, int oldw, int oldh)
-        {
-            base.OnSizeChanged(w, h, oldw, oldh);
-            var p = (int) (w * 0.0243f + 0.5f);
-            if (Decoration is { })
-            {
-                if (Decoration.Padding.Left == p && Decoration.Padding.Right == p) return;
-                RemoveItemDecoration(Decoration);
-            }
-            AddItemDecoration(Decoration = new ItemDecoration2(new Rect(p, 0, p, 0)));
+            AddItemDecoration(new ItemDecoration2(new Rect(1, 1, 1, 1)));
         }
     }
 }

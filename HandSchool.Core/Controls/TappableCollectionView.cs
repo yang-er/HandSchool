@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Security.Cryptography;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.Controls
 {
-    public class TappableCollectionView : CollectionView
+    public class TappableCollectionView : CollectionView, IPaddingElement
     {
         public TappableCollectionView()
         {
@@ -108,5 +110,27 @@ namespace HandSchool.Controls
                 }
             }
         }
+        
+        public void OnPaddingPropertyChanged(Thickness oldValue, Thickness newValue)
+        {
+            InvalidateMeasureNonVirtual(InvalidationTrigger.MeasureChanged);
+        }
+
+        public Thickness PaddingDefaultValueCreator()
+        {
+            return (Thickness)PaddingProperty.DefaultValue;
+        }
+
+        public Thickness Padding
+        {
+            get => (Thickness) GetValue(PaddingProperty);
+            set => SetValue(PaddingProperty, value);
+        }
+
+        private static readonly BindableProperty PaddingProperty = BindableProperty.Create(
+            propertyName: nameof(Padding),
+            returnType: typeof(Thickness),
+            declaringType: typeof(TappableCollectionView),
+            defaultValue: new Thickness(10, 6, 10, 6));
     }
 }

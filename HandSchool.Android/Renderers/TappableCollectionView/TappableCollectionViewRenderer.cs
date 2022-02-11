@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Android.Content;
@@ -172,6 +173,9 @@ namespace HandSchool.Droid.Renderers
         {
             base.OnElementChanged(elementChangedEvent);
             _lastTappable = ItemTappable;
+            int ToPx(double d) => PlatformImplV2.Instance.Dip2Px((float) d);
+            var ep = Element.Padding;
+            SetPadding(ToPx(ep.Left), ToPx(ep.Top), ToPx(ep.Right), ToPx(ep.Bottom));
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs changedProperty)
@@ -210,6 +214,11 @@ namespace HandSchool.Droid.Renderers
                     LastTappable = ItemTappable;
                     break;
                 }
+                case "Padding":
+                    int ToPx(double d) => PlatformImplV2.Instance.Dip2Px((float) d);
+                    var ep = Element.Padding;
+                    SetPadding(ToPx(ep.Left), ToPx(ep.Top), ToPx(ep.Right), ToPx(ep.Bottom));
+                    break;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -13,6 +14,8 @@ namespace HandSchool.Internal
                 Device.iOS => 20,
                 _ => 15
             };
+            _lastHasClick = HasClick;
+            _lastHasLongClick = HasLongClick;
         }
 
         private EventHandler<EventArgs> _click;
@@ -21,21 +24,17 @@ namespace HandSchool.Internal
         {
             add
             {
-                var notice = _click == null;
                 _click += value;
-                if (notice)
-                {
-                    OnPropertyChanged(nameof(HasClick));
-                }
+                if (_lastHasClick == HasClick) return;
+                _lastHasClick = HasClick;
+                OnPropertyChanged(nameof(HasClick));
             }
             remove
             {
-                var notice = _click != null;
                 _click -= value;
-                if (notice && _click == null)
-                {
-                    OnPropertyChanged(nameof(HasClick));
-                }
+                if (_lastHasClick == HasClick) return;
+                _lastHasClick = HasClick;
+                OnPropertyChanged(nameof(HasClick));
             }
         }
 
@@ -46,11 +45,15 @@ namespace HandSchool.Internal
             add
             {
                 _longClick += value;
+                if (_lastHasLongClick == HasLongClick) return;
+                _lastHasLongClick = HasLongClick;
                 OnPropertyChanged(nameof(HasLongClick));
             }
             remove
             {
                 _longClick -= value;
+                if (_lastHasLongClick == HasLongClick) return;
+                _lastHasLongClick = HasLongClick;
                 OnPropertyChanged(nameof(HasLongClick));
             }
         }
@@ -58,21 +61,13 @@ namespace HandSchool.Internal
         public ICommand ClickCommand
         {
             get => (ICommand) GetValue(ClickCommandProperty);
-            set
-            {
-                SetValue(ClickCommandProperty, value);
-                OnPropertyChanged(nameof(HasClick));
-            }
+            set => SetValue(ClickCommandProperty, value);
         }
 
         public ICommand LongClickCommand
         {
             get => (ICommand) GetValue(LongClickCommandProperty);
-            set
-            {
-                SetValue(LongClickCommandProperty, value);
-                OnPropertyChanged(nameof(HasLongClick));
-            }
+            set => SetValue(LongClickCommandProperty, value);
         }
 
         public static readonly BindableProperty ClickCommandProperty = BindableProperty.Create(
@@ -87,18 +82,51 @@ namespace HandSchool.Internal
 
         public bool HasClick => ClickCommand is { } || _click is { };
 
+        private bool _lastHasClick;
+
         public bool HasLongClick => LongClickCommand is { } || _longClick is { };
+
+        private bool _lastHasLongClick;
 
         public void OnClick(EventArgs args = null)
         {
-            ClickCommand?.Execute(null);
             _click?.Invoke(this, args);
+            ClickCommand?.Execute(null);
         }
 
         public void OnLongClick(EventArgs args = null)
         {
-            LongClickCommand?.Execute(null);
             _longClick?.Invoke(this, args);
+            LongClickCommand?.Execute(null);
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            switch (propertyName)
+            {
+                case nameof(ClickCommand):
+                {
+                    if (HasClick != _lastHasClick)
+                    {
+                        _lastHasClick = HasClick;
+                        OnPropertyChanged(nameof(HasClick));
+                    }
+
+                    break;
+                }
+
+                case nameof(LongClickCommand):
+                {
+                    if (HasLongClick != _lastHasLongClick)
+                    {
+                        _lastHasLongClick = HasLongClick;
+                        OnPropertyChanged(nameof(HasLongClick));
+                    }
+
+                    break;
+                }
+            }
         }
     }
 }

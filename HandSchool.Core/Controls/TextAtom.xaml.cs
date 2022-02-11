@@ -201,6 +201,10 @@ namespace HandSchool.Controls
         {
             InitializeComponent();
             _secondCol = MainGrid.ColumnDefinitions[1];
+            TitleLabel.FontSize = Device.GetNamedSize(NamedSize.Medium, TitleLabel) - 1;
+            ContentTextLabel.FontSize = Device.GetNamedSize(NamedSize.Default, ContentTextLabel) + 1;
+            AfterTitleLabel.FontSize = SecondContentLabel.FontSize = Device.GetNamedSize(NamedSize.Small, SecondContentLabel) - 1;
+            SecondTitleLabel.FontSize = Device.GetNamedSize(NamedSize.Large, SecondTitleLabel) - 1;
         }
     }
 }
