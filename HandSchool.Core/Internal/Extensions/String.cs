@@ -155,5 +155,10 @@ namespace HandSchool.Internals
 
             return sb.ToString();
         }
+        
+        public static string SubStr(this string str, int startIndex, int endIndex)
+        {
+            return startIndex > endIndex ? "" : str.Substring(startIndex, endIndex - startIndex);
+        }
     }
 }

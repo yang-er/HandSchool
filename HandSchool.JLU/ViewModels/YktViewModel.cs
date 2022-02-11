@@ -1,16 +1,10 @@
 ﻿using HandSchool.Internals;
 using HandSchool.JLU.Models;
-using HandSchool.JLU.Services;
 using HandSchool.ViewModels;
 using HtmlAgilityPack;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using HandSchool.Models;
@@ -27,14 +21,6 @@ namespace HandSchool
 }
 namespace HandSchool.JLU.ViewModels
 {
-    static class StringE
-    {
-        public static string SubStr(this string str, int startIndex, int endIndex)
-        {
-            if (startIndex > endIndex) return "";
-            return str.Substring(startIndex, endIndex - startIndex);
-        }
-    }
     /// <summary>
     /// 校园一卡通的视图模型。
     /// </summary>
@@ -57,15 +43,16 @@ namespace HandSchool.JLU.ViewModels
         {
             Title = "校园一卡通";
             RecordInfo = new ObservableCollection<RecordInfo>();
-            ChargeCreditCommand = new CommandAction(ProcessCharge);
             RecordFindCommand = new CommandAction(ProcessQuery);
-            SetUpLostStateCommand = new CommandAction(ProcessSetLost);
             LoadBasicInfoCommand = new CommandAction(RefreshBasicInfoAsync);
             LoadTwoInfoCommand = new CommandAction(LoadTwoAsync);
-            CancelLostStateCommand = new CommandAction(ProcessCancelLost);
             IsFirstOpen = true;
-
-            BasicInfo = new CardBasicInfo();
+            BasicInfo = new CardBasicInfo
+            {
+                ChargeCreditCommand = new CommandAction(ProcessCharge),
+                SetUpLostStateCommand = new CommandAction(ProcessSetLost),
+                CancelLostStateCommand = new CommandAction(ProcessCancelLost)
+            };
         }
 
         /// <summary>
@@ -93,20 +80,6 @@ namespace HandSchool.JLU.ViewModels
         /// </summary>
         public CardBasicInfo BasicInfo { get; set; }
         
-        /// <summary>
-        /// 充值校园卡的命令
-        /// </summary>
-        public ICommand ChargeCreditCommand { get; set; }
-
-        /// <summary>
-        /// 挂失校园卡的命令
-        /// </summary>
-        public ICommand SetUpLostStateCommand { get; set; }
-
-        /// <summary>
-        /// 解挂校园卡的命令
-        /// </summary>
-        public ICommand CancelLostStateCommand { get; set; }
 
         /// <summary>
         /// 加载消费记录的命令

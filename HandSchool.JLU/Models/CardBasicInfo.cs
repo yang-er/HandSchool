@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Input;
 
 namespace HandSchool.JLU.Models
 {
@@ -51,5 +52,26 @@ namespace HandSchool.JLU.Models
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// 充值校园卡的命令
+        /// </summary>
+        public ICommand ChargeCreditCommand
+        {
+            get => _chargeCreditCommand;
+            set => _chargeCreditCommand = value;
+        }
+        private ICommand _chargeCreditCommand;
+
+
+        /// <summary>
+        /// 挂失校园卡的命令
+        /// </summary>
+        public ICommand SetUpLostStateCommand { get; set; }
+
+        /// <summary>
+        /// 解挂校园卡的命令
+        /// </summary>
+        public ICommand CancelLostStateCommand { get; set; }
     }
 }

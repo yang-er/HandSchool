@@ -17,9 +17,9 @@ namespace HandSchool.JLU.Views
         {
             InitializeComponent();
             ViewModel = YktViewModel.Instance;
-            charge.Command = YktViewModel.Instance.ChargeCreditCommand;
-            lokc.Command = YktViewModel.Instance.SetUpLostStateCommand;
-            unlock.Command = YktViewModel.Instance.CancelLostStateCommand;
+            //charge.Command = YktViewModel.Instance.ChargeCreditCommand;
+            //lokc.Command = YktViewModel.Instance.SetUpLostStateCommand;
+           // unlock.Command = YktViewModel.Instance.CancelLostStateCommand;
         }
         protected override void OnAppearing()
         {

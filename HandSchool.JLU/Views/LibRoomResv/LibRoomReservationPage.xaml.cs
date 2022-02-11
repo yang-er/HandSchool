@@ -41,17 +41,14 @@ namespace HandSchool.JLU.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LibRoomReservationPage : ViewObject
     {
-        private LibRoomReservationViewModel _viewModel;
+        private readonly LibRoomReservationViewModel _viewModel;
 
 
         public LibRoomReservationPage()
         {
             InitializeComponent();
-            UInfo.CornerRadius = RoomResv.CornerRadius = Device.RuntimePlatform switch
-            {
-                Device.iOS => 20,
-                _ => 15
-            };
+            UInfo.SetDefaultFrameCornerRadius(); 
+            RoomResv.SetDefaultFrameCornerRadius(); 
             Loader.LibRoom.LoginStateChanged += (s, e) =>
             {
                 if (e.State == LoginState.Succeeded)

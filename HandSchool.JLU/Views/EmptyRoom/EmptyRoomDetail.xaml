@@ -8,11 +8,12 @@
               IsBusy="{Binding IsBusy}">
     <StackLayout>
         <CollectionView
-        BackgroundColor="#F4F4F4"
-        ItemsSource="{Binding Rooms}">
+            BackgroundColor="#F4F4F4"
+            ItemsSource="{Binding Rooms}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <controls:TextAtom
+                    CornerRadius="0"
                     OnTop="False"
                     HasSecond="False"
                     Title="{Binding Name, Mode=OneWay}"

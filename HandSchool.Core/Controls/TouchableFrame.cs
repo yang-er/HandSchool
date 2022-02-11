@@ -9,11 +9,7 @@ namespace HandSchool.Internal
     {
         public TouchableFrame()
         {
-            CornerRadius = Device.RuntimePlatform switch
-            {
-                Device.iOS => 20,
-                _ => 15
-            };
+            this.SetDefaultFrameCornerRadius();
             _lastHasClick = HasClick;
             _lastHasLongClick = HasLongClick;
         }
