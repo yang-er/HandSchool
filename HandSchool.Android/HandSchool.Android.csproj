@@ -84,7 +84,7 @@
       <Version>2.4.2.2</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.40</Version>
+      <Version>1.11.42</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

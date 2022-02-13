@@ -1,4 +1,5 @@
-﻿using HandSchool.Internals;
+﻿using System.Threading.Tasks;
+using HandSchool.Internals;
 using HandSchool.JLU.Services;
 using HandSchool.Models;
 using HandSchool.Services;
@@ -10,12 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.JLU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InitializePage : ViewObject
-	{
-		public InitializePage()
-		{
-			InitializeComponent();
-		}
+    public partial class InitializePage
+    {
+        public InitializePage()
+        {
+            InitializeComponent();
+        }
 
         public override void SetNavigationArguments(object param)
         {
@@ -36,25 +37,26 @@ namespace HandSchool.JLU.Views
         private async void ExecuteLogic()
         {
             var vpn = WebVpn.UseVpn;
-            var result2 = false;
+            var vpnLogin = false;
             if (vpn)
             {
-                await System.Threading.Tasks.Task.Delay(1200);
+                await Task.Delay(1200);
                 vpnCheck.Text = "";
                 vpnProgress.IsRunning = true;
-                result2 = await LoginViewModel.RequestAsync(Loader.Vpn) == RequestLoginState.Success;
+                vpnLogin = await LoginViewModel.RequestAsync(Loader.Vpn) == RequestLoginState.Success;
                 vpnProgress.IsRunning = false;
-                vpnCheck.Text = result2 ? "√" : "×";
-                vpnCheck.TextColor = result2 ? Color.DarkGreen : Color.Red;
+                vpnCheck.Text = vpnLogin ? "√" : "×";
+                vpnCheck.TextColor = vpnLogin ? Color.DarkGreen : Color.Red;
             }
             else
             {
                 vpnCheck.Text = "N";
                 vpnCheck.TextColor = Color.Blue;
             }
-            if (!vpn || result2)
+
+            if (!vpn || vpnLogin)
             {
-                await System.Threading.Tasks.Task.Delay(1200);
+                await Task.Delay(1200);
 
                 jwxtCheck.Text = "";
                 jwxtProgress.IsRunning = true;
@@ -63,26 +65,40 @@ namespace HandSchool.JLU.Views
                 jwxtCheck.Text = result ? "√" : "×";
                 jwxtCheck.TextColor = result ? Color.DarkGreen : Color.Red;
 
-                if (result && !((UIMS)Core.App.Service).OutsideSchool)
+                if (result && !((UIMS) Core.App.Service).OutsideSchool)
                 {
                     kcbCheck.Text = "";
                     kcbProgress.IsRunning = true;
-                    await ScheduleViewModel.Instance.Refresh();
-                    kcbProgress.IsRunning = false;
-                    kcbCheck.Text = "√";
-                    kcbCheck.TextColor = Color.DarkGreen;
-
                     gradeCheck.Text = "";
                     gradeProgress.IsRunning = true;
-                    await GradePointViewModel.Instance.ExecuteLoadNewerItemsCommand();
-                    await GradePointViewModel.Instance.ExecuteLoadAllItemsCommand();
-                    gradeProgress.IsRunning = false;
-                    gradeCheck.Text = "√";
-                    gradeCheck.TextColor = Color.DarkGreen;
+                    await Task.WhenAll(
+                        ScheduleViewModel.Instance.Refresh()
+                            .ContinueWith(async t =>
+                            {
+                                await t;
+                                Core.Platform.EnsureOnMainThread(() =>
+                                {
+                                    kcbProgress.IsRunning = false;
+                                    kcbCheck.Text = "√";
+                                    kcbCheck.TextColor = Color.DarkGreen;
+                                });
+                            }),
+                        Task.WhenAll(Core.App.GradePoint.Execute(), Core.App.GradePoint.EntranceAll())
+                            .ContinueWith(async t =>
+                            {
+                                await t;
+                                Core.Platform.EnsureOnMainThread(() =>
+                                {
+                                    gradeProgress.IsRunning = false;
+                                    gradeCheck.Text = "√";
+                                    gradeCheck.TextColor = Color.DarkGreen;
+                                });
+                            })
+                    );
                 }
             }
 
-            await System.Threading.Tasks.Task.Delay(500);
+            await Task.Delay(500);
             await Navigation.PushAsync<WelcomePage>();
         }
     }

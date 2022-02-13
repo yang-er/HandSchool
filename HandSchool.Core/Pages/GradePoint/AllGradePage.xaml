@@ -8,7 +8,7 @@
               Title="全部成绩">
     <w:ViewObject.Content>
         <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" Command="{Binding LoadAllItemsCommand}">
-            <CollectionView ItemsSource="{Binding AllGradeItems}"
+            <controls:TappableCollectionView ItemsSource="{Binding AllGradeItems}"
                             BackgroundColor="#F4F4F4">
                 <CollectionView.EmptyView>
                     <ContentView>
@@ -31,7 +31,7 @@
                             SecondContent="{Binding Type}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
+            </controls:TappableCollectionView>
         </RefreshView>
     </w:ViewObject.Content>
 </w:ViewObject>

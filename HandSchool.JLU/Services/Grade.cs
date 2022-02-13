@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
 [assembly: RegisterService(typeof(GradeEntrance))]
+
 namespace HandSchool.JLU.Services
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace HandSchool.JLU.Services
     internal sealed class GradeEntrance : IGradeEntrance
     {
         const string ConfigGrade = "uims.grade";
-        const string ConfigGpa = "uims.gpa"; 
+        const string ConfigGpa = "uims.gpa";
         const string ConfigAllGrade = "uims.all_grade";
 
         const string GpaPostValue = "{\"type\":\"query\",\"res\":\"stat-avg-gpoint\",\"params\":{\"studId\":`studId`}}";
@@ -33,10 +34,10 @@ namespace HandSchool.JLU.Services
 
         private const string AllScorePostValue =
             "{\"tag\":\"scoreBook@queryScoreStore\",\"branch\":\"self\",\"params\":{}}";
+
         const string GradeDistributeUrl = "score/course-score-stat-stud.do";
         const string ServiceResourceUrl = "service/res.do";
 
-        [ToFix("将获取GPA成绩改为并发逻辑")]
         public async Task Execute()
         {
             try
@@ -46,11 +47,11 @@ namespace HandSchool.JLU.Services
                 var ro = lastReport.ParseJSON<RootObject<ArchiveScoreValue>>();
 
                 // Read score distribution details
-                foreach (var asv in ro.value)
-                {
-                    var lastDetail = await Core.App.Service.Post(GradeDistributeUrl, $"{{\"asId\":\"{asv.asId}\"}}");
-                    asv.distribute = lastDetail.ParseJSON<GradeDetails>();
-                }
+                await Task.WhenAll(ro.value.Select(asv =>
+                    Core.App.Service.Post(GradeDistributeUrl, $"{{\"asId\":\"{asv.asId}\"}}")
+                        .ContinueWith(async t => asv.distribute = (await t).ParseJSON<GradeDetails>())
+                ).ToArray());
+
                 // Save score details and add
                 Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
                 {
@@ -122,10 +123,10 @@ namespace HandSchool.JLU.Services
             var newerScoreItems = ParseNewerScore(newerScoreCache);
             var allScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigAllGrade)?.Json ?? "";
             var allScoreItems = ParseAllScore(allScoreCache)?.ToList();
-            
+
             Core.Platform.EnsureOnMainThread(() =>
             {
-                GradePointViewModel.Instance.NewerGradeItems.Clear(); 
+                GradePointViewModel.Instance.NewerGradeItems.Clear();
                 GradePointViewModel.Instance.AllGradeItems.Clear();
                 GradePointViewModel.Instance.NewerGradeItems.AddRange(newerScoreItems);
                 if (gpaItem != null) GradePointViewModel.Instance.AllGradeItems.Add(gpaItem);
@@ -177,6 +178,7 @@ namespace HandSchool.JLU.Services
             public string Detail => _detail ??= ToString();
             public QueryGradeItem(QueryScoreValue asv) => this._asv = asv;
         }
+
         static IEnumerable<IBasicGradeItem> ParseAllScore(string allScoreJson)
         {
             if (string.IsNullOrWhiteSpace(allScoreJson)) return null;
@@ -187,11 +189,11 @@ namespace HandSchool.JLU.Services
 
         static GPAItem ParseGpa(string lastReport)
         {
-            if(string.IsNullOrWhiteSpace(lastReport)) return null;
+            if (string.IsNullOrWhiteSpace(lastReport)) return null;
             var ro = lastReport.ParseJSON<RootObject<GPAValue>>();
-            var str = ro.value[0].HasNull ? 
-                "没有GPA信息（可能是新生）" :
-                $"按首次成绩\n学分平均绩点 {ro.value[0].gpaFirst ?? 0.0:N6}\n学分平均成绩 {ro.value[0].avgScoreFirst ?? 0.0:N6}\n\n按最好成绩\n学分平均绩点 {ro.value[0].gpaBest ?? 0.0:N6}\n学分平均成绩 {ro.value[0].avgScoreBest ?? 0.0:N6}";
+            var str = ro.value[0].HasNull
+                ? "没有GPA信息（可能是新生）"
+                : $"按首次成绩\n学分平均绩点 {ro.value[0].gpaFirst ?? 0.0:N6}\n学分平均成绩 {ro.value[0].avgScoreFirst ?? 0.0:N6}\n\n按最好成绩\n学分平均绩点 {ro.value[0].gpaBest ?? 0.0:N6}\n学分平均成绩 {ro.value[0].avgScoreBest ?? 0.0:N6}";
             return new GPAItem(str);
         }
     }
