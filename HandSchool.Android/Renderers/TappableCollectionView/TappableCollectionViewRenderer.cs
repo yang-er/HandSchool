@@ -1,17 +1,16 @@
 ﻿#nullable enable
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Android.Content;
 using Android.Views;
 using HandSchool.Controls;
 using HandSchool.Droid.Renderers;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
 using View = Android.Views.View;
 
-[assembly:ExportRenderer(typeof(TappableCollectionView), typeof(TappableCollectionViewRenderer))]
+[assembly: ExportRenderer(typeof(TappableCollectionView), typeof(TappableCollectionViewRenderer))]
 
 namespace HandSchool.Droid.Renderers
 {
@@ -32,7 +31,6 @@ namespace HandSchool.Droid.Renderers
         }
 
         private IOnClickListener? _currentClickListener;
-
 
         internal IOnLongClickListener? CurrentLongClickListener
         {
@@ -136,43 +134,9 @@ namespace HandSchool.Droid.Renderers
             base.RemoveViewAt(index);
         }
 
-        private bool _lastTappable;
-
-        private bool LastTappable
-        {
-            set
-            {
-                if (_lastTappable == value) return;
-                _lastTappable = value;
-                if (_lastTappable)
-                {
-                    _managedListeners.Keys.ForEach(v =>
-                    {
-                        if (v.Child is { } c)
-                        {
-                            c.Click += OnChildClick;
-                        }
-                    });
-                }
-                else
-                {
-                    _managedListeners.Keys.ForEach(v =>
-                    {
-                        if (v.Child is { } c)
-                        {
-                            c.Click -= OnChildClick;
-                        }
-                    });
-                }
-            }
-        }
-
-        private bool ItemTappable => Element.SelectionOn || Element.HasTap;
-
         protected override void OnElementChanged(ElementChangedEventArgs<ItemsView> elementChangedEvent)
         {
             base.OnElementChanged(elementChangedEvent);
-            _lastTappable = ItemTappable;
             int ToPx(double d) => PlatformImplV2.Instance.Dip2Px((float) d);
             var ep = Element.Padding;
             SetPadding(ToPx(ep.Left), ToPx(ep.Top), ToPx(ep.Right), ToPx(ep.Bottom));
@@ -183,37 +147,99 @@ namespace HandSchool.Droid.Renderers
             base.OnElementPropertyChanged(sender, changedProperty);
             switch (changedProperty.PropertyName)
             {
-                case "HasLongPress":
+                case "SelectionOn":
                 {
-                    if (Element.HasLongPress)
+                    if (Element.SelectionOn)
                     {
-                        _managedListeners.Keys.ForEach(v =>
+                        _managedListeners.Keys.ToList().ForEach(v =>
                         {
-                            if (v.Child is { } c)
+                            if (!(v.Child is { } child)) return;
+                            //由于Selection需要ClickListener实现
+                            if (!Element.HasTap)
                             {
-                                c.LongClick += OnChildLongClick;
+                                child.Click += OnChildClick;
+                            }
+
+                            if (Element.HasLongPress)
+                            {
+                                child.LongClick -= OnChildLongClick;
                             }
                         });
                     }
                     else
                     {
-                        _managedListeners.Keys.ForEach(v =>
+                        _managedListeners.Keys.ToList().ForEach(v =>
                         {
-                            if (v.Child is { } c)
+                            if (!(v.Child is { } child)) return;
+                            if (!Element.HasTap)
                             {
-                                c.LongClick -= OnChildLongClick;
+                                child.Click -= OnChildClick;
+                            }
+
+                            if (Element.HasLongPress)
+                            {
+                                child.LongClick += OnChildLongClick;
                             }
                         });
                     }
 
                     break;
                 }
+
                 case "HasTap":
-                case "SelectionOn":
                 {
-                    LastTappable = ItemTappable;
+                    if (Element.SelectionOn) return;
+                    if (Element.HasTap)
+                    {
+                        _managedListeners.Keys.ToList().ForEach(v =>
+                        {
+                            if (v.Child is { } child)
+                            {
+                                child.Click += OnChildClick;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        _managedListeners.Keys.ToList().ForEach(v =>
+                        {
+                            if (v.Child is { } child)
+                            {
+                                child.Click -= OnChildClick;
+                            }
+                        });
+                    }
+
                     break;
                 }
+
+                case "HasLongPress":
+                {
+                    if (Element.SelectionOn) return;
+                    if (Element.HasLongPress)
+                    {
+                        _managedListeners.Keys.ToList().ForEach(v =>
+                        {
+                            if (v.Child is { } child)
+                            {
+                                child.LongClick += OnChildLongClick;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        _managedListeners.Keys.ToList().ForEach(v =>
+                        {
+                            if (v.Child is { } child)
+                            {
+                                child.LongClick -= OnChildLongClick;
+                            }
+                        });
+                    }
+
+                    break;
+                }
+
                 case "Padding":
                     int ToPx(double d) => PlatformImplV2.Instance.Dip2Px((float) d);
                     var ep = Element.Padding;

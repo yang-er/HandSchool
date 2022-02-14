@@ -8,8 +8,9 @@ namespace HandSchool.Droid.Renderers
 {
     public sealed partial class TappableCollectionViewRenderer
     {
-        private readonly Dictionary<TappableItemContentView, ValueTuple<IOnClickListener?, IOnLongClickListener?>> _managedListeners;
-        
+        private readonly Dictionary<TappableItemContentView, ValueTuple<IOnClickListener?, IOnLongClickListener?>>
+            _managedListeners;
+
         private void OnChildClick(object s, EventArgs e)
         {
             if (!(((View) s).Parent is TappableItemContentView contentView)) return;
@@ -33,17 +34,20 @@ namespace HandSchool.Droid.Renderers
             if (!(view is TappableItemContentView viewGroup)) return;
             if (_managedListeners.ContainsKey(viewGroup)) return;
             if (!(viewGroup.Child is { } target)) return;
-            
+
             _managedListeners[viewGroup] = (viewGroup.CurrentClickListener, viewGroup.CurrentLongClickListener);
             (viewGroup.CurrentClickListener, viewGroup.CurrentLongClickListener) = (null, null);
-            if (Element.HasLongPress)
+            if (!Element.SelectionOn)
             {
-                target.LongClick += OnChildLongClick;
-            }
+                if (Element.HasTap)
+                {
+                    target.Click += OnChildClick;
+                }
 
-            if (ItemTappable)
-            {
-                target.Click += OnChildClick;
+                if (Element.HasLongPress)
+                {
+                    target.LongClick += OnChildLongClick;
+                }
             }
 
             target.TryAddRippleAnimation();
@@ -55,15 +59,19 @@ namespace HandSchool.Droid.Renderers
             if (!_managedListeners.ContainsKey(viewGroup)) return;
             if (!(viewGroup.Child is { } target)) return;
 
-            if (ItemTappable)
+            if (!Element.SelectionOn)
             {
-                target.Click -= OnChildClick;
+                if (Element.HasTap)
+                {
+                    target.Click -= OnChildClick;
+                }
+
+                if (Element.HasLongPress)
+                {
+                    target.LongClick -= OnChildLongClick;
+                }
             }
 
-            if (Element.HasLongPress)
-            {
-                target.LongClick -= OnChildLongClick;
-            }
             (viewGroup.CurrentClickListener, viewGroup.CurrentLongClickListener) = _managedListeners[viewGroup];
             _managedListeners.Remove(viewGroup);
         }

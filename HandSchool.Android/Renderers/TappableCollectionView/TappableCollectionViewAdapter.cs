@@ -65,18 +65,36 @@ namespace HandSchool.Droid.Renderers
 
         private void ItemsViewSelectionModeChanged(object sender, PropertyChangedEventArgs args)
         {
+            if (!(sender is TappableCollectionView view)) return;
             switch (args.PropertyName)
             {
-                //选择功能与轻按功能不可同时开启，但与长按功能可以同时开启
+                //选择功能与轻按、长按功能不可同时开启
                 case "SelectionOn":
                 {
-                    if (ItemsView.SelectionOn)
+                    if (!view.HasTap) return;
+                    if (view.SelectionOn)
                     {
                         _viewHolders.ForEach(v => v.Clicked -= ClickInvoker);
                     }
                     else
                     {
+
                         _viewHolders.ForEach(v => v.Clicked += ClickInvoker);
+                    }
+
+                    break;
+                }
+
+                case "HasTap":
+                {
+                    if (view.SelectionOn) return;
+                    if (view.HasTap)
+                    {
+                        _viewHolders.ForEach(v => v.Clicked += ClickInvoker);
+                    }
+                    else
+                    {
+                        _viewHolders.ForEach(v => v.Clicked -= ClickInvoker);
                     }
 
                     break;
