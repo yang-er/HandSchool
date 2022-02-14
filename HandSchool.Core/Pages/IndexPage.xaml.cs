@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
-using HandSchool.Internal;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms;
@@ -9,12 +8,6 @@ using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
-    public class ClassLoadEventArgs : EventArgs
-    {
-        public int ResIndex = -1;
-        public System.Collections.Generic.IList<CurriculumItem> Classes;
-    }
-    
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndexPage : ViewObject
     {
@@ -34,7 +27,7 @@ namespace HandSchool.Views
             }
         }
 
-        private void CurrentClassLoadOver(object s, ClassLoadEventArgs e)
+        private void CurrentClassLoadOver(object s, ClassLoadedEventArgs e)
         {
             var cur = 0;
             var index = -1;

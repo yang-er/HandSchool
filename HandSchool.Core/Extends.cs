@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -16,6 +17,27 @@ namespace HandSchool
         public virtual string SimplifyName(string str) => str;
     }
 
+    #nullable enable
+    public static class ReflectionExtend
+    {
+        public static FieldInfo? GetDeclaredField(this Type type, string fieldName)
+        {
+            return type.GetRuntimeFields()?.FirstOrDefault(f => f.Name == fieldName);
+        }
+
+        public static MethodInfo? GetDeclaredMethod(this Type type, string methodName, params Type[] types)
+        {
+            return type.GetRuntimeMethods()?.FirstOrDefault(m =>
+            {
+                if (m.Name != methodName) return false;
+                var mt = m.GetParameters().Select(p => p.ParameterType).ToArray();
+                if (mt.Length != types.Length) return false;
+                return !mt.Where((t, i) => t != types[i]).Any();
+            });
+        }
+    }
+    #nullable disable
+    
     public static class ColorExtend
     {
         public static Color ColorFromRgb((int, int, int) rgb)

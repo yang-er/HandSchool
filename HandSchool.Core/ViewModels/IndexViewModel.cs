@@ -16,7 +16,7 @@ namespace HandSchool.ViewModels
     {
         static readonly Lazy<IndexViewModel> Lazy =
             new Lazy<IndexViewModel>(() => new IndexViewModel());
-        public event Action<object, Views.ClassLoadEventArgs> CurrentClassesLoadFinished;
+        public event Action<object, ClassLoadedEventArgs> CurrentClassesLoadFinished;
         /// <summary>
         /// 视图模型的实例
         /// </summary>
@@ -143,7 +143,7 @@ namespace HandSchool.ViewModels
             Core.App.Loader.NoticeChange?.Invoke(Core.App.Service, new LoginStateEventArgs(LoginState.Succeeded));
             IsBusy = false;
 
-            var args = new Views.ClassLoadEventArgs
+            var args = new ClassLoadedEventArgs
             {
                 Classes = res
             };

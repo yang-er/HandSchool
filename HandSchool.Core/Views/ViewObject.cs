@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using HandSchool.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.PlatformConfiguration;
@@ -13,10 +14,6 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace HandSchool.Views
 {
-    public class IsBusyEventArgs : EventArgs
-    {
-        public bool IsBusy { get; set; }
-    }
     /// <summary>
     /// 一个既可以在Xamarin.Forms环境中使用，也可以在本机环境下使用的视图基类。
     /// </summary>

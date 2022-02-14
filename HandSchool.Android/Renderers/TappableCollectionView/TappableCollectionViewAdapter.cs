@@ -122,12 +122,12 @@ namespace HandSchool.Droid.Renderers
                     ?.LongPressAnimation(async () =>
                     {
                         await Task.Yield();
-                        ItemsView.CallOnItemLongPress(ItemsSource.GetItem(pos), pos);
+                        ItemsView.CallOnItemLongPress(ItemsSource.GetItem(pos), null);
                     }) ?? Task.CompletedTask);
             }
             else
             {
-                ItemsView.CallOnItemLongPress(ItemsSource.GetItem(pos), pos);
+                ItemsView.CallOnItemLongPress(ItemsSource.GetItem(pos), null);
             }
         }
 
@@ -140,12 +140,12 @@ namespace HandSchool.Droid.Renderers
                     ?.TappedAnimation(async () =>
                     {
                         await Task.Yield();
-                        ItemsView.CallOnItemTapped(ItemsSource.GetItem(pos), pos);
+                        ItemsView.CallOnItemTapped(ItemsSource.GetItem(pos), null);
                     }) ?? Task.CompletedTask);
             }
             else
             {
-                ItemsView.CallOnItemTapped(ItemsSource.GetItem(pos), pos);
+                ItemsView.CallOnItemTapped(ItemsSource.GetItem(pos), null);
             }
         }
 

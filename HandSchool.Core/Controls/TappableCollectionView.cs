@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using System.Security.Cryptography;
+using HandSchool.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using IPath = HandSchool.Models.CollectionItemTappedEventArgs.IndexPath;
 
 namespace HandSchool.Controls
 {
@@ -13,85 +14,106 @@ namespace HandSchool.Controls
         {
             _lastSelectOn = SelectionOn;
         }
-        
-        public event EventHandler<ItemTappedEventArgs> ItemTapped
+
+        public event EventHandler<CollectionItemTappedEventArgs> ItemTapped
         {
             add
             {
                 var before = _itemTapped is null;
                 _itemTapped += value;
-                if(before) OnPropertyChanged(nameof(HasTap));
+                if (before) OnPropertyChanged(nameof(HasTap));
             }
 
             remove
             {
                 var before = _itemTapped is null;
                 _itemTapped -= value;
-                if(_itemTapped is null != before) OnPropertyChanged(nameof(HasTap));
+                if (_itemTapped is null != before) OnPropertyChanged(nameof(HasTap));
             }
         }
-        
-        private EventHandler<ItemTappedEventArgs> _itemTapped;
-        
-        public event EventHandler<ItemTappedEventArgs> ItemLongPress
+
+        private EventHandler<CollectionItemTappedEventArgs> _itemTapped;
+
+        public event EventHandler<CollectionItemTappedEventArgs> ItemLongPress
         {
             add
             {
                 var before = _itemLongPress is null;
                 _itemLongPress += value;
-                if(before) OnPropertyChanged(nameof(HasLongPress));
+                if (before) OnPropertyChanged(nameof(HasLongPress));
             }
 
             remove
             {
                 var before = _itemLongPress is null;
                 _itemLongPress -= value;
-                if(_itemLongPress is null != before) OnPropertyChanged(nameof(HasLongPress));
+                if (_itemLongPress is null != before) OnPropertyChanged(nameof(HasLongPress));
             }
         }
-        
-        private EventHandler<ItemTappedEventArgs> _itemLongPress;
+
+        private EventHandler<CollectionItemTappedEventArgs> _itemLongPress;
 
         public bool HasLongPress => _itemLongPress is { };
-        
+
         public bool HasTap => _itemTapped is { };
 
         public bool SelectionOn => SelectionMode != SelectionMode.None;
 
         private bool _lastSelectOn;
-        
+
         public bool UseScaleAnimation
         {
-            get => (bool)GetValue(UseScaleAnimationProperty);
+            get => (bool) GetValue(UseScaleAnimationProperty);
             set => SetValue(UseScaleAnimationProperty, value);
         }
 
         public static readonly BindableProperty UseScaleAnimationProperty = BindableProperty.Create(
-                propertyName: nameof(UseScaleAnimation),
-                returnType: typeof(bool),
-                declaringType: typeof(TappableCollectionView),
-                defaultValue: false);
+            propertyName: nameof(UseScaleAnimation),
+            returnType: typeof(bool),
+            declaringType: typeof(TappableCollectionView),
+            defaultValue: false);
 
-        private ItemTappedEventArgs FindItem(object item, int index)
+        private CollectionItemTappedEventArgs FindItem(object item, CollectionItemTappedEventArgs.IndexPath? path)
         {
-            return IsGrouped switch
+            if (IsGrouped)
             {
-                true => new ItemTappedEventArgs(ItemsSource, item, index),
-                _ => new ItemTappedEventArgs(ItemsSource.Cast<object>()
-                    .FirstOrDefault(o =>
-                    {
-                        if (!(o is IEnumerable enumerable)) return false;
-                        return enumerable.Cast<object>().Any(i => ReferenceEquals(i, item));
-                    }), item, index)
-            };
+                var groupIndex = -1;
+                var indexInGroup = -1;
+                var group = (path is { } && ItemsSource is IList list
+                    ? list[path.Value.GroupIndex]
+                    : ItemsSource.Cast<object>()
+                        .FirstOrDefault(o =>
+                        {
+                            groupIndex++;
+                            if (!(o is IEnumerable enumerable)) return false;
+                            indexInGroup = enumerable.Cast<object>().IndexOf(item);
+                            return indexInGroup != -1;
+                        })) as IEnumerable;
+
+                return new CollectionItemTappedEventArgs
+                {
+                    Item = item,
+                    Group = group,
+                    Path = path ?? new IPath(groupIndex, indexInGroup)
+                };
+            }
+            else
+            {
+                return new CollectionItemTappedEventArgs
+                {
+                    Item = item,
+                    Group = ItemsSource,
+                    Path = path ?? new IPath(0, ItemsSource.Cast<object>().IndexOf(item))
+                };
+            }
         }
 
-        public void CallOnItemTapped(object item, int index)
+        public void CallOnItemTapped(object item, IPath? index)
         {
             _itemTapped?.Invoke(this, FindItem(item, index));
         }
 
-        public void CallOnItemLongPress(object item, int index)
+        public void CallOnItemLongPress(object item, IPath? index)
         {
             _itemLongPress?.Invoke(this, FindItem(item, index));
         }
@@ -110,7 +132,7 @@ namespace HandSchool.Controls
                 }
             }
         }
-        
+
         public void OnPaddingPropertyChanged(Thickness oldValue, Thickness newValue)
         {
             InvalidateMeasureNonVirtual(InvalidationTrigger.MeasureChanged);
@@ -118,7 +140,7 @@ namespace HandSchool.Controls
 
         public Thickness PaddingDefaultValueCreator()
         {
-            return (Thickness)PaddingProperty.DefaultValue;
+            return (Thickness) PaddingProperty.DefaultValue;
         }
 
         public Thickness Padding
