@@ -1,9 +1,8 @@
-﻿using HandSchool.Controls;
-using HandSchool.iOS;
+﻿using HandSchool.iOS;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
-using HandSchool.JLU.Views;
+using HandSchool.Models;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -15,56 +14,56 @@ namespace HandSchool.iOS
 
     public class ViewPageRenderer : PageRenderer
     {
-        private UIActivityIndicatorView Spinner;
+        private UIActivityIndicatorView _spinner;
         private List<MenuEntry> RealMenu { get; set; }
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
 
-            if (Spinner == null)
+            if (_spinner == null)
             {
-                Spinner = new UIActivityIndicatorView
+                _spinner = new UIActivityIndicatorView
                 {
                     ActivityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge,
                     BackgroundColor = UIColor.Gray,
                 };
 
-                Spinner.Layer.CornerRadius = 10;
-                NativeView.AddSubview(Spinner);
+                _spinner.Layer.CornerRadius = 10;
+                NativeView.AddSubview(_spinner);
 
-                Spinner.TranslatesAutoresizingMaskIntoConstraints = false;
+                _spinner.TranslatesAutoresizingMaskIntoConstraints = false;
                 NativeView.AddConstraint(NSLayoutConstraint.Create(
-                    Spinner, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal,
+                    _spinner, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal,
                     NativeView, NSLayoutAttribute.CenterX, (nfloat)1.0, (nfloat)0.0));
                 NativeView.AddConstraint(NSLayoutConstraint.Create(
-                    Spinner, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal,
+                    _spinner, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal,
                     NativeView, NSLayoutAttribute.CenterY, (nfloat)1.0, (nfloat)0.0));
                 NativeView.AddConstraint(NSLayoutConstraint.Create(
-                    Spinner, NSLayoutAttribute.Width, NSLayoutRelation.Equal,
-                    (nfloat)1.0, (nfloat)100));
+                    _spinner, NSLayoutAttribute.Width, NSLayoutRelation.Equal,
+                    (nfloat)1.0, 100));
                 NativeView.AddConstraint(NSLayoutConstraint.Create(
-                    Spinner, NSLayoutAttribute.Height, NSLayoutRelation.Equal,
-                    (nfloat)1.0, (nfloat)100));
+                    _spinner, NSLayoutAttribute.Height, NSLayoutRelation.Equal,
+                    (nfloat)1.0, 100));
             }
 
-            if (e.OldElement is ViewObject)
+            if (e.OldElement is ViewObject oldElement)
             {
-                ((ViewObject) e.OldElement).IsBusyChanged -= SetIsBusy;
+                oldElement.IsBusyChanged -= SetIsBusy;
             }
 
-            if (e.NewElement is ViewObject page)
+            if (e.NewElement is ViewObject newElement)
             {
-                page.IsBusyChanged += SetIsBusy;
+                newElement.IsBusyChanged += SetIsBusy;
 
-                if (page.Navigation == null)
+                if (newElement.Navigation == null)
                 {
-                    page.RegisterNavigation(new NavigateImpl(page));
+                    newElement.RegisterNavigation(new NavigateImpl(newElement));
                 }
 
                 RealMenu = new List<MenuEntry>();
                 MenuEntry main = null;
 
-                foreach (var entry in page.ToolbarMenu)
+                foreach (var entry in newElement.ToolbarMenu)
                 {
                     if (entry.HiddenForPull) continue;
                     RealMenu.Add(entry);
@@ -77,7 +76,7 @@ namespace HandSchool.iOS
                     var tbi = new ToolbarItem { BindingContext = main };
                     tbi.SetBinding(MenuItem.TextProperty, "Title", BindingMode.OneWay);
                     tbi.SetBinding(MenuItem.CommandProperty, "Command", BindingMode.OneWay);
-                    page.ToolbarItems.Add(tbi);
+                    newElement.ToolbarItems.Add(tbi);
                 }
                 else
                 {
@@ -88,13 +87,13 @@ namespace HandSchool.iOS
 
         private void SetIsBusy(object sender, IsBusyEventArgs isBusy)
         {
-            if (Element is ViewObject pg && isBusy.IsBusy)
+            if (Element is ViewObject && isBusy.IsBusy)
             {
-                Spinner.StartAnimating();
+                _spinner.StartAnimating();
             }
             else
             {
-                Spinner.StopAnimating();
+                _spinner.StopAnimating();
                 UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
             }
         }

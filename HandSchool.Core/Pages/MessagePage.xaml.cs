@@ -24,7 +24,7 @@ namespace HandSchool.Views
 
         private bool _isPushing;
 
-        private async void MessageClicked(object sender, ItemTappedEventArgs e)
+        private async void MessageClicked(object sender, CollectionItemTappedEventArgs e)
         {
             var item = e.Item as IMessageItem;
             if (_isPushing) return;
@@ -34,7 +34,7 @@ namespace HandSchool.Views
             _isPushing = false;
         }
 
-        private async void MessageLongClicked(object sender, ItemTappedEventArgs e)
+        private async void MessageLongClicked(object sender, CollectionItemTappedEventArgs e)
         {
             var item = e.Item as IMessageItem;
             var opts = new[] {"设为已读", "设为未读", "删除"};

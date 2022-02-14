@@ -3,6 +3,7 @@ using HandSchool.Views;
 using System.Threading.Tasks;
 using HandSchool.Controls;
 using HandSchool.Internals;
+using HandSchool.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,7 +31,7 @@ namespace HandSchool.JLU.Views
         }
 
         //点击之后啥也不干，就是玩
-        void ItemTappedHandler(object sender, ItemTappedEventArgs args)
+        void ItemTappedHandler(object sender, CollectionItemTappedEventArgs args)
         {
             return;
         }

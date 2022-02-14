@@ -14,7 +14,7 @@ namespace HandSchool.Views
             ViewModel = GradePointViewModel.Instance;
         }
 
-        private async void ShowDetail(object sender, ItemTappedEventArgs e)
+        private async void ShowDetail(object sender, CollectionItemTappedEventArgs e)
         {
             if (!(e.Item is IGradeItem iGi)) return;
             if (iGi is GPAItem) return;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Foundation;
 using HandSchool.Controls;
+using HandSchool.Models;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;

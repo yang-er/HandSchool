@@ -35,7 +35,7 @@ namespace HandSchool.Views
             myListView.ItemsSource = AboutEntrances;
         }
 
-        async void ItemTapped(object sender, ItemTappedEventArgs e)
+        async void ItemTapped(object sender, CollectionItemTappedEventArgs e)
         {
             if (e.Item == null)
                 return;

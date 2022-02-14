@@ -20,7 +20,7 @@ namespace HandSchool.Views
             ((ListView)sender).SelectedItem = null;
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void ListView_ItemTapped(object sender, CollectionItemTappedEventArgs e)
         {
             if (Device.RuntimePlatform != Device.UWP)
             {

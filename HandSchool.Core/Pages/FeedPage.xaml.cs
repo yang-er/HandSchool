@@ -31,7 +31,7 @@ namespace HandSchool.Views
             }
         }
 
-        async void ItemTapped(object sender, ItemTappedEventArgs args)
+        async void ItemTapped(object sender, CollectionItemTappedEventArgs args)
         {
             var e = args.Item as FeedItem;
             if (e is null || _isPushing)

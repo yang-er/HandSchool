@@ -13,12 +13,12 @@ namespace HandSchool.Views
 		{
             InitializeComponent();
             ViewModel = new BaseViewModel { Title = "其他功能" };
-            (Content as CollectionView).ItemsSource = Core.App.InfoEntrances;
+            Collection.ItemsSource = Core.App.InfoEntrances;
         }
 
         private bool _isPushing;
 
-        public async void ItemTapped(object sender, ItemTappedEventArgs args)
+        public async void ItemTapped(object sender, CollectionItemTappedEventArgs args)
         {
             var e = args.Item;
 

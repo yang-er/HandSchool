@@ -8,6 +8,7 @@
               Title="{Binding Title}">
     <w:ViewObject.Content>
         <controls:TappableCollectionView
+            x:Name="Collection"
             VerticalOptions="FillAndExpand"
             ItemSizingStrategy="MeasureAllItems"
             BackgroundColor="#F4F4F4"
