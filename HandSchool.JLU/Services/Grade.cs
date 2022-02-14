@@ -77,36 +77,42 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                var gpaInfo = await Core.App.Service.Post(ServiceResourceUrl, GpaPostValue);
+                GPAItem gpaItem = null;
+                List<IBasicGradeItem> allScoreItems = null;
+                await Task.WhenAll(
+                    Core.App.Service.Post(ServiceResourceUrl, GpaPostValue)
+                        .ContinueWith(async t =>
+                        {
+                            var gpaInfo = await t;
+                            Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
+                            {
+                                JsonName = ConfigGpa,
+                                Json = gpaInfo
+                            });
+                            gpaItem = ParseGpa(gpaInfo);
+                        }),
+                    Core.App.Service.Post(ServiceResourceUrl, AllScorePostValue)
+                        .ContinueWith(async t =>
+                        {
+                            var allScore = await t;
+                            Core.App.Loader.JsonManager.InsertOrUpdateTable(
+                                new ServerJson
+                                {
+                                    JsonName = ConfigAllGrade,
+                                    Json = allScore
+                                });
+                            allScoreItems = ParseAllScore(allScore)?.ToList() ?? new List<IBasicGradeItem>();
+                        })
+                );
 
-                var gpaItem = ParseGpa(gpaInfo);
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     GradePointViewModel.Instance.AllGradeItems.Clear();
                     if (gpaItem != null)
                         GradePointViewModel.Instance.AllGradeItems.Add(gpaItem);
-                });
-
-                var allScore = await Core.App.Service.Post(ServiceResourceUrl, AllScorePostValue);
-                var allScoreItems = ParseAllScore(allScore)?.ToList();
-                Core.Platform.EnsureOnMainThread(() =>
-                {
                     GradePointViewModel.Instance.AllGradeItems.AddReverse(allScoreItems);
                 });
-
-                Core.App.Loader.JsonManager.InsertOrUpdateTable(
-                    new ServerJson
-                    {
-                        JsonName = ConfigGpa,
-                        Json = gpaInfo
-                    },
-                    new ServerJson
-                    {
-                        JsonName = ConfigAllGrade,
-                        Json = allScore
-                    });
             }
-
             catch (WebsException ex)
             {
                 if (ex.Status != WebStatus.Timeout) throw;
