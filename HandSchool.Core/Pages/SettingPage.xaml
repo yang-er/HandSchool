@@ -4,7 +4,8 @@
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               x:Class="HandSchool.Views.SettingPage"
-              Title="{Binding Title}">
+              Title="{Binding Title}"
+              BackgroundColor="#F4F4F4">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" Order="Primary" UWPIcon="&#xE74E;" />
     </w:ViewObject.ToolbarMenu>
