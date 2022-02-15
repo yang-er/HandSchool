@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-
-using Foundation;
-using HandSchool.Internal;
 using HandSchool.Internals;
 using HandSchool.iOS.Internals;
-using HandSchool.iOS.Pages;
-using HandSchool.JLU.Views;
 using HandSchool.Models;
 using HandSchool.Pages;
 using HandSchool.ViewModels;
 using HandSchool.Views;
-using UIKit;
 
 namespace HandSchool.iOS
 {
@@ -24,18 +16,22 @@ namespace HandSchool.iOS
 
         public override void CheckUpdate() => OpenUrl(StoreLink);
 
-        public List<NavMenuItemImpl> NavigationMenu { get; }
+        public List<List<NavMenuItemImpl>> NavigationMenus { get; }
 
+        public List<NavMenuItemImpl> MainNavigationMenu { get; }
         public InfoEntranceGroup InfoQueryMenu { get; }
 
-        public static PlatformImpl Instance { get; private set; }
+        public static PlatformImpl Instance => Lazy.Value;
+
+        private static readonly Lazy<PlatformImpl> Lazy = new Lazy<PlatformImpl>(() => new PlatformImpl());
 
         private PlatformImpl()
         {
             StoreLink = "itms-apps://itunes.apple.com/cn/app/zhang-shang-ji-da/id1439771819?mt=8";
             ConfigureDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library");
-            Core.InitPlatform(Instance = this);
-            NavigationMenu = new List<NavMenuItemImpl>();
+            Core.InitPlatform(this);
+            MainNavigationMenu = new List<NavMenuItemImpl>();
+            NavigationMenus = new List<List<NavMenuItemImpl>> {MainNavigationMenu};
             InfoQueryMenu = new InfoEntranceGroup("其他功能");
             NavigationViewModel.FetchComplete += MenuComplete;
             ViewResponseImpl = new ViewResponseImpl();
@@ -52,33 +48,28 @@ namespace HandSchool.iOS
             Core.Reflection.RegisterType<WebLoginPage, WebLoginPageImpl>();
             Core.Reflection.RegisterType<ICurriculumPage, CurriculumPage>();
         }
-
+        
         public static void Register()
         {
-            new PlatformImpl();
+            Instance.GetType();
         }
 
         private void MenuComplete(object sender, EventArgs args)
         {
-            var settingList = new InfoEntranceGroup("设置")
-            {
-                new TapEntranceWrapper("设置", "调整程序运行的参数。",
-                    (nav) => nav.PushAsync<SettingPage>()),
-                new TapEntranceWrapper("关于", "程序的版本信息、开发人员、许可证和隐私声明等。",
-                    (nav) => nav.PushAsync<AboutPage>()),
-            };
+            NavigationMenus.Add(
+                new List<NavMenuItemImpl>()
+                {
+                    new NavMenuItemImpl("设置", "SettingPage", "", MenuIcon.Settings) {IsSingleInstance = true},
+                    new NavMenuItemImpl("关于", "AboutPage", "", MenuIcon.AboutUs) {IsSingleInstance = true}
+                });
 
-            Core.App.InfoEntrances.Add(settingList);
             if (InfoQueryMenu.Count > 0)
                 Core.App.InfoEntrances.Insert(0, InfoQueryMenu);
         }
 
         public override void AddMenuEntry(string title, string dest, string category, MenuIcon icon)
         {
-            var ios = NavMenuItemImpl.IconList[(int)icon];
-            if (ios is null) 
-                InfoQueryMenu.Add(new NavMenuItemImpl(title, dest, category, icon){IsSingleInstance = false}.AsEntrance());
-            else NavigationMenu.Add(new NavMenuItemImpl(title, dest, category, icon){IsSingleInstance = true});
+            MainNavigationMenu.Add(new NavMenuItemImpl(title, dest, category, icon){IsSingleInstance = true});
         }
     }
 }

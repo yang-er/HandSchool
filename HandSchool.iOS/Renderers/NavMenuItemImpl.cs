@@ -9,16 +9,16 @@ namespace HandSchool.iOS
     public class NavMenuItemImpl : NavigationMenuItem
     {
         public static readonly string[] IconList = {
-            "tab_rec.png",
-            "tab_sched.png",
-            "tab_feed.png",
-            "tab_about.png",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            "nav_home.png",
+            "nav_sched.png",
+            "nav_feed.png",
+            "nav_info.png",
+            "nav_mail.png",
+            "nav_grade.png",
+            "nav_card.png",
+            "nav_settings.png",
+            "nav_about.png",
+            "nav_libroom.png"
         };
 
         public FileImageSource Icon { get; }

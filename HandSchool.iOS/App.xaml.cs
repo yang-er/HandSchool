@@ -22,7 +22,7 @@ namespace HandSchool.iOS
             SettingViewModel.OnResetSettings += DeleteWKWebViewCookies;
             if (Core.Initialized)
             {
-                SetMainPage<MainPage>();
+                SetMainPage<MainPage2>();
             }
             else
             {

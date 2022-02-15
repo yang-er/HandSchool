@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -131,6 +131,9 @@
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\FlyoutNavMenu.xaml.cs">
+      <DependentUpon>FlyoutNavMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -150,7 +153,6 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Renderers\PageRenderer.cs" />
-    <Compile Include="Renderers\TabbedRenderer.cs" />
     <Compile Include="Renderers\FrameRenderers.cs" />
     <Compile Include="Renderers\TappableCollectionViewRenderer\TappableCollectionViewLayouts.cs" />
     <Compile Include="Renderers\TappableCollectionViewRenderer\TappableCollectionViewController.cs" />
@@ -169,9 +171,42 @@
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\hamburger.png" />
+    <BundleResource Include="Resources\hamburger@2x.png" />
     <BundleResource Include="Resources\Icon-60%403x.png" />
     <BundleResource Include="Resources\Icon-Small-40%403x.png" />
     <BundleResource Include="Resources\Icon-Small%403x.png" />
+    <BundleResource Include="Resources\nav_about.png" />
+    <BundleResource Include="Resources\nav_about@2x.png" />
+    <BundleResource Include="Resources\nav_about@3x.png" />
+    <BundleResource Include="Resources\nav_card.png" />
+    <BundleResource Include="Resources\nav_card@2x.png" />
+    <BundleResource Include="Resources\nav_card@3x.png" />
+    <BundleResource Include="Resources\nav_feed.png" />
+    <BundleResource Include="Resources\nav_feed@2x.png" />
+    <BundleResource Include="Resources\nav_feed@3x.png" />
+    <BundleResource Include="Resources\nav_grade.png" />
+    <BundleResource Include="Resources\nav_grade@2x.png" />
+    <BundleResource Include="Resources\nav_grade@3x.png" />
+    <BundleResource Include="Resources\nav_home.png" />
+    <BundleResource Include="Resources\nav_home@2x.png" />
+    <BundleResource Include="Resources\nav_home@3x.png" />
+    <BundleResource Include="Resources\nav_info.png" />
+    <BundleResource Include="Resources\nav_info@2x.png" />
+    <BundleResource Include="Resources\nav_info@3x.png" />
+    <BundleResource Include="Resources\nav_libroom.png" />
+    <BundleResource Include="Resources\nav_libroom@2x.png" />
+    <BundleResource Include="Resources\nav_libroom@3x.png" />
+    <BundleResource Include="Resources\nav_mail.png" />
+    <BundleResource Include="Resources\nav_mail@2x.png" />
+    <BundleResource Include="Resources\nav_mail@3x.png" />
+    <BundleResource Include="Resources\nav_sched.png" />
+    <BundleResource Include="Resources\nav_sched@2x.png" />
+    <BundleResource Include="Resources\nav_sched@3x.png" />
+    <BundleResource Include="Resources\nav_settings.png" />
+    <BundleResource Include="Resources\nav_settings@2x.png" />
+    <BundleResource Include="Resources\nav_settings@3x.png" />
+    <BundleResource Include="Resources\side_bg.jpg" />
     <BundleResource Include="Resources\splash_screen2.png" />
     <BundleResource Include="Resources\tab_about.png" />
     <BundleResource Include="Resources\tab_about%402x.png" />
@@ -302,6 +337,7 @@
     <EmbeddedResource Include="App.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Pages\FlyoutNavMenu.xaml" />
     <EmbeddedResource Include="Pages\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
