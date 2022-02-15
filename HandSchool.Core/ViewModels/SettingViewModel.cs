@@ -17,6 +17,8 @@ namespace HandSchool.ViewModels
         static readonly Lazy<SettingViewModel> Lazy = 
             new Lazy<SettingViewModel>(() => new SettingViewModel());
         public static event Func<Task> OnResetSettings;
+
+        public static event Func<Task> OnSaveSettings;
         /// <summary>
         /// 视图模型的实例
         /// </summary>
@@ -63,6 +65,7 @@ namespace HandSchool.ViewModels
             SaveConfigures = new CommandAction(async () =>
             {
                 Core.App.Loader.SaveSettings(Core.App.Service);
+                await (OnSaveSettings?.Invoke() ?? Task.CompletedTask);
                 await RequestMessageAsync("设置中心", "保存成功\n但需要结束当前进程重启后生效！", "好的");
             });
         }

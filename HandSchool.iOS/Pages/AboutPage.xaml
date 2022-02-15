@@ -2,10 +2,12 @@
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
+              xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               x:Class="HandSchool.Views.AboutPage"
               SizeChanged="PopContentPage_SizeChanged"
-              Title="{Binding Title}">
-    <StackLayout x:Name="mainLayout">
+              Title="{Binding Title}"
+              BackgroundColor="#F4F4F4">
+    <StackLayout x:Name="MainLayout">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="OrientationStates">
                 <VisualState Name="Portrait">
@@ -23,8 +25,8 @@
 
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
         
-        <StackLayout x:Name="logoLayout" Orientation="Vertical" WidthRequest="120" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
-            <Image Source="abouticon.png" x:Name="aboutIcon" HorizontalOptions="CenterAndExpand">
+        <StackLayout Orientation="Vertical" WidthRequest="120" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+            <Image Source="abouticon.png" x:Name="AboutIcon" HorizontalOptions="CenterAndExpand">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="OrientationStates">
                         <VisualState Name="Portrait">
@@ -44,7 +46,7 @@
             <Label Text="{Binding Version}" FontSize="Medium" HorizontalOptions="Center" />
         </StackLayout>
 
-        <StackLayout x:Name="entranceLayout" WidthRequest="260" HorizontalOptions="Center">
+        <StackLayout x:Name="EntranceLayout" WidthRequest="260" HorizontalOptions="Center">
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup Name="OrientationStates">
                     <VisualState Name="Portrait">
@@ -59,26 +61,27 @@
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <ListView x:Name="myListView"
-                      Margin="0,5"
+            <controls:TappableCollectionView x:Name="ItemCollection"
                       VerticalOptions="Center"
                       HorizontalOptions="Center"
-                      HasUnevenRows="true"
+                      ItemSizingStrategy="MeasureAllItems"
                       ItemTapped="ItemTapped"
                       SelectionMode="None"
-                      WidthRequest="240"
-                      CachingStrategy="RecycleElement">
-                <ListView.ItemTemplate>
+                      WidthRequest="240">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"></LinearItemsLayout>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <Frame Padding="0">
                             <StackLayout Padding="15" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="{Binding Title}" Style="{DynamicResource ListItemTextStyle}" FontSize="Medium" HorizontalOptions="StartAndExpand" />
                                 <Label Text="＞" Style="{DynamicResource ListItemTextStyle}" TextColor="LightGray" FontSize="Medium" HorizontalOptions="End" />
                             </StackLayout>
-                        </ViewCell>
+                        </Frame>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </controls:TappableCollectionView>
         </StackLayout>
 
         <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />

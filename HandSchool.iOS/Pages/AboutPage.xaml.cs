@@ -25,14 +25,14 @@ namespace HandSchool.Views
             On<_iOS_>().UseSafeArea();
 
             ViewModel = AboutViewModel.Instance;
-            myListView.HeightRequest = 51 * 4;
+            ItemCollection.HeightRequest = 51 * 4;
             
             AboutEntrances = new InfoEntranceGroup { GroupTitle = "关于" };
             AboutEntrances.Add(new TapEntranceWrapper("开源项目", "", (nav) => Task.Run(() => ViewModel.OpenSource())));
             AboutEntrances.Add(new TapEntranceWrapper("软件评分", "", (nav) => Task.Run(() => ViewModel.OpenMarket())));
             AboutEntrances.Add(InfoEntranceWrapper.From<AboutViewModel.PrivacyPolicy>());
             AboutEntrances.Add(InfoEntranceWrapper.From<AboutViewModel.LicenseInfo>());
-            myListView.ItemsSource = AboutEntrances;
+            ItemCollection.ItemsSource = AboutEntrances;
         }
 
         async void ItemTapped(object sender, CollectionItemTappedEventArgs e)
@@ -52,11 +52,11 @@ namespace HandSchool.Views
 
         private void PopContentPage_SizeChanged(object sender, System.EventArgs e)
         {
-            string visualState = Width > Height ? "Landscape" : "Portrait";
-            VisualStateManager.GoToState(mainLayout, visualState);
-            VisualStateManager.GoToState(aboutIcon, visualState);
-            VisualStateManager.GoToState(myListView, visualState);
-            VisualStateManager.GoToState(entranceLayout, visualState);
+            var visualState = Width > Height ? "Landscape" : "Portrait";
+            VisualStateManager.GoToState(MainLayout, visualState);
+            VisualStateManager.GoToState(AboutIcon, visualState);
+            VisualStateManager.GoToState(ItemCollection, visualState);
+            VisualStateManager.GoToState(EntranceLayout, visualState);
         }
     }
 }

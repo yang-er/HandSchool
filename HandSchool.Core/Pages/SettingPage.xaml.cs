@@ -14,11 +14,6 @@ namespace HandSchool.Views
             InitializeComponent();
             ViewModel = SettingViewModel.Instance;
         }
-        
-        private void ListView_ItemSelected(object sender, EventArgs e)
-        {
-            ((ListView)sender).SelectedItem = null;
-        }
 
         private void ListView_ItemTapped(object sender, CollectionItemTappedEventArgs e)
         {
