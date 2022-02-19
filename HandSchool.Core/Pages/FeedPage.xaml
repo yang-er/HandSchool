@@ -33,7 +33,7 @@
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="8" Span="2"/>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="7" HorizontalItemSpacing="6" Span="2"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

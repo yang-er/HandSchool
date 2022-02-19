@@ -117,7 +117,7 @@ namespace HandSchool.Controls
                         if (ReferenceEquals(AfterTitleLabel.Parent, TitleBound))
                         {
                             TitleBound.Children.Remove(AfterTitleLabel);
-                            var s = new StackLayout {Children = {TitleBound, AfterTitleLabel}};
+                            var s = new StackLayout {Children = {TitleBound, AfterTitleLabel}, Spacing = 0};
                             MainGrid.Children.Add(s, 0, 0);
                         }
                     }
@@ -240,11 +240,10 @@ namespace HandSchool.Controls
         {
             InitializeComponent();
             _secondCol = MainGrid.ColumnDefinitions[1];
-            TitleLabel.FontSize = Device.GetNamedSize(NamedSize.Medium, TitleLabel) - 1;
-            ContentTextLabel.FontSize = Device.GetNamedSize(NamedSize.Default, ContentTextLabel) + 1;
-            AfterTitleLabel.FontSize = SecondContentLabel.FontSize =
-                Device.GetNamedSize(NamedSize.Small, SecondContentLabel) - 1;
-            SecondTitleLabel.FontSize = Device.GetNamedSize(NamedSize.Large, SecondTitleLabel) - 1;
+            TitleLabel.FontSize = 17.18;
+            ContentTextLabel.FontSize = 15.18;
+            AfterTitleLabel.FontSize = SecondContentLabel.FontSize = 13.18;
+            SecondTitleLabel.FontSize = 21.18;
         }
     }
 }
