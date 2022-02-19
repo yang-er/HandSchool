@@ -24,6 +24,11 @@ namespace HandSchool
         {
             return type.GetRuntimeFields()?.FirstOrDefault(f => f.Name == fieldName);
         }
+        
+        public static PropertyInfo? GetDeclaredProperty(this Type type, string propertyName)
+        {
+            return type.GetRuntimeProperties()?.FirstOrDefault(p => p.Name == propertyName);
+        }
 
         public static MethodInfo? GetDeclaredMethod(this Type type, string methodName, params Type[] types)
         {
@@ -34,6 +39,19 @@ namespace HandSchool
                 if (mt.Length != types.Length) return false;
                 return !mt.Where((t, i) => t != types[i]).Any();
             });
+        }
+    }
+
+    public static class KotlinExtends
+    {
+        public static void Let<T>(this T obj, Action<T> action)
+        {
+            action(obj);
+        }
+
+        public static TOut Let<TIn, TOut>(this TIn obj, Func<TIn, TOut> func)
+        {
+            return func(obj);
         }
     }
     #nullable disable
