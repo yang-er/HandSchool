@@ -1,6 +1,4 @@
 #nullable enable
-using System;
-using CoreGraphics;
 using Foundation;
 using HandSchool.Controls;
 using UIKit;
@@ -16,63 +14,39 @@ namespace HandSchool.iOS.Renderers
         {
         }
 
-        public override void ViewWillAppear(bool animated)
+        public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            base.ViewWillAppear(animated);
-            AddPadding();
+            var cell = (UICollectionViewCell) collectionView.DequeueReusableCell(DetermineCellReuseId(), indexPath);
+            var span = ItemsView!.ItemsLayout is GridItemsLayout gridItemsLayout ? gridItemsLayout.Span : 1;
+
+            switch (cell)
+            {
+                case DefaultCell defaultCell:
+                    UpdateDefaultCell(defaultCell, indexPath);
+                    break;
+
+                case MarginCell marginCell:
+                    marginCell.SetCollectionViewPadding(new MarginInfo {Thickness = ItemsView!.Padding, Span = span});
+                    UpdateTemplatedCell(marginCell, indexPath);
+                    break;
+            }
+
+            return cell;
         }
 
-        public override void ViewWillLayoutSubviews()
+        protected override void RegisterViewTypes()
         {
-            base.ViewWillLayoutSubviews();
-            AddPadding();
+            base.RegisterViewTypes();
+            CollectionView.RegisterClassForCell(typeof(VerticalMarginCell), VerticalMarginCell.ReuseId);
+            CollectionView.RegisterClassForCell(typeof(HorizontalMarginCell), HorizontalMarginCell.ReuseId);
         }
 
-        private void UpdatePadding(Thickness padding)
+        protected override string DetermineCellReuseId()
         {
-            if (ItemsView is null) return;
-            var top = new nfloat(padding.Top);
-            var button = new nfloat(padding.Bottom);
-            var left = new nfloat(padding.Left);
-            var right = new nfloat(padding.Right);
-            CollectionView.ContentInset = new UIEdgeInsets(top, left, button, right);
-        }
-
-        /// <summary>
-        /// 根据设置的Padding更新约束
-        /// </summary>
-        private void AddPadding()
-        {
-            // 约束不能提前设置，因为官方渲染器在ViewWillAppear和ViewWillLayoutSubviews都会重新计算约束
-            if (ItemsView is null) return;
-            var ei = CollectionView.ContentInset;
-            var padding = ItemsView.Padding;
-            var deltaX = new nfloat(padding.Left + padding.Right);
-
-            //当Footer或Header存在时，如果设置Padding会导致死循环
-            if (Math.Abs(ei.Top) < 1e-5 && Math.Abs(ei.Bottom) < 1e-5)
-            {
-                UpdatePadding(padding);
-            }
-
-            var itemsViewWidth = ItemsView.Width - deltaX;
-            var itemsViewHeight = ItemsView.Height;
-
-            CGSize size;
-            if (itemsViewHeight < 0 || itemsViewWidth < 0)
-            {
-                size = CollectionView.Bounds.Size;
-                size.Width -= ei.Left + ei.Right;
-            }
-            else
-            {
-                size = new CGSize(itemsViewWidth, itemsViewHeight);
-            }
-
-            if (ItemsViewLayout is ITappableItemsViewLayout layout)
-            {
-                layout.UpdateCellConstraints(size);
-            }
+            if (ItemsView?.ItemTemplate is null) return base.DetermineCellReuseId();
+            return ItemsViewLayout.ScrollDirection == UICollectionViewScrollDirection.Horizontal
+                ? HorizontalMarginCell.ReuseId
+                : VerticalMarginCell.ReuseId;
         }
 
         private new TappableCollectionView? ItemsView => base.ItemsView as TappableCollectionView;

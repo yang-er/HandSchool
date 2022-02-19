@@ -154,6 +154,7 @@
     <None Include="Info.plist" />
     <Compile Include="Renderers\PageRenderer.cs" />
     <Compile Include="Renderers\FrameRenderers.cs" />
+    <Compile Include="Renderers\TappableCollectionViewRenderer\TappableCollectionViewCells.cs" />
     <Compile Include="Renderers\TappableCollectionViewRenderer\TappableCollectionViewLayouts.cs" />
     <Compile Include="Renderers\TappableCollectionViewRenderer\TappableCollectionViewController.cs" />
     <Compile Include="Renderers\TappableCollectionViewRenderer\TappableCollectionViewDelegator.cs" />

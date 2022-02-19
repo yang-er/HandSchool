@@ -3,6 +3,7 @@ using HandSchool.Controls;
 using HandSchool.iOS.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+
 [assembly: ExportRenderer(typeof(TappableCollectionView), typeof(CollectionViewRenderer2))]
 
 namespace HandSchool.iOS.Renderers
@@ -22,9 +23,8 @@ namespace HandSchool.iOS.Renderers
 
             return itemsLayout switch
             {
-                GridItemsLayout gridItemsLayout => new TappableGridViewLayout(gridItemsLayout, itemSizingStrategy),
-                LinearItemsLayout listItemsLayout => new TappableListViewLayout(listItemsLayout, itemSizingStrategy),
-                _ => new ListViewLayout(new LinearItemsLayout(ItemsLayoutOrientation.Vertical), itemSizingStrategy)
+                GridItemsLayout gridItemsLayout => new TappableGridViewLayout(gridItemsLayout, this, itemSizingStrategy),
+                _ => base.SelectLayout()
             };
         }
     }
