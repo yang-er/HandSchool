@@ -14,7 +14,7 @@
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0" VerticalOptions="Center">
+        <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" x:Name="TitleBound">
             <Image Source="on_top" x:Name="OnTopIcon" HeightRequest="19" WidthRequest="19" VerticalOptions="Center" IsVisible="False"/>
             <Label x:Name="TitleLabel" TextColor="Blue" VerticalOptions="Center"/>
             <Label x:Name="AfterTitleLabel" TextColor="Gray" VerticalOptions="Center"/>
