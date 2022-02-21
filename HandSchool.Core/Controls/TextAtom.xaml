@@ -1,26 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <internal:TouchableFrame
     xmlns:internal="clr-namespace:HandSchool.Internal"
-       xmlns="http://xamarin.com/schemas/2014/forms"
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       x:Class="HandSchool.Controls.TextAtom"
-       Padding="20,15,20,15">
-    <Grid x:Name = "MainGrid">
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="HandSchool.Controls.TextAtom"
+    Padding="20,15,20,15">
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition x:Name="FirstCol" Width="4*" />
         </Grid.ColumnDefinitions>
         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" x:Name="TitleBound">
-            <Image Source="on_top" x:Name="OnTopIcon" HeightRequest="19" WidthRequest="19" VerticalOptions="Center" IsVisible="False"/>
-            <Label x:Name="TitleLabel" TextColor="Blue" VerticalOptions="Center"/>
-            <Label x:Name="AfterTitleLabel" TextColor="Gray" VerticalOptions="Center"/>
+            <Image Source="on_top" x:Name="OnTopIcon" HeightRequest="19" WidthRequest="19" VerticalOptions="Center"
+                   IsVisible="False" />
+            <Label x:Name="TitleLabel" TextColor="Blue" VerticalOptions="Center" />
+            <Label x:Name="AfterTitleLabel" TextColor="Gray" VerticalOptions="Center" />
         </StackLayout>
-        <Label x:Name="ContentTextLabel" TextColor="Black" Grid.Column="0" Grid.Row="1"/>
-        <Label x:Name="SecondTitleLabel" TextColor="Red" Grid.Row="0" Grid.Column="1" HorizontalOptions="End"/>
-        <Label x:Name="SecondContentLabel" TextColor="Gray" Grid.Row="1" Grid.Column="1"  HorizontalOptions="End"/>
+        <Label x:Name="ContentTextLabel" TextColor="Black" Grid.Column="0" Grid.Row="1" />
     </Grid>
 </internal:TouchableFrame>

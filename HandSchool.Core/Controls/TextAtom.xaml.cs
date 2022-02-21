@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿#nullable enable
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,7 +14,33 @@ namespace HandSchool.Controls
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TextAtom
     {
-        readonly ColumnDefinition _secondCol;
+        private Label? _secondTitleLabel;
+
+        private Label? _secondContentLabel;
+
+        private ColumnDefinition? _secondCol;
+
+        private Label CreateSecondTitle()
+        {
+            return new Label
+            {
+                Text = SecondTitle,
+                TextColor = SecondTitleColor,
+                FontSize = 21.18,
+                HorizontalOptions = LayoutOptions.End
+            };
+        }
+
+        private Label CreateSecondContent()
+        {
+            return new Label
+            {
+                Text = SecondContent,
+                FontSize = 13.18,
+                TextColor = SecondContentColor,
+                HorizontalOptions = LayoutOptions.End
+            };
+        }
 
         public bool OnTop
         {
@@ -81,34 +108,46 @@ namespace HandSchool.Controls
             set => SetValue(AfterTitlePositionProperty, value);
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             switch (propertyName)
             {
                 case nameof(OnTop):
                     OnTopIcon.IsVisible = OnTop;
                     break;
+                
                 case nameof(Title):
                     TitleLabel.Text = Title;
                     break;
+                
                 case nameof(ContentText):
                     ContentTextLabel.Text = ContentText;
                     break;
+                
                 case nameof(AfterTitle):
                     AfterTitleLabel.Text = AfterTitle;
                     break;
+                
                 case nameof(SecondContent):
-                    SecondContentLabel.Text = SecondContent;
+                    if (_secondContentLabel is null) return;
+                    _secondContentLabel.Text = SecondContent;
                     break;
+                
                 case nameof(SecondTitle):
-                    SecondTitleLabel.Text = SecondTitle;
+                    if (_secondTitleLabel is null) return;
+                    _secondTitleLabel.Text = SecondTitle;
                     break;
+                
                 case nameof(SecondContentColor):
-                    SecondContentLabel.TextColor = SecondContentColor;
+                    if (_secondContentLabel is null) return;
+                    _secondContentLabel.TextColor = SecondContentColor;
                     break;
+                
                 case nameof(SecondTitleColor):
-                    SecondTitleLabel.TextColor = SecondTitleColor;
+                    if (_secondTitleLabel is null) return;
+                    _secondTitleLabel.TextColor = SecondTitleColor;
                     break;
+                
                 case nameof(AfterTitlePosition):
                 {
                     if (AfterTitlePosition == TextAtomAfterTitlePosition.UnderTitle)
@@ -134,25 +173,33 @@ namespace HandSchool.Controls
 
                     break;
                 }
+                
                 case nameof(HasSecond):
+                {
                     if (HasSecond)
                     {
+                        _secondCol = new ColumnDefinition {Width = GridLength.Star};
                         MainGrid.ColumnDefinitions.Add(_secondCol);
-                        MainGrid.ColumnDefinitions[0].Width =
-                            new GridLength(FirstProportion, GridUnitType.Star);
-                        MainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+                        _secondTitleLabel = CreateSecondTitle();
+                        MainGrid.Children.Add(_secondTitleLabel, 1, 0);
+                        _secondContentLabel = CreateSecondContent();
+                        MainGrid.Children.Add(_secondContentLabel, 1, 1);
                     }
-
-                    SecondTitleLabel.IsVisible = SecondContentLabel.IsVisible = HasSecond;
-                    if (!HasSecond)
+                    else
                     {
-                        MainGrid.RowDefinitions.RemoveAt(1);
-                        MainGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Auto);
+                        var children = MainGrid.Children;
+                        children.Remove(_secondTitleLabel);
+                        children.Remove(_secondContentLabel);
+                        MainGrid.ColumnDefinitions.Remove(_secondCol);
+                        _secondTitleLabel = _secondContentLabel = null;
+                        _secondCol = null;
                     }
 
                     break;
+                }
+                
                 case nameof(FirstProportion):
-                    MainGrid.ColumnDefinitions[0].Width = new GridLength(FirstProportion, GridUnitType.Star);
+                    FirstCol.Width = new GridLength(FirstProportion, GridUnitType.Star);
                     break;
             }
 
@@ -234,16 +281,14 @@ namespace HandSchool.Controls
                 propertyName: nameof(HasSecond),
                 returnType: typeof(bool),
                 declaringType: typeof(TextAtom),
-                defaultValue: true);
+                defaultValue: false);
 
         public TextAtom()
         {
             InitializeComponent();
-            _secondCol = MainGrid.ColumnDefinitions[1];
             TitleLabel.FontSize = 17.18;
             ContentTextLabel.FontSize = 15.18;
-            AfterTitleLabel.FontSize = SecondContentLabel.FontSize = 13.18;
-            SecondTitleLabel.FontSize = 21.18;
+            AfterTitleLabel.FontSize = 13.18;
         }
     }
 }
