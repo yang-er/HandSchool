@@ -20,7 +20,7 @@
         <RefreshView IsRefreshing="{Binding IsRefreshing, Mode=OneWay}" Command="{Binding LoadItemsCommand}">
             <controls:TappableCollectionView
                 ItemsSource="{Binding Items}"
-                ItemsUpdatingScrollMode="KeepScrollOffset"
+                ItemsUpdatingScrollMode="KeepItemsInView"
                 ItemSizingStrategy="MeasureAllItems"
                 BackgroundColor="#F4F4F4"
                 RemainingItemsThreshold="0"
