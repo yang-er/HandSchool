@@ -75,7 +75,7 @@ namespace HandSchool.ViewModels
             }
             IsBusy = false;
 
-            await LoginViewModel.RequestAsync(Core.App.Service);
+            await Core.App.Service.RequestLogin();
         }
 
         private bool _isWorking;

@@ -2,11 +2,9 @@
 using HandSchool.JLU;
 using HandSchool.Models;
 using HandSchool.Services;
-using HandSchool.Views;
 using System;
 using System.Threading.Tasks;
 using HandSchool.Internal;
-using HandSchool.JLU.Services;
 
 [assembly: RegisterService(typeof(UIMS))]
 namespace HandSchool.JLU
@@ -32,16 +30,16 @@ namespace HandSchool.JLU
 
         public string FormName => "UIMS教务管理系统";
 
-        private string proxy_server;
+        private string _proxyServer;
         //[Settings("服务器", "通过此域名访问UIMS，但具体路径地址不变。\n如果在JLU.NET等公用WiFi下访问，建议改为 10.60.65.8。")]
         public string ProxyServer
         {
-            get => proxy_server;
+            get => _proxyServer;
             set
             {
-                var new_val = value.Trim();
-                if (new_val.Length == 0) new_val = "uims.jlu.edu.cn";
-                SetProperty(ref proxy_server, new_val);
+                var newVal = value.Trim();
+                if (newVal.Length == 0) newVal = "uims.jlu.edu.cn";
+                SetProperty(ref _proxyServer, newVal);
             }
         }
         public async Task<bool> CheckLogin()
@@ -58,60 +56,60 @@ namespace HandSchool.JLU
             }
             else return false;
         }
-        private bool use_https;
+        private bool _useHttps;
         //[Settings("使用SSL连接", "通过HTTPS连接UIMS，不验证证书。连接成功率更高。")]
         public bool UseHttps
         {
-            get => use_https;
-            set => SetProperty(ref use_https, value);
+            get => _useHttps;
+            set => SetProperty(ref _useHttps, value);
         }
 
-        private bool quick_mode;
+        private bool _quickMode;
         //[Settings("快速连接模式", "通过10.60.65.8连接UIMS，可能不稳定，随时有接口被封锁的风险，但是快。如果需要抢课等场景，建议提前开启并测试接口是否正常。")]
         public bool QuickMode
         {
-            get => quick_mode;
-            set => SetProperty(ref quick_mode, value);
+            get => _quickMode;
+            set => SetProperty(ref _quickMode, value);
         }
 
-        private bool outside_school;
+        private bool _outsideSchool;
         //[Settings("我在校外", "若无法连接到学校校园网，勾选后可以登录公网教务系统进行成绩查询，其他大部分功能将被暂停使用。切换后需要重启本应用程序。")]
         public bool OutsideSchool
         {
-            get => outside_school;
-            set => SetProperty(ref outside_school, value);
+            get => _outsideSchool;
+            set => SetProperty(ref _outsideSchool, value);
         }
 
         public event EventHandler<LoginStateEventArgs> LoginStateChanged;
 
-        private bool is_login = false;
+        private bool _isLogin;
         public bool IsLogin
         {
-            get => is_login;
+            get => _isLogin;
             private set
             {
-                SetProperty(ref is_login, value);
+                SetProperty(ref _isLogin, value);
                 OnPropertyChanged(nameof(WelcomeMessage));
                 OnPropertyChanged(nameof(CurrentMessage));
                 OnPropertyChanged(nameof(CurrentWeek));
             }
         }
 
-        private bool auto_login = false;
+        private bool _autoLogin;
         public bool AutoLogin
         {
-            get => auto_login;
-            set => SetProperty(ref auto_login, false);
+            get => _autoLogin;
+            set => SetProperty(ref _autoLogin, false);
         }
 
-        private bool save_password = true;
+        private bool _savePassword = true;
         public bool SavePassword
         {
-            get => save_password;
+            get => _savePassword;
             set
             {
-                SetProperty(ref save_password, value);
-                if (!value) SetProperty(ref auto_login, false, nameof(AutoLogin));
+                SetProperty(ref _savePassword, value);
+                if (!value) SetProperty(ref _autoLogin, false, nameof(AutoLogin));
             }
         }
 
@@ -129,7 +127,7 @@ namespace HandSchool.JLU
         public bool IsWeb => false;
         public int CurrentWeek { get; set; }
         public string CaptchaCode { get; set; } = "";
-        public byte[] CaptchaSource { get; set; } = null;
+        public byte[] CaptchaSource { get; set; }
 
         /// <summary>
         /// 建立访问UIMS的对象。
@@ -213,8 +211,8 @@ namespace HandSchool.JLU
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.Timeout)
-                    is_login = false;
-                throw ex;
+                    _isLogin = false;
+                throw;
             }
         }
 
@@ -239,8 +237,8 @@ namespace HandSchool.JLU
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.Timeout)
-                    is_login = false;
-                throw ex;
+                    _isLogin = false;
+                throw;
             }
         }
 
@@ -255,9 +253,7 @@ namespace HandSchool.JLU
 
         public Task<TaskResp> BeforeLoginForm()
         {
-            if (WebVpn.UseVpn)
-                return UsingStrategy.PrepareLogin();
-            return Task.FromResult(TaskResp.True);
+            return UsingStrategy.BeforeLoginForm();
         }
 
         interface ISideSchoolStrategy
@@ -270,6 +266,7 @@ namespace HandSchool.JLU
             string WelcomeMessage { get; }
             string CurrentMessage { get; }
             Task<TaskResp> PrepareLogin();
+            Task<TaskResp> BeforeLoginForm();
         }
     }
 }

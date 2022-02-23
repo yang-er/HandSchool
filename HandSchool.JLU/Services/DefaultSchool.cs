@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HandSchool.JLU.Services;
 using HandSchool.Services;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.JLU
 {
@@ -20,12 +21,14 @@ namespace HandSchool.JLU
             public DefaultSchoolStrategy(UIMS handle)
             {
                 UIMS = handle;
-                WebVpn.Instance?.RegisterUrl(_baseUrl, "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/");
+                WebVpn.Instance?.RegisterUrl(_baseUrl,
+                    "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/");
             }
 
             public string TimeoutUrl => "error/dispatch.jsp?reason=nologin";
 
-            const string getTermInfo = "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":`term`}}";
+            const string getTermInfo =
+                "{\"tag\":\"search@teachingTerm\",\"branch\":\"byId\",\"params\":{\"termId\":`term`}}";
 
             #region LoginInfo
 
@@ -57,48 +60,60 @@ namespace HandSchool.JLU
                 var ro = rot.value[0];
                 int.TryParse(ro.weeks, out var ws);
                 UIMS.TotalWeek = ws;
-                
+
                 if (ro.vacationDate < DateTime.Now)
                 {
                     Nick = ro.year + "学年" + (ro.termSeq == "1" ? "寒假" : "暑假");
-                    UIMS.CurrentWeek = (int)Math.Ceiling((decimal)((DateTime.Now - ro.vacationDate).Days + 1) / 7);
+                    UIMS.CurrentWeek = (int) Math.Ceiling((decimal) ((DateTime.Now - ro.vacationDate).Days + 1) / 7);
                     UIMS.SchoolState = SchoolState.Vacation;
                 }
                 else
                 {
                     Nick = ro.year + "学年" + (ro.termSeq == "1" ? "秋季学期" : (ro.termSeq == "2" ? "春季学期" : "短学期"));
-                    UIMS.CurrentWeek = (int)Math.Ceiling((decimal)((DateTime.Now - ro.startDate).Days + 1) / 7);
+                    UIMS.CurrentWeek = (int) Math.Ceiling((decimal) ((DateTime.Now - ro.startDate).Days + 1) / 7);
                     UIMS.SchoolState = SchoolState.Normal;
                 }
             }
 
             #endregion
 
-            bool reinit = true;
+            private bool _reinit = true;
             private readonly string _baseUrl = "https://uims.jlu.edu.cn/ntms/";
-            public async Task<TaskResp> PrepareLogin()
-            {
-                if (reinit)
-                {
-                    UIMS.WebClient?.Dispose();
-                    UIMS.WebClient = Core.New<IWebClient>();
 
-                    UIMS.WebClient.BaseAddress = _baseUrl;
-                    for (int i = 0; i < 15; i++)
+            private IWebClient GetClient()
+            {
+                var client = Core.New<IWebClient>();
+                client.BaseAddress = _baseUrl;
+                return client;
+            }
+
+            private void ReInitWebClient()
+            {
+                if (UIMS.WebClient is { } webClient)
+                {
+                    if (webClient.Cookie.Clear())
                     {
-                        try
+                        if (WebVpn.UseVpn)
                         {
-                            await UIMS.WebClient.GetAsync("", "*/*");
-                            break;
-                        }
-                        catch (WebsException)
-                        {
-                            Core.Logger.WriteLine("UIMS", "Timeout #" + i);
-                            // continue;
+                            WebVpn.Instance.GetLoginCookies().ForEach(webClient.Cookie.Add);
                         }
                     }
+                    else
+                    {
+                        webClient.Dispose();
+                        UIMS.WebClient = null;
+                    }
+                }
 
-                    reinit = false;
+                UIMS.WebClient ??= GetClient();
+            }
+
+            public async Task<TaskResp> PrepareLogin()
+            {
+                if (_reinit)
+                {
+                    ReInitWebClient();
+                    _reinit = false;
                 }
 
                 if (!UIMS.IsLogin)
@@ -119,6 +134,99 @@ namespace HandSchool.JLU
                 return TaskResp.True;
             }
 
+            public async Task<TaskResp> BeforeLoginForm()
+            {
+                if (WebVpn.UseVpn)
+                {
+                    if (_reinit)
+                    {
+                        ReInitWebClient();
+                        _reinit = false;
+                    }
+
+                    if (await GetUserInfo() is { } userInfo)
+                    {
+                        var success = await UpdateUserInfo(userInfo)
+                                      && await UpdateTermInfo();
+                        if (success)
+                        {
+                            UIMS.IsLogin = true;
+                            UIMS.NeedLogin = false;
+                            UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
+                        }
+                    }
+                }
+
+                if (UIMS.IsLogin) return TaskResp.True;
+                try
+                {
+                    await UIMS.WebClient.GetAsync("");
+                    return TaskResp.True;
+                }
+                catch
+                {
+                    return TaskResp.False;
+                }
+            }
+
+            private async Task<string> GetUserInfo()
+            {
+                try
+                {
+                    var reqMeta = new WebRequestMeta("action/getCurrentUserInfo.do", WebRequestMeta.Json);
+                    using var resp = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
+                    var userInfo = await resp.ReadAsStringAsync();
+                    return userInfo.StartsWith("<!") ? null : userInfo;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            private async Task<string> GetTermInfo()
+            {
+                try
+                {
+                    var reqMeta = new WebRequestMeta("service/res.do", WebRequestMeta.Json);
+                    using var resp =
+                        await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
+                    var termInfo = await resp.ReadAsStringAsync();
+                    return termInfo.StartsWith("<!") ? null : termInfo;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            private async Task<bool> UpdateUserInfo(string userInfo = null)
+            {
+                var uInfo = userInfo ?? await GetUserInfo();
+                if (uInfo is null) return false;
+                Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
+                {
+                    JsonName = UserCacheColName,
+                    Json = UIMS.SavePassword ? uInfo : ""
+                });
+                ParseLoginInfo(uInfo);
+                return true;
+            }
+
+            private async Task<bool> UpdateTermInfo(string termInfo = null)
+            {
+                var tInfo = termInfo ?? await GetTermInfo();
+                if (tInfo is null) return false;
+                Core.App.Loader.JsonManager.InsertOrUpdateTable(
+                    new ServerJson
+                    {
+                        JsonName = TeachTermColName,
+                        Json = UIMS.SavePassword ? tInfo : ""
+                    });
+                ParseTermInfo(tInfo);
+                return true;
+            }
+
             public async Task<TaskResp> LoginSide()
             {
                 try
@@ -126,25 +234,28 @@ namespace HandSchool.JLU
                     // Set Login Session
                     var loginData = new KeyValueDict
                     {
-                        { "username", UIMS.Username },
-                        { "password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8) },
-                        { "mousePath", "" },
-                        { "vcode", UIMS.CaptchaCode }
+                        {"username", UIMS.Username},
+                        {"password", $"UIMS{UIMS.Username}{UIMS.Password}".ToMD5(Encoding.UTF8)},
+                        {"mousePath", ""},
+                        {"vcode", UIMS.CaptchaCode}
                     };
 
                     var reqMeta = new WebRequestMeta("j_spring_security_check", WebRequestMeta.All);
                     reqMeta.SetHeader("Referer", UIMS.ServerUri + "userLogin.jsp?reason=nologin");
-                    var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
+                    using var response = await UIMS.WebClient.PostAsync(reqMeta, loginData);
                     var loc = response.Location.Replace(UIMS.ServerUri, "");
 
                     switch (loc)
                     {
                         case "userLogin.jsp?reason=loginError":
                         {
-                            string result = await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
+                            var result =
+                                await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
                             var html = new HtmlAgilityPack.HtmlDocument();
                             html.LoadHtml(result);
-                            var msg = html.DocumentNode.SelectSingleNode("//span[@class='error_message' and @id='error_message']")?.InnerText?.Replace("登录错误：","");
+                            var msg = html.DocumentNode
+                                .SelectSingleNode("//span[@class='error_message' and @id='error_message']")?.InnerText
+                                ?.Replace("登录错误：", "");
                             UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Failed, msg));
                             UIMS.IsLogin = false;
                             UIMS.NeedLogin = true;
@@ -154,30 +265,9 @@ namespace HandSchool.JLU
                         {
                             studId = studName = adcId = schoolId = term = null;
                             // Get User Info
-                            reqMeta = new WebRequestMeta("action/getCurrentUserInfo.do", WebRequestMeta.Json);
-                            // reqMeta.SetHeader("Referer", "https://uims.jlu.edu.cn/ntms/index.do");
-                            var webResp2 = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
-                            string resp = await webResp2.ReadAsStringAsync();
-                            if (resp.StartsWith("<!")) return TaskResp.False;
-                            Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
-                            {
-                                JsonName = UserCacheColName,
-                                Json = UIMS.SavePassword ? resp : ""
-                            });
-                            ParseLoginInfo(resp);
-
+                            if (!await UpdateUserInfo()) return TaskResp.False;
                             // Get term info
-                            reqMeta = new WebRequestMeta("service/res.do", WebRequestMeta.Json);
-                            webResp2 = await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
-                            resp = await webResp2.ReadAsStringAsync();
-                            if (resp.StartsWith("<!")) return TaskResp.False;
-                            Core.App.Loader.JsonManager.InsertOrUpdateTable(
-                                new ServerJson
-                                {
-                                    JsonName = TeachTermColName,
-                                    Json = UIMS.SavePassword ? resp : ""
-                                });
-                            ParseTermInfo(resp);
+                            if (!await UpdateTermInfo()) return TaskResp.False;
                             break;
                         }
                         default:
@@ -192,14 +282,14 @@ namespace HandSchool.JLU
                 catch (WebsException ex)
                 {
                     UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(ex));
-                    reinit = true;
+                    _reinit = true;
                     UIMS.NeedLogin = true;
                     return TaskResp.False;
                 }
 
                 UIMS.IsLogin = true;
                 UIMS.NeedLogin = false;
-                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));                
+                UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
                 return TaskResp.True;
             }
 
@@ -207,7 +297,7 @@ namespace HandSchool.JLU
             {
                 try
                 {
-                    await UIMS.WebClient.GetAsync("logout.do?reason=M"); 
+                    await UIMS.WebClient.GetAsync("logout.do?reason=M");
                     UIMS.IsLogin = false;
                 }
                 catch (WebsException ex)
@@ -223,7 +313,8 @@ namespace HandSchool.JLU
                 {
                     var loginInfo = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(UserCacheColName)?.Json;
                     var termInfo = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(TeachTermColName)?.Json;
-                    if (string.IsNullOrWhiteSpace(loginInfo) || string.IsNullOrWhiteSpace(termInfo))
+                    Func<string, bool> isBlank = string.IsNullOrWhiteSpace;
+                    if (isBlank(loginInfo) || isBlank(termInfo))
                     {
                         UIMS.AutoLogin = false;
                         UIMS.NeedLogin = true;

@@ -1,7 +1,9 @@
 ﻿using HandSchool.Views;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -172,6 +174,46 @@ namespace HandSchool
             await item.ScaleTo(Scales.SuperLarge, 200);
             if (doing != null) await doing();
             await item.ScaleTo(Scales.Normal, 200);
+        }
+    }
+
+    #nullable enable
+    public static class CookieContainerExtends
+    {
+        private static readonly FieldInfo? InnerHashTable;
+        private static readonly FieldInfo? InnerCount;
+
+        static CookieContainerExtends()
+        {
+            var fields = typeof(CookieContainer).GetRuntimeFields();
+            if (fields is null) return;
+            using var enumerator = fields.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                switch (current?.Name)
+                {
+                    case "m_domainTable":
+                        InnerHashTable = current;
+                        break;
+                    case "m_count":
+                        InnerCount = current;
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 通过反射方式清空cookieContainer
+        /// </summary>
+        /// <returns>是否成功</returns>
+        public static bool Clear(this CookieContainer cookieContainer)
+        {
+            if (InnerCount is null || InnerHashTable is null) return false;
+            if (!(InnerHashTable.GetValue(cookieContainer) is Hashtable ht)) return false;
+            ht.Clear();
+            InnerCount.SetValue(cookieContainer, 0);
+            return true;
         }
     }
 }

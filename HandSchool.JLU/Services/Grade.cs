@@ -123,21 +123,24 @@ namespace HandSchool.JLU.Services
         public static async Task PreloadData()
         {
             await Task.Yield();
-            var gpaCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigGpa)?.Json ?? "";
-            var gpaItem = ParseGpa(gpaCache);
-            var newerScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigGrade)?.Json ?? "";
-            var newerScoreItems = ParseNewerScore(newerScoreCache);
-            var allScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigAllGrade)?.Json ?? "";
-            var allScoreItems = ParseAllScore(allScoreCache)?.ToList();
-
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                GradePointViewModel.Instance.NewerGradeItems.Clear();
-                GradePointViewModel.Instance.AllGradeItems.Clear();
-                GradePointViewModel.Instance.NewerGradeItems.AddRange(newerScoreItems);
-                if (gpaItem != null) GradePointViewModel.Instance.AllGradeItems.Add(gpaItem);
-                GradePointViewModel.Instance.AllGradeItems.AddReverse(allScoreItems);
-            });
+            await Task.WhenAll(
+                Task.Run(() =>
+                {
+                    var newerScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigGrade)?.Json ?? "";
+                    var newerScoreItems = ParseNewerScore(newerScoreCache);
+                    GradePointViewModel.Instance.NewerGradeItems.Clear();
+                    GradePointViewModel.Instance.NewerGradeItems.AddRange(newerScoreItems);
+                }),
+                Task.Run(() =>
+                {
+                    var gpaCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigGpa)?.Json ?? "";
+                    var gpaItem = ParseGpa(gpaCache);
+                    var allScoreCache = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigAllGrade)?.Json ?? "";
+                    var allScoreItems = ParseAllScore(allScoreCache)?.ToList();
+                    GradePointViewModel.Instance.AllGradeItems.Clear();
+                    if (gpaItem != null) GradePointViewModel.Instance.AllGradeItems.Add(gpaItem);
+                    GradePointViewModel.Instance.AllGradeItems.AddReverse(allScoreItems);
+                }));
         }
 
         static IEnumerable<InsideGradeItem> ParseNewerScore(string lastRead)
