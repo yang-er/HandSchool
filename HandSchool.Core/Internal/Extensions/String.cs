@@ -15,6 +15,16 @@ namespace HandSchool.Internals
     /// </summary>
     public static class StringExtensions
     {
+        public static bool IsBlank(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
+        }
+
+        public static bool IsNotBlank(this string str)
+        {
+            return !string.IsNullOrWhiteSpace(str);
+        }
+
         /// <summary>
         /// 将字符串解析为RSS文档。
         /// </summary>

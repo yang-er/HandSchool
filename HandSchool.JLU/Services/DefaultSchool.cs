@@ -176,6 +176,7 @@ namespace HandSchool.JLU
                     var reqMeta = new WebRequestMeta("action/getCurrentUserInfo.do", WebRequestMeta.Json);
                     using var resp = await UIMS.WebClient.PostAsync(reqMeta, "", WebRequestMeta.Form);
                     var userInfo = await resp.ReadAsStringAsync();
+                    if (userInfo.IsBlank()) return null;
                     return userInfo.StartsWith("<!") ? null : userInfo;
                 }
                 catch
@@ -192,6 +193,7 @@ namespace HandSchool.JLU
                     using var resp =
                         await UIMS.WebClient.PostAsync(reqMeta, FormatArguments(getTermInfo), WebRequestMeta.Json);
                     var termInfo = await resp.ReadAsStringAsync();
+                    if (termInfo.IsBlank()) return null;
                     return termInfo.StartsWith("<!") ? null : termInfo;
                 }
                 catch
@@ -313,8 +315,7 @@ namespace HandSchool.JLU
                 {
                     var loginInfo = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(UserCacheColName)?.Json;
                     var termInfo = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(TeachTermColName)?.Json;
-                    Func<string, bool> isBlank = string.IsNullOrWhiteSpace;
-                    if (isBlank(loginInfo) || isBlank(termInfo))
+                    if (loginInfo.IsBlank() || termInfo.IsBlank())
                     {
                         UIMS.AutoLogin = false;
                         UIMS.NeedLogin = true;
