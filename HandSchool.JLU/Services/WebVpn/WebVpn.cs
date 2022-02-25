@@ -205,14 +205,14 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                if (_loginCookiesChanged)
+                if (WebClient is null || _loginCookiesChanged)
                 {
                     ReInitWebClient();
                     AddCookie(WebClient);
                     _loginCookiesChanged = false;
                 }
 
-                using var response = await WebClient.GetAsync("https://webvpn.jlu.edu.cn");
+                using var response = await WebClient.GetAsync("");
                 var res = await response.ReadAsStringAsync();
                 return IsLogin = res.Contains("注销");
             }
