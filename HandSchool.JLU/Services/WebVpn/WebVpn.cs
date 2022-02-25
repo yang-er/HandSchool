@@ -3,6 +3,7 @@ using HandSchool.JLU.Services;
 using HandSchool.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HandSchool.Internal;
@@ -44,7 +45,7 @@ namespace HandSchool.JLU.Services
                 }
             }
 
-            SaveCookies(
+            CookiesFilter(
                 Core.App.Loader.JsonManager
                     .GetItemWithPrimaryKey(ConfigCookies)
                     ?.ToObject<List<Cookie>>());
@@ -234,46 +235,63 @@ namespace HandSchool.JLU.Services
                 {"remember_cookie", "on"},
             };
             var req = new WebRequestMeta("do-login", WebRequestMeta.All);
-            using var post = await WebClient.PostAsync(req, loginData);
-            var msg = await post.ReadAsStringAsync();
-            if (msg.IsBlank()) return false;
-            var resp = msg.ParseJSON<JObject>();
-            if (resp?["success"]?.ToString().Trim().ToLower() == "true")
+            
+            var success = false;
+            try
             {
-                var cookies = WebClient.Cookie.GetCookies(new Uri("https://webvpn.jlu.edu.cn"));
-                cookies.ToEnumerable().ForEach(c =>
+                using var post = await WebClient.PostAsync(req, loginData);
+                var msg = await post.ReadAsStringAsync();
+                if (msg.IsBlank()) return false;
+                var resp = msg.ParseJSON<JObject>();
+
+                if (resp?["success"]?.ToString().Trim().ToLower() == "true")
                 {
-                    switch (c.Name)
+                    var cookies = WebClient.Cookie.GetCookies(new Uri("https://webvpn.jlu.edu.cn"));
+                    cookies.Cast<Cookie>().ForEach(c =>
                     {
-                        case TicketName:
-                            Ticket.Value = c.Value;
-                            break;
-                        case TokenName:
-                            if (RememberToken is { } rememberToken)
-                                rememberToken.Value = c.Value;
-                            break;
-                    }
-                });
-                AddCookie(WebClient);
-                IsLogin = false;
-                return true;
-            }
+                        switch (c.Name)
+                        {
+                            case TicketName:
+                                Ticket.Value = c.Value;
+                                break;
+                            case TokenName:
+                                if (RememberToken is { } rememberToken)
+                                    rememberToken.Value = c.Value;
+                                break;
+                        }
+                    });
+                    success = true;
+                }
 
-            switch (resp?["error"]?.ToString().Trim().ToLower())
+                switch (resp?["error"]?.ToString().Trim().ToLower())
+                {
+                    case "need_confirm":
+                        using (var confirm = await WebClient.PostAsync(
+                                   new WebRequestMeta("do-confirm-login", WebRequestMeta.All),
+                                   null))
+                        {
+                            var text = await confirm.ReadAsStringAsync();
+                            if (text.IsBlank()) return false;
+                            var jo = text.ParseJSON<JObject>();
+                            if (jo?["success"]?.ToString().Trim().ToLower() == "true")
+                            {
+                                success = true;
+                            }
+                        }
+
+                        break;
+                }
+            }
+            catch //WebsException, JsonException
             {
-                case "need_confirm":
-                    using (var confirm = await WebClient.PostAsync(
-                               new WebRequestMeta("do-confirm-login", WebRequestMeta.All),
-                               null))
-                    {
-                        var text = await confirm.ReadAsStringAsync();
-                        if (text.IsBlank()) return false;
-                        var jo = text.ParseJSON<JObject>();
-                        return jo?["success"]?.ToString().Trim().ToLower() == "true";
-                    }
+                success = false;
             }
 
-            return false;
+            if (!success) return false;
+
+            IsLogin = false;
+            SaveCookies();
+            return true;
         }
 
         private void ReInitWebClient()
@@ -351,7 +369,7 @@ namespace HandSchool.JLU.Services
 
             throw new KeyNotFoundException($"url {ori} has not registered");
         }
-        
+
         private static void CheckUrl(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -364,7 +382,7 @@ namespace HandSchool.JLU.Services
                 throw new UriFormatException("url must start with \"https://\" or \"http://\"");
             }
         }
-        
+
         public void RegisterUrl(string oriUrl, string proxyUrl)
         {
             CheckUrl(oriUrl);
@@ -375,7 +393,7 @@ namespace HandSchool.JLU.Services
         /// <summary>
         /// 在Cookie序列中选出WebVpn登录所需的
         /// </summary>
-        private bool SaveCookies(IEnumerable<Cookie> cookies)
+        private bool CookiesFilter(IEnumerable<Cookie> cookies)
         {
             var changed = false;
             cookies?.ForEach(c =>
@@ -395,6 +413,17 @@ namespace HandSchool.JLU.Services
                 }
             });
             return changed;
+        }
+
+        private void SaveCookies()
+        {
+            Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
+            {
+                JsonName = ConfigCookies,
+                Json = GetLoginCookies()
+                    .Select(c => new CookieLite(c))
+                    .Serialize()
+            });
         }
     }
 }

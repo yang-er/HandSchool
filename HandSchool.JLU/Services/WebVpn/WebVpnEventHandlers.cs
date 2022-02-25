@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using HandSchool.Controls;
 using HandSchool.Internals;
@@ -62,18 +63,8 @@ namespace HandSchool.JLU.Services
             if (e.Url == "https://webvpn.jlu.edu.cn/" || e.Url == "https://webvpn.jlu.edu.cn/m/portal")
             {
                 var cookie = Events.WebViewEvents.WebView.HSCookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));
-                var updated = SaveCookies(cookie.ToEnumerable());
-                if (updated)
-                {
-                    Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
-                    {
-                        JsonName = ConfigCookies,
-                        Json = GetLoginCookies()
-                            .Select(c => new CookieLite(c))
-                            .Serialize()
-                    });
-                }
-
+                var updated = CookiesFilter(cookie.Cast<Cookie>());
+                if (updated) SaveCookies();
                 await CheckIsLogin();
                 if (!IsLogin) return;
                 if (_pageClosed) return;

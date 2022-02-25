@@ -89,11 +89,6 @@ namespace HandSchool
 
     public static class Extends
     {
-        public static IEnumerable<Cookie> ToEnumerable (this CookieCollection collection)
-        {
-            for (var i = 0; i < collection.Count; i++) yield return collection[i];
-        }
-        
         public static void SetDefaultFrameCornerRadius(this Frame frame)
         {
             frame.CornerRadius = Device.RuntimePlatform switch
