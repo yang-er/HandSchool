@@ -13,6 +13,7 @@ using HandSchool.Services;
 using HandSchool.Views;
 using Newtonsoft.Json.Linq;
 using AppActivity = AndroidX.AppCompat.App.AppCompatActivity;
+using JavaObject = Java.Lang.Object;
 
 
 namespace HandSchool.Droid.Internals
@@ -58,17 +59,27 @@ namespace HandSchool.Droid.Internals
         }
         public static bool IsMi()
         {
-            return Android.OS.Build.Manufacturer?.ToLower()?.Contains("xiaomi") ?? false;
+            return Android.OS.Build.Manufacturer?.ToLower().Contains("xiaomi") ?? false;
         }
     }
 
-    class ObjectRes : Java.Lang.Object, IValueCallback
+    class ObjectRes : JavaObject, IValueCallback
     {
         public object Value { get; set; }
 
         public void OnReceiveValue(Java.Lang.Object value)
         {
             Value = value;
+        }
+    }
+
+    class StringAsyncResult : JavaObject, IValueCallback
+    {
+        public Task<string> Result => _task.Task;
+        private readonly TaskCompletionSource<string> _task = new TaskCompletionSource<string>();
+        public void OnReceiveValue(JavaObject value)
+        {
+            _task.TrySetResult(value.ToString());
         }
     }
 

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
+using System.Threading.Tasks;
 using Android.Content;
 using Android.Webkit;
 using HandSchool.Controls;
+using HandSchool.Droid.Internals;
 using HandSchool.Droid.Renderers;
 using HandSchool.Models;
+using Java.Interop;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using WebView = Xamarin.Forms.WebView;
@@ -20,11 +24,12 @@ namespace HandSchool.Droid.Renderers
     {
         private const string WebViewCookieStrategyConfig = "webview_cookie_strategy";
 
-        public HSWebView WebView { get; set; }
+        private readonly WebViewRenderer _webViewRenderer;
+        public HSWebView WebView => (HSWebView) _webViewRenderer.Element;
 
-        public HSWebViewClient(WebViewRenderer renderer, HSWebView v) : base(renderer)
+        public HSWebViewClient(WebViewRenderer renderer) : base(renderer)
         {
-            WebView = v;
+            _webViewRenderer = renderer;
             var strategy = Core.Configure.Configs.GetItemWithPrimaryKey(WebViewCookieStrategyConfig)?.Value;
             if (strategy is null)
             {
@@ -56,6 +61,7 @@ namespace HandSchool.Droid.Renderers
         {
             private readonly HSWebViewClient _father;
             private readonly CookieManager _manager;
+
             public SelectStrategy(HSWebViewClient renderer)
             {
                 _father = renderer;
@@ -118,29 +124,59 @@ namespace HandSchool.Droid.Renderers
 
     public class HSWebViewRenderer : WebViewRenderer
     {
-        public HSWebViewRenderer(Context context) : base(context) { }
+        public HSWebViewRenderer(Context context) : base(context)
+        {
+            if (EvalJsMethod is null)
+            {
+                throw new NotSupportedException("Program cannot work because of reflection error");
+            }
+        }
+
+        private static readonly MethodInfo EvalJsMethod;
+
+        static HSWebViewRenderer()
+        {
+            EvalJsMethod = typeof(WebViewRenderer).GetDeclaredMethod("OnEvaluateJavaScriptRequested", typeof(string));
+        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
         {
             if (e.OldElement != null)
             {
-                Control.Settings.JavaScriptEnabled = true;
-                var wvClient = Control.WebViewClient;
-                if (wvClient is HSWebViewClient hsClient)
-                {
-                    hsClient.WebView = null;
-                }
+                Element.EvaluateJavaScriptRequested -= EvalJsAsync;
+                Control.RemoveJavascriptInterface("jsBridge");
             }
 
             base.OnElementChanged(e);
 
             if (e.NewElement != null)
             {
-                var hsWebView = (HSWebView)e.NewElement;
+                Element.EvaluateJavaScriptRequested -=
+                    (EvaluateJavaScriptDelegate) EvalJsMethod.CreateDelegate(typeof(EvaluateJavaScriptDelegate), this);
+                Element.EvaluateJavaScriptRequested += EvalJsAsync;
                 Control.Settings.JavaScriptEnabled = true;
-                var c = new HSWebViewClient(this, hsWebView);
-                Control.SetWebViewClient(c);
+                Control.AddJavascriptInterface(this, "jsBridge");
             }
+        }
+
+        protected override WebViewClient GetWebViewClient()
+        {
+            return new HSWebViewClient(this);
+        }
+
+        private Task<string> EvalJsAsync(string js)
+        {
+            var jsr = new StringAsyncResult();
+            var script = js.Replace(HSWebView.NativeMethodInvoker, "jsBridge.invokeAction");
+            Control.EvaluateJavascript(script, jsr);
+            return jsr.Result;
+        }
+
+        [JavascriptInterface]
+        [Export("invokeAction")]
+        public void InvokeAction(string data)
+        {
+            (Element as HSWebView)?.SendReceivingJsData(data);
         }
     }
 }

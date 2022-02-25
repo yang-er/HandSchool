@@ -13,11 +13,13 @@ namespace HandSchool.Models
     {
         public event EventHandler<WebNavigatedEventArgs> Navigated;
         public event EventHandler<WebNavigatingEventArgs> Navigating;
+        public event Action<string> ReceivingJsData; 
         public HSWebView WebView { get; set; }
         public Task<string> EvaluateJavaScriptAsync(string script) =>
             WebView?.EvaluateJavaScriptAsync(script) ?? Task.FromResult<string>(null);
         public void OnNavigated(object sender, WebNavigatedEventArgs args) => Navigated?.Invoke(sender, args);
         public void OnNavigating(object sender, WebNavigatingEventArgs args) => Navigating?.Invoke(sender, args);
+        public void OnReceivingJsData(string data) => ReceivingJsData?.Invoke(data);
     }
     
     /// <summary>

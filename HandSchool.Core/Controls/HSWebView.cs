@@ -7,6 +7,7 @@ namespace HandSchool.Controls
 {
     public class HSWebView : WebView
     {
+        public const string NativeMethodInvoker = "_{hsWebView.nativeMethodInvoker}";
         public HSWebView()
         {
             switch (Device.RuntimePlatform)
@@ -23,6 +24,12 @@ namespace HandSchool.Controls
 
         public TaskCompletionSource<TaskResp> Result = new TaskCompletionSource<TaskResp>();
         private HSWebViewEvents _events;
+
+        public void SendReceivingJsData(string data)
+        {
+            _events.OnReceivingJsData(data);
+        }
+
         public CookieContainer HSCookies { get; }
         public HSWebViewEvents Events
         {
