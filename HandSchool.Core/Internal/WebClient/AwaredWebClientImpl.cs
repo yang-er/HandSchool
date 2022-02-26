@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -25,6 +24,27 @@ namespace HandSchool.Internals
         /// </summary>
         public CookieContainer Cookie { get; } = new CookieContainer();
 
+        public new Uri BaseAddress
+        {
+            get => _baseAddress;
+            set
+            {
+                _baseAddress = value;
+                base.BaseAddress = value?.OriginalString;
+            }
+        }
+
+        private Uri _baseAddress;
+
+        public string StringBaseAddress
+        {
+            get => base.BaseAddress;
+            set
+            {
+                base.BaseAddress = value;
+                _baseAddress = value.IsBlank() ? null : new Uri(value);
+            }
+        }
         /// <summary>
         /// Web响应的HTTP头集合
         /// </summary>
@@ -51,8 +71,8 @@ namespace HandSchool.Internals
                 else if (ResponseHeaders.Get("Location") is null) return "";
 
                 var ret = ResponseHeaders["Location"];
-                if (ret.StartsWith(BaseAddress))
-                    ret = ret.Substring(BaseAddress.Length);
+                if (ret.StartsWith(StringBaseAddress))
+                    ret = ret.Substring(StringBaseAddress.Length);
                 return ret;
             }
         }
@@ -101,8 +121,8 @@ namespace HandSchool.Internals
                     protocolErrorResponses["Status"] = ((int)resp.StatusCode).ToString() + " " + resp.StatusCode.ToString();
 
                     if ((int)resp.StatusCode >= 400)
-                        throw new WebsException(new WebResponse(new byte[0], req, WebStatus.ProtocolError, this, resp.StatusCode));
-                    return new WebResponse(new byte[0], req, WebStatus.Success, this, resp.StatusCode);
+                        throw new WebsException(new WebResponse(Array.Empty<byte>(), req, WebStatus.ProtocolError, this, resp.StatusCode));
+                    return new WebResponse(Array.Empty<byte>(), req, WebStatus.Success, this, resp.StatusCode);
                 }
                 else
                 {
@@ -146,7 +166,7 @@ namespace HandSchool.Internals
         {
             public WebResponse(byte[] result, WebRequestMeta meta, WebStatus stat, AwaredWebClientImpl client, HttpStatusCode code)
             {
-                respContent = result;
+                _respContent = result;
                 Request = meta;
                 StatusCode = code;
                 Location = client.Location;
@@ -154,7 +174,7 @@ namespace HandSchool.Internals
                 int lastIndex = contentType.LastIndexOf("; ");
                 if (lastIndex == -1) lastIndex = contentType.Length;
                 ContentType = contentType.Substring(0, lastIndex);
-                encoding = client.Encoding;
+                _encoding = client.Encoding;
                 Status = stat;
             }
 
@@ -167,8 +187,8 @@ namespace HandSchool.Internals
                 Status = stat;
             }
 
-            private readonly byte[] respContent;
-            private readonly Encoding encoding;
+            private readonly byte[] _respContent;
+            private readonly Encoding _encoding;
 
             public WebRequestMeta Request { get; }
 
@@ -184,17 +204,17 @@ namespace HandSchool.Internals
 
             public Task<byte[]> ReadAsByteArrayAsync()
             {
-                return Task.FromResult(respContent);
+                return Task.FromResult(_respContent);
             }
 
             public Task<string> ReadAsStringAsync()
             {
-                return Task.FromResult(encoding.GetString(respContent));
+                return Task.FromResult(_encoding.GetString(_respContent));
             }
 
             public Task WriteToFileAsync(string path)
             {
-                return Task.Run(() => System.IO.File.WriteAllBytes(path, respContent));
+                return Task.Run(() => System.IO.File.WriteAllBytes(path, _respContent));
             }
 
             public IEnumerable<KeyValuePair<string, IEnumerable<string>>> GetHeaders()

@@ -21,11 +21,13 @@ namespace HandSchool.Internals
         /// 默认字符编码
         /// </summary>
         Encoding Encoding { get; set; }
-        
+
         /// <summary>
         /// 网站基础地址
         /// </summary>
-        string BaseAddress { get; set; }
+        string StringBaseAddress { get; set; }
+
+        Uri BaseAddress { get; set; }
 
         /// <summary>
         /// 超时时长

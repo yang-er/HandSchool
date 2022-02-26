@@ -81,7 +81,7 @@ namespace HandSchool.JLU
             private IWebClient GetClient()
             {
                 var client = Core.New<IWebClient>();
-                client.BaseAddress = _baseUrl;
+                client.StringBaseAddress = _baseUrl;
                 return client;
             }
 
@@ -261,7 +261,7 @@ namespace HandSchool.JLU
                             UIMS.NeedLogin = true;
                             return TaskResp.False;
                         }
-                        case "index.do":
+                        case "/index.do":
                         {
                             studId = studName = adcId = schoolId = term = null;
                             // Get User Info

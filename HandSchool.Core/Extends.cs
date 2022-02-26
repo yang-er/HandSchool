@@ -89,6 +89,22 @@ namespace HandSchool
 
     public static class Extends
     {
+        public static bool IsDefaultPort(this Uri uri)
+        {
+            var should = uri?.Scheme switch
+            {
+                "http" => 80,
+                "https" => 443,
+                _ => -1
+            };
+            return uri?.Port == should;
+        }
+
+        public static string GetRootUri(this Uri uri)
+        {
+            return $"{uri.Scheme}://{uri.Host}{(uri.IsDefaultPort() ? "" : ":" + uri.Port)}";
+        }
+        
         public static void SetDefaultFrameCornerRadius(this Frame frame)
         {
             frame.CornerRadius = Device.RuntimePlatform switch

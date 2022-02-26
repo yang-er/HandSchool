@@ -120,7 +120,7 @@ namespace HandSchool.JLU
         #endregion
         
         public IWebClient WebClient { get; set; }
-        public string ServerUri => WebClient.BaseAddress;
+        public string ServerUri => WebClient.StringBaseAddress;
         public string WeatherLocation => "101060101";
         
         public SchoolState SchoolState { get; set; }

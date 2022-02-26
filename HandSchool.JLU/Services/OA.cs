@@ -30,7 +30,7 @@ namespace HandSchool.JLU.Services
             {
                 var wc = Core.New<IWebClient>();
                 wc.Timeout = 5000;
-                wc.BaseAddress = _baseUrl;
+                wc.StringBaseAddress = _baseUrl;
                 return wc;
             });
         }

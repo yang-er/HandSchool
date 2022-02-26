@@ -84,10 +84,10 @@ namespace HandSchool.JLU.Services
         {
             return uri.Host.ToLower() == "webvpn.jlu.edu.cn"
                 ? uri.OriginalString
-                : $"https://webvpn.jlu.edu.cn/{uri.Scheme}{(GetDefaultPort(uri.Scheme) == uri.Port ? "" : "-" + uri.Port)}/{EncryptDomain(uri.Host)}{uri.PathAndQuery}";
+                : $"https://webvpn.jlu.edu.cn/{uri.Scheme}{(uri.IsDefaultPort() ? "" : "-" + uri.Port)}/{EncryptDomain(uri.Host)}{uri.PathAndQuery}";
         }
 
-        public static bool IsAbsolute(string str)
+        private static bool IsAbsolute(string str)
         {
             return str.StartsWith("https://") || str.StartsWith("http://");
         }

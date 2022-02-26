@@ -174,7 +174,7 @@ namespace HandSchool.JLU.Services
             SavePassword = Password != "";
             TimeoutManager = new TimeoutManager(900);
             WebClient = Core.New<IWebClient>();
-            WebClient.BaseAddress = baseUrl;
+            WebClient.StringBaseAddress = baseUrl;
         }
 
         #endregion

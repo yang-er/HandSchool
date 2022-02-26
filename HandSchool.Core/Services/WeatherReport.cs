@@ -130,7 +130,7 @@ namespace HandSchool.Services
             using (var httpClient = new HttpClientImpl())
             {
                 httpClient.Timeout = 2000;
-                httpClient.BaseAddress = "http://t.weather.sojson.com/api/weather/city/";
+                httpClient.StringBaseAddress = "http://t.weather.sojson.com/api/weather/city/";
                 json = await httpClient.GetStringAsync(CityCode);
             }
 

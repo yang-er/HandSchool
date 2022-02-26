@@ -79,7 +79,7 @@ namespace HandSchool.JLU.Services
                 vpnHttpClient.Mode = WebVpn.VpnHttpClientMode.VpnOff;
             }
             WebClient.Timeout = 5000;
-            WebClient.BaseAddress = baseUrl;
+            WebClient.StringBaseAddress = baseUrl;
 
             IsLogin = false;
             var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);

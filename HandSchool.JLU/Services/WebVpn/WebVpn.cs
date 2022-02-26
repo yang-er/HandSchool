@@ -299,14 +299,14 @@ namespace HandSchool.JLU.Services
         {
             if (WebClient is null)
             {
-                WebClient = new HttpClientImpl {BaseAddress = "https://webvpn.jlu.edu.cn/"};
+                WebClient = new HttpClientImpl {StringBaseAddress = "https://webvpn.jlu.edu.cn/"};
                 return;
             }
 
             if (!WebClient.Cookie.Clear())
             {
                 WebClient?.Dispose();
-                WebClient = new HttpClientImpl {BaseAddress = "https://webvpn.jlu.edu.cn/"};
+                WebClient = new HttpClientImpl {StringBaseAddress = "https://webvpn.jlu.edu.cn/"};
             }
         }
 

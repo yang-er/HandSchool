@@ -36,12 +36,17 @@ namespace HandSchool.Internals
         /// <summary>
         /// 网站基础地址
         /// </summary>
-        public string BaseAddress
+        public string StringBaseAddress
         {
             get => HttpClient.BaseAddress?.OriginalString ?? "";
-            set => HttpClient.BaseAddress = new Uri(value);
+            set => HttpClient.BaseAddress = value.IsBlank() ? null : new Uri(value);
         }
 
+        public Uri BaseAddress
+        {
+            get => HttpClient.BaseAddress;
+            set => HttpClient.BaseAddress = value;
+        }
         /// <summary>
         /// 超时时长
         /// </summary>
@@ -186,9 +191,9 @@ namespace HandSchool.Internals
         /// <summary>
         /// 对HttpResponseMessage的适配。
         /// </summary>
-        private class WebResponse : IWebResponse
+        public class WebResponse : IWebResponse
         {
-            public WebResponse(HttpResponseMessage resp, WebRequestMeta meta, WebStatus stat, string baseUrl)
+            internal WebResponse(HttpResponseMessage resp, WebRequestMeta meta, WebStatus stat, Uri baseUrl)
             {
                 Request = meta;
                 InnerResponse = resp;
@@ -199,23 +204,17 @@ namespace HandSchool.Internals
                 Status = stat;
             }
 
-            public static string ProcessLocation(string baseUrl, string location)
+            private static string ProcessLocation(Uri baseUrl, string location)
             {
-                if (string.IsNullOrWhiteSpace(baseUrl)) return location;
-                if (string.IsNullOrWhiteSpace(location)) return location;
-                var @base = baseUrl.Trim();
-                var loc = location.Trim();
-                var https = @base.StartsWith("https://");
-                var domain = https ? @base.Substring(8) : @base.Substring(7);
-                var index = domain.IndexOf('/');
-                if (index != -1)
-                {
-                    domain = domain.Substring(0, index);
-                }
-
-                return ((https?"https://" : "http://") + domain + loc).Replace(@base, "");
+                if (location.IsBlank()) return location;
+                if (baseUrl is null) return location;
+                var root = baseUrl.GetRootUri();
+                var res = (root + location).Replace(baseUrl.OriginalString.Trim(), "");
+                if (!res.StartsWith("/")) return "/" + res;
+                return res;
             }
-            public WebResponse(WebRequestMeta meta, WebStatus stat)
+            
+            internal WebResponse(WebRequestMeta meta, WebStatus stat)
             {
                 Request = meta;
                 StatusCode = HttpStatusCode.InternalServerError;
@@ -230,7 +229,7 @@ namespace HandSchool.Internals
 
             public HttpStatusCode StatusCode { get; }
 
-            public string Location { get; }
+            public string Location { get; set; }
 
             public string ContentType { get; }
 
