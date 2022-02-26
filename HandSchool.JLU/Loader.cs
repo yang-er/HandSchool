@@ -47,11 +47,7 @@ namespace HandSchool.JLU
         
         public static string GetRealUrl(string ori)
         {
-            if (WebVpn.UseVpn)
-            {
-                return WebVpn.Instance.GetProxyUrl(ori);
-            }
-            return ori;
+            return WebVpn.UseVpn ? WebVpn.Instance.GetProxyUrl(ori) : ori;
         }
 
         public void PostLoad()

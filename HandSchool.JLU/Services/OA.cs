@@ -26,7 +26,6 @@ namespace HandSchool.JLU.Services
         private string _baseUrl = "https://oa.jlu.edu.cn/";
         public Oa()
         {
-            WebVpn.Instance?.RegisterUrl(_baseUrl, "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421fff60f962b2526557a1dc7af96/");
             _lazy = new Lazy<IWebClient>(() =>
             {
                 var wc = Core.New<IWebClient>();

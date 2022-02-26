@@ -21,8 +21,6 @@ namespace HandSchool.JLU
             public DefaultSchoolStrategy(UIMS handle)
             {
                 UIMS = handle;
-                WebVpn.Instance?.RegisterUrl(_baseUrl,
-                    "https://webvpn.jlu.edu.cn/https/77726476706e69737468656265737421e5fe4c8f693a6445300d8db9d6562d/ntms/");
             }
 
             public string TimeoutUrl => "error/dispatch.jsp?reason=nologin";

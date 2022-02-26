@@ -33,7 +33,7 @@ namespace HandSchool.Internals
         /// <summary>
         /// 请求的地址
         /// </summary>
-        public string Url { get; }
+        public string Url { get; set; }
 
         /// <summary>
         /// 接受的MIME类型

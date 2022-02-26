@@ -8,12 +8,19 @@ namespace HandSchool.JLU.Services
 {
     public partial class WebVpn
     {
+        private readonly WebVpnUtil _util;
+
+        public string GetProxyUrl(string url)
+        {
+            return _util.ConvertUri(WebVpnUtil.Combine("", url));
+        }
+
         public enum VpnHttpClientMode
         {
             VpnAuto,
             VpnOff
         }
-        
+
         public class VpnHttpClient : IWebClient
         {
             private IWebClient _innerClient;
@@ -24,10 +31,7 @@ namespace HandSchool.JLU.Services
             public VpnHttpClient()
             {
                 _innerClient = new HttpClientImpl();
-                if (UsingVpn)
-                {
-                    Instance.AddClient(_innerClient);
-                }
+                if (UsingVpn) Instance.AddClient(_innerClient);
             }
 
             public VpnHttpClientMode Mode
@@ -35,27 +39,23 @@ namespace HandSchool.JLU.Services
                 get => _mode;
                 set
                 {
-                    if (_mode != value)
+                    if (_mode == value) return;
+                    var usedVpn = UsingVpn;
+                    _mode = value;
+                    if (usedVpn == UsingVpn) return;
+                    if (string.IsNullOrWhiteSpace(BaseAddress)) return;
+                    if (usedVpn) Instance.RemoveClient(_innerClient);
+                    _innerClient.Dispose();
+                    _innerClient = new HttpClientImpl
                     {
-                        var vpnState = UsingVpn;
-                        _mode = value;
-                        if (vpnState == UsingVpn) return;
-                        if (string.IsNullOrWhiteSpace(BaseAddress)) return;
-                        if (vpnState)
-                        {
-                            Instance.RemoveClient(_innerClient);
-                        }
-
-                        var address = _oriBaseUrl;
-                        _innerClient.Dispose();
-                        _innerClient = new HttpClientImpl();
-                        Instance.AddClient(_innerClient);
-                        BaseAddress = address;
-                    }
+                        AllowAutoRedirect = _innerClient.AllowAutoRedirect,
+                        Timeout = _innerClient.Timeout,
+                        Encoding = _innerClient.Encoding
+                    };
+                    if (UsingVpn) Instance.AddClient(_innerClient);
                 }
             }
 
-            private string _oriBaseUrl;
             private VpnHttpClientMode _mode;
 
             public bool UsingVpn =>
@@ -75,28 +75,16 @@ namespace HandSchool.JLU.Services
 
             public string BaseAddress
             {
-                get => _innerClient.BaseAddress;
+                get => _baseAddress;
                 set
                 {
-                    if (UsingVpn)
-                    {
-                        if (Instance._proxyUrl.ContainsKey(value))
-                        {
-                            _innerClient.BaseAddress = Instance._proxyUrl[value];
-                        }
-                        else
-                        {
-                            throw new UriFormatException($"You should register \"{value}\" in WebVpn before");
-                        }
-                    }
-                    else
-                    {
-                        _innerClient.BaseAddress = value;
-                    }
-
-                    _oriBaseUrl = value;
+                    if (!WebVpnUtil.IsAbsolute(value))
+                        throw new ArgumentException("BaseAddress must be absolute! ");
+                    _baseAddress = value;
                 }
             }
+
+            private string _baseAddress;
 
             public int Timeout
             {
@@ -104,14 +92,29 @@ namespace HandSchool.JLU.Services
                 set => _innerClient.Timeout = value;
             }
 
-            public Task<IWebResponse> PostAsync(WebRequestMeta req, KeyValueDict value) =>
-                _innerClient.PostAsync(req, value);
+            private void SolveRequestMeta(WebRequestMeta meta)
+            {
+                var uri = WebVpnUtil.Combine(BaseAddress, meta.Url);
+                meta.Url = UsingVpn ? Instance._util.ConvertUri(uri) : uri.OriginalString;
+            }
+
+            public Task<IWebResponse> PostAsync(WebRequestMeta req, KeyValueDict value)
+            {
+                SolveRequestMeta(req);
+                return _innerClient.PostAsync(req, value);
+            }
 
             public Task<IWebResponse> PostAsync(WebRequestMeta req, string value, string contentType)
-                => _innerClient.PostAsync(req, value, contentType);
+            {
+                SolveRequestMeta(req);
+                return _innerClient.PostAsync(req, value, contentType);
+            }
 
             public Task<IWebResponse> GetAsync(WebRequestMeta req)
-                => _innerClient.GetAsync(req);
+            {
+                SolveRequestMeta(req);
+                return _innerClient.GetAsync(req);
+            }
         }
     }
 }

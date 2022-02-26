@@ -27,6 +27,7 @@ namespace HandSchool.JLU.Services
         private WebVpn()
         {
             IsLogin = false;
+            _util = new WebVpnUtil();
             var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);
             if (acc != null)
             {
@@ -235,7 +236,7 @@ namespace HandSchool.JLU.Services
                 {"remember_cookie", "on"},
             };
             var req = new WebRequestMeta("do-login", WebRequestMeta.All);
-            
+
             var success = false;
             try
             {
@@ -357,38 +358,7 @@ namespace HandSchool.JLU.Services
         public IWebClient WebClient { get; private set; }
         public WebLoginPageEvents Events { get; }
 
-        private readonly Dictionary<string, string> _proxyUrl = new Dictionary<string, string>();
-        private readonly List<IWebClient> _proxyClients = new List<IWebClient>();
-
-        public string GetProxyUrl(string ori)
-        {
-            if (_proxyUrl.ContainsKey(ori))
-            {
-                return _proxyUrl[ori];
-            }
-
-            throw new KeyNotFoundException($"url {ori} has not registered");
-        }
-
-        private static void CheckUrl(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                throw new UriFormatException("url cannot be null or blank");
-            }
-
-            if (!url.StartsWith("https://") && !url.StartsWith("http://"))
-            {
-                throw new UriFormatException("url must start with \"https://\" or \"http://\"");
-            }
-        }
-
-        public void RegisterUrl(string oriUrl, string proxyUrl)
-        {
-            CheckUrl(oriUrl);
-            CheckUrl(proxyUrl);
-            _proxyUrl[oriUrl] = proxyUrl;
-        }
+        private readonly HashSet<IWebClient> _proxyClients = new HashSet<IWebClient>();
 
         /// <summary>
         /// 在Cookie序列中选出WebVpn登录所需的
