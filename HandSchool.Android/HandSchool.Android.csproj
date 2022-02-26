@@ -80,11 +80,11 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DanielStone.MaterialAboutLibrary.Xamarin">
-      <Version>2.4.2.2</Version>
-    </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.42</Version>
+    </PackageReference>
+    <PackageReference Include="Karamunting.Android.DanielStoneUk.MaterialAboutLibrary">
+      <Version>3.1.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
@@ -111,10 +111,6 @@
       <Version>1.2.1.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
-    <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
-    <PackageReference Include="Xamarin.Jaredrummler.MaterialSpinner">
-      <Version>1.3.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\LoginActivity.cs" />
@@ -322,6 +318,10 @@
     <ProjectReference Include="..\HandSchool.JLU\HandSchool.JLU.csproj">
       <Project>{f8768db2-5b7f-49fb-8d42-3cd395a24c14}</Project>
       <Name>HandSchool.JLU</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jaredrummler.MaterialSpinner\Jaredrummler.MaterialSpinner.csproj">
+      <Project>{e2e3f96a-2b6b-4d6d-877b-739abe36901a}</Project>
+      <Name>Jaredrummler.MaterialSpinner</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

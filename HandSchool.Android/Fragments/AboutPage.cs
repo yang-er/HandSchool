@@ -1,9 +1,9 @@
 ﻿using Android.Content;
 using Android.OS;
 using Android.Views;
-using DanielStone.MaterialAbout;
-using DanielStone.MaterialAbout.Items;
-using DanielStone.MaterialAbout.Models;
+using DanielStone.MaterialAboutLibrary;
+using DanielStone.MaterialAboutLibrary.Items;
+using DanielStone.MaterialAboutLibrary.Model;
 using HandSchool.Droid;
 using HandSchool.Internals;
 using HandSchool.Services;

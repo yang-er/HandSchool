@@ -2,7 +2,7 @@
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
-using Jaredrummler.MaterialSpinner;
+using Com.Jaredrummler.Materialspinner;
 using System.Threading.Tasks;
 using Android.Views;
 using Android.Widget;

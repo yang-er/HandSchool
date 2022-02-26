@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">HandSchool.Droid</string>
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="hello">Hello World, Click Me!</string>
+    <string name="app_name">HandSchool.Droid</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
