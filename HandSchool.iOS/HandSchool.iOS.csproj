@@ -147,6 +147,7 @@
     <Compile Include="Pages\MainPage.cs" />
     <Compile Include="Renderers\HybridWebViewRenderer.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\WebViewRenderer.cs" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>

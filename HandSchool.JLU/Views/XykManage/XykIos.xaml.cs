@@ -18,9 +18,6 @@ namespace HandSchool.JLU.Views
         {
             InitializeComponent();
             ViewModel = YktViewModel.Instance;
-            //charge.Command = YktViewModel.Instance.ChargeCreditCommand;
-            //lokc.Command = YktViewModel.Instance.SetUpLostStateCommand;
-           // unlock.Command = YktViewModel.Instance.CancelLostStateCommand;
         }
         protected override void OnAppearing()
         {
@@ -29,13 +26,7 @@ namespace HandSchool.JLU.Views
             Task.Run(YktViewModel.Instance.FirstOpen);
             _pageCount = 1;
         }
-
-        //点击之后啥也不干，就是玩
-        void ItemTappedHandler(object sender, CollectionItemTappedEventArgs args)
-        {
-            return;
-        }
-
+        
         private async void LoadMoreInfo(System.Object sender, System.EventArgs e)
         {
             if (sender == null) return;

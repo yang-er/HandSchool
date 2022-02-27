@@ -43,13 +43,13 @@ namespace HandSchool.JLU.Services
             if (e.Url == "https://webvpn.jlu.edu.cn/login")
             {
                 await Events.WebViewEvents.EvaluateJavaScriptAsync(
-                    "document.getElementsByName('remember_cookie')[0].checked=true;\n" +
-                    "document.getElementsByClassName('remember-field')[0].hidden=true;\n" + 
-                    "$('#login').click(function(){\n" +
-                    "let uid = document.getElementById('user_name').value;\n" +
-                    "let pwd = document.getElementsByName('password')[0].value;\n" +
-                    $"let encryptedPwd = encrypt(pwd, '{PasswordEncryptKey}', '{PasswordEncryptKey}');\n" +
-                    $"{HSWebView.NativeMethodInvoker}(uid + ' ' + pwd + ' ' + encryptedPwd);\n" +
+                    "document.getElementsByName('remember_cookie')[0].checked=true; " +
+                    "document.getElementsByClassName('remember-field')[0].hidden=true; " + 
+                    "$('#login').click(function(){ " +
+                    "let uid = document.getElementById('user_name').value; " +
+                    "let pwd = document.getElementsByName('password')[0].value; " +
+                    $"let encryptedPwd = encrypt(pwd, '{PasswordEncryptKey}', '{PasswordEncryptKey}'); " +
+                    $"{HSWebView.NativeMethodInvoker}(uid + ' ' + pwd + ' ' + encryptedPwd); " +
                     "})");
                 if (!string.IsNullOrWhiteSpace(Username))
                 {
