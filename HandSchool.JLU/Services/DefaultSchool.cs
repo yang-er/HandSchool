@@ -134,14 +134,13 @@ namespace HandSchool.JLU
 
             public async Task<TaskResp> BeforeLoginForm()
             {
+                if (_reinit)
+                {
+                    ReInitWebClient();
+                    _reinit = false;
+                }
                 if (WebVpn.UseVpn)
                 {
-                    if (_reinit)
-                    {
-                        ReInitWebClient();
-                        _reinit = false;
-                    }
-
                     if (await GetUserInfo() is { } userInfo)
                     {
                         var success = await UpdateUserInfo(userInfo)
