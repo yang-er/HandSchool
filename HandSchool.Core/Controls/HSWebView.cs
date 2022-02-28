@@ -7,7 +7,6 @@ namespace HandSchool.Controls
 {
     public class HSWebView : WebView
     {
-        public const string NativeMethodInvoker = "_{hsWebView.nativeMethodInvoker}";
         public HSWebView()
         {
             switch (Device.RuntimePlatform)

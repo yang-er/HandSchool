@@ -49,7 +49,7 @@ namespace HandSchool.JLU.Services
                     "let uid = document.getElementById('user_name').value; " +
                     "let pwd = document.getElementsByName('password')[0].value; " +
                     $"let encryptedPwd = encrypt(pwd, '{PasswordEncryptKey}', '{PasswordEncryptKey}'); " +
-                    $"{HSWebView.NativeMethodInvoker}(uid + ' ' + pwd + ' ' + encryptedPwd); " +
+                    $"invokeNativeAction(uid + ' ' + pwd + ' ' + encryptedPwd); " +
                     "})");
                 if (!string.IsNullOrWhiteSpace(Username))
                 {
