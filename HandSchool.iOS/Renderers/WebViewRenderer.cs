@@ -26,16 +26,15 @@ namespace HandSchool.iOS.Renderers
         {
             if (e.OldElement is HSWebView)
             {
-                var script = new WKUserScript(new NSString(NativeInvoker), WKUserScriptInjectionTime.AtDocumentStart,
-                    false);
                 Configuration.UserContentController.RemoveScriptMessageHandler("invokeAction");
-                Configuration.UserContentController.AddUserScript(script);
+                Configuration.UserContentController.RemoveAllUserScripts();
             }
 
             base.OnElementChanged(e);
             if (e.NewElement is HSWebView)
             {
-                Configuration.UserContentController.RemoveAllUserScripts();
+                var script = new WKUserScript(new NSString(NativeInvoker), WKUserScriptInjectionTime.AtDocumentStart, false);
+                Configuration.UserContentController.AddUserScript(script);
                 Configuration.UserContentController.AddScriptMessageHandler(this, "invokeAction");
             }
         }

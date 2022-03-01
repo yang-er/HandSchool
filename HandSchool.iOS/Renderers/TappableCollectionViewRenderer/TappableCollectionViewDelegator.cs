@@ -33,14 +33,13 @@ namespace HandSchool.iOS.Renderers
 
         protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
             if (_disposed) return;
             _disposed = true;
             if (ItemsView is { })
             {
                 ItemsView.PropertyChanged -= ItemsViewPropertyChanged;
             }
-
-            base.Dispose(disposing);
         }
 
         private void ItemsViewPropertyChanged(object sender, PropertyChangedEventArgs args)
