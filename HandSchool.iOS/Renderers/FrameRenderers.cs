@@ -30,6 +30,7 @@ namespace HandSchool.iOS.Renderers
             base.OnElementPropertyChanged(sender, e);
             switch (e.PropertyName)
             {
+                case "IsVisible":
                 case "HasShadow":
                 {
                     if (Element.HasShadow)
