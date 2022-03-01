@@ -12,7 +12,7 @@ namespace HandSchool.iOS.Renderers
     public class WebViewRenderer2 : WkWebViewRenderer, IWKScriptMessageHandler
     {
         private const string NativeInvoker =
-            "if(typeof(invokeNativeAction) == 'undefined') { var invokeNativeAction = function(data) { jsBridge.invokeAction(data); }; }";
+            "if(typeof(invokeNativeAction) == 'undefined') { var invokeNativeAction = function(data) { window.webkit.messageHandlers.invokeAction.postMessage(data); }; }";
         
         public WebViewRenderer2(WKWebViewConfiguration configuration) : base(configuration)
         {
