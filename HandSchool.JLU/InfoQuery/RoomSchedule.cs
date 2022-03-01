@@ -12,6 +12,7 @@ using HandSchool.Services;
 using HandSchool.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.JLU.JsonObject
 {
@@ -45,7 +46,6 @@ namespace HandSchool.JLU.JsonObject
 namespace HandSchool.JLU.InfoQuery
 {
     [Entrance("JLU", "教室课程表", "", EntranceType.InfoEntrance)]
-
     public class RoomSchedule : BaseController, IInfoEntrance
     {
         private readonly string[] _numList = {"一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一"};
@@ -54,10 +54,12 @@ namespace HandSchool.JLU.InfoQuery
         private List<LessonSchedule> _scheduleList;
         private const string ServerUrl = "service/res.do";
         private readonly int _termId;
-        string QuerySchedule =>
-            "{\"tag\":\"lessonSchedule@classroomUseSearch\",\"branch\":\"default\",\"params\":{\"termId\":" + _termId +",\"roomId\":" +
+
+        private string QuerySchedule =>
+            "{\"tag\":\"lessonSchedule@classroomUseSearch\",\"branch\":\"default\",\"params\":{\"termId\":" + _termId +
+            ",\"roomId\":" +
             _roomId + "},\"orderBy\":\"timeBlock.classSet, timeBlock.tmbId\"}";
-        
+
         private string GetCss()
         {
             return ".curriculumTable th{border:1px solid #000;text-align:center;}" +
@@ -92,8 +94,10 @@ namespace HandSchool.JLU.InfoQuery
                    ".currLegend .takeup{background-color:yellow;}" +
                    ".currLegend .takeupExam{background-color:blue;}" +
                    ".currLegend .conflict{background-color:red;}" +
-                   ".curriculumTable{width:50em;}";
+                   ".curriculumTable{width:50em;}" +
+                   ".classNos{color:blue;}";
         }
+
         public RoomSchedule(int campus, int bid)
         {
             _campus = campus;
@@ -143,6 +147,7 @@ namespace HandSchool.JLU.InfoQuery
 
         private readonly int _campus;
         private readonly int _bid;
+
         public override async Task Receive(string data)
         {
             if (data.StartsWith("roomId"))
@@ -150,22 +155,26 @@ namespace HandSchool.JLU.InfoQuery
                 try
                 {
                     var postValue =
-                        "{\"tag\":\"clsrm_building\",\"branch\":\"default\",\"params\":{\"campus\":\"" + _campus + "\",\"bid\":\"" + _bid + "\",\"usage\":\"T\",\"searchUc\":[]},\"orderBy\":\"roomNo\"}";
+                        "{\"tag\":\"clsrm_building\",\"branch\":\"default\",\"params\":{\"campus\":\"" + _campus +
+                        "\",\"bid\":\"" + _bid + "\",\"usage\":\"T\",\"searchUc\":[]},\"orderBy\":\"roomNo\"}";
                     var res = await Core.App.Service.Post(ServerUrl, postValue);
-                    var resn = JsonConvert.DeserializeObject<JObject>(res);
-                    _values = resn["value"].ToObject<List<RoomScheduleRoot>>();
-                    var sb = new StringBuilder();
-                    var selected = true;
-                    foreach (var room in _values)
+                    var resJson = JsonConvert.DeserializeObject<JObject>(res);
+                    _values = resJson?["value"]?.ToObject<List<RoomScheduleRoot>>();
+                    _values?.Let(values =>
                     {
-                        if (room.roomId is null) continue;
-                        sb.Append(
-                            $"<option value=\"{room.roomId}\"{(selected ? "selected" : "")}>{room.roomNo}</option>");
-                        selected = false;
-                    }
+                        var sb = new StringBuilder();
+                        var selected = true;
+                        foreach (var room in _values)
+                        {
+                            if (room.roomId is null) continue;
+                            sb.Append(
+                                $"<option value=\"{room.roomId}\"{(selected ? "selected" : "")}>{room.roomNo}</option>");
+                            selected = false;
+                        }
 
-                    Evaluate?.Invoke($"$('#roomId').html('{sb}')");
-                    sb.Clear();
+                        Evaluate?.Invoke($"$('#roomId').html('{sb}')");
+                        sb.Clear();
+                    });
                 }
                 catch (Exception e)
                 {
@@ -180,63 +189,172 @@ namespace HandSchool.JLU.InfoQuery
             }
         }
 
-        private async Task SolveClassDetail()
+#nullable enable
+        private static string GetCourseClassPostValue(params int[] classes)
         {
-            if (IsBusy) return;
-            IsBusy = true;
+            var sb = new StringBuilder(
+                "{\"tag\":\"tcmAdcAdvice@scheAdc\",\"branch\":\"default\",\"params\":{\"tcmIds\":[");
+            classes.ForEach(s => sb.Append(s).Append(","));
+            if (classes.Length != 0) sb.Remove(sb.Length - 1, 1);
+            sb.Append("]}}");
+            return sb.ToString();
+        }
 
+        /// <summary>
+        /// 将得到的行政班号转化成段，以减小显示的长度
+        /// </summary>
+        private static string MergeClassNum(List<int> list, List<ValueTuple<int, int>>? processMem)
+        {
+            list.Sort();
+            processMem?.Clear();
+            var process = processMem ?? new List<ValueTuple<int, int>>();
+            int left = 0, right = 1, lastSec = 0;
+
+            while (right < list.Count)
+            {
+                if (list[right] - list[left] != 1)
+                {
+                    process.Add((lastSec, left));
+                    lastSec = left + 1;
+                }
+
+                left++;
+                right++;
+            }
+
+            process.Add((lastSec, left));
+
+            var sb = new StringBuilder();
+            process.ForEach(p =>
+            {
+                if (p.Item1 == p.Item2)
+                    sb.Append("[ ").Append(list[p.Item1]).Append(" ];");
+                else
+                    sb.Append("[ ").Append(list[p.Item1]).Append("~;").Append(list[p.Item2]).Append(" ];");
+            });
+            sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// 构造该教室所上的课程与行政班的映射关系
+        /// </summary>
+        private static Dictionary<string, List<string>> GetCourseClass(string json)
+        {
+            var res = new Dictionary<string, List<string>>();
+            JsonConvert.DeserializeObject<JToken>(json)?["value"]?.ToObject<List<JObject>>()?.Let(jsonObjs =>
+            {
+                jsonObjs.ForEach(jo =>
+                {
+                    var key = jo["teachClassMaster"]?["tcmId"]?.ToString();
+                    var value = jo["adminClass"]?["classNo"]?.ToString();
+                    if (key is null || value is null) return;
+                    if (res.TryGetValue(key, out var v))
+                    {
+                        v.Add(value);
+                    }
+                    else
+                    {
+                        res[key] = new List<string> {value};
+                    }
+                });
+            });
+            return res;
+        }
+
+        private async Task<TaskResp> GetScheduleDataAsync()
+        {
             try
             {
                 var res = await Core.App.Service.Post(ServerUrl, QuerySchedule);
+                if (res.IsBlank()) return new TaskResp(false, "服务器饭未返回任何值");
                 var resD = res.ParseJSON<JObject>();
-                if (resD is null)
-                {
-                    await NoticeError("解析失败！");
-                    return;
-                }
                 _scheduleList = resD["value"]?.ToObject<List<LessonSchedule>>();
+                return TaskResp.True;
+            }
+            catch (WebsException)
+            {
+                return new TaskResp(false, "获取数据失败。");
             }
             catch (JsonException)
             {
-                await RequestMessageAsync("提示", "加载教室课程表失败。");
+                return new TaskResp(false, "解析数据包时发生错误");
             }
-            catch (WebsException ex)
-            {
-                await RequestMessageAsync("错误", ex.Status.ToDescription() + "。");
-            }
-
-            IsBusy = false;
         }
-        
+
         private async Task ProduceClassDetail()
         {
-            await SolveClassDetail();
-            var vm = new TemplateScheduleViewModel($"{_roomId}");
-            vm.Items = Schedule.ParseEnumer(_scheduleList);
+            //获取教室课程表信息
+            var getSchRes = await GetScheduleDataAsync();
+            if (!getSchRes.IsSuccess)
+            {
+                var msg = getSchRes.ToString();
+                if (msg.IsNotBlank())
+                {
+                    await NoticeError(msg);
+                }
+
+                return;
+            }
+
+            var vm = new TemplateScheduleViewModel($"{_roomId}")
+            {
+                Items = Schedule.ParseEnumer(_scheduleList)
+            };
             vm.RenderWeek(0, SchoolState.Normal, out var currList);
+            var currentList = currList.OfType<CurriculumSet>().ToList();
+
+            var hashSet = new HashSet<int>();
+            currentList.SelectMany(cur => cur.InnerList)
+                .Where(cur => cur.CourseId.IsNotBlank())
+                .Select(cur => int.Parse(cur.CourseId))
+                .ForEach(cur => hashSet.Add(cur));
+
+
+            Dictionary<string, List<string>>? courseClasses;
+            try
+            {
+                var str = await Core.App.Service.Post(ServerUrl, GetCourseClassPostValue(hashSet.ToArray()));
+                courseClasses = GetCourseClass(str);
+            }
+            catch
+            {
+                courseClasses = null;
+            }
+
             var strTable = new string[7, 11];
             for (var i = 0; i < 7; i++)
             for (var j = 0; j < 11; j++)
                 strTable[i, j] = "<td></td>";
 
             var sb = new StringBuilder();
-            foreach (var iSet in currList)
+            foreach (var iSet in currentList)
             {
-                var set = iSet as CurriculumSet;
-                if (set is null) return;
                 var i = iSet.WeekDay - 1;
                 var j = iSet.DayBegin - 1;
                 for (var k = iSet.DayBegin; k < iSet.DayEnd; k++)
                     strTable[i, k] = "";
                 sb.Append($"<td rowspan=\"{iSet.DayEnd - j}\">");
 
-                var iiii = false;
-                foreach (var section in set.InnerList)
+                var notFirst = false;
+                var cacheList = new List<(int, int)>();
+                foreach (var section in iSet.InnerList)
                 {
-                    if (iiii) sb.Append("<br><br>");
+                    if (notFirst) sb.Append("<br><br>");
                     sb.Append(
                         $"{section.Name}<br>{section.Teacher}<br>第{section.WeekBegin}~{section.WeekEnd}周 {CurriculumItem.WeekEvenOddToString[(int) section.WeekOen]}");
-                    iiii = true;
+
+                    courseClasses?.Let(p =>
+                    {
+                        if (!courseClasses.TryGetValue(section.CourseId, out var pairs)) return;
+                        var merged = MergeClassNum(pairs.Select(int.Parse).ToList(), cacheList);
+                        merged.Split(';').Where(s => s.IsNotBlank()).ForEach(s => sb
+                            .Append("<br>")
+                            .Append("<span class=\"classNos\">")
+                            .Append(s)
+                            .Append("</span>"));
+                    });
+                    notFirst = true;
                 }
 
                 sb.Append("</td>");
@@ -244,10 +362,10 @@ namespace HandSchool.JLU.InfoQuery
                 sb.Clear();
             }
 
-            for (int i = 0; i < 11; i++)
+            for (var i = 0; i < 11; i++)
             {
                 sb.Append($"<tr><th class=\"left\">{_numList[i]}</th>");
-                for (int j = 0; j < 7; j++)
+                for (var j = 0; j < 7; j++)
                     sb.Append(strTable[j, i]);
                 sb.Append("</tr>");
             }

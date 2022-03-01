@@ -25,6 +25,11 @@ namespace HandSchool.Internals
             return !string.IsNullOrWhiteSpace(str);
         }
 
+        public static string IfBlank(this string str, string defaultValue)
+        {
+            return string.IsNullOrWhiteSpace(str) ? defaultValue : str;
+        }
+
         /// <summary>
         /// 将字符串解析为RSS文档。
         /// </summary>
@@ -37,15 +42,15 @@ namespace HandSchool.Internals
             var root = XDocument.Parse(report).Root;
 
             return from item in root.Element("channel").Descendants("item")
-                   select new RssFeedItem
-                   {
-                       Title = (string)item.Element("title"),
-                       Description = (string)item.Element("description"),
-                       PubDate = (string)item.Element("pubDate"),
-                       Category = (string)item.Elements("category").Last(),
-                       Link = (string)item.Element("link"),
-                       Id = baseId++
-                   };
+                select new RssFeedItem
+                {
+                    Title = (string) item.Element("title"),
+                    Description = (string) item.Element("description"),
+                    PubDate = (string) item.Element("pubDate"),
+                    Category = (string) item.Elements("category").Last(),
+                    Link = (string) item.Element("link"),
+                    Id = baseId++
+                };
         }
 
         /// <summary>
@@ -165,7 +170,7 @@ namespace HandSchool.Internals
 
             return sb.ToString();
         }
-        
+
         public static string SubStr(this string str, int startIndex, int endIndex)
         {
             return startIndex > endIndex ? "" : str.Substring(startIndex, endIndex - startIndex);

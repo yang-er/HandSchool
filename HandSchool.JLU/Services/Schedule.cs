@@ -78,7 +78,7 @@ namespace HandSchool.JLU.Services
                         WeekOen = (WeekOddEvenNone)(time.timeBlock.weekOddEven == null ? 2 : (time.timeBlock.weekOddEven == "O" ? 1 : 0)),
                         WeekDay = int.Parse(time.timeBlock.dayOfWeek),
                         Classroom = time.classroom.fullName,
-                        CourseId = obj.teachClassMaster.name,
+                        CourseId = obj.teachClassMaster.name.IfBlank(obj.teachClassMaster.tcmId),
                         SelectDate = obj.dateAccept,
                         Name = obj.teachClassMaster.lessonSegment.fullName,
                     };
@@ -114,12 +114,13 @@ namespace HandSchool.JLU.Services
                 {
                     WeekBegin = int.Parse(obj.timeBlock.beginWeek ?? "1"),
                     WeekEnd = int.Parse(obj.timeBlock.endWeek ?? "19"),
-                    WeekOen = (WeekOddEvenNone) (obj.timeBlock.weekOddEven == null
+                    WeekOen = (WeekOddEvenNone)(obj.timeBlock.weekOddEven == null
                         ? 2
                         : (obj.timeBlock.weekOddEven == "O" ? 1 : 0)),
                     WeekDay = int.Parse(obj.timeBlock.dayOfWeek),
                     Classroom = obj.classroom.fullName,
-                    Name = obj.teachClassMaster.lessonSegment.fullName
+                    Name = obj.teachClassMaster.lessonSegment.fullName,
+                    CourseId = obj.teachClassMaster.name.IfBlank(obj.teachClassMaster.tcmId)
                 };
                 foreach (var t in obj.teachClassMaster.lessonTeachers)
                     item.Teacher += t.teacher.name + " ";
