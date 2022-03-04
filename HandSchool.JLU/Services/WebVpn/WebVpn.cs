@@ -216,7 +216,7 @@ namespace HandSchool.JLU.Services
                 }
 
                 var response = await WebClient.GetStringAsync("user/info");
-                return response.ParseJSON<JToken>()?["username"]?.ToString().IsNotBlank() == true;
+                return IsLogin = response.ParseJSON<JToken>()?["username"]?.ToString().IsNotBlank() == true;
             }
             catch (WebsException ex)
             {
