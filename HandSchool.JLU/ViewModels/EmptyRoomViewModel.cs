@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using HandSchool.ViewModels;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.JLU.JsonObject
 {
@@ -122,6 +124,7 @@ namespace HandSchool.JLU.ViewModels
             SchoolAreas = new ObservableCollection<string>();
             Building = new ObservableCollection<string>();
             Rooms = new ObservableCollection<RoomInfo>();
+            _buildingCache = new Dictionary<string, BuildingJson>();
         }
 
         public void Clear()
@@ -130,11 +133,13 @@ namespace HandSchool.JLU.ViewModels
             Building?.Clear();
             Rooms?.Clear();
         }
+
         public async Task<bool> GetSchoolAreaAsync()
         {
             if (IsBusy) return false;
             IsBusy = true;
             await Task.Yield();
+            if (!await CheckEnvAndNotice("GetSchoolArea")) return false;
             try
             {
                 var postValue =
@@ -144,10 +149,7 @@ namespace HandSchool.JLU.ViewModels
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     SchoolAreas.Clear();
-                    foreach (var item in _schoolAreaJson.value)
-                    {
-                        SchoolAreas.Add(item.name);
-                    }
+                    _schoolAreaJson.value.Select(v => v.name).ForEach(SchoolAreas.Add);
                 });
                 return true;
             }
@@ -161,20 +163,32 @@ namespace HandSchool.JLU.ViewModels
             }
         }
 
+        private readonly Dictionary<string, BuildingJson> _buildingCache;
+        
         public async Task<bool> GetBuildingAsync(string area)
         {
             if (IsBusy) return false;
             IsBusy = true;
             await Task.Yield();
+            if (!await CheckEnvAndNotice("GetBuilding")) return false;
             try
             {
-                var schoolArea = _schoolAreaJson.value.Find(x => x.name == area);
-                var postVal =
-                    "{\"tag\":\"building@input\",\"branch\":\"default\",\"params\":{\"campus\":\"" +
-                    schoolArea.dictId +
-                    "\",\"name\":\"\"}}";
-                var resp = await Core.App.Service.Post(ServerUrl, postVal);
-                _buildingJson = Newtonsoft.Json.JsonConvert.DeserializeObject<BuildingJson>(resp);
+                if (_buildingCache.TryGetValue(area, out var buildingJson))
+                {
+                    _buildingJson = buildingJson;
+                }
+                else
+                {
+                    var schoolArea = _schoolAreaJson.value.Find(x => x.name == area);
+                    var postVal =
+                        "{\"tag\":\"building@input\",\"branch\":\"default\",\"params\":{\"campus\":\"" +
+                        schoolArea.dictId +
+                        "\",\"name\":\"\"}}";
+                    var resp = await Core.App.Service.Post(ServerUrl, postVal);
+                    _buildingJson = Newtonsoft.Json.JsonConvert.DeserializeObject<BuildingJson>(resp);
+                    _buildingCache[area] = _buildingJson;
+                }
+                
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     Building.Clear();
@@ -197,11 +211,30 @@ namespace HandSchool.JLU.ViewModels
 
         public BuildingValueItem FindBuilding(string building)
             => _buildingJson.value.Find(x => x.name == building);
+        
+        private async Task<bool> CheckEnvAndNotice(string actionName)
+        {
+            IsBusy = true;
+            var resp = await CheckEnv(actionName);
+            if (!resp)
+            {
+                var str = resp.ToString();
+                if (str.IsNotBlank())
+                {
+                    await NoticeError(str);
+                    return false;
+                }
+            }
+            IsBusy = false;
+            return true;
+        }
+        
         public async Task<bool> GetEmptyRoomAsync(DateTime date, string building, int start, int end)
         {
             if (IsBusy) return false;
             IsBusy = true;
             await Task.Yield();
+            if (!await CheckEnvAndNotice("GetEmptyRoom")) return false;
             try
             {
                 var dateStr = date.ToString("yyyy-MM-dd");

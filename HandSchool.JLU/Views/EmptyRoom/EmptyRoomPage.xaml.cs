@@ -13,21 +13,33 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.JLU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-
     public partial class EmptyRoomPage : ViewObject
     {
-        private EmptyRoomViewModel _viewModel;
+        private readonly EmptyRoomViewModel _viewModel;
+
         public EmptyRoomPage()
         {
             InitializeComponent();
             ViewModel = _viewModel = EmptyRoomViewModel.Instance;
             _viewModel.Clear();
+            InitClassesPicker();
+            var now = DateTime.Now;
+            DatePicker.MinimumDate = now;
+            DatePicker.MaximumDate = DatePicker.MinimumDate.AddDays(30);
+            DatePicker.Date = DatePicker.MinimumDate;
+            Task.Run(LoadSchoolArea);
+            SchoolAreaPicker.SelectedIndexChanged += (s, e) => LoadBuilding();
+        }
+
+        private void InitClassesPicker()
+        {
             StartSection.ItemsSource = new ObservableCollection<int>();
             EndSection.ItemsSource = new ObservableCollection<int>();
             for (var i = 1; i <= Core.App.DailyClassCount; i++)
             {
                 StartSection.ItemsSource.Add(i);
             }
+
             StartSection.SelectedIndexChanged += (sender, args) =>
             {
                 var start = (Picker) sender;
@@ -61,81 +73,55 @@ namespace HandSchool.JLU.Views
             {
                 StartSection.SelectedIndex = 0;
             }
-            SchoolAreaPicker.SelectedIndexChanged += (s, e) =>
-            {
-                Core.Platform.EnsureOnMainThread(() =>
-                {
-                    BuildingPicker.SelectedItem = null;
-                    BuildingPicker.ItemsSource.Clear();
-                    Buildings.IsVisible = false;
-                });
-            };
-            var now = DateTime.Now;
-            DatePicker.MinimumDate = now;
-            DatePicker.MaximumDate = DatePicker.MinimumDate.AddDays(30);
-            DatePicker.Date = DatePicker.MinimumDate;
-            Task.Run(LoadSchoolArea);
-        }
-
-        private static async Task HandleLoading(Picker picker, Label msg, Button refresh, Task<bool> success)
-        {
-            Core.Platform.EnsureOnMainThread(() =>
-            {
-                picker.IsVisible = false;
-                msg.IsVisible = true;
-                msg.Text = "信息正在加载...";
-                refresh.IsVisible = false;
-            });
-            await success.ContinueWith(async (task) =>
-            {
-                var res = await task;
-                Core.Platform.EnsureOnMainThread(() =>
-                {
-                    if (res)
-                    {
-                        msg.IsVisible = false;
-                        picker.IsVisible = true;
-                        refresh.IsVisible = false;
-                    }
-                    else
-                    {
-                        msg.Text = "信息加载失败";
-                        refresh.IsVisible = true;
-                        picker.SelectedItem = null;
-                    }
-                });
-            });
         }
 
         private async Task LoadSchoolArea()
         {
-            await _viewModel.GetSchoolAreaAsync()
-                .ContinueWith(async x => await HandleLoading(SchoolAreaPicker, SchoolAreaLoadingText, SchoolAreaReload, x));
+            try
+            {
+                var isVisible = !await _viewModel.GetSchoolAreaAsync();
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    RefreshSchoolArea.IsVisible = isVisible;
+                    if (SchoolAreaPicker.ItemsSource.Count != 0) SchoolAreaPicker.SelectedIndex = 0;
+                });
+            }
+            catch
+            {
+                Core.Platform.EnsureOnMainThread(() => RefreshSchoolArea.IsVisible = true);
+            }
         }
 
-        private async Task LoadBuilding(string schoolArea)
+        private async void RefreshSchoolAreaAsync(object sender, EventArgs e)
         {
-            await _viewModel.GetBuildingAsync(schoolArea)
-                .ContinueWith(async task => await HandleLoading(BuildingPicker, BuildingsLoadingText, BuildingReload, task));
+            await LoadSchoolArea();
         }
-        private void SchoolAreaSelectOk(object sender, EventArgs e)
+
+        private async Task LoadBuilding()
         {
+            Core.Platform.EnsureOnMainThread(_viewModel.Building.Clear);
             if (!(SchoolAreaPicker.SelectedItem is string saPicker)) return;
-            Buildings.IsVisible = true;
-            Task.Run(async () => await LoadBuilding(saPicker));
-        }
-        private void ReloadBuilding(object sender, EventArgs e)
-        {
-            if (!(SchoolAreaPicker.SelectedItem is string saPicker)) return;
-            Task.Run(async () => await LoadBuilding(saPicker));
+            try
+            {
+                var isVisible = !await _viewModel.GetBuildingAsync(saPicker);
+                Core.Platform.EnsureOnMainThread(() =>
+                {
+                    RefreshBuilding.IsVisible = isVisible;
+                    if (BuildingPicker.ItemsSource.Count > 0) BuildingPicker.SelectedIndex = 0;
+                });
+            }
+            catch
+            {
+                Core.Platform.EnsureOnMainThread(() => RefreshBuilding.IsVisible = true);
+            }
         }
 
-        private void ReloadSchoolArea(object sender, EventArgs e)
+        private async void RefreshBuildingAsync(object sender, EventArgs e)
         {
-            Task.Run(LoadSchoolArea);
+            await LoadBuilding();
         }
 
-        private async void Start(object sender, EventArgs e)
+        private async void EmptyRoomQuery(object sender, EventArgs e)
         {
             var schoolArea = (string) SchoolAreaPicker.SelectedItem;
             var building = (string) BuildingPicker.SelectedItem;
@@ -164,7 +150,8 @@ namespace HandSchool.JLU.Views
                 await NoticeError("结束节不能为空");
                 return;
             }
-            var res = await _viewModel.GetEmptyRoomAsync(DatePicker.Date, building,(int)start,(int)end);
+
+            var res = await _viewModel.GetEmptyRoomAsync(DatePicker.Date, building, (int) start, (int) end);
             if (res)
             {
                 await Navigation.PushAsync(typeof(EmptyRoomDetail), null);
@@ -175,7 +162,7 @@ namespace HandSchool.JLU.Views
             }
         }
 
-        private async void ClassRoomCurriculumQuery(object sender, EventArgs e)
+        private async void ClassroomCurriculumQuery(object sender, EventArgs e)
         {
             var schoolArea = (string) SchoolAreaPicker.SelectedItem;
             var building = (string) BuildingPicker.SelectedItem;
@@ -197,7 +184,8 @@ namespace HandSchool.JLU.Views
                 await NoticeError("服务器返回信息错误");
                 return;
             }
-            await Navigation.PushAsync<IWebViewPage>(new RoomSchedule((int)bdInfo.compus,(int)bdInfo.buildingId));
+
+            await Navigation.PushAsync<IWebViewPage>(new RoomSchedule((int) bdInfo.compus, (int) bdInfo.buildingId));
         }
     }
 
