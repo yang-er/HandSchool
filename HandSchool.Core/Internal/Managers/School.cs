@@ -1,12 +1,30 @@
 ﻿using HandSchool.Models;
 using HandSchool.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HandSchool.Internals
 {
+    public delegate Task<TaskResp> ActioningDelegate(object sender, ActioningEventArgs args);
     public class SchoolApplication
     {
+        public static event ActioningDelegate Actioning;
+
+        public static async Task<List<TaskResp>> SendActioning(object sender, ActioningEventArgs args)
+        {
+            if (Actioning is null) return new List<TaskResp>();
+            var res = new List<TaskResp>();
+            foreach (var task in Actioning.GetInvocationList().OfType<ActioningDelegate>())
+            {
+                res.Add(await task(sender, args));
+            }
+
+            return res;
+        }
+        
         /// <summary>
         /// 加载开始时执行
         /// </summary>

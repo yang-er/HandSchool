@@ -11,11 +11,13 @@ namespace HandSchool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndexPage : ViewObject
     {
+        private string[] ChineseDayOfWeek = new[] { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+
         public IndexPage()
         {
             InitializeComponent();
             var today = DateTime.Now;
-            DayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {today.DayOfWeek}";
+            DayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {ChineseDayOfWeek[(int)today.DayOfWeek]}";
             ViewModel = IndexViewModel.Instance;
             Content.BackgroundColor = Color.FromRgb(241, 241, 241);
             ClassTable.IndicatorView = ClassTableIndicator;

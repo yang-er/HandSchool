@@ -30,4 +30,9 @@ namespace HandSchool.Models
     {
         public bool IsBusy { get; set; }
     }
+
+    public class ActioningEventArgs : EventArgs
+    {
+        public string ActionName { get; set; }
+    }
 }

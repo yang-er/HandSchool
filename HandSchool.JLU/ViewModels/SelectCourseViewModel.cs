@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HandSchool.ViewModels
 {
-    public class SelectCourseViewModel : BaseViewModel
+    public class SelectCourseViewModel : NoticeCheckViewModel
     {
         public SelectCourseViewModel()
         {
@@ -67,6 +67,7 @@ namespace HandSchool.ViewModels
         public async Task GetSelectCoursePlan()
         {
             if (IsBusy) return;
+            if (!await CheckEnvAndNotice("GetSelectCoursePlan")) return;
             IsBusy = true;
             Core.Platform.EnsureOnMainThread(() => { SelectCoursePlanValues.Clear(); });
             try
@@ -110,6 +111,7 @@ namespace HandSchool.ViewModels
         public async Task GetCourses()
         {
             if (IsBusy) return;
+            if (!await CheckEnvAndNotice("GetCourses")) return;
             IsBusy = true;
             Core.Platform.EnsureOnMainThread(() => { Courses.Clear(); });
             try
@@ -141,6 +143,7 @@ namespace HandSchool.ViewModels
         public async Task<TaskResp> GetDetail(string lslId)
         {
             if (IsBusy) return TaskResp.False;
+            if (!await CheckEnvAndNotice("GetDetail")) return TaskResp.False;
             IsBusy = true;
             Core.Platform.EnsureOnMainThread(() => { Details.Clear(); });
             try
@@ -170,6 +173,7 @@ namespace HandSchool.ViewModels
         public async Task<TaskResp> SelectCourse(string lsltId, SelectCourseOperator @operator)
         {
             if (IsBusy) return TaskResp.False;
+            if (!await CheckEnvAndNotice("SelectCourse")) return TaskResp.False;
             IsBusy = true;
             try
             {
@@ -215,7 +219,9 @@ namespace HandSchool.ViewModels
                 return -1;
             }
             if (IsBusy) return 0;
+            if (!await CheckEnvAndNotice("SelectAll")) return 0;
             IsBusy = true;
+            
             var count = 0;
             foreach (var item in QuickSelect)
             {
@@ -260,7 +266,9 @@ namespace HandSchool.ViewModels
         public async Task<TaskResp> SetQuickSelect(string lsltId, QuickSelectOperator @operator)
         {
             if (IsBusy) return TaskResp.False;
+            if (!await CheckEnvAndNotice("SetQuickSelect")) return TaskResp.False;
             IsBusy = true;
+
             var op = @operator == QuickSelectOperator.Add ? 'A' : 'D';
             var postValue = "{\"lsltId\": \"" + lsltId + "\",\"operator\": \"" + op + "\"}";
 
@@ -287,7 +295,9 @@ namespace HandSchool.ViewModels
                 await NoticeError("暂无选课计划");
                 return;
             }
+            if (!await CheckEnvAndNotice("GetQuickSelect")) return;
             IsBusy = true;
+
             Core.Platform.EnsureOnMainThread(() => { QuickSelect.Clear(); });
             try
             {

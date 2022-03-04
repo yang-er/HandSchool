@@ -1,13 +1,11 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Models;
-using HandSchool.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace HandSchool.ViewModels
 {
@@ -48,9 +46,7 @@ namespace HandSchool.ViewModels
         /// 视图模型的实例
         /// </summary>
         public static MessageViewModel Instance => Lazy.Value;
-
-        public static Func<Task<TaskResp>> BeforeOperatingCheck { private get; set; }
-
+        
         /// <summary>
         /// 将视图模型的操作加载。
         /// </summary>
@@ -96,21 +92,17 @@ namespace HandSchool.ViewModels
         /// </summary>
         private async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy) return; IsBusy = true;
-
+            if (IsBusy) return;
             IsBusy = true;
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("LoadItems");
+            if (!msg)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                IsBusy = false;
+                return;
             }
-            IsBusy = false;
 
+            IsBusy = false;
             try
             {
                 await Core.App.Message.Execute();

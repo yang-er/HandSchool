@@ -109,7 +109,6 @@ namespace HandSchool.ViewModels
         private Task ExecuteLoadItemsCommand() => LoadItems(false);
 
         private Task SearchByKeyWord() => SearchWord(false);
-        public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
 
         /// <summary>
         /// 由于iOS平台中RefreshView的呈现特性(显示加载的转圈需要退回到最起始位置)，
@@ -130,7 +129,7 @@ namespace HandSchool.ViewModels
             }
         }
         bool GetBusy() => IsRefreshing || IsBusy;
-        
+
         /// <summary>
         /// 加载消息的方法。
         /// </summary>
@@ -138,25 +137,20 @@ namespace HandSchool.ViewModels
         {
             if (GetBusy()) return;
             WorkState = (FeedMode.Normal, null);
-            
             SetBusy(more, true);
-
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("LoadItems");
+            if (!msg)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    SetBusy(more, false);
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                SetBusy(more, false);
+                return;
             }
-            SetBusy(more, false);
+
             SetBusy(more, true);
-            int newcnt = 0;
+            int newCnt = 0;
             try
             {
-                newcnt = await Core.App.Feed.Execute(more ? CurPageIndex + 1 : 1);
+                newCnt = await Core.App.Feed.Execute(more ? CurPageIndex + 1 : 1);
                 if (!more)
                 {
                     _timeoutManager.Refresh();
@@ -171,29 +165,21 @@ namespace HandSchool.ViewModels
                 SetBusy(more, false);
             }
 
-            CurPageIndex = newcnt;
+            CurPageIndex = newCnt;
         }
-        
+
         public async Task SearchWord(bool more, string word = null)
         {
             if (GetBusy()) return;
-            
             SetBusy(more, true);
-
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("SearchWord");
+            if (!msg)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    SetBusy(more, false);
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                SetBusy(more, false);
+                return;
             }
-            SetBusy(more, false);
 
-            SetBusy(more, true);
-            
             var newCnt = 0;
             try
             {
@@ -226,9 +212,11 @@ namespace HandSchool.ViewModels
             {
                 SetBusy(more, false);
             }
+
             _curPageIndex = 0;
             CurPageIndex = newCnt;
         }
+
         #region ICollection<T> Implements
 
         public int Count => Items.Count;

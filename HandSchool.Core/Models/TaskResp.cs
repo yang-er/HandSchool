@@ -29,5 +29,10 @@ namespace HandSchool.Models
         {
             return Msg?.ToString() ?? string.Empty;
         }
+
+        public static implicit operator bool(TaskResp taskResp)
+        {
+            return taskResp.IsSuccess;
+        }
     }
 }

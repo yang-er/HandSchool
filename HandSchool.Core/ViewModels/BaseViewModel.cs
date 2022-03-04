@@ -1,9 +1,10 @@
 ﻿using HandSchool.Internals;
 using HandSchool.Views;
 using Microcharts;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using HandSchool.Models;
 
 namespace HandSchool.ViewModels
 {
@@ -35,6 +36,13 @@ namespace HandSchool.ViewModels
             set => SetProperty(ref title, value);
         }
 
+        protected virtual async Task<TaskResp> CheckEnv(string actionName)
+        {
+            var responses = await SchoolApplication.SendActioning(this, new ActioningEventArgs {ActionName = actionName});
+            if(responses.Count == 0)return TaskResp.True;
+            return new TaskResp(responses.All(r => r.IsSuccess), responses.FirstOrDefault(r => !r.IsSuccess).Msg);
+        }
+        
         #region IViewResponse 实现
 
         private List<IViewResponse> _views = new List<IViewResponse>();

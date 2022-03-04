@@ -15,7 +15,7 @@ using Xamarin.Forms.Internals;
 
 namespace HandSchool.JLU.ViewModels
 { 
-    public class TeacherEvaVM : BaseViewModel
+    public class TeacherEvaVM : NoticeCheckViewModel
     {
         public const string TemplateVersion = "180";
         public static TeacherEvaVM Instance => lazy.Value;
@@ -51,10 +51,12 @@ namespace HandSchool.JLU.ViewModels
             var res = JsonConvert.DeserializeObject<JObject>(cmJson)?["value"]?.ToObject<List<StudentName>>();
             return res.Select(x => x.name)?.ToList();
         }
+
         public async Task GetEvaItems()
         {
             if (IsBusy) return;
             IsBusy = true;
+            if (!await CheckEnvAndNotice("GetEvaItems")) return;
             try
             {
                 var str = await Core.App.Service.Post(UIMSRes, EvaItemUrl);
@@ -66,11 +68,11 @@ namespace HandSchool.JLU.ViewModels
 
                 var items = JsonConvert.DeserializeObject<JObject>(str)?["value"]?.ToObject<List<StudEval>>()
                     ?.Select(e => new EvaItemShell(e,
-                        e.evalActTime?.evalGuideline?.evalGuidelineId?.Equals(TemplateVersion.ToString()) == true));
+                        e.evalActTime?.evalGuideline?.evalGuidelineId?.Equals(TemplateVersion) == true));
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     EvaItems.Clear();
-                    items?.ForEach(v => EvaItems.Add(v));
+                    items?.ForEach(EvaItems.Add);
                 });
             }
             catch (Exception ex)
@@ -132,6 +134,7 @@ namespace HandSchool.JLU.ViewModels
                 return;
             };
             var count = 0;
+            if (!await CheckEnvAndNotice("EvalAll")) return;
             try
             {
                 IsBusy = true;

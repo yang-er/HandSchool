@@ -77,6 +77,9 @@ namespace HandSchool.JLU.Services
         {
             try
             {
+                if (!await Core.App.Service.CheckLogin())
+                    throw new WebsException("登录失败。", WebStatus.Timeout);
+                
                 GPAItem gpaItem = null;
                 List<IBasicGradeItem> allScoreItems = null;
                 await Task.WhenAll(

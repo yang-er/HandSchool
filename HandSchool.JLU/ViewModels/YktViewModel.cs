@@ -96,24 +96,41 @@ namespace HandSchool.JLU.ViewModels
         /// </summary>
         public ICommand LoadTwoInfoCommand { get; set; }
 
-        public static Func<Task<TaskResp>> BeforeOperatingCheck { private get; set; }
-
-        async Task<bool> BeforeOperatingCheckAsync()
+        /// <summary>
+        /// 检查环境并通知以弹出框形式通知用户
+        /// </summary>
+        /// <param name="actionName">操作的名称</param>
+        /// <param name="noticeCheck">是否提示检查“操作”产生的错误</param>
+        /// <param name="noticeLogin">是否提示检查登录产生的错误</param>
+        private async Task<TaskResp> CheckEnvAndNotice(string actionName, bool noticeCheck = true,
+            bool noticeLogin = true)
         {
             IsBusy = true;
-            if (BeforeOperatingCheck != null)
+            var resp = await CheckEnv(actionName);
+            if (!resp)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
+                var str = resp.ToString();
+                if (str.IsNotBlank())
                 {
-                    await RequestMessageAsync("错误", msg.ToString());
+                    if (noticeCheck)
+                        await NoticeError(str);
                     IsBusy = false;
-                    return false;
+                    return TaskResp.False;
                 }
             }
+
+            if (!await Loader.Ykt.CheckLogin())
+            {
+                if (noticeLogin)
+                    await NoticeError("尚未登录校园卡系统");
+                IsBusy = false;
+                return TaskResp.False;
+            }
+
             IsBusy = false;
-            return true;
+            return TaskResp.True;
         }
+
 
         /// <summary>
         /// 加载校园卡两个信息。
@@ -121,14 +138,7 @@ namespace HandSchool.JLU.ViewModels
         public async Task LoadTwoAsync()
         {
             if (IsBusy) return;
-            if (!await BeforeOperatingCheckAsync()) return;
-            IsBusy = true;
-            if (!await Loader.Ykt.CheckLogin())
-            {
-                IsBusy = false;
-                return; 
-            }
-            IsBusy = false;
+            if (!await CheckEnvAndNotice("LoadTwo", true, false)) return;
             await RefreshBasicInfoAsync();
             await ProcessQuery();
         }
@@ -141,7 +151,7 @@ namespace HandSchool.JLU.ViewModels
             if (IsBusy) return;
 
             IsBusy = true;
-            string last_error = null;
+            string lastError = null;
             try
             {
                 await Loader.Ykt.BasicInfoAsync();
@@ -149,15 +159,15 @@ namespace HandSchool.JLU.ViewModels
             catch (WebsException ex)
             {
                 if (ex.Status == WebStatus.MimeNotMatch)
-                    last_error = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
+                    lastError = "服务器的响应未知，请检查。\n" + await ex.Response.ReadAsStringAsync();
                 else
-                    last_error = "网络似乎出了点问题呢……";
+                    lastError = "网络似乎出了点问题呢……";
             }
             finally
             {
                 IsBusy = false;
-                if (last_error != null)
-                    await RequestMessageAsync("查询失败", last_error, "好吧");
+                if (lastError != null)
+                    await RequestMessageAsync("查询失败", lastError, "好吧");
             }
         }
 
@@ -315,16 +325,9 @@ namespace HandSchool.JLU.ViewModels
         {
             //操作前的检查，检查登录等
             if (IsBusy) return;
-            if (!await BeforeOperatingCheckAsync()) return;
+            if (!await CheckEnvAndNotice("ProcessCharge")) return;
 
             IsBusy = true;
-
-            if (!await Loader.Ykt.CheckLogin())
-            {
-                await NoticeError("尚未登录校园卡系统\n请下拉刷新以登录");
-                return;
-            }
-
             //用户输入金额
             if (!await RequestAnswerAsync("提示",
                 "向校园卡转账成功后，所转金额都会先是在过渡余额中，" +
@@ -370,15 +373,9 @@ namespace HandSchool.JLU.ViewModels
         public async Task ProcessSetLost()
         {
             if (IsBusy) return;
+            if (!await CheckEnvAndNotice("ProcessSetLost")) return;
             
-            if (!await BeforeOperatingCheckAsync()) return;
-
             IsBusy = true;
-            if (!await Loader.Ykt.CheckLogin())
-            {
-                await NoticeError("尚未登录校园卡系统\n请下拉刷新以登录");
-                return;
-            }
             if (!BasicInfo.Lost.Description.Contains("正常"))
             {
                 await NoticeError("卡片已经挂失，无需操作");
@@ -406,15 +403,9 @@ namespace HandSchool.JLU.ViewModels
         public async Task ProcessCancelLost()
         {
             if (IsBusy) return;
-
-            if (!await BeforeOperatingCheckAsync()) return;
+            if (!await CheckEnvAndNotice("ProcessCancelLost")) return;
 
             IsBusy = true;
-            if (!await Loader.Ykt.CheckLogin())
-            {
-                await NoticeError("尚未登录校园卡系统\n请下拉刷新以登录");
-                return;
-            }
 
             if (BasicInfo.Lost.Description.Contains("正常"))
             {
@@ -510,14 +501,7 @@ namespace HandSchool.JLU.ViewModels
         {
             if (!IsFirstOpen) return;
             IsFirstOpen = false;
-
-            if (!await BeforeOperatingCheckAsync()) return;
-            
-            if (await Loader.Ykt.CheckLogin())
-            {
-                await LoadTwoAsync();
-            }
+            await LoadTwoAsync();
         }
     }
-
 }

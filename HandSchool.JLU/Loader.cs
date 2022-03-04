@@ -76,13 +76,7 @@ namespace HandSchool.JLU
             Vpn = WebVpn.Instance;
             Ykt = new SchoolCard();
             LibRoom = new LibRoomReservation();
-            
-            FeedViewModel.BeforeOperatingCheck = 
-            IndexViewModel.BeforeOperatingCheck = 
-            YktViewModel.BeforeOperatingCheck = 
-            MessageViewModel.BeforeOperatingCheck = 
-            GradePointViewModel.BeforeOperatingCheck = 
-            ScheduleViewModel.BeforeOperatingCheck = CheckVpn;
+            SchoolApplication.Actioning += (s, e) => CheckVpn();
             SchoolApplication.OnLoaded(this, EventArgs.Empty);
         }
 

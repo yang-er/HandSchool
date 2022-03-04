@@ -10,6 +10,7 @@ using HandSchool.Internal;
 using HandSchool.ViewModels;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms.Internals;
+using Newtonsoft.Json;
 
 [assembly: RegisterService(typeof(WebVpn))]
 
@@ -214,13 +215,16 @@ namespace HandSchool.JLU.Services
                     _loginCookiesChanged = false;
                 }
 
-                using var response = await WebClient.GetAsync("");
-                var res = await response.ReadAsStringAsync();
-                return IsLogin = res.Contains("注销");
+                var response = await WebClient.GetStringAsync("user/info");
+                return response.ParseJSON<JToken>()?["username"]?.ToString().IsNotBlank() == true;
             }
             catch (WebsException ex)
             {
                 Core.Logger.WriteException(ex);
+                return IsLogin = false;
+            }
+            catch (JsonException)
+            {
                 return IsLogin = false;
             }
         }
@@ -312,24 +316,36 @@ namespace HandSchool.JLU.Services
 
         public async Task<bool> CheckLogin()
         {
-            if (TimeoutManager.NotInit || TimeoutManager.IsTimeout())
+            //距离上次联网查验时间小于设定时间时，直接返回
+            if (!TimeoutManager.NotInit && !TimeoutManager.IsTimeout())
+                return IsLogin = true;
+
+            //进行联网查验
+            if (await CheckIsLogin())
             {
-                if (await CheckIsLogin()) return true;
-                if (Ticket is { } && Username.IsNotBlank() && _encryptedPassword.IsNotBlank())
-                {
-                    if (await TryLoginLegacyAsync()) return IsLogin = true;
-                }
+                TimeoutManager.Refresh();
+                return IsLogin = true;
             }
-            else
+
+            //如果未登录，则尝试用保存的密码进行静默登录
+            if (Ticket is { } && Username.IsNotBlank() && _encryptedPassword.IsNotBlank())
             {
-                if (!TimeoutManager.IsTimeout())
+                if (await TryLoginLegacyAsync())
                 {
+                    TimeoutManager.Refresh();
                     return IsLogin = true;
                 }
             }
 
+            //如果静默登录失败，则请求进行人工登录
             IsLogin = false;
-            return IsLogin = await LoginViewModel.RequestAsync(this) == RequestLoginState.Success;
+            if (await LoginViewModel.RequestAsync(this) == RequestLoginState.Success)
+            {
+                IsLogin = true;
+                TimeoutManager.Refresh();
+            }
+
+            return IsLogin;
         }
 
         public async Task Logout()

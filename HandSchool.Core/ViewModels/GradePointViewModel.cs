@@ -43,9 +43,6 @@ namespace HandSchool.ViewModels
         /// </summary>
         public static GradePointViewModel Instance => Lazy.Value;
 
-        public static Func<Task<TaskResp>> BeforeOperatingCheck { private get; set; }
-
-
         /// <summary>
         /// 建立绩点视图模型的数据源和刷新操作。
         /// </summary>
@@ -63,22 +60,16 @@ namespace HandSchool.ViewModels
         /// </summary>
         public async Task ExecuteLoadNewerItemsCommand()
         {
-            if (IsBusy) return; IsBusy = true;
-
+            if (IsBusy) return;
             IsBusy = true;
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("LoadNewerItems");
+            if (!msg)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                IsBusy = false;
+                return;
             }
-            IsBusy = false;
 
-            IsBusy = true;
             try
             {
                 await Core.App.GradePoint.Execute();
@@ -92,25 +83,20 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
         }
-        
+
         public async Task ExecuteLoadAllItemsCommand()
         {
-            if (IsBusy) return; IsBusy = true;
+            if (IsBusy) return;
 
             IsBusy = true;
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("LoadAllItems");
+            if (!msg)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                IsBusy = false;
+                return;
             }
-            IsBusy = false;
 
-            IsBusy = true;
             try
             {
                 await Core.App.GradePoint.EntranceAll();
@@ -124,6 +110,7 @@ namespace HandSchool.ViewModels
                 IsBusy = false;
             }
         }
+
         /// <summary>
         /// 展示成绩详情。
         /// </summary>

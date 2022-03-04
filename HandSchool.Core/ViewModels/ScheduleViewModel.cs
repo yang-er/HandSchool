@@ -81,9 +81,6 @@ namespace HandSchool.ViewModels
             SchoolState = sys.SchoolState;
             TotalWeek = sys.TotalWeek;
         }
-        
-        public static Func<Task<TaskResp>> BeforeOperatingCheck { private get; set; }
-
 
         #region 增删改查命令
 
@@ -95,19 +92,14 @@ namespace HandSchool.ViewModels
             if (IsBusy) return;
 
             IsBusy = true;
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("Refresh");
+            if (!msg)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                IsBusy = false;
+                return;
             }
-            IsBusy = false;
 
-            IsBusy = true;
             await Core.App.Schedule.Execute();
             SendRefreshComplete();
             IsBusy = false;

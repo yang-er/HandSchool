@@ -48,8 +48,6 @@ namespace HandSchool.ViewModels
         /// 请求登录的命令
         /// </summary>
         public ICommand RequestLoginCommand { get; set; }
-
-        public static Func<Task<TaskResp>> BeforeOperatingCheck { set; private get; }
         
         public IWeatherReport WeatherReport { get; set; }
 
@@ -61,20 +59,17 @@ namespace HandSchool.ViewModels
             if (!Core.Initialized) return;
             if (!Core.App.Service.NeedLogin) return;
             if (IsBusy) return;
-
+            
             IsBusy = true;
-            if (BeforeOperatingCheck != null)
+            var msg = await CheckEnv("RequestLogin");
+            if (!msg.IsSuccess)
             {
-                var msg = await BeforeOperatingCheck();
-                if (!msg.IsSuccess)
-                {
-                    await RequestMessageAsync("错误", msg.ToString());
-                    IsBusy = false;
-                    return;
-                }
+                await RequestMessageAsync("错误", msg.ToString());
+                IsBusy = false;
+                return;
             }
-            IsBusy = false;
 
+            IsBusy = false;
             await Core.App.Service.RequestLogin();
         }
 

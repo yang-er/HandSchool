@@ -224,13 +224,20 @@ namespace HandSchool.JLU.InfoQuery
 
             process.Add((lastSec, left));
 
+            const int format = 6;
             var sb = new StringBuilder();
             process.ForEach(p =>
             {
                 if (p.Item1 == p.Item2)
-                    sb.Append("[ ").Append(list[p.Item1]).Append(" ];");
+                    sb.Append("[ ")
+                        .Append(list[p.Item1].ToString($"D{format}"))
+                        .Append(" ];");
                 else
-                    sb.Append("[ ").Append(list[p.Item1]).Append("~;").Append(list[p.Item2]).Append(" ];");
+                    sb.Append("[ ")
+                        .Append(list[p.Item1].ToString($"D{format}"))
+                        .Append("~;")
+                        .Append(list[p.Item2].ToString($"D{format}"))
+                        .Append(" ];");
             });
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
