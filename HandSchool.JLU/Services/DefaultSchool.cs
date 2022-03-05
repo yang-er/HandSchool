@@ -246,7 +246,7 @@ namespace HandSchool.JLU
 
                     switch (loc)
                     {
-                        case "userLogin.jsp?reason=loginError":
+                        case "/userLogin.jsp?reason=loginError":
                         {
                             var result =
                                 await UIMS.WebClient.GetStringAsync("userLogin.jsp?reason=loginError", "text/html");
