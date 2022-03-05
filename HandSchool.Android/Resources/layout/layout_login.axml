@@ -1,138 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-	
-	<LinearLayout android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-		
-		<androidx.cardview.widget.CardView
-			android:id="@+id/login_cardView"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="40dp"
-			android:layout_marginRight="40dp"
-			android:layout_marginTop="40dp"
-			android:layout_marginBottom="80dp"
-			app:cardElevation="5dp">
-			
-			<ProgressBar
-				android:id="@+id/login_progBar"
-				style="?android:attr/progressBarStyleHorizontal"
-				android:visibility="invisible"
-				android:indeterminate="true"
-				android:layout_width="match_parent"
-				android:layout_marginTop="-5.0dip"
-				android:layout_marginBottom="-11.0dip"
-				android:layout_marginHorizontal="2dp"
-				android:layout_height="16.0dip" />
-			
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:padding="20dp">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+                app:cardCornerRadius="15dp"
+                android:id="@+id/login_cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="80dp"
+                app:cardElevation="5dp">
 
-				<com.google.android.material.textfield.TextInputLayout
-					android:layout_marginBottom="15dp"
-					android:layout_marginTop="15dp"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+            <ProgressBar
+                    android:id="@+id/login_progBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:visibility="invisible"
+                    android:indeterminate="true"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="-5.0dip"
+                    android:layout_marginBottom="-11.0dip"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_height="16.0dip"/>
 
-					<com.google.android.material.textfield.TextInputEditText
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:hint="用户名"
-						android:singleLine="true"
-						android:id="@+id/login_username" />
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:clipToPadding="false"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
 
-				</com.google.android.material.textfield.TextInputLayout>
-			
-				<com.google.android.material.textfield.TextInputLayout
-					android:layout_marginBottom="15dp"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-					<com.google.android.material.textfield.TextInputEditText
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:hint="密码"
-						android:singleLine="true"
-						android:inputType="textPassword"
-						android:id="@+id/login_password" />
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="用户名"
+                            android:singleLine="true"
+                            android:id="@+id/login_username"/>
 
-				</com.google.android.material.textfield.TextInputLayout>
-			
-				<LinearLayout
-					android:orientation="horizontal"
-					android:layout_marginBottom="15dp"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/login_captchaPanel"
-					android:gravity="center">
-			
-					<com.google.android.material.textfield.TextInputLayout
-						android:layout_width="wrap_content"
-						android:layout_weight="1"
-						android:layout_marginRight="16dp"
-						android:layout_height="wrap_content">
+                </com.google.android.material.textfield.TextInputLayout>
 
-						<com.google.android.material.textfield.TextInputEditText
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:hint="验证码"
-							android:singleLine="true"
-							android:id="@+id/login_captcha" />
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginBottom="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-					</com.google.android.material.textfield.TextInputLayout>
-				
-					<ImageView android:id="@+id/login_captchaImg"
-						android:layout_width="99dip"
-						android:layout_height="wrap_content" />
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="密码"
+                            android:singleLine="true"
+                            android:inputType="textPassword"
+                            android:id="@+id/login_password"/>
 
-				</LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-				<TextView android:id="@+id/login_tips"
-					android:text="这是默认的提示，这是默认的提示，这是默认的提示，这是默认的提示。"
-					android:layout_marginBottom="15dp"
-					android:textColor="@color/black"
-					android:singleLine="false"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/login_captchaPanel"
+                        android:gravity="center">
 
-				<LinearLayout
-					android:orientation="horizontal"
-					android:layout_marginBottom="15dp"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:gravity="center">
-			
-					<CheckBox android:text="保存密码"
-							android:id="@+id/login_savepwd"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content" />
-			
-					<CheckBox android:text="自动登录"
-							android:layout_marginLeft="50dp"
-							android:id="@+id/login_autologin"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content" />
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginRight="16dp"
+                            android:layout_height="wrap_content">
 
-				</LinearLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="验证码"
+                                android:singleLine="true"
+                                android:id="@+id/login_captcha"/>
 
-				<Button android:id="@+id/login_button"
-					android:layout_width="120dp"
-					android:layout_height="50dp"
-					android:gravity="center"
-					android:layout_gravity="center"
-					android:text="登录" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-			</LinearLayout>
+                    <ImageView android:id="@+id/login_captchaImg"
+                               android:layout_width="99dip"
+                               android:layout_height="wrap_content"/>
 
-		</androidx.cardview.widget.CardView>
-	
-	</LinearLayout>
+                </LinearLayout>
 
+                <TextView android:id="@+id/login_tips"
+                          android:text="这是默认的提示，这是默认的提示，这是默认的提示，这是默认的提示。"
+                          android:layout_marginBottom="15dp"
+                          android:textColor="@color/black"
+                          android:singleLine="false"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                    <CheckBox android:text="保存密码"
+                              android:id="@+id/login_savepwd"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                    <CheckBox android:text="自动登录"
+                              android:layout_marginLeft="50dp"
+                              android:id="@+id/login_autologin"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <ImageButton
+                        android:elevation="3dp"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:src="@drawable/button_login_src"
+                        android:background="@drawable/button_login"
+                        android:id="@+id/login_button"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 </ScrollView>

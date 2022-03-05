@@ -41,7 +41,7 @@ namespace HandSchool.Droid
         public CheckBox AutoLoginBox { get; set; }
 
         [BindView(Resource.Id.login_button)]
-        public Button LoginButton { get; set; }
+        public ImageButton LoginButton { get; set; }
 
         [BindView(Resource.Id.login_tips)]
         public TextView TipsText { get; set; }
