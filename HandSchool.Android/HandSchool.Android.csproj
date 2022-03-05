@@ -544,10 +544,14 @@
     <AndroidResource Include="Resources\drawable\bg_nodata.png" />
   </ItemGroup>
   <ItemGroup>
-    <TransformFile Include="Resources\drawable\button_login.xml" />
+    <AndroidResource Include="Resources\drawable\button_login_src.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <TransformFile Include="Resources\drawable\button_login_src.xml" />
+    <AndroidResource Include="Resources\drawable\button_login.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
