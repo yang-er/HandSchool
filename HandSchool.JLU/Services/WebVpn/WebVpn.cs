@@ -89,24 +89,6 @@ namespace HandSchool.JLU.Services
         private const string TicketName = "wengine_vpn_ticketwebvpn_jlu_edu_cn";
 
         /// <summary>
-        /// 用来方便序列化Cookie
-        /// </summary>
-        private class CookieLite
-        {
-            private readonly Cookie _innerCookie;
-
-            public CookieLite(Cookie c)
-            {
-                _innerCookie = c;
-            }
-
-            public string Domain => _innerCookie?.Domain;
-            public string Path => _innerCookie?.Path;
-            public string Name => _innerCookie?.Name;
-            public string Value => _innerCookie?.Value;
-        }
-
-        /// <summary>
         /// 用来标识WebVpn的WebClient中的Cookie是不是最新的
         /// </summary>
         private bool _loginCookiesChanged;
@@ -410,6 +392,55 @@ namespace HandSchool.JLU.Services
                     .Select(c => new CookieLite(c))
                     .Serialize()
             });
+        }
+
+        public async Task<Cookie[]> GetCookiesAsync(bool isHttps, string domain, string path)
+        {
+            try
+            {
+                var cookieStr = (await WebClient.GetStringAsync(
+                    $"wengine-vpn/cookie?method=get&host={domain}&scheme={(isHttps ? "https" : "http")}&path={path}"));
+                return
+                    cookieStr.Split(';')
+                        .Select(a => a.Split('='))
+                        .Where(a => a.Length == 2)
+                        .Select(a =>
+                        {
+                            a[0] = a[0].Trim();
+                            a[1] = a[1].Trim();
+                            return a;
+                        })
+                        .Select(a => new Cookie {Domain = domain, Path = path, Name = a[0], Value = a[1]}).ToArray();
+            }
+            catch
+            {
+                return Array.Empty<Cookie>();
+            }
+        }
+
+        public async Task<bool> SetCookieAsync(bool isHttps, string domain, string path, string name, string value)
+        {
+            var realPath = path.Trim();
+            if (!realPath.StartsWith("/"))
+            {
+                realPath = "/" + realPath;
+            }
+
+            if (!realPath.EndsWith("/"))
+            {
+                realPath += '/';
+            }
+
+            try
+            {
+                var target =
+                    $"wengine-vpn/cookie?method=set&host={domain}&scheme={(isHttps ? "https" : "http")}&path={realPath}&ck_data={name}={value}";
+                return await WebClient.GetStringAsync(target) == "success";
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

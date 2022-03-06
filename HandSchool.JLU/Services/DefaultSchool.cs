@@ -3,6 +3,8 @@ using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +18,10 @@ namespace HandSchool.JLU
     {
         class DefaultSchoolStrategy : ISideSchoolStrategy
         {
+            private const string ConfigCookies = "uims.logincookies";
+
+            private const string CookieName = "JSESSIONID";
+            
             UIMS UIMS { get; }
 
             public DefaultSchoolStrategy(UIMS handle)
@@ -139,18 +145,27 @@ namespace HandSchool.JLU
                     ReInitWebClient();
                     _reinit = false;
                 }
-                if (WebVpn.UseVpn)
+
+                if (!WebVpn.UseVpn)
                 {
-                    if (await GetUserInfo() is { } userInfo)
+                    var json = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigCookies);
+                    if (json?.Json.IsNotBlank() == true)
                     {
-                        var success = await UpdateUserInfo(userInfo)
-                                      && await UpdateTermInfo();
-                        if (success)
-                        {
-                            UIMS.IsLogin = true;
-                            UIMS.NeedLogin = false;
-                            UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
-                        }
+                        json.ToObject<List<Cookie>>()
+                            .FirstOrDefault(c => c.Name == CookieName)
+                            ?.Let(c => { UIMS.WebClient.Cookie.Add(c); });
+                    }
+                }
+
+                if (await GetUserInfo() is { } userInfo)
+                {
+                    var success = await UpdateUserInfo(userInfo)
+                                  && await UpdateTermInfo();
+                    if (success)
+                    {
+                        UIMS.IsLogin = true;
+                        UIMS.NeedLogin = false;
+                        UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
                     }
                 }
 
@@ -267,6 +282,22 @@ namespace HandSchool.JLU
                             if (!await UpdateUserInfo()) return TaskResp.False;
                             // Get term info
                             if (!await UpdateTermInfo()) return TaskResp.False;
+                            // SaveCookie
+                            if (WebVpn.UseVpn)
+                            {
+                                var cookie = (await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms"))
+                                    .FirstOrDefault(c => c.Name == CookieName);
+                                cookie?.Let(c =>
+                                {
+                                    Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
+                                    {
+                                        JsonName = ConfigCookies,
+                                        Json = new[] {new CookieLite(c)}
+                                            .Serialize()
+                                    });
+                                });
+                            }
+
                             break;
                         }
                         default:
