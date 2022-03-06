@@ -96,7 +96,7 @@ namespace HandSchool.Droid.Renderers
                     }
                     else
                     {
-                        res = ArraySegment<Cookie>.Empty;
+                        res = Array.Empty<Cookie>();
                     }
                 }
                 //若得到的Cookie数量不是0，则检查数据是否被加密；
