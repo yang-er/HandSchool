@@ -7,6 +7,7 @@ using HandSchool.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Google.Android.Material.Dialog;
 
 namespace HandSchool.Droid
 {
@@ -116,7 +117,7 @@ namespace HandSchool.Droid
             var topAct = PeekAliveActivity(false);
             if (topAct == null) return;
             var waiting = Android.Views.View.Inflate(topAct, Resource.Layout.alert_waiting, null);
-            var alert = new AlertDialog.Builder(topAct)
+            var alert = new MaterialAlertDialogBuilder(topAct, Resource.Style.MaterialAlertDialog_Rounded)
                 .SetTitle("正在检查更新")
                 .SetCancelable(false)
                 .SetView(waiting)

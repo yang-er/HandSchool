@@ -1,11 +1,12 @@
-﻿using Android.App;
-using HandSchool.Models;
+﻿using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using Com.Jaredrummler.Materialspinner;
 using System.Threading.Tasks;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.App;
+using Google.Android.Material.Dialog;
 using JavaObject = Java.Lang.Object;
 using Google.Android.Material.TextField;
 
@@ -190,8 +191,7 @@ namespace HandSchool.Droid
         private Task ShowAsync()
         {
             var context = PlatformImplV2.Instance.PeekAliveActivity();
-
-            var builder = new AlertDialog.Builder(context);
+            var builder = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded); 
             builder.SetView(Resource.Layout.dialog_curriculum);
             builder.SetTitle(IsCreate ? "创建课程" : "修改课程信息");
             builder.SetCancelable(false);

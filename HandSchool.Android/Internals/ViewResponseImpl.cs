@@ -7,14 +7,10 @@ using Android.Views.InputMethods;
 using Android.Webkit;
 using Android.Widget;
 using HandSchool.Internals;
-using HandSchool.JLU.ViewModels;
 using HandSchool.Views;
-using HtmlAgilityPack;
 using SkiaSharp.Views.Android;
-using System;
 using System.Linq;
-using System.Text;
-using System.Threading;
+using Google.Android.Material.Dialog;
 using Xamarin.Forms.Internals;
 using HandSchool.Droid.Internals;
 
@@ -23,17 +19,15 @@ namespace HandSchool.Droid
 
     public class ViewResponseImpl : IViewResponseImpl
     {
-        
         public void ReqActAsync(IViewPage sender, ActionSheetArguments args)
         {
             var context = sender.ToContext();
             if (context is null) return;
-            var builder = new AlertDialog.Builder(context);
+            var builder = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded); 
             builder.SetTitle(args.Title);
 
             var items = args.Buttons.ToArray();
             builder.SetItems(items, (o, fargs) => args.Result.TrySetResult(items[fargs.Which]));
-
             if (args.Cancel != null)
                 builder.SetPositiveButton(args.Cancel, (o, e) => args.Result.TrySetResult(args.Cancel));
 
@@ -53,7 +47,7 @@ namespace HandSchool.Droid
             // Create and assign layout
             var context = sender.ToContext();
             if (context is null) return;
-            var builder = new AlertDialog.Builder(context);
+            var builder = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded); 
             LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
             var chartLayout = layoutInflater.Inflate(Resource.Layout.dialog_chart, null);
             builder.SetView(chartLayout);
@@ -86,7 +80,7 @@ namespace HandSchool.Droid
         {
             var context = sender.ToContext();
             if (context is null) return;
-            var builder = new AlertDialog.Builder(context);
+            var builder = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded); 
             string answer = null;
 
             LayoutInflater layoutInflater = LayoutInflater.From(sender.ToContext());
@@ -122,7 +116,7 @@ namespace HandSchool.Droid
         {
             var context = sender.ToContext();
             if (context is null) return;
-            var builder = new AlertDialog.Builder(context);
+            var builder = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded); 
             string answer = null;
 
             var image_input = View.Inflate(context, Resource.Layout.ask_for_code, null) as LinearLayout;
@@ -160,7 +154,7 @@ namespace HandSchool.Droid
         {
             var context = sender.ToContext();
             if (context is null) return;
-            AlertDialog alert = new AlertDialog.Builder(context).Create();
+            var alert = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded).Create(); 
             alert.SetTitle(args.Title);
             alert.SetMessage(args.Message);
 
@@ -176,7 +170,7 @@ namespace HandSchool.Droid
         {
             var context = sender.ToContext();
             if (context is null) return;
-            var builder = new AlertDialog.Builder(context);
+            var builder = new MaterialAlertDialogBuilder(context, Resource.Style.MaterialAlertDialog_Rounded); 
             string answer = null;
 
             //获取页面

@@ -1,9 +1,10 @@
-﻿using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Content.PM;
 using HandSchool.Internals;
 using System;
 using System.Threading.Tasks;
+using AndroidX.AppCompat.App;
+using Google.Android.Material.Dialog;
 using HandSchool.JLU.Services;
 
 namespace HandSchool.Droid
@@ -52,14 +53,14 @@ namespace HandSchool.Droid
                 var version = updateHtml.DocumentNode.SelectSingleNode("//span[@class='list_app_info']").InnerText.Trim();
                 if (IsLatestVersion(version))
                 {
-                    return new AlertDialog.Builder(Activity)
+                    return new MaterialAlertDialogBuilder(Activity, Resource.Style.MaterialAlertDialog_Rounded)
                     .SetTitle("提示")
                     .SetMessage("已经是最新版了")
                     .SetPositiveButton("好", listener: null).Create();
                 }
                 else
                 {
-                    return new AlertDialog.Builder(Activity)
+                    return new MaterialAlertDialogBuilder(Activity, Resource.Style.MaterialAlertDialog_Rounded)
                         .SetTitle("提示")
                         .SetMessage("检测到新版本" + version + "\n点按更新前往酷安下载更新")
                         .SetPositiveButton("更新", (s, e) =>
@@ -71,7 +72,8 @@ namespace HandSchool.Droid
             }
             catch
             {
-                return new AlertDialog.Builder(Activity).SetTitle("提示")
+                return new MaterialAlertDialogBuilder(Activity, Resource.Style.MaterialAlertDialog_Rounded)
+                    .SetTitle("提示")
                     .SetMessage("出了点问题，请稍后再试").Create();
             }
             finally
@@ -81,5 +83,4 @@ namespace HandSchool.Droid
             }
         }
     }
-
 }
