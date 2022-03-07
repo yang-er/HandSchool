@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using HandSchool.Internal;
 using HandSchool.JLU.Services;
 using HandSchool.Services;
 using Xamarin.Forms.Internals;
@@ -146,16 +147,7 @@ namespace HandSchool.JLU
                     _reinit = false;
                 }
 
-                if (!WebVpn.UseVpn)
-                {
-                    var json = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigCookies);
-                    if (json?.Json.IsNotBlank() == true)
-                    {
-                        json.ToObject<List<Cookie>>()
-                            .FirstOrDefault(c => c.Name == CookieName)
-                            ?.Let(c => { UIMS.WebClient.Cookie.Add(c); });
-                    }
-                }
+                await SetLoginCookiesAsync();
 
                 if (await GetUserInfo() is { } userInfo)
                 {
@@ -283,21 +275,7 @@ namespace HandSchool.JLU
                             // Get term info
                             if (!await UpdateTermInfo()) return TaskResp.False;
                             // SaveCookie
-                            if (WebVpn.UseVpn)
-                            {
-                                var cookie = (await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms"))
-                                    .FirstOrDefault(c => c.Name == CookieName);
-                                cookie?.Let(c =>
-                                {
-                                    Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
-                                    {
-                                        JsonName = ConfigCookies,
-                                        Json = new[] {new CookieLite(c)}
-                                            .Serialize()
-                                    });
-                                });
-                            }
-
+                            SaveLoginCookies();
                             break;
                         }
                         default:
@@ -321,6 +299,43 @@ namespace HandSchool.JLU
                 UIMS.NeedLogin = false;
                 UIMS.LoginStateChanged?.Invoke(UIMS, new LoginStateEventArgs(LoginState.Succeeded));
                 return TaskResp.True;
+            }
+
+            public async Task SaveLoginCookies()
+            {
+                IEnumerable<Cookie> cookies;
+                if (WebVpn.UseVpn)
+                    cookies = await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms");
+                else
+                    cookies = UIMS.WebClient.Cookie.GetCookies(new Uri("https://uims.jlu.edu.cn/ntms/")).Cast<Cookie>();
+
+                var loginCookies = NamedCookieDictionary.Filter(cookies, CookieName)
+                    .Select(c => new CookieLite(c)).ToArray();
+                if (loginCookies.Length == 0) return;
+                Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
+                {
+                    JsonName = ConfigCookies,
+                    Json = loginCookies.Serialize()
+                });
+            }
+
+            public async Task SetLoginCookiesAsync()
+            {
+                var json = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigCookies);
+                if (json?.Json.IsBlank() != false) return;
+                var loginCookies = NamedCookieDictionary.Filter(json.ToObject<List<Cookie>>(), CookieName).ToArray();
+                if (WebVpn.UseVpn)
+                {
+                    foreach (var cookie in loginCookies)
+                    {
+                        await WebVpn.Instance
+                            .SetCookieAsync(true, cookie.Domain, cookie.Path, cookie.Name, cookie.Value);
+                    }
+                }
+                else
+                {
+                    loginCookies.ForEach(UIMS.WebClient.Cookie.Add);
+                }
             }
 
             public async Task LogoutSide()
