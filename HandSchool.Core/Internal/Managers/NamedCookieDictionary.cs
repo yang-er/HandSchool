@@ -137,7 +137,10 @@ namespace HandSchool.Internal
             this[name]?.Let(c =>
             {
                 if (c.Value != value)
+                {
+                    c.Value = value;
                     Version++;
+                }
                 res = true;
             });
             return res;
