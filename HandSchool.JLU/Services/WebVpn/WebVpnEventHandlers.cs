@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using HandSchool.Controls;
 using HandSchool.Internals;
 using HandSchool.Models;
 using Xamarin.Forms;

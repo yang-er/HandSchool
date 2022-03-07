@@ -29,6 +29,7 @@ namespace HandSchool.JLU.Services
         {
             IsLogin = false;
             _util = new WebVpnUtil();
+            _cookieDictionary = new NamedCookieDictionary();
             var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);
             if (acc != null)
             {
@@ -88,46 +89,15 @@ namespace HandSchool.JLU.Services
         private const string TokenName = "remember_token";
         private const string TicketName = "wengine_vpn_ticketwebvpn_jlu_edu_cn";
 
-        /// <summary>
-        /// 用来标识WebVpn的WebClient中的Cookie是不是最新的
-        /// </summary>
-        private bool _loginCookiesChanged;
+        private readonly NamedCookieDictionary _cookieDictionary;
 
-        public Cookie RememberToken
-        {
-            get => _rememberToken;
-            set
-            {
-                if (_rememberToken?.Value == value?.Value) return;
-                _rememberToken = value;
-                _loginCookiesChanged = true;
-            }
-        }
-
-        private Cookie _rememberToken;
-
-        public Cookie Ticket
-        {
-            get => _ticket;
-            set
-            {
-                if (_ticket?.Value == value?.Value) return;
-                _ticket = value;
-                _loginCookiesChanged = true;
-            }
-        }
-
-        private Cookie _ticket;
+        private long _lastCookieVersion;
 
         private string _encryptedPassword;
 
         public IEnumerable<Cookie> GetLoginCookies()
         {
-            if (Ticket != null)
-                yield return Ticket;
-
-            if (RememberToken != null)
-                yield return RememberToken;
+            return _cookieDictionary.Values.ToArray();
         }
 
         public void AddCookie(IWebClient webClient)
@@ -145,15 +115,12 @@ namespace HandSchool.JLU.Services
             get => _isLogin;
             private set
             {
-                if (_isLogin != value)
-                {
-                    if (value)
-                    {
-                        _proxyClients.ForEach(AddCookie);
-                    }
-                }
-
+                if (_isLogin == value) return;
                 SetProperty(ref _isLogin, value);
+                if (value)
+                {
+                    _proxyClients.ForEach(AddCookie);
+                }
             }
         }
 
@@ -190,11 +157,11 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                if (WebClient is null || _loginCookiesChanged)
+                if (WebClient is null || _cookieDictionary.Version != _lastCookieVersion)
                 {
                     ReInitWebClient();
                     AddCookie(WebClient);
-                    _loginCookiesChanged = false;
+                    _lastCookieVersion = _cookieDictionary.Version;
                 }
 
                 var response = await WebClient.GetStringAsync("user/info");
@@ -234,19 +201,8 @@ namespace HandSchool.JLU.Services
                 if (resp?["success"]?.ToString().Trim().ToLower() == "true")
                 {
                     var cookies = WebClient.Cookie.GetCookies(new Uri("https://webvpn.jlu.edu.cn"));
-                    cookies.Cast<Cookie>().ForEach(c =>
-                    {
-                        switch (c.Name)
-                        {
-                            case TicketName:
-                                Ticket.Value = c.Value;
-                                break;
-                            case TokenName:
-                                if (RememberToken is { } rememberToken)
-                                    rememberToken.Value = c.Value;
-                                break;
-                        }
-                    });
+                    NamedCookieDictionary.Filter(cookies.Cast<Cookie>(), TicketName, TokenName)
+                        .ForEach(c => _cookieDictionary.OnlyUpdateValue(c.Name, c.Value));
                     success = true;
                 }
 
@@ -310,7 +266,7 @@ namespace HandSchool.JLU.Services
             }
 
             //如果未登录，则尝试用保存的密码进行静默登录
-            if (Ticket is { } && Username.IsNotBlank() && _encryptedPassword.IsNotBlank())
+            if (_cookieDictionary.Count != 0 && Username.IsNotBlank() && _encryptedPassword.IsNotBlank())
             {
                 if (await TryLoginLegacyAsync())
                 {
@@ -363,24 +319,11 @@ namespace HandSchool.JLU.Services
         /// </summary>
         private bool CookiesFilter(IEnumerable<Cookie> cookies)
         {
-            var changed = false;
-            cookies?.ForEach(c =>
-            {
-                switch (c.Name)
-                {
-                    case TicketName:
-                        if (Ticket?.Value == c.Value) break;
-                        Ticket = c;
-                        changed = true;
-                        break;
-                    case TokenName:
-                        if (RememberToken?.Value == c.Value) return;
-                        RememberToken = c;
-                        changed = true;
-                        break;
-                }
-            });
-            return changed;
+            if (cookies is null) return false;
+            var last = _cookieDictionary.Version;
+            NamedCookieDictionary.Filter(cookies, TicketName, TokenName)
+                .ForEach(c => _cookieDictionary.TryOnlyUpdateValue(c));
+            return last != _cookieDictionary.Version;
         }
 
         private void SaveCookies()
@@ -388,9 +331,7 @@ namespace HandSchool.JLU.Services
             Core.App.Loader.JsonManager.InsertOrUpdateTable(new ServerJson
             {
                 JsonName = ConfigCookies,
-                Json = GetLoginCookies()
-                    .Select(c => new CookieLite(c))
-                    .Serialize()
+                Json = _cookieDictionary.ToJson()
             });
         }
 
@@ -421,15 +362,12 @@ namespace HandSchool.JLU.Services
         public async Task<bool> SetCookieAsync(bool isHttps, string domain, string path, string name, string value)
         {
             var realPath = path.Trim();
+            
             if (!realPath.StartsWith("/"))
-            {
                 realPath = "/" + realPath;
-            }
 
             if (!realPath.EndsWith("/"))
-            {
                 realPath += '/';
-            }
 
             try
             {
