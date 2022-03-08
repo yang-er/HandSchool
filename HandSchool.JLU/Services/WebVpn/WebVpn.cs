@@ -90,9 +90,7 @@ namespace HandSchool.JLU.Services
         private const string TicketName = "wengine_vpn_ticketwebvpn_jlu_edu_cn";
 
         private readonly NamedCookieDictionary _cookieDictionary;
-
-        private long _lastCookieVersion;
-
+        
         private string _encryptedPassword;
 
         public IEnumerable<Cookie> GetLoginCookies()
@@ -157,13 +155,8 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                if (WebClient is null || _cookieDictionary.Version != _lastCookieVersion)
-                {
-                    ReInitWebClient();
-                    AddCookie(WebClient);
-                    _lastCookieVersion = _cookieDictionary.Version;
-                }
-
+                ReInitWebClient();
+                AddCookie(WebClient);
                 var response = await WebClient.GetStringAsync("user/info");
                 return IsLogin = response.ParseJSON<JToken>()?["username"]?.ToString().IsNotBlank() == true;
             }
