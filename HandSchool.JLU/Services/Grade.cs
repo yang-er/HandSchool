@@ -123,7 +123,7 @@ namespace HandSchool.JLU.Services
             }
         }
 
-        public static async Task PreloadData()
+        public async Task LoadFromNative()
         {
             await Task.Yield();
             await Task.WhenAll(

@@ -9,5 +9,6 @@ namespace HandSchool.Services
     public interface IGradeEntrance : ISystemEntrance
     {
         Task EntranceAll();
+        Task LoadFromNative();
     }
 }

@@ -53,6 +53,7 @@ namespace HandSchool.ViewModels
             AllGradeItems = new ObservableCollection<IBasicGradeItem>();
             LoadNewerItemsCommand = new CommandAction(ExecuteLoadNewerItemsCommand);
             LoadAllItemsCommand = new CommandAction(ExecuteLoadAllItemsCommand);
+            Core.App.GradePoint?.LoadFromNative();
         }
 
         /// <summary>

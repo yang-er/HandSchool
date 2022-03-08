@@ -32,11 +32,15 @@ namespace HandSchool.ViewModels
             RefreshCommand = new CommandAction(Refresh);
             RequestLoginCommand = new CommandAction(RequestLogin);
             CheckUpdateCommand = new CommandAction(Core.Platform.CheckUpdate);
-            WeatherReport = Core.New<IWeatherReport>();
-            WeatherReport.CityCode = Core.App.Service.WeatherLocation;
             _currentWeather = _todayWeather = _tomorrowWeather = "正在加载...";
             _weatherProvider = "数据来自：";
             _weatherNotice = "愿你拥有比阳光明媚的心情";
+            _lazyWeatherReport = new Lazy<IWeatherReport>(() =>
+            {
+                var report = Core.New<IWeatherReport>(); 
+                report.CityCode = Core.App.Service.WeatherLocation;
+                return report;
+            });
         }
         
         /// <summary>
@@ -48,8 +52,10 @@ namespace HandSchool.ViewModels
         /// 请求登录的命令
         /// </summary>
         public ICommand RequestLoginCommand { get; set; }
-        
-        public IWeatherReport WeatherReport { get; set; }
+
+        private readonly Lazy<IWeatherReport> _lazyWeatherReport;
+
+        public IWeatherReport WeatherReport => _lazyWeatherReport.Value;
 
         /// <summary>
         /// 请求登录，防止用户有程序没反应的错觉（大雾）
@@ -78,6 +84,7 @@ namespace HandSchool.ViewModels
 
         public async Task RefreshWeather()
         {
+            await Task.Yield();
             if (!_isWorking && (_weatherTimeoutManager.NotInit || _weatherTimeoutManager.IsTimeout()))
             {
                 _isWorking = true;
@@ -123,14 +130,7 @@ namespace HandSchool.ViewModels
         {
             if (IsBusy) return;
             IsBusy = true;
-
-            if (!ScheduleViewModel.Instance.ItemsLoaded)
-            {
-                // This time, the main-cost service has not been created.
-                // So we can force this method to be on another execution context
-                // that won't block the enter of main page.
-                await Task.Yield();
-            }
+            await Task.Yield();
 
             var res = UpdateTodayCurriculum();
             

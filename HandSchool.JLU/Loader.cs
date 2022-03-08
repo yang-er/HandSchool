@@ -40,9 +40,15 @@ namespace HandSchool.JLU
         public static WebDialogAdditionalArgs CancelLostWebAdditionalArgs { set => YktViewModel.CancelLostWebAdditionalArgs = value; }
 
         public List<string> RegisteredFiles { get; private set; }
-        public static SchoolCard Ykt;
-        internal static WebVpn Vpn;
-        public static LibRoomReservation LibRoom;
+
+        private static Lazy<SchoolCard> _lazySchoolCard;
+        public static SchoolCard Ykt => _lazySchoolCard.Value;
+        
+        internal static WebVpn Vpn => WebVpn.Instance;
+
+        private static Lazy<LibRoomReservation> _lazyLibRoom;
+        public static LibRoomReservation LibRoom => _lazyLibRoom.Value;
+        
         public static InfoEntranceGroup InfoList;
         
         public static string GetRealUrl(string ori)
@@ -73,9 +79,8 @@ namespace HandSchool.JLU
             NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU",
                 MenuIcon.LibRoomResv);
 
-            Vpn = WebVpn.Instance;
-            Ykt = new SchoolCard();
-            LibRoom = new LibRoomReservation();
+            _lazySchoolCard = new Lazy<SchoolCard>(() => new SchoolCard());
+            _lazyLibRoom = new Lazy<LibRoomReservation>(() => new LibRoomReservation());
             SchoolApplication.Actioning += (s, e) => CheckVpn();
             SchoolApplication.OnLoaded(this, EventArgs.Empty);
         }
@@ -118,7 +123,6 @@ namespace HandSchool.JLU
             WebVpn.UseVpn = config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
-            Task.Run(GradeEntrance.PreloadData);
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
             Message = new Lazy<IMessageEntrance>(() => new MessageEntrance());
             Feed = new Lazy<IFeedEntrance>(() => new Oa());

@@ -73,6 +73,7 @@ namespace HandSchool.Views
 
         protected override void OnAppearing()
         {
+            base.OnAppearing();
             IndexViewModel.Instance.CurrentClassesLoadFinished += CurrentClassLoadOver;
             Task.Run(IndexViewModel.Instance.Refresh);
             Task.Run(async () =>
@@ -83,10 +84,12 @@ namespace HandSchool.Views
                 }
                 catch
                 {
-                    WeatherFrame.IsVisible = false;
+                    Core.Platform.EnsureOnMainThread(() =>
+                    {
+                        WeatherFrame.IsVisible = false;
+                    });
                 }
             });
-            base.OnAppearing();
         }
 
         protected override void OnDisappearing()
