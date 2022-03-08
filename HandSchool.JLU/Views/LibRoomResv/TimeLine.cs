@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using HandSchool.Internal;
+using HandSchool.Controls;
 using HandSchool.JLU.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;

@@ -1,19 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject  xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
                xmlns="http://xamarin.com/schemas/2014/forms"
-               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
                x:Class="HandSchool.JLU.Views.SCourseDetailPage"
                IsBusy="{Binding IsBusy, Mode=OneWay}">
-        <CollectionView ItemsSource="{Binding Details}"
-                         BackgroundColor="#F4F4F4">
+        <controls:TappableCollectionView ItemsSource="{Binding Details}"
+                                         BackgroundColor="#F4F4F4"
+                                         ItemTapped="ClassSelected">
             <CollectionView.EmptyView>
                 <ContentView>
-                    <internal:NoDataView/>
+                    <controls:NoDataView/>
                 </ContentView>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
             <DataTemplate>
-                <internal:TouchableFrame Scale="0.95" Click="ClassSelected">
+                <controls:RoundCornerFrame>
                     <StackLayout>
                         <Label Text="{Binding Teachers}" TextColor="Black" FontSize="20"></Label>
                         <Label Text="{Binding teachClassMaster.name}" TextColor="Gray" FontSize="14"/>
@@ -24,13 +26,12 @@
                         </StackLayout>
                         <Label Text="{Binding SchoolArea}" FontSize="16"  TextColor="Black"/>
                         <Label Text="{Binding TimeAndLocation}" TextColor="DarkSlateGray" FontSize="16"/>
-                        
                     </StackLayout>
-                </internal:TouchableFrame>
+                </controls:RoundCornerFrame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
         <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
         </CollectionView.ItemsLayout>
-    </CollectionView>
+    </controls:TappableCollectionView>
 </w:ViewObject>

@@ -2,8 +2,8 @@
 
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+              xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               Title="空教室及教室课程表查询"
               x:Class="HandSchool.JLU.Views.EmptyRoomPage"
               IsBusy="{Binding IsBusy}">
@@ -28,7 +28,7 @@
     <w:ViewObject.Content>
         <ScrollView>
             <StackLayout>
-                <internal:TouchableFrame Margin="10, 5">
+                <controls:RoundCornerFrame Margin="10, 5">
                     <StackLayout>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -116,7 +116,7 @@
                         <w:BorderlessButton Text="查询空教室" Clicked="EmptyRoomQuery" />
                         <Label Text="注：空教室信息来自于uims，不保证准确，建议配合教室当天课程表食用。若有因延迟开学造成的整体课程顺延，需自行计算日期偏移。" />
                     </StackLayout>
-                </internal:TouchableFrame>
+                </controls:RoundCornerFrame>
             </StackLayout>
         </ScrollView>
     </w:ViewObject.Content>

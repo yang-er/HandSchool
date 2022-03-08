@@ -41,9 +41,9 @@ namespace HandSchool.JLU.Views
              }));
         }
 
-        private async void ShowDetail(object sender, EventArgs e)
+        private async void ShowDetail(object sender, CollectionItemTappedEventArgs e)
         {
-            var course = (sender as BindableObject)?.BindingContext as SCCourses;
+            var course = e.Item as SCCourses;
             if (course is null) return;
             if (!(await _viewModel.GetDetail(course.lslId.ToString())).IsSuccess)
             {

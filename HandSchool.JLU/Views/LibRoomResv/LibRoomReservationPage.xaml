@@ -4,7 +4,6 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
                   xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
-                  xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
                   x:Class="HandSchool.JLU.Views.LibRoomReservationPage"
                   Title="鼎新馆空间预约"
                   IsBusy="{Binding IsBusy}"
@@ -19,9 +18,9 @@
                         <StackLayout Orientation="Horizontal" Margin="0,5">
                             <Label Text="个人信息" FontSize="Medium" VerticalTextAlignment="Center" TextColor="DarkRed"
                                    HorizontalOptions="FillAndExpand" />
-                            <internal:TouchableFrame CornerRadius="10" Click="ClearUserInfo" Padding="10,0">
+                            <controls:TouchableFrame CornerRadius="10" Click="ClearUserInfo" Padding="10,0">
                                 <Label Text="清空账户信息" VerticalTextAlignment="Center" />
-                            </internal:TouchableFrame>
+                            </controls:TouchableFrame>
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">

@@ -3,7 +3,7 @@
     xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core" xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+    xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
     x:Class="HandSchool.JLU.Views.TeacherEva"
     Title="一键教评">
     <w:ViewObject.ToolbarMenu>
@@ -19,7 +19,7 @@
                         BackgroundColor="#F4F4F4">
             <CollectionView.EmptyView>
                 <ContentView>
-                    <internal:NoDataView/>
+                    <controls:NoDataView/>
                 </ContentView>
             </CollectionView.EmptyView>
             <CollectionView.ItemsLayout>

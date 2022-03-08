@@ -2,7 +2,7 @@
 
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:w="clr-namespace:HandSchool.Views" xmlns:internal="clr-namespace:HandSchool.Internal"
+              xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:controls="clr-namespace:HandSchool.Controls"
               x:Class="HandSchool.Views.IndexPage"
               Title="{Binding Title}">
@@ -18,13 +18,13 @@
             <StackLayout>
                 <Label x:Name="DayInfo" Margin="20,10,20,0" Text="xxxx-xx-xx 星期*" TextColor="Black" FontSize="Medium"
                        HorizontalOptions="End" />
-                <internal:TouchableFrame Margin="10,5" ClickCommand="{Binding RequestLoginCommand}">
+                <controls:TouchableFrame Margin="10,5" ClickCommand="{Binding RequestLoginCommand}">
                     <StackLayout>
                         <Label Text="{Binding WelcomeMessage}" FontSize="25" TextColor="Black" />
                         <Label Text="{Binding CurrentMessage}" FontSize="Medium" TextColor="Black" />
                         <Label Text="{Binding WeatherNotice}" FontSize="Medium" TextColor="Black" />
                     </StackLayout>
-                </internal:TouchableFrame>
+                </controls:TouchableFrame>
             </StackLayout>
             <StackLayout>
                 <Label Margin="20,10,20,0" Text="今日份课程表" TextColor="Black" FontSize="Medium" HorizontalOptions="End" />
@@ -73,7 +73,7 @@
             </StackLayout>
             <StackLayout x:Name="WeatherFrame">
                 <Label Margin="20,5,20,0" Text="天气" TextColor="Black" FontSize="Medium" HorizontalOptions="End" />
-                <internal:TouchableFrame Margin="10,5">
+                <controls:RoundCornerFrame Margin="10,5">
                     <StackLayout>
                         <StackLayout Orientation="Vertical">
                             <Label Text="现在" FontSize="Large" TextColor="Black"></Label>
@@ -98,7 +98,7 @@
                         </Grid>
                         <Label Text="{Binding WeatherProvider}" FontSize="Micro" HorizontalOptions="EndAndExpand"></Label>
                     </StackLayout>
-                </internal:TouchableFrame>
+                </controls:RoundCornerFrame>
             </StackLayout>
         </FlexLayout>
     </ScrollView>

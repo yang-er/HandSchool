@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HandSchool.JLU.JsonObject;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using Xamarin.Forms;
@@ -18,14 +19,14 @@ namespace HandSchool.JLU.Views
             ViewModel = _viewModel = SelectCourseViewModel.Instance;
         }
 
-        private async void QuickSelectClicked(object sender, EventArgs args)
+        private async void QuickSelectClicked(object sender, CollectionItemTappedEventArgs args)
         {
             if ((_viewModel.CurrentPlan.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
             {
                 await NoticeError("选课已结束\n结束时间：" + _viewModel.CurrentPlan.EndTime);
                 return;
             }
-            var detail = (sender as BindableObject)?.BindingContext as SCCourseDetail;
+            var detail = args.Item as SCCourseDetail;
             if (detail is null) return; 
             var list = new List<string>();
 

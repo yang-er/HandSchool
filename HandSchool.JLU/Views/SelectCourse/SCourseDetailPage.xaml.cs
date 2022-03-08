@@ -1,9 +1,9 @@
 ﻿using HandSchool.JLU.JsonObject;
+using HandSchool.Models;
 using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HandSchool.JLU.Views
@@ -16,10 +16,10 @@ namespace HandSchool.JLU.Views
         {
             InitializeComponent();        
             ViewModel = _viewModel = SelectCourseViewModel.Instance;
-
         }
 
         private SCCourses _curCourse;
+
         public override void SetNavigationArguments(object param)
         {
             Title = param.ToString();
@@ -27,14 +27,14 @@ namespace HandSchool.JLU.Views
             base.SetNavigationArguments(param);
         }
 
-        private async void ClassSelected(object sender, EventArgs e)
+        private async void ClassSelected(object sender, CollectionItemTappedEventArgs e)
         {
             if ((_viewModel.CurrentPlan.EndTime?.CompareTo(DateTime.Now) ?? -1) < 0)
             {
                 await NoticeError("选课已结束\n结束时间：" + _viewModel.CurrentPlan.EndTime);
                 return;
             }               
-            var detail = (sender as BindableObject)?.BindingContext as SCCourseDetail;
+            var detail = e.Item as SCCourseDetail;
             if (detail is null) return;
             var list = new List<string>();
             if ((_viewModel.CurrentPlan.StartTime?.CompareTo(DateTime.Now) ?? 1) <= 0)

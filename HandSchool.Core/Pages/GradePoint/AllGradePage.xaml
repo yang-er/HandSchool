@@ -2,8 +2,8 @@
 
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:HandSchool.Controls"
-              xmlns:internal="clr-namespace:HandSchool.Internal"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:controls="clr-namespace:HandSchool.Controls"
               x:Class="HandSchool.Views.AllGradePage"
               Title="全部成绩">
     <w:ViewObject.Content>
@@ -12,7 +12,7 @@
                             BackgroundColor="#F4F4F4">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <internal:NoDataView />
+                        <controls:NoDataView />
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>

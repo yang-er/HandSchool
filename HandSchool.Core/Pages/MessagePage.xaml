@@ -23,7 +23,7 @@
                 BackgroundColor="#F4F4F4">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <internal:NoDataView />
+                        <controls:NoDataView />
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>

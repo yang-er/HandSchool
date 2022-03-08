@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<internal:TouchableFrame
-    xmlns:internal="clr-namespace:HandSchool.Internal"
+<controls:TouchableFrame
+    xmlns:controls="clr-namespace:HandSchool.Controls"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="HandSchool.Controls.TextAtom"
@@ -22,4 +22,4 @@
         </StackLayout>
         <Label x:Name="ContentTextLabel" TextColor="Black" Grid.Column="0" Grid.Row="1" />
     </Grid>
-</internal:TouchableFrame>
+</controls:TouchableFrame>

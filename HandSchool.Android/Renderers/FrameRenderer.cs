@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using Android.Content;
 using HandSchool.Droid.Renderers;
-using HandSchool.Internal;
+using HandSchool.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using FrameRenderer = Xamarin.Forms.Platform.Android.AppCompat.FrameRenderer;

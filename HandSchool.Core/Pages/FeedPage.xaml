@@ -29,7 +29,7 @@
                 ItemTapped="ItemTapped">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <internal:NoDataView />
+                        <controls:NoDataView/>
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>

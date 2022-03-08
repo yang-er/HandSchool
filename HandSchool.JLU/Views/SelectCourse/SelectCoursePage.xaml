@@ -2,7 +2,7 @@
 <views:ViewObject  xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
                    xmlns="http://xamarin.com/schemas/2014/forms"
                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                   xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                   xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
                    x:Class="HandSchool.JLU.Views.SelectCoursePage"
                    Title="线上选课"
                    IsBusy="{Binding IsBusy, Mode=OneWay}">
@@ -14,9 +14,8 @@
     </views:ViewObject.ToolbarItems>
     <ScrollView BackgroundColor="#F4F4F4">
         <StackLayout Spacing="0">
-            <Frame
-                CornerRadius="15" 
-                Scale="0.95"
+            <controls:RoundCornerFrame
+                Margin="10,0"
                 Padding="20,15">
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
@@ -36,22 +35,26 @@
                         </Label.FormattedText>
                     </Label>
                 </StackLayout>
-            </Frame>
-            <views:BorderlessButton Text="刷新选课条目" Command="{Binding LoadCourseCommand}"/>
+            </controls:RoundCornerFrame>
+            <views:BorderlessButton Text="刷新选课条目"
+                                    Command="{Binding LoadCourseCommand}"
+                                    HorizontalOptions="Fill"/>
 
-            <CollectionView 
-                ItemsSource="{Binding Courses}">
+            <controls:TappableCollectionView 
+                ItemsSource="{Binding Courses}"
+                ItemTapped="ShowDetail"
+                Padding="10, 0">
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <internal:NoDataView/>
+                        <controls:NoDataView/>
                     </ContentView>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="4" Orientation="Vertical"/>
+                    <LinearItemsLayout ItemSpacing="8" Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <internal:TouchableFrame Scale="0.95" CornerRadius="15" Click="ShowDetail">
+                        <controls:RoundCornerFrame>
                             <StackLayout>
                                 <Label Text="{Binding lesson.courseInfo.courName}" TextColor="DarkBlue" FontSize="20"/>
                                 <Label Text="{Binding SelectResult}" TextColor="{Binding IsSelectColor}" FontSize="18"/>
@@ -60,10 +63,10 @@
                                 <Label Text="{Binding Type}" TextColor="Black" FontSize="16"/>
                                 <Label Text="{Binding IsReselect}" TextColor="Black" FontSize="16"/>
                             </StackLayout>
-                        </internal:TouchableFrame>
+                        </controls:RoundCornerFrame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
+            </controls:TappableCollectionView>
         </StackLayout>
     </ScrollView>
 </views:ViewObject>

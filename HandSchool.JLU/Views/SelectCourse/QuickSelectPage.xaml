@@ -2,7 +2,7 @@
 <views:ViewObject xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                  xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
                   x:Class="HandSchool.JLU.Views.QuickSelectPage"
                   Title="快捷选课"
                   IsBusy="{Binding IsBusy}">
@@ -14,17 +14,21 @@
         <ToolbarItem Clicked="SelectAll" Text="快捷全选"/>
         <ToolbarItem Clicked="Refresh" Text="刷新"/>
     </views:ViewObject.ToolbarItems>
-    <CollectionView 
+    <controls:TappableCollectionView 
         ItemsSource="{Binding QuickSelect}"
-        BackgroundColor="#F4F4F4">
+        BackgroundColor="#F4F4F4"
+        ItemTapped="QuickSelectClicked">
         <CollectionView.EmptyView>
             <ContentView>
-                <internal:NoDataView/>
-            </ContentView>       
+                <controls:NoDataView/>
+            </ContentView>
         </CollectionView.EmptyView>
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+        </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <internal:TouchableFrame Scale="0.95" CornerRadius="15" Click="QuickSelectClicked">
+                <controls:RoundCornerFrame>
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="{Binding lessonSelectLog.lesson.courseInfo.courName}" FontSize="20" TextColor="Blue" VerticalOptions="CenterAndExpand"/>
@@ -36,8 +40,8 @@
                         </StackLayout>
                         <Label Text="{Binding TimeAndLocation}" TextColor="DarkSlateGray" FontSize="16"/>
                     </StackLayout>
-                </internal:TouchableFrame>
+                </controls:RoundCornerFrame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-    </CollectionView>
+    </controls:TappableCollectionView>
 </views:ViewObject>

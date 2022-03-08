@@ -3,7 +3,7 @@
 <views:ViewObject xmlns:views="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
                   xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:internal="clr-namespace:HandSchool.Internal;assembly=HandSchool.Core"
+                  xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
                   x:Class="HandSchool.JLU.Views.LibRoomRequestPage"
                   IsBusy="{Binding IsBusy}">
     <ScrollView>
@@ -31,10 +31,10 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                    <internal:TouchableFrame CornerRadius="10" Margin="0,5,0,5" Padding="5"
+                                    <controls:TouchableFrame CornerRadius="10" Margin="0,5,0,5" Padding="5"
                                                              HasShadow="False" BorderColor="Gray" Click="NameSelected">
                                         <Label Text="{Binding Tips}" HorizontalTextAlignment="Center" />
-                                    </internal:TouchableFrame>
+                                    </controls:TouchableFrame>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -46,11 +46,11 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                    <internal:TouchableFrame CornerRadius="10" Margin="0,5,0,5" Padding="5"
+                                    <controls:TouchableFrame CornerRadius="10" Margin="0,5,0,5" Padding="5"
                                                              HasShadow="False" BorderColor="Gray" LongClick="DelUser">
                                         <Label Text="{Binding Tips}" HorizontalTextAlignment="Center"
                                                VerticalOptions="CenterAndExpand" />
-                                    </internal:TouchableFrame>
+                                    </controls:TouchableFrame>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

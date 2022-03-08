@@ -83,7 +83,8 @@ namespace HandSchool.JLU.Views
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     RefreshSchoolArea.IsVisible = isVisible;
-                    if (SchoolAreaPicker.ItemsSource.Count != 0) SchoolAreaPicker.SelectedIndex = 0;
+                    if ((SchoolAreaPicker.ItemsSource?.Count ?? 0) > 0)
+                        SchoolAreaPicker.SelectedIndex = 0;
                 });
             }
             catch
@@ -107,7 +108,8 @@ namespace HandSchool.JLU.Views
                 Core.Platform.EnsureOnMainThread(() =>
                 {
                     RefreshBuilding.IsVisible = isVisible;
-                    if (BuildingPicker.ItemsSource.Count > 0) BuildingPicker.SelectedIndex = 0;
+                    if ((BuildingPicker.ItemsSource?.Count ?? 0) > 0)
+                        BuildingPicker.SelectedIndex = 0;
                 });
             }
             catch

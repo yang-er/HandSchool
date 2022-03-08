@@ -3,13 +3,20 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace HandSchool.Internal
+namespace HandSchool.Controls
 {
-    public class TouchableFrame : Frame
+    public class RoundCornerFrame : Frame
+    {
+        public RoundCornerFrame()
+        {
+            this.SetDefaultFrameCornerRadius();
+        }
+    }
+
+    public class TouchableFrame : RoundCornerFrame
     {
         public TouchableFrame()
         {
-            this.SetDefaultFrameCornerRadius();
             _lastHasClick = HasClick;
             _lastHasLongClick = HasLongClick;
         }
