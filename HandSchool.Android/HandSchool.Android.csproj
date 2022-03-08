@@ -60,6 +60,7 @@
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="I18N" />
