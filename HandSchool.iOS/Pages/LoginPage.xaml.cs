@@ -1,4 +1,5 @@
 ﻿using HandSchool.Internal;
+using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.IO;
@@ -18,6 +19,10 @@ namespace HandSchool.Views
         {
             InitializeComponent();
             _finished = new TaskCompletionSource<bool>();
+            CaptchaImage.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new CommandAction(UpdateCaptchaInformation)
+            });
         }
 
         public LoginViewModel LoginViewModel
@@ -25,7 +30,7 @@ namespace HandSchool.Views
             get => BindingContext as LoginViewModel;
             set
             {
-                login.Command = value.LoginCommand;
+                LoginButton.Command = value.LoginCommand;
                 ViewModel = value;
             }
         }
@@ -82,8 +87,7 @@ namespace HandSchool.Views
                 CaptchaBox.IsVisible = true;
                 AutoLoginBox.IsVisible = false;
 
-                if (_imageMem != null)
-                    _imageMem.Close();
+                _imageMem?.Close();
                 _imageMem = new MemoryStream(LoginViewModel.Form.CaptchaSource, false);
                 CaptchaImage.Source = ImageSource.FromStream(() => _imageMem);
             }

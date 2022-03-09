@@ -105,11 +105,17 @@ namespace HandSchool.Droid
             
             LoginViewModel.Form.PropertyChanged += OnSwitchChanged;
             LoginViewModel.PropertyChanged += OnSwitchChanged;
+            CaptchaImage.Click += UpdateCaptcha;
             LoginButton.Click += OnLoginRequested;
 
             if (_navArgNotSet) UpdateCaptchaInformation();
         }
 
+        private void UpdateCaptcha(object sender, EventArgs args)
+        {
+            UpdateCaptchaInformation();
+        }
+        
         public override void SolveBindings()
         {
             base.SolveBindings();
@@ -147,6 +153,7 @@ namespace HandSchool.Droid
             LoginViewModel.Form.PropertyChanged -= OnSwitchChanged;
             LoginViewModel.PropertyChanged -= OnSwitchChanged;
             LoginButton.Click -= OnLoginRequested;
+            CaptchaImage.Click -= UpdateCaptcha;
             base.OnDestroyView();
         }
 
@@ -205,8 +212,7 @@ namespace HandSchool.Droid
 
                 var src = LoginViewModel.Form.CaptchaSource;
                 var orig = await BitmapFactory.DecodeByteArrayAsync(src, 0, src.Length);
-                if (CaptchaBitmap != null)
-                    CaptchaBitmap.Recycle();
+                CaptchaBitmap?.Recycle();
                 CaptchaBitmap = Bitmap.CreateScaledBitmap(orig,
                     Core.Platform.Dip2Px(99),
                     Core.Platform.Dip2Px(33), true);
