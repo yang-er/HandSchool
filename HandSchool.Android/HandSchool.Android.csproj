@@ -177,7 +177,15 @@
     <AndroidResource Include="Resources\drawable\ic_launcher_background.xml" />
     <AndroidResource Include="Resources\drawable\ic_launcher_foreground.xml" />
     <AndroidResource Include="Resources\drawable\ic_nav_libroom.xml" />
-    <AndroidResource Include="Resources\drawable\xamarin_logo.png" />
+    <AndroidResource Include="Resources\drawable\ic_nav_home.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_sched.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_feed.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_grade.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_info.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_card.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_about.xml" />
+    <AndroidResource Include="Resources\drawable\ic_nav_settings.xml" />
+    <AndroidResource Include="Resources\drawable\bg_login.xml" />
     <AndroidResource Include="Resources\drawable\side_bg.jpg" />
     <AndroidResource Include="Resources\drawable\splash.xml" />
     <AndroidResource Include="Resources\drawable-port\splash_screen.png" />
@@ -411,28 +419,8 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_home.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_sched.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_feed.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_grade.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_info.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_card.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_about.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_nav_settings.xml" />
+    <Folder Include="Resources\drawable-land-xxhdpi\" />
+    <Folder Include="Resources\drawable-land-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\layout_index.axml">
@@ -450,31 +438,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\bg_login.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\bg_login.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\loginbg.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-land-xxhdpi\bg_login.png">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-land-xxxhdpi\bg_login.png">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\nodatabg.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\bg_login.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_selecttype.axml">
@@ -554,6 +518,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
