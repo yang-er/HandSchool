@@ -120,6 +120,7 @@
     <Compile Include="Adapters\MenuEntryClick.cs" />
     <Compile Include="Adapters\NavHeadViewHolder.cs" />
     <Compile Include="Adapters\WebViewClient.cs" />
+    <Compile Include="Fragments\LoginPageImpl.cs" />
     <Compile Include="Internals\ClassesImpl.cs" />
     <Compile Include="Internals\ViewExtends.cs" />
     <Compile Include="Renderers\BorderlessButtonRenderer.cs" />
@@ -518,7 +519,6 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

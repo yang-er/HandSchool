@@ -134,9 +134,7 @@
     <Compile Include="Pages\FlyoutNavMenu.xaml.cs">
       <DependentUpon>FlyoutNavMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\LoginPage.xaml.cs">
-      <DependentUpon>LoginPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Pages\LoginPage.cs" />
     <Compile Include="Pages\WebViewPage.cs" />
     <Compile Include="Pages\CurriculumPage.xaml.cs">
       <DependentUpon>CurriculumPage.xaml</DependentUpon>
@@ -340,10 +338,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\FlyoutNavMenu.xaml" />
-    <EmbeddedResource Include="Pages\LoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\CurriculumPage.xaml">

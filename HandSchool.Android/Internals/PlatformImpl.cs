@@ -7,6 +7,7 @@ using HandSchool.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Android.OS;
 using Google.Android.Material.Dialog;
 
 namespace HandSchool.Droid
@@ -92,7 +93,9 @@ namespace HandSchool.Droid
             Core.Reflection.RegisterType<ICurriculumPage, CurriculumDialog>();
             Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
             Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
-            Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
+                Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
+            else Core.Reflection.RegisterType<ILoginPage, LoginPageImpl>();
             Core.Reflection.RegisterType<WebLoginPage, WebLoginPageImpl>();
             _activityStack = new List<Android.App.Activity>();
             UpdateManager = new UpdateManager(context.ApplicationContext);

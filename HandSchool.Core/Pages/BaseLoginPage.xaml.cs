@@ -1,4 +1,4 @@
-﻿using HandSchool.Internal;
+﻿using System;
 using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
@@ -10,29 +10,41 @@ using Xamarin.Forms.Xaml;
 namespace HandSchool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ViewObject, ILoginPage
+    public abstract partial class BaseLoginPage : ViewObject, ILoginPage
     {
         private MemoryStream _imageMem;
         private readonly TaskCompletionSource<bool> _finished;
-        
-        public LoginPage()
+
+        protected BaseLoginPage()
         {
             InitializeComponent();
             _finished = new TaskCompletionSource<bool>();
+            LoginButton.Command = new CommandAction(OnLoginRequested);
             CaptchaImage.GestureRecognizers.Add(new TapGestureRecognizer
             {
                 Command = new CommandAction(UpdateCaptchaInformation)
             });
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            UsernameBox.Text = LoginViewModel.Form.Username ?? "";
+            PasswordBox.Text = LoginViewModel.Form.Password ?? "";
+        }
+
         public LoginViewModel LoginViewModel
         {
             get => BindingContext as LoginViewModel;
-            set
-            {
-                LoginButton.Command = value.LoginCommand;
-                ViewModel = value;
-            }
+            set => ViewModel = value;
+        }
+        
+        private void OnLoginRequested()
+        {
+            LoginViewModel.Form.Username = UsernameBox.Text ?? "";
+            LoginViewModel.Form.Password = PasswordBox.Text ?? "";
+            LoginViewModel.Form.CaptchaCode = CaptchaBox.Text ?? "";
+            LoginViewModel.LoginCommand.Execute(null);
         }
 
         public async void OnLoginStateChanged(object sender, LoginStateEventArgs e)
@@ -40,24 +52,22 @@ namespace HandSchool.Views
             switch (e.State)
             {
                 case LoginState.Processing:
-                    await DisplayAlert("正在登录", "正在登录中，请稍候……", "知道了");
+                    await RequestMessageAsync("正在登录", "正在登录中，请稍候……", "知道了");
                     break;
                 case LoginState.Succeeded:
                     await CloseAsync();
                     break;
                 case LoginState.Failed:
-                    await DisplayAlert("登录失败", $"登录失败，{e.InnerError}。", "知道了");
+                    await RequestMessageAsync("登录失败", $"登录失败，{e.InnerError}。", "知道了");
                     UpdateCaptchaInformation();
                     break;
             }
         }
-        private Task CloseAsync() => Application.Current.MainPage.Navigation.PopModalAsync();
 
-        public Task ShowAsync()
-        {
-            return Application.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(this));
-        }
+        public abstract Task ShowAsync();
 
+        protected abstract Task CloseAsync();
+        
         public Task LoginAsync()
         {
             return _finished.Task;
@@ -79,12 +89,12 @@ namespace HandSchool.Views
 
             if (LoginViewModel.Form.CaptchaSource == null)
             {
-                CaptchaBox.IsVisible = false;
+                CaptchaPanel.IsVisible = false;
                 AutoLoginBox.IsVisible = true;
             }
             else
             {
-                CaptchaBox.IsVisible = true;
+                CaptchaPanel.IsVisible = true;
                 AutoLoginBox.IsVisible = false;
 
                 _imageMem?.Close();
@@ -95,10 +105,9 @@ namespace HandSchool.Views
             LoginViewModel.IsBusy = false;
         }
 
-        public void SetNavigationArguments(LoginViewModel lvm)
+        public virtual void SetNavigationArguments(LoginViewModel lvm)
         {
             LoginViewModel = lvm;
-            On<_iOS_>().UseSafeArea().ShowLeftCancel();
             UpdateCaptchaInformation();
         }
     }
