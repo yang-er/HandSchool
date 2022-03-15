@@ -19,7 +19,14 @@ namespace HandSchool.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetBackground();
+            if(Build.VERSION.SdkInt >= BuildVersionCodes.R)
+            {
+                SetBackground();
+            }
+            else
+            {
+                Window?.SetBackgroundDrawable(new ColorDrawable(new Color(244, 244, 244)));
+            }
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)
