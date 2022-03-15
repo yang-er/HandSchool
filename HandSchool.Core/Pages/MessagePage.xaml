@@ -5,7 +5,6 @@
               x:Class="HandSchool.Views.MessagePage"
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:controls="clr-namespace:HandSchool.Controls"
-              xmlns:internal="clr-namespace:HandSchool.Internal"
               Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Command="{Binding LoadItemsCommand}" Title="刷新列表" Order="Default" HiddenForPull="True"

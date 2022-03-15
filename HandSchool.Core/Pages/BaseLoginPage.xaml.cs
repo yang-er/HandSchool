@@ -29,8 +29,8 @@ namespace HandSchool.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            UsernameBox.Text = LoginViewModel.Form.Username ?? "";
-            PasswordBox.Text = LoginViewModel.Form.Password ?? "";
+            UsernameBox.Text = LoginViewModel?.Form?.Username ?? "";
+            PasswordBox.Text = LoginViewModel?.Form?.Password ?? "";
         }
 
         public LoginViewModel LoginViewModel

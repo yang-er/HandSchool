@@ -6,14 +6,14 @@
               xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               UseSafeArea="True"
 		      Title="{Binding Title}">
-    <ContentPage.Background>
-        <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
-            <GradientStop Color="#088043" Offset="0.618"/>
-            <GradientStop Color="#F4F4F4" Offset="0.618"/>
-        </LinearGradientBrush>
-    </ContentPage.Background>
     <w:ViewObject.Content>
         <ScrollView Orientation="Vertical">
+            <ScrollView.Background>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                    <GradientStop Color="#088043" Offset="0.618"/>
+                    <GradientStop Color="#F4F4F4" Offset="0.618"/>
+                </LinearGradientBrush>
+            </ScrollView.Background>
             <StackLayout Padding="30, 50">
                 <ActivityIndicator IsRunning="{Binding IsBusy}" Color="Black"/>
                 <controls:RoundCornerFrame>

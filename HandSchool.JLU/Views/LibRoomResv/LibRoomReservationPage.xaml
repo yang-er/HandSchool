@@ -6,9 +6,9 @@
                   xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
                   x:Class="HandSchool.JLU.Views.LibRoomReservationPage"
                   Title="鼎新馆空间预约"
-                  IsBusy="{Binding IsBusy}"
-                  BackgroundColor="#F4F4F4">
-    <RefreshView
+                  IsBusy="{Binding IsBusy}">
+    <RefreshView 
+        BackgroundColor="#F4F4F4"
         Command="{Binding RefreshUserInfoCommand}"
         IsRefreshing="{Binding IsRefreshing, Mode=OneWay}">
         <ScrollView>

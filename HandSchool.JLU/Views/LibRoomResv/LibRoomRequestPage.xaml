@@ -6,7 +6,7 @@
                   xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
                   x:Class="HandSchool.JLU.Views.LibRoomRequestPage"
                   IsBusy="{Binding IsBusy}">
-    <ScrollView>
+    <ScrollView BackgroundColor="#F4F4F4">
         <StackLayout Margin="10,5" Padding="10">
             <StackLayout Orientation="Horizontal">
                 <Label Text="校园卡号" VerticalTextAlignment="Center"></Label>

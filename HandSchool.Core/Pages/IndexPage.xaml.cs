@@ -19,7 +19,6 @@ namespace HandSchool.Views
             var today = DateTime.Now;
             DayInfo.Text = $"{today.Year}-{today.Month}-{today.Day} {ChineseDayOfWeek[(int)today.DayOfWeek]}";
             ViewModel = IndexViewModel.Instance;
-            Content.BackgroundColor = Color.FromRgb(241, 241, 241);
             ClassTable.IndicatorView = ClassTableIndicator;
             switch (Device.RuntimePlatform)
             {

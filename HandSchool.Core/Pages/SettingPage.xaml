@@ -4,13 +4,12 @@
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               x:Class="HandSchool.Views.SettingPage"
-              Title="{Binding Title}"
-              BackgroundColor="#F4F4F4">
+              Title="{Binding Title}">
     <w:ViewObject.ToolbarMenu>
         <w:MenuEntry Title="保存" Command="{Binding SaveConfigures}" Order="Primary" UWPIcon="&#xE74E;" />
     </w:ViewObject.ToolbarMenu>
     <w:ViewObject.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="#F4F4F4">
             <StackLayout Padding="0, 10, 0, 0" Spacing="0">
                 <Label Text="提示" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
                 <Label HorizontalOptions="Center" Text = "设置会在保存并重启后生效"></Label>
