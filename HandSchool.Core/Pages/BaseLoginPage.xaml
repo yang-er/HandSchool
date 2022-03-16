@@ -1,52 +1,55 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms" 
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+
+<w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.BaseLoginPage"
               xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               xmlns:controls="clr-namespace:HandSchool.Controls;assembly=HandSchool.Core"
               UseSafeArea="True"
-		      Title="{Binding Title}">
+              Title="{Binding Title}">
     <w:ViewObject.Content>
         <ScrollView Orientation="Vertical">
             <ScrollView.Background>
                 <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
-                    <GradientStop Color="#088043" Offset="0.618"/>
-                    <GradientStop Color="#F4F4F4" Offset="0.618"/>
+                    <GradientStop Color="#088043" Offset="0.618" />
+                    <GradientStop Color="#F4F4F4" Offset="0.618" />
                 </LinearGradientBrush>
             </ScrollView.Background>
             <StackLayout Padding="30, 50">
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="Black"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="Black" WidthRequest="30" HeightRequest="30" />
                 <controls:RoundCornerFrame>
                     <StackLayout BindingContext="{Binding Form}" Spacing="10">
-                    <Entry x:Name="UsernameBox" Margin="0,30,0,0" Placeholder="用户名" />
-                    <Entry x:Name="PasswordBox" Placeholder="密码" IsPassword="True" />
-                    <Grid x:Name="CaptchaPanel">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="7*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-                        <Entry x:Name="CaptchaBox" Grid.Column="0" Placeholder="验证码" />
-                        <Image x:Name="CaptchaImage" Grid.Column="1" VerticalOptions="FillAndExpand" Aspect="AspectFit"/>
-                    </Grid>
-                    <Label Margin="0,10" Text="{Binding Tips}" FontSize="14" />
+                        <Entry x:Name="UsernameBox" Placeholder="用户名" />
+                        <Entry x:Name="PasswordBox" Placeholder="密码" IsPassword="True" />
+                        <Grid x:Name="CaptchaPanel">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Entry x:Name="CaptchaBox" Grid.Column="0" Placeholder="验证码" />
+                            <Image x:Name="CaptchaImage" Grid.Column="1" VerticalOptions="FillAndExpand"
+                                   Aspect="AspectFit" />
+                        </Grid>
+                        <Label Margin="0,10" Text="{Binding Tips}" FontSize="14" />
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                    <StackLayout Grid.Column="0" Spacing="0" Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding SavePassword}"/>
-                        <Label Text="保存密码" VerticalOptions="Center" />
-                    </StackLayout>
-                    <StackLayout x:Name="AutoLoginBox" Grid.Column="1" Spacing="0"  Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding AutoLogin}"/>
-                        <Label Text="自动登录" VerticalOptions="Center" />
-                    </StackLayout>
+                            <StackLayout Grid.Column="0" Spacing="0" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding SavePassword}" />
+                                <Label Text="保存密码" VerticalOptions="Center" />
+                            </StackLayout>
+                            <StackLayout x:Name="AutoLoginBox" Grid.Column="1" Spacing="0" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding AutoLogin}" />
+                                <Label Text="自动登录" VerticalOptions="Center" />
+                            </StackLayout>
                         </Grid>
-                    <Button x:Name="LoginButton" Text="登录" BackgroundColor="DarkBlue" TextColor="White" FontSize="Medium"/>
-                </StackLayout>
+                        <Button x:Name="LoginButton" Text="登录" BackgroundColor="DarkBlue" TextColor="White"
+                                FontSize="Medium" />
+                    </StackLayout>
                 </controls:RoundCornerFrame>
-                </StackLayout>            
+            </StackLayout>
         </ScrollView>
     </w:ViewObject.Content>
 </w:ViewObject>
