@@ -30,7 +30,7 @@ namespace HandSchool.Views
             if (_isPushing) return;
             _isPushing = true;
             item?.SetRead.Execute(null);
-            await Navigation.PushAsync<DetailPage>(item);
+            await Navigation.PushAsync<IDetailPage>(item);
             _isPushing = false;
         }
 
