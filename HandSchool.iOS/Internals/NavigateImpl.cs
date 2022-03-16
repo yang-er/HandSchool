@@ -1,7 +1,5 @@
 ﻿using HandSchool.Views;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -53,7 +51,7 @@ namespace HandSchool.iOS
         
         public Task PushAsync(Type pageType, object param)
         {
-            pageType = Core.Reflection.TryGetType(pageType);
+            pageType = Core.Reflection.TryGetImpl(pageType);
 
             if (typeof(Page).IsAssignableFrom(pageType))
             {

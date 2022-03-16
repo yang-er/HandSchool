@@ -36,17 +36,12 @@ namespace HandSchool.iOS
             NavigationViewModel.FetchComplete += MenuComplete;
             ViewResponseImpl = new ViewResponseImpl();
 
-            Core.Reflection.RegisterCtor<HttpClientImpl>();
-            Core.Reflection.RegisterCtor<CurriculumPage>();
-            Core.Reflection.RegisterCtor<LoginPage>();
-            Core.Reflection.RegisterCtor<AboutPage>();
-            Core.Reflection.RegisterCtor<WebViewPage>();
-            // Core.Reflection.RegisterCtor<CurriculumPage>();
-            Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
-            Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
-            Core.Reflection.RegisterType<ILoginPage, LoginPage>();
-            Core.Reflection.RegisterType<WebLoginPage, WebLoginPageImpl>();
-            Core.Reflection.RegisterType<ICurriculumPage, CurriculumPage>();
+            Core.Reflection.RegisterConstructor<AboutPage>();
+            Core.Reflection.RegisterImplement<IWebClient, HttpClientImpl>();
+            Core.Reflection.RegisterImplement<IWebViewPage, WebViewPage>();
+            Core.Reflection.RegisterImplement<ILoginPage, LoginPage>();
+            Core.Reflection.RegisterImplement<WebLoginPage, WebLoginPageImpl>();
+            Core.Reflection.RegisterImplement<ICurriculumPage, CurriculumPage>();
         }
         
         public static void Register()

@@ -107,11 +107,7 @@ namespace HandSchool
         
         public static void SetDefaultFrameCornerRadius(this Frame frame)
         {
-            frame.CornerRadius = Device.RuntimePlatform switch
-            {
-                Device.iOS => 20,
-                _ => 15
-            };
+            frame.CornerRadius = 15;
         }
         public static int IndexOf<T>(this IList<T> list, Predicate<T> predicate)
         {

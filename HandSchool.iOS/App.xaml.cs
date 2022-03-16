@@ -27,7 +27,7 @@ namespace HandSchool.iOS
             else
             {
                 //替换掉以前的WelcomePage;
-                Core.Reflection.RegisterType<WelcomePage, WelcomeIOSPage>();
+                Core.Reflection.RegisterImplement<WelcomePage, WelcomeIOSPage>();
                 MainPage = new NavigationPage(new SelectTypePage());
             }
         }

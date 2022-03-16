@@ -4,7 +4,6 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:controls="clr-namespace:HandSchool.Controls"
-              xmlns:internal="clr-namespace:HandSchool.Internal"
               x:Class="HandSchool.Views.FeedPage"
               UseTabletMode="True"
               Title="{Binding Title}"
@@ -26,7 +25,8 @@
                 RemainingItemsThreshold="0"
                 RemainingItemsThresholdReached="LoadMore"
                 UseScaleAnimation="True"
-                ItemTapped="ItemTapped">
+                ItemTapped="ItemTapped"
+                x:Name="Feeds">
                 <CollectionView.EmptyView>
                     <ContentView>
                         <controls:NoDataView/>

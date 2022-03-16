@@ -15,6 +15,10 @@ namespace HandSchool.Views
         public FeedPage()
 		{
             InitializeComponent();
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                Feeds.ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Vertical) { ItemSpacing = 8 };
+            }
             ViewModel = FeedViewModel.Instance;
         }
         
