@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ReadSharp;
 using System.IO;
+using HandSchool.Internals;
 
 namespace HandSchool.JLU
 {
@@ -90,26 +91,25 @@ namespace HandSchool.JLU
             html.LoadHtml(htmlSources.Trim());
             var content = html.DocumentNode.SelectSingleNode("//div[contains(@class,'content_font')]");
             var text = HtmlUtilities.ConvertToPlainText(content.InnerHtml);
-            var texts = text.Split('\n').ToList();
-
-            while (texts.Count != 0 && string.IsNullOrWhiteSpace(texts[0]))
-            {
-                texts.RemoveAt(0);
-            }
-            
+            var texts = text.Split('\n');
             var start = 0;
-            while (start < texts.Count - 1)
+            var end = texts.Length - 1;
+            while (start < text.Length)
             {
-                if (string.IsNullOrWhiteSpace(texts[start]) && string.IsNullOrWhiteSpace(texts[start + 1]))
-                    texts.RemoveAt(start + 1);
-                else start++;
+                if (texts[start].IsBlank()) start++;
+                else break;
             }
+            while (end >= 0)
+            {
+                if (texts[end].IsBlank()) end--;
+                else break;
+            }
+            if (start > end) return "";
             var sb = new StringBuilder();
-            foreach (var item in texts)
+            for (var i = start; i <= end; i++)
             {
-                sb.Append(item.Trim()).Append('\n');
+                sb.Append(texts[i]).Append('\n');
             }
-
             return sb.ToString();
         }
     }
