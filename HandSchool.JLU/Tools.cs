@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ReadSharp;
-using System.IO;
 using HandSchool.Internals;
+using Xamarin.Forms.Internals;
 
 namespace HandSchool.JLU
 {
@@ -64,17 +63,15 @@ namespace HandSchool.JLU
             var sb = new StringBuilder();
             foreach (var ch in pwd)
             {
-                for (int i = 0; i < 10; i++)
+                for (var i = 0; i < 10; i++)
                 {
-                    if (ch == keyboard[i])
-                    {
-                        sb.Append(i);
-                        break;
-                    }
+                    if (ch != keyboard[i]) continue;
+                    sb.Append(i);
+                    break;
                 }
             }
-            int len = sb.Length >> 1;
-            for (int i = 0; i < len; i++)
+            var len = sb.Length >> 1;
+            for (var i = 0; i < len; i++)
             {
                 var temp = sb[i];
                 var index = sb.Length - i - 1;
@@ -90,26 +87,11 @@ namespace HandSchool.JLU
             var html = new HtmlDocument();
             html.LoadHtml(htmlSources.Trim());
             var content = html.DocumentNode.SelectSingleNode("//div[contains(@class,'content_font')]");
-            var text = HtmlUtilities.ConvertToPlainText(content.InnerHtml);
-            var texts = text.Split('\n');
-            var start = 0;
-            var end = texts.Length - 1;
-            while (start < text.Length)
-            {
-                if (texts[start].IsBlank()) start++;
-                else break;
-            }
-            while (end >= 0)
-            {
-                if (texts[end].IsBlank()) end--;
-                else break;
-            }
-            if (start > end) return "";
+            var text = HtmlToText.ConvertHtml(content.InnerHtml);
             var sb = new StringBuilder();
-            for (var i = start; i <= end; i++)
-            {
-                sb.Append(texts[i]).Append('\n');
-            }
+            text.Split('\n')
+                .Where(line => line.IsNotBlank())
+                .ForEach(line => sb.Append(line).Append('\n'));
             return sb.ToString();
         }
     }
@@ -138,7 +120,7 @@ namespace HandSchool.JLU
         {
             //首先判断是否是在”所有周“情况下，此时没有上课地点信息
             var ruler = new Regex("第.+?-.+?周");
-            string res = roomName;
+            var res = roomName;
 
             var m = ruler.Match(res);
             bool allWeek = false;
@@ -218,114 +200,6 @@ namespace HandSchool.JLU
             }
 
             return res;
-        }
-    }
-}
-
-//from https://github.com/ceee/ReadSharp
-namespace ReadSharp
-{
-    public class HtmlUtilities
-    {
-        /// <summary>
-        /// Converts HTML to plain text / strips tags.
-        /// </summary>
-        /// <param name="html">The HTML.</param>
-        /// <returns></returns>
-        public static string ConvertToPlainText(string html)
-        {
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            StringWriter sw = new StringWriter();
-            ConvertTo(doc.DocumentNode, sw);
-            sw.Flush();
-            return sw.ToString();
-        }
-
-
-        /// <summary>
-        /// Count the words.
-        /// The content has to be converted to plain text before (using ConvertToPlainText).
-        /// </summary>
-        /// <param name="plainText">The plain text.</param>
-        /// <returns></returns>
-        public static int CountWords(string plainText)
-        {
-            return !String.IsNullOrEmpty(plainText) ? plainText.Split(' ', '\n').Length : 0;
-        }
-
-
-        public static string Cut(string text, int length)
-        {
-            if (!String.IsNullOrEmpty(text) && text.Length > length)
-            {
-                text = text.Substring(0, length - 4) + " ...";
-            }
-            return text;
-        }
-
-
-        private static void ConvertContentTo(HtmlNode node, TextWriter outText)
-        {
-            foreach (HtmlNode subnode in node.ChildNodes)
-            {
-                ConvertTo(subnode, outText);
-            }
-        }
-
-
-        private static void ConvertTo(HtmlNode node, TextWriter outText)
-        {
-            string html;
-            switch (node.NodeType)
-            {
-                case HtmlNodeType.Comment:
-                    // don't output comments
-                    break;
-
-                case HtmlNodeType.Document:
-                    ConvertContentTo(node, outText);
-                    break;
-
-                case HtmlNodeType.Text:
-                    // script and style must not be output
-                    string parentName = node.ParentNode.Name;
-                    if ((parentName == "script") || (parentName == "style"))
-                        break;
-
-                    // get text
-                    html = ((HtmlTextNode)node).Text;
-
-                    // is it in fact a special closing node output as text?
-                    if (HtmlNode.IsOverlappedClosingElement(html))
-                        break;
-
-                    // check the text is meaningful and not a bunch of whitespaces
-                    if (html.Trim().Length > 0)
-                    {
-                        outText.Write(HtmlEntity.DeEntitize(html));
-                    }
-                    break;
-
-                case HtmlNodeType.Element:
-                    switch (node.Name)
-                    {
-                        case "p":
-                            // treat paragraphs as crlf
-                            outText.Write("\r\n");
-                            break;
-                        case "br":
-                            outText.Write("\r\n");
-                            break;
-                    }
-
-                    if (node.HasChildNodes)
-                    {
-                        ConvertContentTo(node, outText);
-                    }
-                    break;
-            }
         }
     }
 }
