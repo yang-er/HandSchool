@@ -58,17 +58,17 @@ namespace HandSchool.JLU
 
         public void PostLoad()
         {
-            Core.Reflection.RegisterType<ClassInfoSimplifier, JLUClassSimplifier>();
-            Core.Reflection.RegisterType<IWebClient, WebVpn.VpnHttpClient>();
-            Core.Reflection.RegisterCtor<InitializePage>();
+            Core.Reflection.RegisterImplement<ClassInfoSimplifier, JLUClassSimplifier>();
+            Core.Reflection.RegisterImplement<IWebClient, WebVpn.VpnHttpClient>();
+            Core.Reflection.RegisterConstructor<InitializePage>();
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    Core.Reflection.RegisterCtor<XykIos>();
-                    Core.Reflection.RegisterCtor<XykIosMoreInfo>();
+                    Core.Reflection.RegisterConstructor<XykIos>();
+                    Core.Reflection.RegisterConstructor<XykIosMoreInfo>();
                     break;
                 default:
-                    Core.Reflection.RegisterCtor<XykDroid>();
+                    Core.Reflection.RegisterConstructor<XykDroid>();
                     break;
             }
 

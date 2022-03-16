@@ -1,5 +1,4 @@
 ﻿using Android.Content;
-using AndroidX.AppCompat.App;
 using HandSchool.Droid.Internals;
 using HandSchool.Internals;
 using HandSchool.Pages;
@@ -85,18 +84,18 @@ namespace HandSchool.Droid
             ConfigureDirectory = context.FilesDir.AbsolutePath;
             Core.InitPlatform(Instance = this);
 
-            Core.Reflection.RegisterCtor<AboutPage>();
-            Core.Reflection.RegisterCtor<WebViewPage>();
-            Core.Reflection.RegisterCtor<LoginFragment>();
-            Core.Reflection.RegisterCtor<HttpClientImpl>();
-            Core.Reflection.RegisterType<DetailPage, DetailActivity>();
-            Core.Reflection.RegisterType<ICurriculumPage, CurriculumDialog>();
-            Core.Reflection.RegisterType<IWebViewPage, WebViewPage>();
-            Core.Reflection.RegisterType<IWebClient, HttpClientImpl>();
+            Core.Reflection.RegisterConstructor<AboutPage>();
+            Core.Reflection.RegisterConstructor<WebViewPage>();
+            Core.Reflection.RegisterConstructor<LoginFragment>();
+            Core.Reflection.RegisterConstructor<HttpClientImpl>();
+            Core.Reflection.RegisterImplement<IDetailPage, DetailActivity>();
+            Core.Reflection.RegisterImplement<ICurriculumPage, CurriculumDialog>();
+            Core.Reflection.RegisterImplement<IWebViewPage, WebViewPage>();
+            Core.Reflection.RegisterImplement<IWebClient, HttpClientImpl>();
             if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
-                Core.Reflection.RegisterType<ILoginPage, LoginFragment>();
-            else Core.Reflection.RegisterType<ILoginPage, LoginPageImpl>();
-            Core.Reflection.RegisterType<WebLoginPage, WebLoginPageImpl>();
+                Core.Reflection.RegisterImplement<ILoginPage, LoginFragment>();
+            else Core.Reflection.RegisterImplement<ILoginPage, LoginPageImpl>();
+            Core.Reflection.RegisterImplement<WebLoginPage, WebLoginPageImpl>();
             _activityStack = new List<Android.App.Activity>();
             UpdateManager = new UpdateManager(context.ApplicationContext);
             ViewResponseImpl = new ViewResponseImpl();

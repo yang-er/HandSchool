@@ -182,7 +182,7 @@ namespace HandSchool.Droid
         
         public virtual Task PushAsync(Type pageType, object param)
         {
-            pageType = Core.Reflection.TryGetType(pageType);
+            pageType = Core.Reflection.TryGetImpl(pageType);
 
             if (typeof(AppCompatActivity).IsAssignableFrom(pageType))
             {

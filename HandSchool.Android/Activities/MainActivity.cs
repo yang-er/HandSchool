@@ -57,7 +57,7 @@ namespace HandSchool.Droid
             base.OnCreate(bundle);
             if (Weather.IsMi())
             {
-                Core.Reflection.RegisterType<IWeatherReport, MiWeatherReport>();
+                Core.Reflection.RegisterImplement<IWeatherReport, MiWeatherReport>();
             }
             PlatformImplV2.Register(this);
             var toggle = new ActionBarDrawerToggle(this, DrawerLayout, Toolbar, Resource.String.navigation_drawer_open,

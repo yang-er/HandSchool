@@ -2,6 +2,7 @@
 using Android.Views;
 using HandSchool.Internals;
 using System;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.Android;
 
 namespace HandSchool.Droid
@@ -50,15 +51,13 @@ namespace HandSchool.Droid
         /// <param name="target">目标绑定</param>
         public static void SolveView(this IBindTarget target, View view)
         {
-            foreach (var prop in target.GetType().GetProperties())
+            target.GetType().GetProperties().ForEach(prop =>
             {
-                if (prop.Has<BindViewAttribute>())
+                prop.Get<BindViewAttribute>(false)?.Let(attr =>
                 {
-                    var attr = prop.Get<BindViewAttribute>();
                     prop.SetValue(target, view.FindViewById(attr.ResourceId));
-                }
-            }
-
+                });
+            });
             target.SolveBindings();
         }
 
@@ -69,15 +68,13 @@ namespace HandSchool.Droid
         /// <param name="target">目标绑定</param>
         public static void SolveView(this IBindTarget target, Dialog view)
         {
-            foreach (var prop in target.GetType().GetProperties())
+            target.GetType().GetProperties().ForEach(prop =>
             {
-                if (prop.Has<BindViewAttribute>())
+                prop.Get<BindViewAttribute>(false)?.Let(attr =>
                 {
-                    var attr = prop.Get<BindViewAttribute>();
                     prop.SetValue(target, view.FindViewById(attr.ResourceId));
-                }
-            }
-
+                });
+            });
             target.SolveBindings();
         }
 
@@ -88,15 +85,13 @@ namespace HandSchool.Droid
         /// <param name="target">目标绑定</param>
         public static void SolveView(this IBindTarget target, Activity view)
         {
-            foreach (var prop in target.GetType().GetProperties())
+            target.GetType().GetProperties().ForEach(prop =>
             {
-                if (prop.Has<BindViewAttribute>())
+                prop.Get<BindViewAttribute>(false)?.Let(attr =>
                 {
-                    var attr = prop.Get<BindViewAttribute>();
                     prop.SetValue(target, view.FindViewById(attr.ResourceId));
-                }
-            }
-
+                });
+            });
             target.SolveBindings();
         }
 
@@ -111,7 +106,7 @@ namespace HandSchool.Droid
         }
 
         /// <summary>
-        /// 给文本框赋值。
+        /// 给文本框赋值
         /// </summary>
         /// <param name="tw">文本框</param>
         /// <param name="text">文本</param>
@@ -121,23 +116,23 @@ namespace HandSchool.Droid
         }
 
         /// <summary>
-        /// 给文本框赋值。
-        /// </summary>
-        /// <param name="tw">文本框</param>
-        /// <param name="v">是否可见</param>
-        public static void SetVisibility(this Android.Widget.TextView tw, bool v)
-        {
-            tw.Visibility = v ? ViewStates.Visible : ViewStates.Gone;
-        }
-
-        /// <summary>
-        /// 给文本框设置颜色。
+        /// 给文本设置颜色
         /// </summary>
         /// <param name="tw">文本框</param>
         /// <param name="color">颜色</param>
         public static void SetColor(this Android.Widget.TextView tw, Xamarin.Forms.Color color)
         {
             tw.SetTextColor(color.ToAndroid());
+        }
+
+        /// <summary>
+        /// 设置视图是否可见
+        /// </summary>
+        /// <param name="view">安卓视图</param>
+        /// <param name="visibility">是否可见</param>
+        public static void SetVisibility(this View view, bool visibility)
+        {
+            view.Visibility = visibility ? ViewStates.Visible : ViewStates.Gone;
         }
 
         /// <summary>
@@ -150,15 +145,9 @@ namespace HandSchool.Droid
             {
                 if (prop.Has<BindViewAttribute>())
                 {
-                    var attr = prop.Get<BindViewAttribute>();
                     prop.SetValue(target, null);
                 }
             }
-        }
-
-        public static void SetVisibility(this Android.Widget.ImageView iw, bool v)
-        {
-            iw.Visibility = v ? ViewStates.Visible : ViewStates.Gone;
         }
     }
 }

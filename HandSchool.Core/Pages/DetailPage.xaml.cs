@@ -6,8 +6,12 @@ using Xamarin.Forms.Xaml;
 
 namespace HandSchool.Views
 {
+    public interface IDetailPage
+    {
+    }
+    
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailPage : ViewObject
+    public partial class DetailPage : ViewObject, IDetailPage
     {
         public DetailPage()
         {

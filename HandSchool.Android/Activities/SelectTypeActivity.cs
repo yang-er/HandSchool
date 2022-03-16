@@ -30,7 +30,7 @@ namespace HandSchool.Droid
 
         public override Task PushAsync(Type pageType, object param)
         {
-            pageType = Core.Reflection.TryGetType(pageType);
+            pageType = Core.Reflection.TryGetImpl(pageType);
 
             if (typeof(ViewObject).IsAssignableFrom(pageType))
             {

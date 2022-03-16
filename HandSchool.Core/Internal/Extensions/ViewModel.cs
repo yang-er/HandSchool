@@ -51,7 +51,7 @@ namespace HandSchool.Internals
         /// <param name="param">参数</param>
         public static Task PushAsync(this INavigate navigate, string pageType, object param)
         {
-            var type = Core.Reflection.TryGetType(pageType);
+            var type = Core.Reflection.TryGetImpl(pageType);
 
             if (type is null)
             {

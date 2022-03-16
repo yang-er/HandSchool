@@ -4,12 +4,13 @@ using Android.Views;
 using Android.Widget;
 using HandSchool.ViewModels;
 using System;
+using HandSchool.Views;
 
 namespace HandSchool.Droid
 {
     [Activity(Theme = "@style/AppTheme.NoActionBar", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     [BindView(Resource.Layout.activity_detail)]
-    public class DetailActivity : BaseActivity
+    public class DetailActivity : BaseActivity, IDetailPage
     {
         [BindView(Resource.Id.detail_text_view)]
         public TextView TextContent { get; set; }

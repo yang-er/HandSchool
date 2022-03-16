@@ -7,18 +7,18 @@ namespace HandSchool.Internals
     {
         public static void RegisterTypes()
         {
-            Core.Reflection.RegisterCtor<IndexPage>();
-            Core.Reflection.RegisterCtor<GradePointPage>();
-            Core.Reflection.RegisterCtor<FeedPage>();
-            Core.Reflection.RegisterCtor<InfoQueryPage>();
-            Core.Reflection.RegisterCtor<MessagePage>();
-            Core.Reflection.RegisterCtor<DetailPage>();
-            Core.Reflection.RegisterCtor<SchedulePage>();
-            Core.Reflection.RegisterCtor<SettingPage>();
-            Core.Reflection.RegisterCtor<WelcomePage>();
-            Core.Reflection.RegisterCtor<SelectTypePage>();
-            Core.Reflection.RegisterCtor<ClassInfoSimplifier>();
-            Core.Reflection.RegisterType<IWeatherReport, DefaultWeatherReport>();
+            Core.Reflection.RegisterConstructor<IndexPage>();
+            Core.Reflection.RegisterConstructor<GradePointPage>();
+            Core.Reflection.RegisterConstructor<FeedPage>();
+            Core.Reflection.RegisterConstructor<InfoQueryPage>();
+            Core.Reflection.RegisterConstructor<MessagePage>();
+            Core.Reflection.RegisterConstructor<DetailPage>();
+            Core.Reflection.RegisterConstructor<SchedulePage>();
+            Core.Reflection.RegisterConstructor<SettingPage>();
+            Core.Reflection.RegisterConstructor<WelcomePage>();
+            Core.Reflection.RegisterConstructor<SelectTypePage>();
+            Core.Reflection.RegisterConstructor<ClassInfoSimplifier>();
+            Core.Reflection.RegisterImplement<IWeatherReport, DefaultWeatherReport>();
         }
     }
 }

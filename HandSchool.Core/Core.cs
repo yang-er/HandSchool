@@ -25,7 +25,7 @@ namespace HandSchool
         /// <summary>
         /// 反射处理
         /// </summary>
-        public static ReflectionManager Reflection => ReflectionManager.Lazy.Value;
+        public static ReflectionManager Reflection => ReflectionManager.Instance;
 
         /// <summary>
         /// 日志管理
@@ -107,7 +107,7 @@ namespace HandSchool
         /// <returns>抽象类型的实现</returns>
         public static T New<T>() where T : class
         {
-            return Reflection.CreateInstance<T>();
+            return Reflection.CreateImplement<T>();
         }
     }
 }

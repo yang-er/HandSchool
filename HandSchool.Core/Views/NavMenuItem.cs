@@ -39,13 +39,13 @@ namespace HandSchool.Models
             if (category != "")
             {
                 destType = $"HandSchool.{category}.Views.{dest}";
-                PageType = Core.Reflection.TryGetType(destType);
+                PageType = Core.Reflection.TryGetImpl(destType);
                 PageType = PageType ?? Core.App.Loader.GetAssembly().GetType(destType);
             }
             else
             {
                 destType = $"HandSchool.Views.{dest}";
-                PageType = Core.Reflection.TryGetType(destType);
+                PageType = Core.Reflection.TryGetImpl(destType);
                 PageType = PageType ?? this.GetAssembly().GetType(destType);
             }
         }

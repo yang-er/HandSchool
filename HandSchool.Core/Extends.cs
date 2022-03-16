@@ -153,7 +153,7 @@ namespace HandSchool
 
         public static Page GetViewObjInstance(Type type, object arg)
         {
-            var pageType = Core.Reflection.TryGetType(type);
+            var pageType = Core.Reflection.TryGetImpl(type);
             if (typeof(ViewObject).IsAssignableFrom(type))
             {
                 var vo = Core.Reflection.CreateInstance<ViewObject>(pageType);
