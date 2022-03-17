@@ -19,6 +19,7 @@
                 ItemTapped="MessageClicked"
                 ItemLongPress="MessageLongClicked"
                 UseScaleAnimation="True"
+                AnimationMutex="True"
                 BackgroundColor="#F4F4F4">
                 <CollectionView.EmptyView>
                     <ContentView>

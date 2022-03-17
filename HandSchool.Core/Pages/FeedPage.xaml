@@ -25,6 +25,7 @@
                 RemainingItemsThreshold="0"
                 RemainingItemsThresholdReached="LoadMore"
                 UseScaleAnimation="True"
+                AnimationMutex="True"
                 ItemTapped="ItemTapped"
                 x:Name="Feeds">
                 <CollectionView.EmptyView>

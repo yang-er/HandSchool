@@ -11,6 +11,7 @@
             <controls:TappableCollectionView ItemsSource="{Binding NewerGradeItems}"
                                              BackgroundColor="#F4F4F4"
                                              UseScaleAnimation="True"
+                                             AnimationMutex="True"
                                              ItemTapped="ShowDetail">
                 <CollectionView.EmptyView>
                     <ContentView>

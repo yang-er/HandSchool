@@ -23,6 +23,7 @@ namespace HandSchool.iOS.Renderers
             itemsViewController)
         {
             _cellGestureRecognizers = new Dictionary<UICollectionViewCell, IndexRecognizer>();
+            _itemsOnAnimating = new HashSet<object>();
             if (ItemsView is { })
             {
                 ItemsView.PropertyChanged += ItemsViewPropertyChanged;
@@ -30,6 +31,7 @@ namespace HandSchool.iOS.Renderers
         }
 
         private bool _disposed;
+        private readonly HashSet<object> _itemsOnAnimating;
 
         protected override void Dispose(bool disposing)
         {
@@ -187,7 +189,7 @@ namespace HandSchool.iOS.Renderers
             if (subView.Subviews.Length < 1) return null;
             return subView.Subviews[0] as IVisualElementRenderer;
         }
-        
+
         private void OnItemLongPress(UIGestureRecognizer recognizer)
         {
             if (recognizer.State != UIGestureRecognizerState.Began) return;
@@ -226,6 +228,12 @@ namespace HandSchool.iOS.Renderers
                 new CollectionItemTappedEventArgs.IndexPath(indexPath.Section, (int) indexPath.Item)));
             if (ItemsView.UseScaleAnimation)
             {
+                if (ItemsView.AnimationMutex)
+                {
+                    if (_itemsOnAnimating.Contains(item)) return;
+                    _itemsOnAnimating.Add(item);
+                }
+
                 if (GetRendererFromCell(recognizer.View) is { } element)
                 {
                     element.Element.TappedAnimation(async () =>
@@ -234,6 +242,8 @@ namespace HandSchool.iOS.Renderers
                         Device.BeginInvokeOnMainThread(act);
                     });
                 }
+
+                _itemsOnAnimating.Remove(item);
             }
             else
             {

@@ -59,9 +59,11 @@ namespace HandSchool.Droid.Renderers
                  GetType().GetRunTimeAllField("_createItemContentView")?.GetValue(this)
                      as Func<XFView, Context, ItemContentView>)
                 ?? new Func<XFView, Context, ItemContentView>((view, context) => new TappableItemContentView(context));
+            _itemsOnAnimating = new HashSet<object>();
         }
 
         private readonly Func<XFView, Context, ItemContentView> _createNativeContentView;
+        private readonly HashSet<object> _itemsOnAnimating;
 
         private void ItemsViewSelectionModeChanged(object sender, PropertyChangedEventArgs args)
         {
@@ -78,7 +80,6 @@ namespace HandSchool.Droid.Renderers
                     }
                     else
                     {
-
                         _viewHolders.ForEach(v => v.Clicked += ClickInvoker);
                     }
 
@@ -152,14 +153,22 @@ namespace HandSchool.Droid.Renderers
         private async void ClickInvoker(object sender, int pos)
         {
             if (!ItemsView.HasTap) return;
+            if (!(ItemsSource.GetItem(pos) is { } item)) return;
             if (ItemsView.UseScaleAnimation)
             {
+                if (ItemsView.AnimationMutex)
+                {
+                    if (_itemsOnAnimating.Contains(item)) return;
+                    if (_itemsOnAnimating.Add(item)) ;
+                }
+
                 await ((((RecyclerView.ViewHolder) sender).ItemView as TappableItemContentView)?.FormsView
                     ?.TappedAnimation(async () =>
                     {
                         await Task.Yield();
-                        ItemsView.CallOnItemTapped(ItemsSource.GetItem(pos), null);
+                        ItemsView.CallOnItemTapped(item, null);
                     }) ?? Task.CompletedTask);
+                _itemsOnAnimating.Remove(item);
             }
             else
             {

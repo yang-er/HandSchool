@@ -56,19 +56,37 @@ namespace HandSchool.Controls
         public bool HasLongPress => _itemLongPress is { };
 
         public bool HasTap => _itemTapped is { };
-
+        
         public bool SelectionOn => SelectionMode != SelectionMode.None;
 
         private bool _lastSelectOn;
 
+        /// <summary>
+        /// 使用缩放动画，当执行ItemTapped或ItemLongPress时会附加一个缩放的动画效果以提示用户点击所在之处
+        /// </summary>
         public bool UseScaleAnimation
         {
             get => (bool) GetValue(UseScaleAnimationProperty);
             set => SetValue(UseScaleAnimationProperty, value);
         }
 
+        /// <summary>
+        /// 动画互斥，当UseScaleAnimation为True时，互斥ItemTapped及其附加动画的执行
+        /// </summary>
+        public bool AnimationMutex
+        {
+            get => (bool) GetValue(AnimationMutexProperty);
+            set => SetValue(AnimationMutexProperty, value);
+        }
+
         public static readonly BindableProperty UseScaleAnimationProperty = BindableProperty.Create(
             propertyName: nameof(UseScaleAnimation),
+            returnType: typeof(bool),
+            declaringType: typeof(TappableCollectionView),
+            defaultValue: false);
+
+        public static readonly BindableProperty AnimationMutexProperty = BindableProperty.Create(
+            propertyName: nameof(AnimationMutex),
             returnType: typeof(bool),
             declaringType: typeof(TappableCollectionView),
             defaultValue: false);
