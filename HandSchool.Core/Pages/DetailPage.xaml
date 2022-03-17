@@ -1,17 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <w:ViewObject xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:w="clr-namespace:HandSchool.Views"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="HandSchool.Views.DetailPage"
               Title="{Binding Title}">
     <w:ViewObject.Content>
-        <ScrollView Orientation="Vertical">
+        <ScrollView Orientation="Vertical" x:Name="ScrollView">
             <StackLayout Spacing="10" Padding="20">
-                <Label Text="{Binding Name}" FontSize="24" TextColor="Black" />
-                <Label Text="{Binding Sender}" FontSize="14" />
-                <Label Text="{Binding Date}" FontSize="14" />
+                <StackLayout Spacing="10" Padding="20" BackgroundColor="LightGray">
+                    <Label Text="{Binding Name}" FontSize="24" TextColor="Black" />
+                    <Label Text="{Binding Sender}" FontSize="14" />
+                    <Label Text="{Binding Date}" FontSize="14" />
+                </StackLayout>
                 <BoxView Margin="0,5,0,5" Color="Gray" HeightRequest="1" />
-                <Label x:Name="text" Text ="加载中，请稍候..." FontSize="16"
+                <Label x:Name="Text" Text="加载中，请稍候..." FontSize="16"
                        HorizontalOptions="FillAndExpand"
                        VerticalOptions="FillAndExpand" />
             </StackLayout>

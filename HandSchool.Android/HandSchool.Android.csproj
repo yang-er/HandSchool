@@ -127,6 +127,7 @@
     <Compile Include="Renderers\CollectionViewRenderer.cs" />
     <Compile Include="Renderers\FrameRenderer.cs" />
     <Compile Include="Renderers\GetCookiesStrategy.cs" />
+    <Compile Include="Renderers\LabelRenderer2.cs" />
     <Compile Include="Renderers\ListViewRenderer.cs" />
     <Compile Include="Renderers\CurriculumDialog.cs" />
     <Compile Include="Adapters\ToolbarBackClick.cs" />

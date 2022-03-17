@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using HandSchool.Internals;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using Xamarin.Forms.Xaml;
@@ -20,14 +19,12 @@ namespace HandSchool.Views
 
         public override void SetNavigationArguments(object param)
         {
-            if (param is IMessageItem imi)
+            param = param switch
             {
-                param = DetailViewModel.From(imi);
-            }
-            else if (param is FeedItem fi)
-            {
-                param = DetailViewModel.From(fi);
-            }
+                IMessageItem imi => DetailViewModel.From(imi),
+                FeedItem fi => DetailViewModel.From(fi),
+                _ => param
+            };
 
             if (param is DetailViewModel vm)
             {
@@ -48,7 +45,11 @@ namespace HandSchool.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            text.Text = await (ViewModel as DetailViewModel).Content;
+            var text = await ((DetailViewModel) ViewModel).Content;
+            Core.Platform.EnsureOnMainThread(() =>
+            {
+                Text.Text = text;
+            });
         }
     }
 }
