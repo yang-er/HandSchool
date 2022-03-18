@@ -203,7 +203,7 @@ namespace HandSchool.iOS.Renderers
             {
                 if (GetRendererFromCell(recognizer.View) is { } element)
                 {
-                    element.Element.LongPressAnimation(() => Task.Run(() => Device.BeginInvokeOnMainThread(act)));
+                    element.Element.LongPressAnimation(() => Task.Run(act));
                 }
             }
             else
@@ -231,7 +231,7 @@ namespace HandSchool.iOS.Renderers
 
                 if (GetRendererFromCell(recognizer.View) is { } element)
                 {
-                    element.Element.TappedAnimation(() => Task.Run(() => Device.BeginInvokeOnMainThread(act)));
+                    element.Element.TappedAnimation(() => Task.Run(act));
                 }
 
                 _mutex = false;

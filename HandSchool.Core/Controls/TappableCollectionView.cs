@@ -56,7 +56,7 @@ namespace HandSchool.Controls
         public bool HasLongPress => _itemLongPress is { };
 
         public bool HasTap => _itemTapped is { };
-        
+
         public bool SelectionOn => SelectionMode != SelectionMode.None;
 
         private bool _lastSelectOn;
@@ -128,12 +128,14 @@ namespace HandSchool.Controls
 
         public void CallOnItemTapped(object item, IPath? index)
         {
-            _itemTapped?.Invoke(this, FindItem(item, index));
+            var args = FindItem(item, index);
+            Core.Platform.EnsureOnMainThread(() => { _itemTapped?.Invoke(this, args); });
         }
 
         public void CallOnItemLongPress(object item, IPath? index)
         {
-            _itemLongPress?.Invoke(this, FindItem(item, index));
+            var args = FindItem(item, index);
+            Core.Platform.EnsureOnMainThread(() => { _itemLongPress?.Invoke(this, args); });
         }
 
         protected override void OnPropertyChanged(string propertyName = null)

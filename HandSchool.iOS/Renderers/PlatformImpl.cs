@@ -40,6 +40,7 @@ namespace HandSchool.iOS
             Core.Reflection.RegisterImplement<IWebClient, HttpClientImpl>();
             Core.Reflection.RegisterImplement<IWebViewPage, WebViewPage>();
             Core.Reflection.RegisterImplement<ILoginPage, LoginPage>();
+            Core.Reflection.RegisterImplement<IDetailPage, DetailPage>();
             Core.Reflection.RegisterImplement<WebLoginPage, WebLoginPageImpl>();
             Core.Reflection.RegisterImplement<ICurriculumPage, CurriculumPage>();
         }
