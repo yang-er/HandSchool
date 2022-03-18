@@ -23,15 +23,14 @@ namespace HandSchool.iOS.Renderers
             itemsViewController)
         {
             _cellGestureRecognizers = new Dictionary<UICollectionViewCell, IndexRecognizer>();
-            _itemsOnAnimating = new HashSet<object>();
             if (ItemsView is { })
             {
                 ItemsView.PropertyChanged += ItemsViewPropertyChanged;
             }
         }
 
+        private bool _mutex;
         private bool _disposed;
-        private readonly HashSet<object> _itemsOnAnimating;
 
         protected override void Dispose(bool disposing)
         {
@@ -204,11 +203,7 @@ namespace HandSchool.iOS.Renderers
             {
                 if (GetRendererFromCell(recognizer.View) is { } element)
                 {
-                    element.Element.LongPressAnimation(async () =>
-                    {
-                        await Task.Yield();
-                        Device.BeginInvokeOnMainThread(act);
-                    });
+                    element.Element.LongPressAnimation(() => Task.Run(() => Device.BeginInvokeOnMainThread(act)));
                 }
             }
             else
@@ -230,20 +225,16 @@ namespace HandSchool.iOS.Renderers
             {
                 if (ItemsView.AnimationMutex)
                 {
-                    if (_itemsOnAnimating.Contains(item)) return;
-                    _itemsOnAnimating.Add(item);
+                    if (_mutex) return;
+                    _mutex = true;
                 }
 
                 if (GetRendererFromCell(recognizer.View) is { } element)
                 {
-                    element.Element.TappedAnimation(async () =>
-                    {
-                        await Task.Yield();
-                        Device.BeginInvokeOnMainThread(act);
-                    });
+                    element.Element.TappedAnimation(() => Task.Run(() => Device.BeginInvokeOnMainThread(act)));
                 }
 
-                _itemsOnAnimating.Remove(item);
+                _mutex = false;
             }
             else
             {

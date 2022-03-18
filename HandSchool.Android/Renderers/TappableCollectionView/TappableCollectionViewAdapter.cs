@@ -59,11 +59,10 @@ namespace HandSchool.Droid.Renderers
                  GetType().GetRunTimeAllField("_createItemContentView")?.GetValue(this)
                      as Func<XFView, Context, ItemContentView>)
                 ?? new Func<XFView, Context, ItemContentView>((view, context) => new TappableItemContentView(context));
-            _itemsOnAnimating = new HashSet<object>();
         }
 
+        private bool _mutex;
         private readonly Func<XFView, Context, ItemContentView> _createNativeContentView;
-        private readonly HashSet<object> _itemsOnAnimating;
 
         private void ItemsViewSelectionModeChanged(object sender, PropertyChangedEventArgs args)
         {
@@ -138,11 +137,9 @@ namespace HandSchool.Droid.Renderers
             if (ItemsView.UseScaleAnimation)
             {
                 await ((((RecyclerView.ViewHolder) sender).ItemView as TappableItemContentView)?.FormsView
-                    ?.LongPressAnimation(async () =>
-                    {
-                        await Task.Yield();
-                        ItemsView.CallOnItemLongPress(ItemsSource.GetItem(pos), null);
-                    }) ?? Task.CompletedTask);
+                       ?.LongPressAnimation(() =>
+                           Task.Run(() => ItemsView.CallOnItemLongPress(ItemsSource.GetItem(pos), null)))
+                       ?? Task.CompletedTask);
             }
             else
             {
@@ -158,17 +155,14 @@ namespace HandSchool.Droid.Renderers
             {
                 if (ItemsView.AnimationMutex)
                 {
-                    if (_itemsOnAnimating.Contains(item)) return;
-                    if (_itemsOnAnimating.Add(item)) ;
+                    if (_mutex) return;
+                    _mutex = true;
                 }
 
                 await ((((RecyclerView.ViewHolder) sender).ItemView as TappableItemContentView)?.FormsView
-                    ?.TappedAnimation(async () =>
-                    {
-                        await Task.Yield();
-                        ItemsView.CallOnItemTapped(item, null);
-                    }) ?? Task.CompletedTask);
-                _itemsOnAnimating.Remove(item);
+                       ?.TappedAnimation(() => Task.Run(() => ItemsView.CallOnItemTapped(item, null)))
+                       ?? Task.CompletedTask);
+                _mutex = false;
             }
             else
             {
