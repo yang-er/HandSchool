@@ -175,21 +175,17 @@ namespace HandSchool
         {
             if (item == null) return;
             await item.ScaleTo(Scales.Small, 200);
-            var task = doing?.Invoke();
+            if (doing != null) await doing();
             await item.ScaleTo(Scales.Large, 200);
             await item.ScaleTo(Scales.Normal, 150);
-            if (task is null) return;
-            await task;
         }
 
         public static async Task LongPressAnimation(this VisualElement item, Func<Task> doing = null)
         {
             if (item == null) return;
             await item.ScaleTo(Scales.SuperLarge, 200);
-            var task = doing?.Invoke();
+            if (doing != null) await doing();
             await item.ScaleTo(Scales.Normal, 200);
-            if (task is null) return;
-            await task;
         }
     }
 
