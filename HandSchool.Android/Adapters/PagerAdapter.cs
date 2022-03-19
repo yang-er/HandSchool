@@ -25,12 +25,13 @@ namespace HandSchool.Droid
         public override Fragment CreateFragment(int i)
         {
             var (page, fragment) = Pages[i];
+            if (page is IViewLifecycle lifecycle)
+            {
+                lifecycle.RegisterNavigation(Navigate);
+            }
+
             if (fragment is null)
             {
-                if (page is IViewLifecycle lifecycle)
-                {
-                    lifecycle.RegisterNavigation(Navigate);
-                }
                 if (page is Fragment ori)
                 {
                     fragment = ori;
