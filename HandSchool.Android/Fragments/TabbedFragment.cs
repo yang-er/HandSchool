@@ -88,6 +88,8 @@ namespace HandSchool.Droid
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+            _refCleared = false;
+            ViewPager.SaveEnabled = false;
             Adapter = new TabbedPagerAdapter(this);
             ViewPager.Adapter = Adapter;
             Mediator = new TabLayoutMediator(Tabbar, ViewPager, this);
@@ -100,6 +102,7 @@ namespace HandSchool.Droid
         {
             base.OnDestroy();
             _pageChangeCallBack.LastIndex = null;
+            ClearReference();
         }
 
         public void OnConfigureTab(TabLayout.Tab tab, int i)
@@ -107,11 +110,15 @@ namespace HandSchool.Droid
             tab.SetText(Pages[i].Item1.Title);
         }
 
+        private bool _refCleared;
+
         public void ClearReference()
         {
+            if (_refCleared) return;
             Mediator.Detach();
             ViewPager.UnregisterOnPageChangeCallback(_pageChangeCallBack);
             ViewPager.Adapter = null;
+            _refCleared = true;
         }
     }
 }
