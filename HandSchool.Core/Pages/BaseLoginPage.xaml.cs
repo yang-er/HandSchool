@@ -1,5 +1,4 @@
-﻿using System;
-using HandSchool.Internals;
+﻿using HandSchool.Internals;
 using HandSchool.Models;
 using HandSchool.ViewModels;
 using System.IO;
@@ -80,14 +79,15 @@ namespace HandSchool.Views
         }
         public async void UpdateCaptchaInformation()
         {
-            LoginViewModel.IsBusy = true;
+            if (!(LoginViewModel is { } viewModel)) return;
+            viewModel.IsBusy = true;
 
-            if (!(await LoginViewModel.Form.PrepareLogin()).IsSuccess)
+            if (!await viewModel.Form.PrepareLogin())
             {
                 await DisplayAlert("登录失败", "登录失败，出现了一些问题。", "知道了");
             }
 
-            if (LoginViewModel.Form.CaptchaSource == null)
+            if (viewModel.Form.CaptchaSource == null)
             {
                 CaptchaPanel.IsVisible = false;
                 AutoLoginBox.IsVisible = true;
@@ -98,11 +98,11 @@ namespace HandSchool.Views
                 AutoLoginBox.IsVisible = false;
 
                 _imageMem?.Close();
-                _imageMem = new MemoryStream(LoginViewModel.Form.CaptchaSource, false);
+                _imageMem = new MemoryStream(viewModel.Form.CaptchaSource, false);
                 CaptchaImage.Source = ImageSource.FromStream(() => _imageMem);
             }
 
-            LoginViewModel.IsBusy = false;
+            viewModel.IsBusy = false;
         }
 
         public virtual void SetNavigationArguments(LoginViewModel lvm)
