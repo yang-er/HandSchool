@@ -61,6 +61,8 @@ namespace HandSchool.JLU.Views
 
             IrregularitiesView.IndicatorView = IrregularitiesIndicator;
             ReservationRecordsView.IndicatorView = ReservationRecordsIndicator;
+            RoomPicker.SelectedIndex = 0;
+            DayPicker.SelectedIndex = 0;
         }
 
         private void ClearScoreStack()
@@ -94,19 +96,8 @@ namespace HandSchool.JLU.Views
         {
             if (_isSending) return;
             _isSending = true;
-            NearDays date;
-            if (ReferenceEquals(sender, _3to6TodayButton) || ReferenceEquals(sender, _5to10TodayButton))
-                date = NearDays.Today;
-            else date = NearDays.Tomorrow;
-            int type;
-            if (ReferenceEquals(sender, _3to6TodayButton) || ReferenceEquals(sender, _3to6TomButton))
-            {
-                type = 0;
-            }
-            else
-            {
-                type = 1;
-            }
+            var date = DayPicker.SelectedItem.Equals("今日") ? NearDays.Today : NearDays.Tomorrow;
+            var type = RoomPicker.SelectedItem.Equals("3-6人研讨间") ? 0 : 1;
 
             var par = new GetRoomUsageParams
             {
@@ -114,7 +105,7 @@ namespace HandSchool.JLU.Views
             };
             var res = await _viewModel.GetRoomAsync(par);
             
-            if (res.IsSuccess)
+            if (res)
             {
                 await Navigation.PushAsync(typeof(LibRoomResultPage), res.Msg);
             }

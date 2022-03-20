@@ -78,11 +78,26 @@
                 <Frame Margin="10,5" x:Name="RoomResv">
                     <StackLayout>
                         <Label Text="预约研讨间" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="DarkRed" />
-                        <Label Text="在弹出页面中点击空闲时段即可" FontSize="Medium" HorizontalTextAlignment="Center" />
-                        <Button x:Name="_3to6TodayButton" Text="3-6人研讨间 今日" Clicked="ResvClicked" />
-                        <Button x:Name="_3to6TomButton" Text="3-6人研讨间 明日" Clicked="ResvClicked" />
-                        <Button x:Name="_5to10TodayButton" Text="5-10人研讨间 今日" Clicked="ResvClicked" />
-                        <Button x:Name="_5to10TomButton" Text="5-10人研讨间 明日" Clicked="ResvClicked" />
+                        <Label Text="在时段页面中点击空闲时段即可" FontSize="Medium" HorizontalTextAlignment="Center" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Picker Grid.Row="0" Grid.Column="0" x:Name="RoomPicker" HorizontalTextAlignment="Center">
+                                <Picker.Items>
+                                    <x:String>3-6人研讨间</x:String>
+                                    <x:String>5-10人研讨间</x:String>
+                                </Picker.Items>
+                            </Picker>
+                            <Picker Grid.Row="0" Grid.Column="1" x:Name="DayPicker" HorizontalTextAlignment="Center">
+                                <Picker.Items>
+                                    <x:String>今日</x:String>
+                                    <x:String>明日</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Grid>
+                        <views:BorderlessButton Text="查看时段" Clicked="ResvClicked"/>
                     </StackLayout>
                 </Frame>
                 <StackLayout Margin="10,5">
