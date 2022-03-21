@@ -43,6 +43,7 @@ namespace HandSchool.JLU.Services
             {
                 await Events.WebViewEvents.EvaluateJavaScriptAsync(
                     "try {" +
+                    "$('#local').unbind(); " +
                     "$('[name=\"remember_cookie\"]').attr('checked', true); " +
                     "jQuery('.remember-field').attr('hidden', true); " +
                     "document.getElementsByClassName('login-panel')[0].style.borderRadius='15px'; " +
