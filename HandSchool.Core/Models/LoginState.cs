@@ -18,6 +18,11 @@
         /// <summary>
         /// 登录失败
         /// </summary>
-        Failed
+        Failed,
+        
+        /// <summary>
+        /// 退出了登录
+        /// </summary>
+        Logout
     }
 }

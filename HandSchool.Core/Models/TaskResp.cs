@@ -34,5 +34,10 @@ namespace HandSchool.Models
         {
             return taskResp.IsSuccess;
         }
+
+        public static implicit operator TaskResp(bool boolean)
+        {
+            return boolean ? True : False;
+        }
     }
 }

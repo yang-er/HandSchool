@@ -57,7 +57,7 @@ namespace HandSchool.JLU.Services
             Events.WebViewEvents.Navigated += OnNavigated;
             Events.WebViewEvents.Navigating += OnNavigating;
             Events.WebViewEvents.ReceivingJsData += OnReceivingJsData;
-            TimeoutManager = new TimeoutManager(60);
+            TimeoutManager = new TimeoutManager(15);
 
             Task.Run(async () => { await CheckIsLogin(); });
         }
@@ -90,7 +90,7 @@ namespace HandSchool.JLU.Services
         private const string TicketName = "wengine_vpn_ticketwebvpn_jlu_edu_cn";
 
         private readonly NamedCookieDictionary _cookieDictionary;
-        
+
         private string _encryptedPassword;
 
         public IEnumerable<Cookie> GetLoginCookies()
@@ -111,15 +111,15 @@ namespace HandSchool.JLU.Services
         public bool IsLogin
         {
             get => _isLogin;
-            private set
-            {
-                if (_isLogin == value) return;
-                SetProperty(ref _isLogin, value);
-                if (value)
-                {
-                    _proxyClients.ForEach(AddCookie);
-                }
-            }
+            private set => SetIsLogin(value);
+        }
+
+        private void SetIsLogin(bool value)
+        {
+            if (_isLogin == value) return;
+            if (value) _proxyClients.ForEach(AddCookie);
+            SetProperty(ref _isLogin, value);
+            LoginStateChanged?.Invoke(this, new LoginStateEventArgs(value ? LoginState.Succeeded : LoginState.Logout));
         }
 
         private void AddClient(IWebClient client)
@@ -173,6 +173,7 @@ namespace HandSchool.JLU.Services
 
         private async Task<bool> TryLoginLegacyAsync()
         {
+            var success = false;
             ReInitWebClient();
             var loginData = new KeyValueDict
             {
@@ -181,11 +182,16 @@ namespace HandSchool.JLU.Services
                 {"password", _encryptedPassword},
                 {"remember_cookie", "on"},
             };
-            var req = new WebRequestMeta("do-login", WebRequestMeta.All);
 
-            var success = false;
+            var syncCookies = new Action(() =>
+            {
+                var cookies = WebClient.Cookie.GetCookies(new Uri("https://webvpn.jlu.edu.cn"));
+                CookiesFilter(cookies.Cast<Cookie>());
+            });
+
             try
             {
+                var req = new WebRequestMeta("do-login", WebRequestMeta.All);
                 using var post = await WebClient.PostAsync(req, loginData);
                 var msg = await post.ReadAsStringAsync();
                 if (msg.IsBlank()) return false;
@@ -193,24 +199,23 @@ namespace HandSchool.JLU.Services
 
                 if (resp?["success"]?.ToString().Trim().ToLower() == "true")
                 {
-                    var cookies = WebClient.Cookie.GetCookies(new Uri("https://webvpn.jlu.edu.cn"));
-                    NamedCookieDictionary.Filter(cookies.Cast<Cookie>(), TicketName, TokenName)
-                        .ForEach(c => _cookieDictionary.OnlyUpdateValue(c.Name, c.Value));
+                    syncCookies();
                     success = true;
                 }
 
+                //已经有其它ip登录的情况下需要确认
                 switch (resp?["error"]?.ToString().Trim().ToLower())
                 {
                     case "need_confirm":
                         using (var confirm = await WebClient.PostAsync(
-                                   new WebRequestMeta("do-confirm-login", WebRequestMeta.All),
-                                   null))
+                                   new WebRequestMeta("do-confirm-login", WebRequestMeta.All), new KeyValueDict()))
                         {
                             var text = await confirm.ReadAsStringAsync();
                             if (text.IsBlank()) return false;
                             var jo = text.ParseJSON<JObject>();
                             if (jo?["success"]?.ToString().Trim().ToLower() == "true")
                             {
+                                syncCookies();
                                 success = true;
                             }
                         }
@@ -225,7 +230,6 @@ namespace HandSchool.JLU.Services
 
             if (!success) return false;
 
-            IsLogin = false;
             SaveCookies();
             return true;
         }
@@ -249,27 +253,27 @@ namespace HandSchool.JLU.Services
         {
             //距离上次联网查验时间小于设定时间时，直接返回
             if (!TimeoutManager.NotInit && !TimeoutManager.IsTimeout())
-                return IsLogin = true;
+                return true;
 
             //进行联网查验
             if (await CheckIsLogin())
             {
                 TimeoutManager.Refresh();
-                return IsLogin = true;
+                return true;
             }
 
+            // now, IsLogin === false
             //如果未登录，则尝试用保存的密码进行静默登录
             if (_cookieDictionary.Count != 0 && Username.IsNotBlank() && _encryptedPassword.IsNotBlank())
             {
-                if (await TryLoginLegacyAsync())
+                if (await TryLoginLegacyAsync() && await CheckIsLogin())
                 {
                     TimeoutManager.Refresh();
-                    return IsLogin = true;
+                    return true;
                 }
             }
 
             //如果静默登录失败，则请求进行人工登录
-            IsLogin = false;
             if (await LoginViewModel.RequestAsync(this) == RequestLoginState.Success)
             {
                 IsLogin = true;
@@ -355,7 +359,6 @@ namespace HandSchool.JLU.Services
         public async Task<bool> SetCookieAsync(bool isHttps, string domain, string path, string name, string value)
         {
             var realPath = path.Trim();
-            
             if (!realPath.StartsWith("/"))
                 realPath = "/" + realPath;
 

@@ -10,7 +10,6 @@ using HandSchool.ViewModels;
 using HandSchool.Views;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -87,14 +86,8 @@ namespace HandSchool.JLU
 
         private static async Task<TaskResp> CheckVpn()
         {
-            if (WebVpn.UseVpn)
-            {
-                if (!await Vpn.CheckLogin())
-                {
-                    return new TaskResp(false, "需登录WebVpn");
-                }
-            }
-            return TaskResp.True;
+            if (!WebVpn.UseVpn || await Vpn.CheckLogin()) return true;
+            return new TaskResp(false, "需登录WebVpn");
         }
 
         public Loader()
