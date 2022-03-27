@@ -326,6 +326,8 @@ namespace HandSchool.JLU
                 var loginCookies = NamedCookieDictionary.Filter(json.ToObject<List<Cookie>>(), CookieName).ToArray();
                 if (WebVpn.UseVpn)
                 {
+                    //设置WebVpn的Cookie需要先有访问记录
+                    await UIMS.WebClient.GetStringAsync("");
                     foreach (var cookie in loginCookies)
                     {
                         await WebVpn.Instance

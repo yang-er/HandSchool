@@ -5,6 +5,7 @@ using HandSchool.Services;
 using System;
 using System.Threading.Tasks;
 using HandSchool.Internal;
+using HandSchool.JLU.Services;
 
 [assembly: RegisterService(typeof(UIMS))]
 namespace HandSchool.JLU
@@ -253,6 +254,7 @@ namespace HandSchool.JLU
 
         public Task<TaskResp> BeforeLoginForm()
         {
+            this.BindingVpnLoginState();
             return UsingStrategy.BeforeLoginForm();
         }
 
