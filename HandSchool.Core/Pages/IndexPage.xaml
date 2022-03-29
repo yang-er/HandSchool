@@ -80,14 +80,14 @@
                             <Label Text="{Binding CurrentWeather}" Padding="0,0,0,5" FontSize="Medium"
                                    TextColor="DarkBlue" />
                         </StackLayout>
-                        <Grid>
+                        <Grid ColumnSpacing="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="5*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Text="今天" FontSize="Medium" TextColor="DarkRed" Grid.Row="0" Grid.Column="0"></Label>
                             <Label Text="明天" FontSize="Medium" TextColor="DarkRed" Grid.Row="1" Grid.Column="0"></Label>

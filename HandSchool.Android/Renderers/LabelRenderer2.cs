@@ -19,7 +19,11 @@ namespace HandSchool.Droid.Renderers
             base.OnElementPropertyChanged(sender, e);
             if (e.PropertyName == "Text")
             {
-                Control.Post(() => { Control.Text = Element.Text; });
+                Control.Post(() =>
+                {
+                    if (Element is null) return;
+                    Control.Text = Element.Text;
+                });
             }
         }
     }
