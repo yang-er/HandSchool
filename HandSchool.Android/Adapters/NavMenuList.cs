@@ -20,7 +20,37 @@ namespace HandSchool.Droid
         public List<List<NavMenuItemV2>> MenuItems { get; }
 
         public event Func<NavMenuItemV2, IMenuItem, bool> NavigationItemSelected;
-        
+
+        public (int, int)? GetIndex(int index)
+        {
+            if (index < 0) return null;
+            var count = 0;
+            var first = 0;
+            while (count < index && first < MenuItems.Count)
+            {
+                if (index - count >= MenuItems[first].Count)
+                {
+                    count += MenuItems[first].Count;
+                    first++;
+                }
+                else
+                {
+                    return (first, index - count);
+                }
+            }
+            if (count == index)
+                return (first, index - count);
+            return null;
+        }
+
+        public NavMenuItemV2 GetItem(int index)
+        {
+            var indexs = GetIndex(index);
+            if (indexs == null) return null;
+            var (first, sec) = indexs.Value;
+            return MenuItems[first][sec];
+        }
+
         public bool OnNavigationItemSelected(IMenuItem menuItem)
         {
             return NavigationItemSelected?.Invoke(

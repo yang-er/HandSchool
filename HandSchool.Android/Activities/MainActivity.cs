@@ -51,6 +51,7 @@ namespace HandSchool.Droid
             }
         }
 
+        private const string LastItemTag = "NavItemIndex";
         protected override void OnCreate(Bundle bundle)
         {
             Xamarin.Forms.Forms.Init(this, bundle);
@@ -66,13 +67,15 @@ namespace HandSchool.Droid
             toggle.SyncState();
 
             // get the navigation menu
+            if (bundle?.ContainsKey(LastItemTag) == true)
+                _lastItemId = bundle.GetInt("NavItemIndex");
             var listHandler = new NavMenuListHandler();
             listHandler.NavigationItemSelected += NavigationItemSelected;
             listHandler.InflateMenus(NavigationView.Menu);
             NavigationView.SetNavigationItemSelectedListener(listHandler);
-            NavigationView.Menu.GetItem(0)?.SetChecked(true);
+            NavigationView.Menu.GetItem(_lastItemId)?.SetChecked(true);
 
-            var transactionArgs = listHandler.MenuItems[0][0].FragmentV3;
+            var transactionArgs = listHandler.GetItem(_lastItemId).FragmentV3;
             TransactionV3(transactionArgs.Item1, transactionArgs.Item2);
             NavHeadViewHolder.Instance.SolveView(NavigationView.GetHeaderView(0));
             
@@ -85,6 +88,12 @@ namespace HandSchool.Droid
                 return Task.CompletedTask;
             };
             _backHandler.Refresh();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutInt(LastItemTag, _lastItemId);
+            base.OnSaveInstanceState(outState);
         }
 
         protected override void OnDestroy()

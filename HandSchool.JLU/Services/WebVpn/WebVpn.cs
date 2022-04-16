@@ -179,7 +179,7 @@ namespace HandSchool.JLU.Services
             {
                 {"auth_type", "local"},
                 {"username", Username},
-                {"password", _encryptedPassword},
+                {"password", Password},
                 {"remember_cookie", "on"},
             };
 

@@ -244,10 +244,13 @@ namespace HandSchool.Droid
                 // notice that this activity conveys an argument.
                 var guid = new Guid(Intent.GetByteArrayExtra(BroadcastedArgument));
                 var param = ArgumentBroadcastSource[guid];
+                _navParam = (guid, param);
                 ArgumentBroadcastSource.Remove(guid);
                 OnNavigatedParameter(param);
             }
         }
+
+        private ValueTuple<Guid, object>? _navParam;
 
         private void ClearOldStates()
         {
@@ -276,6 +279,11 @@ namespace HandSchool.Droid
             PlatformImplV2.Instance.RemoveActivity(this);
             base.OnDestroy();
             ClearOldStates();
+            if (_navParam is null) return;
+            var para = _navParam.Value;
+            _navParam = null;
+            if (IsFinishing) return;
+            ArgumentBroadcastSource.TryAdd(para.Item1, para.Item2);
         }
 
         public virtual void SolveBindings() { }
