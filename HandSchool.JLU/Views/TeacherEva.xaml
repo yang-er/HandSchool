@@ -15,7 +15,7 @@
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  Command="{Binding RefreshCommand}">
-        <CollectionView ItemsSource="{Binding EvaItems}"
+        <controls:TappableCollectionView ItemsSource="{Binding EvaItems}"
                         BackgroundColor="#F4F4F4">
             <CollectionView.EmptyView>
                 <ContentView>
@@ -37,6 +37,6 @@
                         SecondContent="{Binding Detail}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </controls:TappableCollectionView>
     </RefreshView>
 </w:ViewObject>

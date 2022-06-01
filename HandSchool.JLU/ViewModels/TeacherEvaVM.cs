@@ -17,7 +17,7 @@ namespace HandSchool.JLU.ViewModels
 { 
     public class TeacherEvaVM : NoticeCheckViewModel
     {
-        public static readonly IReadOnlyCollection<string> SupportTemplateVersions = new HashSet<string> { "180", "190" };
+        public static readonly IReadOnlyCollection<string> SupportTemplateVersions = new HashSet<string> { "180", "190", "200" };
         public static TeacherEvaVM Instance => lazy.Value;
         private static Lazy<TeacherEvaVM> lazy = new Lazy<TeacherEvaVM>(() => new TeacherEvaVM());
         private const string GetStuInfoUrl = "action/getCurrentUserInfo.do";
@@ -122,6 +122,14 @@ namespace HandSchool.JLU.ViewModels
                     {
                         var postValue = "{\"evalItemId\":\"" + evaItem.InnerInfo.evalItemId +
                                         "\",\"answers\":{\"p01\":\"A\",\"p02\":\"A\",\"p03\":\"A\",\"p04\":\"A\",\"p05\":\"A\",\"p06\":\"A\",\"p07\":\"A\",\"p08\":\"A\",\"p09\":\"A\",\"p10\":\"A\",\"sat11\":\"A\",\"sat12\":\"A\",\"sat13\":\"A\"}}";
+                        var evaRes = await Core.App.Service.Post(EvaUrl, postValue);
+                        var resp = JsonConvert.DeserializeObject<JObject>(evaRes)?["status"]?.ToString();
+                        return resp == "0";
+                    }
+                    case "200":
+                    {
+                        var postValue = "{\"evalItemId\":\"" + evaItem.InnerInfo.evalItemId +
+                                    "\",\"answers\":{\"p01\":\"A\",\"p02\":\"A\",\"p03\":\"A\",\"p04\":\"A\",\"p05\":\"A\",\"p06\":\"A\",\"p07\":\"A\",\"p08\":\"A\",\"p09\":\"A\",\"p10\":\"A\",\"sat11\":\"A\",\"sat12\":\"A\",\"sat13\":\"A\",\"judge01\":\"Y\"}}";
                         var evaRes = await Core.App.Service.Post(EvaUrl, postValue);
                         var resp = JsonConvert.DeserializeObject<JObject>(evaRes)?["status"]?.ToString();
                         return resp == "0";
