@@ -117,7 +117,7 @@ namespace HandSchool.JLU
             {
                 if (_reinit)
                 {
-                    ReInitWebClient();
+                    await ClearLoginCookiesAsync();
                     _reinit = false;
                 }
 
@@ -141,12 +141,14 @@ namespace HandSchool.JLU
 
             public async Task<TaskResp> BeforeLoginForm()
             {
+                //根据reinit的指示清空Cookie
                 if (_reinit)
                 {
-                    ReInitWebClient();
+                    await ClearLoginCookiesAsync();
                     _reinit = false;
                 }
 
+                //尝试恢复登录状态
                 await SetLoginCookiesAsync();
 
                 if (await GetUserInfo() is { } userInfo)
@@ -161,9 +163,13 @@ namespace HandSchool.JLU
                     }
                 }
 
+                //若已经登录，则直接返回
                 if (UIMS.IsLogin) return TaskResp.True;
+
+                //先清空Cookie，检测是否通网
                 try
                 {
+                    await ClearLoginCookiesAsync();
                     await UIMS.WebClient.GetAsync("");
                     return TaskResp.True;
                 }
@@ -319,6 +325,22 @@ namespace HandSchool.JLU
                 });
             }
 
+            public async Task ClearLoginCookiesAsync()
+            {
+                if (WebVpn.UseVpn)
+                {
+                    if ((await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/")).Length == 0)
+                        return;
+
+                    await WebVpn.Instance
+                        .SetCookieAsync(true, "uims.jlu.edu.cn", "ntms", CookieName, "");
+                }
+                else
+                {
+                    ReInitWebClient();
+                }
+            }
+
             public async Task SetLoginCookiesAsync()
             {
                 var json = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigCookies);
@@ -327,7 +349,10 @@ namespace HandSchool.JLU
                 if (WebVpn.UseVpn)
                 {
                     //设置WebVpn的Cookie需要先有访问记录
-                    await UIMS.WebClient.GetStringAsync("");
+                    if ((await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/")).Length == 0)
+                    {
+                        await UIMS.WebClient.GetStringAsync("");
+                    }
                     foreach (var cookie in loginCookies)
                     {
                         await WebVpn.Instance
