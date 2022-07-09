@@ -329,20 +329,18 @@ namespace HandSchool.JLU
             {
                 if (WebVpn.UseVpn)
                 {
-                    if ((await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/")).Length == 0)
-                        return;
-
-                    await WebVpn.Instance
-                        .SetCookieAsync(true, "uims.jlu.edu.cn", "ntms", CookieName, "");
+                    foreach (var cookie in await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/"))
+                    {
+                        await WebVpn.Instance
+                          .SetCookieAsync(true, cookie.Domain, cookie.Path, cookie.Name, "");
+                    }
                 }
-                else
-                {
-                    ReInitWebClient();
-                }
+                ReInitWebClient();
             }
 
             public async Task SetLoginCookiesAsync()
             {
+                if (UIMS.WebClient is null) return;
                 var json = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigCookies);
                 if (json?.Json.IsBlank() != false) return;
                 var loginCookies = NamedCookieDictionary.Filter(json.ToObject<List<Cookie>>(), CookieName).ToArray();
