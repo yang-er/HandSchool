@@ -6,13 +6,13 @@ using HandSchool.Internals;
 
 namespace HandSchool.JLU.Services
 {
-    public partial class WebVpn
+    public partial class Vpn
     {
-        private readonly WebVpnUtil _util;
+        private readonly VpnUtil _util;
 
         public string GetProxyUrl(string url)
         {
-            return _util.ConvertUri(WebVpnUtil.Combine("", url));
+            return _util.ConvertUri(VpnUtil.Combine("", url));
         }
 
         public enum VpnHttpClientMode
@@ -79,7 +79,7 @@ namespace HandSchool.JLU.Services
 
             private void SolveRequestMeta(WebRequestMeta meta)
             {
-                var uri = WebVpnUtil.Combine(StringBaseAddress, meta.Url);
+                var uri = VpnUtil.Combine(StringBaseAddress, meta.Url);
                 meta.Url = UsingVpn ? Instance._util.ConvertUri(uri) : uri.OriginalString;
             }
 
@@ -114,7 +114,7 @@ namespace HandSchool.JLU.Services
                 if (StringBaseAddress.IsBlank()) return;
                 var baseUrl = StringBaseAddress.Trim();
                 if (UsingVpn) baseUrl = Instance._util.ConvertUri(BaseAddress);
-                var root = UsingVpn ? "https://webvpn.jlu.edu.cn" : BaseAddress.GetRootUri();
+                var root = UsingVpn ? "https://vpn.jlu.edu.cn" : BaseAddress.GetRootUri();
                 var res = (root + location).Replace(baseUrl, "");
                 res = res.StartsWith("/") ? res : "/" + res;
                 res = res.EndsWith("/") ? res.Substring(0, res.Length - 1) : res;

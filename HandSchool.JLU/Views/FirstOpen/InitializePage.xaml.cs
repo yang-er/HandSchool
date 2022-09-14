@@ -36,7 +36,7 @@ namespace HandSchool.JLU.Views
 
         private async void ExecuteLogic()
         {
-            var vpn = WebVpn.UseVpn;
+            var vpn = Vpn.UseVpn;
             var vpnLogin = false;
             if (vpn)
             {

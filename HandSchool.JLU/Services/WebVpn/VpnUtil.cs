@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HandSchool.JLU.Services
 {
-    public class WebVpnUtil
+    public class VpnUtil
     {
         private readonly Dictionary<string, string> _cache = new Dictionary<string, string>();
 
@@ -77,14 +77,15 @@ namespace HandSchool.JLU.Services
             _cache[strString] = proxy;
             return proxy;
         }
-
-        private const string EncryptKey = "wrdvpnisthebest!";
+        
+        public static string? EncryptKey { get; set; }
+        public static string? EncryptIV { get; set; }
 
         public string ConvertUri(Uri uri)
         {
-            return uri.Host.ToLower() == "webvpn.jlu.edu.cn"
+            return uri.Host.ToLower() == "vpn.jlu.edu.cn"
                 ? uri.OriginalString
-                : $"https://webvpn.jlu.edu.cn/{uri.Scheme}{(uri.IsDefaultPort() ? "" : "-" + uri.Port)}/{EncryptDomain(uri.Host)}{uri.PathAndQuery}";
+                : $"https://vpn.jlu.edu.cn/{uri.Scheme}{(uri.IsDefaultPort() ? "" : "-" + uri.Port)}/{EncryptDomain(uri.Host)}{uri.PathAndQuery}";
         }
 
         private static bool IsAbsolute(string str)

@@ -98,9 +98,9 @@ namespace HandSchool.JLU
                 {
                     if (webClient.Cookie.Clear())
                     {
-                        if (WebVpn.UseVpn)
+                        if (Vpn.UseVpn)
                         {
-                            WebVpn.Instance.GetLoginCookies().ForEach(webClient.Cookie.Add);
+                            Vpn.Instance.GetLoginCookies().ForEach(webClient.Cookie.Add);
                         }
                     }
                     else
@@ -310,8 +310,8 @@ namespace HandSchool.JLU
             public async Task SaveLoginCookies()
             {
                 IEnumerable<Cookie> cookies;
-                if (WebVpn.UseVpn)
-                    cookies = await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms");
+                if (Vpn.UseVpn)
+                    cookies = await Vpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms");
                 else
                     cookies = UIMS.WebClient.Cookie.GetCookies(new Uri("https://uims.jlu.edu.cn/ntms/")).Cast<Cookie>();
 
@@ -327,11 +327,11 @@ namespace HandSchool.JLU
 
             public async Task ClearLoginCookiesAsync()
             {
-                if (WebVpn.UseVpn)
+                if (Vpn.UseVpn)
                 {
-                    foreach (var cookie in await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/"))
+                    foreach (var cookie in await Vpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/"))
                     {
-                        await WebVpn.Instance
+                        await Vpn.Instance
                           .SetCookieAsync(true, cookie.Domain, cookie.Path, cookie.Name, "");
                     }
                 }
@@ -344,16 +344,16 @@ namespace HandSchool.JLU
                 var json = Core.App.Loader.JsonManager.GetItemWithPrimaryKey(ConfigCookies);
                 if (json?.Json.IsBlank() != false) return;
                 var loginCookies = NamedCookieDictionary.Filter(json.ToObject<List<Cookie>>(), CookieName).ToArray();
-                if (WebVpn.UseVpn)
+                if (Vpn.UseVpn)
                 {
                     //设置WebVpn的Cookie需要先有访问记录
-                    if ((await WebVpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/")).Length == 0)
+                    if ((await Vpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/")).Length == 0)
                     {
                         await UIMS.WebClient.GetStringAsync("");
                     }
                     foreach (var cookie in loginCookies)
                     {
-                        await WebVpn.Instance
+                        await Vpn.Instance
                             .SetCookieAsync(true, cookie.Domain, cookie.Path, cookie.Name, cookie.Value);
                     }
                 }

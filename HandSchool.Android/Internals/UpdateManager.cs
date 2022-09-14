@@ -35,9 +35,9 @@ namespace HandSchool.Droid
         public void GetUpdateClient()
         {
             UpdateClient = Core.New<IWebClient>();
-            if (UpdateClient is WebVpn.VpnHttpClient vpnHttpClient)
+            if (UpdateClient is Vpn.VpnHttpClient vpnHttpClient)
             {
-                vpnHttpClient.Mode = WebVpn.VpnHttpClientMode.VpnOff;
+                vpnHttpClient.Mode = Vpn.VpnHttpClientMode.VpnOff;
             }
             UpdateClient.Timeout = 5000;
         }

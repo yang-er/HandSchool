@@ -12,12 +12,12 @@ using Newtonsoft.Json.Linq;
 using Xamarin.Forms.Internals;
 using Newtonsoft.Json;
 
-[assembly: RegisterService(typeof(WebVpn))]
+[assembly: RegisterService(typeof(Vpn))]
 
 namespace HandSchool.JLU.Services
 {
     [UseStorage("JLU")]
-    public sealed partial class WebVpn : NotifyPropertyChanged, IWebLoginField
+    public sealed partial class Vpn : NotifyPropertyChanged, IWebLoginField
     {
         /// <summary>
         /// 设置是否使用Vpn
@@ -25,10 +25,10 @@ namespace HandSchool.JLU.Services
         [Settings("使用WebVPN", "使用WebVPN连接各种系统，建议在内网时关闭此选项。切换后需要重启APP。")]
         public static bool UseVpn { get; set; }
 
-        private WebVpn()
+        private Vpn()
         {
             IsLogin = false;
-            _util = new WebVpnUtil();
+            _util = new VpnUtil();
             _cookieDictionary = new NamedCookieDictionary();
             var acc = Core.App.Loader.AccountManager.GetItemWithPrimaryKey(ServerName);
             if (acc != null)
@@ -64,13 +64,13 @@ namespace HandSchool.JLU.Services
 
         private const string ServerName = "WebVpn";
         const string ConfigCookies = "webvpn.logincookies";
-        public static WebVpn Instance => UseVpn ? Lazy.Value : null;
-        private static readonly Lazy<WebVpn> Lazy = new Lazy<WebVpn>(() => new WebVpn());
+        public static Vpn Instance => UseVpn ? Lazy.Value : null;
+        private static readonly Lazy<Vpn> Lazy = new Lazy<Vpn>(() => new Vpn());
         private bool _pageClosed;
 
         #region Login Fields
 
-        public string LoginUrl => "https://webvpn.jlu.edu.cn/login";
+        public string LoginUrl => "https://vpn.jlu.edu.cn/login";
         private bool _isLogin;
         public TimeoutManager TimeoutManager { get; set; }
         public string Username { get; set; }
@@ -80,14 +80,14 @@ namespace HandSchool.JLU.Services
         public byte[] CaptchaSource { get; set; }
 
         public string Tips => "账号为吉林大学学生邮箱的用户名(不包含@mails.jlu.edu.cn）和密码。";
-        public string FormName => "WebVPN";
+        public string FormName => "吉大VPN";
         public bool NeedLogin => !IsLogin;
         public Task<TaskResp> BeforeLoginForm() => Task.FromResult(TaskResp.True);
 
         #region 处理登录所需的Cookie
 
         private const string TokenName = "remember_token";
-        private const string TicketName = "wengine_vpn_ticketwebvpn_jlu_edu_cn";
+        private const string TicketName = "wengine_vpn_ticketvpn_jlu_edu_cn";
 
         private readonly NamedCookieDictionary _cookieDictionary;
 
@@ -158,7 +158,12 @@ namespace HandSchool.JLU.Services
                 ReInitWebClient();
                 AddCookie(WebClient);
                 var response = await WebClient.GetStringAsync("user/info");
-                return IsLogin = response.ParseJSON<JToken>()?["username"]?.ToString().IsNotBlank() == true;
+                var entity = response.ParseJSON<JToken>();
+                if (entity?["username"]?.ToString().IsNotBlank() != true)
+                    return IsLogin = false;
+                VpnUtil.EncryptIV ??= entity?["wrdvpnIV"]?.ToString();
+                VpnUtil.EncryptKey ??= entity?["wrdvpnKey"]?.ToString();
+                return IsLogin = true;
             }
             catch (WebsException ex)
             {
@@ -185,7 +190,7 @@ namespace HandSchool.JLU.Services
 
             var syncCookies = new Action(() =>
             {
-                var cookies = WebClient.Cookie.GetCookies(new Uri("https://webvpn.jlu.edu.cn"));
+                var cookies = WebClient.Cookie.GetCookies(new Uri("https://vpn.jlu.edu.cn"));
                 CookiesFilter(cookies.Cast<Cookie>());
             });
 
@@ -238,14 +243,14 @@ namespace HandSchool.JLU.Services
         {
             if (WebClient is null)
             {
-                WebClient = new HttpClientImpl {StringBaseAddress = "https://webvpn.jlu.edu.cn/"};
+                WebClient = new HttpClientImpl {StringBaseAddress = "https://vpn.jlu.edu.cn/"};
                 return;
             }
 
             if (!WebClient.Cookie.Clear())
             {
                 WebClient?.Dispose();
-                WebClient = new HttpClientImpl {StringBaseAddress = "https://webvpn.jlu.edu.cn/"};
+                WebClient = new HttpClientImpl {StringBaseAddress = "https://vpn.jlu.edu.cn/"};
             }
         }
 
@@ -287,7 +292,7 @@ namespace HandSchool.JLU.Services
         {
             try
             {
-                await (WebClient?.GetAsync("https://webvpn.jlu.edu.cn/logout") ?? Task.CompletedTask);
+                await (WebClient?.GetAsync("https://vpn.jlu.edu.cn/logout") ?? Task.CompletedTask);
                 IsLogin = false;
             }
             catch (WebsException ex)

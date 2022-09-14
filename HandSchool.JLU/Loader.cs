@@ -43,22 +43,20 @@ namespace HandSchool.JLU
         private static Lazy<SchoolCard> _lazySchoolCard;
         public static SchoolCard Ykt => _lazySchoolCard.Value;
         
-        internal static WebVpn Vpn => WebVpn.Instance;
+        internal static Vpn Vpn => Vpn.Instance;
 
-        private static Lazy<LibRoomReservation> _lazyLibRoom;
-        public static LibRoomReservation LibRoom => _lazyLibRoom.Value;
         
         public static InfoEntranceGroup InfoList;
         
         public static string GetRealUrl(string ori)
         {
-            return WebVpn.UseVpn ? WebVpn.Instance.GetProxyUrl(ori) : ori;
+            return Vpn.UseVpn ? Vpn.Instance.GetProxyUrl(ori) : ori;
         }
 
         public void PostLoad()
         {
             Core.Reflection.RegisterImplement<ClassInfoSimplifier, JLUClassSimplifier>();
-            Core.Reflection.RegisterImplement<IWebClient, WebVpn.VpnHttpClient>();
+            Core.Reflection.RegisterImplement<IWebClient, Vpn.VpnHttpClient>();
             Core.Reflection.RegisterConstructor<InitializePage>();
             switch (Device.RuntimePlatform)
             {
@@ -71,22 +69,19 @@ namespace HandSchool.JLU
                     break;
             }
 
-            SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(WebVpn).GetProperty("UseVpn")));
+            SettingViewModel.Instance.Items.Add(new SettingWrapper(typeof(Vpn).GetProperty("UseVpn")));
 
             NavigationViewModel.Instance.AddMenuEntry("校园卡", Device.RuntimePlatform == Device.iOS ? "XykIos" : "XykDroid",
                 "JLU", MenuIcon.CreditCard);
-            NavigationViewModel.Instance.AddMenuEntry("鼎新馆预约", nameof(LibRoomReservationPage), "JLU",
-                MenuIcon.LibRoomResv);
-
+            
             _lazySchoolCard = new Lazy<SchoolCard>(() => new SchoolCard());
-            _lazyLibRoom = new Lazy<LibRoomReservation>(() => new LibRoomReservation());
             SchoolApplication.Actioning += (s, e) => CheckVpn();
             SchoolApplication.OnLoaded(this, EventArgs.Empty);
         }
 
         private static async Task<TaskResp> CheckVpn()
         {
-            if (!WebVpn.UseVpn || await Vpn.CheckLogin()) return true;
+            if (!Vpn.UseVpn || await Vpn.CheckLogin()) return true;
             return new TaskResp(false, "需登录WebVpn");
         }
 
@@ -113,7 +108,7 @@ namespace HandSchool.JLU
                              ?.ToObject<SettingsJSON>()
                          ?? new SettingsJSON();
             
-            WebVpn.UseVpn = config.UseVpn;
+            Vpn.UseVpn = config.UseVpn;
             Service = new Lazy<ISchoolSystem>(() => new UIMS(config, NoticeChange));
             GradePoint = new Lazy<IGradeEntrance>(() => new GradeEntrance());
             Schedule = new Lazy<IScheduleEntrance>(() => new Schedule());
@@ -169,7 +164,7 @@ namespace HandSchool.JLU
                 UseHttps = service.UseHttps,
                 OutsideSchool = service.OutsideSchool,
                 QuickMode = service.QuickMode,
-                UseVpn = WebVpn.UseVpn,
+                UseVpn = Vpn.UseVpn,
             };
 
             SaveSettings(save);

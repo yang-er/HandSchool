@@ -13,9 +13,9 @@ namespace HandSchool.JLU.Services
         public static void BindingVpnLoginState(this ILoginField loginField)
         {
             if (LoginFields.Contains(loginField)) return;
-            if (!WebVpn.UseVpn) return;
+            if (!Vpn.UseVpn) return;
             LoginFields.Add(loginField);
-            WebVpn.Instance.LoginStateChanged += (s, e) =>
+            Vpn.Instance.LoginStateChanged += (s, e) =>
             {
                 if (e.State != LoginState.Logout) return;
                 var isLogin = loginField.GetType().GetDeclaredProperty("IsLogin");

@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace HandSchool.JLU.Services
 {
-    public partial class WebVpn
+    public partial class Vpn
     {
         private void OnReceivingJsData(string data)
         {
@@ -29,17 +29,17 @@ namespace HandSchool.JLU.Services
         
         private void OnNavigating(object s, WebNavigatingEventArgs e)
         {
-            if (!e.Url.Contains("webvpn.jlu.edu.cn"))
+            if (!e.Url.Contains("vpn.jlu.edu.cn"))
             {
                 Events.WebViewEvents.WebView.Source = LoginUrl;
             }
         }
 
-        private const string PasswordEncryptKey = "wrdvpnisawesome!";
+//        private const string PasswordEncryptKey = "wrdvpnisawesome!";
         private async void OnNavigated(object s, WebNavigatedEventArgs e)
         {
             if (_pageClosed) return;
-            if (e.Url == "https://webvpn.jlu.edu.cn/login")
+            if (e.Url == "https://vpn.jlu.edu.cn/login")
             {
                 await Events.WebViewEvents.EvaluateJavaScriptAsync(
                     "try {" +
@@ -55,8 +55,8 @@ namespace HandSchool.JLU.Services
                     "$('#login').click(function(){ " +
                     "let uid = document.getElementById('user_name').value; " +
                     "let pwd = document.getElementsByName('password')[0].value; " +
-                    $"let encryptedPwd = encrypt(pwd, '{PasswordEncryptKey}', '{PasswordEncryptKey}'); " +
-                    $"invokeNativeAction(uid + ' ' + pwd + ' ' + encryptedPwd); " +
+//                    $"let encryptedPwd = encrypt(pwd, '{PasswordEncryptKey}', '{PasswordEncryptKey}'); " +
+                    $"invokeNativeAction(uid + ' ' + pwd + ' ');" + // + encryptedPwd); " +
                     "})");
 
                 if (!string.IsNullOrWhiteSpace(Username))
@@ -68,9 +68,9 @@ namespace HandSchool.JLU.Services
                 }
             }
 
-            if (e.Url == "https://webvpn.jlu.edu.cn/" || e.Url == "https://webvpn.jlu.edu.cn/m/portal")
+            if (e.Url == "https://vpn.jlu.edu.cn/" || e.Url == "https://vpn.jlu.edu.cn/m/portal")
             {
-                var cookie = Events.WebViewEvents.WebView.HSCookies.GetCookies(new Uri("https://webvpn.jlu.edu.cn/"));
+                var cookie = Events.WebViewEvents.WebView.HSCookies.GetCookies(new Uri("https://vpn.jlu.edu.cn/"));
                 var updated = CookiesFilter(cookie.Cast<Cookie>());
                 if (updated) SaveCookies();
                 await CheckIsLogin();

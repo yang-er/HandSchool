@@ -63,7 +63,7 @@ namespace HandSchool.JLU.Services
                 await Logout();
                 var loginStr = await WebClient.GetStringAsync("");
                 var captchaUrl = Regex.Match(loginStr, @"id=""imgCheckCode"" src=""/(\S+)""");
-                var codeUrl = (WebVpn.UseVpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;
+                var codeUrl = (Vpn.UseVpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(codeUrl, "image/gif");
                 var captchaResp = await WebClient.GetAsync(reqMeta);
                 CaptchaSource = await captchaResp.ReadAsByteArrayAsync();
@@ -343,7 +343,7 @@ namespace HandSchool.JLU.Services
         public async Task<TaskResp> PreSetLost()
         {
             // First, we should get our card number.
-            var vpn = WebVpn.UseVpn;
+            var vpn = Vpn.UseVpn;
             var valueGot = await WebClient.GetStringAsync("CardManage/CardInfo/LossCard");
             var captchaUrl = Regex.Match(valueGot, @"id=""imgCheckCode"" src=""/(\S+)""");
             var reqUrl = (vpn ? "https://webvpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;

@@ -44,14 +44,6 @@
       <DependentUpon>EmptyRoomPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\LibRoomResv\LibRoomRequestPage.xaml.cs">
-      <DependentUpon>LibRoomRequestPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\LibRoomResv\LibRoomReservationPage.xaml.cs">
-      <DependentUpon>LibRoomReservationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\XykManage\XykDroid.xaml.cs">
       <DependentUpon>XykDroid.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -67,9 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\LibRoomResv\TimeLineTable.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\TeacherEva.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
