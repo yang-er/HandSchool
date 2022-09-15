@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+using HandSchool.Internals;
 using HandSchool.JLU.Services;
 using HandSchool.Models;
 using System;
@@ -22,7 +22,7 @@ namespace HandSchool.JLU.Services
         /// <summary>
         /// 设置是否使用Vpn
         /// </summary>
-        [Settings("使用WebVPN", "使用WebVPN连接各种系统，建议在内网时关闭此选项。切换后需要重启APP。")]
+        [Settings("使用吉大VPN", "使用吉大VPN连接各种系统，建议在内网时关闭此选项。切换后需要重启APP。")]
         public static bool UseVpn { get; set; }
 
         private Vpn()
