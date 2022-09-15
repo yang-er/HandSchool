@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using HandSchool.Models;
 
 namespace HandSchool.JLU.Services
@@ -8,7 +8,7 @@ namespace HandSchool.JLU.Services
         private static readonly HashSet<ILoginField> LoginFields = new HashSet<ILoginField>();
 
         /// <summary>
-        /// 当WebVpn掉线重连时，需要使表单退出登录
+        /// 当Vpn掉线重连时，需要使表单退出登录
         /// </summary>
         public static void BindingVpnLoginState(this ILoginField loginField)
         {

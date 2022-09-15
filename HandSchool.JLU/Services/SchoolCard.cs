@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.JLU.Models;
 using HandSchool.JLU.Services;
@@ -63,7 +63,7 @@ namespace HandSchool.JLU.Services
                 await Logout();
                 var loginStr = await WebClient.GetStringAsync("");
                 var captchaUrl = Regex.Match(loginStr, @"id=""imgCheckCode"" src=""/(\S+)""");
-                var codeUrl = (Vpn.UseVpn ? "https://webvpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;
+                var codeUrl = (Vpn.UseVpn ? "https://vpn.jlu.edu.cn/"  : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(codeUrl, "image/gif");
                 var captchaResp = await WebClient.GetAsync(reqMeta);
                 CaptchaSource = await captchaResp.ReadAsByteArrayAsync();
@@ -213,7 +213,7 @@ namespace HandSchool.JLU.Services
                 var vpn = Loader.Vpn != null && Loader.Vpn.IsLogin;
                 var valueGot = await WebClient.GetStringAsync("CardManage/CardInfo/Transfer");
                 var captchaUrl = Regex.Match(valueGot, @"name=""img_transCheckCode"" src=""/(\S+)""");
-                var reqUrl = (vpn ? "https://webvpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") +
+                var reqUrl = (vpn ? "https://vpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") +
                              captchaUrl.Groups[1].Value;
                 var reqMeta = new WebRequestMeta(reqUrl, "image/gif");
 
@@ -346,7 +346,7 @@ namespace HandSchool.JLU.Services
             var vpn = Vpn.UseVpn;
             var valueGot = await WebClient.GetStringAsync("CardManage/CardInfo/LossCard");
             var captchaUrl = Regex.Match(valueGot, @"id=""imgCheckCode"" src=""/(\S+)""");
-            var reqUrl = (vpn ? "https://webvpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;
+            var reqUrl = (vpn ? "https://vpn.jlu.edu.cn/" : "http://dsf.jlu.edu.cn/") + captchaUrl.Groups[1].Value;
             var reqMeta = new WebRequestMeta(reqUrl, "image/gif");
             var reqMeta2 = new WebRequestMeta("Account/GetNumKeyPadImg", "image/jpeg");
             var captchaResp = await WebClient.GetAsync(reqMeta);

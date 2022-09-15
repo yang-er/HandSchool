@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+using HandSchool.Internals;
 using HandSchool.JLU.JsonObject;
 using HandSchool.Models;
 using Newtonsoft.Json;
@@ -346,7 +346,7 @@ namespace HandSchool.JLU
                 var loginCookies = NamedCookieDictionary.Filter(json.ToObject<List<Cookie>>(), CookieName).ToArray();
                 if (Vpn.UseVpn)
                 {
-                    //设置WebVpn的Cookie需要先有访问记录
+                    //设置Vpn的Cookie需要先有访问记录
                     if ((await Vpn.Instance.GetCookiesAsync(true, "uims.jlu.edu.cn", "/ntms/")).Length == 0)
                     {
                         await UIMS.WebClient.GetStringAsync("");

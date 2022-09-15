@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <w:ViewObject xmlns:w="clr-namespace:HandSchool.Views;assembly=HandSchool.Core"
               xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -45,8 +45,8 @@
                     <Label>
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="关于“WebVpn”：&#10;" ForegroundColor="DarkBlue"/>
-                                <Span Text="&#9;开启与否取决于你的网络环境。处于校园网环境时，建议关闭WebVpn；而处于4G/5G环境时，需开启WebVpn。"/>
+                                <Span Text="关于“吉大Vpn”：&#10;" ForegroundColor="DarkBlue"/>
+                                <Span Text="&#9;开启与否取决于你的网络环境。处于校园网环境时，建议关闭吉大Vpn；而处于4G/5G环境时，需开启吉大Vpn。"/>
                             </FormattedString>
                             </Label.FormattedText>
                     </Label>
@@ -54,8 +54,8 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="注意事项：&#10;" ForegroundColor="DarkBlue"></Span>
-                                <Span Text="&#9;关闭“WebVpn”时，只能在校园网环境中才能正常连接。"/>
-                                <Span Text="即连接了有线网、JLU-PC、JLU-TEST(5G)或JLU-NET(5G)的环境中。&#10;"/>
+                                <Span Text="&#9;关闭“吉大Vpn”时，只能在校园网环境中才能正常连接。"/>
+                                <Span Text="即连接了有线网、JLU-PC、JLU-TEST(-5G)或JLU-NET(-5G)的环境中。&#10;"/>
                                 <Span Text="&#9;打开uims过慢时，会提示连接超时。" ForegroundColor="Black" />
                                 <Span Text="当你在浏览器中可以正常打开uims，但App无法连接时，敬请告知开发者。&#10;" />
                                 <Span Text="&#9;另外，获取了不属于自己的信息时，请不要惊慌，这只是学校服务器过忙了，大家都这样。（大雾）" />
@@ -65,7 +65,7 @@
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal" x:Name="settingsPanel">
-                    <Label Text="使用WebVPN" HorizontalOptions="FillAndExpand" TextColor="Black" />
+                    <Label Text="使用吉大VPN" HorizontalOptions="FillAndExpand" TextColor="Black" />
                     <Switch x:Name="outOfSchool" IsToggled="True" />
                 </StackLayout>
 

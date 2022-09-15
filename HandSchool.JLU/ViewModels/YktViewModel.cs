@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+using HandSchool.Internals;
 using HandSchool.JLU.Models;
 using HandSchool.ViewModels;
 using HtmlAgilityPack;
@@ -429,7 +429,7 @@ namespace HandSchool.JLU.ViewModels
                         IsBusy = true;
                         var vpn = Loader.Vpn is {IsLogin: true};
                         var url = vpn
-                            ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action"
+                            ? "https://vpn.jlu.edu.cn/http/6a6c7576706e6973746865676f6f642149a500caa087deed239f38cdf157/homeLogin.action"
                             : "http://xyk.jlu.edu.cn/homeLogin.action";
 
                         if (Device.RuntimePlatform == Device.Android)
@@ -457,7 +457,7 @@ namespace HandSchool.JLU.ViewModels
                     if (await RequestAnswerAsync("提示", "请选择你现在的网络环境，稍后在跳转的网页中操作", "校园网", "公共网络"))
                     {
                         Core.Platform.OpenUrl(
-                            "https://vpns.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action");
+                            "https://vpn.jlu.edu.cn/http/6a6c7576706e6973746865676f6f642149a500caa087deed239f38cdf157/homeLogin.action");
                     }
                     else
                     {

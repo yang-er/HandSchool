@@ -1,4 +1,4 @@
-﻿using Android.Webkit;
+using Android.Webkit;
 using AndroidX.AppCompat.App;
 using HandSchool.Internals;
 using HtmlAgilityPack;
@@ -211,7 +211,7 @@ namespace HandSchool.Droid.Internals
         {
             var vpn = Vpn.UseVpn;
             if (url.Contains(vpn
-                    ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/homeLogin.action"
+                    ? "https://vpn.jlu.edu.cn/http/6a6c7576706e6973746865676f6f642149a500caa087deed239f38cdf157/homeLogin.action"
                     : "http://xyk.jlu.edu.cn/homeLogin.action")) //登录页面加载完成, 填密码
             {
                 CancelLostWebChromeClient.GetSources(view); //获取页面源码
@@ -224,7 +224,7 @@ namespace HandSchool.Droid.Internals
                 }).Start();
             }
             else if (url.Contains(vpn
-                         ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/loginstudent.action"
+                         ? "https://vpn.jlu.edu.cn/http/6a6c7576706e6973746865676f6f642149a500caa087deed239f38cdf157/loginstudent.action"
                          : "http://xyk.jlu.edu.cn/loginstudent.action")) //登录成功
             {
                 view.Clickable = false;
@@ -233,12 +233,12 @@ namespace HandSchool.Droid.Internals
                     () =>
                     {
                         view.LoadUrl(vpn
-                            ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action"
+                            ? "https://vpn.jlu.edu.cn/http/6a6c7576706e6973746865676f6f642149a500caa087deed239f38cdf157/accountreloss.action"
                             : "http://xyk.jlu.edu.cn/accountreloss.action");
                     }).Start();
             }
             else if (url.Contains(vpn
-                         ? "https://webvpn.jlu.edu.cn/http/77726476706e69737468656265737421e8ee4ad22d3c7d1e7b0c9ce29b5b/accountreloss.action"
+                         ? "https://vpn.jlu.edu.cn/http/6a6c7576706e6973746865676f6f642149a500caa087deed239f38cdf157/accountreloss.action"
                          : "http://xyk.jlu.edu.cn/accountreloss.action")) //解挂页面加载完成，自动操作
             {
                 CancelLostWebChromeClient.GetSources(view); //获取页面源码

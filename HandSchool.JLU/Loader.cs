@@ -1,4 +1,4 @@
-﻿using HandSchool.Internals;
+using HandSchool.Internals;
 using HandSchool.JLU;
 using HandSchool.JLU.InfoQuery;
 using HandSchool.JLU.Services;
@@ -82,7 +82,7 @@ namespace HandSchool.JLU
         private static async Task<TaskResp> CheckVpn()
         {
             if (!Vpn.UseVpn || await Vpn.CheckLogin()) return true;
-            return new TaskResp(false, "需登录WebVpn");
+            return new TaskResp(false, "需登录吉大Vpn");
         }
 
         public Loader()
